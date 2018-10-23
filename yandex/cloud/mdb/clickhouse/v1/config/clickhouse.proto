@@ -1,0 +1,375 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.clickhouse.v1.config;
+
+import "google/protobuf/wrappers.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1/config;clickhouse";
+
+// ClickHouse configuration options. Detailed description for each set of options
+// is available in [ClickHouse documentation](https://clickhouse.yandex/docs/ru/operations/server_settings/settings/).
+//
+// Any options not listed here are not supported.
+message ClickhouseConfig {
+  enum LogLevel {
+    LOG_LEVEL_UNSPECIFIED = 0;
+
+    TRACE = 1;
+
+    DEBUG = 2;
+
+    INFORMATION = 3;
+
+    WARNING = 4;
+
+    ERROR = 5;
+  }
+
+  // Options specific to the MergeTree table engine.
+  message MergeTree {
+    // Number of blocks of hashes to keep in ZooKeeper.
+    // See detailed description in [ClickHouse sources](https://github.com/yandex/ClickHouse/blob/v18.1.0-stable/dbms/src/Storages/MergeTree/MergeTreeSettings.h#L59).
+    google.protobuf.Int64Value replicated_deduplication_window = 1;
+
+    // Period of time to keep blocks of hashes for.
+    // See detailed description in [ClickHouse sources](https://github.com/yandex/ClickHouse/blob/v18.1.0-stable/dbms/src/Storages/MergeTree/MergeTreeSettings.h#L64).
+    google.protobuf.Int64Value replicated_deduplication_window_seconds = 2;
+  }
+
+  message Compression {
+    enum Method {
+      METHOD_UNSPECIFIED = 0;
+
+      // [LZ4 compression algorithm](https://lz4.github.io/lz4/).
+      LZ4 = 1;
+
+      // [Zstandard compression algorithm](https://facebook.github.io/zstd/).
+      ZSTD = 2;
+    }
+
+    // Compression method to use for the specified combination of `min_part_size` and `min_part_size_ratio`.
+    Method method = 1;
+
+    // Minimum size of a part of a table.
+    int64 min_part_size = 2 [(value) = ">=1"];
+
+    // Minimum ratio of a part relative to the size of all the data in the table.
+    double min_part_size_ratio = 3;
+  }
+
+  message ExternalDictionary {
+    message HttpSource {
+      // URL of the source dictionary available over HTTP.
+      string url = 1 [(required) = true];
+
+      // The data format. Valid values are all formats supported by ClickHouse SQL dialect.
+      string format = 2 [(required) = true];
+    }
+
+    message MysqlSource {
+      message Replica {
+        // MySQL host of the replica.
+        string host = 1 [(required) = true, (length) = "<=253"];
+
+        // Required. The priority of the replica that ClickHouse takes into account when connecting.
+        // Replica with the highest priority should have this field set to the lowest number.
+        int64 priority = 2 [(value) = ">0"];
+
+        // Port to use when connecting to the replica.
+        // If a port is not specified for a replica, ClickHouse uses the port specified for the source.
+        int64 port = 3 [(value) = "0-65535"];
+
+        // Name of the MySQL database user.
+        string user = 4 [(length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+
+        // Password of the MySQL database user.
+        string password = 5;
+      }
+
+      // Name of the MySQL database to connect to.
+      string db = 1 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+
+      // Name of the database table to use as a ClickHouse dictionary.
+      string table = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+
+      // Default port to use when connecting to a replica of the dictionary source.
+      int64 port = 3 [(value) = "0-65535"];
+
+      // Name of the default user for replicas of the dictionary source.
+      string user = 4 [(length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+
+      // Password of the default user for replicas of the dictionary source.
+      string password = 5;
+
+      // List of MySQL replicas of the database used as dictionary source.
+      repeated Replica replicas = 6 [(size) = ">0"];
+
+      // Selection criteria for the data in the specified MySQL table.
+      string where = 7;
+
+      // Query for checking the dictionary status, to pull only updated data.
+      // For more details, see [ClickHouse documentation on dictionaries](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_lifetime/).
+      string invalidate_query = 8;
+    }
+
+    message ClickhouseSource {
+      // Name of the ClickHouse database.
+      string db = 1 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+
+      // Name of the table in the specified database to be used as the dictionary source.
+      string table = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+
+      // ClickHouse host of the specified database.
+      string host = 3 [(required) = true, (length) = "<=253"];
+
+      // Port to use when connecting to the host.
+      int64 port = 4 [(value) = "0-65535"];
+
+      // Name of the ClickHouse database user.
+      string user = 5 [(length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+
+      // Password of the ClickHouse database user.
+      string password = 6;
+
+      // Selection criteria for the data in the specified ClickHouse table.
+      string where = 7;
+    }
+
+    message MongodbSource {
+      // Name of the MongoDB database.
+      string db = 1 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+
+      // Name of the collection in the specified database to be used as the dictionary source.
+      string collection = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+
+      // MongoDB host of the specified database.
+      string host = 3 [(required) = true, (length) = "<=253"];
+
+      // Port to use when connecting to the host.
+      int64 port = 4 [(value) = "0-65535"];
+
+      // Name of the MongoDB database user.
+      string user = 5 [(length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+
+      // Password of the MongoDB database user.
+      string password = 6;
+    }
+
+    message Structure {
+      message Attribute {
+        // Name of the column.
+        string name = 1 [(required) = true];
+
+        // Type of the column.
+        string type = 2 [(required) = true];
+
+        // Default value for an element without data (for example, an empty string).
+        string null_value = 3;
+
+        // Expression, describing the attribute, if appicable.
+        string expression = 4;
+
+        // Indication of hierarchy support.
+        // Default value: "false".
+        bool hierarchical = 5;
+
+        // Indication of injective mapping "id -> attribute".
+        // Default value: "false".
+        bool injective = 6;
+      }
+
+      // Numeric key.
+      message Id {
+        // Name of the numeric key.
+        string name = 1 [(required) = true];
+      }
+
+      // Complex key.
+      message Key {
+        // Attributes of a complex key.
+        repeated Attribute attributes = 1 [(size) = ">0"];
+      }
+
+      // Single numeric key column for the dictionary.
+      Id id = 1;
+
+      // Complex key for the dictionary, containing of one or more key column(s).
+      Key key = 3;
+
+      // Description of the fields available for database queries.
+      repeated Attribute attributes = 2 [(size) = ">0"];
+    }
+
+    // Layout determining how to store the dictionary in memory.
+    message Layout {
+      enum Type {
+        TYPE_UNSPECIFIED = 0;
+
+        // The entire dictionary is stored in memory in the form of flat arrays.
+        // Available for all dictionary sources.
+        FLAT = 1;
+
+        // The entire dictionary is stored in memory in the form of a hash table.
+        // Available for all dictionary sources.
+        HASHED = 2;
+
+        // Similar to HASHED, to be used with composite keys.
+        // Available for all dictionary sources.
+        COMPLEX_KEY_HASHED = 3;
+
+        // The entire dictionary is stored in memory in the form of a hash table,
+        // with an ordered array of ranges and their corresponding values.
+        // Available for all dictionary sources.
+        RANGE_HASHED = 4;
+
+        // The dictionary is stored in a cache with a set number of cells.
+        // Available for MySQL, ClickHouse and HTTP dictionary sources.
+        CACHE = 5;
+
+        // Similar to CACHE, to be used with composite keys.
+        // Available for MySQL, ClickHouse and HTTP dictionary sources.
+        COMPLEX_KEY_CACHE = 6;
+      }
+
+      // Layout type for an external dictionary.
+      Type type = 1 [(required) = true];
+
+      // Number of cells in the cache. Rounded up to a power of two.
+      // Applicable only for CACHE and COMPLEX_KEY_CACHE layout types.
+      int64 size_in_cells = 2;
+    }
+
+    message Range {
+      // Minimum dictionary lifetime.
+      int64 min = 1;
+
+      // Maximum dictionary lifetime.
+      int64 max = 2;
+    }
+
+    // Name of the external dictionary.
+    string name = 1 [(required) = true];
+
+    // Set of attributes for the external dictionary.
+    // For in-depth description, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_structure/).
+    Structure structure = 2 [(required) = true];
+
+    // Layout for storing the dictionary in memory.
+    // For in-depth description, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_layout/).
+    Layout layout = 3 [(required) = true];
+
+    // Required. Setting for the period of time between dictionary updates.
+    // For details, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_lifetime/).
+    oneof lifetime {
+      option (exactly_one) = true;
+
+      // Fixed interval between dictionaty updates.
+      int64 fixed_lifetime = 4;
+
+      // Range of intervals between dictionary updates for ClickHouse to choose from.
+      Range lifetime_range = 5;
+    }
+
+    // Required. Description of the source for the external dictionary.
+    oneof source {
+      option (exactly_one) = true;
+
+      // HTTP source for the dictionary.
+      HttpSource http_source = 6;
+
+      // MySQL source for the dictionary.
+      MysqlSource mysql_source = 7;
+
+      // ClickHouse source for the dictionary.
+      ClickhouseSource clickhouse_source = 8;
+
+      // MongoDB source for the dictionary.
+      MongodbSource mongodb_source = 9;
+    }
+  }
+
+  // Rollup settings for the GraphiteMergeTree table engine.
+  message GraphiteRollup {
+    message Pattern {
+      message Retention {
+        // Minimum age of the data in seconds.
+        int64 age = 1 [(value) = ">0"];
+
+        // Precision of determining the age of the data, in seconds.
+        int64 precision = 2 [(value) = ">0"];
+      }
+
+      // Pattern for metric names.
+      string regexp = 1;
+
+      // Name of the aggregating function to apply to data of the age specified in [retention].
+      string function = 2 [(required) = true];
+
+      // Age of data to use for thinning.
+      repeated Retention retention = 3 [(size) = ">0"];
+    }
+
+    // Name for the specified combination of settings for Graphite rollup.
+    string name = 1 [(required) = true];
+
+    // Pattern to use for the rollup.
+    repeated Pattern patterns = 2 [(size) = ">0"];
+  }
+
+  // Logging level for the ClickHouse cluster.
+  LogLevel log_level = 1;
+
+  // Settings for the MergeTree engine.
+  // See description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#merge_tree).
+  MergeTree merge_tree = 2;
+
+  // Compression settings for the ClickHouse cluster.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#compression).
+  repeated Compression compression = 3;
+
+  // Configuration of external dictionaries to be used by the ClickHouse cluster.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts/).
+  repeated ExternalDictionary dictionaries = 4;
+
+  // Settings for thinning Graphite data.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#server_settings-graphite_rollup).
+  repeated GraphiteRollup graphite_rollup = 5;
+
+  // Maximum number of inbound connections.
+  google.protobuf.Int64Value max_connections = 6 [(value) = ">=10"];
+
+  // Maximum number of simultaneously processed requests.
+  google.protobuf.Int64Value max_concurrent_queries = 7 [(value) = ">=10"];
+
+  // Number of milliseconds that ClickHouse waits for incoming requests before closing the connection.
+  google.protobuf.Int64Value keep_alive_timeout = 8;
+
+  // Cache size (in bytes) for uncompressed data used by MergeTree tables.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#uncompressed_cache_size).
+  google.protobuf.Int64Value uncompressed_cache_size = 9;
+
+  // Approximate size (in bytes) of the cache of "marks" used by MergeTree tables.
+  // See details in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#mark_cache_size).
+  google.protobuf.Int64Value mark_cache_size = 10 [(value) = ">5368709120"];
+
+  // Maximum size of the table that can be deleted using a DROP query.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#max_table_size_to_drop).
+  google.protobuf.Int64Value max_table_size_to_drop = 11;
+
+  // Time interval for reloading built-in dictionaries.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#builtin_dictionaries_reload_interval).
+  google.protobuf.Int64Value builtin_dictionaries_reload_interval = 12;
+}
+
+message ClickhouseConfigSet {
+  // Effective settings for a ClickHouse cluster (a combination of settings defined
+  // in [user_config] and [default_config]).
+  ClickhouseConfig effective_config = 1 [(required) = true];
+
+  // User-defined settings for a ClickHouse cluster.
+  ClickhouseConfig user_config = 2;
+
+  // Default configuration for a ClickHouse cluster.
+  ClickhouseConfig default_config = 3;
+}

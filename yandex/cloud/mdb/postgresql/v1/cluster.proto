@@ -1,0 +1,270 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.postgresql.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql9_6.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql10.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host9_6.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host10.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
+
+// A PostgreSQL Cluster resource. For more information, see the [Cluster](/mdb/concepts) section
+// in the Developer's Guide.
+message Cluster {
+  enum Environment {
+    ENVIRONMENT_UNSPECIFIED = 0;
+
+    // Stable environment with a conservative update policy:
+    // only hotfixes are applied during regular maintenance.
+    PRODUCTION = 1;
+
+    // Environment with more aggressive update policy: new versions
+    // are rolled out irrespective of backward compatibility.
+    PRESTABLE = 2;
+  }
+
+  enum Health {
+
+    // State of the cluster is unknown ([Host.health] for every host in the cluster is UNKNOWN).
+    HEALTH_UNKNOWN = 0;
+
+    // Cluster is alive and well ([Host.health] for every host in the cluster is ALIVE).
+    ALIVE = 1;
+
+    // Cluster is inoperable ([Host.health] for every host in the cluster is DEAD).
+    DEAD = 2;
+
+    // Cluster is working below capacity ([Host.health] for at least one host in the cluster is not ALIVE).
+    DEGRADED = 3;
+  }
+
+  enum Status {
+
+    // Cluster state is unknown.
+    STATUS_UNKNOWN = 0;
+
+    // Cluster is being created.
+    CREATING = 1;
+
+    // Cluster is running normally.
+    RUNNING = 2;
+
+    // Cluster encountered a problem and cannot operate.
+    ERROR = 3;
+  }
+
+  // ID of the PostgreSQL cluster.
+  // This ID is assigned by MDB at creation time.
+  string id = 1;
+
+  // ID of the folder that the PostgreSQL cluster belongs to.
+  string folder_id = 2;
+
+  // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  google.protobuf.Timestamp created_at = 3;
+
+  // Name of the PostgreSQL cluster.
+  // The name is unique within the folder. 3-63 characters long.
+  string name = 4;
+
+  // Description of the PostgreSQL cluster. 0-256 characters long.
+  string description = 5;
+
+  // Custom labels for the PostgreSQL cluster as `` key:value `` pairs. Maximum 64 per resource.
+  map<string, string> labels = 6;
+
+  // Deployment environment of the PostgreSQL cluster.
+  Environment environment = 7;
+
+  // Description of monitoring systems relevant to the PostgreSQL cluster.
+  repeated Monitoring monitoring = 8;
+
+  // Configuration of the PostgreSQL cluster.
+  ClusterConfig config = 9;
+
+  // ID of the network that the cluster belongs to.
+  string network_id = 10;
+
+  // Aggregated cluster health.
+  Health health = 11;
+
+  // Current state of the cluster.
+  Status status = 12;
+}
+
+// Monitoring system.
+message Monitoring {
+  // Name of the monitoring system.
+  string name = 1;
+
+  // Description of the monitoring system.
+  string description = 2;
+
+  // Link to the monitoring system charts for the PostgreSQL cluster.
+  string link = 3;
+}
+
+message ClusterConfig {
+  // Version of PostgreSQL server software.
+  string version = 1;
+
+  // Configuration for PostgreSQL servers in the cluster.
+  oneof postgresql_config {
+    // Configuration of a PostgreSQL 9.6 server.
+    config.PostgresqlConfigSet9_6 postgresql_config_9_6 = 2;
+
+    // Configuration of a PostgreSQL 10 server.
+    config.PostgresqlConfigSet10 postgresql_config_10 = 3;
+  }
+
+  // Configuration of the connection pooler.
+  ConnectionPoolerConfig pooler_config = 4;
+
+  // Resources allocated to PostgreSQL hosts.
+  Resources resources = 5;
+
+  // Configuration setting which enables/disables autofailover in cluster.
+  google.protobuf.BoolValue autofailover = 6;
+}
+
+message ConnectionPoolerConfig {
+  enum PoolingMode {
+    POOLING_MODE_UNSPECIFIED = 0;
+
+    // Session pooling mode.
+    SESSION = 1;
+
+    // Transaction pooling mode.
+    TRANSACTION = 2;
+
+    // Statement pooling mode.
+    STATEMENT = 3;
+  }
+
+  // Mode that the connection pooler is working in.
+  // See descriptions of all modes in the [documentation for PgBouncer](https://pgbouncer.github.io/usage).
+  PoolingMode pooling_mode = 1;
+}
+
+message Host {
+  enum Role {
+    ROLE_UNKNOWN = 0;
+
+    // Host is the master PostgreSQL server in the cluster.
+    MASTER = 1;
+
+    // Host is a replica (standby) PostgreSQL server in the cluster.
+    REPLICA = 2;
+  }
+
+  enum Health {
+    HEALTH_UNKNOWN = 0;
+
+    // The host is performing all its functions normally.
+    ALIVE = 1;
+
+    // The host is inoperable, and cannot perform any of its essential functions.
+    DEAD = 2;
+
+    // The host is degraded, and can perform only some of its essential functions.
+    DEGRADED = 3;
+  }
+
+  // Name of the PostgreSQL host. The host name is assigned by MDB at creation time, and cannot be changed.
+  // 1-63 characters long.
+  //
+  // The name is unique across all existing MDB hosts in Yandex.Cloud, as it defines the FQDN of the host.
+  string name = 1;
+
+  // ID of the PostgreSQL host. The ID is assigned by MDB at creation time.
+  string cluster_id = 2;
+
+  // ID of the availability zone where the PostgreSQL host resides.
+  string zone_id = 3;
+
+  // Resources allocated to the PostgreSQL host.
+  Resources resources = 4;
+
+  // Role of the host in the cluster.
+  Role role = 5;
+
+  // Status code of the aggregated health of the host.
+  Health health = 6;
+
+  // Services provided by the host.
+  repeated Service services = 7;
+
+  // ID of the subnet that the host belongs to.
+  string subnet_id = 8;
+
+  // [name] of the host to be used as the replication source for cascading replication.
+  string replication_source = 9;
+
+  // Priority of the host as a replica. Higher value means higher priority.
+  //
+  // The host with the highest priority is the synchronous replica. All others are asynchronous.
+  // The synchronous replica replaces the master when needed.
+  //
+  // When a replica becomes the master, its priority is ignored.
+  google.protobuf.Int64Value priority = 10;
+
+  // Configuration of a PostgreSQL server for the host.
+  HostConfig config = 11;
+}
+
+message HostConfig {
+  // Configuration of a PostgreSQL server for the host.
+  oneof postgresql_config {
+    // Configuration for a host with PostgreSQL 9.6 server deployed.
+    config.PostgresqlHostConfig9_6 postgresql_config_9_6 = 1;
+
+    // Configuration for a host with PostgreSQL 10 server deployed.
+    config.PostgresqlHostConfig10 postgresql_config_10 = 2;
+  }
+}
+
+
+message Service {
+  enum Type {
+    TYPE_UNSPECIFIED = 0;
+
+    // The host is a PostgreSQL server.
+    POSTGRESQL = 1;
+
+    // The host is a PgBouncer server.
+    POOLER = 2;
+  }
+
+  enum Health {
+    HEALTH_UNKNOWN = 0;
+
+    // The server is working normally.
+    ALIVE = 1;
+
+    // The server is dead or unresponsive.
+    DEAD = 2;
+  }
+
+  // Type of the service provided by the host.
+  Type type = 1;
+
+  // Status code of server availability.
+  Health health = 2;
+}
+
+message Resources {
+  // ID of the preset for computational resources available to a host (CPU, memory etc.).
+  // All available presets are listed in the [documentation](/mdb/concepts/instance-types).
+  string resource_preset_id = 1;
+
+  // Volume of the storage available to a host, in bytes.
+  int64 disk_size = 2;
+
+  // Type of the storage environment for the host.
+  // Possible values:
+  // * local-ssd — SSD storage.
+  string disk_type_id = 3;
+}

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package yandex.cloud.endpoint;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/endpoint;endpoint";
+
+message ApiEndpoint {
+    string id = 1;
+    string address = 2;
+}
