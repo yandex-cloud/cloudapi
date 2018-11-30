@@ -6,7 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1;compute";
 
-// An Instance resource. For more information, see [Instances](/compute/concepts/vm).
+// An Instance resource. For more information, see [Instances](/docs/compute/concepts/vm).
 message Instance {
   enum Status {
     STATUS_UNSPECIFIED = 0;
@@ -75,7 +75,7 @@ message Instance {
   // The metadata key/value pairs assigned to this instance. This includes custom metadata and predefined keys.
   //
   // For example, you may use the metadata in order to provide your public SSH key to the instance.
-  // For more information, see [Metadata](/compute/concepts/vm-metadata).
+  // For more information, see [Metadata](/docs/compute/concepts/vm-metadata).
   map<string, string> metadata = 11;
 
   // Boot disk that is attached to the instance.
@@ -87,8 +87,9 @@ message Instance {
   // Array of network interfaces that are attached to the instance.
   repeated NetworkInterface network_interfaces = 14;
 
-  // Domain name of the instance. This domain name is defined by the server when the instance is created.
-  // Domain name generated in the format: `hostname.zone_id.internal`
+  // A domain name of the instance. FQDN is defined by the server
+  // in the format `<hostname>.<region_id>.internal` when the instance is created.
+  // If the hostname were not specified when the instance was created, FQDN would be `<id>.auto.internal`.
   string fqdn = 16; // output only
 }
 

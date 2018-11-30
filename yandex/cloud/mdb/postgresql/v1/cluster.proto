@@ -11,7 +11,7 @@ import "yandex/cloud/mdb/postgresql/v1/config/host10.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
 
-// A PostgreSQL Cluster resource. For more information, see the [Cluster](/mdb/concepts) section
+// A PostgreSQL Cluster resource. For more information, see the [Cluster](/docs/mdb/concepts) section
 // in the Developer's Guide.
 message Cluster {
   enum Environment {
@@ -151,6 +151,8 @@ message ConnectionPoolerConfig {
 
 message Host {
   enum Role {
+
+    // Role of the host in the cluster is unknown.
     ROLE_UNKNOWN = 0;
 
     // Host is the master PostgreSQL server in the cluster.
@@ -161,6 +163,8 @@ message Host {
   }
 
   enum Health {
+
+    // Health of the host is unknown.
     HEALTH_UNKNOWN = 0;
 
     // The host is performing all its functions normally.
@@ -200,7 +204,7 @@ message Host {
   // ID of the subnet that the host belongs to.
   string subnet_id = 8;
 
-  // [name] of the host to be used as the replication source for cascading replication.
+  // Name of the host to be used as the replication source for cascading replication.
   string replication_source = 9;
 
   // Priority of the host as a replica. Higher value means higher priority.
@@ -239,6 +243,8 @@ message Service {
   }
 
   enum Health {
+
+    // Health of the server is unknown.
     HEALTH_UNKNOWN = 0;
 
     // The server is working normally.
@@ -257,7 +263,7 @@ message Service {
 
 message Resources {
   // ID of the preset for computational resources available to a host (CPU, memory etc.).
-  // All available presets are listed in the [documentation](/mdb/concepts/instance-types).
+  // All available presets are listed in the [documentation](/docs/mdb/concepts/instance-types).
   string resource_preset_id = 1;
 
   // Volume of the storage available to a host, in bytes.
@@ -265,6 +271,7 @@ message Resources {
 
   // Type of the storage environment for the host.
   // Possible values:
-  // * local-ssd — SSD storage.
+  // * network-nvme — network SSD drive,
+  // * local-nvme — local SSD storage.
   string disk_type_id = 3;
 }

@@ -6,7 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1;clickhouse";
 
-// A ClickHouse Backup resource. See the [Developer's Guide](/mdb/concepts)
+// A ClickHouse Backup resource. See the [Developer's Guide](/docs/mdb/concepts)
 // for more information.
 message Backup {
   // ID of the backup.

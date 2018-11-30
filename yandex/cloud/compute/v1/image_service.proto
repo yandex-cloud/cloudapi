@@ -33,6 +33,7 @@ service ImageService {
   // Creates an image in the specified folder.
   //
   // You can create an image from a disk, snapshot, other image or URI.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
   rpc Create (CreateImageRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/images" body: "*" };
     option (yandex.api.operation) = {
@@ -196,6 +197,8 @@ message UpdateImageRequest {
   int64 min_disk_size = 5 [(value) = "4194304-4398046511104"];
 
   // Resource labels as `` key:value `` pairs.
+  //
+  // Existing set of `` labels `` is completely replaced by the provided set.
   map<string, string> labels = 6 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 

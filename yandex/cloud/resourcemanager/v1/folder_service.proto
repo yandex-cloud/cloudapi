@@ -99,7 +99,7 @@ message ListFoldersRequest {
   // results is larger than [page_size],
   // the service returns a [ListFoldersResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  // Acceptable values are 0 to 1000, inclusive. Default value: 100.
+  // Default value: 100.
   int64 page_size = 2 [(value) = "<=1000"];
 
   // Page token. Set [page_token]
@@ -135,13 +135,12 @@ message CreateFolderRequest {
 
   // Name of the folder.
   // The name must be unique within the cloud.
-  // The name must be 3-63 characters long and match the regular expression `^[a-z][-a-z0-9]{1,61}[a-z0-9]$`.
   string name = 2 [(required) = true, (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
-  // Description of the folder. 0-256 characters long.
+  // Description of the folder.
   string description = 3 [(length) = "<=256"];
 
-  // Resource labels as `` key:value `` pairs. Мaximum of 64 per resource.
+  // Resource labels as `` key:value `` pairs.
   map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 
@@ -159,14 +158,13 @@ message UpdateFolderRequest {
   google.protobuf.FieldMask update_mask = 2;
 
   // Name of the folder.
-  // The name must be unique within the cloud. The name must be
-  // 3-63 characters long and match the regular expression `^[a-z][-a-z0-9]{1,61}[a-z0-9]$`.
+  // The name must be unique within the cloud.
   string name = 3 [(required) = true, (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
-  // Description of the folder. 0-256 characters long.
+  // Description of the folder.
   string description = 4 [(length) = "<=256"];
 
-  // Resource labels as `` key:value `` pairs. Мaximum of 64 per resource.
+  // Resource labels as `` key:value `` pairs.
   map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 
@@ -193,7 +191,7 @@ message ListFolderOperationsRequest {
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListFolderOperationsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  // Acceptable values are 0 to 1000, inclusive. Default value: 100.
+  // Default value: 100.
   int64 page_size = 2 [(value) = "<=1000"];
 
   // Page token. Set [page_token]

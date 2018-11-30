@@ -10,8 +10,6 @@ message Subject {
   // ID of the subject.
   //
   // It can contain one of the following values:
-  // * `allUsers`: A special system identifier that represents anyone. It can be used only if the [type] is `system`.
-  //
   // * `allAuthenticatedUsers`: A special system identifier that represents anyone
   //    who is authenticated. It can be used only if the [type] is `system`.
   //
@@ -25,10 +23,10 @@ message Subject {
   // * `system`: System type. It represents several accounts with a common system identifier.
   //
   // * `userAccount`: A user account.
-  //    For more information, see [Users](/iam/concepts/users/users).
+  //    For more information, see [Users](/docs/iam/concepts/users/users).
   //
   // * `serviceAccount`: A service account.
-  //    For more information, see [Service accounts](/iam/concepts/users/service-accounts).
+  //    For more information, see [Service accounts](/docs/iam/concepts/users/service-accounts).
   string type = 2;
 }
 
@@ -40,10 +38,9 @@ message AccessBinding {
   // It can represent an account with a unique ID or several accounts with a system identifier.
   //
   // It can contain one of the following sets of parameters:
-  // * `type = system, id = allUsers`.
-  // * `type = system, id = allAuthenticatedUsers`.
-  // * `type = userAccount, id = <cloud generated id>`.
-  // * `type = serviceAccount, id = <cloud generated id>`.
+  // * `type = system`, `id = allAuthenticatedUsers`.
+  // * `type = userAccount`, `id = <cloud generated id>`.
+  // * `type = serviceAccount`, `id = <cloud generated id>`.
   Subject subject = 2 [(required) = true];
 }
 
@@ -58,7 +55,7 @@ message ListAccessBindingsRequest {
   // results is larger than [page_size],
   // the service returns a [ListAccessBindingsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  // Acceptable values are 0 to 1000, inclusive. Default value: 100.
+  // Default value: 100.
   int64 page_size = 2 [(value) = "<=1000"];
 
   // Page token. Set [page_token]
@@ -123,6 +120,6 @@ message AccessBindingDelta {
   // The action that is being performed on an access binding.
   AccessBindingAction action = 1 [(required) = true];
 
-  // Access binding. For more information, see [Access Bindings](/resource-manager/concepts/resources-hierarchy).
+  // Access binding. For more information, see [Access Bindings](/docs/resource-manager/concepts/resources-hierarchy).
   AccessBinding access_binding = 2 [(required) = true];
 }

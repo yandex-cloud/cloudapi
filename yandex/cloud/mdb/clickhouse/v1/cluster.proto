@@ -8,7 +8,7 @@ import "yandex/cloud/mdb/clickhouse/v1/config/clickhouse.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1;clickhouse";
 
 // A ClickHouse Cluster resource. For more information, see the
-// [Cluster](/mdb/concepts) section in the Developer's Guide.
+// [Cluster](/docs/mdb/concepts) section in the Developer's Guide.
 message Cluster {
   // Deployment environment.
   enum Environment {
@@ -140,6 +140,8 @@ message Host {
   }
 
   enum Health {
+
+    // Health of the host is unknown.
     UNKNOWN = 0;
 
     // The host is performing all its functions normally.
@@ -192,6 +194,8 @@ message Service {
   }
 
   enum Health {
+
+    // Health of the server is unknown.
     UNKNOWN = 0;
 
     // The server is working normally.
@@ -210,7 +214,7 @@ message Service {
 
 message Resources {
   // ID of the preset for computational resources available to a host (CPU, memory etc.).
-  // All available presets are listed in the [documentation](/mdb/concepts/instance-types)
+  // All available presets are listed in the [documentation](/docs/mdb/concepts/instance-types)
   string resource_preset_id = 1;
 
   // Volume of the storage available to a host, in bytes.
@@ -218,6 +222,7 @@ message Resources {
 
   // Type of the storage environment for the host.
   // Possible values:
-  // * local-ssd — SSD storage.
+  // * network-nvme — network SSD drive,
+  // * local-nvme — local SSD storage.
   string disk_type_id = 3;
 }

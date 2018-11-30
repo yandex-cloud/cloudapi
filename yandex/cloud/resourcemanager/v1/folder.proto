@@ -6,11 +6,9 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/resourcemanager/v1;resourcemanager";
 
-// A Folder resource. For more information, see [Folder](/resource-manager/concepts/resources-hierarchy#folder).
+// A Folder resource. For more information, see [Folder](/docs/resource-manager/concepts/resources-hierarchy#folder).
 message Folder {
-  // Status of the folder.
   enum Status {
-    // Unspecified.
     STATUS_UNSPECIFIED = 0;
 
     // The folder is active.

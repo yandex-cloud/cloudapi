@@ -20,8 +20,12 @@ message CreateIamTokenRequest {
     option (exactly_one) = true;
 
     // OAuth token for a Yandex.Passport account.
-    // For more information, see [OAuth token](/iam/concepts/authorization/oauth-token).
+    // For more information, see [OAuth token](/docs/iam/concepts/authorization/oauth-token).
     string yandex_passport_oauth_token = 1;
+
+    // JSON Web Token (JWT) for a service account.
+    // For more information, see [Get IAM token for a service account](/docs/iam/operations/iam-token/create-for-sa).
+    string jwt = 2;
   }
 }
 

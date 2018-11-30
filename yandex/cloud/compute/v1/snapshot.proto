@@ -6,7 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1;compute";
 
-// A Snapshot resource. For more information, see [Snapshots](/compute/concepts/snapshot).
+// A Snapshot resource. For more information, see [Snapshots](/docs/compute/concepts/snapshot).
 message Snapshot {
 
   enum Status {

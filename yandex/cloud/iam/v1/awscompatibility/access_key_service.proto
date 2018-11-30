@@ -43,14 +43,14 @@ message GetAccessKeyRequest {
 message ListAccessKeysRequest {
   // ID of the service account to list access keys for.
   // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
-  // If [service_account_id] is not specified, it defaults to the subject that made the request.
+  // If not specified, it defaults to the subject that made the request.
   string service_account_id = 1 [(length) = "<=50"]; // use current subject identity if this not set
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size],
   // the service returns a [ListAccessKeysResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  // Acceptable values are 0 to 1000, inclusive. Default value: 100.
+  // Default value: 100.
   int64 page_size = 2 [(value) = "<=1000"];
 
   // Page token. To get the next page of results, set [page_token]
@@ -75,10 +75,10 @@ message ListAccessKeysResponse {
 message CreateAccessKeyRequest {
   // ID of the service account to create an access key for.
   // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
-  // If [service_account_id] is not specified, it defaults to the subject that made the request.
+  // If not specified, it defaults to the subject that made the request.
   string service_account_id = 1 [(length) = "<=50"]; // use current subject identity if this not set
 
-  // Description of the access key. 0-256 characters long.
+  // Description of the access key.
   string description = 2 [(length) = "<=256"];
 }
 

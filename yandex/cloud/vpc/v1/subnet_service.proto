@@ -26,6 +26,7 @@ service SubnetService {
   }
 
   // Creates a subnet in the specified folder and network.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
   rpc Create (CreateSubnetRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/vpc/v1/subnets" body: "*" };
     option (yandex.api.operation) = {
@@ -35,6 +36,7 @@ service SubnetService {
   }
 
   // Updates the specified subnet.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
   rpc Update (UpdateSubnetRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/vpc/v1/subnets/{subnet_id}" body: "*" };
     option (yandex.api.operation) = {
