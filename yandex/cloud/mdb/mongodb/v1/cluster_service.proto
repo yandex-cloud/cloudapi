@@ -110,7 +110,7 @@ service ClusterService {
   rpc DeleteHosts (DeleteClusterHostsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-mongodb/v1/clusters/{cluster_id}/hosts:batchDelete" body: "*" };
     option (yandex.api.operation) = {
-      metadata: "DeleteClusterMetadata"
+      metadata: "DeleteClusterHostsMetadata"
       response: "google.protobuf.Empty"
     };
   }
@@ -480,7 +480,7 @@ message MongodbSpec3_6 {
     config.MongodConfig3_6 config = 1;
 
     // Resources allocated to mongod hosts.
-    Resources resources = 2 [(required) = true];
+    Resources resources = 2;
   }
 
   // Configuration and resource allocation for a mongod host.

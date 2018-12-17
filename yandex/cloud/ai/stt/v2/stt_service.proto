@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package yandex.cloud.ai.stt.v2;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/stt/v2;stt";
+
+service SttService {
+  rpc StreamingRecognize (stream StreamingRecognitionRequest) returns (stream StreamingRecognitionResponse) {
+  }
+}
+
+message StreamingRecognitionRequest {
+  oneof streaming_request {
+    RecognitionConfig config = 1;
+    bytes audio_content = 2;
+  }
+}
+
+message RecognitionConfig {
+  RecognitionSpec specification = 1;
+  string folder_id = 2;
+}
+
+message RecognitionSpec {
+  enum AudioEncoding {
+    AUDIO_ENCODING_UNSPECIFIED = 0;
+
+    // 16-bit signed little-endian (Linear PCM)
+    LINEAR16_PCM = 1;
+
+    OGG_OPUS = 2;
+  }
+
+  AudioEncoding audio_encoding = 1;
+
+  // 8000, 16000, 48000 only for pcm
+  int64 sample_rate_hertz = 2;
+
+  // code in BCP-47
+  string language_code = 3;
+
+  bool profanity_filter = 4;
+  string model = 5;
+
+  // If set true, tentative hypotheses may be returned as they become available (final=false flag)
+  // If false or omitted, only final=true result(s) are returned.
+  bool partial_results = 7;
+  bool single_utterance = 8;
+}
+
+message StreamingRecognitionResponse {
+  repeated SpeechRecognitionChunk chunks = 1;
+  bool end_of_single_utterance = 2;
+}
+
+message SpeechRecognitionChunk {
+  repeated SpeechRecognitionAlternative alternatives = 1;
+  bool final = 2;
+}
+
+message SpeechRecognitionAlternative {
+  string text = 1;
+  float confidence = 2;
+}

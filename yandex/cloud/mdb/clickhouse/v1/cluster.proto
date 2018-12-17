@@ -222,6 +222,7 @@ message Resources {
 
   // Type of the storage environment for the host.
   // Possible values:
+  // * network-hdd — network HDD drive,
   // * network-nvme — network SSD drive,
   // * local-nvme — local SSD storage.
   string disk_type_id = 3;

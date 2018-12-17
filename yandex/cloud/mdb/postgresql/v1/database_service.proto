@@ -120,6 +120,9 @@ message UpdateDatabaseRequest {
   google.protobuf.FieldMask update_mask = 3;
 
   // PostgreSQL extensions that should be enabled for the database.
+  //
+  // If the field is sent, the list of enabled extensions is rewritten entirely.
+  // Therefore, to disable an active extension you should simply send the list omitting this extension.
   repeated Extension extensions = 4;
 }
 

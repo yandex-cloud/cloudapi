@@ -110,7 +110,7 @@ service ClusterService {
   rpc DeleteHosts (DeleteClusterHostsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}/hosts:batchDelete" body: "*" };
     option (yandex.api.operation) = {
-      metadata: "DeleteClusterMetadata"
+      metadata: "DeleteClusterHostsMetadata"
       response: "google.protobuf.Empty"
     };
   }

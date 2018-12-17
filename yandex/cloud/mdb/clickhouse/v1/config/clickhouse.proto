@@ -81,7 +81,7 @@ message ClickhouseConfig {
         int64 port = 3 [(value) = "0-65535"];
 
         // Name of the MySQL database user.
-        string user = 4 [(length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+        string user = 4 [(length) = "0-63", (pattern) = "|[a-zA-Z0-9_]+"];
 
         // Password of the MySQL database user.
         string password = 5;
@@ -97,7 +97,7 @@ message ClickhouseConfig {
       int64 port = 3 [(value) = "0-65535"];
 
       // Name of the default user for replicas of the dictionary source.
-      string user = 4 [(length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+      string user = 4 [(length) = "0-63", (pattern) = "|[a-zA-Z0-9_]+"];
 
       // Password of the default user for replicas of the dictionary source.
       string password = 5;
