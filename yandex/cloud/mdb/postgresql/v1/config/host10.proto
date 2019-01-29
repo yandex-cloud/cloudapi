@@ -9,7 +9,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgr
 
 // Options and structure of `PostgresqlHostConfig` reflects PostgreSQL configuration file
 // parameters whose detailed description is available in
-// [PostgreSQL documentation](https://www.postgresql.org/docs/10/static/runtime-config).
+// [PostgreSQL documentation](https://www.postgresql.org/docs/10/runtime-config.html).
 message PostgresqlHostConfig10 {
 
   enum ConstraintExclusion {

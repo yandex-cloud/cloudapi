@@ -223,6 +223,9 @@ message CreateInstanceRequest {
   // If not specified, the host name will be equal to [yandex.cloud.compute.v1.Instance.id] of the instance
   // and FQDN will be `<id>.auto.internal`. Otherwise FQDN will be `<hostname>.<region_id>.internal`.
   string hostname = 12 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+
+  // Scheduling policy configuration.
+  SchedulingPolicy scheduling_policy = 13;
 }
 
 message CreateInstanceMetadata {
@@ -408,10 +411,10 @@ message ListInstanceOperationsResponse {
 
 message ResourcesSpec {
   // The amount of memory available to the instance, specified in bytes.
-  int64 memory = 1 [(required) = true, (value) = "<=34359738368"];
+  int64 memory = 1 [(required) = true, (value) = "<=274877906944"];
 
   // The number of cores available to the instance.
-  int64 cores = 2 [(required) = true, (value) = "<=32"];
+  int64 cores = 2 [(required) = true, (value) = "1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32"];
 
   // Baseline level of CPU performance with the ability to burst performance above that baseline level.
   // This field sets baseline performance for each core.

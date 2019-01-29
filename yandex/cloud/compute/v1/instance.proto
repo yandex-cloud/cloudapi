@@ -91,6 +91,9 @@ message Instance {
   // in the format `<hostname>.<region_id>.internal` when the instance is created.
   // If the hostname were not specified when the instance was created, FQDN would be `<id>.auto.internal`.
   string fqdn = 16; // output only
+
+  // Scheduling policy configuration.
+  SchedulingPolicy scheduling_policy = 17;
 }
 
 message Resources {
@@ -175,6 +178,11 @@ enum IpVersion {
   // IPv4 address, for example 192.0.2.235.
   IPV4 = 1;
 
-  // IPv6 address, for example 2001:0db8:85a3:0000:0000:8a2e:0370:7334.
+  // IPv6 address: not available yet.
   IPV6 = 2;
+}
+
+message SchedulingPolicy {
+  // Set if instance is preemptible.
+  bool preemptible = 1;
 }

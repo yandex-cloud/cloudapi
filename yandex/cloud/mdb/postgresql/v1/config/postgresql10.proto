@@ -9,7 +9,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgr
 
 // Options and structure of `PostgresqlConfig` reflects PostgreSQL configuration file
 // parameters whose detailed description is available in
-// [PostgreSQL documentation](https://www.postgresql.org/docs/10/static/runtime-config).
+// [PostgreSQL documentation](https://www.postgresql.org/docs/10/runtime-config.html).
 message PostgresqlConfig10 {
   enum WalLevel {
     WAL_LEVEL_UNSPECIFIED = 0;
@@ -187,13 +187,13 @@ message PostgresqlConfig10 {
 
   google.protobuf.Int64Value backend_flush_after = 19 [(value) = "0-2048"];
 
-  google.protobuf.Int64Value old_snapshot_threshold = 20 [(value) = "-1-86400"];
+  google.protobuf.Int64Value old_snapshot_threshold = 20 [(value) = "-1-86400000"];
 
   WalLevel wal_level = 21;
 
   SynchronousCommit synchronous_commit = 22;
 
-  google.protobuf.Int64Value checkpoint_timeout = 23 [(value) = "30-86400"]; // in milliseconds.
+  google.protobuf.Int64Value checkpoint_timeout = 23 [(value) = "30000-86400000"]; // in milliseconds.
 
   google.protobuf.DoubleValue checkpoint_completion_target = 24;
 
@@ -292,6 +292,14 @@ message PostgresqlConfig10 {
   google.protobuf.DoubleValue seq_page_cost = 71;
 
   google.protobuf.DoubleValue random_page_cost = 72;
+
+  google.protobuf.Int64Value autovacuum_max_workers = 73 [(value) = "1-32"];
+
+  google.protobuf.Int64Value autovacuum_vacuum_cost_delay = 74 [(value) = "-1-100"];
+
+  google.protobuf.Int64Value autovacuum_vacuum_cost_limit = 75 [(value) = "-1-10000"];
+
+  google.protobuf.Int64Value autovacuum_naptime = 76 [(value) = "1000-86400000"]; // in milliseconds.
 }
 
 message PostgresqlConfigSet10 {

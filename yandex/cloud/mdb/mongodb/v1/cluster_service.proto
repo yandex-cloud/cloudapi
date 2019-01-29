@@ -141,7 +141,7 @@ message ListClustersRequest {
   // The expression must specify:
   // 1. The field name. Currently you can only use filtering with the [Cluster.name] field.
   // 2. An operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
-  // 3. The value. Мust be 3-63 characters long and match the regular expression `^[a-z]([-a-z0-9]{,61}[a-z0-9])?$`.
+  // 3. The value. Мust be 1-63 characters long and match the regular expression `^[a-zA-Z0-9_-]+$`.
   string filter = 4 [(length) = "<=1000"];
 }
 
@@ -161,16 +161,14 @@ message CreateClusterRequest {
   string folder_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the MongoDB cluster. The name must be unique within the folder.
+  string name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 
-  // The name can’t be changed after the MongoDB cluster is created.
-  string name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
-
-  // Description of the MongoDB cluster. 0-256 characters long.
+  // Description of the MongoDB cluster.
   string description = 3 [(length) = "<=256"];
 
   // Custom labels for the MongoDB cluster as `` key:value `` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
-  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Deployment environment of the MongoDB cluster.
   Cluster.Environment environment = 5 [(required) = true];
@@ -204,7 +202,7 @@ message UpdateClusterRequest {
   // Field mask that specifies which fields of the MongoDB Cluster resource should be updated.
   google.protobuf.FieldMask update_mask = 2;
 
-  // New description of the MongoDB cluster. 0-256 characters long.
+  // New description of the MongoDB cluster.
   string description = 3 [(length) = "<=256"];
 
   // Custom labels for the MongoDB cluster as `` key:value `` pairs. Maximum 64 per resource.
@@ -212,7 +210,7 @@ message UpdateClusterRequest {
   //
   // The new set of labels will completely replace the old ones. To add a label, request the current
   // set with the [ClusterService.Get] method, then send an [ClusterService.Update] request with the new label added to the set.
-  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // New configuration and resources for hosts in the cluster.
   ConfigSpec config_spec = 5;
@@ -251,16 +249,14 @@ message RestoreClusterRequest {
   string backup_id = 1 [(required) = true];
 
   // Name of the new MongoDB cluster. The name must be unique within the folder.
+  string name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
-  // The name can’t be changed after the MongoDB cluster is created.
-  string name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
-
-  // Description of the new MongoDB cluster. 0-256 characters long.
+  // Description of the new MongoDB cluster.
   string description = 3 [(length) = "<=256"];
 
   // Custom labels for the MongoDB cluster as `` key:value `` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
-  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Deployment environment of the new MongoDB cluster.
   Cluster.Environment environment = 5 [(required) = true];

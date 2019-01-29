@@ -78,7 +78,7 @@ message GetUserRequest {
 
   // Required. Name of the PostgreSQL User resource to return.
   // To get the name of the user, use a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 }
 
 message ListUsersRequest {
@@ -89,7 +89,6 @@ message ListUsersRequest {
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListUsersResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-
   int64 page_size = 2 [(value) = "<=1000"];
 
   // Page token. To get the next page of results, set [page_token] to the [ListUsersResponse.next_page_token]
@@ -132,7 +131,7 @@ message UpdateUserRequest {
 
   // Required. Name of the user to be updated.
   // To get the name of the user use a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 
   // Field mask that specifies which fields of the PostgreSQL User resource should be updated.
   google.protobuf.FieldMask update_mask = 3;
@@ -145,6 +144,9 @@ message UpdateUserRequest {
 
   // Number of connections that should be available to the user.
   int64 conn_limit = 6 [(value) = ">=10"];
+
+  // Postgresql settings for this user
+  UserSettings settings = 7;
 }
 
 message UpdateUserMetadata {
@@ -162,7 +164,7 @@ message DeleteUserRequest {
 
   // Required. Name of the user to delete.
   // To get the name of the user, use a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 }
 
 message DeleteUserMetadata {
@@ -180,7 +182,7 @@ message GrantUserPermissionRequest {
 
   // Required. Name of the user to grant the permission to.
   // To get the name of the user, use a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 
   // Permission that should be granted to the specified user.
   Permission permission = 3 [(required) = true];
@@ -202,10 +204,10 @@ message RevokeUserPermissionRequest {
 
   // Required. Name of the user to revoke a permission from.
   // To get the name of the user, use a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 
   // Name of the database that the user should lose access to.
-  string database_name = 3 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string database_name = 3 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message RevokeUserPermissionMetadata {

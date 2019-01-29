@@ -15,8 +15,10 @@ import "yandex/cloud/mdb/postgresql/v1/database.proto";
 import "yandex/cloud/mdb/postgresql/v1/user.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql10.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql11.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host10.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host11.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
 
@@ -81,7 +83,7 @@ service ClusterService {
   }
 
   // Retrieves logs for the specified PostgreSQL cluster.
-  // For more information about logs, see the [Logs](/docs/yandex-mdb-guide/concepts/logs) section in the Developer's Guide.
+  // For more information about logs, see the [Logs](/docs/managed-postgresql/concepts/logs) section in the documentation.
   rpc ListLogs (ListClusterLogsRequest) returns (ListClusterLogsResponse) {
     option (google.api.http) = { get: "/managed-postgresql/v1/clusters/{cluster_id}:logs" };
   }
@@ -154,7 +156,7 @@ message ListClustersRequest {
   // The expression must specify:
   // 1. The field name. Currently you can only use filtering with the [Cluster.name] field.
   // 2. An operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
-  // 3. The value. Мust be 3-63 characters long and match the regular expression `^[a-z]([-a-z0-9]{,61}[a-z0-9])?$`.
+  // 3. The value. Мust be 1-63 characters long and match the regular expression `^[a-zA-Z0-9_-]+$`.
   string filter = 4 [(length) = "<=1000"];
 }
 
@@ -174,16 +176,14 @@ message CreateClusterRequest {
   string folder_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the PostgreSQL cluster. The name must be unique within the folder.
+  string name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
-  // The name can’t be changed after the PostgreSQL cluster is created.
-  string name = 2 [(required) = true, (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
-
-  // Description of the PostgreSQL cluster. 0-256 characters long.
+  // Description of the PostgreSQL cluster.
   string description = 3 [(length) = "<=256"];
 
   // Custom labels for the PostgreSQL cluster as `` key:value `` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
-  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Deployment environment of the PostgreSQL cluster.
   Cluster.Environment environment = 5 [(required) = true];
@@ -218,7 +218,7 @@ message UpdateClusterRequest {
   // Field mask that specifies which fields of the PostgreSQL Cluster resource should be updated.
   google.protobuf.FieldMask update_mask = 2;
 
-  // New description of the PostgreSQL cluster. 0-256 characters long.
+  // New description of the PostgreSQL cluster.
   string description = 3 [(length) = "<=256"];
 
   // Custom labels for the PostgreSQL cluster as `` key:value `` pairs. Maximum 64 per resource.
@@ -226,16 +226,17 @@ message UpdateClusterRequest {
   //
   // The new set of labels will completely replace the old ones. To add a label, request the current
   // set with the [ClusterService.Get] method, then send an [ClusterService.Update] request with the new label added to the set.
-  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // New configuration and resources for hosts in the cluster.
   ConfigSpec config_spec = 5;
+
+  string name = 6 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message UpdateClusterMetadata {
   // ID of the PostgreSQL Cluster resource that is being updated.
   string cluster_id = 1;
-
 }
 
 message DeleteClusterRequest {
@@ -247,7 +248,6 @@ message DeleteClusterRequest {
 message DeleteClusterMetadata {
   // ID of the PostgreSQL cluster that is being deleted.
   string cluster_id = 1;
-
 }
 
 message BackupClusterRequest {
@@ -259,7 +259,6 @@ message BackupClusterRequest {
 message BackupClusterMetadata {
   // ID of the PostgreSQL cluster that is being backed up.
   string cluster_id = 1;
-
 }
 
 message RestoreClusterRequest {
@@ -279,16 +278,14 @@ message RestoreClusterRequest {
   bool time_inclusive = 3;
 
   // Name of the new PostgreSQL cluster. The name must be unique within the folder.
+  string name = 4 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
-  // The name can’t be changed after the PostgreSQL cluster is created.
-  string name = 4 [(required) = true, (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
-
-  // Description of the new PostgreSQL cluster. 0-256 characters long.
+  // Description of the new PostgreSQL cluster.
   string description = 5 [(length) = "<=256"];
 
   // Custom labels for the PostgreSQL cluster as `` key:value `` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
-  map<string, string> labels = 6 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 6 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Deployment environment of the new PostgreSQL cluster.
   Cluster.Environment environment = 7;
@@ -356,6 +353,9 @@ message ListClusterLogsRequest {
   // Page token. To get the next page of results, set [page_token] to the
   // [ListClusterLogsResponse.next_page_token] returned by a previous list request.
   string page_token = 7 [(length) = "<=100"];
+
+  // Always return `next_page_token`, even if current page is empty.
+  bool always_next_page_token = 8;
 }
 
 message ListClusterLogsResponse {
@@ -487,7 +487,6 @@ message UpdateClusterHostsRequest {
 
   // New configurations to apply to hosts.
   repeated UpdateHostSpec update_host_specs = 2 [(size) = ">0"];
-
 }
 
 message UpdateClusterHostsMetadata {
@@ -555,8 +554,10 @@ message HostSpec {
 message ConfigSpec {
   // Version of PostgreSQL used in the cluster.
   // Possible values:
-  // * 10
   // * 9.6
+  // * 10
+  // * 11
+
   string version = 1;
 
   // Configuration of a PostgreSQL cluster.
@@ -566,6 +567,9 @@ message ConfigSpec {
 
     // Configuration for a PostgreSQL 10 cluster.
     config.PostgresqlConfig10 postgresql_config_10 = 3;
+
+    // Configuration for a PostgreSQL 11 cluster.
+    config.PostgresqlConfig11 postgresql_config_11 = 7;
   }
 
   // Configuration of the connection pooler.
@@ -585,5 +589,8 @@ message ConfigHostSpec {
 
     // Configuration for a host with PostgreSQL 10 server deployed.
     config.PostgresqlHostConfig10 postgresql_config_10 = 2;
+
+    // Configuration for a host with PostgreSQL 11 server deployed.
+    config.PostgresqlHostConfig11 postgresql_config_11 = 3;
   }
 }

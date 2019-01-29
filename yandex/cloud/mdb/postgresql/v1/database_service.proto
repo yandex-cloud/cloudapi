@@ -60,7 +60,7 @@ message GetDatabaseRequest {
 
   // Name of the PostgreSQL Database resource to return.
   // To get the name of the database use a [DatabaseService.List] request.
-  string database_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message ListDatabasesRequest {
@@ -114,7 +114,7 @@ message UpdateDatabaseRequest {
 
   // Required. Name of the database to update.
   // To get the name of the database use a [DatabaseService.List] request.
-  string database_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
   // Field mask that specifies which fields of the Database resource should be updated.
   google.protobuf.FieldMask update_mask = 3;
@@ -141,7 +141,7 @@ message DeleteDatabaseRequest {
 
   // Required. Name of the database to delete.
   // To get the name of the database, use a [DatabaseService.List] request.
-  string database_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message DeleteDatabaseMetadata {

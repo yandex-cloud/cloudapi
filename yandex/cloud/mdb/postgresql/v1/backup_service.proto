@@ -45,7 +45,7 @@ message ListBackupsRequest {
 }
 
 message ListBackupsResponse {
-  // List of Backup resources.
+  // List of PostgreSQL Backup resources.
   repeated Backup backups = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results

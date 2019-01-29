@@ -20,13 +20,11 @@ message Subject {
   // Type of the subject.
   //
   // It can contain one of the following values:
-  // * `system`: System type. It represents several accounts with a common system identifier.
+  // * `system`: System group. This type represents several accounts with a common system identifier.
+  // * `userAccount`: An user account (for example, "alice.the.girl@yandex.ru"). This type represents the [yandex.cloud.iam.v1.UserAccount] resource.
+  // * `serviceAccount`: A service account. This type represents the [yandex.cloud.iam.v1.ServiceAccount] resource.
   //
-  // * `userAccount`: A user account.
-  //    For more information, see [Users](/docs/iam/concepts/users/users).
-  //
-  // * `serviceAccount`: A service account.
-  //    For more information, see [Service accounts](/docs/iam/concepts/users/service-accounts).
+  // For more information, see [Subject to which the role is assigned](/docs/iam/concepts/access-control/#subject).
   string type = 2;
 }
 
@@ -36,11 +34,6 @@ message AccessBinding {
 
   // Identity for which access binding is being created.
   // It can represent an account with a unique ID or several accounts with a system identifier.
-  //
-  // It can contain one of the following sets of parameters:
-  // * `type = system`, `id = allAuthenticatedUsers`.
-  // * `type = userAccount`, `id = <cloud generated id>`.
-  // * `type = serviceAccount`, `id = <cloud generated id>`.
   Subject subject = 2 [(required) = true];
 }
 
@@ -83,7 +76,7 @@ message SetAccessBindingsRequest {
   // To get the resource ID, use a corresponding List request.
   string resource_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Access bindings to be set.
+  // Access bindings to be set. For more information, see [Access Bindings](/docs/iam/concepts/access-control/#access-bindings).
   repeated AccessBinding access_bindings = 2 [(required) = true];
 }
 
@@ -106,7 +99,6 @@ message UpdateAccessBindingsMetadata {
 }
 
 enum AccessBindingAction {
-  // Unspecified.
   ACCESS_BINDING_ACTION_UNSPECIFIED = 0;
 
   // Addition of an access binding.
@@ -120,6 +112,6 @@ message AccessBindingDelta {
   // The action that is being performed on an access binding.
   AccessBindingAction action = 1 [(required) = true];
 
-  // Access binding. For more information, see [Access Bindings](/docs/resource-manager/concepts/resources-hierarchy).
+  // Access binding. For more information, see [Access Bindings](/docs/iam/concepts/access-control/#access-bindings).
   AccessBinding access_binding = 2 [(required) = true];
 }

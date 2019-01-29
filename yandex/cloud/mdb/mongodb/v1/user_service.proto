@@ -78,7 +78,7 @@ message GetUserRequest {
 
   // Name of the MongoDB User resource to return.
   // To get the name of the user, use a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 }
 
 message ListUsersRequest {
@@ -132,7 +132,7 @@ message UpdateUserRequest {
 
   // Name of the user to be updated.
   // To get the name of the user, use a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 
   // Field mask that specifies which fields of the MongoDB User resource should be updated.
   google.protobuf.FieldMask update_mask = 3;
@@ -159,7 +159,7 @@ message DeleteUserRequest {
 
   // Name of the user to delete.
   // To get the name of the user use a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 }
 
 message DeleteUserMetadata {
@@ -177,7 +177,7 @@ message GrantUserPermissionRequest {
 
   // Name of the user to grant the permission to.
   // To get the name of the user, use a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 
   // Permission that should be granted to the specified user.
   Permission permission = 3 [(required) = true];
@@ -199,10 +199,10 @@ message RevokeUserPermissionRequest {
 
   // Name of the user to revoke a permission from.
   // To get the name of the user, use a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 
   // Name of the database that the user should lose access to.
-  string database_name = 3 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string database_name = 3 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message RevokeUserPermissionMetadata {

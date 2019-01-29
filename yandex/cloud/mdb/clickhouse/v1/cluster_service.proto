@@ -5,6 +5,7 @@ package yandex.cloud.mdb.clickhouse.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -114,6 +115,43 @@ service ClusterService {
       response: "google.protobuf.Empty"
     };
   }
+
+  // Returns the specified shard.
+  rpc GetShard (GetClusterShardRequest) returns (Shard) {
+    option (google.api.http) = { get: "/mdb/clickhouse/v1/clusters/{cluster_id}/shards/{shard_name}" };
+  }
+
+  // Retrieves a list of shards.
+  rpc ListShards (ListClusterShardsRequest) returns (ListClusterShardsResponse) {
+    option (google.api.http) = { get: "/mdb/clickhouse/v1/clusters/{cluster_id}/shards" };
+  }
+
+  // Creates a new shard.
+  rpc AddShard (AddClusterShardRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/mdb/clickhouse/v1/clusters/{cluster_id}/shards" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "AddClusterShardMetadata"
+      response: "Shard"
+    };
+  }
+
+  // Modifies the specified shard.
+  rpc UpdateShard (UpdateClusterShardRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/mdb/clickhouse/v1/clusters/{cluster_id}/shards/{shard_name}" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "UpdateClusterShardMetadata"
+      response: "Shard"
+    };
+  }
+
+  // Deletes the specified shard.
+  rpc DeleteShard (DeleteClusterShardRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/mdb/clickhouse/v1/clusters/{cluster_id}/shards/{shard_name}" };
+    option (yandex.api.operation) = {
+      metadata: "DeleteClusterShardMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
 }
 
 message GetClusterRequest {
@@ -140,7 +178,7 @@ message ListClustersRequest {
   // The expression must specify:
   // 1. The field name. Currently you can only use filtering with the [Cluster.name] field.
   // 2. An operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
-  // 3. The value. Мust be 3-63 characters long and match the regular expression `^[a-z]([-a-z0-9]{,61}[a-z0-9])?$`.
+  // 3. The value. Мust be 1-63 characters long and match the regular expression `^[a-zA-Z0-9_-]+$`.
   string filter = 4 [(length) = "<=1000"];
 }
 
@@ -160,14 +198,14 @@ message CreateClusterRequest {
   string folder_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the ClickHouse cluster. The name must be unique within the folder.
-  string name = 2 [(required) = true, (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
-  // Description of the ClickHouse cluster. 0-256 characters long.
+  // Description of the ClickHouse cluster.
   string description = 3 [(length) = "<=256"];
 
   // Custom labels for the ClickHouse cluster as `` key:value `` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
-  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Deployment environment of the ClickHouse cluster.
   Cluster.Environment environment = 5 [(required) = true];
@@ -186,6 +224,9 @@ message CreateClusterRequest {
 
   // ID of the network to create the cluster in.
   string network_id = 10 [(required) = true, (length) = "<=50"];
+
+  // Name of the first shard in cluster. If not set, it defaults to the value 'shard1'.
+  string shard_name = 11 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message CreateClusterMetadata {
@@ -201,7 +242,7 @@ message UpdateClusterRequest {
   // Field mask that specifies which fields of the ClickHouse Cluster resource should be updated.
   google.protobuf.FieldMask update_mask = 2;
 
-  // New description of the ClickHouse cluster. 0-256 characters long.
+  // New description of the ClickHouse cluster.
   string description = 3 [(length) = "<=256"];
 
   // Custom labels for the ClickHouse cluster as `` key:value `` pairs. Maximum 64 per resource.
@@ -209,7 +250,7 @@ message UpdateClusterRequest {
   //
   // The new set of labels will completely replace the old ones. To add a label, request the current
   // set with the [ClusterService.Get] method, then send an [ClusterService.Update] request with the new label added to the set.
-  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // New configuration and resources for hosts in the cluster.
   ConfigSpec config_spec = 5;
@@ -248,14 +289,14 @@ message RestoreClusterRequest {
   string backup_id = 1 [(required) = true];
 
   // Name of the new ClickHouse cluster. The name must be unique within the folder.
-  string name = 2 [(required) = true, (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
-  // Description of the new ClickHouse cluster. 0-256 characters long.
+  // Description of the new ClickHouse cluster.
   string description = 3 [(length) = "<=256"];
 
   // Custom labels for the ClickHouse cluster as `` key:value `` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
-  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Deployment environment of the new ClickHouse cluster.
   Cluster.Environment environment = 5 [(required) = true];
@@ -444,6 +485,70 @@ message DeleteClusterHostsMetadata {
   repeated string host_names = 2;
 }
 
+message GetClusterShardRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+}
+
+message ListClusterShardsRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  int64 page_size = 2 [(value) = "0-1000"];
+
+  string page_token = 3 [(length) = "<=100"];
+}
+
+message ListClusterShardsResponse {
+  repeated Shard shards = 1;
+
+  string next_page_token = 2;
+}
+
+message AddClusterShardRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  ShardConfigSpec config_spec = 3;
+
+  repeated HostSpec host_specs = 4 [(size) = ">0"];
+}
+
+message AddClusterShardMetadata {
+  string cluster_id = 1;
+
+  string shard_name = 2;
+}
+
+message UpdateClusterShardRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  google.protobuf.FieldMask update_mask = 3;
+
+  ShardConfigSpec config_spec = 4;
+}
+
+message UpdateClusterShardMetadata {
+  string cluster_id = 1;
+
+  string shard_name = 2;
+}
+
+message DeleteClusterShardRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+}
+
+message DeleteClusterShardMetadata {
+  string cluster_id = 1;
+
+  string shard_name = 2;
+}
+
 message HostSpec {
   // ID of the availability zone where the host resides.
   // To get a list of available zones, use the [yandex.cloud.compute.v1.ZoneService.List] request.
@@ -466,6 +571,8 @@ message HostSpec {
   // * false — don't assign a public IP to the host.
   // * true — the host should have a public IP address.
   bool assign_public_ip = 4;
+
+  string shard_name = 5 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message ConfigSpec {
@@ -487,4 +594,16 @@ message ConfigSpec {
 
   // Configuration and resources for a ZooKeeper server.
   Zookeeper zookeeper = 2;
+}
+
+message ShardConfigSpec {
+  message Clickhouse {
+    config.ClickhouseConfig config = 1;
+
+    Resources resources = 2;
+
+    google.protobuf.Int64Value weight = 3;
+  }
+
+  Clickhouse clickhouse = 1;
 }

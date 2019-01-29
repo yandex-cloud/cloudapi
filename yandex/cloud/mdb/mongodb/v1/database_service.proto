@@ -50,7 +50,7 @@ message GetDatabaseRequest {
 
   // Name of the MongoDB Database resource to return.
   // To get the name of the database use a [DatabaseService.List] request.
-  string database_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message ListDatabasesRequest {
@@ -104,7 +104,7 @@ message DeleteDatabaseRequest {
 
   // Name of the database to delete.
   // To get the name of the database, use a [DatabaseService.List] request.
-  string database_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message DeleteDatabaseMetadata {

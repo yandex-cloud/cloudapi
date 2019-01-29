@@ -9,7 +9,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgr
 
 // Options and structure of `PostgresqlHostConfig` reflects parameters of a PostgreSQL
 // configuration file. Detailed description is available in
-// [PostgreSQL documentation](https://www.postgresql.org/docs/9.6/static/runtime-config.html).
+// [PostgreSQL documentation](https://www.postgresql.org/docs/9.6/runtime-config.html).
 message PostgresqlHostConfig9_6 {
 
   enum ConstraintExclusion {
@@ -144,7 +144,7 @@ message PostgresqlHostConfig9_6 {
 
   google.protobuf.Int64Value old_snapshot_threshold = 8 [(value) = "-1-86400"];
 
-  google.protobuf.Int64Value max_standby_streaming_delay = 9;
+  google.protobuf.Int64Value max_standby_streaming_delay = 9; // in milliseconds.
 
   ConstraintExclusion constraint_exclusion = 10;
 

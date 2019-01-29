@@ -7,8 +7,8 @@ import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
 
-// A PostgreSQL User resource. For more information, see 
-// the [Developer's Guide](/docs/mdb/concepts).
+// A PostgreSQL User resource. For more information, see
+// the [Developer's Guide](/docs/managed-postgresql/concepts).
 message User {
   // Name of the PostgreSQL user.
   string name = 1;
@@ -21,6 +21,9 @@ message User {
 
   // Number of database connections available to the user.
   int64 conn_limit = 4;
+
+  // Postgresql settings for this user
+  UserSettings settings = 5;
 }
 
 message Permission {
@@ -30,7 +33,7 @@ message Permission {
 
 message UserSpec {
   // Name of the PostgreSQL user.
-  string name = 1 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]+"];
+  string name = 1 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 
   // Password of the PostgreSQL user.
   string password = 2 [(required) = true, (length) = "8-128"];
@@ -40,5 +43,62 @@ message UserSpec {
 
   // Number of database connections that should be available to the user.
   google.protobuf.Int64Value conn_limit = 4 [(value) = ">=10"];
+
+  // Postgresql settings for this user
+  UserSettings settings = 5;
 }
 
+// Postgresql user settings config
+message UserSettings {
+
+  enum SynchronousCommit {
+    SYNCHRONOUS_COMMIT_UNSPECIFIED = 0;
+
+    SYNCHRONOUS_COMMIT_ON = 1;
+
+    SYNCHRONOUS_COMMIT_OFF = 2;
+
+    SYNCHRONOUS_COMMIT_LOCAL = 3;
+
+    SYNCHRONOUS_COMMIT_REMOTE_WRITE = 4;
+
+    SYNCHRONOUS_COMMIT_REMOTE_APPLY = 5;
+  }
+
+  enum LogStatement {
+    LOG_STATEMENT_UNSPECIFIED = 0;
+
+    LOG_STATEMENT_NONE = 1;
+
+    LOG_STATEMENT_DDL = 2;
+
+    LOG_STATEMENT_MOD = 3;
+
+    LOG_STATEMENT_ALL = 4;
+  }
+
+  enum TransactionIsolation {
+    TRANSACTION_ISOLATION_UNSPECIFIED = 0;
+
+    TRANSACTION_ISOLATION_READ_UNCOMMITTED = 1;
+
+    TRANSACTION_ISOLATION_READ_COMMITTED = 2;
+
+    TRANSACTION_ISOLATION_REPEATABLE_READ = 3;
+
+    TRANSACTION_ISOLATION_SERIALIZABLE = 4;
+  }
+
+  TransactionIsolation default_transaction_isolation = 1;
+
+  // in milliseconds.
+  google.protobuf.Int64Value lock_timeout = 2;
+
+  // in milliseconds.
+  google.protobuf.Int64Value log_min_duration_statement = 3;
+
+  SynchronousCommit synchronous_commit = 4;
+
+  // in bytes.
+  google.protobuf.Int64Value temp_file_limit = 5;
+}

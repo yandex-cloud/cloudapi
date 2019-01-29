@@ -187,13 +187,13 @@ message PostgresqlConfig9_6 {
 
   google.protobuf.Int64Value backend_flush_after = 19 [(value) = "0-2048"];
 
-  google.protobuf.Int64Value old_snapshot_threshold = 20 [(value) = "-1-86400"];
+  google.protobuf.Int64Value old_snapshot_threshold = 20 [(value) = "-1-86400000"];
 
   WalLevel wal_level = 21;
 
   SynchronousCommit synchronous_commit = 22;
 
-  google.protobuf.Int64Value checkpoint_timeout = 23 [(value) = "30-86400"]; // in milliseconds.
+  google.protobuf.Int64Value checkpoint_timeout = 23 [(value) = "30000-86400000"]; // in milliseconds.
 
   google.protobuf.DoubleValue checkpoint_completion_target = 24; // Acceptable values are 0.0 to 1.0, inclusive.
 
@@ -295,6 +295,14 @@ message PostgresqlConfig9_6 {
 
   // This option has been removed in PostgreSQL 10.
   google.protobuf.BoolValue sql_inheritance = 73;
+
+  google.protobuf.Int64Value autovacuum_max_workers = 74 [(value) = "1-32"];
+
+  google.protobuf.Int64Value autovacuum_vacuum_cost_delay = 75 [(value) = "-1-100"];
+
+  google.protobuf.Int64Value autovacuum_vacuum_cost_limit = 76 [(value) = "-1-10000"];
+
+  google.protobuf.Int64Value autovacuum_naptime = 77 [(value) = "1000-86400000"]; // in milliseconds.
 }
 
 message PostgresqlConfigSet9_6 {

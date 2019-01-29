@@ -6,8 +6,8 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
 
-// A PostgreSQL Backup resource. For more information, see 
-// the [Developer's Guide](/docs/mdb/concepts).
+// A PostgreSQL Backup resource. For more information, see
+// the [Developer's Guide](/docs/managed-postgresql/concepts/backup).
 message Backup {
   // ID of the backup.
   string id = 1;

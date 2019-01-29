@@ -6,7 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/iam/v1;iam";
 
-// A Key resource. For more information, see [Keys](/docs/iam/concepts/users/service-accounts#keys).
+// A Key resource. For more information, see [Authorized keys](/docs/iam/concepts/authorization/key).
 message Key {
   enum Algorithm {
     ALGORITHM_UNSPECIFIED = 0;
