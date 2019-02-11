@@ -49,11 +49,11 @@ message DatabaseSpec {
 
   // POSIX locale for string sorting order.
   // Can only be set at creation time.
-  string lc_collate = 3 [(pattern) = "[a-zA-Z_]+.UTF-8|C"];
+  string lc_collate = 3 [(pattern) = "|[a-zA-Z_]+.UTF-8|C"];
 
   // POSIX locale for character classification.
   // Can only be set at creation time.
-  string lc_ctype = 4 [(pattern) = "[a-zA-Z_]+.UTF-8|C"];
+  string lc_ctype = 4 [(pattern) = "|[a-zA-Z_]+.UTF-8|C"];
 
   // PostgreSQL extensions to be enabled for the database.
   repeated Extension extensions = 5;

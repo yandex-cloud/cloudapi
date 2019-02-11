@@ -133,6 +133,9 @@ message CreateSubnetRequest {
 
   // IPv6 not available yet.
   repeated string v6_cidr_blocks = 8;
+
+  // ID of route table the subnet is linked to.
+  string route_table_id = 9 [(length) = "<=50"];
 }
 
 message CreateSubnetMetadata {
@@ -156,6 +159,9 @@ message UpdateSubnetRequest {
 
   // Resource labels as `` key:value `` pairs.
   map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+
+  // ID of route table the subnet is linked to.
+  string route_table_id = 6 [(length) = "<=50"];
 }
 
 message UpdateSubnetMetadata {

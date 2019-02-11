@@ -64,6 +64,24 @@ service ClusterService {
     };
   }
 
+  // Start the specified PostgreSQL cluster.
+  rpc Start (StartClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/mdb/postgresql/v1/clusters/{cluster_id}:start" };
+    option (yandex.api.operation) = {
+      metadata: "StartClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
+  // Stop the specified PostgreSQL cluster.
+  rpc Stop (StopClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/mdb/postgresql/v1/clusters/{cluster_id}:stop" };
+    option (yandex.api.operation) = {
+      metadata: "StopClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
   // Creates a backup for the specified PostgreSQL cluster.
   rpc Backup (BackupClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-postgresql/v1/clusters/{cluster_id}:backup" };
@@ -247,6 +265,26 @@ message DeleteClusterRequest {
 
 message DeleteClusterMetadata {
   // ID of the PostgreSQL cluster that is being deleted.
+  string cluster_id = 1;
+}
+
+message StartClusterRequest {
+  // Required. ID of the PostgreSQL cluster to start.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message StartClusterMetadata {
+  // Required. ID of the PostgreSQL cluster.
+  string cluster_id = 1;
+}
+
+message StopClusterRequest {
+  // Required. ID of the PostgreSQL cluster to stop.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message StopClusterMetadata {
+  // Required. ID of the PostgreSQL cluster.
   string cluster_id = 1;
 }
 

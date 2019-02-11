@@ -41,4 +41,7 @@ message Subnet {
 
   // IPv6 not available yet.
   repeated string v6_cidr_blocks = 11;
+
+  // ID of route table the subnet is linked to.
+  string route_table_id = 12;
 }

@@ -52,6 +52,18 @@ message Cluster {
 
     // Cluster encountered a problem and cannot operate.
     ERROR = 3;
+
+    // Cluster is being updated.
+    UPDATING = 4;
+
+    // Cluster is stopping.
+    STOPPING = 5;
+
+    // Cluster stopped.
+    STOPPED = 6;
+
+    // Cluster is starting.
+    STARTING = 7;
   }
 
   // ID of the ClickHouse cluster.

@@ -167,7 +167,7 @@ message ClickhouseConfig {
         // Default value for an element without data (for example, an empty string).
         string null_value = 3;
 
-        // Expression, describing the attribute, if appicable.
+        // Expression, describing the attribute, if applicable.
         string expression = 4;
 
         // Indication of hierarchy support.

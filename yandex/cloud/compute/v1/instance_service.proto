@@ -53,6 +53,14 @@ service InstanceService {
     };
   }
 
+  rpc UpdateMetadata (UpdateInstanceMetadataRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instances/{instance_id}/updateMetadata" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "UpdateInstanceMetadataMetadata"
+      response: "Instance"
+    };
+  }
+
   // Returns the serial port output of the specified Instance resource.
   rpc GetSerialPortOutput (GetInstanceSerialPortOutputRequest) returns (GetInstanceSerialPortOutputResponse) {
     option (google.api.http) = { get: "/compute/v1/instances/{instance_id}:serialPortOutput" };
@@ -290,6 +298,16 @@ message DeleteInstanceRequest {
 
 message DeleteInstanceMetadata {
   // ID of the instance that is being deleted.
+  string instance_id = 1;
+}
+
+message UpdateInstanceMetadataRequest {
+  string instance_id = 1;
+  repeated string delete = 2;
+  map<string, string> upsert = 3;
+}
+
+message UpdateInstanceMetadataMetadata {
   string instance_id = 1;
 }
 
