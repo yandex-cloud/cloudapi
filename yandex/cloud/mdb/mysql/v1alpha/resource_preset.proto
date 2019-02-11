@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.mysql.v1alpha;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mysql/v1alpha;mysql";
+
+message ResourcePreset {
+  string id = 1;
+
+  repeated string zone_ids = 2;
+
+  int64 cores = 3;
+
+  int64 memory = 4;
+}
