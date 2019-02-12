@@ -32,15 +32,6 @@ service DatabaseService {
     };
   }
 
-  // Modifies the specified MySQL database.
-  rpc Update (UpdateDatabaseRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/managed-mysql/v1alpha/clusters/{cluster_id}/databases/{database_name}" body: "*" };
-    option (yandex.api.operation) = {
-      metadata: "UpdateDatabaseMetadata"
-      response: "Database"
-    };
-  }
-
   // Deletes the specified MySQL database.
   rpc Delete (DeleteDatabaseRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/managed-mysql/v1alpha/clusters/{cluster_id}/databases/{database_name}" };
@@ -99,24 +90,6 @@ message CreateDatabaseMetadata {
   string cluster_id = 1;
 
   // Required. Name of the creating database.
-  string database_name = 2;
-}
-
-message UpdateDatabaseRequest {
-  // Required. ID of the MySQL cluster.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
-
-  // Required. Name of the database to modify.
-  string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
-
-  google.protobuf.FieldMask update_mask = 3;
-}
-
-message UpdateDatabaseMetadata {
-  // Required. ID of the MySQL cluster.
-  string cluster_id = 1;
-
-  // Required. Name of the database.
   string database_name = 2;
 }
 
