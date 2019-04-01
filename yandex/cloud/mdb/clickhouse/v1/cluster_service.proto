@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
+import "google/type/timeofday.proto";
 import "yandex/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -61,7 +62,7 @@ service ClusterService {
 
   // Start the specified ClickHouse cluster.
   rpc Start (StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/clickhouse/v1/clusters/{cluster_id}:start" };
+    option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}:start" };
     option (yandex.api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
@@ -70,9 +71,18 @@ service ClusterService {
 
   // Stop the specified ClickHouse cluster.
   rpc Stop (StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/clickhouse/v1/clusters/{cluster_id}:stop" };
+    option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}:stop" };
     option (yandex.api.operation) = {
       metadata: "StopClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
+  // Moves the specified ClickHouse cluster to the specified folder.
+  rpc Move (MoveClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}:move" };
+    option (yandex.api.operation) = {
+      metadata: "MoveClusterMetadata"
       response: "Cluster"
     };
   }
@@ -136,17 +146,17 @@ service ClusterService {
 
   // Returns the specified shard.
   rpc GetShard (GetClusterShardRequest) returns (Shard) {
-    option (google.api.http) = { get: "/mdb/clickhouse/v1/clusters/{cluster_id}/shards/{shard_name}" };
+    option (google.api.http) = { get: "/managed-clickhouse/v1/clusters/{cluster_id}/shards/{shard_name}" };
   }
 
   // Retrieves a list of shards.
   rpc ListShards (ListClusterShardsRequest) returns (ListClusterShardsResponse) {
-    option (google.api.http) = { get: "/mdb/clickhouse/v1/clusters/{cluster_id}/shards" };
+    option (google.api.http) = { get: "/managed-clickhouse/v1/clusters/{cluster_id}/shards" };
   }
 
   // Creates a new shard.
   rpc AddShard (AddClusterShardRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/clickhouse/v1/clusters/{cluster_id}/shards" body: "*" };
+    option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}/shards" body: "*" };
     option (yandex.api.operation) = {
       metadata: "AddClusterShardMetadata"
       response: "Shard"
@@ -155,7 +165,7 @@ service ClusterService {
 
   // Modifies the specified shard.
   rpc UpdateShard (UpdateClusterShardRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/mdb/clickhouse/v1/clusters/{cluster_id}/shards/{shard_name}" body: "*" };
+    option (google.api.http) = { patch: "/managed-clickhouse/v1/clusters/{cluster_id}/shards/{shard_name}" body: "*" };
     option (yandex.api.operation) = {
       metadata: "UpdateClusterShardMetadata"
       response: "Shard"
@@ -164,7 +174,7 @@ service ClusterService {
 
   // Deletes the specified shard.
   rpc DeleteShard (DeleteClusterShardRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/mdb/clickhouse/v1/clusters/{cluster_id}/shards/{shard_name}" };
+    option (google.api.http) = { delete: "/managed-clickhouse/v1/clusters/{cluster_id}/shards/{shard_name}" };
     option (yandex.api.operation) = {
       metadata: "DeleteClusterShardMetadata"
       response: "google.protobuf.Empty"
@@ -308,6 +318,22 @@ message StopClusterRequest {
 message StopClusterMetadata {
   // Required. ID of the ClickHouse cluster.
   string cluster_id = 1;
+}
+
+message MoveClusterRequest {
+  // ID of the ClickHouse cluster to move.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the destination folder.
+  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message MoveClusterMetadata {
+  // ID of the ClickHouse cluster being moved.
+  string cluster_id = 1;
+  // ID of the source folder.
+  string source_folder_id = 2;
+  // ID of the destnation folder.
+  string destination_folder_id = 3;
 }
 
 message BackupClusterRequest {
@@ -623,15 +649,21 @@ message ConfigSpec {
   }
 
   message Zookeeper {
-    // Resources allocated to ZooKeeper hosts.
+    // Resources allocated to ZooKeeper hosts. If not set, minimal available resources will be used.
     Resources resources = 1;
   }
+
+  // Version of the ClickHouse server software.
+  string version = 3;
 
   // Configuration and resources for a ClickHouse server.
   Clickhouse clickhouse = 1;
 
   // Configuration and resources for a ZooKeeper server.
   Zookeeper zookeeper = 2;
+
+  // Start time for the daily backup in UTC timezone
+  google.type.TimeOfDay backup_window_start = 4;
 }
 
 message ShardConfigSpec {

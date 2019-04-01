@@ -100,6 +100,66 @@ message MongodConfig3_6 {
   Network net = 3;
 }
 
+message MongoCfgConfig3_6 {
+  message Storage {
+    // Configuration of WiredTiger storage engine.
+    message WiredTiger {
+      message EngineConfig {
+        // The maximum size of the internal cache that WiredTiger will use for all data.
+        google.protobuf.DoubleValue cache_size_gb = 1;
+      }
+
+      // Engine configuration for WiredTiger.
+      EngineConfig engine_config = 1;
+    }
+
+    // Configuration of the WiredTiger storage engine.
+    WiredTiger wired_tiger = 1;
+  }
+
+  message OperationProfiling {
+    enum Mode {
+      MODE_UNSPECIFIED = 0;
+
+      OFF = 1;
+
+      SLOW_OP = 2;
+
+      ALL = 3;
+    }
+
+    Mode mode = 1;
+
+    // The slow operation time threshold, in milliseconds. Operations that run
+    // for longer than this threshold are considered slow.
+    google.protobuf.Int64Value slow_op_threshold = 2  [(value) = ">0"];
+  }
+
+  message Network {
+    // The maximum number of incoming connections.
+    google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-16384"];
+  }
+
+  // `storage` section of mongocfg configuration.
+  Storage storage = 1;
+
+  // `operationProfiling` section of mongocfg configuration.
+  OperationProfiling operation_profiling = 2;
+
+  // `net` section of mongocfg configuration.
+  Network net = 3;
+
+}
+
+message MongosConfig3_6 {
+  message Network {
+    // The maximum number of incoming connections.
+    google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-16384"];
+  }
+
+  Network net = 1;
+}
+
 message MongodConfigSet3_6 {
   // Effective settings for a MongoDB 3.6 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
@@ -110,4 +170,27 @@ message MongodConfigSet3_6 {
 
   // Default configuration for a MongoDB 3.6 cluster.
   MongodConfig3_6 default_config = 3;
+}
+
+message MongoCfgConfigSet3_6 {
+  // Effective settings for a MongoDB 3.6 cluster (a combination of settings defined
+  // in [user_config] and [default_config]).
+  MongoCfgConfig3_6 effective_config = 1;
+
+  // User-defined settings for a MongoDB 3.6 cluster.
+  MongoCfgConfig3_6 user_config = 2;
+
+  MongoCfgConfig3_6 default_config = 3;
+}
+
+message MongosConfigSet3_6 {
+  // Effective settings for a MongoDB 3.6 cluster (a combination of settings defined
+  // in [user_config] and [default_config]).
+  MongosConfig3_6 effective_config = 1;
+
+  // User-defined settings for a MongoDB 3.6 cluster.
+  MongosConfig3_6 user_config = 2;
+
+  // Default configuration for a MongoDB 3.6 cluster.
+  MongosConfig3_6 default_config = 3;
 }

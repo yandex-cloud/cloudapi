@@ -53,6 +53,7 @@ service InstanceService {
     };
   }
 
+  // Updates the metadata of the specified instance.
   rpc UpdateMetadata (UpdateInstanceMetadataRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instances/{instance_id}/updateMetadata" body: "*" };
     option (yandex.api.operation) = {
@@ -185,7 +186,7 @@ message CreateInstanceRequest {
   // Description of the instance.
   string description = 3 [(length) = "<=256"];
 
-  // Resource labels as `` key:value `` pairs.
+  // Resource labels as `key:value` pairs.
   map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // ID of the availability zone where the instance resides.
@@ -204,7 +205,7 @@ message CreateInstanceRequest {
   // To get a list of available values, see [Computing resources](/docs/compute/concepts/vm-types).
   ResourcesSpec resources_spec = 7 [(required) = true];
 
-  // The metadata `` key:value `` pairs that will be assigned to this instance. This includes custom metadata and predefined keys.
+  // The metadata `key:value` pairs that will be assigned to this instance. This includes custom metadata and predefined keys.
   // The total size of all keys and values must be less than 512 KB.
   //
   // Values are free-form strings, and only have meaning as interpreted by the programs which configure the instance.
@@ -234,6 +235,8 @@ message CreateInstanceRequest {
 
   // Scheduling policy configuration.
   SchedulingPolicy scheduling_policy = 13;
+
+  string service_account_id = 14;
 }
 
 message CreateInstanceMetadata {
@@ -255,9 +258,9 @@ message UpdateInstanceRequest {
   // Description of the instance.
   string description = 4 [(length) = "<=256"];
 
-  // Resource labels as `` key:value `` pairs.
+  // Resource labels as `key:value` pairs.
   //
-  // Existing set of `` labels `` is completely replaced by the provided set.
+  // Existing set of `labels` is completely replaced by the provided set.
   map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // ID of the hardware platform configuration for the instance.
@@ -272,10 +275,10 @@ message UpdateInstanceRequest {
   // To get a list of available values, see [Computing resources](/docs/compute/concepts/vm-types).
   ResourcesSpec resources_spec = 7;
 
-  // The metadata `` key:value `` pairs that will be assigned to this instance. This includes custom metadata and predefined keys.
+  // The metadata `key:value` pairs that will be assigned to this instance. This includes custom metadata and predefined keys.
   // The total size of all keys and values must be less than 512 KB.
   //
-  // Existing set of `` metadata `` is completely replaced by the provided set.
+  // Existing set of `metadata` is completely replaced by the provided set.
   //
   // Values are free-form strings, and only have meaning as interpreted by the programs which configure the instance.
   // The only restriction placed on values is that their size must be 256 KB or less.
@@ -302,12 +305,18 @@ message DeleteInstanceMetadata {
 }
 
 message UpdateInstanceMetadataRequest {
+  // ID of the instance that is being updated.
   string instance_id = 1;
+
+  // List of keys to be deleted.
   repeated string delete = 2;
+
+  // The metadata `key:value` pairs that will be added or updated to this instance.
   map<string, string> upsert = 3;
 }
 
 message UpdateInstanceMetadataMetadata {
+  // ID of the instance that is being updated.
   string instance_id = 1;
 }
 
@@ -355,8 +364,6 @@ message RestartInstanceMetadata {
   // ID of the instance.
   string instance_id = 1;
 }
-
-// disks
 
 message AttachInstanceDiskRequest {
   // ID of the instance to attach the disk to.
@@ -425,8 +432,6 @@ message ListInstanceOperationsResponse {
   string next_page_token = 2;
 }
 
-// specs
-
 message ResourcesSpec {
   // The amount of memory available to the instance, specified in bytes.
   int64 memory = 1 [(required) = true, (value) = "<=274877906944"];
@@ -438,7 +443,7 @@ message ResourcesSpec {
   // This field sets baseline performance for each core.
   //
   // For example, if you need only 5% of the CPU performance, you can set core_fraction=5.
-  // For more information, see [documentation](/docs/compute/concepts/vm-types#burstable-cores).
+  // For more information, see [documentation](/docs/compute/concepts/vm-types#light-vms).
   int64 core_fraction = 3 [(value) = "0,5,100"];
 }
 

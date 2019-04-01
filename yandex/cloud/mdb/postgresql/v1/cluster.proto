@@ -4,6 +4,7 @@ package yandex.cloud.mdb.postgresql.v1;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
+import "google/type/timeofday.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql10.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql11.proto";
@@ -146,6 +147,9 @@ message ClusterConfig {
 
   // Configuration setting which enables/disables autofailover in cluster.
   google.protobuf.BoolValue autofailover = 6;
+
+  // Start time for the daily backup in UTC timezone
+  google.type.TimeOfDay backup_window_start = 7;
 }
 
 message ConnectionPoolerConfig {

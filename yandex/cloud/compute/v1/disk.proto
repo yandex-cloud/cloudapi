@@ -33,7 +33,6 @@ message Disk {
   // ID of the folder that the disk belongs to.
   string folder_id = 2;
 
-  // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
   google.protobuf.Timestamp created_at = 3;
 
   // Name of the disk. 1-63 characters long.
@@ -42,7 +41,7 @@ message Disk {
   // Description of the disk. 0-256 characters long.
   string description = 5;
 
-  // Resource labels as `` key:value `` pairs. Maximum of 64 per resource.
+  // Resource labels as `key:value` pairs. Maximum of 64 per resource.
   map<string, string> labels = 6;
 
   // ID of the disk type.

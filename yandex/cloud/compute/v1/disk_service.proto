@@ -119,7 +119,7 @@ message CreateDiskRequest {
   // Description of the disk.
   string description = 3 [(length) = "<=256"];
 
-  // Resource labels as `` key:value `` pairs.
+  // Resource labels as `key:value` pairs.
   map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // ID of the disk type.
@@ -163,9 +163,9 @@ message UpdateDiskRequest {
   // Description of the disk.
   string description = 4 [(length) = "<=256"];
 
-  // Resource labels as `` key:value `` pairs.
+  // Resource labels as `key:value` pairs.
   //
-  // Existing set of `` labels `` is completely replaced by the provided set.
+  // Existing set of `labels` is completely replaced by the provided set.
   map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Size of the disk, specified in bytes.

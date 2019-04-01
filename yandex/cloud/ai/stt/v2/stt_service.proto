@@ -2,17 +2,50 @@ syntax = "proto3";
 
 package yandex.cloud.ai.stt.v2;
 
+import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
+import "yandex/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/stt/v2;stt";
 
 service SttService {
+  rpc LongRunningRecognize (LongRunningRecognitionRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/speech/stt/v2/longRunningRecognize" body: "*" };
+    option (yandex.api.operation) = {
+      response: "LongRunningRecognitionResponse"
+    };
+  }
+
   rpc StreamingRecognize (stream StreamingRecognitionRequest) returns (stream StreamingRecognitionResponse) {
   }
+}
+
+message LongRunningRecognitionRequest {
+  RecognitionConfig config = 1;
+  RecognitionAudio audio = 2;
+}
+
+message LongRunningRecognitionResponse {
+  repeated SpeechRecognitionResult chunks = 1;
 }
 
 message StreamingRecognitionRequest {
   oneof streaming_request {
     RecognitionConfig config = 1;
     bytes audio_content = 2;
+  }
+}
+
+message StreamingRecognitionResponse {
+  repeated SpeechRecognitionChunk chunks = 1;
+  bool end_of_single_utterance = 2;
+}
+
+message RecognitionAudio {
+  oneof audio_source {
+    bytes content = 1;
+    string uri = 2;
   }
 }
 
@@ -44,13 +77,13 @@ message RecognitionSpec {
 
   // If set true, tentative hypotheses may be returned as they become available (final=false flag)
   // If false or omitted, only final=true result(s) are returned.
+  // Makes sense only for StreamingRecognize requests.
   bool partial_results = 7;
-  bool single_utterance = 8;
-}
 
-message StreamingRecognitionResponse {
-  repeated SpeechRecognitionChunk chunks = 1;
-  bool end_of_single_utterance = 2;
+  bool single_utterance = 8;
+
+  // Used only for long running recognize.
+  int64 audio_channel_count = 9;
 }
 
 message SpeechRecognitionChunk {
@@ -58,7 +91,20 @@ message SpeechRecognitionChunk {
   bool final = 2;
 }
 
+message SpeechRecognitionResult {
+  repeated SpeechRecognitionAlternative alternatives = 1;
+  int64 channel_tag = 2;
+}
+
 message SpeechRecognitionAlternative {
   string text = 1;
   float confidence = 2;
+  repeated WordInfo words = 3;
+}
+
+message WordInfo {
+  google.protobuf.Duration start_time = 1;
+  google.protobuf.Duration end_time = 2;
+  string word = 3;
+  float confidence = 4;
 }

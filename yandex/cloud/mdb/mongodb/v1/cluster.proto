@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.mdb.mongodb.v1;
 
 import "google/protobuf/timestamp.proto";
+import "google/type/timeofday.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb3_6.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1;mongodb";
@@ -102,6 +103,9 @@ message Cluster {
 
   // Current state of the cluster.
   Status status = 12;
+
+  // Indicates current sharding status of the cluster.
+  bool sharded = 13;
 }
 
 // Monitoring system.
@@ -125,6 +129,9 @@ message ClusterConfig {
     // Configuration and resource allocation for a MongoDB 3.6 cluster.
     Mongodb3_6 mongodb_3_6 = 2;
   }
+
+  // Start time for the daily backup in UTC timezone
+  google.type.TimeOfDay backup_window_start = 3;
 }
 
 message Mongodb3_6 {
@@ -136,11 +143,40 @@ message Mongodb3_6 {
     Resources resources = 2;
   }
 
+  message MongoCfg {
+    config.MongoCfgConfigSet3_6 config = 1;
+
+    // Resources allocated to mongocfg hosts.
+    Resources resources = 2;
+  }
+
+  message Mongos {
+    config.MongosConfigSet3_6 config = 1;
+
+    // Resources allocated to mongocfg hosts.
+    Resources resources = 2;
+  }
+
   // Configuration and resource allocation for a MongoDB 3.6 cluster.
   Mongod mongod = 1;
+  MongoCfg mongocfg = 2;
+  Mongos mongos = 3;
+}
+
+message Shard {
+  string name = 1;
+
+  string cluster_id = 2;
 }
 
 message Host {
+  enum Type {
+    TYPE_UNSPECIFIED = 0;
+    MONGOD = 1;
+    MONGOS = 2;
+    MONGOCFG = 3;
+  }
+
   enum Role {
 
     // Role of the host in the cluster is unknown.
@@ -197,6 +233,12 @@ message Host {
 
   // Flag showing public IP assignment status to this host.
   bool assign_public_ip = 9;
+
+  // Shard which this host belongs to.
+  string shard_name = 10;
+
+  // Host type
+  Type type = 11;
 }
 
 message Service {

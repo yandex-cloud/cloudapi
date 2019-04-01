@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
+import "google/type/timeofday.proto";
 import "yandex/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -66,7 +67,7 @@ service ClusterService {
 
   // Start the specified PostgreSQL cluster.
   rpc Start (StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/postgresql/v1/clusters/{cluster_id}:start" };
+    option (google.api.http) = { post: "/managed-postgresql/v1/clusters/{cluster_id}:start" };
     option (yandex.api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
@@ -75,9 +76,18 @@ service ClusterService {
 
   // Stop the specified PostgreSQL cluster.
   rpc Stop (StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/postgresql/v1/clusters/{cluster_id}:stop" };
+    option (google.api.http) = { post: "/managed-postgresql/v1/clusters/{cluster_id}:stop" };
     option (yandex.api.operation) = {
       metadata: "StopClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
+  // Moves the specified PostgreSQL cluster to the specified folder.
+  rpc Move (MoveClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-postgresql/v1/clusters/{cluster_id}:move" };
+    option (yandex.api.operation) = {
+      metadata: "MoveClusterMetadata"
       response: "Cluster"
     };
   }
@@ -286,6 +296,22 @@ message StopClusterRequest {
 message StopClusterMetadata {
   // Required. ID of the PostgreSQL cluster.
   string cluster_id = 1;
+}
+
+message MoveClusterRequest {
+  // ID of the PostgreSQL cluster to move.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the destination folder.
+  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message MoveClusterMetadata {
+  // ID of the PostgreSQL cluster being moved.
+  string cluster_id = 1;
+  // ID of the source folder.
+  string source_folder_id = 2;
+  // ID of the destnation folder.
+  string destination_folder_id = 3;
 }
 
 message BackupClusterRequest {
@@ -595,7 +621,6 @@ message ConfigSpec {
   // * 9.6
   // * 10
   // * 11
-
   string version = 1;
 
   // Configuration of a PostgreSQL cluster.
@@ -618,6 +643,9 @@ message ConfigSpec {
 
   // Configuration setting which enables/disables autofailover in cluster.
   google.protobuf.BoolValue autofailover = 6;
+
+  // Start time for the daily backup in UTC timezone
+  google.type.TimeOfDay backup_window_start = 8;
 }
 
 message ConfigHostSpec {

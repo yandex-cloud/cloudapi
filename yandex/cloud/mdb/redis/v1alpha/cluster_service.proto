@@ -58,7 +58,7 @@ service ClusterService {
 
   // Start the specified Redis cluster.
   rpc Start (StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/redis/v1/clusters/{cluster_id}:start" };
+    option (google.api.http) = { post: "/managed-redis/v1/clusters/{cluster_id}:start" };
     option (yandex.api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
@@ -67,7 +67,7 @@ service ClusterService {
 
   // Stop the specified Redis cluster.
   rpc Stop (StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/redis/v1/clusters/{cluster_id}:stop" };
+    option (google.api.http) = { post: "/managed-redis/v1/clusters/{cluster_id}:stop" };
     option (yandex.api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"

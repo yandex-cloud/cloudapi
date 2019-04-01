@@ -9,16 +9,16 @@ import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/iam/v1/awscompatibility;awscompatibility";
 
-// A set of methods for managing AccessKey resources.
+// A set of methods for managing access keys.
 service AccessKeyService {
-  // Retrieves the list of AccessKey resources for the specified service account.
+  // Retrieves the list of access keys for the specified service account.
   rpc List (ListAccessKeysRequest) returns (ListAccessKeysResponse) {
     option (google.api.http) = { get: "/iam/aws-compatibility/v1/accessKeys" };
   }
 
-  // Returns the specified AccessKey resource.
+  // Returns the specified access key.
   //
-  // To get the list of available AccessKey resources, make a [List] request.
+  // To get the list of available access keys, make a [List] request.
   rpc Get (GetAccessKeyRequest) returns (AccessKey) {
     option (google.api.http) = { get: "/iam/aws-compatibility/v1/accessKeys/{access_key_id}" };
   }
@@ -60,7 +60,7 @@ message ListAccessKeysRequest {
 }
 
 message ListAccessKeysResponse {
-  // List of AccessKey resources.
+  // List of access keys.
   repeated AccessKey access_keys = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results

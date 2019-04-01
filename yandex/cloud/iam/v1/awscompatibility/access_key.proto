@@ -6,7 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/iam/v1/awscompatibility;awscompatibility";
 
-// An AccessKey resource.
+// An access key.
 // For more information, see [AWS-compatible access keys](/docs/iam/concepts/authorization/access-key).
 message AccessKey {
   // ID of the AccessKey resource.

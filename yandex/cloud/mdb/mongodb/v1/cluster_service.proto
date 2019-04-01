@@ -5,6 +5,7 @@ package yandex.cloud.mdb.mongodb.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
+import "google/type/timeofday.proto";
 import "yandex/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -60,7 +61,7 @@ service ClusterService {
 
   // Start the specified MongoDB cluster.
   rpc Start (StartClusterRequest) returns (operation.Operation) {
-   option (google.api.http) = { post: "/mdb/mongodb/v1/clusters/{cluster_id}:start" };
+   option (google.api.http) = { post: "/managed-mongodb/v1/clusters/{cluster_id}:start" };
     option (yandex.api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
@@ -69,9 +70,18 @@ service ClusterService {
 
   // Stop the specified MongoDB cluster.
   rpc Stop (StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/mongodb/v1/clusters/{cluster_id}:stop" };
+    option (google.api.http) = { post: "/managed-mongodb/v1/clusters/{cluster_id}:stop" };
     option (yandex.api.operation) = {
       metadata: "StopClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
+  // Moves the specified MongoDB cluster to the specified folder.
+  rpc Move (MoveClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-mongodb/v1/clusters/{cluster_id}:move" };
+    option (yandex.api.operation) = {
+      metadata: "MoveClusterMetadata"
       response: "Cluster"
     };
   }
@@ -129,6 +139,42 @@ service ClusterService {
     option (google.api.http) = { post: "/managed-mongodb/v1/clusters/{cluster_id}/hosts:batchDelete" body: "*" };
     option (yandex.api.operation) = {
       metadata: "DeleteClusterHostsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Enables sharding for the cluster.
+  rpc EnableSharding (EnableClusterShardingRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-mongodb/v1/clusters/{cluster_id}:enableSharding" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "EnableClusterShardingMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+  // Returns the specified shard.
+  rpc GetShard (GetClusterShardRequest) returns (Shard) {
+    option (google.api.http) = { get: "/managed-mongodb/v1/clusters/{cluster_id}/shards/{shard_name}" };
+  }
+
+  // Retrieves a list of shards.
+  rpc ListShards (ListClusterShardsRequest) returns (ListClusterShardsResponse) {
+    option (google.api.http) = { get: "/managed-mongodb/v1/clusters/{cluster_id}/shards" };
+  }
+
+  // Creates a new shard.
+  rpc AddShard (AddClusterShardRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-mongodb/v1/clusters/{cluster_id}/shards" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "AddClusterShardMetadata"
+      response: "Shard"
+    };
+  }
+
+  // Deletes the specified shard.
+  rpc DeleteShard (DeleteClusterShardRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/managed-mongodb/v1/clusters/{cluster_id}/shards/{shard_name}" };
+    option (yandex.api.operation) = {
+      metadata: "DeleteClusterShardMetadata"
       response: "google.protobuf.Empty"
     };
   }
@@ -268,6 +314,22 @@ message StopClusterRequest {
 message StopClusterMetadata {
   // Required. ID of the MongoDB cluster.
   string cluster_id = 1;
+}
+
+message MoveClusterRequest {
+  // ID of the MongoDB cluster to move.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the destination folder.
+  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message MoveClusterMetadata {
+  // ID of the MongoDB cluster being moved.
+  string cluster_id = 1;
+  // ID of the source folder.
+  string source_folder_id = 2;
+  // ID of the destnation folder.
+  string destination_folder_id = 3;
 }
 
 message BackupClusterRequest {
@@ -487,6 +549,74 @@ message DeleteClusterHostsMetadata {
   repeated string host_names = 2;
 }
 
+message EnableClusterShardingRequest {
+  message MongoCfg {
+    Resources resources = 1 [(required) = true];
+  }
+  message Mongos {
+    Resources resources = 1 [(required) = true];
+  }
+  // Required. ID of the MongoDB cluster.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  MongoCfg mongocfg = 2 [(required) = true];
+
+  Mongos mongos = 3 [(required) = true];
+
+  repeated HostSpec host_specs = 4 [(size) = ">0"];
+}
+
+message EnableClusterShardingMetadata {
+  // Required. ID of the MongoDB cluster.
+  string cluster_id = 1;
+}
+
+message GetClusterShardRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+}
+
+message ListClusterShardsRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  int64 page_size = 2 [(value) = "<=1000"];
+
+  string page_token = 3 [(length) = "<=100"];
+}
+
+message ListClusterShardsResponse {
+  repeated Shard shards = 1;
+
+  string next_page_token = 2;
+}
+
+message AddClusterShardRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  repeated HostSpec host_specs = 3 [(size) = ">0"];
+}
+
+message AddClusterShardMetadata {
+  string cluster_id = 1;
+
+  string shard_name = 2;
+}
+
+message DeleteClusterShardRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+}
+
+message DeleteClusterShardMetadata {
+  string cluster_id = 1;
+
+  string shard_name = 2;
+}
+
 message HostSpec {
   // ID of the availability zone where the host resides.
   // To get a list of available zones, use the [yandex.cloud.compute.v1.ZoneService.List] request.
@@ -506,6 +636,11 @@ message HostSpec {
   // * false — don't assign a public IP to the host.
   // * true — the host should have a public IP address.
   bool assign_public_ip = 3;
+
+  // Type of the host to be deployed.
+  Host.Type type = 4;
+
+  string shard_name = 5 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message MongodbSpec3_6 {
@@ -517,8 +652,26 @@ message MongodbSpec3_6 {
     Resources resources = 2;
   }
 
+  message MongoCfg {
+    config.MongoCfgConfig3_6 config = 1;
+
+    // Resources allocated to mongocfg hosts.
+    Resources resources = 2;
+  }
+
+  message Mongos {
+    config.MongosConfig3_6 config = 1;
+
+    // Resources allocated to mongos hosts.
+    Resources resources = 2;
+  }
+
   // Configuration and resource allocation for a mongod host.
-  Mongod mongod = 1 [(required) = true];
+  Mongod mongod = 1;
+  // Configuration and resource allocation for a mongocfg host.
+  MongoCfg mongocfg = 2;
+  // Configuration and resource allocation for a mongos host.
+  Mongos mongos = 3;
 }
 
 message ConfigSpec {
@@ -530,4 +683,7 @@ message ConfigSpec {
     // Configuration and resource allocation for a MongoDB 3.6 cluster.
     MongodbSpec3_6 mongodb_spec_3_6 = 2;
   }
+
+  // Start time for the daily backup in UTC timezone
+  google.type.TimeOfDay backup_window_start = 3;
 }
