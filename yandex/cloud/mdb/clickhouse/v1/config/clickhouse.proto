@@ -194,10 +194,12 @@ message ClickhouseConfig {
       // Single numeric key column for the dictionary.
       Id id = 1;
 
-      // Complex key for the dictionary, containing of one or more key column(s).
+      // Composite key for the dictionary, containing of one or more key columns.
+      // For details, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_structure/#composite-key).
       Key key = 3;
 
       // Description of the fields available for database queries.
+      // For details, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_structure/#attributes).
       repeated Attribute attributes = 2 [(size) = ">0"];
     }
 
@@ -264,7 +266,7 @@ message ClickhouseConfig {
     oneof lifetime {
       option (exactly_one) = true;
 
-      // Fixed interval between dictionaty updates.
+      // Fixed interval between dictionary updates.
       int64 fixed_lifetime = 4;
 
       // Range of intervals between dictionary updates for ClickHouse to choose from.

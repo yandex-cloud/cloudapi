@@ -37,6 +37,6 @@ message CreateIamTokenResponse {
   // For example, `Authorization: Bearer [iam_token]`.
   string iam_token = 1;
 
-  // IAM token expiration time, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  // IAM token expiration time.
   google.protobuf.Timestamp expires_at = 2;
 }

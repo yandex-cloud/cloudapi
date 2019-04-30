@@ -121,10 +121,10 @@ service InstanceService {
 }
 
 enum InstanceView {
-  // Doesn't include the metadata field in the server response.
+  // Doesn't include the metadata of the instance in the server response.
   BASIC = 0;
 
-  // Returns the full representation of the instance in the server response, including metadata.
+  // Returns the metadata of the instance in the server response.
   FULL = 1;
 }
 
@@ -196,13 +196,14 @@ message CreateInstanceRequest {
   // ID of the hardware platform configuration for the instance.
   // This field affects the available values in [resources_spec] field.
   //
-  // Currently only one platform is available - `standard-v1`. This platform is suitable for most tasks.
-  // This platform allows you to create various types of instances: with a large amount of memory,
+  // Currently only several platforms is available - `standard-v1`, `standard-v2`. These platforms are suitable for most tasks.
+  // These platforms allows you to create various types of instances: with a large amount of memory,
   // with a large number of cores, with a burstable performance.
+  // For more information, see [Platforms](/docs/compute/concepts/vm-platforms).
   string platform_id = 6 [(required) = true, (pattern) = "standard-v1"];
 
   // Computing resources of the instance, such as the amount of memory and number of cores.
-  // To get a list of available values, see [Computing resources](/docs/compute/concepts/vm-types).
+  // To get a list of available values, see [Levels of core performance](/docs/compute/concepts/performance-levels).
   ResourcesSpec resources_spec = 7 [(required) = true];
 
   // The metadata `key:value` pairs that will be assigned to this instance. This includes custom metadata and predefined keys.
@@ -236,6 +237,8 @@ message CreateInstanceRequest {
   // Scheduling policy configuration.
   SchedulingPolicy scheduling_policy = 13;
 
+  // ID of the service account. For more information, see [Service accounts](/docs/iam/concepts/users/service-accounts).
+  // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
   string service_account_id = 14;
 }
 
@@ -266,13 +269,14 @@ message UpdateInstanceRequest {
   // ID of the hardware platform configuration for the instance.
   // This field affects the available values in [resources_spec] field.
   //
-  // Currently only one platform is available - `standard-v1`. This platform is suitable for most tasks.
-  // This platform allows you to create various types of instances: with a large amount of memory,
+  // Currently only several platforms is available - `standard-v1`, `standard-v2`. These platforms are suitable for most tasks.
+  // These platforms allows you to create various types of instances: with a large amount of memory,
   // with a large number of cores, with a burstable performance.
+  // For more information, see [Platforms](/docs/compute/concepts/vm-platforms).
   string platform_id = 6 [(pattern) = "standard-v1"];
 
   // Computing resources of the instance, such as the amount of memory and number of cores.
-  // To get a list of available values, see [Computing resources](/docs/compute/concepts/vm-types).
+  // To get a list of available values, see [Levels of core performance](/docs/compute/concepts/performance-levels).
   ResourcesSpec resources_spec = 7;
 
   // The metadata `key:value` pairs that will be assigned to this instance. This includes custom metadata and predefined keys.
@@ -286,6 +290,8 @@ message UpdateInstanceRequest {
   // For example, you may use the metadata in order to provide your public SSH key to the instance.
   // For more information, see [Metadata](/docs/compute/concepts/vm-metadata).
   map<string, string> metadata = 8;
+
+  string service_account_id = 9;
 }
 
 message UpdateInstanceMetadata {
@@ -323,6 +329,9 @@ message UpdateInstanceMetadataMetadata {
 message GetInstanceSerialPortOutputRequest {
   // ID of the instance to return the serial port output for.
   string instance_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Specifies which serial port to retrieve data from. The default is 1.
+  int64  port = 2 [(value) = "1,2,3,4"];
 }
 
 message GetInstanceSerialPortOutputResponse {
@@ -443,8 +452,11 @@ message ResourcesSpec {
   // This field sets baseline performance for each core.
   //
   // For example, if you need only 5% of the CPU performance, you can set core_fraction=5.
-  // For more information, see [documentation](/docs/compute/concepts/vm-types#light-vms).
+  // For more information, see [Levels of core performance](/docs/compute/concepts/performance-levels).
   int64 core_fraction = 3 [(value) = "0,5,100"];
+
+  // The number of GPUs available to the instance.
+  int64 gpus = 4 [(value) = "1,2,4"];
 }
 
 message AttachedDiskSpec {

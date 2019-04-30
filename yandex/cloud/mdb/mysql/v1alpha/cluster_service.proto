@@ -94,15 +94,6 @@ service ClusterService {
     };
   }
 
-  // Switch master to recent replica or custom fqdn.
-  rpc Switchover (SwitchoverClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/managed-mysql/v1alpha/clusters/{cluster_id}:switchover" body: "*" };
-    option (yandex.api.operation) = {
-      metadata: "SwitchoverClusterMetadata"
-      response: "Cluster"
-    };
-  }
-
   // Retrieves logs for the specified MySQL cluster.
   // For more information about logs, see the [Logs](/docs/managed-mysql/concepts/logs) section in the documentation.
   rpc ListLogs (ListClusterLogsRequest) returns (ListClusterLogsResponse) {
@@ -311,19 +302,6 @@ message RestoreClusterMetadata {
 
   // ID of the backup that is being used for creating a cluster.
   string backup_id = 2;
-}
-
-message SwitchoverClusterRequest {
-  // ID of MySQL cluster.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
-
-  // New master host. Switch to recent replica if not provided.
-  string host_name = 2 [(length) = "<=253"];
-}
-
-message SwitchoverClusterMetadata {
-  // ID of the MySQL cluster being switchovered.
-  string cluster_id = 1;
 }
 
 message LogRecord {
@@ -558,6 +536,6 @@ message ConfigSpec {
   // Resources allocated to MySQL hosts.
   Resources resources = 3;
 
-  // Start time for the daily backup in UTC timezone
+  // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 4;
 }

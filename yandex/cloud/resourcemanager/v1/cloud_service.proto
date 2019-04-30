@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.resourcemanager.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/resourcemanager/v1/cloud.proto";
 import "yandex/api/operation.proto";
 import "yandex/cloud/access/access.proto";
@@ -23,6 +24,15 @@ service CloudService {
   // Retrieves the list of Cloud resources.
   rpc List (ListCloudsRequest) returns (ListCloudsResponse) {
     option (google.api.http) = { get: "/resource-manager/v1/clouds" };
+  }
+
+  // Updates the specified cloud.
+  rpc Update (UpdateCloudRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/resource-manager/v1/clouds/{cloud_id}" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "UpdateCloudMetadata"
+      response: "Cloud"
+    };
   }
 
   // Lists operations for the specified cloud.
@@ -121,4 +131,24 @@ message ListCloudOperationsResponse {
   // for the [ListCloudOperationsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
+}
+
+message UpdateCloudRequest {
+  // ID of the cloud to update.
+  // To get the cloud ID, use a [CloudService.List] request.
+  string cloud_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Field mask that specifies which fields of the cloud are going to be updated.
+  google.protobuf.FieldMask update_mask = 2;
+
+  // Name of the cloud.
+  string name = 3 [(pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+
+  // Description of the cloud.
+  string description = 4 [(length) = "<=256"];
+}
+
+message UpdateCloudMetadata {
+  // ID of the cloud that is being updated.
+  string cloud_id = 1;
 }

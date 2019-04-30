@@ -22,6 +22,7 @@ message Backup {
   // ID of the ClickHouse cluster that the backup was created for.
   string source_cluster_id = 4;
 
+  // Names of the shards included in the backup.
   repeated string source_shard_names = 6;
 
   // Time when the backup operation was started.

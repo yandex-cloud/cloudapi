@@ -133,7 +133,7 @@ message UpdateUserRequest {
   // To get the name of the user, use a [UserService.List] request.
   string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 
-  // Field mask that specifies which fields of the ClickHouse User resource should be updated.
+  // Field mask that specifies which attributes of the ClickHouse user should be updated.
   google.protobuf.FieldMask update_mask = 3;
 
   // New password for the user.

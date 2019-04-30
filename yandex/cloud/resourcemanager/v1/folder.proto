@@ -24,7 +24,7 @@ message Folder {
   // ID of the cloud that the folder belongs to.
   string cloud_id = 2;
 
-  // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  // Creation timestamp.
   google.protobuf.Timestamp created_at = 3;
 
   // Name of the folder.

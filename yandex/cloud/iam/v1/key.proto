@@ -29,7 +29,7 @@ message Key {
     string service_account_id = 3;
   }
 
-  // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  // Creation timestamp.
   google.protobuf.Timestamp created_at = 4;
 
   // Description of the Key resource. 0-256 characters long.

@@ -5,6 +5,7 @@ package yandex.cloud.mdb.mongodb.v1;
 import "google/protobuf/timestamp.proto";
 import "google/type/timeofday.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb3_6.proto";
+import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_0.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1;mongodb";
 
@@ -124,19 +125,25 @@ message ClusterConfig {
   // Version of MongoDB server software.
   string version = 1;
 
+  // MongoDB feature compatibility version.
+  string feature_compatibility_version = 5;
+
   // Configuration for MongoDB servers in the cluster.
   oneof mongodb {
     // Configuration and resource allocation for a MongoDB 3.6 cluster.
     Mongodb3_6 mongodb_3_6 = 2;
+
+    // Configuration and resource allocation for a MongoDB 4.0 cluster.
+    Mongodb4_0 mongodb_4_0 = 4;
   }
 
-  // Start time for the daily backup in UTC timezone
+  // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 3;
 }
 
 message Mongodb3_6 {
   message Mongod {
-    // Configuration of a MongoDB 3.6 server.
+    // Configuration for a mongod 3.6 hosts.
     config.MongodConfigSet3_6 config = 1;
 
     // Resources allocated to MongoDB hosts.
@@ -158,6 +165,35 @@ message Mongodb3_6 {
   }
 
   // Configuration and resource allocation for a MongoDB 3.6 cluster.
+  Mongod mongod = 1;
+  MongoCfg mongocfg = 2;
+  Mongos mongos = 3;
+}
+
+message Mongodb4_0 {
+  message Mongod {
+    // Configuration for a mongod 4.0 hosts.
+    config.MongodConfigSet4_0 config = 1;
+
+    // Resources allocated to mongod hosts.
+    Resources resources = 2;
+  }
+
+  message MongoCfg {
+    config.MongoCfgConfigSet4_0 config = 1;
+
+    // Resources allocated to mongocfg hosts.
+    Resources resources = 2;
+  }
+
+  message Mongos {
+    config.MongosConfigSet4_0 config = 1;
+
+    // Resources allocated to mongocfg hosts.
+    Resources resources = 2;
+  }
+
+  // Configuration and resource allocation for a MongoDB 4.0 cluster.
   Mongod mongod = 1;
   MongoCfg mongocfg = 2;
   Mongos mongos = 3;

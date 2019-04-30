@@ -16,7 +16,7 @@ message AccessKey {
   // ID of the service account that the access key belongs to.
   string service_account_id = 2;
 
-  // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  // Creation timestamp.
   google.protobuf.Timestamp created_at = 3;
 
   // Description of the access key. 0-256 characters long.

@@ -6,8 +6,6 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1;compute";
 
-//TODO: uses in instances
-
 // A Disk resource. For more information, see [Disks](/docs/compute/concepts/disk).
 message Disk {
 

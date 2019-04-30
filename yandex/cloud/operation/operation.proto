@@ -17,14 +17,13 @@ message Operation {
   // Description of the operation. 0-256 characters long.
   string description = 2; // ex: Create VM, Stop VM, Delete Disk, Snapshot Disk, etc
 
-  // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  // Creation timestamp.
   google.protobuf.Timestamp created_at = 3;
 
   // ID of the user or service account who initiated the operation.
   string created_by = 4;
 
   // The time when the Operation resource was last modified.
-  // This value is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
   google.protobuf.Timestamp modified_at = 5;
 
   // If the value is `false`, it means the operation is still in progress.

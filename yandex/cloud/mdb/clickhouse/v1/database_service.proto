@@ -69,7 +69,7 @@ message ListDatabasesRequest {
 }
 
 message ListDatabasesResponse {
-  // List of ClickHouse Database resources.
+  // List of ClickHouse databases.
   repeated Database databases = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results

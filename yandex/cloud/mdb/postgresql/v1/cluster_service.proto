@@ -259,6 +259,7 @@ message UpdateClusterRequest {
   // New configuration and resources for hosts in the cluster.
   ConfigSpec config_spec = 5;
 
+  // New name for the cluster.
   string name = 6 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
@@ -644,7 +645,7 @@ message ConfigSpec {
   // Configuration setting which enables/disables autofailover in cluster.
   google.protobuf.BoolValue autofailover = 6;
 
-  // Start time for the daily backup in UTC timezone
+  // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 8;
 }
 

@@ -84,7 +84,7 @@ message Cluster {
   // Description of the ClickHouse cluster. 0-256 characters long.
   string description = 5;
 
-  // Custom labels for the PostgreSQL cluster as `` key:value `` pairs. Maximum 64 per resource.
+  // Custom labels for the ClickHouse cluster as `key:value` pairs. Maximum 64 per resource.
   map<string, string> labels = 6;
 
   // Deployment environment of the ClickHouse cluster.
@@ -141,27 +141,35 @@ message ClusterConfig {
   // Configuration and resource allocation for ZooKeeper hosts.
   Zookeeper zookeeper = 3;
 
-  // Start time for the daily backup in UTC timezone
+  // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 4;
 }
 
 message Shard {
+  // Name of the shard.
   string name = 1;
 
+  // ID of the cluster that the shard belongs to.
   string cluster_id = 2;
 
+  // Configuration of the shard.
   ShardConfig config = 3;
 }
 
 message ShardConfig {
   message Clickhouse {
+    // ClickHouse settings for a shard.
     config.ClickhouseConfigSet config = 1;
 
+    // Computational resources for a shard.
     Resources resources = 2;
 
+    // Relative weight of a shard considered when writing data to the cluster.
+    // For details, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/table_engines/distributed/).
     google.protobuf.Int64Value weight = 3;
   }
 
+  // ClickHouse configuration for a shard.
   Clickhouse clickhouse = 1;
 }
 

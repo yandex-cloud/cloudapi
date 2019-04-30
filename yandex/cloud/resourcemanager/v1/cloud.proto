@@ -11,7 +11,7 @@ message Cloud {
   // ID of the cloud.
   string id = 1;
 
-  // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  // Creation timestamp.
   google.protobuf.Timestamp created_at = 2;
 
   // Name of the cloud. 3-63 characters long.

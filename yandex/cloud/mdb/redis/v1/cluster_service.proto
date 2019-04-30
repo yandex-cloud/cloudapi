@@ -75,7 +75,7 @@ service ClusterService {
     };
   }
 
-  // Moves the specified Redis cluster to the specified folder.
+  // Moves a Redis cluster to the specified folder.
   rpc Move (MoveClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-redis/v1/clusters/{cluster_id}:move" };
     option (yandex.api.operation) = {
@@ -277,6 +277,7 @@ message StopClusterMetadata {
 message MoveClusterRequest {
   // ID of the Redis cluster to move.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
   // ID of the destination folder.
   string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
 }
@@ -284,9 +285,11 @@ message MoveClusterRequest {
 message MoveClusterMetadata {
   // ID of the Redis cluster being moved.
   string cluster_id = 1;
+
   // ID of the source folder.
   string source_folder_id = 2;
-  // ID of the destnation folder.
+
+  // ID of the destination folder.
   string destination_folder_id = 3;
 }
 
@@ -526,6 +529,6 @@ message ConfigSpec {
   // Resources allocated to Redis hosts.
   Resources resources = 3;
 
-  // Start time for the daily backup in UTC timezone
+  // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 4;
 }

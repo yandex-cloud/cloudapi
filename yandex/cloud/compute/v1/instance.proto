@@ -94,6 +94,8 @@ message Instance {
   // Scheduling policy configuration.
   SchedulingPolicy scheduling_policy = 17;
 
+  // ID of the service account. For more information, see [Service accounts](/docs/iam/concepts/users/service-accounts).
+  // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
   string service_account_id = 18;
 }
 
@@ -107,6 +109,9 @@ message Resources {
   // Baseline level of CPU performance with the ability to burst performance above that baseline level.
   // This field sets baseline performance for each core.
   int64 core_fraction = 3;
+
+  // The number of GPUs available to the instance.
+  int64 gpus = 4;
 }
 
 message AttachedDisk {

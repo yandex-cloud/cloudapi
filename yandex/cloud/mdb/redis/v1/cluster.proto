@@ -128,7 +128,7 @@ message ClusterConfig {
   // Resources allocated to Redis hosts.
   Resources resources = 3;
 
-  // Start time for the daily backup in UTC timezone
+  // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 4;
 }
 

@@ -56,6 +56,9 @@ message TranslateRequest {
   // Required for authorization with a user account (see [yandex.cloud.iam.v1.UserAccount] resource).
   // Don't specify this field if you make the request on behalf of a service account.
   string folder_id = 5 [(length) = "<=50"];
+
+  // Do not specify this field, custom models are not supported yet.
+  string model = 6 [(length) = "<=50"];
 }
 
 message TranslateResponse {
