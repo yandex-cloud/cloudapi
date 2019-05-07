@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package yandex.cloud.ai.vision.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/vision/v1;vision";
+
+message ClassAnnotation {
+  // Properties extracted by a specified model.
+  //
+  // For example, if you ask to evaluate the image quality,
+  // the service could return such properties as `good` and `bad`.
+  repeated Property properties = 1;
+}
+
+message Property {
+  // Property name.
+  string name = 1;
+  // Probability of the property, from 0 to 1.
+  double probability = 2;
+}
