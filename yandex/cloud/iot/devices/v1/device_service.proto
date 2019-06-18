@@ -1,0 +1,165 @@
+syntax = "proto3";
+
+package yandex.cloud.iot.devices.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/validation.proto";
+import "yandex/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/iot/devices/v1/device.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/iot/devices/v1;devices";
+
+service DeviceService {
+  rpc Get (GetDeviceRequest) returns (Device) {
+    option (google.api.http) = { get: "/iot-devices/v1/devices/{device_id}" };
+  }
+
+  rpc List (ListDevicesRequest) returns (ListDevicesResponse) {
+    option (google.api.http) = { get: "/iot-devices/v1/devices" };
+  }
+
+  rpc Create (CreateDeviceRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/iot-devices/v1/devices" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "CreateDeviceMetadata"
+      response: "Device"
+    };
+  }
+
+  rpc Update (UpdateDeviceRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/iot-devices/v1/devices/{device_id}" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "UpdateDeviceMetadata"
+      response: "Device"
+    };
+  }
+
+  rpc Delete (DeleteDeviceRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/iot-devices/v1/devices/{device_id}" };
+    option (yandex.api.operation) = {
+      metadata: "DeleteDeviceMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  rpc ListCertificates (ListDeviceCertificatesRequest) returns (ListDeviceCertificatesResponse) {
+    option (google.api.http) = { get: "/iot-devices/v1/devices/{device_id}/certificates" };
+  }
+
+  rpc AddCertificate (AddDeviceCertificateRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/iot-devices/v1/devices/{device_id}/certificates" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "AddDeviceCertificateMetadata"
+      response: "DeviceCertificate"
+    };
+  }
+
+  rpc DeleteCertificate (DeleteDeviceCertificateRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/iot-devices/v1/devices/{device_id}/certificates/{fingerprint}" };
+    option (yandex.api.operation) = {
+      metadata: "DeleteDeviceCertificateMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  rpc ListOperations (ListDeviceOperationsRequest) returns (ListDeviceOperationsResponse) {
+    option (google.api.http) = { get: "/iot-devices/v1/devices/{device_id}/operations" };
+  }
+}
+
+message GetDeviceRequest {
+  string device_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message ListDevicesRequest {
+  oneof id {
+    option (exactly_one) = true;
+    string registry_id = 1 [(length) = "<=50"];
+    string folder_id = 2 [(length) = "<=50"];
+  }
+  int64 page_size = 3 [(value) = "0-1000"];
+  string page_token = 4 [(length) = "<=100"];
+}
+
+message ListDevicesResponse {
+  repeated Device devices = 1;
+  string next_page_token = 2;
+}
+
+message CreateDeviceRequest {
+  string registry_id = 1 [(required) = true, (length) = "<=50"];
+  string name = 2 [(required) = true, (length) = "<=50", (pattern) = "[a-zA-Z0-9_-]*"];
+  string description = 3 [(length) = "<=256"];
+  repeated Certificate certificates = 4;
+
+  message Certificate {
+    string certificate_data = 1;
+  }
+}
+
+message CreateDeviceMetadata {
+  string device_id = 1;
+}
+
+message UpdateDeviceRequest {
+  string device_id = 1 [(required) = true, (length) = "<=50"];
+
+  google.protobuf.FieldMask update_mask = 2;
+
+  string name = 3 [(length) = "<=50", (pattern) = "[a-zA-Z0-9_-]*"];
+  string description = 4 [(length) = "<=256"];
+}
+
+message UpdateDeviceMetadata {
+  string device_id = 1;
+}
+
+message DeleteDeviceRequest {
+  string device_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message DeleteDeviceMetadata {
+  string device_id = 1;
+}
+
+message ListDeviceCertificatesRequest {
+  string device_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message ListDeviceCertificatesResponse {
+  repeated DeviceCertificate certificates = 1;
+}
+
+message AddDeviceCertificateRequest {
+  string device_id = 1 [(required) = true, (length) = "<=50"];
+  string certificate_data = 3;
+}
+
+message AddDeviceCertificateMetadata {
+  string device_id = 1;
+  string fingerprint = 2;
+}
+
+message DeleteDeviceCertificateRequest {
+  string device_id = 1 [(required) = true, (length) = "<=50"];
+  string fingerprint = 2 [(required) = true, (length) = "<=50"];
+}
+
+message DeleteDeviceCertificateMetadata {
+  string device_id = 1 [(required) = true, (length) = "<=50"];
+  string fingerprint = 2 [(required) = true, (length) = "<=50"];
+}
+
+message ListDeviceOperationsRequest {
+  string device_id = 1 [(required) = true];
+  int64 page_size = 2 [(value) = "0-1000"];
+  string page_token = 3 [(length) = "<=100"];
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListDeviceOperationsResponse {
+  repeated operation.Operation operations = 1;
+  string next_page_token = 2;
+}

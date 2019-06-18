@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package yandex.cloud.serverless.functions.v1;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/functions/v1;functions";
+
+message Function {
+  string id = 1;
+  string folder_id = 2;
+  google.protobuf.Timestamp created_at = 3;
+  string name = 4;
+  string description = 5;
+  map<string, string> labels = 6;
+  string log_group_id = 7;
+  string http_invoke_url = 8;
+}
+
+message Version {
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+    CREATING = 1;
+    ACTIVE = 2;
+  }
+
+  string id = 1;
+  string function_id = 2;
+  string description = 3;
+  google.protobuf.Timestamp created_at = 5;
+  string runtime = 6;
+  string entrypoint = 7;
+  Resources resources = 8;
+  google.protobuf.Duration execution_timeout = 9;
+  string service_account_id = 10;
+  reserved 11;
+  int64 image_size = 12;
+  Status status = 13;
+  repeated string tags = 14;
+  string log_group_id = 15;
+  map<string, string> environment = 16;
+}
+
+message Resources {
+  int64 memory = 1 [(value) = "33554432-1073741824"];
+}
+
+message Package {
+  string bucket_name = 1 [(required) = true];
+  string object_name = 2 [(required) = true];
+  string sha256 = 3;
+}
+

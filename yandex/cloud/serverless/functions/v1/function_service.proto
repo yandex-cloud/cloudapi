@@ -1,0 +1,255 @@
+syntax = "proto3";
+
+package yandex.cloud.serverless.functions.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/api/operation.proto";
+import "yandex/cloud/serverless/functions/v1/function.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
+
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/functions/v1;functions";
+
+service FunctionService {
+  rpc Get (GetFunctionRequest) returns (Function) {
+    option (google.api.http) = { get: "/functions/v1/functions/{function_id}" };
+  }
+
+  rpc List (ListFunctionsRequest) returns (ListFunctionsResponse) {
+    option (google.api.http) = { get: "/functions/v1/functions" };
+  }
+
+  rpc Create (CreateFunctionRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/functions/v1/functions" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "CreateFunctionMetadata"
+      response: "Function"
+    };
+  };
+
+  rpc Update (UpdateFunctionRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/functions/v1/functions/{function_id}" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "UpdateFunctionMetadata"
+      response: "Function"
+    };
+  };
+
+  rpc Delete (DeleteFunctionRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/functions/v1/functions/{function_id}" };
+    option (yandex.api.operation) = {
+      metadata: "DeleteFunctionMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
+
+  rpc GetFunctionVersion (GetFunctionVersionRequest) returns (Version) {
+    option (google.api.http) = { get: "/functions/v1/versions/{function_version_id}" };
+  }
+
+  rpc GetFunctionVersionByTag (GetFunctionVersionByTagRequest) returns (Version) {
+    option (google.api.http) = { get: "/functions/v1/versions:byTag" };
+  }
+
+  rpc ListFunctionVersions (ListFunctionsVersionsRequest) returns (ListFunctionsVersionsResponse) {
+    option (google.api.http) = { get: "/functions/v1/versions" };
+  }
+
+  rpc SetTag (SetFunctionTagRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/functions/v1/versions/{function_version_id}:setTag" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "SetFunctionTagMetadata"
+      response: "Version"
+    };
+  }
+
+  rpc RemoveTag (RemoveFunctionTagRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/functions/v1/versions/{function_version_id}:removeTag" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "RemoveFunctionTagMetadata"
+      response: "Version"
+    };
+  }
+
+  rpc ListFunctionTagHistory (ListFunctionTagHistoryRequest) returns (ListFunctionTagHistoryResponse) {
+    option (google.api.http) = { get: "/functions/v1/functions/{function_id}:tagHistory" };
+  }
+
+  rpc CreateFunctionVersion (CreateFunctionVersionRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/functions/v1/versions" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "CreateFunctionVersionMetadata"
+      response: "Version"
+    };
+  };
+
+  rpc ListRuntimes (ListRuntimesRequest) returns (ListRuntimesResponse) {
+    option (google.api.http) = { post: "/functions/v1/runtimes"};
+  }
+
+  rpc ListOperations (ListFunctionOperationsRequest) returns (ListFunctionOperationsResponse) {
+    option (google.api.http) = { get: "/functions/v1/functions/{function_id}/operations" };
+  }
+
+}
+
+message GetFunctionRequest {
+  string function_id = 1 [(required) = true];
+}
+
+message GetFunctionVersionRequest {
+  string function_version_id = 1 [(required) = true];
+}
+
+message GetFunctionVersionByTagRequest {
+  string function_id = 1 [(required) = true];
+  string tag = 2 [(pattern) = "[a-z][-_0-9a-z]*|[$]latest"];
+}
+
+message ListFunctionsRequest {
+  string folder_id = 1 [(required) = true];
+  int64 page_size = 2;
+  string page_token = 3;
+  string filter = 4;
+}
+
+message ListFunctionsResponse {
+  repeated Function functions = 1;
+  string next_page_token = 2;
+}
+
+message CreateFunctionRequest {
+  string folder_id = 1 [(required) = true];
+  string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string description = 3 [(length) = "<=256"];
+  map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+}
+
+message CreateFunctionMetadata {
+  string function_id = 1;
+}
+
+message UpdateFunctionRequest {
+  string function_id = 1 [(required) = true];
+  google.protobuf.FieldMask update_mask = 2;
+
+  string name = 3 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string description = 4 [(length) = "<=256"];
+  map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+}
+
+message UpdateFunctionMetadata {
+  string function_id = 1;
+}
+
+message DeleteFunctionRequest {
+  string function_id = 1 [(required) = true];
+}
+
+message DeleteFunctionMetadata {
+  string function_id = 1;
+}
+
+message ListRuntimesRequest {
+}
+
+message ListRuntimesResponse {
+  repeated string runtimes = 1;
+}
+
+message ListFunctionsVersionsRequest {
+  oneof id {
+    option (exactly_one) = true;
+    string folder_id = 1;
+    string function_id = 2;
+  } ;
+  int64 page_size = 3 [(value) = "0-1000"];
+  string page_token = 4 [(length) = "<=100"];
+  string filter = 5 [(length) = "<=1000"];
+}
+
+message ListFunctionsVersionsResponse {
+  repeated Version versions = 1;
+  string next_page_token = 2;
+}
+
+message ListFunctionOperationsRequest {
+  string function_id = 1 [(required) = true];
+  int64 page_size = 2 [(value) = "0-1000"];
+  string page_token = 3 [(length) = "<=100"];
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListFunctionOperationsResponse {
+  repeated operation.Operation operations = 1;
+  string next_page_token = 2;
+}
+
+message CreateFunctionVersionRequest {
+  string function_id = 1 [(required) = true];
+  string runtime = 2 [(required) = true];
+  string description = 3;
+  string entrypoint = 4 [(required) = true];
+  Resources resources = 5 [(required) = true];
+  google.protobuf.Duration execution_timeout = 6 [(required) = true];
+  string service_account_id = 7;
+  reserved 8;
+
+  oneof package_source {
+    option (exactly_one) = true;
+
+    Package package = 9;
+    bytes content = 10 [(length) = "<=52428800"];
+
+    // reserved 11
+  };
+
+  map<string, string> environment = 12 [(length) = "<=4096", (map_key).pattern = "[a-zA-Z][a-zA-Z0-9_]*"];
+}
+
+message CreateFunctionVersionMetadata {
+  string function_version_id = 1;
+}
+
+message SetFunctionTagRequest {
+  string function_version_id = 1 [(required) = true];
+  string tag = 2 [(pattern) = "[a-z][-_0-9a-z]*"];
+}
+
+message RemoveFunctionTagRequest {
+  string function_version_id = 1 [(required) = true];
+  string tag = 2 [(pattern) = "[a-z][-_0-9a-z]*"];
+}
+
+message SetFunctionTagMetadata {
+  string function_version_id = 1;
+}
+
+message RemoveFunctionTagMetadata {
+  string function_version_id = 1;
+}
+
+message ListFunctionTagHistoryRequest {
+  string function_id = 1[(required) = true];
+  string tag = 2 [(pattern) = "[a-z][-_0-9a-z]*|[$]latest"];
+  int64 page_size = 3 [(value) = "0-1000"];
+  string page_token = 4 [(length) = "<=100"];
+  string filter = 5 [(length) = "<=1000"];
+}
+
+message ListFunctionTagHistoryResponse {
+  message FunctionTagHistoryRecord {
+    string function_id = 1;
+    string function_version_id = 3;
+    string tag = 2;
+    google.protobuf.Timestamp effective_from = 4;
+    google.protobuf.Timestamp effective_to = 5;
+  }
+
+  repeated FunctionTagHistoryRecord function_tag_history_record = 1;
+  string next_page_token = 2;
+}
