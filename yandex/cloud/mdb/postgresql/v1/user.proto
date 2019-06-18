@@ -24,6 +24,12 @@ message User {
 
   // Postgresql settings for this user
   UserSettings settings = 5;
+
+    // User can login (default True)
+  google.protobuf.BoolValue login = 6;
+
+  // User grants (GRANT <role> TO <user>), role must be other user
+  repeated string grants = 7 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 }
 
 message Permission {
@@ -46,6 +52,12 @@ message UserSpec {
 
   // Postgresql settings for this user
   UserSettings settings = 5;
+
+    // User can login (default True)
+  google.protobuf.BoolValue login = 6;
+
+  // User grants (GRANT <role> TO <user>), role must be other user
+  repeated string grants = 7 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 }
 
 // Postgresql user settings config

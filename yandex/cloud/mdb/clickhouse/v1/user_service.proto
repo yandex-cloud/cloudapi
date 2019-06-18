@@ -141,6 +141,8 @@ message UpdateUserRequest {
 
   // New set of permissions for the user.
   repeated Permission permissions = 5;
+
+  UserSettings settings = 6;
 }
 
 message UpdateUserMetadata {

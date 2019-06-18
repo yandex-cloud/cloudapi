@@ -85,6 +85,9 @@ message FeatureTextDetectionConfig {
   // List of the languages to recognize text.
   // Specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` ru ``).
   repeated string language_codes = 1 [(size) = "1-8", (length) = "<=3"];
+
+  // Do not specify this field, custom models are not supported yet.
+  string model = 2 [(length) = "<=50"];
 }
 
 message BatchAnalyzeResponse {

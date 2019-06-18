@@ -80,9 +80,18 @@ service ClusterService {
 
   // Moves a ClickHouse cluster to the specified folder.
   rpc Move (MoveClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}:move" };
+    option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}:move" body: "*" };
     option (yandex.api.operation) = {
       metadata: "MoveClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
+  // Add ZooKeeper subcluster to the specififes ClickHouse cluster.
+  rpc AddZookeeper (AddClusterZookeeperRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/mdb/clickhouse/v1/clusters/{cluster_id}:addZookeeper" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "AddClusterZookeeperMetadata"
       response: "Cluster"
     };
   }
@@ -178,6 +187,22 @@ service ClusterService {
     option (yandex.api.operation) = {
       metadata: "DeleteClusterShardMetadata"
       response: "google.protobuf.Empty"
+    };
+  }
+
+  rpc CreateExternalDictionary (CreateClusterExternalDictionaryRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/mdb/clickhouse/v1/clusters/{cluster_id}:createExternalDictionary" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "CreateClusterExternalDictionaryMetadata"
+      response: "Cluster"
+    };
+  }
+
+  rpc DeleteExternalDictionary (DeleteClusterExternalDictionaryRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/mdb/clickhouse/v1/clusters/{cluster_id}:deleteExternalDictionary" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "DeleteClusterExternalDictionaryMetadata"
+      response: "Cluster"
     };
   }
 }
@@ -337,6 +362,22 @@ message MoveClusterMetadata {
 
   // ID of the destination folder.
   string destination_folder_id = 3;
+}
+
+message AddClusterZookeeperRequest {
+  // Required. ID of the ClickHouse cluster to modify.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Resources allocated to Zookeeper hosts.
+  Resources resources = 2;
+
+  // Configuration of ZooKeeper hosts.
+  repeated HostSpec host_specs = 3;
+}
+
+message AddClusterZookeeperMetadata {
+  // Required. ID of the ClickHouse cluster.
+  string cluster_id = 1;
 }
 
 message BackupClusterRequest {
@@ -652,6 +693,26 @@ message DeleteClusterShardMetadata {
 
   // Name of the shard being deleted.
   string shard_name = 2;
+}
+
+message CreateClusterExternalDictionaryRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  config.ClickhouseConfig.ExternalDictionary external_dictionary = 2;
+}
+
+message CreateClusterExternalDictionaryMetadata {
+  string cluster_id = 1;
+}
+
+message DeleteClusterExternalDictionaryRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string external_dictionary_name = 2;
+}
+
+message DeleteClusterExternalDictionaryMetadata {
+  string cluster_id = 1;
 }
 
 message HostSpec {

@@ -453,7 +453,7 @@ message ResourcesSpec {
   //
   // For example, if you need only 5% of the CPU performance, you can set core_fraction=5.
   // For more information, see [Levels of core performance](/docs/compute/concepts/performance-levels).
-  int64 core_fraction = 3 [(value) = "0,5,100"];
+  int64 core_fraction = 3 [(value) = "0,5,20,50,100"];
 
   // The number of GPUs available to the instance.
   int64 gpus = 4 [(value) = "1,2,4"];

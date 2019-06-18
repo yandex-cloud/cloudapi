@@ -4,6 +4,7 @@ package yandex.cloud.mdb.postgresql.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/mdb/postgresql/v1/user.proto";
@@ -147,6 +148,12 @@ message UpdateUserRequest {
 
   // Postgresql settings for this user
   UserSettings settings = 7;
+
+    // User can login (default True)
+  google.protobuf.BoolValue login = 8;
+
+  // User grants (GRANT <role> TO <user>), role must be other user
+  repeated string grants = 9 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 }
 
 message UpdateUserMetadata {

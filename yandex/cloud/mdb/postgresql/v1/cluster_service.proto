@@ -85,7 +85,7 @@ service ClusterService {
 
   // Moves the specified PostgreSQL cluster to the specified folder.
   rpc Move (MoveClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/managed-postgresql/v1/clusters/{cluster_id}:move" };
+    option (google.api.http) = { post: "/managed-postgresql/v1/clusters/{cluster_id}:move" body: "*" };
     option (yandex.api.operation) = {
       metadata: "MoveClusterMetadata"
       response: "Cluster"

@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.mdb.clickhouse.v1;
 
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1;clickhouse";
@@ -17,6 +18,8 @@ message User {
 
   // Set of permissions granted to the user.
   repeated Permission permissions = 3;
+
+  UserSettings settings = 4;
 }
 
 message Permission {
@@ -33,4 +36,151 @@ message UserSpec {
 
   // Set of permissions to grant to the user.
   repeated Permission permissions = 3;
+
+  UserSettings settings = 4;
+}
+
+// ClickHouse user settings. Supported settings are a limited subset of all settings
+// described in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/).
+message UserSettings {
+  enum OverflowMode {
+    OVERFLOW_MODE_UNSPECIFIED = 0;
+
+    OVERFLOW_MODE_THROW = 1;
+
+    OVERFLOW_MODE_BREAK = 2;
+  }
+
+  enum GroupByOverflowMode {
+    GROUP_BY_OVERFLOW_MODE_UNSPECIFIED = 0;
+
+    GROUP_BY_OVERFLOW_MODE_THROW = 1;
+
+    GROUP_BY_OVERFLOW_MODE_BREAK = 2;
+
+    GROUP_BY_OVERFLOW_MODE_ANY = 3;
+  }
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/permissions_for_queries/#settings_readonly).
+  google.protobuf.Int64Value readonly = 1 [(value) = "0-2"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/permissions_for_queries/#settings_allow_ddl).
+  google.protobuf.BoolValue allow_ddl = 2;
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-insert_quorum).
+  google.protobuf.Int64Value insert_quorum = 3 [(value) = ">=0"];
+
+  // Quorum write timeout in milliseconds. Default value: 60000.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-insert_quorum_timeout).
+  google.protobuf.Int64Value insert_quorum_timeout = 4 [(value) = ">=1000"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-select_sequential_consistency).
+  google.protobuf.BoolValue select_sequential_consistency = 5;
+
+  // Max replica delay in milliseconds. If a replica lags more than the set value, this replica is not used. Default value: 300000.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-max_replica_delay_for_distributed_queries).
+  google.protobuf.Int64Value max_replica_delay_for_distributed_queries = 6 [(value) = ">=1000"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-fallback_to_stale_replicas_for_distributed_queries).
+  google.protobuf.BoolValue fallback_to_stale_replicas_for_distributed_queries = 7;
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-max_threads).
+  google.protobuf.Int64Value max_threads = 8 [(value) = ">0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#max-block-size).
+  google.protobuf.Int64Value max_block_size = 9 [(value) = ">0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-max_insert_block_size).
+  google.protobuf.Int64Value max_insert_block_size = 10 [(value) = ">0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#settings_max_memory_usage).
+  google.protobuf.Int64Value max_memory_usage = 11 [(value) = ">=0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-memory-usage-for-user).
+  google.protobuf.Int64Value max_memory_usage_for_user = 12 [(value) = ">=0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-rows-to-read).
+  google.protobuf.Int64Value max_rows_to_read = 13 [(value) = ">=0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-bytes-to-read).
+  google.protobuf.Int64Value max_bytes_to_read = 14 [(value) = ">=0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#read-overflow-mode).
+  OverflowMode read_overflow_mode = 15;
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-rows-to-group-by).
+  google.protobuf.Int64Value max_rows_to_group_by = 16 [(value) = ">=0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#group-by-overflow-mode).
+  GroupByOverflowMode group_by_overflow_mode = 17;
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-rows-to-sort).
+  google.protobuf.Int64Value max_rows_to_sort = 18 [(value) = ">=0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-bytes-to-sort).
+  google.protobuf.Int64Value max_bytes_to_sort = 19 [(value) = ">=0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#sort-overflow-mode).
+  OverflowMode sort_overflow_mode = 20;
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-result-rows).
+  google.protobuf.Int64Value max_result_rows = 21 [(value) = ">=0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-result-bytes).
+  google.protobuf.Int64Value max_result_bytes = 22 [(value) = ">=0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#result-overflow-mode).
+  OverflowMode result_overflow_mode = 23;
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-rows-in-distinct).
+  google.protobuf.Int64Value max_rows_in_distinct = 24 [(value) = ">=0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-bytes-in-distinct).
+  google.protobuf.Int64Value max_bytes_in_distinct = 25 [(value) = ">=0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#distinct-overflow-mode).
+  OverflowMode distinct_overflow_mode = 26;
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-rows-to-transfer).
+  google.protobuf.Int64Value max_rows_to_transfer = 27 [(value) = ">=0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-bytes-to-transfer).
+  google.protobuf.Int64Value max_bytes_to_transfer = 28 [(value) = ">=0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#transfer-overflow-mode).
+  OverflowMode transfer_overflow_mode = 29;
+
+  // Maximum query execution time in milliseconds.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-execution-time).
+  google.protobuf.Int64Value max_execution_time = 30 [(value) = ">=0"];
+
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#timeout-overflow-mode).
+  OverflowMode timeout_overflow_mode = 31;
+
+  // Maximum number of columns that can be read from a table in a single query.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-columns-to-read).
+  google.protobuf.Int64Value max_columns_to_read = 32 [(value) = ">=0"];
+
+  // Maximum number of temporary columns that must be kept in RAM at the same time when running a query, including constant columns.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-temporary-columns).
+  google.protobuf.Int64Value max_temporary_columns = 33 [(value) = ">=0"];
+
+  // Maximum number of temporary columns that must be kept in RAM at the same time when running a query, excluding constant columns.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-temporary-non-const-columns).
+  google.protobuf.Int64Value max_temporary_non_const_columns = 34 [(value) = ">=0"];
+
+  // The maximum part of a query that can be taken to RAM for parsing with the SQL parser, in bytes. Default value: 262144.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-max_query_size).
+  google.protobuf.Int64Value max_query_size = 35 [(value) = ">0"];
+
+  // Maximum depth of query syntax tree. Default value: 1000.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-ast-depth).
+  google.protobuf.Int64Value max_ast_depth = 36 [(value) = ">0"];
+
+  // Maximum size of query syntax tree in number of nodes. Default value: 50000.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-ast-elements).
+  google.protobuf.Int64Value max_ast_elements = 37 [(value) = ">0"];
+
+  // Maximum size of query syntax tree in number of nodes after expansion of aliases and the asterisk. Default value: 500000.
+  google.protobuf.Int64Value max_expanded_ast_elements = 38 [(value) = ">0"];
 }

@@ -304,6 +304,34 @@ message PostgresqlConfig10 {
   google.protobuf.Int64Value archive_timeout = 77 [(value) = "10000-600000"]; // in milliseconds.
 
   google.protobuf.Int64Value track_activity_query_size = 78 [(value) = "100-102400"];
+
+  google.protobuf.BoolValue enable_bitmapscan = 80;
+
+  google.protobuf.BoolValue enable_hashagg = 81;
+
+  google.protobuf.BoolValue enable_hashjoin = 82;
+
+  google.protobuf.BoolValue enable_indexscan = 83;
+
+  google.protobuf.BoolValue enable_indexonlyscan = 84;
+
+  google.protobuf.BoolValue enable_material = 85;
+
+  google.protobuf.BoolValue enable_mergejoin = 86;
+
+  google.protobuf.BoolValue enable_nestloop = 87;
+
+  google.protobuf.BoolValue enable_seqscan = 88;
+
+  google.protobuf.BoolValue enable_sort = 89;
+
+  google.protobuf.BoolValue enable_tidscan = 90;
+
+  google.protobuf.Int64Value max_worker_processes = 91 [(value) = "0-1024"];
+
+  google.protobuf.Int64Value max_parallel_workers = 92 [(value) = "0-1024"];
+
+  google.protobuf.Int64Value max_parallel_workers_per_gather = 93 [(value) = "0-1024"];
 }
 
 message PostgresqlConfigSet10 {

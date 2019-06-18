@@ -84,6 +84,9 @@ message RecognitionSpec {
 
   // Used only for long running recognize.
   int64 audio_channel_count = 9;
+
+  // This mark allows disable normalization text
+  bool raw_results = 10;
 }
 
 message SpeechRecognitionChunk {

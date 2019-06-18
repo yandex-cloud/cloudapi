@@ -199,6 +199,9 @@ message Service {
 
     // The host provides a Sentinel-only service (a quorum node).
     ARBITER = 2;
+
+    // The host is a Redis Cluster node.
+    REDIS_CLUSTER = 3;
   }
 
   enum Health {

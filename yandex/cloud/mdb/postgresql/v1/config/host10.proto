@@ -231,4 +231,30 @@ message PostgresqlHostConfig10 {
   google.protobuf.DoubleValue seq_page_cost = 51;
 
   google.protobuf.DoubleValue random_page_cost = 52;
+
+  google.protobuf.BoolValue enable_bitmapscan = 54;
+
+  google.protobuf.BoolValue enable_hashagg = 55;
+
+  google.protobuf.BoolValue enable_hashjoin = 56;
+
+  google.protobuf.BoolValue enable_indexscan = 57;
+
+  google.protobuf.BoolValue enable_indexonlyscan = 58;
+
+  google.protobuf.BoolValue enable_material = 59;
+
+  google.protobuf.BoolValue enable_mergejoin = 60;
+
+  google.protobuf.BoolValue enable_nestloop = 61;
+
+  google.protobuf.BoolValue enable_seqscan = 62;
+
+  google.protobuf.BoolValue enable_sort = 63;
+
+  google.protobuf.BoolValue enable_tidscan = 64;
+
+  google.protobuf.Int64Value max_parallel_workers = 65 [(value) = "0-1024"];
+
+  google.protobuf.Int64Value max_parallel_workers_per_gather = 66 [(value) = "0-1024"];
 }

@@ -92,6 +92,15 @@ service ClusterService {
     };
   }
 
+  // Start a manual failover on the specified Redis cluster.
+  rpc StartFailover (StartClusterFailoverRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/mdb/redis/v1alpha/clusters/{cluster_id}:startFailover" };
+    option (yandex.api.operation) = {
+      metadata: "StartClusterFailoverMetadata"
+      response: "Cluster"
+    };
+  }
+
   // Retrieves logs for the specified Redis cluster.
   // For more information about logs, see the [Logs](/docs/managed-redis/concepts/logs) section in the documentation.
   rpc ListLogs (ListClusterLogsRequest) returns (ListClusterLogsResponse) {
@@ -310,6 +319,16 @@ message RestoreClusterMetadata {
 
   // ID of the backup that is being used for creating a cluster.
   string backup_id = 2;
+}
+
+message StartClusterFailoverRequest {
+  // ID of the Redis cluster to start failover on.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message StartClusterFailoverMetadata {
+  // ID of the Redis cluster on which failover will be initiated.
+  string cluster_id = 1;
 }
 
 message LogRecord {

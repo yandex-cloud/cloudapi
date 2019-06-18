@@ -77,7 +77,7 @@ service ClusterService {
 
   // Moves a Redis cluster to the specified folder.
   rpc Move (MoveClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/managed-redis/v1/clusters/{cluster_id}:move" };
+    option (google.api.http) = { post: "/managed-redis/v1/clusters/{cluster_id}:move" body: "*" };
     option (yandex.api.operation) = {
       metadata: "MoveClusterMetadata"
       response: "Cluster"
@@ -98,6 +98,15 @@ service ClusterService {
     option (google.api.http) = { post: "/managed-redis/v1/clusters:restore" body: "*" };
     option (yandex.api.operation) = {
       metadata: "RestoreClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
+  // Start a manual failover on the specified Redis cluster.
+  rpc StartFailover (StartClusterFailoverRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-redis/v1/clusters/{cluster_id}:startFailover" };
+    option (yandex.api.operation) = {
+      metadata: "StartClusterFailoverMetadata"
       response: "Cluster"
     };
   }
@@ -339,6 +348,16 @@ message RestoreClusterMetadata {
 
   // ID of the backup that is being used for creating a cluster.
   string backup_id = 2;
+}
+
+message StartClusterFailoverRequest {
+  // ID of the Redis cluster to start failover on.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message StartClusterFailoverMetadata {
+  // ID of the Redis cluster on which failover will be initiated.
+  string cluster_id = 1;
 }
 
 message LogRecord {

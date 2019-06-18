@@ -389,4 +389,7 @@ message ListenerSpec {
     // External IP address specification.
     ExternalAddressSpec external_address_spec = 4;
   }
+
+  // Port of a target.
+  int64 target_port = 5;
 }

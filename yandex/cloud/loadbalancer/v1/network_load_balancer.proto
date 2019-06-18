@@ -132,6 +132,9 @@ message Listener {
 
   // Network protocol for incoming traffic.
   Protocol protocol = 4;
+
+  // Port of a target.
+  int64 target_port = 5;
 }
 
 // State of the target that was returned after the last health check.
