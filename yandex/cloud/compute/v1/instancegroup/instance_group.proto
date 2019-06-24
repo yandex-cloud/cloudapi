@@ -1,0 +1,474 @@
+syntax = "proto3";
+
+package yandex.cloud.compute.v1.instancegroup;
+
+import "yandex/cloud/validation.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1/instancegroup;instancegroup";
+
+message InstanceGroup {
+  // ID of the instance group.
+  string id = 1;
+
+  // ID of the folder that the instance group belongs to.
+  string folder_id = 2;
+
+  // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  google.protobuf.Timestamp created_at = 3;
+
+  // Name of the instance group.
+  // The name is unique within the folder.
+  string name = 4;
+
+  // Description of the instance group.
+  string description = 5;
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 6;
+
+  // Instance template for creating the instance group.
+  // For more information, see [Instance Templates](/docs/compute/concepts/ig-instance-templates).
+  InstanceTemplate instance_template = 7;
+
+  // Scaling policy of the instance group.
+  ScalePolicy scale_policy = 8;
+
+  // Deployment policy of the instance group.
+  DeployPolicy deploy_policy = 9;
+
+  // Allocation policy of the instance group by zones and regions.
+  AllocationPolicy allocation_policy = 10;
+
+  // Information that indicates which entities can be related to this load balancer.
+  LoadBalancerState load_balancer_state = 11;
+
+  // States of instances for this instance group.
+  ManagedInstancesState managed_instances_state = 12;
+
+  // Load balancing specification.
+  LoadBalancerSpec load_balancer_spec = 14;
+
+  // Health checking specification. For more information, see [Health check](/docs/load-balancer/concepts/health-check).
+  HealthChecksSpec health_checks_spec = 15;
+
+  // ID of the service account. The service account will be used for all API calls
+  // made by the Instance Groups component on behalf of the user (for example, creating instances, adding them to load balancer target group, etc.). For more information, see [Service accounts](/docs/iam/concepts/users/service-accounts).
+  // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
+  string service_account_id = 16;
+}
+
+message LoadBalancerState {
+  // ID of the target group used for load balancing.
+  string target_group_id = 1;
+
+  // Status message of the target group.
+  string status_message = 2;
+}
+
+message ManagedInstancesState {
+  // Target number of instances for this instance group.
+  int64 target_size = 1;
+
+  // The number of running instances that match the current instance template. For more information, see [ManagedInstance.Status.RUNNING_ACTUAL].
+  int64 running_actual_count = 4;
+
+  // The number of running instances that does not match the current instance template. For more information, see [ManagedInstance.Status.RUNNING_OUTDATED].
+  int64 running_outdated_count = 5;
+
+  // The number of instances in flight (for example, updating, starting, deleting). For more information, see [ManagedInstance.Status].
+  int64 processing_count = 6;
+
+  message Statuses {
+    // Instance is being created.
+    int64 creating = 1;
+
+    // Instance is being started.
+    int64 starting = 2;
+
+    // Instance is being opened to receive traffic.
+    int64 opening = 3;
+
+    // Instance is being warmed.
+    int64 warming = 4;
+
+    // Instance is running normally.
+    int64 running = 5;
+
+    // Instance is being closed to traffic.
+    int64 closing = 6;
+
+    // Instance is being stopped.
+    int64 stopping = 7;
+
+    // Instance is being updated.
+    int64 updating = 8;
+
+    // Instance is being deleted.
+    int64 deleting = 9;
+
+    // Instance failed and needs to be recreated.
+    int64 failed = 10;
+  }
+}
+
+message ScalePolicy {
+  oneof scale_type {
+    option (exactly_one) = true;
+    // Fixed scaling policy of the instance group.
+    FixedScale fixed_scale = 1;
+  }
+
+  message FixedScale {
+    // Number of instances in the instance group.
+    int64 size = 1 [(value) = "1-100"];
+  }
+}
+
+message DeployPolicy {
+  // The maximum number of running instances that can be taken offline (i.e., stopped or deleted) at the same time
+  // during the update process.
+  // If [max_expansion] is not specified or set to zero, [max_unavailable] must be set to a non-zero value.
+  int64 max_unavailable = 1 [(value) = "0-100"];
+
+  // The maximum number of instances that can be deleted at the same time.
+  int64 max_deleting = 2 [(value) = "0-100"];
+
+  // The maximum number of instances that can be created at the same time.
+  int64 max_creating = 3 [(value) = "0-100"];
+
+  // The maximum number of instances that can be temporarily allocated above the group's target size
+  // during the update process.
+  // If [max_unavailable] is not specified or set to zero, [max_expansion] must be set to a non-zero value.
+  int64 max_expansion = 6 [(value) = "0-100"];
+
+  // Instance startup duration.
+  // Instance will be considered up and running (and start receiving traffic) only after startup_duration
+  // has elapsed and all health checks are passed.
+  // See [yandex.cloud.compute.v1.instancegroup.ManagedInstance.Status] for more information.
+  google.protobuf.Duration startup_duration = 7 [(value) = "0m-1h"];
+}
+
+message AllocationPolicy {
+  // List of availability zones.
+  repeated Zone zones = 1 [(size) = ">=1"];
+
+  message Zone {
+    // ID of the availability zone where the instance resides.
+    string zone_id = 1 [(required) = true];
+  }
+}
+
+message InstanceTemplate {
+  // Description of the instance template.
+  string description = 1 [(length) = "<=256"];
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 2 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+
+  // ID of the hardware platform configuration for the instance.
+  // Currently only several platforms is available - `standard-v1`, `standard-v2`. These platforms are suitable for most tasks.
+  // These platforms allows you to create various types of instances: with a large amount of memory,
+  // with a large number of cores, with a burstable performance.
+  // For more information, see [Platforms](/docs/compute/concepts/vm-platforms).
+  string platform_id = 3 [(pattern) = "standard-v1|standard-v2"];
+
+  // Computing resources of the instance such as the amount of memory and number of cores.
+  ResourcesSpec resources_spec = 4 [(required) = true];
+
+  // The metadata `key:value` pairs assigned to this instance template. This includes custom metadata and predefined keys.
+  //
+  // For example, you may use the metadata in order to provide your public SSH key to the instance.
+  // For more information, see [Metadata](/docs/compute/concepts/vm-metadata).
+  map<string, string> metadata = 5 [(size) = "<=128", (length) = "<=262144", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+
+  // Boot disk specification that will be attached to the instance.
+  AttachedDiskSpec boot_disk_spec = 6 [(required) = true];
+
+  // Array of secondary disks that will be attached to the instance.
+  repeated AttachedDiskSpec secondary_disk_specs = 7 [(size) = "<=3"];
+
+  // Array of network interfaces that will be attached to the instance.
+  repeated NetworkInterfaceSpec network_interface_specs = 8 [(size) = "1"];
+
+  // Scheduling policy for the instance.
+  SchedulingPolicy scheduling_policy = 9;
+
+  // Service account ID for the instance.
+  string service_account_id = 10;
+}
+
+message ResourcesSpec {
+  // The amount of memory available to the instance, specified in bytes.
+  int64 memory = 1 [(value) = "<=274877906944"];
+
+  // The number of cores available to the instance.
+  int64 cores = 2 [(value) = "1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32"];
+
+  // Baseline level of CPU performance with the ability to burst performance above that baseline level.
+  // This field sets baseline performance for each core.
+  int64 core_fraction = 3 [(value) = "0,5,20,50,100"];
+}
+
+message AttachedDiskSpec {
+  enum Mode {
+    MODE_UNSPECIFIED = 0;
+
+    // Read-only access.
+    READ_ONLY = 1;
+
+    // Read/Write access.
+    READ_WRITE = 2;
+  }
+
+  // Access mode to the Disk resource.
+  Mode mode = 1 [(required) = true];
+
+  // Serial number that is reflected in the /dev/disk/by-id/ tree
+  // of a Linux operating system running within the instance.
+  //
+  // This value can be used to reference the device for mounting, resizing, and so on, from within the instance.
+  string device_name = 2 [(pattern) = "|[a-z][-_0-9a-z]{0,19}"];
+
+  // Disk specification that is attached to the instance. For more information, see [Disks](/docs/compute/concepts/disk).
+  DiskSpec disk_spec = 3 [(required) = true];
+
+  message DiskSpec {
+    // Description of the disk.
+    string description = 1 [(length) = "<=256"];
+    // ID of the disk type.
+    string type_id = 2 [(required) = true, (pattern) = "network-nvme|network-hdd"];
+    // Size of the disk, specified in bytes.
+    int64 size = 3 [(value) = "4194304-4398046511104"];
+
+    oneof source_oneof {
+      // ID of the image that will be used for disk creation.
+      string image_id = 4 [(length) = "<=50"];
+      // ID of the snapshot that will be used for disk creation.
+      string snapshot_id = 5 [(length) = "<=50"];
+    }
+  }
+}
+
+message NetworkInterfaceSpec {
+  // ID of the network.
+  string network_id = 1;
+
+  // IDs of the subnets.
+  repeated string subnet_ids = 2;
+
+  // Primary IPv4 address that is assigned to the instance for this network interface.
+  PrimaryAddressSpec primary_v4_address_spec = 3;
+
+  // Primary IPv6 address that is assigned to the instance for this network interface. IPv6 not available yet.
+  PrimaryAddressSpec primary_v6_address_spec = 4;
+}
+
+message PrimaryAddressSpec {
+  // An external IP address configuration.
+  // If not specified, then this managed instance will have no external internet access.
+  OneToOneNatSpec one_to_one_nat_spec = 1;
+}
+
+message OneToOneNatSpec {
+  // IP version for the public IP address.
+  IpVersion ip_version = 1;
+}
+
+enum IpVersion {
+  IP_VERSION_UNSPECIFIED = 0;
+
+  // IPv4 address, for example 192.168.0.0.
+  IPV4 = 1;
+
+  // IPv6 address, not available yet.
+  IPV6 = 2;
+}
+
+message SchedulingPolicy {
+  // Preemptible instances are stopped at least once every 24 hours, and can be stopped at any time
+  // if their resources are needed by Compute.
+  // For more information, see [Preemptible Virtual Machines](/docs/compute/concepts/preemptible-vm).
+  bool preemptible = 1;
+}
+
+message LoadBalancerSpec {
+  // Specification of the target group that the instance group will be added to. For more information, see [Target groups and resources](/docs/load-balancer/target-resources).
+  TargetGroupSpec target_group_spec = 1;
+}
+
+message TargetGroupSpec {
+  // Name of the target group.
+  string name = 1 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+
+  // Description of the target group.
+  string description = 2 [(length) = "<=256"];
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 3 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+}
+
+message HealthChecksSpec {
+  // Health checking specification. For more information, see [Health check](/docs/load-balancer/concepts/health-check).
+  repeated HealthCheckSpec health_check_specs = 1 [(size) = ">=1"];
+}
+
+message HealthCheckSpec {
+
+  message TcpOptions {
+    // Port to use for TCP health checks.
+    int64 port = 1 [(value) = "1-32767"];
+  }
+
+  message HttpOptions {
+     // Port to use for HTTP health checks.
+    int64 port = 1 [(value) = "1-32767"];
+
+    // URL path to set for health checking requests.
+    string path = 2;
+  }
+
+  // The interval between health checks. The default is 2 seconds.
+  google.protobuf.Duration interval = 1 [(value) = "1s-300s"];
+
+  // Timeout for the managed instance to return a response for the health check. The default is 1 second.
+  google.protobuf.Duration timeout = 2 [(value) = "1s-60s"];
+
+  // The number of failed health checks for the managed instance to be considered unhealthy. The default (0) is 2.
+  int64 unhealthy_threshold = 3 [(value) = "0,2,3,4,5,6,7,8,9,10"];
+
+  // The number of successful health checks required in order for the managed instance to be considered healthy. The default (0) is 2.
+  int64 healthy_threshold = 4 [(value) = "0,2,3,4,5,6,7,8,9,10"];
+
+  oneof health_check_options {
+    // Health checks can only use one type of protocol options.
+    option (exactly_one) = true;
+
+    // Configuration options for a TCP health check.
+    TcpOptions tcp_options = 5;
+
+    // Configuration options for an HTTP health check.
+    HttpOptions http_options = 6;
+  }
+}
+
+// A ManagedInstance resource. For more information, see [Instance Groups Concepts](/docs/instance-groups/concepts).
+message ManagedInstance {
+
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+
+    // Instance is being created.
+    CREATING_INSTANCE = 11;
+
+    // Instance is being updated.
+    UPDATING_INSTANCE = 12;
+
+    // Instance is being deleted.
+    DELETING_INSTANCE = 13;
+
+    // Instance is being started.
+    STARTING_INSTANCE = 14;
+
+    // Instance is being stopped.
+    STOPPING_INSTANCE = 15;
+
+    // Instance has been created successfully, but startup duration has not elapsed yet.
+    AWAITING_STARTUP_DURATION = 16;
+
+    // Instance has been created successfully and startup duration has elapsed, but health checks have not passed yet and the managed instance is not ready to receive traffic.
+    CHECKING_HEALTH = 17;
+
+    // Instance Groups is initiating health checks and routing traffic to the instances.
+    OPENING_TRAFFIC = 18;
+
+    // Instance is now receiving traffic, but warmup duration has not elapsed yet.
+    AWAITING_WARMUP_DURATION = 19;
+
+    // Instance Groups has initiated the process of stopping routing traffic to the instances.
+    CLOSING_TRAFFIC = 20;
+
+    // Instance is running normally and its attributes match the current InstanceTemplate.
+    RUNNING_ACTUAL = 21;
+
+    // Instance is running normally, but its attributes do not match the current InstanceTemplate.
+    // It will be updated, recreated or deleted shortly.
+    RUNNING_OUTDATED = 22;
+
+    // Instance was stopped.
+    STOPPED = 23;
+
+    // Instance was deleted.
+    DELETED = 24;
+  }
+
+  // ID of the managed instance.
+  string id = 1;
+
+  // Status of the managed instance.
+  Status status = 2;
+
+  // ID of the instance.
+  string instance_id = 3;
+
+  // Fully Qualified Domain Name.
+  string fqdn = 4;
+
+  // The name of the managed instance.
+  string name = 5;
+
+  // Status message for the managed instance.
+  string status_message = 6;
+
+  // ID of the availability zone where the instance resides.
+  string zone_id = 7;
+
+  // Array of network interfaces that are attached to the managed instance.
+  repeated NetworkInterface network_interfaces = 8;
+
+  // The timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format when the status of the managed instance was last changed.
+  google.protobuf.Timestamp status_changed_at = 9;
+}
+
+message NetworkInterface {
+  // The index of the network interface, generated by the server, 0,1,2... etc.
+  // Currently only one network interface is supported per instance.
+  string index = 1;
+
+  // MAC address that is assigned to the network interface.
+  string mac_address = 2;
+
+  // ID of the subnet.
+  string subnet_id = 3;
+
+  // Primary IPv4 address that is assigned to the instance for this network interface.
+  PrimaryAddress primary_v4_address = 4;
+  // Primary IPv6 address that is assigned to the instance for this network interface. IPv6 is not available yet.
+  PrimaryAddress primary_v6_address = 5;
+}
+
+message PrimaryAddress {
+  // An IPv4 internal network address that is assigned to the managed instance for this network interface.
+  // If not specified by the user, an unused internal IP is assigned by the system.
+  string address = 1;
+
+  // One-to-one NAT configuration. If missing, NAT has not been set up.
+  OneToOneNat one_to_one_nat = 2;
+}
+
+message OneToOneNat {
+  // An IPv4 external network address that is assigned to the managed instance for this network interface.
+  string address = 1;
+
+  // External IP address version.
+  IpVersion ip_version = 2;
+}
+
+message LogRecord {
+  // Log timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  google.protobuf.Timestamp timestamp = 1;
+
+  // The log message.
+  string message = 2;
+}

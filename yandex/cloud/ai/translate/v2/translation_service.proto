@@ -62,7 +62,7 @@ message TranslateRequest {
   // Do not specify this field, custom models are not supported yet.
   string model = 6 [(length) = "<=50"];
 
-  // Glossary to be applied. For more information, see [Glossaries](/docs/translate/concepts/glossary).
+  // Glossary to be applied for the translation. For more information, see [Glossaries](/docs/translate/concepts/glossary).
   TranslateGlossaryConfig glossary_config = 7;
 }
 
@@ -77,7 +77,8 @@ message TranslateGlossaryConfig {
 message GlossaryData {
   // Array of text pairs.
   //
-  // The maximum total length of all source texts is 10000 characters. Same for translated texts.
+  // The maximum total length of all source texts is 10000 characters.
+  // The maximum total length of all translated texts is 10000 characters.
   repeated GlossaryPair glossary_pairs = 1 [(size) = "1-50"];
 }
 
