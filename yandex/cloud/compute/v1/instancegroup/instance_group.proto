@@ -209,6 +209,9 @@ message ResourcesSpec {
   // Baseline level of CPU performance with the ability to burst performance above that baseline level.
   // This field sets baseline performance for each core.
   int64 core_fraction = 3 [(value) = "0,5,20,50,100"];
+
+  // The number of GPUs available to the instance.
+  int64 gpus = 4 [(value) = "0,1,2,4"];
 }
 
 message AttachedDiskSpec {
@@ -238,7 +241,7 @@ message AttachedDiskSpec {
     // Description of the disk.
     string description = 1 [(length) = "<=256"];
     // ID of the disk type.
-    string type_id = 2 [(required) = true, (pattern) = "network-nvme|network-hdd"];
+    string type_id = 2 [(required) = true];
     // Size of the disk, specified in bytes.
     int64 size = 3 [(value) = "4194304-4398046511104"];
 

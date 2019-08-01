@@ -83,7 +83,7 @@ service InstanceService {
     option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:start" };
     option (yandex.api.operation) = {
       metadata: "StartInstanceMetadata"
-      response: "google.protobuf.Empty"
+      response: "Instance"
     };
   }
 
@@ -237,7 +237,7 @@ message CreateInstanceRequest {
   // Scheduling policy configuration.
   SchedulingPolicy scheduling_policy = 13;
 
-  // ID of the service account. For more information, see [Service accounts](/docs/iam/concepts/users/service-accounts).
+  // ID of the service account to use for [authentication inside the instance](/docs/compute/operations/vm-connect/auth-inside-vm).
   // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
   string service_account_id = 14;
 }
@@ -291,6 +291,8 @@ message UpdateInstanceRequest {
   // For more information, see [Metadata](/docs/compute/concepts/vm-metadata).
   map<string, string> metadata = 8;
 
+  // ID of the service account to use for [authentication inside the instance](/docs/compute/operations/vm-connect/auth-inside-vm).
+  // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
   string service_account_id = 9;
 }
 
@@ -330,7 +332,7 @@ message GetInstanceSerialPortOutputRequest {
   // ID of the instance to return the serial port output for.
   string instance_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Specifies which serial port to retrieve data from. The default is 1.
+  // Serial port to retrieve data from. The default is 1.
   int64  port = 2 [(value) = "1,2,3,4"];
 }
 
@@ -456,7 +458,7 @@ message ResourcesSpec {
   int64 core_fraction = 3 [(value) = "0,5,20,50,100"];
 
   // The number of GPUs available to the instance.
-  int64 gpus = 4 [(value) = "1,2,4"];
+  int64 gpus = 4 [(value) = "0,1,2,4"];
 }
 
 message AttachedDiskSpec {

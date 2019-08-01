@@ -48,8 +48,8 @@ message GetDatabaseRequest {
   // To get the cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Name of the MongoDB Database resource to return.
-  // To get the name of the database use a [DatabaseService.List] request.
+  // Name of the MongoDB database to return.
+  // To get the name of the database use a [List] request.
   string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
@@ -61,7 +61,6 @@ message ListDatabasesRequest {
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListDatabasesResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-
   int64 page_size = 2 [(value) = "<=1000"];
 
   // Page token. To get the next page of results, set [page_token] to the 
@@ -70,7 +69,7 @@ message ListDatabasesRequest {
 }
 
 message ListDatabasesResponse {
-  // List of MongoDB Database resources.
+  // List of MongoDB databases.
   repeated Database databases = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results

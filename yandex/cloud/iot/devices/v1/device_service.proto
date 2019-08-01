@@ -93,6 +93,8 @@ message CreateDeviceRequest {
   string name = 2 [(required) = true, (length) = "<=50", (pattern) = "[a-zA-Z0-9_-]*"];
   string description = 3 [(length) = "<=256"];
   repeated Certificate certificates = 4;
+  // map from alias to canonical topic name prefix, e.g. my/custom/alias -> $device/{id}/events
+  map<string, string> topic_aliases = 5;
 
   message Certificate {
     string certificate_data = 1;
@@ -110,6 +112,8 @@ message UpdateDeviceRequest {
 
   string name = 3 [(length) = "<=50", (pattern) = "[a-zA-Z0-9_-]*"];
   string description = 4 [(length) = "<=256"];
+  // map from alias to canonical topic name prefix, e.g. my/custom/alias -> $device/abcdef/events
+  map<string, string> topic_aliases = 5;
 }
 
 message UpdateDeviceMetadata {

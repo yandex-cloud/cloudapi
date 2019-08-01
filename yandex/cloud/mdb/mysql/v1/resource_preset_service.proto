@@ -24,7 +24,7 @@ service ResourcePresetService {
 }
 
 message GetResourcePresetRequest {
-  // Required. ID of the resource preset to return.
+  // ID of the resource preset to return.
   // To get the resource preset ID, use a [ResourcePresetService.List] request.
   string resource_preset_id = 1 [(required) = true];
 }

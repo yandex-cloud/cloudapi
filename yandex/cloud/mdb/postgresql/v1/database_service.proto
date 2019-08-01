@@ -91,11 +91,11 @@ message ListDatabasesResponse {
 }
 
 message CreateDatabaseRequest {
-  // Required. ID of the PostgreSQL cluster to create a database in.
+  // ID of the PostgreSQL cluster to create a database in.
   // To get the cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. Configuration of the database to create.
+  // Configuration of the database to create.
   DatabaseSpec database_spec = 2 [(required) = true];
 }
 
@@ -108,11 +108,11 @@ message CreateDatabaseMetadata {
 }
 
 message UpdateDatabaseRequest {
-  // Required. ID of the PostgreSQL cluster to update a database in.
+  // ID of the PostgreSQL cluster to update a database in.
   // To get the cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. Name of the database to update.
+  // Name of the database to update.
   // To get the name of the database use a [DatabaseService.List] request.
   string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
@@ -135,11 +135,11 @@ message UpdateDatabaseMetadata {
 }
 
 message DeleteDatabaseRequest {
-  // Required. ID of the PostgreSQL cluster to delete a database in.
+  // ID of the PostgreSQL cluster to delete a database in.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. Name of the database to delete.
+  // Name of the database to delete.
   // To get the name of the database, use a [DatabaseService.List] request.
   string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }

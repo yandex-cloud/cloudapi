@@ -391,5 +391,6 @@ message ListenerSpec {
   }
 
   // Port of a target.
+  // Acceptable values are 1 to 32767, inclusive.
   int64 target_port = 5;
 }

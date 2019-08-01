@@ -312,6 +312,9 @@ message RestoreClusterRequest {
 
   // ID of the network to create the MySQL cluster in.
   string network_id = 10 [(length) = "<=50"];
+
+  // ID of the folder to create the MySQL cluster in.
+  string folder_id = 11 [(length) = "<=50"];
 }
 
 message RestoreClusterMetadata {
@@ -594,4 +597,7 @@ message ConfigSpec {
 
   // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 4;
+
+  // Access policy to DB
+  Access access = 5;
 }

@@ -45,4 +45,7 @@ message StaticRoute {
     // Next hop IP address
     string next_hop_address = 2;
   }
+
+  // Resource labels as `` key:value `` pairs. Мaximum of 64 per resource.
+  map<string, string> labels = 3;
 }

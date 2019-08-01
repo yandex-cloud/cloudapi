@@ -58,7 +58,7 @@ service ClusterService {
 
   // Start the specified Redis cluster.
   rpc Start (StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/managed-redis/v1/clusters/{cluster_id}:start" };
+    option (google.api.http) = { post: "/managed-redis/v1alpha/clusters/{cluster_id}:start" };
     option (yandex.api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
@@ -67,7 +67,7 @@ service ClusterService {
 
   // Stop the specified Redis cluster.
   rpc Stop (StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/managed-redis/v1/clusters/{cluster_id}:stop" };
+    option (google.api.http) = { post: "/managed-redis/v1alpha/clusters/{cluster_id}:stop" };
     option (yandex.api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
@@ -114,7 +114,7 @@ service ClusterService {
 
   // Retrieves the list of available backups for the specified Redis cluster.
   rpc ListBackups (ListClusterBackupsRequest) returns (ListClusterBackupsResponse) {
-    option (google.api.http) = { get: "/managed-redis/v1/clusters/{cluster_id}/backups" };
+    option (google.api.http) = { get: "/managed-redis/v1alpha/clusters/{cluster_id}/backups" };
   }
 
   // Retrieves a list of hosts for the specified cluster.
@@ -254,22 +254,22 @@ message DeleteClusterMetadata {
 }
 
 message StartClusterRequest {
-  // Required. ID of the Redis cluster to start.
+  // ID of the Redis cluster to start.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message StartClusterMetadata {
-  // Required. ID of the Redis cluster.
+  // ID of the Redis cluster.
   string cluster_id = 1;
 }
 
 message StopClusterRequest {
-  // Required. ID of the Redis cluster to stop.
+  // ID of the Redis cluster to stop.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message StopClusterMetadata {
-  // Required. ID of the Redis cluster.
+  // ID of the Redis cluster.
   string cluster_id = 1;
 }
 

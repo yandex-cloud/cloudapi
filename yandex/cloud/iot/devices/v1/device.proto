@@ -13,6 +13,8 @@ message Device {
   google.protobuf.Timestamp created_at = 3;
   string name = 4;
   string description = 5;
+  // map from alias to canonical topic name prefix, e.g. my/custom/alias -> $device/abcdef/events
+  map<string, string> topic_aliases = 6;
 }
 
 message DeviceCertificate {

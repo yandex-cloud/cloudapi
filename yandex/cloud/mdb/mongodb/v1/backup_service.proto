@@ -10,14 +10,14 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongod
 
 // A set of methods for managing MongoDB Backup resources.
 service BackupService {
-  // Returns the specified MongoDB Backup resource.
+  // Returns the specified MongoDB backup.
   //
-  // To get the list of available MongoDB Backup resources, make a [List] request.
+  // To get the list of available MongoDB backups, make a [List] request.
   rpc Get (GetBackupRequest) returns (Backup) {
     option (google.api.http) = { get: "/managed-mongodb/v1/backups/{backup_id}" };
   }
 
-  // Retrieves the list of Backup resources available for the specified folder.
+  // Retrieves the list of backups available for the specified folder.
   rpc List (ListBackupsRequest) returns (ListBackupsResponse) {
     option (google.api.http) = { get: "/managed-mongodb/v1/backups" };
   }

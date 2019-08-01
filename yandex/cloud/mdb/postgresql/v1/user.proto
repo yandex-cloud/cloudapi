@@ -113,4 +113,6 @@ message UserSettings {
 
   // in bytes.
   google.protobuf.Int64Value temp_file_limit = 5;
+
+  LogStatement log_statement = 6;
 }

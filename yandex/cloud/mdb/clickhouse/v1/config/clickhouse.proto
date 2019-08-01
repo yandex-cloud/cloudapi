@@ -72,9 +72,9 @@ message ClickhouseConfig {
         // MySQL host of the replica.
         string host = 1 [(required) = true, (length) = "<=253"];
 
-        // Required. The priority of the replica that ClickHouse takes into account when connecting.
+        // The priority of the replica that ClickHouse takes into account when connecting.
         // Replica with the highest priority should have this field set to the lowest number.
-        int64 priority = 2 [(value) = ">0"];
+        int64 priority = 2 [(required) = true, (value) = ">0"];
 
         // Port to use when connecting to the replica.
         // If a port is not specified for a replica, ClickHouse uses the port specified for the source.
@@ -154,6 +154,43 @@ message ClickhouseConfig {
 
       // Password of the MongoDB database user.
       string password = 6;
+    }
+
+    message PostgresqlSource {
+      enum SslMode {
+        SSL_MODE_UNSPECIFIED = 0;
+
+        DISABLE = 1;
+
+        ALLOW = 2;
+
+        PREFER = 3;
+
+        VERIFY_CA = 4;
+
+        VERIFY_FULL = 5;
+      }
+
+      // Required.
+      string db = 1 [(required) = true];
+
+      // Required.
+      string table = 2 [(required) = true];
+
+      // Required.
+      repeated string hosts = 3 [(size) = ">0"];
+
+      int64 port = 4 [(value) = "0-65535"];
+
+      // Required.
+      string user = 5 [(required) = true];
+
+      string password = 6;
+
+      // Query for checking the dictionary status and figuring out whether the data should be reloaded.
+      string invalidate_query = 7;
+
+      SslMode ssl_mode = 8;
     }
 
     message Structure {
@@ -261,7 +298,7 @@ message ClickhouseConfig {
     // For in-depth description, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_layout/).
     Layout layout = 3 [(required) = true];
 
-    // Required. Setting for the period of time between dictionary updates.
+    // Setting for the period of time between dictionary updates.
     // For details, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_lifetime/).
     oneof lifetime {
       option (exactly_one) = true;
@@ -273,7 +310,7 @@ message ClickhouseConfig {
       Range lifetime_range = 5;
     }
 
-    // Required. Description of the source for the external dictionary.
+    // Description of the source for the external dictionary.
     oneof source {
       option (exactly_one) = true;
 
@@ -288,6 +325,8 @@ message ClickhouseConfig {
 
       // MongoDB source for the dictionary.
       MongodbSource mongodb_source = 9;
+
+      PostgresqlSource postgresql_source = 10;
     }
   }
 

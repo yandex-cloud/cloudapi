@@ -25,4 +25,7 @@ message Backup {
   // Start timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format
   // (i.e. when the backup operation was started).
   google.protobuf.Timestamp started_at = 5;
+
+  // Shard names used as a source for backup.
+  repeated string source_shard_names = 6;
 }

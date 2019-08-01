@@ -97,11 +97,11 @@ message CreateDatabaseMetadata {
 }
 
 message DeleteDatabaseRequest {
-  // Required. ID of the MySQL cluster to delete a database in.
+  // ID of the MySQL cluster to delete a database in.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. Name of the database to delete.
+  // Name of the database to delete.
   // To get the name of the database, use a [DatabaseService.List] request.
   string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }

@@ -99,7 +99,6 @@ enum InstanceGroupView {
   FULL = 1;
 }
 
-
 message GetInstanceGroupRequest {
   // ID of the InstanceGroup resource to return.
   // To get the instance group ID, use an [InstanceGroupService.List] request.
@@ -227,6 +226,11 @@ message DeleteInstanceGroupRequest {
 message DeleteInstanceGroupMetadata {
   // ID of the instance group that is being deleted.
   // To get the instance group ID, use an [InstanceGroupService.List] request.
+  string instance_group_id = 1;
+}
+
+message DeleteInstancesMetadata {
+  // ID of the instance group that the instances are being deleted from.
   string instance_group_id = 1;
 }
 

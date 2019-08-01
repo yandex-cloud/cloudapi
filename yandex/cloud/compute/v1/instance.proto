@@ -94,7 +94,7 @@ message Instance {
   // Scheduling policy configuration.
   SchedulingPolicy scheduling_policy = 17;
 
-  // ID of the service account. For more information, see [Service accounts](/docs/iam/concepts/users/service-accounts).
+  // ID of the service account to use for [authentication inside the instance](/docs/compute/operations/vm-connect/auth-inside-vm).
   // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
   string service_account_id = 18;
 }

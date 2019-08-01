@@ -150,6 +150,9 @@ message ClusterConfig {
 
   // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 7;
+
+  // Access policy to DB
+  Access access = 9;
 }
 
 message ConnectionPoolerConfig {
@@ -310,4 +313,9 @@ message Resources {
   // * network-nvme — network SSD drive,
   // * local-nvme — local SSD storage.
   string disk_type_id = 3;
+}
+
+message Access {
+  // Allow access for DataLens
+  bool data_lens = 1;
 }

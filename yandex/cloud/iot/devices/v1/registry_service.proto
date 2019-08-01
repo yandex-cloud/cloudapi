@@ -64,6 +64,10 @@ service RegistryService {
     };
   }
 
+  rpc ListDeviceTopicAliases (ListDeviceTopicAliasesRequest) returns (ListDeviceTopicAliasesResponse) {
+    option (google.api.http) = { get: "/iot-devices/v1/registries/{registry_id}:listDeviceTopicAliases" };
+  }
+
   rpc ListOperations (ListRegistryOperationsRequest) returns (ListRegistryOperationsResponse) {
     option (google.api.http) = { get: "/iot-devices/v1/registries/{registry_id}/operations" };
   }
@@ -150,6 +154,17 @@ message DeleteRegistryCertificateRequest {
 message DeleteRegistryCertificateMetadata {
   string registry_id = 1 [(required) = true, (length) = "<=50"];
   string fingerprint = 2 [(required) = true, (length) = "<=50"];
+}
+
+message ListDeviceTopicAliasesRequest {
+  string registry_id = 1 [(required) = true, (length) = "<=50"];
+  int64 page_size = 2 [(value) = "0-1000"];
+  string page_token = 3 [(length) = "<=100"];
+}
+
+message ListDeviceTopicAliasesResponse {
+  repeated DeviceAlias aliases = 1;
+  string next_page_token = 2;
 }
 
 message ListRegistryOperationsRequest {

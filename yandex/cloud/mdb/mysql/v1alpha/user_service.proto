@@ -72,15 +72,15 @@ service UserService {
 }
 
 message GetUserRequest {
-  // Required. ID of the MySQL cluster.
+  // ID of the MySQL cluster.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required.
+  // Name of the user.
   string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 }
 
 message ListUsersRequest {
-  // Required. ID of the cluster to list MySQL users in.
+  // ID of the cluster to list MySQL users in.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
@@ -106,7 +106,7 @@ message ListUsersResponse {
 }
 
 message CreateUserRequest {
-  // Required. ID of the MySQL cluster to create a user for.
+  // ID of the MySQL cluster to create a user for.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
@@ -123,11 +123,11 @@ message CreateUserMetadata {
 }
 
 message UpdateUserRequest {
-  // Required. ID of the MySQL cluster the user belongs to.
+  // ID of the MySQL cluster the user belongs to.
   // To get the cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. Name of the user to be updated.
+  // Name of the user to be updated.
   // To get the name of the user use a [UserService.List] request.
   string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 
@@ -150,11 +150,11 @@ message UpdateUserMetadata {
 }
 
 message DeleteUserRequest {
-  // Required. ID of the MySQL cluster the user belongs to.
+  // ID of the MySQL cluster the user belongs to.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. Name of the user to delete.
+  // Name of the user to delete.
   // To get the name of the user, use a [UserService.List] request.
   string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 }
@@ -168,11 +168,11 @@ message DeleteUserMetadata {
 }
 
 message GrantUserPermissionRequest {
-  // Required. ID of the MySQL cluster the user belongs to.
+  // ID of the MySQL cluster the user belongs to.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. Name of the user to grant the permission to.
+  // Name of the user to grant the permission to.
   // To get the name of the user, use a [UserService.List] request.
   string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 
@@ -190,11 +190,11 @@ message GrantUserPermissionMetadata {
 }
 
 message RevokeUserPermissionRequest {
-  // Required. ID of the MySQL cluster the user belongs to.
+  // ID of the MySQL cluster the user belongs to.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. Name of the user to revoke a permission from.
+  // Name of the user to revoke a permission from.
   // To get the name of the user, use a [UserService.List] request.
   string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
 

@@ -149,6 +149,43 @@ service ClusterService {
       response: "google.protobuf.Empty"
     };
   }
+
+  // Returns the specified shard.
+  rpc GetShard (GetClusterShardRequest) returns (Shard) {
+    option (google.api.http) = { get: "/managed-redis/v1/clusters/{cluster_id}/shards/{shard_name}" };
+  }
+
+  // Retrieves a list of shards.
+  rpc ListShards (ListClusterShardsRequest) returns (ListClusterShardsResponse) {
+    option (google.api.http) = { get: "/managed-redis/v1/clusters/{cluster_id}/shards" };
+  }
+
+  // Creates a new shard.
+  rpc AddShard (AddClusterShardRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-redis/v1/clusters/{cluster_id}/shards" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "AddClusterShardMetadata"
+      response: "Shard"
+    };
+  }
+
+  // Deletes the specified shard.
+  rpc DeleteShard (DeleteClusterShardRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/managed-redis/v1/clusters/{cluster_id}/shards/{shard_name}" };
+    option (yandex.api.operation) = {
+      metadata: "DeleteClusterShardMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Rebalances the cluster. Evenly distributes all the hash slots between the shards.
+  rpc Rebalance (RebalanceClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-redis/v1/clusters/{cluster_id}:rebalance" };
+    option (yandex.api.operation) = {
+      metadata: "RebalanceClusterMetadata"
+      response: "Cluster"
+    };
+  }
 }
 
 message GetClusterRequest {
@@ -215,6 +252,9 @@ message CreateClusterRequest {
 
   // ID of the network to create the cluster in.
   string network_id = 10 [(required) = true, (length) = "<=50"];
+
+  // Redis cluster mode on/off.
+  bool sharded = 11;
 }
 
 message CreateClusterMetadata {
@@ -264,22 +304,22 @@ message DeleteClusterMetadata {
 }
 
 message StartClusterRequest {
-  // Required. ID of the Redis cluster to start.
+  // ID of the Redis cluster to start.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message StartClusterMetadata {
-  // Required. ID of the Redis cluster.
+  // ID of the Redis cluster.
   string cluster_id = 1;
 }
 
 message StopClusterRequest {
-  // Required. ID of the Redis cluster to stop.
+  // ID of the Redis cluster to stop.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message StopClusterMetadata {
-  // Required. ID of the Redis cluster.
+  // ID of the Redis cluster.
   string cluster_id = 1;
 }
 
@@ -340,6 +380,9 @@ message RestoreClusterRequest {
 
   // ID of the network to create the Redis cluster in.
   string network_id = 8 [(required) = true, (length) = "<=50"];
+
+  // ID of the folder to create the Redis cluster in.
+  string folder_id = 9 [(length) = "<=50"];
 }
 
 message RestoreClusterMetadata {
@@ -524,6 +567,60 @@ message DeleteClusterHostsMetadata {
   repeated string host_names = 2;
 }
 
+message GetClusterShardRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+}
+
+message ListClusterShardsRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  int64 page_size = 2 [(value) = "<=1000"];
+
+  string page_token = 3 [(length) = "<=100"];
+}
+
+message ListClusterShardsResponse {
+  repeated Shard shards = 1;
+
+  string next_page_token = 2;
+}
+
+message AddClusterShardRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  repeated HostSpec host_specs = 4 [(size) = ">0"];
+}
+
+message AddClusterShardMetadata {
+  string cluster_id = 1;
+
+  string shard_name = 2;
+}
+
+message DeleteClusterShardRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+}
+
+message DeleteClusterShardMetadata {
+  string cluster_id = 1;
+
+  string shard_name = 2;
+}
+
+message RebalanceClusterRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message RebalanceClusterMetadata {
+  string cluster_id = 1;
+}
+
 message HostSpec {
   // ID of the availability zone where the host resides.
   // To get a list of available zones, use the [yandex.cloud.compute.v1.ZoneService.List] request.
@@ -533,6 +630,8 @@ message HostSpec {
   // of the network that the cluster belongs to.
   // The ID of the network is set in the field [Cluster.network_id].
   string subnet_id = 2;
+
+  string shard_name = 3 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message ConfigSpec {
@@ -550,4 +649,7 @@ message ConfigSpec {
 
   // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 4;
+
+  // Access policy to DB
+  Access access = 5;
 }

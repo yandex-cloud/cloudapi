@@ -87,9 +87,9 @@ service ClusterService {
     };
   }
 
-  // Add ZooKeeper subcluster to the specififes ClickHouse cluster.
+  // Adds a ZooKeeper subcluster to the specified ClickHouse cluster.
   rpc AddZookeeper (AddClusterZookeeperRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/clickhouse/v1/clusters/{cluster_id}:addZookeeper" body: "*" };
+    option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}:addZookeeper" body: "*" };
     option (yandex.api.operation) = {
       metadata: "AddClusterZookeeperMetadata"
       response: "Cluster"
@@ -190,16 +190,18 @@ service ClusterService {
     };
   }
 
+  // Creates an external dictionary for the specified ClickHouse cluster.
   rpc CreateExternalDictionary (CreateClusterExternalDictionaryRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/clickhouse/v1/clusters/{cluster_id}:createExternalDictionary" body: "*" };
+    option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}:createExternalDictionary" body: "*" };
     option (yandex.api.operation) = {
       metadata: "CreateClusterExternalDictionaryMetadata"
       response: "Cluster"
     };
   }
 
+  // Deletes the specified external dictionary.
   rpc DeleteExternalDictionary (DeleteClusterExternalDictionaryRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/clickhouse/v1/clusters/{cluster_id}:deleteExternalDictionary" body: "*" };
+    option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}:deleteExternalDictionary" body: "*" };
     option (yandex.api.operation) = {
       metadata: "DeleteClusterExternalDictionaryMetadata"
       response: "Cluster"
@@ -326,7 +328,7 @@ message DeleteClusterMetadata {
 }
 
 message StartClusterRequest {
-  // Required. ID of the ClickHouse cluster to start.
+  // ID of the ClickHouse cluster to start.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 }
 
@@ -336,7 +338,7 @@ message StartClusterMetadata {
 }
 
 message StopClusterRequest {
-  // Required. ID of the ClickHouse cluster to stop.
+  // ID of the ClickHouse cluster to stop.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 }
 
@@ -365,7 +367,7 @@ message MoveClusterMetadata {
 }
 
 message AddClusterZookeeperRequest {
-  // Required. ID of the ClickHouse cluster to modify.
+  // ID of the ClickHouse cluster to modify.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Resources allocated to Zookeeper hosts.
@@ -376,7 +378,7 @@ message AddClusterZookeeperRequest {
 }
 
 message AddClusterZookeeperMetadata {
-  // Required. ID of the ClickHouse cluster.
+  // ID of the ClickHouse cluster.
   string cluster_id = 1;
 }
 
@@ -418,6 +420,9 @@ message RestoreClusterRequest {
 
   // ID of the network to create the ClickHouse cluster in.
   string network_id = 8 [(required) = true, (length) = "<=50"];
+
+  // ID of the folder to create the ClickHouse cluster in.
+  string folder_id = 9 [(length) = "<=50"];
 }
 
 message RestoreClusterMetadata {
@@ -696,22 +701,30 @@ message DeleteClusterShardMetadata {
 }
 
 message CreateClusterExternalDictionaryRequest {
+  // ID of the ClickHouse cluster to create the external dictionary for.
+  // To get the cluster ID, use a [List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
+  // Configuration of the external dictionary.
   config.ClickhouseConfig.ExternalDictionary external_dictionary = 2;
 }
 
 message CreateClusterExternalDictionaryMetadata {
+  // ID of the cluster for which an external dictionary is being created.
   string cluster_id = 1;
 }
 
 message DeleteClusterExternalDictionaryRequest {
+  // ID of the ClickHouse cluster to delete the external dictionary from.
+  // To get the cluster ID, use a [List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
+  // Name of the external dictionary to delete.
   string external_dictionary_name = 2;
 }
 
 message DeleteClusterExternalDictionaryMetadata {
+  // ID of the cluster where an external dictionary is being deleted.
   string cluster_id = 1;
 }
 
@@ -768,6 +781,9 @@ message ConfigSpec {
 
   // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 4;
+
+  // Access policy to DB
+  Access access = 5;
 }
 
 message ShardConfigSpec {

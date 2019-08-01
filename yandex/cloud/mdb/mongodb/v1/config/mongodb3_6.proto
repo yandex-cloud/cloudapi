@@ -121,17 +121,23 @@ message MongoCfgConfig3_6 {
     enum Mode {
       MODE_UNSPECIFIED = 0;
 
+      // The profiler is off and does not collect any data. This is the default
+      // profiler level.
       OFF = 1;
 
+      // The profiler collects data for operations that take longer than the value of [slow_op_threshold].
       SLOW_OP = 2;
 
+      // The profiler collects data for all operations.
       ALL = 3;
     }
 
+    // Operation profiling level. For details, see [MongoDB documentation](https://docs.mongodb.com/v3.6/tutorial/manage-the-database-profiler/).
     Mode mode = 1;
 
     // The slow operation time threshold, in milliseconds. Operations that run
-    // for longer than this threshold are considered slow.
+    // for longer than this threshold are considered slow, and are processed by the profiler
+    // running in the SLOW_OP mode. For details see [MongoDB documentation](https://docs.mongodb.com/v3.6/reference/configuration-options/#operationProfiling.slowOpThresholdMs).
     google.protobuf.Int64Value slow_op_threshold = 2  [(value) = ">0"];
   }
 
@@ -157,29 +163,31 @@ message MongosConfig3_6 {
     google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-16384"];
   }
 
+  // Network settings for mongos.
   Network net = 1;
 }
 
 message MongodConfigSet3_6 {
-  // Effective settings for a MongoDB 3.6 cluster (a combination of settings defined
+  // Effective mongod settings for a MongoDB 3.6 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
   MongodConfig3_6 effective_config = 1;
 
-  // User-defined settings for a MongoDB 3.6 cluster.
+  // User-defined mongod settings for a MongoDB 3.6 cluster.
   MongodConfig3_6 user_config = 2;
 
-  // Default configuration for a MongoDB 3.6 cluster.
+  // Default mongod configuration for a MongoDB 3.6 cluster.
   MongodConfig3_6 default_config = 3;
 }
 
 message MongoCfgConfigSet3_6 {
-  // Effective settings for a MongoDB 3.6 cluster (a combination of settings defined
+  // Effective mongocfg settings for a MongoDB 3.6 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
   MongoCfgConfig3_6 effective_config = 1;
 
-  // User-defined settings for a MongoDB 3.6 cluster.
+  // User-defined mongocfg settings for a MongoDB 3.6 cluster.
   MongoCfgConfig3_6 user_config = 2;
 
+  // Default mongocfg configuration for a MongoDB 3.6 cluster.
   MongoCfgConfig3_6 default_config = 3;
 }
 

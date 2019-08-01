@@ -97,11 +97,14 @@ message Cluster {
 
   string network_id = 10;
 
-  // Aggregated cluster health
+  // Aggregated cluster health.
   Health health = 11;
 
-  // Cluster status
+  // Cluster status.
   Status status = 12;
+
+  // Redis cluster mode on/off.
+  bool sharded = 13;
 }
 
 message Monitoring {
@@ -130,6 +133,18 @@ message ClusterConfig {
 
   // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 4;
+
+  // Access policy to DB
+  Access access = 5;
+}
+
+message Shard {
+  // Name of the Redis shard. The host name is assigned by user at creation time, and cannot be changed.
+  // 1-63 characters long.
+  string name = 1;
+
+  // ID of the Redis cluster. The ID is assigned by MDB at creation time.
+  string cluster_id = 2;
 }
 
 message Host {
@@ -167,7 +182,7 @@ message Host {
   // The name is unique across all existing MDB hosts in Yandex.Cloud, as it defines the FQDN of the host.
   string name = 1;
 
-  // ID of the Redis host. The ID is assigned by MDB at creation time.
+  // ID of the Redis cluster. The ID is assigned by MDB at creation time.
   string cluster_id = 2;
 
   // ID of the availability zone where the Redis host resides.
@@ -187,6 +202,8 @@ message Host {
 
   // Services provided by the host.
   repeated Service services = 8;
+
+  string shard_name = 9;
 }
 
 message Service {
@@ -230,4 +247,9 @@ message Resources {
 
   // Volume of the storage available to a host, in bytes.
   int64 disk_size = 2;
+}
+
+message Access {
+  // Allow access for DataLens
+  bool data_lens = 1;
 }

@@ -280,22 +280,22 @@ message DeleteClusterMetadata {
 }
 
 message StartClusterRequest {
-  // Required. ID of the PostgreSQL cluster to start.
+  // ID of the PostgreSQL cluster to start.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message StartClusterMetadata {
-  // Required. ID of the PostgreSQL cluster.
+  // ID of the PostgreSQL cluster.
   string cluster_id = 1;
 }
 
 message StopClusterRequest {
-  // Required. ID of the PostgreSQL cluster to stop.
+  // ID of the PostgreSQL cluster to stop.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message StopClusterMetadata {
-  // Required. ID of the PostgreSQL cluster.
+  // ID of the PostgreSQL cluster.
   string cluster_id = 1;
 }
 
@@ -364,6 +364,9 @@ message RestoreClusterRequest {
 
   // ID of the network to create the PostgreSQL cluster in.
   string network_id = 10 [(required) = true, (length) = "<=50"];
+
+  // ID of the folder to create the PostgreSQL cluster in.
+  string folder_id = 11 [(length) = "<=50"];
 }
 
 message RestoreClusterMetadata {
@@ -647,6 +650,9 @@ message ConfigSpec {
 
   // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 8;
+
+  // Access policy to DB
+  Access access = 9;
 }
 
 message ConfigHostSpec {

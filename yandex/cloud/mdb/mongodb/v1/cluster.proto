@@ -9,15 +9,14 @@ import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_0.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1;mongodb";
 
-// A MongoDB Cluster resource. For more information, see the
-// [Cluster](/docs/managed-mongodb/concepts) section in the Developer's Guide.
+// A managed MongoDB cluster. For more information, see the [documentation](/docs/managed-mongodb/concepts).
 message Cluster {
   // Deployment environment.
   enum Environment {
     ENVIRONMENT_UNSPECIFIED = 0;
 
-    // Stable environment with a conservative update policy:
-    // only hotfixes are applied during regular maintenance.
+    // Stable environment with a conservative update policy: only hotfixes
+    // are applied during regular maintenance.
     PRODUCTION = 1;
 
     // Environment with more aggressive update policy: new versions
@@ -128,8 +127,8 @@ message ClusterConfig {
   // MongoDB feature compatibility version. See usage details in [MongoDB documentation](https://docs.mongodb.com/manual/reference/command/setFeatureCompatibilityVersion/).
   //
   // Possible values:
-  // * 3.6 — persist data compatibility for version 3.6. After setting this option the data will not be compatible with 3.4 or older.
-  // * 4.0 — persist data compatibility for version 4.0. After setting this option the data will not be compatible with 3.6 or older.
+  // * 3.6 — persist data compatibility for version 3.6. After setting this option the data will not be compatible with 3.4 or lower.
+  // * 4.0 — persist data compatibility for version 4.0. After setting this option the data will not be compatible with 3.6 or lower.
   string feature_compatibility_version = 5;
 
   // Configuration for MongoDB servers in the cluster.
@@ -143,6 +142,9 @@ message ClusterConfig {
 
   // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 3;
+
+  // Access policy to DB
+  Access access = 6;
 }
 
 message Mongodb3_6 {
@@ -168,15 +170,19 @@ message Mongodb3_6 {
     Resources resources = 2;
   }
 
-  // Configuration and resource allocation for a MongoDB 3.6 cluster.
+  // Configuration and resource allocation for mongod in a MongoDB 3.6 cluster.
   Mongod mongod = 1;
+
+  // Configuration and resource allocation for mongocfg in a MongoDB 3.6 cluster.
   MongoCfg mongocfg = 2;
+
+  // Configuration and resource allocation for mongos in a MongoDB 3.6 cluster.
   Mongos mongos = 3;
 }
 
 message Mongodb4_0 {
   message Mongod {
-    // Configuration for a mongod 4.0 hosts.
+    // Configuration for mongod 4.0 hosts.
     config.MongodConfigSet4_0 config = 1;
 
     // Resources allocated to mongod hosts.
@@ -184,6 +190,7 @@ message Mongodb4_0 {
   }
 
   message MongoCfg {
+    // Configuration for mongocfg 4.0 hosts.
     config.MongoCfgConfigSet4_0 config = 1;
 
     // Resources allocated to mongocfg hosts.
@@ -191,29 +198,42 @@ message Mongodb4_0 {
   }
 
   message Mongos {
+    // Configuration for mongos 4.0 hosts.
     config.MongosConfigSet4_0 config = 1;
 
-    // Resources allocated to mongocfg hosts.
+    // Resources allocated to mongos hosts.
     Resources resources = 2;
   }
 
-  // Configuration and resource allocation for a MongoDB 4.0 cluster.
+  // Configuration and resource allocation for mongod in a MongoDB 4.0 cluster.
   Mongod mongod = 1;
+
+  // Configuration and resource allocation for mongocfg in a MongoDB 4.0 cluster.
   MongoCfg mongocfg = 2;
+
+  // Configuration and resource allocation for mongos in a MongoDB 4.0 cluster.
   Mongos mongos = 3;
 }
 
 message Shard {
+  // Name of the shard.
   string name = 1;
 
+  // ID of the cluster that the shard belongs to.
   string cluster_id = 2;
 }
 
 message Host {
   enum Type {
     TYPE_UNSPECIFIED = 0;
+
+    // A mongod host.
     MONGOD = 1;
+
+    // A mongos host.
     MONGOS = 2;
+
+    // A mongocfg host.
     MONGOCFG = 3;
   }
 
@@ -328,4 +348,9 @@ message Resources {
   // * network-nvme — network SSD drive,
   // * local-nvme — local SSD storage.
   string disk_type_id = 3;
+}
+
+message Access {
+  // Allow access for DataLens
+  bool data_lens = 1;
 }

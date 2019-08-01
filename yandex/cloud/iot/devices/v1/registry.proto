@@ -22,3 +22,10 @@ message RegistryCertificate {
   string certificate_data = 3;
   google.protobuf.Timestamp created_at = 4;
 }
+
+message DeviceAlias {
+  string device_id = 1;
+  // prefix of canonical topic name to be aliased, e.g. $devices/abcdef
+  string topic_prefix = 2;
+  string alias = 3;
+}
