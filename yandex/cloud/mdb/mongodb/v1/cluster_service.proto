@@ -585,11 +585,11 @@ message EnableClusterShardingMetadata {
 
 message GetClusterShardRequest {
   // ID of the MongoDB cluster that the shard belongs to.
-  // To get the cluster ID use a [List] request.
+  // To get the cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the MongoDB shard to return.
-  // To get the name of the shard use a [ListShards] request.
+  // To get the name of the shard use a [ClusterService.ListShards] request.
   string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
@@ -645,7 +645,7 @@ message DeleteClusterShardRequest {
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the MongoDB shard to delete.
-  // To get the name of the shard use a [ListShards] request.
+  // To get the name of the shard use a [ClusterService.ListShards] request.
   string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 

@@ -94,7 +94,7 @@ service ClusterService {
 
   // Start a manual failover on the specified Redis cluster.
   rpc StartFailover (StartClusterFailoverRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/redis/v1alpha/clusters/{cluster_id}:startFailover" };
+    option (google.api.http) = { post: "/managed-redis/v1alpha/clusters/{cluster_id}:startFailover" };
     option (yandex.api.operation) = {
       metadata: "StartClusterFailoverMetadata"
       response: "Cluster"

@@ -330,6 +330,32 @@ message PostgresqlConfig11 {
   google.protobuf.Int64Value max_parallel_workers = 92 [(value) = "0-1024"];
 
   google.protobuf.Int64Value max_parallel_workers_per_gather = 93 [(value) = "0-1024"];
+
+  google.protobuf.DoubleValue autovacuum_vacuum_scale_factor = 94 [(value) = "0.0-1.0"];
+
+  google.protobuf.DoubleValue autovacuum_analyze_scale_factor = 95 [(value) = "0.0-1.0"];
+
+  google.protobuf.BoolValue default_transaction_read_only = 96;
+
+  string timezone = 97;
+
+  google.protobuf.BoolValue enable_parallel_append = 98;
+
+  google.protobuf.BoolValue enable_parallel_hash = 99;
+
+  google.protobuf.BoolValue enable_partition_pruning = 100;
+
+  google.protobuf.BoolValue enable_partitionwise_aggregate = 101;
+
+  google.protobuf.BoolValue enable_partitionwise_join = 102;
+
+  google.protobuf.BoolValue jit = 103;
+
+  google.protobuf.Int64Value max_parallel_maintenance_workers = 104 [(value) = ">=0"];
+
+  google.protobuf.BoolValue parallel_leader_participation = 105;
+
+  google.protobuf.DoubleValue vacuum_cleanup_index_scale_factor = 106 [(value) = "0.0-10000000000.0"];
 }
 
 message PostgresqlConfigSet11 {

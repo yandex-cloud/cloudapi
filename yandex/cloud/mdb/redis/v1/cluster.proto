@@ -139,11 +139,11 @@ message ClusterConfig {
 }
 
 message Shard {
-  // Name of the Redis shard. The host name is assigned by user at creation time, and cannot be changed.
+  // Name of the Redis shard. The shard name is assigned by user at creation time, and cannot be changed.
   // 1-63 characters long.
   string name = 1;
 
-  // ID of the Redis cluster. The ID is assigned by MDB at creation time.
+  // ID of the Redis cluster the shard belongs to. The ID is assigned by MDB at creation time.
   string cluster_id = 2;
 }
 

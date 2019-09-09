@@ -49,7 +49,7 @@ message GetDatabaseRequest {
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the MongoDB database to return.
-  // To get the name of the database use a [List] request.
+  // To get the name of the database use a [DatabaseService.List] request.
   string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 

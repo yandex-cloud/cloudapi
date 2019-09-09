@@ -98,8 +98,13 @@ message MysqlConfig5_7 {
 
   // Server SQL mode of MySQL.
   //
-  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sql-mode-setting)
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sql-mode-setting).
   repeated SQLMode sql_mode = 6;
+
+  // The maximum size in bytes of one packet.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_max_allowed_packet).
+  google.protobuf.Int64Value max_allowed_packet = 7 [(value) = "1024-134217728"];
 }
 
 message MysqlConfigSet5_7 {

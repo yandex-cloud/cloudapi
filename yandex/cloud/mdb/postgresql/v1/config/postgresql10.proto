@@ -332,6 +332,14 @@ message PostgresqlConfig10 {
   google.protobuf.Int64Value max_parallel_workers = 92 [(value) = "0-1024"];
 
   google.protobuf.Int64Value max_parallel_workers_per_gather = 93 [(value) = "0-1024"];
+
+  google.protobuf.DoubleValue autovacuum_vacuum_scale_factor = 94 [(value) = "0.0-1.0"];
+
+  google.protobuf.DoubleValue autovacuum_analyze_scale_factor = 95 [(value) = "0.0-1.0"];
+
+  google.protobuf.BoolValue default_transaction_read_only = 96;
+
+  string timezone = 97;
 }
 
 message PostgresqlConfigSet10 {

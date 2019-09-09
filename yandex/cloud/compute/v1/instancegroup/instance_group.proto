@@ -118,7 +118,28 @@ message ScalePolicy {
     option (exactly_one) = true;
     // Fixed scaling policy of the instance group.
     FixedScale fixed_scale = 1;
+    AutoScale auto_scale = 2;
   }
+
+  message AutoScale {
+    // Lower limit for instance count in each zone.
+    int64 min_zone_size = 1 [(value) = "0-100"];
+    // Upper limit for total instance count (across all zones).
+    // 0 means maximum limit = 100.
+    int64 max_size = 2 [(value) = "0-100"];
+
+    google.protobuf.Duration measurement_duration = 3 [(required) = true, (value) = "1m-10m"];
+    google.protobuf.Duration warmup_duration = 4 [(value) = "<=10m"];
+    google.protobuf.Duration stabilization_duration = 5 [(value) = "1m-30m"];
+
+    int64 initial_size = 6 [(value) = ">=1"];
+    CpuUtilizationRule cpu_utilization_rule = 7;
+  }
+
+  message CpuUtilizationRule {
+    double utilization_target = 1 [(value) = "10-100"];
+  }
+
 
   message FixedScale {
     // Number of instances in the instance group.
@@ -168,11 +189,10 @@ message InstanceTemplate {
   map<string, string> labels = 2 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // ID of the hardware platform configuration for the instance.
-  // Currently only several platforms is available - `standard-v1`, `standard-v2`. These platforms are suitable for most tasks.
-  // These platforms allows you to create various types of instances: with a large amount of memory,
+  // Platforms allows you to create various types of instances: with a large amount of memory,
   // with a large number of cores, with a burstable performance.
   // For more information, see [Platforms](/docs/compute/concepts/vm-platforms).
-  string platform_id = 3 [(pattern) = "standard-v1|standard-v2"];
+  string platform_id = 3;
 
   // Computing resources of the instance such as the amount of memory and number of cores.
   ResourcesSpec resources_spec = 4 [(required) = true];
@@ -356,7 +376,7 @@ message HealthCheckSpec {
   }
 }
 
-// A ManagedInstance resource. For more information, see [Instance Groups Concepts](/docs/instance-groups/concepts).
+// A ManagedInstance resource. For more information, see [Instance Groups Concepts](/docs/compute/concepts/instance-groups/).
 message ManagedInstance {
 
   enum Status {

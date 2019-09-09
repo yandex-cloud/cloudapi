@@ -14,12 +14,12 @@ service BackupService {
   //
   // To get the list of available Redis backups, make a [List] request.
   rpc Get (GetBackupRequest) returns (Backup) {
-    option (google.api.http) = { get: "/mdb/redis/v1alpha/backups/{backup_id}" };
+    option (google.api.http) = { get: "/managed-redis/v1alpha/backups/{backup_id}" };
   }
 
   // Retrieves the list of Redis backups available for the specified folder.
   rpc List (ListBackupsRequest) returns (ListBackupsResponse) {
-    option (google.api.http) = { get: "/mdb/redis/v1alpha/backups" };
+    option (google.api.http) = { get: "/managed-redis/v1alpha/backups" };
   }
 }
 

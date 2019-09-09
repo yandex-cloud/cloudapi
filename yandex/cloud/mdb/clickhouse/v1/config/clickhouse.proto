@@ -208,11 +208,11 @@ message ClickhouseConfig {
         string expression = 4;
 
         // Indication of hierarchy support.
-        // Default value: "false".
+        // Default value: `false`.
         bool hierarchical = 5;
 
         // Indication of injective mapping "id -> attribute".
-        // Default value: "false".
+        // Default value: `false`.
         bool injective = 6;
       }
 
@@ -234,6 +234,14 @@ message ClickhouseConfig {
       // Composite key for the dictionary, containing of one or more key columns.
       // For details, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_structure/#composite-key).
       Key key = 3;
+
+      // Field holding the beginning of the range for dictionaries with `RANGE_HASHED` layout.
+      // For details, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_layout/#range-hashed).
+      Attribute range_min = 4;
+
+      // Field holding the end of the range for dictionaries with `RANGE_HASHED` layout.
+      // For details, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_layout/#range-hashed).
+      Attribute range_max = 5;
 
       // Description of the fields available for database queries.
       // For details, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_structure/#attributes).

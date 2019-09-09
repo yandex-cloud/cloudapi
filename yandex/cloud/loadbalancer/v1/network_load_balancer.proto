@@ -103,7 +103,7 @@ message NetworkLoadBalancer {
   repeated AttachedTargetGroup attached_target_groups = 13;
 }
 
-// An AttachedTargetGroup resource. For more information, see [Attached Target Groups](/load-balancer/concepts)
+// An AttachedTargetGroup resource. For more information, see [Targets and groups](/docs/load-balancer/concepts/target-resources).
 message AttachedTargetGroup {
   // ID of the target group.
   string target_group_id = 1 [(required) = true, (length) = "<=50"];
@@ -122,7 +122,7 @@ message Listener {
   }
 
   // Name of the listener. The name must be unique for each listener on a single load balancer. 3-63 characters long.
-  string name = 1 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 1;
 
   // IP address for the listener.
   string address = 2;

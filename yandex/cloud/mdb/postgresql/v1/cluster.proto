@@ -172,6 +172,9 @@ message ConnectionPoolerConfig {
   // Mode that the connection pooler is working in.
   // See descriptions of all modes in the [documentation for PgBouncer](https://pgbouncer.github.io/usage).
   PoolingMode pooling_mode = 1;
+
+  // Setting pool_discard in Odyssey; server_reset_query_always in PgBouncer
+  google.protobuf.BoolValue pool_discard = 2;
 }
 
 message Host {
@@ -310,8 +313,8 @@ message Resources {
   // Type of the storage environment for the host.
   // Possible values:
   // * network-hdd — network HDD drive,
-  // * network-nvme — network SSD drive,
-  // * local-nvme — local SSD storage.
+  // * network-ssd — network SSD drive,
+  // * local-ssd — local SSD storage.
   string disk_type_id = 3;
 }
 

@@ -84,6 +84,8 @@ message Os {
     WINDOWS = 2;
   }
 
-  // Operating system type.
+  // Operating system type. The default is `LINUX`.
+  //
+  // This field is used to correctly emulate a vCPU and calculate the cost of using an instance.
   Type type = 1;
 }

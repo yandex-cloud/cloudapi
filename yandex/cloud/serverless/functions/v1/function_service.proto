@@ -7,6 +7,7 @@ import "google/protobuf/field_mask.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/api/operation.proto";
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/serverless/functions/v1/function.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -93,6 +94,26 @@ service FunctionService {
 
   rpc ListOperations (ListFunctionOperationsRequest) returns (ListFunctionOperationsResponse) {
     option (google.api.http) = { get: "/functions/v1/functions/{function_id}/operations" };
+  }
+
+  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+      option (google.api.http) = { get: "/functions/v1/functions/{resource_id}:listAccessBindings" };
+  }
+
+  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/functions/v1/functions/{resource_id}:setAccessBindings" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/functions/v1/functions/{resource_id}:updateAccessBindings" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
   }
 
 }

@@ -600,18 +600,18 @@ message DeleteClusterHostsMetadata {
 
 message GetClusterShardRequest {
   // ID of the cluster that the shard belongs to.
-  // To get the cluster ID, use a [List] request.
-  // To get the name of the database, use a [List] request.
+  // To get the cluster ID, use a [ClusterService.List] request.
+  // To get the name of the database, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the shard to request information about.
-  // To get the name of a shard, use a [ListShards] request.
+  // To get the name of a shard, use a [ClusterService.ListShards] request.
   string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message ListClusterShardsRequest {
   // ID of the ClickHouse cluster to list shards in.
-  // To get the cluster ID, use a [List] request.
+  // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // The maximum number of results per page to return. If the number of available
@@ -637,7 +637,7 @@ message ListClusterShardsResponse {
 
 message AddClusterShardRequest {
   // ID of the ClickHouse cluster to add a shard to.
-  // To get the ClickHouse cluster ID, use a [List] request.
+  // To get the ClickHouse cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name for the new shard.
@@ -660,11 +660,11 @@ message AddClusterShardMetadata {
 
 message UpdateClusterShardRequest {
   // ID of the ClickHouse cluster the shard belongs to.
-  // To get the cluster ID, use a [List] request.
+  // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the shard to be updated.
-  // To get the name of a shard, use a [ListShards] request.
+  // To get the name of a shard, use a [ClusterService.ListShards] request.
   string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
   // Field mask that specifies which attributes of the ClickHouse shard should be updated.
@@ -684,11 +684,11 @@ message UpdateClusterShardMetadata {
 
 message DeleteClusterShardRequest {
   // ID of the ClickHouse cluster the shard belongs to.
-  // To get the cluster ID, use a [List] request.
+  // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the shard to be deleted.
-  // To get the name of a shard, use a [ListShards] request.
+  // To get the name of a shard, use a [ClusterService.ListShards] request.
   string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
@@ -702,7 +702,7 @@ message DeleteClusterShardMetadata {
 
 message CreateClusterExternalDictionaryRequest {
   // ID of the ClickHouse cluster to create the external dictionary for.
-  // To get the cluster ID, use a [List] request.
+  // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Configuration of the external dictionary.
@@ -716,7 +716,7 @@ message CreateClusterExternalDictionaryMetadata {
 
 message DeleteClusterExternalDictionaryRequest {
   // ID of the ClickHouse cluster to delete the external dictionary from.
-  // To get the cluster ID, use a [List] request.
+  // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the external dictionary to delete.

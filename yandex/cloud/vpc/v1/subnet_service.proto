@@ -132,7 +132,7 @@ message CreateSubnetRequest {
   repeated string v4_cidr_blocks = 7;
 
   // IPv6 not available yet.
-  repeated string v6_cidr_blocks = 8;
+  //  repeated string v6_cidr_blocks = 8;
 
   // ID of route table the subnet is linked to.
   string route_table_id = 9 [(length) = "<=50"];

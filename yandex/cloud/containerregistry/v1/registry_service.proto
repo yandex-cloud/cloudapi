@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.containerregistry.v1;
 
 import "yandex/api/operation.proto";
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/containerregistry/v1/registry.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -49,6 +50,31 @@ service RegistryService {
     option (google.api.http) = { delete: "/container-registry/v1/registries/{registry_id}" };
     option (yandex.api.operation) = {
       metadata: "DeleteRegistryMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  //access
+
+  // Lists access bindings for the specified registry.
+  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = { get: "/container-registry/v1/registries/{resource_id}:listAccessBindings" };
+  }
+
+  // Sets access bindings for the specified registry.
+  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/container-registry/v1/registries/{resource_id}:setAccessBindings" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Updates access bindings for the specified registry.
+  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/container-registry/v1/registries/{resource_id}:updateAccessBindings" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
   }

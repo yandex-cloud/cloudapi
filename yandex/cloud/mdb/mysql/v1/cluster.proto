@@ -238,8 +238,8 @@ message Resources {
 
   // Type of the storage environment for the host.
   // Possible values:
-  // * network-nvme — network SSD drive,
-  // * local-nvme — local SSD storage.
+  // * network-ssd — network SSD drive,
+  // * local-ssd — local SSD storage.
   string disk_type_id = 3;
 }
 

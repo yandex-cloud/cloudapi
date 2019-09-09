@@ -133,8 +133,9 @@ message CreateImageRequest {
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
-  // The name of the image family to which this image belongs.
-  // To get information about the most recent image from a family, use a [ImageService.GetLatestByFamily] request.
+  // The name of the image family to which this image belongs. For more information, see [Image family](/docs/compute/concepts/image#family).
+  //
+  // To get an information about the most recent image from a family, use a [ImageService.GetLatestByFamily] request.
   string family = 5 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
   // Minimum size of the disk that will be created from this image.
@@ -170,6 +171,8 @@ message CreateImageRequest {
   }
 
   // Operating system that is contained in the image.
+  //
+  // If not specified and you used the `image_id` or `disk_id` field to set the source, then the value can be inherited from the source resource.
   Os os = 12;
 }
 

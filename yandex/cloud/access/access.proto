@@ -42,7 +42,7 @@ message ListAccessBindingsRequest {
   //
   // To get the resource ID, use a corresponding List request.
   // For example, use the [yandex.cloud.resourcemanager.v1.CloudService.List] request to get the Cloud resource ID.
-  string resource_id = 1 [(required) = true, (length) = "<=50"];
+  string resource_id = 1 [(required) = true];
 
   // The maximum number of results per page that should be returned. If the number of available
   // results is larger than [page_size],
@@ -74,7 +74,7 @@ message SetAccessBindingsRequest {
   // ID of the resource for which access bindings are being set.
   //
   // To get the resource ID, use a corresponding List request.
-  string resource_id = 1 [(required) = true, (length) = "<=50"];
+  string resource_id = 1 [(required) = true];
 
   // Access bindings to be set. For more information, see [Access Bindings](/docs/iam/concepts/access-control/#access-bindings).
   repeated AccessBinding access_bindings = 2 [(required) = true];
@@ -87,7 +87,7 @@ message SetAccessBindingsMetadata {
 
 message UpdateAccessBindingsRequest {
   // ID of the resource for which access bindings are being updated.
-  string resource_id = 1 [(required) = true, (length) = "<=50"];
+  string resource_id = 1 [(required) = true];
 
   // Updates to access bindings.
   repeated AccessBindingDelta access_binding_deltas = 2 [(required) = true];

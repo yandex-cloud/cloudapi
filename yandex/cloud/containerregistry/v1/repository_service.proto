@@ -2,7 +2,10 @@ syntax = "proto3";
 
 package yandex.cloud.containerregistry.v1;
 
+import "yandex/api/operation.proto";
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/containerregistry/v1/repository.proto";
+import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
 import "google/api/annotations.proto";
@@ -15,6 +18,31 @@ service RepositoryService {
   rpc List (ListRepositoriesRequest) returns (ListRepositoriesResponse) {
     option (google.api.http) = { get: "/container-registry/v1/repositories" };
   };
+
+  //access
+
+  // Lists access bindings for the specified repository.
+  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = { get: "/container-registry/v1/repositories/{resource_id}:listAccessBindings" };
+  }
+
+  // Sets access bindings for the specified repository.
+  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/container-registry/v1/repositories/{resource_id}:setAccessBindings" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Updates access bindings for the specified repository.
+  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/container-registry/v1/repositories/{resource_id}:updateAccessBindings" body: "*" };
+    option (yandex.api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
 
 }
 

@@ -49,6 +49,9 @@ message AnalyzeSpec {
   //
   // Max count of requested features for one file is 8.
   repeated Feature features = 3 [(size) = "1-8"];
+
+  // [MIME type](https://en.wikipedia.org/wiki/Media_type) of content (for example, `` application/pdf ``).
+  string mime_type = 4 [(length) = "<=255"];
 }
 
 message Feature {

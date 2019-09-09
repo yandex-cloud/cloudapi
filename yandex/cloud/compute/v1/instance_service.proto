@@ -196,11 +196,10 @@ message CreateInstanceRequest {
   // ID of the hardware platform configuration for the instance.
   // This field affects the available values in [resources_spec] field.
   //
-  // Currently only several platforms is available - `standard-v1`, `standard-v2`. These platforms are suitable for most tasks.
-  // These platforms allows you to create various types of instances: with a large amount of memory,
+  // Platforms allows you to create various types of instances: with a large amount of memory,
   // with a large number of cores, with a burstable performance.
   // For more information, see [Platforms](/docs/compute/concepts/vm-platforms).
-  string platform_id = 6 [(required) = true, (pattern) = "standard-v1"];
+  string platform_id = 6 [(required) = true];
 
   // Computing resources of the instance, such as the amount of memory and number of cores.
   // To get a list of available values, see [Levels of core performance](/docs/compute/concepts/performance-levels).
@@ -269,11 +268,10 @@ message UpdateInstanceRequest {
   // ID of the hardware platform configuration for the instance.
   // This field affects the available values in [resources_spec] field.
   //
-  // Currently only several platforms is available - `standard-v1`, `standard-v2`. These platforms are suitable for most tasks.
-  // These platforms allows you to create various types of instances: with a large amount of memory,
+  // Platforms allows you to create various types of instances: with a large amount of memory,
   // with a large number of cores, with a burstable performance.
   // For more information, see [Platforms](/docs/compute/concepts/vm-platforms).
-  string platform_id = 6 [(pattern) = "standard-v1"];
+  string platform_id = 6;
 
   // Computing resources of the instance, such as the amount of memory and number of cores.
   // To get a list of available values, see [Levels of core performance](/docs/compute/concepts/performance-levels).

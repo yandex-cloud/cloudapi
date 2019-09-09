@@ -255,4 +255,6 @@ message PostgresqlHostConfig11 {
   google.protobuf.Int64Value max_parallel_workers = 65 [(value) = "0-1024"];
 
   google.protobuf.Int64Value max_parallel_workers_per_gather = 66 [(value) = "0-1024"];
+
+  string timezone = 67;
 }

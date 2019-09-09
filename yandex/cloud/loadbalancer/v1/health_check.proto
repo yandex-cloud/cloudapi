@@ -26,7 +26,7 @@ message HealthCheck {
   }
 
   // Name of the health check. The name must be unique for each target group that attached to a single load balancer. 3-63 characters long.
-  string name = 1 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 1 [(required) = true, (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
   // The interval between health checks. The default is 2 seconds.
   google.protobuf.Duration interval = 2;

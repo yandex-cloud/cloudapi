@@ -4,7 +4,7 @@ package yandex.cloud;
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/validation;validation";
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/validation;cloud";
 
 extend google.protobuf.OneofOptions {
   bool exactly_one = 101400;
