@@ -4,7 +4,7 @@ package yandex.cloud.compute.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/compute/v1/instance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -29,7 +29,7 @@ service InstanceService {
   // Method starts an asynchronous operation that can be cancelled while it is in progress.
   rpc Create (CreateInstanceRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instances" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateInstanceMetadata"
       response: "Instance"
     };
@@ -38,7 +38,7 @@ service InstanceService {
   // Updates the specified instance.
   rpc Update (UpdateInstanceRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/compute/v1/instances/{instance_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateInstanceMetadata"
       response: "Instance"
     };
@@ -47,7 +47,7 @@ service InstanceService {
   // Deletes the specified instance.
   rpc Delete (DeleteInstanceRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/compute/v1/instances/{instance_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteInstanceMetadata"
       response: "google.protobuf.Empty"
     };
@@ -56,7 +56,7 @@ service InstanceService {
   // Updates the metadata of the specified instance.
   rpc UpdateMetadata (UpdateInstanceMetadataRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instances/{instance_id}/updateMetadata" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateInstanceMetadataMetadata"
       response: "Instance"
     };
@@ -72,7 +72,7 @@ service InstanceService {
   // You can start the instance later using the [InstanceService.Start] method.
   rpc Stop (StopInstanceRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:stop"};
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "StopInstanceMetadata"
       response: "google.protobuf.Empty"
     };
@@ -81,7 +81,7 @@ service InstanceService {
   // Starts the stopped instance.
   rpc Start (StartInstanceRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:start" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "StartInstanceMetadata"
       response: "Instance"
     };
@@ -90,7 +90,7 @@ service InstanceService {
   // Restarts the running instance.
   rpc Restart (RestartInstanceRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:restart" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "RestartInstanceMetadata"
       response: "google.protobuf.Empty"
     };
@@ -99,7 +99,7 @@ service InstanceService {
   // Attaches the disk to the instance.
   rpc AttachDisk (AttachInstanceDiskRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:attachDisk" body: "*"};
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "AttachInstanceDiskMetadata"
       response: "Instance"
     };
@@ -108,7 +108,7 @@ service InstanceService {
   // Detaches the disk from the instance.
   rpc DetachDisk (DetachInstanceDiskRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:detachDisk" body: "*"};
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DetachInstanceDiskMetadata"
       response: "Instance"
     };

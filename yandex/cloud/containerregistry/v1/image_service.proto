@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.containerregistry.v1;
 
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/containerregistry/v1/image.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -28,7 +28,7 @@ service ImageService {
   // Deletes the specified Docker image.
   rpc Delete (DeleteImageRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/container-registry/v1/images/{image_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
           metadata: "DeleteImageMetadata"
           response: "google.protobuf.Empty"
         };

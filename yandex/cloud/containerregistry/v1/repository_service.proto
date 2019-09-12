@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.containerregistry.v1;
 
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/containerregistry/v1/repository.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -14,6 +14,13 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/containerr
 
 // A set of methods for managing Repository resources.
 service RepositoryService {
+  // Returns the specified Repository resource.
+  //
+  // To get the list of available Repository resources, make a [List] request.
+  rpc Get (GetRepositoryRequest) returns (Repository) {
+    option (google.api.http) = { get: "/container-registry/v1/repositories/{repository_id}" };
+  };
+
   // Retrieves the list of Repository resources in the specified registry.
   rpc List (ListRepositoriesRequest) returns (ListRepositoriesResponse) {
     option (google.api.http) = { get: "/container-registry/v1/repositories" };
@@ -29,7 +36,7 @@ service RepositoryService {
   // Sets access bindings for the specified repository.
   rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/container-registry/v1/repositories/{resource_id}:setAccessBindings" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
@@ -38,12 +45,19 @@ service RepositoryService {
   // Updates access bindings for the specified repository.
   rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/container-registry/v1/repositories/{resource_id}:updateAccessBindings" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
   }
 
+}
+
+message GetRepositoryRequest {
+  // ID of the Repository resource to return.
+  //
+  // To get the repository ID use a [RepositoryService.List] request.
+  string repository_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message ListRepositoriesRequest {

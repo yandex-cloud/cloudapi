@@ -120,6 +120,12 @@ message UserSettings {
   // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#distributed-product-mode).
   DistributedProductMode distributed_product_mode = 43;
 
+  // Whether the memory-saving mode of distributed aggregation is enabled.
+  google.protobuf.BoolValue distributed_aggregation_memory_efficient = 72;
+
+  // Timeout for DDL queries, in milliseconds.
+  google.protobuf.Int64Value distributed_ddl_task_timeout = 73;
+
   // Whether query compilation is enabled.
   // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#compile).
   google.protobuf.BoolValue compile = 44;
@@ -137,11 +143,13 @@ message UserSettings {
   // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#max-block-size).
   google.protobuf.Int64Value max_block_size = 9 [(value) = ">0"];
 
-  // Squash blocks passed to INSERT query to specified size in rows, if blocks are not big enough.
-  google.protobuf.Int64Value min_insert_block_size_rows = 48 [(value) = ">0"];
+  // Squash blocks passed to INSERT query to specified size in rows, if blocks are not big enough. If set to `0`,
+  // blocks will never be squashed.
+  google.protobuf.Int64Value min_insert_block_size_rows = 48 [(value) = ">=0"];
 
-  // Squash blocks passed to INSERT query to specified size in bytes, if blocks are not big enough.
-  google.protobuf.Int64Value min_insert_block_size_bytes = 49 [(value) = ">0"];
+  // Squash blocks passed to INSERT query to specified size in bytes, if blocks are not big enough.  If set to `0`,
+  // blocks will never be squashed.
+  google.protobuf.Int64Value min_insert_block_size_bytes = 49 [(value) = ">=0"];
 
   // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-max_insert_block_size).
   google.protobuf.Int64Value max_insert_block_size = 10 [(value) = ">0"];
@@ -167,6 +175,14 @@ message UserSettings {
 
   // The minimum number of bytes to be read from a file to enable concurrent read.
   google.protobuf.Int64Value merge_tree_min_bytes_for_concurrent_read = 55 [(value) = ">0"];
+
+  google.protobuf.Int64Value max_bytes_before_external_group_by = 74;
+
+  google.protobuf.Int64Value max_bytes_before_external_sort = 75;
+
+  google.protobuf.Int64Value group_by_two_level_threshold = 76;
+
+  google.protobuf.Int64Value group_by_two_level_threshold_bytes = 77;
 
   // Priority of the query.
   google.protobuf.Int64Value priority = 56 [(value) = ">=0"];
@@ -289,6 +305,10 @@ message UserSettings {
 
   // Whether output of special floating-point values (`+nan`, `-nan`, `+inf` and `-inf`) is enabled in JSON output format.
   google.protobuf.BoolValue output_format_json_quote_denormals = 64;
+
+  google.protobuf.BoolValue low_cardinality_allow_in_native_format = 78;
+
+  google.protobuf.BoolValue empty_result_for_aggregation_by_empty_set = 79;
 
   // HTTP connection timeout, in milliseconds.
   google.protobuf.Int64Value http_connect_timeout = 65;

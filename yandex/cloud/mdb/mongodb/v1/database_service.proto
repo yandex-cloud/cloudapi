@@ -3,7 +3,7 @@ syntax = "proto3";
 package yandex.cloud.mdb.mongodb.v1;
 
 import "google/api/annotations.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/mdb/mongodb/v1/database.proto";
@@ -27,7 +27,7 @@ service DatabaseService {
   // Creates a new MongoDB database in the specified cluster.
   rpc Create (CreateDatabaseRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-mongodb/v1/clusters/{cluster_id}/databases" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateDatabaseMetadata"
       response: "Database"
     };
@@ -36,7 +36,7 @@ service DatabaseService {
   // Deletes the specified MongoDB database.
   rpc Delete (DeleteDatabaseRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/managed-mongodb/v1/clusters/{cluster_id}/databases/{database_name}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteDatabaseMetadata"
       response: "google.protobuf.Empty"
     };

@@ -4,7 +4,7 @@ package yandex.cloud.vpc.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/vpc/v1/network.proto";
 import "yandex/cloud/vpc/v1/subnet.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -30,7 +30,7 @@ service NetworkService {
   // Method starts an asynchronous operation that can be cancelled while it is in progress.
   rpc Create (CreateNetworkRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/vpc/v1/networks" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateNetworkMetadata"
       response: "Network"
     };
@@ -40,7 +40,7 @@ service NetworkService {
   // Method starts an asynchronous operation that can be cancelled while it is in progress.
   rpc Update (UpdateNetworkRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/vpc/v1/networks/{network_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateNetworkMetadata"
       response: "Network"
     };
@@ -49,7 +49,7 @@ service NetworkService {
   // Deletes the specified network.
   rpc Delete (DeleteNetworkRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/vpc/v1/networks/{network_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteNetworkMetadata"
       response: "google.protobuf.Empty"
     };

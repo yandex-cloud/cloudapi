@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/mdb/clickhouse/v1/user.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1;clickhouse";
@@ -28,7 +28,7 @@ service UserService {
   // Creates a ClickHouse user in the specified cluster.
   rpc Create (CreateUserRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}/users" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateUserMetadata"
       response: "User"
     };
@@ -37,7 +37,7 @@ service UserService {
   // Updates the specified ClickHouse user.
   rpc Update (UpdateUserRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/managed-clickhouse/v1/clusters/{cluster_id}/users/{user_name}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateUserMetadata"
       response: "User"
     };
@@ -46,7 +46,7 @@ service UserService {
   // Deletes the specified ClickHouse user.
   rpc Delete (DeleteUserRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/managed-clickhouse/v1/clusters/{cluster_id}/users/{user_name}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteUserMetadata"
       response: "google.protobuf.Empty"
     };
@@ -55,7 +55,7 @@ service UserService {
   // Grants a permission to the specified ClickHouse user.
   rpc GrantPermission (GrantUserPermissionRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}/users/{user_name}:grantPermission" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "GrantUserPermissionMetadata"
       response: "User"
     };
@@ -64,7 +64,7 @@ service UserService {
   // Revokes a permission from the specified ClickHouse user.
   rpc RevokePermission (RevokeUserPermissionRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}/users/{user_name}:revokePermission" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "RevokeUserPermissionMetadata"
       response: "User"
     };

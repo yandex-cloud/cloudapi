@@ -35,6 +35,16 @@ message ClickhouseConfig {
     // Period of time to keep blocks of hashes for.
     // See detailed description in [ClickHouse sources](https://github.com/yandex/ClickHouse/blob/v18.1.0-stable/dbms/src/Storages/MergeTree/MergeTreeSettings.h#L64).
     google.protobuf.Int64Value replicated_deduplication_window_seconds = 2;
+
+    google.protobuf.Int64Value parts_to_delay_insert = 3;
+
+    google.protobuf.Int64Value parts_to_throw_insert = 4;
+
+    google.protobuf.Int64Value max_replicated_merges_in_queue = 5;
+
+    google.protobuf.Int64Value number_of_free_entries_in_pool_to_lower_max_size_of_merge = 6;
+
+    google.protobuf.Int64Value max_bytes_to_merge_at_min_space_in_pool = 7;
   }
 
   message Compression {

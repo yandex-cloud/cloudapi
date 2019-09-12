@@ -5,7 +5,7 @@ package yandex.cloud.iot.devices.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/validation.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/iot/devices/v1/device.proto";
 
@@ -22,7 +22,7 @@ service DeviceService {
 
   rpc Create (CreateDeviceRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/iot-devices/v1/devices" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateDeviceMetadata"
       response: "Device"
     };
@@ -30,7 +30,7 @@ service DeviceService {
 
   rpc Update (UpdateDeviceRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/iot-devices/v1/devices/{device_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateDeviceMetadata"
       response: "Device"
     };
@@ -38,7 +38,7 @@ service DeviceService {
 
   rpc Delete (DeleteDeviceRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/iot-devices/v1/devices/{device_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteDeviceMetadata"
       response: "google.protobuf.Empty"
     };
@@ -50,7 +50,7 @@ service DeviceService {
 
   rpc AddCertificate (AddDeviceCertificateRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/iot-devices/v1/devices/{device_id}/certificates" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "AddDeviceCertificateMetadata"
       response: "DeviceCertificate"
     };
@@ -58,7 +58,7 @@ service DeviceService {
 
   rpc DeleteCertificate (DeleteDeviceCertificateRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/iot-devices/v1/devices/{device_id}/certificates/{fingerprint}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteDeviceCertificateMetadata"
       response: "google.protobuf.Empty"
     };

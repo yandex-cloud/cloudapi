@@ -4,7 +4,7 @@ package yandex.cloud.compute.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/compute/v1/image.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -36,7 +36,7 @@ service ImageService {
   // Method starts an asynchronous operation that can be cancelled while it is in progress.
   rpc Create (CreateImageRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/images" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateImageMetadata"
       response: "Image"
     };
@@ -45,7 +45,7 @@ service ImageService {
   // Updates the specified image.
   rpc Update (UpdateImageRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/compute/v1/images/{image_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateImageMetadata"
       response: "Image"
     };
@@ -56,7 +56,7 @@ service ImageService {
   // Deleting an image removes its data permanently and is irreversible.
   rpc Delete (DeleteImageRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/compute/v1/images/{image_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteImageMetadata"
       response: "google.protobuf.Empty"
     };

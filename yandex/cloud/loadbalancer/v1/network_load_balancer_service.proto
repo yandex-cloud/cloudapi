@@ -4,7 +4,7 @@ package yandex.cloud.loadbalancer.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/loadbalancer/v1/network_load_balancer.proto";
@@ -28,7 +28,7 @@ service NetworkLoadBalancerService {
   // Creates a network load balancer in the specified folder using the data specified in the request.
   rpc Create (CreateNetworkLoadBalancerRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/load-balancer/v1/networkLoadBalancers" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateNetworkLoadBalancerMetadata"
       response: "NetworkLoadBalancer"
     };
@@ -37,7 +37,7 @@ service NetworkLoadBalancerService {
   // Updates the specified network load balancer.
   rpc Update (UpdateNetworkLoadBalancerRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateNetworkLoadBalancerMetadata"
       response: "NetworkLoadBalancer"
     };
@@ -46,7 +46,7 @@ service NetworkLoadBalancerService {
   // Deletes the specified network load balancer.
   rpc Delete (DeleteNetworkLoadBalancerRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteNetworkLoadBalancerMetadata"
       response: "google.protobuf.Empty"
     };
@@ -56,7 +56,7 @@ service NetworkLoadBalancerService {
   // Changes network load balancer status to `` ACTIVE ``.
   rpc Start (StartNetworkLoadBalancerRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:start" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "StartNetworkLoadBalancerMetadata"
       response: "google.protobuf.Empty"
     };
@@ -66,7 +66,7 @@ service NetworkLoadBalancerService {
   // Changes load balancer status to `` STOPPED ``.
   rpc Stop (StopNetworkLoadBalancerRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:stop" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "StopNetworkLoadBalancerMetadata"
       response: "google.protobuf.Empty"
     };
@@ -75,7 +75,7 @@ service NetworkLoadBalancerService {
   // Attaches a target group to the specified network load balancer.
   rpc AttachTargetGroup (AttachNetworkLoadBalancerTargetGroupRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:attachTargetGroup" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "AttachNetworkLoadBalancerTargetGroupMetadata"
       response: "NetworkLoadBalancer"
     };
@@ -84,7 +84,7 @@ service NetworkLoadBalancerService {
   // Detaches the target group from the specified network load balancer.
   rpc DetachTargetGroup (DetachNetworkLoadBalancerTargetGroupRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:detachTargetGroup" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DetachNetworkLoadBalancerTargetGroupMetadata"
       response: "NetworkLoadBalancer"
     };
@@ -98,7 +98,7 @@ service NetworkLoadBalancerService {
   // Adds a listener to the specified network load balancer.
   rpc AddListener (AddNetworkLoadBalancerListenerRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:addListener" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "AddNetworkLoadBalancerListenerMetadata"
       response: "NetworkLoadBalancer"
     };
@@ -107,7 +107,7 @@ service NetworkLoadBalancerService {
   // Removes the listener from the specified network load balancer.
   rpc RemoveListener (RemoveNetworkLoadBalancerListenerRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:removeListener" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "RemoveNetworkLoadBalancerListenerMetadata"
       response: "NetworkLoadBalancer"
     };

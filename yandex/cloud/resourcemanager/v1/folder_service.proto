@@ -4,7 +4,7 @@ package yandex.cloud.resourcemanager.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/resourcemanager/v1/folder.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -29,7 +29,7 @@ service FolderService {
   // Creates a folder in the specified cloud.
   rpc Create (CreateFolderRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/resource-manager/v1/folders" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateFolderMetadata"
       response: "Folder"
     };
@@ -38,7 +38,7 @@ service FolderService {
   // Updates the specified folder.
   rpc Update (UpdateFolderRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/resource-manager/v1/folders/{folder_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateFolderMetadata"
       response: "Folder"
     };
@@ -49,7 +49,7 @@ service FolderService {
   // The method is temporarily unavailable.
   rpc Delete (DeleteFolderRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/resource-manager/v1/folders/{folder_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteFolderMetadata"
       response: "google.protobuf.Empty"
     };
@@ -70,7 +70,7 @@ service FolderService {
   // Sets access bindings for the specified folder.
   rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/resource-manager/v1/folders/{resource_id}:setAccessBindings" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
@@ -79,7 +79,7 @@ service FolderService {
   // Updates access bindings for the specified folder.
   rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/resource-manager/v1/folders/{resource_id}:updateAccessBindings" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };

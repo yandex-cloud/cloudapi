@@ -9,4 +9,6 @@ message Repository {
   // Name of the repository.
   // The name is unique within the registry.
   string name = 1;
+  // Output only. ID of the repository.
+  string id = 2;
 }

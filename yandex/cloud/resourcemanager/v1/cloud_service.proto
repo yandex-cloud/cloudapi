@@ -5,7 +5,7 @@ package yandex.cloud.resourcemanager.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/resourcemanager/v1/cloud.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -29,7 +29,7 @@ service CloudService {
   // Updates the specified cloud.
   rpc Update (UpdateCloudRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/resource-manager/v1/clouds/{cloud_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateCloudMetadata"
       response: "Cloud"
     };
@@ -50,7 +50,7 @@ service CloudService {
   // Sets access bindings for the specified cloud.
   rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/resource-manager/v1/clouds/{resource_id}:setAccessBindings" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
@@ -59,7 +59,7 @@ service CloudService {
   // Updates access bindings for the specified cloud.
   rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/resource-manager/v1/clouds/{resource_id}:updateAccessBindings" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };

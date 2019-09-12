@@ -4,7 +4,7 @@ package yandex.cloud.compute.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/compute/v1/snapshot.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -28,7 +28,7 @@ service SnapshotService {
   // Creates a snapshot of the specified disk.
   rpc Create (CreateSnapshotRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/snapshots" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateSnapshotMetadata"
       response: "Snapshot"
     };
@@ -39,7 +39,7 @@ service SnapshotService {
   // Values of omitted parameters are not changed.
   rpc Update (UpdateSnapshotRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/compute/v1/snapshots/{snapshot_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateSnapshotMetadata"
       response: "Snapshot"
     };
@@ -50,7 +50,7 @@ service SnapshotService {
   // Deleting a snapshot removes its data permanently and is irreversible.
   rpc Delete (DeleteSnapshotRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/compute/v1/snapshots/{snapshot_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteSnapshotMetadata"
       response: "google.protobuf.Empty"
     };

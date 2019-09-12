@@ -5,7 +5,7 @@ package yandex.cloud.iot.devices.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/validation.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/iot/devices/v1/registry.proto";
 
@@ -22,7 +22,7 @@ service RegistryService {
 
   rpc Create (CreateRegistryRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/iot-devices/v1/registries" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateRegistryMetadata"
       response: "Registry"
     };
@@ -30,7 +30,7 @@ service RegistryService {
 
   rpc Update (UpdateRegistryRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/iot-devices/v1/registries/{registry_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateRegistryMetadata"
       response: "Registry"
     };
@@ -38,7 +38,7 @@ service RegistryService {
 
   rpc Delete (DeleteRegistryRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/iot-devices/v1/registries/{registry_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteRegistryMetadata"
       response: "google.protobuf.Empty"
     };
@@ -50,7 +50,7 @@ service RegistryService {
 
   rpc AddCertificate (AddRegistryCertificateRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/iot-devices/v1/registries/{registry_id}/certificates" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "AddRegistryCertificateMetadata"
       response: "RegistryCertificate"
     };
@@ -58,7 +58,7 @@ service RegistryService {
 
   rpc DeleteCertificate (DeleteRegistryCertificateRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/iot-devices/v1/registries/{registry_id}/certificates" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteRegistryCertificateMetadata"
       response: "google.protobuf.Empty"
     };

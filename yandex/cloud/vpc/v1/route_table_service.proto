@@ -4,7 +4,7 @@ package yandex.cloud.vpc.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/vpc/v1/route_table.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -29,7 +29,7 @@ service RouteTableService {
   // Method starts an asynchronous operation that can be cancelled while it is in progress.
   rpc Create (CreateRouteTableRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/vpc/v1/routeTables" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateRouteTableMetadata"
       response: "RouteTable"
     };
@@ -39,7 +39,7 @@ service RouteTableService {
   // Method starts an asynchronous operation that can be cancelled while it is in progress.
   rpc Update (UpdateRouteTableRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/vpc/v1/routeTables/{route_table_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateRouteTableMetadata"
       response: "RouteTable"
     };
@@ -48,7 +48,7 @@ service RouteTableService {
   // Deletes the specified route table.
   rpc Delete (DeleteRouteTableRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/vpc/v1/routeTables/{route_table_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteRouteTableMetadata"
       response: "google.protobuf.Empty"
     };

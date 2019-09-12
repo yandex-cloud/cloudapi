@@ -5,7 +5,7 @@ package yandex.cloud.mdb.redis.v1alpha;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/mdb/redis/v1alpha/backup.proto";
@@ -32,7 +32,7 @@ service ClusterService {
   // Creates a Redis cluster in the specified folder.
   rpc Create (CreateClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-redis/v1alpha/clusters" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateClusterMetadata"
       response: "Cluster"
     };
@@ -41,7 +41,7 @@ service ClusterService {
   // Updates the specified Redis cluster.
   rpc Update (UpdateClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/managed-redis/v1alpha/clusters/{cluster_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateClusterMetadata"
       response: "Cluster"
     };
@@ -50,7 +50,7 @@ service ClusterService {
   // Deletes the specified Redis cluster.
   rpc Delete (DeleteClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/managed-redis/v1alpha/clusters/{cluster_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteClusterMetadata"
       response: "google.protobuf.Empty"
     };
@@ -59,7 +59,7 @@ service ClusterService {
   // Start the specified Redis cluster.
   rpc Start (StartClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-redis/v1alpha/clusters/{cluster_id}:start" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
     };
@@ -68,7 +68,7 @@ service ClusterService {
   // Stop the specified Redis cluster.
   rpc Stop (StopClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-redis/v1alpha/clusters/{cluster_id}:stop" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
     };
@@ -77,7 +77,7 @@ service ClusterService {
   // Creates a backup for the specified Redis cluster.
   rpc Backup (BackupClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-redis/v1alpha/clusters/{cluster_id}:backup" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "BackupClusterMetadata"
       response: "Cluster"
     };
@@ -86,7 +86,7 @@ service ClusterService {
   // Creates a new Redis cluster using the specified backup.
   rpc Restore (RestoreClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-redis/v1alpha/clusters:restore" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "RestoreClusterMetadata"
       response: "Cluster"
     };
@@ -95,7 +95,7 @@ service ClusterService {
   // Start a manual failover on the specified Redis cluster.
   rpc StartFailover (StartClusterFailoverRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-redis/v1alpha/clusters/{cluster_id}:startFailover" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "StartClusterFailoverMetadata"
       response: "Cluster"
     };
@@ -125,7 +125,7 @@ service ClusterService {
   // Creates new hosts for a cluster.
   rpc AddHosts (AddClusterHostsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-redis/v1alpha/clusters/{cluster_id}/hosts:batchCreate" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "AddClusterHostsMetadata"
       response: "google.protobuf.Empty"
     };
@@ -134,7 +134,7 @@ service ClusterService {
   // Deletes the specified hosts for a cluster.
   rpc DeleteHosts (DeleteClusterHostsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-redis/v1alpha/clusters/{cluster_id}/hosts:batchDelete" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteClusterHostsMetadata"
       response: "google.protobuf.Empty"
     };

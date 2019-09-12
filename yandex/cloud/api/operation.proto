@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package yandex.api;
+package yandex.cloud.api;
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "github.com/yandex-cloud/go-genproto/yandex/api;api";
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/api;api";
 
 extend google.protobuf.MethodOptions { Operation operation = 87334; }
 

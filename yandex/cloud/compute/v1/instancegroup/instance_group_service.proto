@@ -5,7 +5,7 @@ package yandex.cloud.compute.v1.instancegroup;
 import "google/protobuf/field_mask.proto";
 import "google/api/annotations.proto";
 
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/compute/v1/instancegroup/instance_group.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -30,7 +30,7 @@ service InstanceGroupService {
   // This method starts an operation that can be cancelled by another operation.
   rpc Create (CreateInstanceGroupRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instanceGroups" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateInstanceGroupMetadata"
       response: "InstanceGroup"
     };
@@ -40,7 +40,7 @@ service InstanceGroupService {
   // This method starts an operation that can be cancelled by another operation.
   rpc CreateFromYaml (CreateInstanceGroupFromYamlRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instanceGroups:yaml" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateInstanceGroupMetadata"
       response: "InstanceGroup"
     };
@@ -50,7 +50,7 @@ service InstanceGroupService {
   // This method starts an operation that can be cancelled by another operation.
   rpc Update (UpdateInstanceGroupRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/compute/v1/instanceGroups/{instance_group_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateInstanceGroupMetadata"
       response: "InstanceGroup"
     };
@@ -60,7 +60,7 @@ service InstanceGroupService {
   // This method starts an operation that can be cancelled by another operation.
   rpc UpdateFromYaml (UpdateInstanceGroupFromYamlRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/compute/v1/instanceGroups/{instance_group_id}:yaml" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateInstanceGroupMetadata"
       response: "InstanceGroup"
     };
@@ -69,7 +69,7 @@ service InstanceGroupService {
   // Deletes the specified instance group.
   rpc Delete (DeleteInstanceGroupRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/compute/v1/instanceGroups/{instance_group_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteInstanceGroupMetadata"
       response: "google.protobuf.Empty"
     };

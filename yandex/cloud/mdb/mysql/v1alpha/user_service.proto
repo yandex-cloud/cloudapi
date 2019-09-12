@@ -4,7 +4,7 @@ package yandex.cloud.mdb.mysql.v1alpha;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/mdb/mysql/v1alpha/user.proto";
@@ -28,7 +28,7 @@ service UserService {
   // Creates a MySQL user in the specified cluster.
   rpc Create (CreateUserRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-mysql/v1alpha/clusters/{cluster_id}/users" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateUserMetadata"
       response: "User"
     };
@@ -37,7 +37,7 @@ service UserService {
   // Modifies the specified MySQL user.
   rpc Update (UpdateUserRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/managed-mysql/v1alpha/clusters/{cluster_id}/users/{user_name}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateUserMetadata"
       response: "User"
     };
@@ -46,7 +46,7 @@ service UserService {
   // Deletes the specified MySQL user.
   rpc Delete (DeleteUserRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/managed-mysql/v1alpha/clusters/{cluster_id}/users/{user_name}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteUserMetadata"
       response: "google.protobuf.Empty"
     };
@@ -55,7 +55,7 @@ service UserService {
   // Grants a permission to the specified MySQL user.
   rpc GrantPermission (GrantUserPermissionRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-mysql/v1alpha/clusters/{cluster_id}/users/{user_name}:grantPermission" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "GrantUserPermissionMetadata"
       response: "User"
     };
@@ -64,7 +64,7 @@ service UserService {
   // Revokes a permission from the specified MySQL user.
   rpc RevokePermission (RevokeUserPermissionRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-mysql/v1alpha/clusters/{cluster_id}/users/{user_name}:revokePermission" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "RevokeUserPermissionMetadata"
       response: "User"
     };

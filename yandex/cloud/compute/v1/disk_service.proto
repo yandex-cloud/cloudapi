@@ -4,7 +4,7 @@ package yandex.cloud.compute.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/compute/v1/disk.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -31,7 +31,7 @@ service DiskService {
   // Method starts an asynchronous operation that can be cancelled while it is in progress.
   rpc Create (CreateDiskRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/disks" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateDiskMetadata"
       response: "Disk"
     };
@@ -40,7 +40,7 @@ service DiskService {
   // Updates the specified disk.
   rpc Update (UpdateDiskRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/compute/v1/disks/{disk_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateDiskMetadata"
       response: "Disk"
     };
@@ -54,7 +54,7 @@ service DiskService {
   // It is not possible to delete a disk that is attached to an instance.
   rpc Delete (DeleteDiskRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/compute/v1/disks/{disk_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteDiskMetadata"
       response: "google.protobuf.Empty"
     };

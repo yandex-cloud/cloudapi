@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/serverless/functions/v1/function.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -26,7 +26,7 @@ service FunctionService {
 
   rpc Create (CreateFunctionRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/functions/v1/functions" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateFunctionMetadata"
       response: "Function"
     };
@@ -34,7 +34,7 @@ service FunctionService {
 
   rpc Update (UpdateFunctionRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/functions/v1/functions/{function_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateFunctionMetadata"
       response: "Function"
     };
@@ -42,7 +42,7 @@ service FunctionService {
 
   rpc Delete (DeleteFunctionRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/functions/v1/functions/{function_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteFunctionMetadata"
       response: "google.protobuf.Empty"
     };
@@ -62,7 +62,7 @@ service FunctionService {
 
   rpc SetTag (SetFunctionTagRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/functions/v1/versions/{function_version_id}:setTag" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "SetFunctionTagMetadata"
       response: "Version"
     };
@@ -70,7 +70,7 @@ service FunctionService {
 
   rpc RemoveTag (RemoveFunctionTagRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/functions/v1/versions/{function_version_id}:removeTag" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "RemoveFunctionTagMetadata"
       response: "Version"
     };
@@ -82,7 +82,7 @@ service FunctionService {
 
   rpc CreateFunctionVersion (CreateFunctionVersionRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/functions/v1/versions" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateFunctionVersionMetadata"
       response: "Version"
     };
@@ -102,7 +102,7 @@ service FunctionService {
 
   rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/functions/v1/functions/{resource_id}:setAccessBindings" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
@@ -110,7 +110,7 @@ service FunctionService {
 
   rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/functions/v1/functions/{resource_id}:updateAccessBindings" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };

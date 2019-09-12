@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/type/timeofday.proto";
-import "yandex/api/operation.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/mdb/mysql/v1alpha/backup.proto";
@@ -34,7 +34,7 @@ service ClusterService {
   // Creates a MySQL cluster in the specified folder.
   rpc Create (CreateClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-mysql/v1alpha/clusters" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "CreateClusterMetadata"
       response: "Cluster"
     };
@@ -43,7 +43,7 @@ service ClusterService {
   // Modifies the specified MySQL cluster.
   rpc Update (UpdateClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/managed-mysql/v1alpha/clusters/{cluster_id}" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "UpdateClusterMetadata"
       response: "Cluster"
     };
@@ -52,7 +52,7 @@ service ClusterService {
   // Deletes the specified MySQL cluster.
   rpc Delete (DeleteClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/managed-mysql/v1alpha/clusters/{cluster_id}" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteClusterMetadata"
       response: "google.protobuf.Empty"
     };
@@ -61,7 +61,7 @@ service ClusterService {
   // Starts the specified MySQL cluster.
   rpc Start (StartClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-mysql/v1alpha/clusters/{cluster_id}:start" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
     };
@@ -70,7 +70,7 @@ service ClusterService {
   // Stops the specified MySQL cluster.
   rpc Stop (StopClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-mysql/v1alpha/clusters/{cluster_id}:stop" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
     };
@@ -79,7 +79,7 @@ service ClusterService {
   // Creates a backup for the specified MySQL cluster.
   rpc Backup (BackupClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-mysql/v1alpha/clusters/{cluster_id}:backup" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "BackupClusterMetadata"
       response: "Cluster"
     };
@@ -88,7 +88,7 @@ service ClusterService {
   // Creates a new MySQL cluster using the specified backup.
   rpc Restore (RestoreClusterRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-mysql/v1alpha/clusters:restore" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "RestoreClusterMetadata"
       response: "Cluster"
     };
@@ -118,7 +118,7 @@ service ClusterService {
   // Creates new hosts for a cluster.
   rpc AddHosts (AddClusterHostsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-mysql/v1alpha/clusters/{cluster_id}/hosts:batchCreate" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "AddClusterHostsMetadata"
       response: "google.protobuf.Empty"
     };
@@ -127,7 +127,7 @@ service ClusterService {
   // Deletes the specified hosts for a cluster.
   rpc DeleteHosts (DeleteClusterHostsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-mysql/v1alpha/clusters/{cluster_id}/hosts:batchDelete" body: "*" };
-    option (yandex.api.operation) = {
+    option (yandex.cloud.api.operation) = {
       metadata: "DeleteClusterHostsMetadata"
       response: "google.protobuf.Empty"
     };
