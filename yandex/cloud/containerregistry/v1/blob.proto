@@ -14,4 +14,6 @@ message Blob {
 
   // Size of the blob, specified in bytes.
   int64 size = 3;
+
+  repeated string urls = 4;
 }

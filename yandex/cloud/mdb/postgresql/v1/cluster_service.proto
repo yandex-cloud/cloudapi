@@ -110,6 +110,15 @@ service ClusterService {
     };
   }
 
+  // Start a manual failover on the specified PostgreSQL cluster.
+  rpc StartFailover (StartClusterFailoverRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-postgresql/v1/clusters/{cluster_id}:startFailover" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "StartClusterFailoverMetadata"
+      response: "Cluster"
+    };
+  }
+
   // Retrieves logs for the specified PostgreSQL cluster.
   // For more information about logs, see the [Logs](/docs/managed-postgresql/concepts/logs) section in the documentation.
   rpc ListLogs (ListClusterLogsRequest) returns (ListClusterLogsResponse) {
@@ -375,6 +384,19 @@ message RestoreClusterMetadata {
 
   // ID of the backup that is being used for creating a cluster.
   string backup_id = 2;
+}
+
+message StartClusterFailoverRequest {
+  // ID of PostgreSQL cluster.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // New master host. Switch to the most up-to-date replica if not provided.
+  string host_name = 2 [(length) = "<=253"];
+}
+
+message StartClusterFailoverMetadata {
+  // ID of the PostgreSQL cluster being failovered.
+  string cluster_id = 1;
 }
 
 message LogRecord {

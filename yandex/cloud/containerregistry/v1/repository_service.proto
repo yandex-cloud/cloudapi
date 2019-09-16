@@ -21,6 +21,11 @@ service RepositoryService {
     option (google.api.http) = { get: "/container-registry/v1/repositories/{repository_id}" };
   };
 
+  // Returns the specified Repository resource.
+  //
+  // To get the list of available Repository resources, make a [List] request.
+  rpc GetByName (GetRepositoryByNameRequest) returns (Repository);
+
   // Retrieves the list of Repository resources in the specified registry.
   rpc List (ListRepositoriesRequest) returns (ListRepositoriesResponse) {
     option (google.api.http) = { get: "/container-registry/v1/repositories" };
@@ -58,6 +63,13 @@ message GetRepositoryRequest {
   //
   // To get the repository ID use a [RepositoryService.List] request.
   string repository_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message GetRepositoryByNameRequest {
+  // Name of the Repository resource to return.
+  //
+  // To get the repository name use a [RepositoryService.List] request.
+  string repository_name = 1 [(required) = true, (pattern) = "[a-z0-9]+(?:[._-][a-z0-9]+)*(/([a-z0-9]+(?:[._-][a-z0-9]+)*))*"];
 }
 
 message ListRepositoriesRequest {
