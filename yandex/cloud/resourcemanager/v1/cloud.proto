@@ -5,6 +5,7 @@ package yandex.cloud.resourcemanager.v1;
 import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/resourcemanager/v1;resourcemanager";
+option java_package = "yandex.cloud.api.resourcemanager.v1";
 
 // A Cloud resource. For more information, see [Cloud](/docs/resource-manager/concepts/resources-hierarchy#cloud).
 message Cloud {

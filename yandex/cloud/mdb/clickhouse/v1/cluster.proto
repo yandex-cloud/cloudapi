@@ -8,6 +8,7 @@ import "google/type/timeofday.proto";
 import "yandex/cloud/mdb/clickhouse/v1/config/clickhouse.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1;clickhouse";
+option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
 
 // A ClickHouse Cluster resource. For more information, see the
 // [Cluster](/docs/managed-clickhouse/concepts) section in the Developer's Guide.

@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.mdb.redis.v1alpha;
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/redis/v1alpha;redis";
+option java_package = "yandex.cloud.api.mdb.redis.v1alpha";
 
 // A resource preset that describes hardware configuration for a host.
 message ResourcePreset {

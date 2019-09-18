@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.mdb.mysql.v1;
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mysql/v1;mysql";
+option java_package = "yandex.cloud.api.mdb.mysql.v1";
 
 // A preset of resources for hardware configuration of MySQL hosts.
 message ResourcePreset {

@@ -16,6 +16,7 @@ import "yandex/cloud/mdb/mysql/v1/user.proto";
 import "yandex/cloud/mdb/mysql/v1/config/mysql5_7.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mysql/v1;mysql";
+option java_package = "yandex.cloud.api.mdb.mysql.v1";
 
 // A set of methods for managing MySQL clusters.
 service ClusterService {

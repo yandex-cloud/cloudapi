@@ -7,6 +7,7 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/duration.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1/instancegroup;instancegroup";
+option java_package = "yandex.cloud.api.compute.v1.instancegroup";
 
 message InstanceGroup {
   // ID of the instance group.

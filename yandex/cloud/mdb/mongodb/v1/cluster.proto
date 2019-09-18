@@ -8,6 +8,7 @@ import "yandex/cloud/mdb/mongodb/v1/config/mongodb3_6.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_0.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1;mongodb";
+option java_package = "yandex.cloud.api.mdb.mongodb.v1";
 
 // A managed MongoDB cluster. For more information, see the [documentation](/docs/managed-mongodb/concepts).
 message Cluster {

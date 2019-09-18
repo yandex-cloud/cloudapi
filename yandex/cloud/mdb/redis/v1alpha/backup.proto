@@ -5,6 +5,7 @@ package yandex.cloud.mdb.redis.v1alpha;
 import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/redis/v1alpha;redis";
+option java_package = "yandex.cloud.api.mdb.redis.v1alpha";
 
 // Description of a Redis backup. For more information, see
 // the Managed Service for Redis [documentation](/docs/managed-redis/concepts/backup).

@@ -10,6 +10,7 @@ import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/iot/devices/v1/registry.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/iot/devices/v1;devices";
+option java_package = "yandex.cloud.api.iot.devices.v1";
 
 service RegistryService {
   rpc Get (GetRegistryRequest) returns (Registry) {

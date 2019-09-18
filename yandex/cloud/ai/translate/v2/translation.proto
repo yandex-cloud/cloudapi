@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.ai.translate.v2;
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/translate/v2;translate";
+option java_package = "yandex.cloud.api.ai.translate.v2";
 
 message TranslatedText {
   // Translated text.

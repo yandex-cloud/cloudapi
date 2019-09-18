@@ -8,6 +8,7 @@ import "google/protobuf/timestamp.proto";
 
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/operation;operation";
+option java_package = "yandex.cloud.api.operation";
 
 // An Operation resource. For more information, see [Operation](/docs/api-design-guide/concepts/operation).
 message Operation {
