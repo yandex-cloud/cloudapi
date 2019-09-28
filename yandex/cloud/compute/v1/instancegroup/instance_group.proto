@@ -58,6 +58,32 @@ message InstanceGroup {
   // made by the Instance Groups component on behalf of the user (for example, creating instances, adding them to load balancer target group, etc.). For more information, see [Service accounts](/docs/iam/concepts/users/service-accounts).
   // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
   string service_account_id = 16;
+
+  // TODO DOC-REVIEW:
+  // Status of the instance group.
+  Status status = 17;
+
+  // TODO DOC-REVIEW:
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+
+    // Instance group is being started and will become active soon.
+    STARTING = 1;
+    // Instance group is active.
+    // In this state the group manages its instances and monitors their health,
+    // creating, deleting, stopping, updating and starting instances as needed.
+    // To stop the instance group, call [yandex.cloud.compute.v1.instancegroup.InstanceGroupService.Stop].
+    ACTIVE = 2;
+    // Instance group is being stopped.
+    // Group's instances stop receiving traffic from the load balancer (if any) and are then stopped.
+    STOPPING = 3;
+    // Instance group is stopped.
+    // In this state the group cannot be updated and does not react to any changes made to its instances.
+    // To start the instance group, call [yandex.cloud.compute.v1.instancegroup.InstanceGroupService.Start].
+    STOPPED = 4;
+    // Instance group is being deleted.
+    DELETING = 5;
+  }
 }
 
 message LoadBalancerState {
@@ -225,7 +251,7 @@ message ResourcesSpec {
   int64 memory = 1 [(value) = "<=274877906944"];
 
   // The number of cores available to the instance.
-  int64 cores = 2 [(value) = "1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32"];
+  int64 cores = 2 [(value) = "1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,40,44,48,52,56,60,64"];
 
   // Baseline level of CPU performance with the ability to burst performance above that baseline level.
   // This field sets baseline performance for each core.
@@ -346,7 +372,7 @@ message HealthCheckSpec {
   }
 
   message HttpOptions {
-     // Port to use for HTTP health checks.
+    // Port to use for HTTP health checks.
     int64 port = 1 [(value) = "1-32767"];
 
     // URL path to set for health checking requests.

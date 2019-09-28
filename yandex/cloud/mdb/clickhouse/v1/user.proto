@@ -312,7 +312,7 @@ message UserSettings {
   google.protobuf.BoolValue empty_result_for_aggregation_by_empty_set = 79;
 
   // HTTP connection timeout, in milliseconds.
-  google.protobuf.Int64Value http_connect_timeout = 65;
+  google.protobuf.Int64Value http_connection_timeout = 65;
 
   // HTTP receive timeout, in milliseconds.
   google.protobuf.Int64Value http_receive_timeout = 66;

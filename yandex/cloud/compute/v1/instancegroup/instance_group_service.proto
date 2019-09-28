@@ -67,6 +67,26 @@ service InstanceGroupService {
     };
   }
 
+  // TODO DOC-REVIEW:
+  // Stops the specified instance group.
+  rpc Stop (StopInstanceGroupRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:stop" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "StopInstanceGroupMetadata"
+      response: "InstanceGroup"
+    };
+  }
+
+  // TODO DOC-REVIEW:
+  // Starts the specified instance group.
+  rpc Start (StartInstanceGroupRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:start" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "StartInstanceGroupMetadata"
+      response: "InstanceGroup"
+    };
+  }
+
   // Deletes the specified instance group.
   rpc Delete (DeleteInstanceGroupRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/compute/v1/instanceGroups/{instance_group_id}" };
@@ -215,6 +235,32 @@ message UpdateInstanceGroupFromYamlRequest {
 message UpdateInstanceGroupMetadata {
   // ID of the InstanceGroup resource that is being updated.
   // To get the instance group ID, use an [InstanceGroupService.List] request.
+  string instance_group_id = 1;
+}
+
+// TODO DOC-REVIEW:
+message StartInstanceGroupRequest {
+  // ID of the instance group to start.
+  // To get the instance group ID, use an [InstanceGroupService.List] request.
+  string instance_group_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+// TODO DOC-REVIEW:
+message StartInstanceGroupMetadata {
+  // ID of the InstanceGroup resource that is being started.
+  string instance_group_id = 1;
+}
+
+// TODO DOC-REVIEW:
+message StopInstanceGroupRequest {
+  // ID of the instance group to stop.
+  // To get the instance group ID, use an [InstanceGroupService.List] request.
+  string instance_group_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+// TODO DOC-REVIEW:
+message StopInstanceGroupMetadata {
+  // ID of the InstanceGroup resource that is being stopped.
   string instance_group_id = 1;
 }
 

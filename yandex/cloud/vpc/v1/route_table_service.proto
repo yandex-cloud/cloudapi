@@ -60,6 +60,14 @@ service RouteTableService {
     option (google.api.http) = { get: "/vpc/v1/routeTables/{route_table_id}/operations" };
   }
 
+  // Move route table to another folder.
+  rpc Move (MoveRouteTableRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/vpc/v1/routeTables/{route_table_id}:move" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "MoveRouteTableMetadata"
+      response: "RouteTable"
+    };
+  }
 }
 
 message GetRouteTableRequest {
@@ -191,4 +199,17 @@ message ListRouteTableOperationsResponse {
   // for the [ListRouteTableOperationsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
+}
+
+message MoveRouteTableRequest {
+  // ID of the RouteTable resource to move.
+  string route_table_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the destination folder.
+  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message MoveRouteTableMetadata {
+  // ID of the RouteTable resource that is being moved.
+  string route_table_id = 1;
 }

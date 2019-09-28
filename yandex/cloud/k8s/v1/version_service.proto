@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package yandex.cloud.k8s.v1;
+
+import "yandex/cloud/k8s/v1/cluster.proto";
+
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/k8s/v1;k8s";
+option java_package = "yandex.cloud.api.k8s.v1";
+
+service VersionService {
+  rpc List (ListVersionsRequest) returns (ListVersionsResponse);
+}
+
+message ListVersionsRequest {
+}
+
+message ListVersionsResponse {
+  repeated AvailableVersions available_versions = 1;
+}
+
+message AvailableVersions {
+  ReleaseChannel release_channel = 1;
+  repeated string versions = 2;
+}

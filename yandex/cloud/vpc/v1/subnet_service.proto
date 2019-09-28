@@ -59,6 +59,15 @@ service SubnetService {
   rpc ListOperations (ListSubnetOperationsRequest) returns (ListSubnetOperationsResponse) {
     option (google.api.http) = { get: "/vpc/v1/subnets/{subnet_id}/operations" };
   }
+
+  // Move subnet to another folder.
+  rpc Move (MoveSubnetRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/vpc/v1/subnets/{subnet_id}:move" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "MoveSubnetMetadata"
+      response: "Subnet"
+    };
+  }
 }
 
 message GetSubnetRequest {
@@ -204,4 +213,17 @@ message ListSubnetOperationsResponse {
   // for the [ListSubnetOperationsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
+}
+
+message MoveSubnetRequest {
+  // ID of the Subnet resource to move.
+  string subnet_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the destination folder.
+  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message MoveSubnetMetadata {
+  // ID of the Subnet resource that is being moved.
+  string subnet_id = 1;
 }

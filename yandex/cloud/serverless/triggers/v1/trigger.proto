@@ -48,19 +48,16 @@ message Trigger {
   message MessageQueue {
 
     // ID of the queue.
-    oneof queue {
-      option (exactly_one) = true;
-      // ARN stands for Amazon Resource ID. ARN is the only way to uniquely
-      // identify a queue in the YMQ. One is expected to use it as a reference
-      // to a queue when creating a trigger.
-      string arn = 11;
-    }
+    string queue_id = 11;
 
     // SA which has read access to the queue.
     string service_account_id = 3 [(required) = true, (length) = "<=50"];
 
     // Batch settings for YMQ client.
     BatchSettings batch_settings = 4 [(required) = true];
+
+    // Queue visibility timeout override.
+    google.protobuf.Duration visibility_timeout = 5 [(value) = "<=12h"];
 
     oneof action {
       option (exactly_one) = true;

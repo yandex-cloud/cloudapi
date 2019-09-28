@@ -14,6 +14,7 @@ import "yandex/cloud/mdb/mysql/v1/cluster.proto";
 import "yandex/cloud/mdb/mysql/v1/database.proto";
 import "yandex/cloud/mdb/mysql/v1/user.proto";
 import "yandex/cloud/mdb/mysql/v1/config/mysql5_7.proto";
+import "yandex/cloud/mdb/mysql/v1/config/mysql8_0.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mysql/v1;mysql";
 option java_package = "yandex.cloud.api.mdb.mysql.v1";
@@ -585,12 +586,14 @@ message ConfigSpec {
   // Version of MySQL used in the cluster.
   // Possible values:
   // * 5.7
+  // * 8.0
   string version = 1; // No formal validation, a list of supported versions should suffice.
 
   // Configuration of a MySQL cluster.
   oneof mysql_config {
     // Configuration for a MySQL 5.7 cluster.
     config.MysqlConfig5_7 mysql_config_5_7 = 2;
+    config.MysqlConfig8_0 mysql_config_8_0 = 6;
   }
 
   // Resources allocated to MySQL hosts.

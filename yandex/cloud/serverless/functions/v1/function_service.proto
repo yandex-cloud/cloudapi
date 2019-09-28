@@ -49,14 +49,26 @@ service FunctionService {
     };
   };
 
+  rpc GetVersion (GetFunctionVersionRequest) returns (Version) {
+  }
+
+  // Deprecated. Use GetVersion.
   rpc GetFunctionVersion (GetFunctionVersionRequest) returns (Version) {
     option (google.api.http) = { get: "/functions/v1/versions/{function_version_id}" };
   }
 
+  rpc GetVersionByTag (GetFunctionVersionByTagRequest) returns (Version) {
+  }
+
+  // Deprecated. Use GetVersionByTag.
   rpc GetFunctionVersionByTag (GetFunctionVersionByTagRequest) returns (Version) {
     option (google.api.http) = { get: "/functions/v1/versions:byTag" };
   }
 
+  rpc ListVersions (ListFunctionsVersionsRequest) returns (ListFunctionsVersionsResponse) {
+  }
+
+  // Deprecated. Use ListVersions.
   rpc ListFunctionVersions (ListFunctionsVersionsRequest) returns (ListFunctionsVersionsResponse) {
     option (google.api.http) = { get: "/functions/v1/versions" };
   }
@@ -77,10 +89,22 @@ service FunctionService {
     };
   }
 
+  rpc ListTagHistory (ListFunctionTagHistoryRequest) returns (ListFunctionTagHistoryResponse) {
+  }
+
+  // Deprecated. Use ListTagHistory.
   rpc ListFunctionTagHistory (ListFunctionTagHistoryRequest) returns (ListFunctionTagHistoryResponse) {
     option (google.api.http) = { get: "/functions/v1/functions/{function_id}:tagHistory" };
   }
 
+  rpc CreateVersion (CreateFunctionVersionRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "CreateFunctionVersionMetadata"
+      response: "Version"
+    };
+  }
+
+  // Deprecated. Use CreateVersion.
   rpc CreateFunctionVersion (CreateFunctionVersionRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/functions/v1/versions" body: "*" };
     option (yandex.cloud.api.operation) = {
@@ -90,7 +114,7 @@ service FunctionService {
   };
 
   rpc ListRuntimes (ListRuntimesRequest) returns (ListRuntimesResponse) {
-    option (google.api.http) = { post: "/functions/v1/runtimes"};
+    option (google.api.http) = { get: "/functions/v1/runtimes"};
   }
 
   rpc ListOperations (ListFunctionOperationsRequest) returns (ListFunctionOperationsResponse) {
@@ -98,7 +122,7 @@ service FunctionService {
   }
 
   rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-      option (google.api.http) = { get: "/functions/v1/functions/{resource_id}:listAccessBindings" };
+    option (google.api.http) = { get: "/functions/v1/functions/{resource_id}:listAccessBindings" };
   }
 
   rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
@@ -188,7 +212,7 @@ message ListFunctionsVersionsRequest {
     option (exactly_one) = true;
     string folder_id = 1;
     string function_id = 2;
-  } ;
+  };
   int64 page_size = 3 [(value) = "0-1000"];
   string page_token = 4 [(length) = "<=100"];
   string filter = 5 [(length) = "<=1000"];
@@ -256,7 +280,7 @@ message RemoveFunctionTagMetadata {
 }
 
 message ListFunctionTagHistoryRequest {
-  string function_id = 1[(required) = true];
+  string function_id = 1 [(required) = true];
   string tag = 2 [(pattern) = "[a-z][-_0-9a-z]*|[$]latest"];
   int64 page_size = 3 [(value) = "0-1000"];
   string page_token = 4 [(length) = "<=100"];

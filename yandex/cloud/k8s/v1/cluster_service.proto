@@ -1,0 +1,323 @@
+syntax = "proto3";
+
+package yandex.cloud.k8s.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
+import "yandex/cloud/k8s/v1/cluster.proto";
+import "yandex/cloud/k8s/v1/node_group.proto";
+import "yandex/cloud/k8s/v1/version.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/k8s/v1;k8s";
+option java_package = "yandex.cloud.api.k8s.v1";
+
+// A set of methods for managing Kubernetes cluster.
+service ClusterService {
+  // Returns the specified Kubernetes cluster.
+  //
+  // To get the list of available Kubernetes cluster, make a [List] request.
+  rpc Get (GetClusterRequest) returns (Cluster) {
+    option (google.api.http) = { get: "/managed-kubernetes/v1/clusters/{cluster_id}" };
+  }
+
+  // Retrieves the list of Kubernetes cluster in the specified folder.
+  rpc List (ListClustersRequest) returns (ListClustersResponse) {
+    option (google.api.http) = { get: "/managed-kubernetes/v1/clusters" };
+  }
+
+  // Creates a Kubernetes cluster in the specified folder.
+  rpc Create (CreateClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-kubernetes/v1/clusters" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "CreateClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
+  // Updates the specified Kubernetes cluster.
+  rpc Update (UpdateClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/managed-kubernetes/v1/clusters/{cluster_id}" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
+  // Deletes the specified Kubernetes cluster.
+  rpc Delete (DeleteClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/managed-kubernetes/v1/clusters/{cluster_id}" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteClusterMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Lists nodegroup for the specified Kubernetes cluster.
+  rpc ListNodeGroups (ListClusterNodeGroupsRequest) returns (ListClusterNodeGroupsResponse) {
+    option (google.api.http) = { get: "/managed-kubernetes/v1/clusters/{cluster_id}/nodeGroups" };
+  }
+
+  // Lists operations for the specified Kubernetes cluster.
+  rpc ListOperations (ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
+    option (google.api.http) = { get: "/managed-kubernetes/v1/clusters/{cluster_id}/operations" };
+  }
+}
+
+message GetClusterRequest {
+  // ID of the Kubernetes cluster to return.
+  string cluster_id = 1 [(required) = true];
+}
+
+message ListClustersRequest {
+  // ID of the folder to list Kubernetes cluster in.
+  // To get the folder ID use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 1 [(required) = true];
+
+  // The maximum number of results per page to return. If the number of available
+  // results is larger than [page_size],
+  // the service returns a [ListClustersResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Default value: 100.
+  int64 page_size = 2 [(value) = "0-1000"];
+
+  // Page token. To get the next page of results, set [page_token] to the
+  // [ListClustersResponse.next_page_token] returned by a previous list request.
+  string page_token = 3 [(length) = "<=100"];
+
+  // A filter expression that filters resources listed in the response.
+  // The expression must specify:
+  // 1. The field name. Currently you can use filtering only on [Cluster.name] field.
+  // 2. An operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
+  // 3. The value. Must be 1-61 characters long and match the regular expression `|[a-z][-a-z0-9]{1,61}[a-z0-9]`.
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListClustersResponse {
+  // List of Kubernetes cluster.
+  repeated Cluster clusters = 1;
+
+  // This token allows you to get the next page of results for list requests. If the number of results
+  // is larger than [ListClustersRequest.page_size], use
+  // the [next_page_token] as the value
+  // for the [ListClustersRequest.page_token] query parameter
+  // in the next list request. Each subsequent list request will have its own
+  // [next_page_token] to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message DeleteClusterRequest {
+  // ID of the Kubernetes cluster to delete.
+  // To get Kubernetes cluster ID use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true];
+}
+
+message DeleteClusterMetadata {
+  // ID of the Kubernetes cluster that is being deleted.
+  string cluster_id = 1;
+}
+
+message UpdateClusterRequest {
+  // ID of the Kubernetes cluster to update.
+  // To get the Kubernetes cluster ID use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true];
+  google.protobuf.FieldMask update_mask = 2;
+
+  // Name of the Kubernetes cluster.
+  // The name must be unique within the folder.
+  string name = 3 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+
+  // Description of the Kubernetes cluster.
+  string description = 4 [(length) = "<=256"];
+
+  // Resource labels as `key:value` pairs.
+  //
+  // Existing set of `labels` is completely replaced by the provided set.
+  map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+
+  oneof internet_gateway {
+    string gateway_ipv4_address = 6 [(length) = "<=15"];
+  }
+
+  MasterUpdateSpec master_spec = 7;
+
+  // Service account to be used for provisioning Compute Cloud and VPC resources for Kubernetes cluster.
+  // Selected service account should have `edit` role on the folder where the Kubernetes cluster will be
+  // located and on the folder where selected network resides.
+  string service_account_id = 9;
+
+  // Service account to be used by the worker nodes of the Kubernetes cluster to access Container Registry
+  // or to push node logs and metrics.
+  string node_service_account_id = 8;
+}
+
+message MasterUpdateSpec {
+  UpdateVersionSpec version = 1;
+  MasterMaintenancePolicy maintenance_policy = 2;
+}
+
+message UpdateClusterMetadata {
+  // ID of the Kubernetes cluster that is being updated.
+  string cluster_id = 1;
+}
+
+message CreateClusterRequest {
+  // ID of the folder to create a Kubernetes cluster in.
+  // To get the folder ID use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 1 [(required) = true];
+
+  // Name of the Kubernetes cluster.
+  // The name must be unique within the folder.
+  string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+
+  // Description of the Kubernetes cluster.
+  string description = 3 [(length) = "<=256"];
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+
+  // ID of the network.
+  string network_id = 5 [(required) = true];
+
+  // IP allocation policy of the Kubernetes cluster.
+  MasterSpec master_spec = 6 [(required) = true];
+
+  // IP allocation policy of the Kubernetes cluster.
+  IPAllocationPolicy ip_allocation_policy = 7;
+
+  oneof internet_gateway {
+    // Gateway IPv4 address.
+    string gateway_ipv4_address = 8;
+  }
+
+  // Service account to be used for provisioning Compute Cloud and VPC resources for Kubernetes cluster.
+  // Selected service account should have `edit` role on the folder where the Kubernetes cluster will be
+  // located and on the folder where selected network resides.
+  string service_account_id = 9 [(required) = true];
+
+  // Service account to be used by the worker nodes of the Kubernetes cluster to access Container Registry or to push node logs and metrics.
+  string node_service_account_id = 10 [(required) = true];
+
+  ReleaseChannel release_channel = 11;
+}
+
+message CreateClusterMetadata {
+  // ID of the Kubernetes cluster that is being created.
+  string cluster_id = 1;
+}
+
+message ListClusterOperationsRequest {
+  // ID of the Kubernetes cluster to list operations for.
+  string cluster_id = 1 [(required) = true];
+
+  // The maximum number of results per page that should be returned. If the number of available
+  // results is larger than [page_size], the service returns a [ListClusterOperationsResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Default value: 100.
+  int64 page_size = 2 [(value) = "0-1000"];
+
+  // Page token. To get the next page of results, set [page_token] to the
+  // [ListClusterOperationsResponse.next_page_token] returned by a previous list request.
+  string page_token = 3 [(length) = "<=100"];
+
+  // A filter expression that filters resources listed in the response.
+  // Currently you can use filtering only on [Cluster.name] field.
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListClusterOperationsResponse {
+  // List of operations for the specified Kubernetes cluster.
+  repeated operation.Operation operations = 1;
+
+  // This token allows you to get the next page of results for list requests. If the number of results
+  // is larger than [ListClusterOperationsRequest.page_size], use the [next_page_token] as the value
+  // for the [ListClusterOperationsRequest.page_token] query parameter in the next list request.
+  // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message ListClusterNodeGroupsRequest {
+  // ID of the Kubernetes cluster to list node groups in.
+  // To get the Kubernetes cluster ID use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true];
+
+  // The maximum number of results per page to return. If the number of available
+  // results is larger than [page_size],
+  // the service returns a [ListClusterNodeGroupsResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Default value: 100.
+  int64 page_size = 2 [(value) = "0-1000"];
+
+  // Page token. To get the next page of results, set [page_token] to the
+  // [ListClusterNodeGroupsResponse.next_page_token] returned by a previous list request.
+  string page_token = 3 [(length) = "<=100"];
+
+  // A filter expression that filters resources listed in the response.
+  // Currently you can use filtering only on [Cluster.name] field.
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListClusterNodeGroupsResponse {
+  // List of node groups for the specified Kubernetes cluster.
+  repeated NodeGroup node_groups = 1;
+
+  // This token allows you to get the next page of results for list requests. If the number of results
+  // is larger than [ListClusterNodeGroupsRequest.page_size], use
+  // the [next_page_token] as the value
+  // for the [ListClusterNodeGroupsRequest.page_token] query parameter
+  // in the next list request. Each subsequent list request will have its own
+  // [next_page_token] to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message MasterSpec {
+  oneof master_type {
+    option (exactly_one) = true;
+    // Specification of the master availability zone.
+    ZonalMasterSpec zonal_master_spec = 1;
+    RegionalMasterSpec regional_master_spec = 2;
+  }
+
+  string version = 3;
+  MasterMaintenancePolicy maintenance_policy = 4;
+}
+
+message ZonalMasterSpec {
+  // ID of the availability zone.
+  string zone_id = 1 [(required) = true];
+
+  // Specification of parameters for internal IPv4 networking.
+  InternalAddressSpec internal_v4_address_spec = 2;
+
+  // Specification of parameters for external IPv4 networking.
+  ExternalAddressSpec external_v4_address_spec = 3;
+}
+
+message RegionalMasterSpec {
+  string region_id = 1 [(required) = true];
+
+  repeated MasterLocation locations = 2;
+
+  // Specify to allocate a static public IP for the master
+  ExternalAddressSpec external_v4_address_spec = 3;
+}
+
+message InternalAddressSpec {
+
+  // ID of the subnet. If no ID is specified, and there only one subnet in specified zone, an address in this subnet will be allocated.
+  string subnet_id = 2;
+}
+
+message ExternalAddressSpec {
+}
+
+message MasterLocation {
+  string zone_id = 1 [(required) = true];
+
+  // If not specified and there is a single subnet in specified zone, address
+  // in this subnet will be allocated.
+  InternalAddressSpec internal_v4_address_spec = 2;
+}

@@ -182,25 +182,30 @@ message ClickhouseConfig {
         VERIFY_FULL = 5;
       }
 
-      // Required.
+      // Name of the PostrgreSQL database.
       string db = 1 [(required) = true];
 
-      // Required.
+      // Name of the table in the specified database to be used as the dictionary source.
       string table = 2 [(required) = true];
 
-      // Required.
+      // Name of the PostrgreSQL host
       repeated string hosts = 3 [(size) = ">0"];
 
+      // Port to use when connecting to the host.
       int64 port = 4 [(value) = "0-65535"];
 
-      // Required.
+      // Name of the PostrgreSQL database user.
       string user = 5 [(required) = true];
 
+      // Password of the PostrgreSQL database user.
       string password = 6;
 
-      // Query for checking the dictionary status and figuring out whether the data should be reloaded.
+      // Query for checking the dictionary status, to pull only updated data.
+      // For more details, see [ClickHouse documentation on dictionaries](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_lifetime/).
       string invalidate_query = 7;
 
+      // Mode of SSL TCP/IP connection to the PostgreSQL host. There are six modes: `disable`, `allow`, `prefer` (default), `require`, `verify-ca`, `verify-full`.
+      // For more details, see [PostgreSQL documentation](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS).
       SslMode ssl_mode = 8;
     }
 
@@ -345,6 +350,7 @@ message ClickhouseConfig {
       // MongoDB source for the dictionary.
       MongodbSource mongodb_source = 9;
 
+      // PostgreSQL source for the dictionary.
       PostgresqlSource postgresql_source = 10;
     }
   }

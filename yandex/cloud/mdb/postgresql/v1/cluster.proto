@@ -7,9 +7,11 @@ import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql10.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql10_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql11.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host10.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host10_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host11.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
@@ -132,6 +134,9 @@ message ClusterConfig {
   oneof postgresql_config {
     // Configuration of a PostgreSQL 9.6 server.
     config.PostgresqlConfigSet9_6 postgresql_config_9_6 = 2;
+
+    // Configuration of a PostgreSQL 10 1C server.
+    config.PostgresqlConfigSet10_1C postgresql_config_10_1c = 10;
 
     // Configuration of a PostgreSQL 10 server.
     config.PostgresqlConfigSet10 postgresql_config_10 = 3;
@@ -264,6 +269,9 @@ message HostConfig {
   oneof postgresql_config {
     // Configuration for a host with PostgreSQL 9.6 server deployed.
     config.PostgresqlHostConfig9_6 postgresql_config_9_6 = 1;
+
+    // Configuration for a host with PostgreSQL 10 1C server deployed.
+    config.PostgresqlHostConfig10_1C postgresql_config_10_1c = 4;
 
     // Configuration for a host with PostgreSQL 10 server deployed.
     config.PostgresqlHostConfig10 postgresql_config_10 = 2;

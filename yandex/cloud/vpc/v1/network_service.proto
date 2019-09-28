@@ -65,6 +65,15 @@ service NetworkService {
   rpc ListOperations (ListNetworkOperationsRequest) returns (ListNetworkOperationsResponse) {
     option (google.api.http) = { get: "/vpc/v1/networks/{network_id}/operations" };
   }
+
+  // Move network to another folder.
+  rpc Move (MoveNetworkRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/vpc/v1/networks/{network_id}:move" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "MoveNetworkMetadata"
+      response: "Network"
+    };
+  }
 }
 
 message GetNetworkRequest {
@@ -217,4 +226,17 @@ message ListNetworkOperationsResponse {
   // for the [ListNetworkOperationsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
+}
+
+message MoveNetworkRequest {
+  // ID of the Network resource to move.
+  string network_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the destination folder.
+  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message MoveNetworkMetadata {
+  // ID of the network that is being moved.
+  string network_id = 1;
 }
