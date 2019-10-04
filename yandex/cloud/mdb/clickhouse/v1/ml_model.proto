@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.clickhouse.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1;clickhouse";
+option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
+
+message MlModel {
+  string name = 1;
+
+  string cluster_id = 2;
+
+  MlModelType type = 3;
+
+  string uri = 4;
+}
+
+enum MlModelType {
+  ML_MODEL_TYPE_UNSPECIFIED = 0;
+
+  ML_MODEL_TYPE_CATBOOST = 1;
+}

@@ -50,28 +50,19 @@ service FunctionService {
   };
 
   rpc GetVersion (GetFunctionVersionRequest) returns (Version) {
-  }
-
-  // Deprecated. Use GetVersion.
-  rpc GetFunctionVersion (GetFunctionVersionRequest) returns (Version) {
     option (google.api.http) = { get: "/functions/v1/versions/{function_version_id}" };
   }
 
-  rpc GetVersionByTag (GetFunctionVersionByTagRequest) returns (Version) {
-  }
 
-  // Deprecated. Use GetVersionByTag.
-  rpc GetFunctionVersionByTag (GetFunctionVersionByTagRequest) returns (Version) {
+  rpc GetVersionByTag (GetFunctionVersionByTagRequest) returns (Version) {
     option (google.api.http) = { get: "/functions/v1/versions:byTag" };
   }
 
-  rpc ListVersions (ListFunctionsVersionsRequest) returns (ListFunctionsVersionsResponse) {
-  }
 
-  // Deprecated. Use ListVersions.
-  rpc ListFunctionVersions (ListFunctionsVersionsRequest) returns (ListFunctionsVersionsResponse) {
+  rpc ListVersions (ListFunctionsVersionsRequest) returns (ListFunctionsVersionsResponse) {
     option (google.api.http) = { get: "/functions/v1/versions" };
   }
+
 
   rpc SetTag (SetFunctionTagRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/functions/v1/versions/{function_version_id}:setTag" body: "*" };
@@ -90,28 +81,18 @@ service FunctionService {
   }
 
   rpc ListTagHistory (ListFunctionTagHistoryRequest) returns (ListFunctionTagHistoryResponse) {
-  }
-
-  // Deprecated. Use ListTagHistory.
-  rpc ListFunctionTagHistory (ListFunctionTagHistoryRequest) returns (ListFunctionTagHistoryResponse) {
     option (google.api.http) = { get: "/functions/v1/functions/{function_id}:tagHistory" };
   }
 
-  rpc CreateVersion (CreateFunctionVersionRequest) returns (operation.Operation) {
-    option (yandex.cloud.api.operation) = {
-      metadata: "CreateFunctionVersionMetadata"
-      response: "Version"
-    };
-  }
 
-  // Deprecated. Use CreateVersion.
-  rpc CreateFunctionVersion (CreateFunctionVersionRequest) returns (operation.Operation) {
+  rpc CreateVersion (CreateFunctionVersionRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/functions/v1/versions" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateFunctionVersionMetadata"
       response: "Version"
     };
-  };
+  }
+
 
   rpc ListRuntimes (ListRuntimesRequest) returns (ListRuntimesResponse) {
     option (google.api.http) = { get: "/functions/v1/runtimes"};

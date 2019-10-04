@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.clickhouse.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
+import "yandex/cloud/mdb/clickhouse/v1/ml_model.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1;clickhouse";
+option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
+
+service MlModelService {
+  rpc Get (GetMlModelRequest) returns (MlModel) {
+    option (google.api.http) = { get: "/managed-clickhouse/v1/clusters/{cluster_id}/mlModels/{ml_model_name}" };
+  }
+
+  rpc List (ListMlModelsRequest) returns (ListMlModelsResponse) {
+    option (google.api.http) = { get: "/managed-clickhouse/v1/clusters/{cluster_id}/mlModels" };
+  }
+
+  rpc Create (CreateMlModelRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}/mlModels" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "CreateMlModelMetadata"
+      response: "MlModel"
+    };
+  }
+
+  rpc Update (UpdateMlModelRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/managed-clickhouse/v1/clusters/{cluster_id}/mlModels" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateMlModelMetadata"
+      response: "MlModel"
+    };
+  }
+
+  rpc Delete (DeleteMlModelRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/managed-clickhouse/v1/clusters/{cluster_id}/mlModels/{ml_model_name}" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteMlModelMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+}
+
+message GetMlModelRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string ml_model_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+}
+
+message ListMlModelsRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  int64 page_size = 2 [(value) = "<=1000"];
+
+  string page_token = 3 [(length) = "<=100"];
+}
+
+message ListMlModelsResponse {
+  repeated MlModel ml_models = 1;
+
+  string next_page_token = 2;
+}
+
+message CreateMlModelRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string ml_model_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  MlModelType type = 3 [(required) = true];
+
+  string uri = 4 [(required) = true];
+}
+
+message CreateMlModelMetadata {
+  string cluster_id = 1;
+
+  string ml_model_name = 2;
+}
+
+message UpdateMlModelRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string ml_mode_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  google.protobuf.FieldMask update_mask = 3;
+
+  string uri = 4;
+}
+
+message UpdateMlModelMetadata {
+  string cluster_id = 1;
+
+  string ml_model_name = 2;
+}
+
+message DeleteMlModelRequest {
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  string ml_model_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+}
+
+message DeleteMlModelMetadata {
+  string cluster_id = 1;
+
+  string ml_model_name = 2;
+}

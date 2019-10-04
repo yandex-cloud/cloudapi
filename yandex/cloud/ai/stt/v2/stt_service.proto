@@ -102,7 +102,7 @@ message SpeechRecognitionResult {
 
 message SpeechRecognitionAlternative {
   string text = 1;
-  float confidence = 2;
+  float confidence = 2 [(yandex.cloud.api.tools.field).lint_skip.float_type = true];
   repeated WordInfo words = 3;
 }
 
@@ -110,5 +110,5 @@ message WordInfo {
   google.protobuf.Duration start_time = 1;
   google.protobuf.Duration end_time = 2;
   string word = 3;
-  float confidence = 4;
+  float confidence = 4 [(yandex.cloud.api.tools.field).lint_skip.float_type = true];
 }

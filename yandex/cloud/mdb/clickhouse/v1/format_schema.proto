@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.clickhouse.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1;clickhouse";
+option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
+
+message FormatSchema {
+  string name = 1;
+
+  string cluster_id = 2;
+
+  FormatSchemaType type = 3;
+
+  string uri = 4;
+}
+
+enum FormatSchemaType {
+  FORMAT_SCHEMA_TYPE_UNSPECIFIED = 0;
+
+  FORMAT_SCHEMA_TYPE_PROTOBUF = 1;
+
+  FORMAT_SCHEMA_TYPE_CAPNPROTO = 2;
+}
