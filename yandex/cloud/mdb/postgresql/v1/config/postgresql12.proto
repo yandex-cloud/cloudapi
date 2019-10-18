@@ -11,7 +11,7 @@ option java_package = "yandex.cloud.api.mdb.postgresql.v1.config";
 // Options and structure of `PostgresqlConfig` reflects PostgreSQL configuration file
 // parameters which detailed description is available in
 // [PostgreSQL documentation](https://www.postgresql.org/docs/11/runtime-config.html).
-message PostgresqlConfig11 {
+message PostgresqlConfig12 {
   enum WalLevel {
     WAL_LEVEL_UNSPECIFIED = 0;
 
@@ -148,6 +148,16 @@ message PostgresqlConfig11 {
     BACKSLASH_QUOTE_OFF = 3;
 
     BACKSLASH_QUOTE_SAFE_ENCODING = 4;
+  }
+
+  enum PlanCacheMode {
+    PLAN_CACHE_MODE_UNSPECIFIED = 0;
+
+    PLAN_CACHE_MODE_AUTO = 1;
+
+    PLAN_CACHE_MODE_FORCE_CUSTOM_PLAN = 2;
+
+    PLAN_CACHE_MODE_FORCE_GENERIC_PLAN = 3;
   }
 
   google.protobuf.Int64Value max_connections = 1;
@@ -358,19 +368,23 @@ message PostgresqlConfig11 {
 
   google.protobuf.DoubleValue vacuum_cleanup_index_scale_factor = 106 [(value) = "0.0-10000000000.0"];
 
-  google.protobuf.Int64Value effective_io_concurrency = 107 [(value) = "0-1000"];
+  google.protobuf.DoubleValue log_transaction_sample_rate = 107 [(value) = "0.0-1.0"];
 
-  google.protobuf.Int64Value effective_cache_size = 108 [(value) = "0-549755813888"];
+  PlanCacheMode plan_cache_mode = 108;
+
+  google.protobuf.Int64Value effective_io_concurrency = 109 [(value) = "0-1000"];
+
+  google.protobuf.Int64Value effective_cache_size = 110 [(value) = "0-549755813888"];
 }
 
-message PostgresqlConfigSet11 {
-  // Effective settings for a PostgreSQL 11 cluster (a combination of settings defined
+message PostgresqlConfigSet12 {
+  // Effective settings for a PostgreSQL 12 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
-  PostgresqlConfig11 effective_config = 1;
+  PostgresqlConfig12 effective_config = 1;
 
-  // User-defined settings for a PostgreSQL 11 cluster.
-  PostgresqlConfig11 user_config = 2;
+  // User-defined settings for a PostgreSQL 12 cluster.
+  PostgresqlConfig12 user_config = 2;
 
-  // Default configuration for a PostgreSQL 11 cluster.
-  PostgresqlConfig11 default_config = 3;
+  // Default configuration for a PostgreSQL 12 cluster.
+  PostgresqlConfig12 default_config = 3;
 }

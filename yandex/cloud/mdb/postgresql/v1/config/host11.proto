@@ -258,4 +258,8 @@ message PostgresqlHostConfig11 {
   google.protobuf.Int64Value max_parallel_workers_per_gather = 66 [(value) = "0-1024"];
 
   string timezone = 67;
+
+  google.protobuf.Int64Value effective_io_concurrency = 68 [(value) = "0-1000"];
+
+  google.protobuf.Int64Value effective_cache_size = 69 [(value) = "0-549755813888"];
 }

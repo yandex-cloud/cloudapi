@@ -149,6 +149,8 @@ message UpdateNodeGroupRequest {
   UpdateVersionSpec version = 10;
 
   NodeGroupMaintenancePolicy maintenance_policy = 11;
+
+  repeated string allowed_unsafe_sysctls = 12;
 }
 
 message UpdateNodeGroupMetadata {
@@ -183,6 +185,8 @@ message CreateNodeGroupRequest {
   string version = 8;
 
   NodeGroupMaintenancePolicy maintenance_policy = 9;
+
+  repeated string allowed_unsafe_sysctls = 10;
 }
 
 message CreateNodeGroupMetadata {

@@ -18,10 +18,12 @@ import "yandex/cloud/mdb/postgresql/v1/config/postgresql9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql10.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql10_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql11.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql12.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host10.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host10_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host11.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host12.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
 option java_package = "yandex.cloud.api.mdb.postgresql.v1";
@@ -651,6 +653,7 @@ message ConfigSpec {
   // * 10
   // * 10_1c
   // * 11
+  // * 12
   string version = 1;
 
   // Configuration of a PostgreSQL cluster.
@@ -666,6 +669,9 @@ message ConfigSpec {
 
     // Configuration for a PostgreSQL 11 cluster.
     config.PostgresqlConfig11 postgresql_config_11 = 7;
+
+    // Configuration for a PostgreSQL 12 cluster.
+    config.PostgresqlConfig12 postgresql_config_12 = 11;
   }
 
   // Configuration of the connection pooler.
@@ -697,5 +703,8 @@ message ConfigHostSpec {
 
     // Configuration for a host with PostgreSQL 11 server deployed.
     config.PostgresqlHostConfig11 postgresql_config_11 = 3;
+
+    // Configuration for a host with PostgreSQL 12 server deployed.
+    config.PostgresqlHostConfig12 postgresql_config_12 = 5;
   }
 }

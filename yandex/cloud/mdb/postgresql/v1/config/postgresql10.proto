@@ -341,6 +341,10 @@ message PostgresqlConfig10 {
   google.protobuf.BoolValue default_transaction_read_only = 96;
 
   string timezone = 97;
+
+  google.protobuf.Int64Value effective_io_concurrency = 98 [(value) = "0-1000"];
+
+  google.protobuf.Int64Value effective_cache_size = 99 [(value) = "0-549755813888"];
 }
 
 message PostgresqlConfigSet10 {

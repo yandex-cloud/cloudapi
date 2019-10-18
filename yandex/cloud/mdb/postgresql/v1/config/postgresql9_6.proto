@@ -308,6 +308,10 @@ message PostgresqlConfig9_6 {
   google.protobuf.Int64Value archive_timeout = 78 [(value) = "10000-600000"]; // in milliseconds.
 
   google.protobuf.Int64Value track_activity_query_size = 79 [(value) = "100-102400"];
+
+  google.protobuf.Int64Value effective_io_concurrency = 80 [(value) = "0-1000"];
+
+  google.protobuf.Int64Value effective_cache_size = 81 [(value) = "0-549755813888"];
 }
 
 message PostgresqlConfigSet9_6 {
