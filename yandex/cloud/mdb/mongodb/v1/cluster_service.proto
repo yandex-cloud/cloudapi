@@ -15,6 +15,7 @@ import "yandex/cloud/mdb/mongodb/v1/database.proto";
 import "yandex/cloud/mdb/mongodb/v1/user.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb3_6.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_0.proto";
+import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_2.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1;mongodb";
 option java_package = "yandex.cloud.api.mdb.mongodb.v1";
@@ -756,12 +757,47 @@ message MongodbSpec4_0 {
   Mongos mongos = 3;
 }
 
+message MongodbSpec4_2 {
+  message Mongod {
+    // Configuration for mongod 4.2 hosts.
+    config.MongodConfig4_2 config = 1;
+
+    // Resources allocated to each mongod host.
+    Resources resources = 2;
+  }
+
+  message MongoCfg {
+    // Configuration for mongocfg 4.2 hosts.
+    config.MongoCfgConfig4_2 config = 1;
+
+    // Resources allocated to each mongocfg host.
+    Resources resources = 2;
+  }
+
+  message Mongos {
+    // Configuration for mongos 4.2 hosts.
+    config.MongosConfig4_2 config = 1;
+
+    // Resources allocated to each mongos host.
+    Resources resources = 2;
+  }
+
+  // Configuration and resource allocation for mongod 4.2 hosts.
+  Mongod mongod = 1;
+
+  // Configuration and resource allocation for mongocfg 4.2 hosts.
+  MongoCfg mongocfg = 2;
+
+  // Configuration and resource allocation for mongos 4.2 hosts.
+  Mongos mongos = 3;
+}
 
 message ConfigSpec {
   // Version of MongoDB used in the cluster.
   // Possible values:
   // * 3.6
   // * 4.0
+  // * 4.2
   string version = 1;
 
   // MongoDB feature compatibility version. See usage details in [MongoDB documentation](https://docs.mongodb.com/manual/reference/command/setFeatureCompatibilityVersion/).
@@ -769,6 +805,7 @@ message ConfigSpec {
   // Possible values:
   // * 3.6 — persist data compatibility for version 3.6. After setting this option the data will not be compatible with 3.4 or older.
   // * 4.0 — persist data compatibility for version 4.0. After setting this option the data will not be compatible with 3.6 or older.
+  // * 4.2 — persist data compatibility for version 4.2. After setting this option the data will not be compatible with 4.0 or older.
   string feature_compatibility_version = 5;
 
   oneof mongodb_spec {
@@ -777,6 +814,9 @@ message ConfigSpec {
 
     // Configuration and resource allocation for a MongoDB 4.0 cluster.
     MongodbSpec4_0 mongodb_spec_4_0 = 4;
+
+    // Configuration and resource allocation for a MongoDB 4.2 cluster.
+    MongodbSpec4_2 mongodb_spec_4_2 = 7;
   }
 
   // Time to start the daily backup, in the UTC timezone.

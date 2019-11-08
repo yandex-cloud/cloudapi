@@ -56,6 +56,20 @@ service ClusterService {
     };
   }
 
+  rpc Stop(StopClusterRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "StopClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
+  rpc Start(StartClusterRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "StartClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
   // Lists nodegroup for the specified Kubernetes cluster.
   rpc ListNodeGroups (ListClusterNodeGroupsRequest) returns (ListClusterNodeGroupsResponse) {
     option (google.api.http) = { get: "/managed-kubernetes/v1/clusters/{cluster_id}/nodeGroups" };
@@ -117,6 +131,23 @@ message DeleteClusterRequest {
 
 message DeleteClusterMetadata {
   // ID of the Kubernetes cluster that is being deleted.
+  string cluster_id = 1;
+}
+
+message StopClusterRequest {
+  string cluster_id = 1 [(required) = true];
+  string service_account_id = 2;
+}
+
+message StopClusterMetadata {
+  string cluster_id = 1;
+}
+
+message StartClusterRequest {
+  string cluster_id = 1 [(required) = true];
+}
+
+message StartClusterMetadata {
   string cluster_id = 1;
 }
 

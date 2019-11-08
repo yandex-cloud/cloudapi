@@ -11,7 +11,9 @@ option java_package = "yandex.cloud.api.serverless.triggers.v1";
 
 enum TriggerType {
   TRIGGER_TYPE_UNSPECIFIED = 0;
+  TIMER = 2;
   MESSAGE_QUEUE = 3;
+  IOT_MESSAGE = 4;
 }
 
 message Trigger {
@@ -40,8 +42,23 @@ message Trigger {
   message Rule {
     oneof rule {
       option (exactly_one) = true;
+      Timer timer = 2;
       MessageQueue message_queue = 3;
       IoTMessage iot_message = 4;
+    }
+  }
+
+  message Timer {
+
+    // Format: Minutes Hours Day-of-Month Month Day-of-week (Year)
+    // * ("all values") - to select all values within a field.
+    // ? ("no specific value") - placeholder for "any": you can't specify the Day-of-Month and Day-of-Week fields in the same cron expression, so if you specify a value in one of the fields, you must use a "?" in the other.
+    // see http://man7.org/linux/man-pages/man5/crontab.5.html
+    string cron_expression = 1 [(required) = true, (length) = "<=100"];
+
+    oneof action {
+      option (exactly_one) = true;
+      InvokeFunctionOnce invoke_function = 101;
     }
   }
 

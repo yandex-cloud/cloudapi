@@ -119,7 +119,7 @@ message CreateSymmetricKeyRequest {
   string folder_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the key.
-  string name = 2 [(required) = true, (length) = "<=100"];
+  string name = 2 [(length) = "<=100"];
 
   // Description of the key.
   string description = 3 [(length) = "<=1024"];

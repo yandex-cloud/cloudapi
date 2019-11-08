@@ -40,7 +40,8 @@ message StreamingRecognitionRequest {
 
 message StreamingRecognitionResponse {
   repeated SpeechRecognitionChunk chunks = 1;
-  bool end_of_single_utterance = 2;
+  reserved 2;
+  reserved "end_of_single_utterance";
 }
 
 message RecognitionAudio {
@@ -92,7 +93,10 @@ message RecognitionSpec {
 
 message SpeechRecognitionChunk {
   repeated SpeechRecognitionAlternative alternatives = 1;
+  // This flag shows that the received chunk contains a part of the recognized text that won't be changed.
   bool final = 2;
+  // This flag shows that the received chunk is the end of an utterance.
+  bool end_of_utterance = 3;
 }
 
 message SpeechRecognitionResult {

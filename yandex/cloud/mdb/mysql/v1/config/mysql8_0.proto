@@ -53,6 +53,16 @@ message MysqlConfig8_0 {
     TRADITIONAL = 23;
   }
 
+  enum AuthPlugin {
+    AUTH_PLUGIN_UNSPECIFIED = 0;
+
+    MYSQL_NATIVE_PASSWORD = 1;
+
+    CACHING_SHA2_PASSWORD = 2;
+
+    SHA256_PASSWORD = 3;
+  }
+
   // Size of the InnoDB buffer pool used for caching table and index data.
   //
   // For details, see [MySQL documentation for the parameter](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_buffer_pool_size).
@@ -87,6 +97,8 @@ message MysqlConfig8_0 {
   //
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_max_allowed_packet).
   google.protobuf.Int64Value max_allowed_packet = 7 [(value) = "1024-134217728"];
+
+  AuthPlugin default_authentication_plugin = 8;
 }
 
 message MysqlConfigSet8_0 {

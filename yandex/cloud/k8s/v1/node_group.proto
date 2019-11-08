@@ -32,6 +32,9 @@ message NodeGroup {
 
     // Node group is being deleted.
     DELETING = 6;
+
+    // Node group is being started.
+    STARTING = 7;
   }
 
   // ID of the node group.

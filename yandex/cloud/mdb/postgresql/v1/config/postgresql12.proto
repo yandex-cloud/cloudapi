@@ -160,6 +160,26 @@ message PostgresqlConfig12 {
     PLAN_CACHE_MODE_FORCE_GENERIC_PLAN = 3;
   }
 
+  enum PgHintPlanDebugPrint {
+    PG_HINT_PLAN_DEBUG_PRINT_UNSPECIFIED = 0;
+
+    PG_HINT_PLAN_DEBUG_PRINT_OFF = 1;
+
+    PG_HINT_PLAN_DEBUG_PRINT_ON = 2;
+
+    PG_HINT_PLAN_DEBUG_PRINT_DETAILED = 3;
+
+    PG_HINT_PLAN_DEBUG_PRINT_VERBOSE = 4;
+  }
+
+  enum SharedPreloadLibraries {
+    SHARED_PRELOAD_LIBRARIES_UNSPECIFIED = 0;
+
+    SHARED_PRELOAD_LIBRARIES_AUTO_EXPLAIN = 1;
+
+    SHARED_PRELOAD_LIBRARIES_PG_HINT_PLAN = 2;
+  }
+
   google.protobuf.Int64Value max_connections = 1;
 
   google.protobuf.Int64Value shared_buffers = 2; // in bytes.
@@ -375,6 +395,32 @@ message PostgresqlConfig12 {
   google.protobuf.Int64Value effective_io_concurrency = 109 [(value) = "0-1000"];
 
   google.protobuf.Int64Value effective_cache_size = 110 [(value) = "0-549755813888"];
+
+  repeated SharedPreloadLibraries shared_preload_libraries = 111;
+
+  google.protobuf.Int64Value auto_explain_log_min_duration = 112 [(value) = "-1-2147483647"]; // in milliseconds.
+
+  google.protobuf.BoolValue auto_explain_log_analyze = 113;
+
+  google.protobuf.BoolValue auto_explain_log_buffers = 114;
+
+  google.protobuf.BoolValue auto_explain_log_timing = 115;
+
+  google.protobuf.BoolValue auto_explain_log_triggers = 116;
+
+  google.protobuf.BoolValue auto_explain_log_verbose = 117;
+
+  google.protobuf.BoolValue auto_explain_log_nested_statements = 118;
+
+  google.protobuf.DoubleValue auto_explain_sample_rate = 119 [(value) = "0.0-1.0"];
+
+  google.protobuf.BoolValue pg_hint_plan_enable_hint = 120;
+
+  google.protobuf.BoolValue pg_hint_plan_enable_hint_table = 121;
+
+  PgHintPlanDebugPrint pg_hint_plan_debug_print = 122;
+
+  LogLevel pg_hint_plan_message_level = 123;
 }
 
 message PostgresqlConfigSet12 {

@@ -67,7 +67,6 @@ service InstanceGroupService {
     };
   }
 
-  // TODO DOC-REVIEW:
   // Stops the specified instance group.
   rpc Stop (StopInstanceGroupRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:stop" body: "*" };
@@ -77,7 +76,6 @@ service InstanceGroupService {
     };
   }
 
-  // TODO DOC-REVIEW:
   // Starts the specified instance group.
   rpc Start (StartInstanceGroupRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:start" body: "*" };
@@ -113,6 +111,7 @@ service InstanceGroupService {
 }
 
 enum InstanceGroupView {
+
   // Doesn't include the metadata of the instance template in the server response.
   BASIC = 0;
 
@@ -122,8 +121,9 @@ enum InstanceGroupView {
 
 message GetInstanceGroupRequest {
   // ID of the InstanceGroup resource to return.
-  // To get the instance group ID, use an [InstanceGroupService.List] request.
+  // To get the instance group ID, use a [InstanceGroupService.List] request.
   string instance_group_id = 1 [(required) = true, (length) = "<=50"];
+
   // Defines which information about the Instance template should be returned in the server response.
   InstanceGroupView view = 2;
 }
@@ -145,7 +145,7 @@ message CreateInstanceGroupRequest {
   // Instance template that the instance group belongs to.
   InstanceTemplate instance_template = 6 [(required) = true];
 
-  // Scaling policy of the instance group.
+  // [Scaling policy](/docs/compute/concepts/instance-groups/scale) of the instance group.
   ScalePolicy scale_policy = 7 [(required) = true];
 
   // Deployment policy of the instance group.
@@ -182,7 +182,7 @@ message CreateInstanceGroupMetadata {
 
 message UpdateInstanceGroupRequest {
   // ID of the instance group to update.
-  // To get the instance group ID, use an [InstanceGroupService.List] request.
+  // To get the instance group ID, use a [InstanceGroupService.List] request.
   string instance_group_id = 1 [(required) = true, (length) = "<=50"];
 
   // Field mask that specifies which fields of the InstanceGroup resource are going to be updated.
@@ -202,7 +202,7 @@ message UpdateInstanceGroupRequest {
   // Instance template that the instance group belongs to.
   InstanceTemplate instance_template = 6 [(required) = true];
 
-  // Scaling policy of the instance group.
+  // [Scaling policy](/docs/compute/concepts/instance-groups/scale) of the instance group.
   ScalePolicy scale_policy = 7 [(required) = true];
 
   // Deployment policy of the instance group.
@@ -225,7 +225,7 @@ message UpdateInstanceGroupRequest {
 
 message UpdateInstanceGroupFromYamlRequest {
   // ID of the instance group to update.
-  // To get the instance group ID, use an [InstanceGroupService.List] request.
+  // To get the instance group ID, use a [InstanceGroupService.List] request.
   string instance_group_id = 1 [(required) = true, (length) = "<=50"];
 
   // UpdateInstanceGroupRequest in YAML format.
@@ -234,31 +234,27 @@ message UpdateInstanceGroupFromYamlRequest {
 
 message UpdateInstanceGroupMetadata {
   // ID of the InstanceGroup resource that is being updated.
-  // To get the instance group ID, use an [InstanceGroupService.List] request.
+  // To get the instance group ID, use a [InstanceGroupService.List] request.
   string instance_group_id = 1;
 }
 
-// TODO DOC-REVIEW:
 message StartInstanceGroupRequest {
   // ID of the instance group to start.
-  // To get the instance group ID, use an [InstanceGroupService.List] request.
+  // To get the instance group ID, use a [InstanceGroupService.List] request.
   string instance_group_id = 1 [(required) = true, (length) = "<=50"];
 }
 
-// TODO DOC-REVIEW:
 message StartInstanceGroupMetadata {
   // ID of the InstanceGroup resource that is being started.
   string instance_group_id = 1;
 }
 
-// TODO DOC-REVIEW:
 message StopInstanceGroupRequest {
   // ID of the instance group to stop.
-  // To get the instance group ID, use an [InstanceGroupService.List] request.
+  // To get the instance group ID, use a [InstanceGroupService.List] request.
   string instance_group_id = 1 [(required) = true, (length) = "<=50"];
 }
 
-// TODO DOC-REVIEW:
 message StopInstanceGroupMetadata {
   // ID of the InstanceGroup resource that is being stopped.
   string instance_group_id = 1;
@@ -266,13 +262,13 @@ message StopInstanceGroupMetadata {
 
 message DeleteInstanceGroupRequest {
   // ID of the instance group to delete.
-  // To get the instance group ID, use an [InstanceGroupService.List] request.
+  // To get the instance group ID, use a [InstanceGroupService.List] request.
   string instance_group_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message DeleteInstanceGroupMetadata {
   // ID of the instance group that is being deleted.
-  // To get the instance group ID, use an [InstanceGroupService.List] request.
+  // To get the instance group ID, use a [InstanceGroupService.List] request.
   string instance_group_id = 1;
 }
 
@@ -320,7 +316,7 @@ message ListInstanceGroupsResponse {
 
 message ListInstanceGroupInstancesRequest {
   // ID of the InstanceGroup resource to list instances for.
-  // To get the instance group ID, use an [InstanceGroupService.List] request.
+  // To get the instance group ID, use a [InstanceGroupService.List] request.
   string instance_group_id = 1 [(required) = true, (length) = "<=50"];
 
   // The maximum number of results per page to return. If the number of available
@@ -384,7 +380,7 @@ message ListInstanceGroupOperationsResponse {
 
 message ListInstanceGroupLogRecordsRequest {
   // ID of the InstanceGroup resource to list logs for.
-  // To get the instance group ID, use an [InstanceGroupService.List] request.
+  // To get the instance group ID, use a [InstanceGroupService.List] request.
   string instance_group_id = 1 [(required) = true];
 
   // The maximum number of results per page to return. If the number of available

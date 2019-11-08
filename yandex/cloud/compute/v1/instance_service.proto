@@ -122,6 +122,7 @@ service InstanceService {
 }
 
 enum InstanceView {
+
   // Doesn't include the metadata of the instance in the server response.
   BASIC = 0;
 
@@ -210,7 +211,7 @@ message CreateInstanceRequest {
   // The total size of all keys and values must be less than 512 KB.
   //
   // Values are free-form strings, and only have meaning as interpreted by the programs which configure the instance.
-  // The only restriction placed on values is that their size must be 256 KB or less.
+  // The values must be 256 KB or less.
   //
   // For example, you may use the metadata in order to provide your public SSH key to the instance.
   // For more information, see [Metadata](/docs/compute/concepts/vm-metadata).
@@ -240,6 +241,9 @@ message CreateInstanceRequest {
   // ID of the service account to use for [authentication inside the instance](/docs/compute/operations/vm-connect/auth-inside-vm).
   // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
   string service_account_id = 14;
+
+  // Network settings.
+  NetworkSettings network_settings = 15;
 }
 
 message CreateInstanceMetadata {
@@ -284,7 +288,7 @@ message UpdateInstanceRequest {
   // Existing set of `metadata` is completely replaced by the provided set.
   //
   // Values are free-form strings, and only have meaning as interpreted by the programs which configure the instance.
-  // The only restriction placed on values is that their size must be 256 KB or less.
+  // The values must be 256 KB or less.
   //
   // For example, you may use the metadata in order to provide your public SSH key to the instance.
   // For more information, see [Metadata](/docs/compute/concepts/vm-metadata).
@@ -293,6 +297,9 @@ message UpdateInstanceRequest {
   // ID of the service account to use for [authentication inside the instance](/docs/compute/operations/vm-connect/auth-inside-vm).
   // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
   string service_account_id = 9;
+
+  // Network settings.
+  NetworkSettings network_settings = 10;
 }
 
 message UpdateInstanceMetadata {
@@ -524,6 +531,7 @@ message NetworkInterfaceSpec {
 
   // Primary IPv4 address that will be assigned to the instance for this network interface.
   PrimaryAddressSpec primary_v4_address_spec = 2;
+
   // Primary IPv6 address that will be assigned to the instance for this network interface. IPv6 not available yet.
   PrimaryAddressSpec primary_v6_address_spec = 3;
 }

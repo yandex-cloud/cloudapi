@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 import "google/type/timeofday.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb3_6.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_0.proto";
+import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_2.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1;mongodb";
 option java_package = "yandex.cloud.api.mdb.mongodb.v1";
@@ -130,6 +131,7 @@ message ClusterConfig {
   // Possible values:
   // * 3.6 — persist data compatibility for version 3.6. After setting this option the data will not be compatible with 3.4 or lower.
   // * 4.0 — persist data compatibility for version 4.0. After setting this option the data will not be compatible with 3.6 or lower.
+  // * 4.2 — persist data compatibility for version 4.2. After setting this option the data will not be compatible with 4.0 or lower.
   string feature_compatibility_version = 5;
 
   // Configuration for MongoDB servers in the cluster.
@@ -139,6 +141,9 @@ message ClusterConfig {
 
     // Configuration and resource allocation for a MongoDB 4.0 cluster.
     Mongodb4_0 mongodb_4_0 = 4;
+
+    // Configuration and resource allocation for a MongoDB 4.2 cluster.
+    Mongodb4_2 mongodb_4_2 = 7;
   }
 
   // Time to start the daily backup, in the UTC timezone.
@@ -213,6 +218,41 @@ message Mongodb4_0 {
   MongoCfg mongocfg = 2;
 
   // Configuration and resource allocation for mongos in a MongoDB 4.0 cluster.
+  Mongos mongos = 3;
+}
+
+message Mongodb4_2 {
+  message Mongod {
+    // Configuration for mongod 4.2 hosts.
+    config.MongodConfigSet4_2 config = 1;
+
+    // Resources allocated to mongod hosts.
+    Resources resources = 2;
+  }
+
+  message MongoCfg {
+    // Configuration for mongocfg 4.2 hosts.
+    config.MongoCfgConfigSet4_2 config = 1;
+
+    // Resources allocated to mongocfg hosts.
+    Resources resources = 2;
+  }
+
+  message Mongos {
+    // Configuration for mongos 4.2 hosts.
+    config.MongosConfigSet4_2 config = 1;
+
+    // Resources allocated to mongos hosts.
+    Resources resources = 2;
+  }
+
+  // Configuration and resource allocation for mongod in a MongoDB 4.2 cluster.
+  Mongod mongod = 1;
+
+  // Configuration and resource allocation for mongocfg in a MongoDB 4.2 cluster.
+  MongoCfg mongocfg = 2;
+
+  // Configuration and resource allocation for mongos in a MongoDB 4.2 cluster.
   Mongos mongos = 3;
 }
 

@@ -33,6 +33,9 @@ message Cluster {
 
     // Kubernetes cluster is being deleted.
     DELETING = 6;
+
+    // Kubernetes cluster is being started.
+    STARTING = 7;
   }
 
   enum Health {
