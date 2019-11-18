@@ -125,7 +125,6 @@ service ClusterService {
   }
 
   // Retrieves logs for the specified PostgreSQL cluster.
-  // For more information about logs, see the [Logs](/docs/managed-postgresql/concepts/logs) section in the documentation.
   rpc ListLogs (ListClusterLogsRequest) returns (ListClusterLogsResponse) {
     option (google.api.http) = { get: "/managed-postgresql/v1/clusters/{cluster_id}:logs" };
   }
@@ -648,12 +647,7 @@ message HostSpec {
 
 message ConfigSpec {
   // Version of PostgreSQL used in the cluster.
-  // Possible values:
-  // * 9.6
-  // * 10
-  // * 10_1c
-  // * 11
-  // * 12
+  // Possible values: `9.6`, `10`, `10_1c`, `11`, `12`.
   string version = 1;
 
   // Configuration of a PostgreSQL cluster.

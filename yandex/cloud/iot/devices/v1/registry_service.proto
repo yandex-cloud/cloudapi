@@ -58,9 +58,29 @@ service RegistryService {
   }
 
   rpc DeleteCertificate (DeleteRegistryCertificateRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/iot-devices/v1/registries/{registry_id}/certificates" };
+    option (google.api.http) = { delete: "/iot-devices/v1/registries/{registry_id}/certificates/{fingerprint}" };
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteRegistryCertificateMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  rpc ListPasswords (ListRegistryPasswordsRequest) returns (ListRegistryPasswordsResponse) {
+    option (google.api.http) = { get: "/iot-devices/v1/registries/{registry_id}/passwords" };
+  }
+
+  rpc AddPassword (AddRegistryPasswordRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/iot-devices/v1/registries/{registry_id}/passwords" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "AddRegistryPasswordMetadata"
+      response: "RegistryPassword"
+    };
+  }
+
+  rpc DeletePassword (DeleteRegistryPasswordRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/iot-devices/v1/registries/{registry_id}/passwords/{password_id}" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteRegistryPasswordMetadata"
       response: "google.protobuf.Empty"
     };
   }
@@ -95,6 +115,8 @@ message CreateRegistryRequest {
   string description = 3 [(length) = "<=256"];
   map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
   repeated Certificate certificates = 5;
+  // if specified, must contain at least 3 of 4 ASCII character groups: upper case latin, lower case latin, numbers and special symbols
+  string password = 6;
 
   message Certificate {
     string certificate_data = 1;
@@ -155,6 +177,35 @@ message DeleteRegistryCertificateRequest {
 message DeleteRegistryCertificateMetadata {
   string registry_id = 1 [(required) = true, (length) = "<=50"];
   string fingerprint = 2 [(required) = true, (length) = "<=50"];
+}
+
+message ListRegistryPasswordsRequest {
+  string registry_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message ListRegistryPasswordsResponse {
+  repeated RegistryPassword passwords = 1;
+}
+
+message AddRegistryPasswordRequest {
+  string registry_id = 1 [(required) = true, (length) = "<=50"];
+  // must contain at least 3 of 4 ASCII character groups: upper case latin, lower case latin, numbers and special symbols
+  string password = 2 [(length) = ">=14"];
+}
+
+message AddRegistryPasswordMetadata {
+  string registry_id = 1;
+  string password_id = 2;
+}
+
+message DeleteRegistryPasswordRequest {
+  string registry_id = 1 [(required) = true, (length) = "<=50"];
+  string password_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message DeleteRegistryPasswordMetadata {
+  string registry_id = 1 [(required) = true, (length) = "<=50"];
+  string password_id = 2 [(required) = true, (length) = "<=50"];
 }
 
 message ListDeviceTopicAliasesRequest {

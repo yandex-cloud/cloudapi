@@ -108,7 +108,6 @@ service ClusterService {
   }
 
   // Retrieves logs for the specified MongoDB cluster.
-  // See the [Logs](/docs/yandex-mdb-guide/concepts/logs) section in the developers guide for detailed logs description.
   rpc ListLogs (ListClusterLogsRequest) returns (ListClusterLogsResponse) {
     option (google.api.http) = { get: "/managed-mongodb/v1/clusters/{cluster_id}:logs" };
   }
@@ -793,19 +792,15 @@ message MongodbSpec4_2 {
 }
 
 message ConfigSpec {
-  // Version of MongoDB used in the cluster.
-  // Possible values:
-  // * 3.6
-  // * 4.0
-  // * 4.2
+  // Version of MongoDB used in the cluster. Possible values: `3.6`, `4.0`, `4.2`.
   string version = 1;
 
   // MongoDB feature compatibility version. See usage details in [MongoDB documentation](https://docs.mongodb.com/manual/reference/command/setFeatureCompatibilityVersion/).
   //
   // Possible values:
-  // * 3.6 — persist data compatibility for version 3.6. After setting this option the data will not be compatible with 3.4 or older.
-  // * 4.0 — persist data compatibility for version 4.0. After setting this option the data will not be compatible with 3.6 or older.
-  // * 4.2 — persist data compatibility for version 4.2. After setting this option the data will not be compatible with 4.0 or older.
+  // * `3.6` — persist data compatibility for version 3.6. After setting this option the data will not be compatible with 3.4 or older.
+  // * `4.0` — persist data compatibility for version 4.0. After setting this option the data will not be compatible with 3.6 or older.
+  // * `4.2` — persist data compatibility for version 4.2. After setting this option the data will not be compatible with 4.0 or older.
   string feature_compatibility_version = 5;
 
   oneof mongodb_spec {

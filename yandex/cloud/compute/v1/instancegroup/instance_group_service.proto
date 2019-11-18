@@ -171,7 +171,7 @@ message CreateInstanceGroupFromYamlRequest {
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [(required) = true];
 
-  // CreateInstanceGroupRequest in YAML format.
+  // [InstanceGroupService.Create] request in YAML format.
   string instance_group_yaml = 2 [(required) = true, (length) = "<=1048576"];
 }
 
@@ -228,7 +228,7 @@ message UpdateInstanceGroupFromYamlRequest {
   // To get the instance group ID, use a [InstanceGroupService.List] request.
   string instance_group_id = 1 [(required) = true, (length) = "<=50"];
 
-  // UpdateInstanceGroupRequest in YAML format.
+  // [InstanceGroupService.Update] request in YAML format.
   string instance_group_yaml = 2 [(required) = true, (length) = "<=1048576"];
 }
 

@@ -103,7 +103,6 @@ service ClusterService {
   }
 
   // Retrieves logs for the specified Redis cluster.
-  // For more information about logs, see the [Logs](/docs/managed-redis/concepts/logs) section in the documentation.
   rpc ListLogs (ListClusterLogsRequest) returns (ListClusterLogsResponse) {
     option (google.api.http) = { get: "/managed-redis/v1alpha/clusters/{cluster_id}:logs" };
   }

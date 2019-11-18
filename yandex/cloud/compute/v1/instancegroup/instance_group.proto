@@ -164,20 +164,20 @@ message ScalePolicy {
     // Time in seconds allotted for averaging metrics.
     google.protobuf.Duration measurement_duration = 3 [(required) = true, (value) = "1m-10m"];
 
-    // The warmup time of the instance, in seconds. During this time,
+    // The warmup time of the instance in seconds. During this time,
     // traffic is sent to the instance, but instance metrics are not collected.
     google.protobuf.Duration warmup_duration = 4 [(value) = "<=10m"];
 
-    // Minimum amount of time, in seconds, allotted for monitoring before
+    // Minimum amount of time in seconds allotted for monitoring before
     // Instance Groups can reduce the number of instances in the group.
-    // During this time, the group size is not decreased, even if the new metric values
-    // indicate that it should be.
+    // During this time, the group size doesn't decrease, even if the new metric values
+    // indicate that it should.
     google.protobuf.Duration stabilization_duration = 5 [(value) = "1m-30m"];
 
     // Target group size.
     int64 initial_size = 6 [(value) = ">=1"];
 
-    // Defines an autoscaling rule based on average CPU utilization of the instance group.
+    // Defines an autoscaling rule based on the average CPU utilization of the instance group.
     CpuUtilizationRule cpu_utilization_rule = 7;
 
     // Defines an autoscaling rule based on a [custom metric](/docs/monitoring/operations/metric/add) from Yandex Monitoring.
@@ -185,7 +185,7 @@ message ScalePolicy {
   }
 
   message CpuUtilizationRule {
-    // The target CPU utilization level. Instance Groups maintains this level for each availability zone.
+    // Target CPU utilization level. Instance Groups maintains this level for each availability zone.
     double utilization_target = 1 [(value) = "10-100"];
   }
 
@@ -195,44 +195,44 @@ message ScalePolicy {
 
       // This type means that the metric applies to one instance.
       // First, Instance Groups calculates the average metric value for each instance,
-      // then averages the values for all groups' instances in one availability zone.
-      // Metric with this type must have the `instance_id` label.
+      // then averages the values for instances in one availability zone.
+      // This type of metric must have the `instance_id` label.
       UTILIZATION = 1;
 
-      // This type means that the metric applies to all groups' instances in one availability zone.
-      // Metric with this type must have the `zone_id` label.
+      // This type means that the metric applies to instances in one availability zone.
+      // This type of metric must have the `zone_id` label.
       WORKLOAD = 2;
     }
 
     enum MetricType {
       METRIC_TYPE_UNSPECIFIED = 0;
 
-      // This type is used for metrics that shows the metric value at a certain point in time.
-      // For example, requests per second to the server on an instance.
+      // This type is used for metrics that show the metric value at a certain point in time,
+      // such as requests per second to the server on an instance.
       //
-      // Instance Groups will calculate the average metric value for the period
+      // Instance Groups calculates the average metric value for the period
       // specified in the [AutoScale.measurement_duration] field.
       GAUGE = 1;
 
-      // This type is used for metrics that monotonically increase over time.
-      // For example, the total number of requests to the server on an instance.
+      // This type is used for metrics that monotonically increase over time,
+      // such as the total number of requests to the server on an instance.
       //
-      // Instance Groups will calculate the average value increase for the period
+      // Instance Groups calculates the average value increase for the period
       // specified in the [AutoScale.measurement_duration] field.
       COUNTER = 2;
     }
 
-    // Rule type of the custom metric. This field affects which label from
-    // the custom metric must be used: `zone_id` or `instance_id`.
+    // Custom metric rule type. This field affects which label from
+    // the custom metric should be used: `zone_id` or `instance_id`.
     RuleType rule_type = 1 [(required) = true];
 
-    // Type of the custom metric. This field affects how Instance Group calculates an average metric value.
+    // Type of custom metric. This field affects how Instance Groups calculates the average metric value.
     MetricType metric_type = 2 [(required) = true];
 
-    // Name of a custom metric in Yandex Monitoring that should be used for scaling.
+    // Name of custom metric in Yandex Monitoring that should be used for scaling.
     string metric_name = 3 [(required) = true, (pattern) = "[a-zA-Z0-9./@_][ 0-9a-zA-Z./@_,:;()\\[\\]<>-]{0,198}"];
 
-    // Target value for specified custom metric. Instance Groups maintains this level for each availability zone.
+    // Target value for the custom metric. Instance Groups maintains this level for each availability zone.
     double target = 4 [(value) = ">0"];
   }
 

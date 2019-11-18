@@ -24,3 +24,9 @@ message DeviceCertificate {
   string certificate_data = 3;
   google.protobuf.Timestamp created_at = 4;
 }
+
+message DevicePassword {
+  string device_id = 1;
+  string id = 2;
+  google.protobuf.Timestamp created_at = 3;
+}

@@ -38,3 +38,9 @@ message DeviceAlias {
   string topic_prefix = 2;
   string alias = 3;
 }
+
+message RegistryPassword {
+  string registry_id = 1;
+  string id = 2;
+  google.protobuf.Timestamp created_at = 3;
+}
