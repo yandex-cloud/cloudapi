@@ -240,6 +240,11 @@ message CreateClusterMetadata {
   string cluster_id = 1;
 }
 
+message AutoUpgradeMasterMetadata {
+  // ID of the Kubernetes cluster that is being auto upgraded.
+  string cluster_id = 1;
+}
+
 message ListClusterOperationsRequest {
   // ID of the Kubernetes cluster to list operations for.
   string cluster_id = 1 [(required) = true];

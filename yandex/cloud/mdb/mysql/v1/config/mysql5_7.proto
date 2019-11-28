@@ -77,7 +77,7 @@ message MysqlConfig5_7 {
 
     MYSQL_NATIVE_PASSWORD = 1;
 
-    CACHING_SHA2_PASSWORD = 2;
+    CACHING_SHA2_PASSWORD = 2 [deprecated=true];
 
     SHA256_PASSWORD = 3;
   }

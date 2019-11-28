@@ -69,7 +69,7 @@ service InstanceGroupService {
 
   // Stops the specified instance group.
   rpc Stop (StopInstanceGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:stop" body: "*" };
+    option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:stop" };
     option (yandex.cloud.api.operation) = {
       metadata: "StopInstanceGroupMetadata"
       response: "InstanceGroup"
@@ -78,7 +78,7 @@ service InstanceGroupService {
 
   // Starts the specified instance group.
   rpc Start (StartInstanceGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:start" body: "*" };
+    option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:start" };
     option (yandex.cloud.api.operation) = {
       metadata: "StartInstanceGroupMetadata"
       response: "InstanceGroup"

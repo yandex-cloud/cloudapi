@@ -194,6 +194,11 @@ message CreateNodeGroupMetadata {
   string node_group_id = 1;
 }
 
+message AutoUpgradeNodeGroupMetadata {
+  // ID of the node group that is being auto upgraded.
+  string node_group_id = 1;
+}
+
 message ListNodeGroupOperationsRequest {
   // ID of the node group to list operations for.
   string node_group_id = 1 [(required) = true];

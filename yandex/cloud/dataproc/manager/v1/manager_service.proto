@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package yandex.cloud.dataproc.manager.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/manager/v1;dataproc_manager";
+option java_package = "yandex.cloud.api.dataproc.manager.v1";
+
+// Dataproc manager service defifnition
+service DataprocManagerService {
+    // Sends a status report from a host
+    rpc Report (ReportRequest) returns (ReportReply) {}
+}
+
+message HbaseNodeInfo {
+    string name = 1;
+    int64 requests = 2;
+    int64 heap_size_mb = 3;
+    int64 max_heap_size_mb = 4;
+}
+
+message HbaseInfo {
+    bool available = 1;
+    int64 regions = 2;
+    int64 requests = 3;
+    double average_load = 4;
+    repeated HbaseNodeInfo live_nodes = 5;
+    repeated HbaseNodeInfo dead_nodes = 6;
+}
+
+message HDFSNodeInfo {
+    string name = 1;
+    int64 used = 2;
+    int64 remaining = 3;
+    int64 capacity = 4;
+    int64 num_blocks = 5;
+    string state = 6;
+}
+
+message HDFSInfo {
+    bool available = 1;
+    double percent_remaining = 2;
+    int64 used = 3;
+    int64 free = 4;
+    int64 total_blocks = 5;
+    int64 missing_blocks = 6;
+    int64 missing_blocks_replica_one = 7;
+    repeated HDFSNodeInfo live_nodes = 8;
+    repeated HDFSNodeInfo dead_nodes = 9;
+    repeated HDFSNodeInfo decom_nodes = 10;
+}
+
+message HiveInfo {
+    bool available = 1;
+    int64 queries_succeeded = 2;
+    int64 queries_failed = 3;
+    int64 queries_executing = 4;
+    int64 sessions_open = 5;
+    int64 sessions_active = 6;
+}
+
+message YarnNodeInfo {
+    string name = 1;
+    string state = 2;
+    int64 num_containers = 3;
+    int64 used_memory_mb = 4;
+    int64 available_memory_mb = 5;
+}
+
+message YarnInfo {
+    bool available = 1;
+    repeated YarnNodeInfo live_nodes = 2;
+}
+
+message ZookeeperInfo {
+    bool alive = 1;
+}
+
+message OozieInfo {
+    bool alive = 1;
+}
+
+message Info {
+    HDFSInfo hdfs = 1;
+    YarnInfo yarn = 2;
+    HiveInfo hive = 3;
+    ZookeeperInfo zookeeper = 4;
+    HbaseInfo hbase = 5;
+    OozieInfo oozie = 6;
+}
+
+// The request message containing the host status report.
+message ReportRequest {
+    string cid = 1;
+    int64 topology_revision = 2;
+    Info info = 3;
+}
+
+// The response message containing the agent commands to apply on host.
+message ReportReply {
+}

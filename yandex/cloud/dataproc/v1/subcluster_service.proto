@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+package yandex.cloud.dataproc.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/dataproc/v1/common.proto";
+import "yandex/cloud/dataproc/v1/subcluster.proto";
+import "yandex/cloud/validation.proto";
+import "yandex/cloud/api/operation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/v1;dataproc";
+option java_package = "yandex.cloud.api.dataproc.v1";
+
+// A set of methods for managing Dataproc subclusters.
+service SubclusterService {
+  // Returns the specified Dataproc subcluster resource.
+  //
+  // To get the list of available Dataproc subcluster resources, make a [List] request.
+  rpc Get (GetSubclusterRequest) returns (Subcluster) {
+    option (google.api.http) = { get: "/dataproc/v1/clusters/{cluster_id}/subclusters/{subcluster_id}" };
+  }
+
+  // Retrieves a list of Dataproc subcluster.
+  rpc List (ListSubclustersRequest) returns (ListSubclustersResponse) {
+    option (google.api.http) = { get: "/dataproc/v1/clusters/{cluster_id}/subclusters" };
+  }
+
+  // Creates a Dataproc subcluster in the specified cluster.
+  rpc Create (CreateSubclusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/dataproc/v1/clusters/{cluster_id}/subclusters" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "CreateSubclusterMetadata"
+      response: "Subcluster"
+    };
+  }
+
+  // Updates configuration of the specified Dataproc subcluster.
+  rpc Update (UpdateSubclusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/dataproc/v1/clusters/{cluster_id}/subclusters/{subcluster_id}" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateSubclusterMetadata"
+      response: "Subcluster"
+    };
+  }
+
+  // Deletes the specified Dataproc subcluster.
+  rpc Delete (DeleteSubclusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/dataproc/v1/clusters/{cluster_id}/subclusters/{subcluster_id}" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteSubclusterMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+}
+
+message GetSubclusterRequest {
+  // ID of the Dataproc cluster to get subcluster from.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the Dataproc subcluster resource to return.
+  // To get the subcluster ID use a [SubclusterService.List] request.
+  string subcluster_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message ListSubclustersRequest {
+  // ID of the Dataproc cluster to get subclusters from.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // The maximum number of results per page that should be returned. If the number of available
+  // results is larger than `page_size`, the service returns a `next_page_token` that can be used
+  // to get the next page of results in subsequent ListSubclusters requests.
+  // Acceptable values are 0 to 1000, inclusive. Default value: 100.
+  int64 page_size = 2 [(value) = "<=1000"];
+
+  // Page token. Set `page_token` to the `next_page_token` returned by a previous ListSubclusters
+  // request to get the next page of results.
+  string page_token = 3 [(length) = "<=100"];
+
+  // A filter expression that filters resources listed in the response.
+  // The expression must specify:
+  // 1. The field name. Currently you can only use filtering with the [Cluster.name] field.
+  // 2. An operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
+  // 3. The value. Мust be 1-63 characters long and match the regular expression `^[a-zA-Z0-9_-]+$`.
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListSubclustersResponse {
+  // List of Dataproc subclusters.
+  repeated Subcluster subclusters = 1;
+
+  // This token allows you to get the next page of results for ListSubclusters requests,
+  // if the number of results is larger than `page_size` specified in the request.
+  // To get the next page, specify the value of `next_page_token` as a value for
+  // the `page_token` parameter in the next ListClusters request. Subsequent ListClusters
+  // requests will have their own `next_page_token` to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message CreateSubclusterRequest {
+  // ID of the Dataproc cluster to create create subcluster to.
+  // To get the Dataproc cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Name of the Dataproc subcluster. The name must be unique within the folder.
+  // The name must be 1-63 characters long and match the regular expression `^[a-z]([-a-z0-9]{,61}[a-z0-9])?$`.
+  // The name can’t be changed after the Dataproc subcluster is created.
+  string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+
+  // Role of hosts in subcluster.
+  Role role = 3 [(required) = true];
+
+  // Resources allocated to hosts in subcluster.
+  Resources resources = 4 [(required) = true];
+
+  // ID of using compute subnet for hosts in subcluster.
+  string subnet_id = 5 [(required) = true, (length) = "<=50"];
+
+  // Number of hosts in subcluster.
+  int64 hosts_count = 6 [(required) = true, (value) = ">=1"];
+}
+
+message CreateSubclusterMetadata {
+  // ID of the Dataproc cluster resource to return.
+  string cluster_id = 1 [(length) = "<=50"];
+
+  // ID of the Dataproc subcluster resource.
+  string subcluster_id = 2 [(length) = "<=50"];
+}
+
+message UpdateSubclusterRequest {
+  // ID of the Dataproc cluster to update subcluster to.
+  // To get the Dataproc cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the Dataproc subcluster resource.
+  // To get the subcluster ID use a [SubclusterService.List] request.
+  string subcluster_id = 2 [(required) = true, (length) = "<=50"];
+
+  google.protobuf.FieldMask update_mask = 3;
+
+  // Resources allocated to hosts in subcluster.
+  Resources resources = 4;
+
+  // Name of the Dataproc subcluster. The name must be unique within the folder.
+  string name = 5 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+
+  // Number of hosts in subcluster.
+  int64 hosts_count = 6 [(required) = true, (value) = ">=1"];
+}
+
+message UpdateSubclusterMetadata {
+  // ID of the Dataproc cluster resource to return.
+  string cluster_id = 1 [(length) = "<=50"];
+
+  // ID of the Dataproc subcluster resource to update.
+  string subcluster_id = 2 [(length) = "<=50"];
+}
+
+message DeleteSubclusterRequest {
+  // ID of the Dataproc cluster to delete subcluster from.
+  // To get the Dataproc cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the Dataproc subcluster resource to delete.
+  string subcluster_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message DeleteSubclusterMetadata {
+  // ID of the Dataproc cluster resource to return.
+  string cluster_id = 1 [(length) = "<=50"];
+
+  // ID of the Dataproc subcluster resource to delete.
+  string subcluster_id = 2 [(length) = "<=50"];
+}
