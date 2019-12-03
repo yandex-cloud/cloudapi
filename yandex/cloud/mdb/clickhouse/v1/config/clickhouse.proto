@@ -171,14 +171,19 @@ message ClickhouseConfig {
       enum SslMode {
         SSL_MODE_UNSPECIFIED = 0;
 
+        // Only try a non-SSL connection.
         DISABLE = 1;
 
+        // First try a non-SSL connection; if that fails, try an SSL connection.
         ALLOW = 2;
 
+        // First try an SSL connection; if that fails, try a non-SSL connection.
         PREFER = 3;
 
+        // Only try an SSL connection, and verify that the server certificate is issued by a trusted certificate authority (CA).
         VERIFY_CA = 4;
 
+        // Only try an SSL connection, verify that the server certificate is issued by a trusted CA and that the requested server host name matches that in the certificate.
         VERIFY_FULL = 5;
       }
 
@@ -204,8 +209,8 @@ message ClickhouseConfig {
       // For more details, see [ClickHouse documentation on dictionaries](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_lifetime/).
       string invalidate_query = 7;
 
-      // Mode of SSL TCP/IP connection to the PostgreSQL host. There are six modes: `disable`, `allow`, `prefer` (default), `require`, `verify-ca`, `verify-full`.
-      // For more details, see [PostgreSQL documentation](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS).
+      // Mode of SSL TCP/IP connection to the PostgreSQL host.
+      // For more details, see [PostgreSQL documentation](https://www.postgresql.org/docs/current/libpq-ssl.html).
       SslMode ssl_mode = 8;
     }
 

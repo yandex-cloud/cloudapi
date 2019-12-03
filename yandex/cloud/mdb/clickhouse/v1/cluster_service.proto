@@ -309,6 +309,9 @@ message UpdateClusterRequest {
 
   // New configuration and resources for hosts in the cluster.
   ConfigSpec config_spec = 5;
+
+  // New name for the cluster.
+  string name = 6 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message UpdateClusterMetadata {

@@ -14,6 +14,7 @@ enum TriggerType {
   TIMER = 2;
   MESSAGE_QUEUE = 3;
   IOT_MESSAGE = 4;
+  OBJECT_STORAGE = 5;
 }
 
 message Trigger {
@@ -45,6 +46,7 @@ message Trigger {
       Timer timer = 2;
       MessageQueue message_queue = 3;
       IoTMessage iot_message = 4;
+      ObjectStorage object_storage = 5;
     }
   }
 
@@ -93,6 +95,28 @@ message Trigger {
     }
   }
 
+  enum ObjectStorageEventType {
+    OBJECT_STORAGE_EVENT_TYPE_UNSPECIFIED = 0;
+    OBJECT_STORAGE_EVENT_TYPE_CREATE_OBJECT = 1;
+    OBJECT_STORAGE_EVENT_TYPE_UPDATE_OBJECT = 2;
+    OBJECT_STORAGE_EVENT_TYPE_DELETE_OBJECT = 3;
+  }
+
+  message ObjectStorage {
+    // Type (name) of events, at least one value is required.
+    repeated ObjectStorageEventType event_type = 3 [(size) = ">0"];
+
+    string bucket_id = 4;
+
+    // Filter, optional.
+    string prefix = 6;
+    string suffix = 7;
+
+    oneof action {
+      option (exactly_one) = true;
+      InvokeFunctionWithRetry invoke_function = 101;
+    }
+  }
 }
 
 message InvokeFunctionOnce {
