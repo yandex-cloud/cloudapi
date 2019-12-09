@@ -57,10 +57,13 @@ message MysqlConfig8_0 {
   enum AuthPlugin {
     AUTH_PLUGIN_UNSPECIFIED = 0;
 
+    // Using [Native Pluggable Authentication](https://dev.mysql.com/doc/refman/8.0/en/native-pluggable-authentication.html).
     MYSQL_NATIVE_PASSWORD = 1;
 
+    // Using [Caching SHA-2 Pluggable Authentication](https://dev.mysql.com/doc/refman/8.0/en/caching-sha2-pluggable-authentication.html).
     CACHING_SHA2_PASSWORD = 2;
 
+    // Using [SHA-256 Pluggable Authentication](https://dev.mysql.com/doc/refman/8.0/en/sha256-pluggable-authentication.html).
     SHA256_PASSWORD = 3;
   }
 
@@ -99,6 +102,7 @@ message MysqlConfig8_0 {
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_max_allowed_packet).
   google.protobuf.Int64Value max_allowed_packet = 7 [(value) = "1024-134217728"];
 
+  // Authentication plugin used in the managed MySQL cluster.
   AuthPlugin default_authentication_plugin = 8;
 }
 

@@ -24,8 +24,16 @@ message User {
 }
 
 message Permission {
+  message DataFilter {
+    string table_name = 1;
+
+    string filter = 2;
+  }
+
   // Name of the database that the permission grants access to.
   string database_name = 1;
+
+  repeated DataFilter data_filters = 2;
 }
 
 message UserSpec {
