@@ -380,7 +380,7 @@ message ListenerSpec {
   string name = 1 [(required) = true, (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
   // Port for incoming traffic.
-  int64 port = 2 [(value) = "1-32767"];
+  int64 port = 2 [(value) = "1-65535"];
 
   // Protocol for incoming traffic.
   Listener.Protocol protocol = 3 [(required) = true];
@@ -392,6 +392,6 @@ message ListenerSpec {
   }
 
   // Port of a target.
-  // Acceptable values are 1 to 32767, inclusive.
+  // Acceptable values are 1 to 65535, inclusive.
   int64 target_port = 5;
 }

@@ -344,5 +344,3 @@ message ListSymmetricKeyOperationsResponse {
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
 }
-
-

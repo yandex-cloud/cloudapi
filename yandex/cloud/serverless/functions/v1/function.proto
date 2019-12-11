@@ -61,4 +61,3 @@ message Package {
   string object_name = 2 [(required) = true];
   string sha256 = 3;
 }
-

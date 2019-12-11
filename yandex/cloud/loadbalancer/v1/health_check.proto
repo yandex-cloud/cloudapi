@@ -13,13 +13,13 @@ message HealthCheck {
   // Configuration option for a TCP health check.
   message TcpOptions {
     // Port to use for TCP health checks.
-    int64 port = 1 [(value) = "1-32767"];
+    int64 port = 1 [(value) = "1-65535"];
   }
 
   // Configuration option for an HTTP health check.
   message HttpOptions {
     // Port to use for HTTP health checks.
-    int64 port = 1 [(value) = "1-32767"];
+    int64 port = 1 [(value) = "1-65535"];
 
     // URL path to set for health checking requests for every target in the target group. 
     // For example `` /ping ``. The default path is `` / ``.

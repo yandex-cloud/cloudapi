@@ -179,4 +179,3 @@ message MasterMaintenancePolicy {
 
   MaintenanceWindow maintenance_window = 2;
 }
-

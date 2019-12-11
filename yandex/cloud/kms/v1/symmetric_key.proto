@@ -116,4 +116,3 @@ message SymmetricKeyVersion {
   // is `SCHEDULED_FOR_DESTRUCTION`.
   google.protobuf.Timestamp destroy_at = 7;
 }
-

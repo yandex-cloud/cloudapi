@@ -40,4 +40,3 @@ message Registry {
   // Resource labels as `key:value` pairs. Мaximum of 64 per resource.
   map<string, string> labels = 6;
 }
-

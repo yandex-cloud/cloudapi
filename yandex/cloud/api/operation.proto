@@ -20,5 +20,3 @@ message Operation {
   // specified field.
   string response = 2; // Required.
 }
-
-
