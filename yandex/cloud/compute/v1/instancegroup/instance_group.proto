@@ -282,7 +282,7 @@ message InstanceTemplate {
   string description = 1 [(length) = "<=256"];
 
   // Resource labels as `key:value` pairs.
-  map<string, string> labels = 2 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 2 [(size) = "<=64", (length) = "<=128", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // ID of the hardware platform configuration for the instance.
   // Platforms allows you to create various types of instances: with a large amount of memory,
