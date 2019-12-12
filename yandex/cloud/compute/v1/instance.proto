@@ -101,6 +101,9 @@ message Instance {
 
   // Do not specify this field, network settings are not supported yet.
   NetworkSettings network_settings = 19;
+
+  // Placement policy configuration.
+  PlacementPolicy placement_policy = 20;
 }
 
 message Resources {
@@ -210,4 +213,9 @@ message NetworkSettings {
 
   // Do not specify this field, network settings are not supported yet.
   Type type = 1;
+}
+
+message PlacementPolicy {
+  // Placement group ID.
+  string placement_group_id = 1;
 }

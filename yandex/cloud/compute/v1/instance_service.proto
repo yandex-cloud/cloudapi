@@ -244,6 +244,9 @@ message CreateInstanceRequest {
 
   // Network settings.
   NetworkSettings network_settings = 15;
+
+  // Placement policy configuration.
+  PlacementPolicy placement_policy = 16;
 }
 
 message CreateInstanceMetadata {
@@ -300,6 +303,9 @@ message UpdateInstanceRequest {
 
   // Network settings.
   NetworkSettings network_settings = 10;
+
+  // Placement policy configuration.
+  PlacementPolicy placement_policy = 11;
 }
 
 message UpdateInstanceMetadata {
