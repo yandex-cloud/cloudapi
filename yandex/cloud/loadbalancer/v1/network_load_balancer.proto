@@ -56,6 +56,9 @@ message NetworkLoadBalancer {
 
     // External network load balancer.
     EXTERNAL = 1;
+
+    // Internal network load balancer.
+    INTERNAL = 2;
   }
 
   // Type of session affinity. Only 5-tuple affinity is currently available.
@@ -120,6 +123,7 @@ message Listener {
   enum Protocol {
     PROTOCOL_UNSPECIFIED = 0;
     TCP = 1;
+    UDP = 2;
   }
 
   // Name of the listener. The name must be unique for each listener on a single load balancer. 3-63 characters long.
@@ -136,6 +140,9 @@ message Listener {
 
   // Port of a target.
   int64 target_port = 5;
+
+  // ID of the subnet.
+  string subnet_id = 6;
 }
 
 // State of the target that was returned after the last health check.

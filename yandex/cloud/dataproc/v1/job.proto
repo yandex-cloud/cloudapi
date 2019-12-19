@@ -8,112 +8,131 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/v
 option java_package = "yandex.cloud.api.dataproc.v1";
 option java_outer_classname = "PHJ";
 
-// Dataproc job.
+// A Data Proc job. For details about the concept, see [documentation](/docs/dataproc/concepts/jobs).
 message Job {
-  // Required. Unique ID of the Dataproc job.
-  // This ID is assigned by MDB in the process of creating Dataproc job.
+  // ID of the job. Generated at creation time.
   string id = 1;
 
-  // Required. Unique ID of the Dataproc cluster.
+  // Unique ID of the Data Proc cluster.
   string cluster_id = 2;
 
-  // The time when the Dataproc job was created.
+  // Creation timestamp.
   google.protobuf.Timestamp created_at = 3;
 
-  // The time when the Dataproc job was started.
+  // The time when the job was started.
   google.protobuf.Timestamp started_at = 4;
 
-  // The time when the Dataproc job was finished.
+  // The time when the job was finished.
   google.protobuf.Timestamp finished_at = 5;
 
-  // Name of the Dataproc job.
+  // Name of the job, specified in the [JobService.Create] request.
   string name = 6;
 
   enum Status {
     STATUS_UNSPECIFIED = 0;
-    PROVISIONING = 1; // Job created in metadb and is waiting agent to acquire.
-    PENDING = 2; // Job acquired by agent and is waiting for execution.
-    RUNNING = 3; // Job is running.
-    ERROR = 4; // Job failed.
+
+    // Job is logged in the database and is waiting for the agent to run it.
+    PROVISIONING = 1;
+
+    // Job is acquired by the agent and is in the queue for execution.
+    PENDING = 2;
+
+    // Job is being run in the cluster.
+    RUNNING = 3;
+
+    // Job failed to finish the run properly.
+    ERROR = 4;
+
+    // Job is finished
     DONE = 5; // Job finished.
   }
-  // Status.
+  // Job status.
   Status status = 7;
 
-  // Job specification.
+  // Specification for the job.
   oneof job_spec {
+    // Specification for a MapReduce job.
     MapreduceJob mapreduce_job = 8;
+
+    // Specification for a Spark job.
     SparkJob spark_job = 9;
+
+    // Specification for a PySpark job.
     PysparkJob pyspark_job = 10;
+
+    // Specification for a Hive job.
     HiveJob hive_job = 11;
   }
 }
 
 message MapreduceJob {
-  // Optional arguments to the driver.
+  // Optional arguments to pass to the driver.
   repeated string args = 1;
 
-  // URIs of file to run.
+  // JAR file URIs to add to CLASSPATH of the Data Proc driver and each task.
   repeated string jar_file_uris = 2;
 
-  // URIs of files to be copied to the working directory of Dataproc drivers and distributed tasks.
+  // URIs of resource files to be copied to the working directory of Data Proc drivers
+  // and distributed Hadoop tasks.
   repeated string file_uris = 3;
 
-  // URIs of archives to be extracted in the working directory of Dataproc drivers and tasks.
+  // URIs of archives to be extracted to the working directory of Data Proc drivers and tasks.
   repeated string archive_uris = 4;
 
-  // A mapping of property names to values, used to configure Dataproc.
+  // Property names and values, used to configure Data Proc and MapReduce.
   map<string, string> properties = 5;
 
   oneof driver {
-    // The HCFS URI of the jar file containing the main class.
+    // HCFS URI of the .jar file containing the driver class.
     string main_jar_file_uri = 6;
 
-    // The name of the driver's main class.
+    // The name of the driver class.
     string main_class = 7;
   }
 }
 
 message SparkJob {
-  // Optional arguments to the driver.
+  // Optional arguments to pass to the driver.
   repeated string args = 1;
 
-  // Jar file URIs to add to the CLASSPATHs of the Dataproc driver and tasks.
+  // JAR file URIs to add to CLASSPATH of the Data Proc driver and each task.
   repeated string jar_file_uris = 2;
 
-  // URIs of files to be copied to the working directory of Dataproc drivers and distributed tasks.
+  // URIs of resource files to be copied to the working directory of Data Proc drivers
+  // and distributed Hadoop tasks.
   repeated string file_uris = 3;
 
-  // URIs of archives to be extracted in the working directory of Dataproc drivers and tasks.
+  // URIs of archives to be extracted to the working directory of Data Proc drivers and tasks.
   repeated string archive_uris = 4;
 
-  // A mapping of property names to values, used to configure Dataproc.
+  // Property names and values, used to configure Data Proc and Spark.
   map<string, string> properties = 5;
 
-  // The HCFS URI of the jar file containing the main class.
+  // The HCFS URI of the jar file containing the `main` class for the job.
   string main_jar_file_uri = 6;
 
-  // The name of the driver's main class.
+  // The name of the driver class.
   string main_class = 7;
 }
 
 message PysparkJob {
-  // Optional arguments to the driver.
+  // Optional arguments to pass to the driver.
   repeated string args = 1;
 
-  // Jar file URIs to add to the CLASSPATHs of the Dataproc driver and tasks.
+  // JAR file URIs to add to CLASSPATH of the Data Proc driver and each task.
   repeated string jar_file_uris = 2;
 
-  // URIs of files to be copied to the working directory of Dataproc drivers and distributed tasks.
+  // URIs of resource files to be copied to the working directory of Data Proc drivers
+  // and distributed Hadoop tasks.
   repeated string file_uris = 3;
 
-  // URIs of archives to be extracted in the working directory of Dataproc drivers and tasks.
+  // URIs of archives to be extracted to the working directory of Data Proc drivers and tasks.
   repeated string archive_uris = 4;
 
-  // A mapping of property names to values, used to configure Dataproc.
+  // Property names and values, used to configure Data Proc and PySpark.
   map<string, string> properties = 5;
 
-  // URI of the main Python file to use as the driver. Must be a .py file.
+  // URI of the file with the driver code. Must be a .py file.
   string main_python_file_uri = 6;
 
   // URIs of Python files to pass to the PySpark framework.
@@ -121,26 +140,28 @@ message PysparkJob {
 }
 
 message QueryList {
+  // List of Hive queries.
   repeated string queries = 1;
 }
 
 message HiveJob {
-  // A mapping of property names to values, used to configure Hive.
+  // Property names and values, used to configure Data Proc and Hive.
   map<string, string> properties = 1;
 
-  // Whether to continue executing queries if a query fails.
+  // Flag indicating whether a job should continue to run if a query fails.
   bool continue_on_failure = 2;
 
-  // Mapping of query variable names to values.
+  // Query variables and their values.
   map<string, string> script_variables = 3;
 
-  // Jar file URIs to add to the CLASSPATHs of the Hive driver and tasks.
+  // JAR file URIs to add to CLASSPATH of the Hive driver and each task.
   repeated string jar_file_uris = 4;
 
   oneof query_type {
-    // URI of the script that contains Hive queries.
+    // URI of the script with all the necessary Hive queries.
     string query_file_uri = 5;
 
+    // List of Hive queries to be used in the job.
     QueryList query_list = 6;
   }
 }

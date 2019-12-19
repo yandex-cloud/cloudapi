@@ -21,6 +21,9 @@ message User {
   repeated Permission permissions = 3;
 
   UserSettings settings = 4;
+
+  // Set of quotas assigned to the user.
+  repeated UserQuota quotas = 5;
 }
 
 message Permission {
@@ -47,6 +50,9 @@ message UserSpec {
   repeated Permission permissions = 3;
 
   UserSettings settings = 4;
+
+  // Set of quotas assigned to the user.
+  repeated UserQuota quotas = 5;
 }
 
 // ClickHouse user settings. Supported settings are a limited subset of all settings
@@ -340,4 +346,32 @@ message UserSettings {
 
   // Whether CORS header in HTTP responses is enabled. Default value: `false`.
   google.protobuf.BoolValue add_http_cors_header = 71;
+}
+
+// ClickHouse quota representation. Each quota associated with an user and limits it resource usage for an interval.
+// See in-depth description [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/quotas/).
+message UserQuota {
+  // Duration of interval for quota in milliseconds.
+  // Minimal value is 1 minute.
+  google.protobuf.Int64Value interval_duration = 1 [(value) = ">=60000"];
+
+  // The total number of queries.
+  // 0 - unlimited.
+  google.protobuf.Int64Value queries = 2 [(value) = ">=0"];
+
+  // The number of queries that threw exception.
+  // 0 - unlimited.
+  google.protobuf.Int64Value errors = 3 [(value) = ">=0"];
+
+  // The total number of rows given as the result..
+  // 0 - unlimited.
+  google.protobuf.Int64Value result_rows = 4 [(value) = ">=0"];
+
+  // The total number of source rows read from tables for running the query, on all remote servers.
+  // 0 - unlimited.
+  google.protobuf.Int64Value read_rows = 5 [(value) = ">=0"];
+
+  // The total query execution time, in milliseconds (wall time).
+  // 0 - unlimited.
+  google.protobuf.Int64Value execution_time = 6 [(value) = ">=0"];
 }

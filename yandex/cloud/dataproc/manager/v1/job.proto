@@ -7,25 +7,25 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/manager/v1;dataproc_manager";
 option java_package = "yandex.cloud.api.dataproc.manager.v1";
 
-// Dataproc job.
+// Data Proc job.
 message Job {
-  // Required. Unique ID of the Dataproc job.
-  // This ID is assigned by MDB in the process of creating Dataproc job.
+  // Required. Unique ID of the Data Proc job.
+  // This ID is assigned by MDB in the process of creating Data Proc job.
   string id = 1;
 
-  // Required. Unique ID of the Dataproc cluster.
+  // Required. Unique ID of the Data Proc cluster.
   string cluster_id = 2;
 
-  // The time when the Dataproc job was created.
+  // The time when the Data Proc job was created.
   google.protobuf.Timestamp created_at = 3;
 
-  // The time when the Dataproc job was started.
+  // The time when the Data Proc job was started.
   google.protobuf.Timestamp started_at = 4;
 
-  // The time when the Dataproc job was finished.
+  // The time when the Data Proc job was finished.
   google.protobuf.Timestamp finished_at = 5;
 
-  // Name of the Dataproc job.
+  // Name of the Data Proc job.
   string name = 6;
 
   enum Status {
@@ -55,13 +55,13 @@ message MapreduceJob {
   // URIs of file to run.
   repeated string jar_file_uris = 2;
 
-  // URIs of files to be copied to the working directory of Dataproc drivers and distributed tasks.
+  // URIs of files to be copied to the working directory of Data Proc drivers and distributed tasks.
   repeated string file_uris = 3;
 
-  // URIs of archives to be extracted in the working directory of Dataproc drivers and tasks.
+  // URIs of archives to be extracted in the working directory of Data Proc drivers and tasks.
   repeated string archive_uris = 4;
 
-  // A mapping of property names to values, used to configure Dataproc.
+  // A mapping of property names to values, used to configure Data Proc.
   map<string, string> properties = 5;
 
   oneof driver {
@@ -77,16 +77,16 @@ message SparkJob {
   // Optional arguments to the driver.
   repeated string args = 1;
 
-  // Jar file URIs to add to the CLASSPATHs of the Dataproc driver and tasks.
+  // Jar file URIs to add to the CLASSPATHs of the Data Proc driver and tasks.
   repeated string jar_file_uris = 2;
 
-  // URIs of files to be copied to the working directory of Dataproc drivers and distributed tasks.
+  // URIs of files to be copied to the working directory of Data Proc drivers and distributed tasks.
   repeated string file_uris = 3;
 
-  // URIs of archives to be extracted in the working directory of Dataproc drivers and tasks.
+  // URIs of archives to be extracted in the working directory of Data Proc drivers and tasks.
   repeated string archive_uris = 4;
 
-  // A mapping of property names to values, used to configure Dataproc.
+  // A mapping of property names to values, used to configure Data Proc.
   map<string, string> properties = 5;
 
   // The HCFS URI of the jar file containing the main class.
@@ -100,16 +100,16 @@ message PysparkJob {
   // Optional arguments to the driver.
   repeated string args = 1;
 
-  // Jar file URIs to add to the CLASSPATHs of the Dataproc driver and tasks.
+  // Jar file URIs to add to the CLASSPATHs of the Data Proc driver and tasks.
   repeated string jar_file_uris = 2;
 
-  // URIs of files to be copied to the working directory of Dataproc drivers and distributed tasks.
+  // URIs of files to be copied to the working directory of Data Proc drivers and distributed tasks.
   repeated string file_uris = 3;
 
-  // URIs of archives to be extracted in the working directory of Dataproc drivers and tasks.
+  // URIs of archives to be extracted in the working directory of Data Proc drivers and tasks.
   repeated string archive_uris = 4;
 
-  // A mapping of property names to values, used to configure Dataproc.
+  // A mapping of property names to values, used to configure Data Proc.
   map<string, string> properties = 5;
 
   // URI of the main Python file to use as the driver. Must be a .py file.

@@ -4,12 +4,12 @@ package yandex.cloud.dataproc.v1;
 
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/dataproc/v1/common.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/v1;dataproc";
 option java_package = "yandex.cloud.api.dataproc.v1";
 
-// Description of a Dataproc cluster. For more information, see
-// the Yandex Dataproc [documentation](/docs/data-proc/concepts/).
+// A Data Proc cluster. For details about the concept, see [documentation](/docs/data-proc/concepts/).
 message Cluster {
   enum Status {
 
@@ -35,31 +35,28 @@ message Cluster {
     STARTING = 6;
   }
 
-  // ID of the Dataproc cluster.
-  // This ID is assigned by Dataproc at creation time.
+  // ID of the cluster. Generated at creation time.
   string id = 1;
 
-  // ID of the folder that the Dataproc cluster belongs to.
+  // ID of the folder that the cluster belongs to.
   string folder_id = 2;
 
-  // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  // Creation timestamp.
   google.protobuf.Timestamp created_at = 3;
 
-  // Name of the Dataproc cluster.
-  // The name is unique within the folder. 1-64 characters long.
-  string name = 4;
+  // Name of the cluster. The name is unique within the folder.
+  string name = 4 [(length) = "1-63"];
 
-  // Description of the Dataproc cluster. 0-256 characters long.
-  string description = 5;
+  // Description of the cluster.
+  string description = 5 [(length) = "0-256"];
 
-  // Custom labels for the Dataproc cluster as `` key:value `` pairs.
-  // Maximum 64 per resource.
-  map<string, string> labels = 6;
+  // Cluster labels as `key:value` pairs.
+  map<string, string> labels = 6 [(size) = "<=64"];
 
-  // Monitoring systems relevant to the Dataproc cluster.
+  // Monitoring systems relevant to the cluster.
   repeated Monitoring monitoring = 7;
 
-  // Configuration of the Dataproc cluster.
+  // Configuration of the cluster.
   ClusterConfig config = 8;
 
   // Aggregated cluster health.
@@ -68,17 +65,17 @@ message Cluster {
   // Cluster status.
   Status status = 10;
 
-  // ID of the availability zone.
+  // ID of the availability zone where the cluster resides.
   string zone_id = 11;
 
-  // ID of service account for Dataproc manager agent.
+  // ID of service account for the Data Proc manager agent.
   string service_account_id = 12;
 
-  // Object storage bucket name for Dataproc jobs.
+  // Object Storage bucket to be used for Data Proc jobs that are run in the cluster.
   string bucket = 13;
 }
 
-// Monitoring system.
+// Metadata of a monitoring system for a Data Proc cluster.
 message Monitoring {
   // Name of the monitoring system.
   string name = 1;
@@ -90,7 +87,7 @@ message Monitoring {
   string link = 3;
 }
 
-// Configuration, that describes application logic of installed services,
+// Hadoop configuration that describes services installed in a cluster,
 // their properties and settings.
 message HadoopConfig {
   enum Service {
@@ -109,23 +106,25 @@ message HadoopConfig {
     OOZIE = 12;
   }
 
-  // List of used services in cluster (for default use empty)
+  // Set of services used in the cluster (if empty, the default set is used).
   repeated Service services = 1;
 
-  // Properties passed to all hosts *-site.xml configurations.
-  // In key you need to use prefix 'hdfs:dfs.replication' for setting
-  // property 'dfs.replication' in /etc/hadoop/conf/hdfs-site.xml
+  // Properties set for all hosts in `*-site.xml` configurations. The key should indicate
+  // the service and the property.
+  //
+  // For example, use the key 'hdfs:dfs.replication' to set the `dfs.replication` property
+  // in `/etc/hadoop/conf/hdfs-site.xml`.
   map<string, string> properties = 2;
 
-  // List of ssh public keys to access to cluster hosts.
+  // List of public SSH keys to access to cluster hosts.
   repeated string ssh_public_keys = 3;
 }
 
 message ClusterConfig {
-  // Version of image for cluster provisioning.
+  // Image version for cluster provisioning.
   // All available versions are listed in the [documentation](/docs/managed-hadoop/concepts/image-versions).
   string version_id = 1;
 
-  // Dataproc specific options
+  // Data Proc specific configuration options.
   HadoopConfig hadoop = 2;
 }

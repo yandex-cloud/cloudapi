@@ -374,6 +374,18 @@ message ExternalAddressSpec {
   IpVersion ip_version = 2;
 }
 
+// Internal address specification that is used by [ListenerSpec].
+message InternalAddressSpec {
+  // Internal IP address for a listener.
+  string address = 1;
+
+  // ID of the subnet.
+  string subnet_id = 2;
+
+  // IP version.
+  IpVersion ip_version = 3;
+}
+
 // Listener specification that will be used by a network load balancer.
 message ListenerSpec {
   // Name of the listener. The name must be unique for each listener on a single load balancer. 3-63 characters long.
@@ -389,6 +401,8 @@ message ListenerSpec {
   oneof address {
     // External IP address specification.
     ExternalAddressSpec external_address_spec = 4;
+    // Internal IP address specification.
+    InternalAddressSpec internal_address_spec = 6;
   }
 
   // Port of a target.

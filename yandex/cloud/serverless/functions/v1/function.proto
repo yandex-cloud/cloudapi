@@ -9,55 +9,130 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/functions/v1;functions";
 option java_package = "yandex.cloud.api.serverless.functions.v1";
 
+
+// A serverless function. For details about the concept, see [Functions](/docs/functions/concepts/function).
 message Function {
   enum Status {
     STATUS_UNSPECIFIED = 0;
+
+    // Function is being created.
     CREATING = 1;
+
+    // Function is ready to be invoked.
     ACTIVE = 2;
+
+    // Function is being deleted.
     DELETING = 3;
+
+    // Function failed.
     ERROR = 4;
   }
+
+  // ID of the function. Generated at creation time.
   string id = 1;
+
+  // ID of the folder that the function belongs to.
   string folder_id = 2;
+
+  // Creation timestamp for the function.
   google.protobuf.Timestamp created_at = 3;
-  string name = 4;
-  string description = 5;
-  map<string, string> labels = 6;
+
+  // Name of the function. The name is unique within the folder.
+  string name = 4 [(length) = "3-63"];
+
+  // Description of the function.
+  string description = 5 [(length) = "0-256"];
+
+  // Function labels as `key:value` pairs.
+  map<string, string> labels = 6 [(size) = "<=64"];
+
+  // ID of the log group for the function.
   string log_group_id = 7;
+
+  // URL that needs to be requested to invoke the function.
   string http_invoke_url = 8;
+
+  // Status of the function.
   Status status = 9;
 }
 
+// Version of a function. For details about the concept, see [Function versions](/docs/functions/concepts/function#version).
 message Version {
   enum Status {
     STATUS_UNSPECIFIED = 0;
+
+    // Version is being created.
     CREATING = 1;
+
+    // Version is ready to use.
     ACTIVE = 2;
   }
 
+  // ID of the version.
   string id = 1;
+
+  // ID of the function that the version belongs to.
   string function_id = 2;
-  string description = 3;
+
+  // Description of the version.
+  string description = 3 [(length) = "0-256"];
+
+  // Creation timestamp for the version.
   google.protobuf.Timestamp created_at = 5;
+
+  // ID of the runtime environment for the function.
+  //
+  // Supported environments and their identifiers are listed in the [Runtime environments](/docs/functions/concepts/runtime).
   string runtime = 6;
+
+  // Entrypoint for the function: the name of the function to be called as the handler.
+  //
+  // Specified in the format `<function file name>.<handler name>`, for example, `index.myFunction`.
   string entrypoint = 7;
+
+  // Resources allocated to the version.
   Resources resources = 8;
+
+  // Timeout for the execution of the version.
+  //
+  // If the timeout is exceeded, Cloud Functions responds with a 504 HTTP code.
   google.protobuf.Duration execution_timeout = 9;
+
+  // ID of the service account associated with the version.
   string service_account_id = 10;
+
   reserved 11;
+
+  // Final size of the deployment package after unpacking.
   int64 image_size = 12;
+
+  // Status of the version.
   Status status = 13;
+
+  // Version tags. For details, see [Version tag](/docs/functions/concepts/function#tag).
   repeated string tags = 14;
+
+  // ID of the log group for the version.
   string log_group_id = 15;
+
+  // Environment settings for the version.
   map<string, string> environment = 16;
 }
 
+// Resources allocated to a version.
 message Resources {
+  // Amount of memory available to the version, specified in bytes.
   int64 memory = 1 [(value) = "33554432-1073741824"];
 }
 
+// Version deployment package.
 message Package {
+  // Name of the bucket that stores the code for the version.
   string bucket_name = 1 [(required) = true];
+
+  // Name of the object in the bucket that stores the code for the version.
   string object_name = 2 [(required) = true];
+
+  // SHA256 hash of the version deployment package.
   string sha256 = 3;
 }

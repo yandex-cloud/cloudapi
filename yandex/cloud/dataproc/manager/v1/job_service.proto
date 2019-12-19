@@ -8,7 +8,7 @@ import "yandex/cloud/validation.proto";
 import "yandex/cloud/dataproc/manager/v1/job.proto";
 
 service JobService {
-    // Retrieves a list of jobs for Dataproc cluster.
+    // Retrieves a list of jobs for Data Proc cluster.
     rpc ListActive (ListJobsRequest) returns (ListJobsResponse) {}
 
     // Currently used to update Job status.
@@ -16,7 +16,7 @@ service JobService {
 }
 
 message ListJobsRequest {
-    // Required. ID of the cluster to list Dataproc jobs of.
+    // Required. ID of the cluster to list Data Proc jobs of.
     string cluster_id = 1 [(length) = "<=50"];
 
     // The maximum number of results per page that should be returned. If the number of available
@@ -34,7 +34,7 @@ message ListJobsRequest {
 }
 
 message ListJobsResponse {
-    // Requested list of Dataproc jobs.
+    // Requested list of Data Proc jobs.
     repeated Job jobs = 1;
 
     // This token allows you to get the next page of results for ListJobs requests,
@@ -46,10 +46,10 @@ message ListJobsResponse {
 }
 
 message UpdateJobStatusRequest {
-    // Required. ID of the Dataproc cluster.
+    // Required. ID of the Data Proc cluster.
     string cluster_id = 1 [(length) = "<=50"];
 
-    // Required. ID of the Dataproc job to update.
+    // Required. ID of the Data Proc job to update.
     string job_id = 2 [(length) = "<=50"];
 
     // Required. New status of the job.
