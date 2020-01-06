@@ -148,11 +148,22 @@ message ScalePolicy {
     option (exactly_one) = true;
     // Fixed scale policy of the node group.
     FixedScale fixed_scale = 1;
+    // Auto scale policy of the node group.
+    AutoScale auto_scale = 2;
   }
 
   message FixedScale {
     // Number of nodes in the node group.
     int64 size = 1 [(value) = "0-100"];
+  }
+
+  message AutoScale {
+    // Minimum number of nodes in the node group.
+    int64 min_size = 1 [(value) = "0-100"];
+    // Maximum number of nodes in the node group.
+    int64 max_size = 2 [(value) = "0-100"];
+    // Initial number of nodes in the node group.
+    int64 initial_size = 3 [(value) = "0-100"];
   }
 }
 

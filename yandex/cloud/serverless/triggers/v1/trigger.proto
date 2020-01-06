@@ -75,6 +75,8 @@ message Trigger {
 
       // Instructions for invoking a function once.
       InvokeFunctionOnce invoke_function = 101;
+
+      InvokeFunctionWithRetry invoke_function_with_retry = 103;
     }
   }
 
@@ -170,6 +172,17 @@ message InvokeFunctionWithRetry {
 
   // Retry policy. If the field is not specified, or the value is empty, no retries will be attempted.
   RetrySettings retry_settings = 4;
+
+  // DLQ policy (no value means discarding a message)
+  PutQueueMessage dead_letter_queue = 5;
+}
+
+message PutQueueMessage {
+  // ID of the queue.
+  string queue_id = 11;
+
+  // SA which has write permission on the queue.
+  string service_account_id = 2 [(required) = true, (length) = "<=50"];
 }
 
 // Settings for batch processing of messages in a queue.
