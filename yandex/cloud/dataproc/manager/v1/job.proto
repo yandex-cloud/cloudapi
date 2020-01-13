@@ -9,11 +9,11 @@ option java_package = "yandex.cloud.api.dataproc.manager.v1";
 
 // Data Proc job.
 message Job {
-  // Required. Unique ID of the Data Proc job.
+  // Unique ID of the Data Proc job.
   // This ID is assigned by MDB in the process of creating Data Proc job.
   string id = 1;
 
-  // Required. Unique ID of the Data Proc cluster.
+  // ID of the Data Proc cluster.
   string cluster_id = 2;
 
   // The time when the Data Proc job was created.

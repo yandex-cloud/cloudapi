@@ -113,7 +113,7 @@ message HadoopConfig {
   // the service and the property.
   //
   // For example, use the key 'hdfs:dfs.replication' to set the `dfs.replication` property
-  // in `/etc/hadoop/conf/hdfs-site.xml`.
+  // in the file `/etc/hadoop/conf/hdfs-site.xml`.
   map<string, string> properties = 2;
 
   // List of public SSH keys to access to cluster hosts.

@@ -13,7 +13,7 @@ message Job {
   // ID of the job. Generated at creation time.
   string id = 1;
 
-  // Unique ID of the Data Proc cluster.
+  // ID of the Data Proc cluster that the job belongs to.
   string cluster_id = 2;
 
   // Creation timestamp.
@@ -43,8 +43,8 @@ message Job {
     // Job failed to finish the run properly.
     ERROR = 4;
 
-    // Job is finished
-    DONE = 5; // Job finished.
+    // Job is finished.
+    DONE = 5;
   }
   // Job status.
   Status status = 7;
@@ -108,7 +108,7 @@ message SparkJob {
   // Property names and values, used to configure Data Proc and Spark.
   map<string, string> properties = 5;
 
-  // The HCFS URI of the jar file containing the `main` class for the job.
+  // The HCFS URI of the JAR file containing the `main` class for the job.
   string main_jar_file_uri = 6;
 
   // The name of the driver class.

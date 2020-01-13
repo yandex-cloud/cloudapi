@@ -178,6 +178,6 @@ message DeleteSubclusterMetadata {
   // ID of the cluster whose subcluster is being deleted.
   string cluster_id = 1 [(length) = "<=50"];
 
-  // ID of the ubcluster resource that is being to deleted.
+  // ID of the subcluster that is being deleted.
   string subcluster_id = 2 [(length) = "<=50"];
 }
