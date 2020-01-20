@@ -99,7 +99,7 @@ message Instance {
   // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
   string service_account_id = 18;
 
-  // Do not specify this field, network settings are not supported yet.
+  // Network Settings
   NetworkSettings network_settings = 19;
 
   // Placement policy configuration.
@@ -211,7 +211,7 @@ message NetworkSettings {
     HARDWARE_ACCELERATED = 3;
   }
 
-  // Do not specify this field, network settings are not supported yet.
+  // Network Type
   Type type = 1;
 }
 

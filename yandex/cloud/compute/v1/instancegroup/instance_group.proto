@@ -313,6 +313,9 @@ message InstanceTemplate {
 
   // Service account ID for the instance.
   string service_account_id = 10;
+
+  // Network settings for the instance.
+  NetworkSettings network_settings = 11;
 }
 
 message ResourcesSpec {
@@ -413,6 +416,17 @@ message SchedulingPolicy {
   // if their resources are needed by Compute.
   // For more information, see [Preemptible Virtual Machines](/docs/compute/concepts/preemptible-vm).
   bool preemptible = 1;
+}
+
+message NetworkSettings {
+  enum Type {
+    TYPE_UNSPECIFIED = 0;
+    STANDARD = 1;
+    SOFTWARE_ACCELERATED = 2;
+    HARDWARE_ACCELERATED = 3;
+  }
+  // Type of instance network.
+  Type type = 1;
 }
 
 message LoadBalancerSpec {
