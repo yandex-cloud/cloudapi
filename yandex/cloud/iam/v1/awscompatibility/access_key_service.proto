@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.iam.v1.awscompatibility;
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/iam/v1/awscompatibility/access_key.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -28,6 +29,15 @@ service AccessKeyService {
   // Creates an access key for the specified service account.
   rpc Create (CreateAccessKeyRequest) returns (CreateAccessKeyResponse) {
     option (google.api.http) = { post: "/iam/aws-compatibility/v1/accessKeys" body: "*" };
+  }
+
+  // Updates the specified access key.
+  rpc Update (UpdateAccessKeyRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/iam/aws-compatibility/v1/accessKeys/{access_key_id}" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateAccessKeyMetadata"
+      response: "AccessKey"
+    };
   }
 
   // Deletes the specified access key.
@@ -100,6 +110,23 @@ message CreateAccessKeyResponse {
   // Secret access key.
   // The key is AWS compatible.
   string secret = 2;
+}
+
+message UpdateAccessKeyRequest {
+  // ID of the AccessKey resource to update.
+  // To get the access key ID, use a [AccessKeyService.List] request.
+  string access_key_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Field mask that specifies which fields of the Accesskey resource are going to be updated.
+  google.protobuf.FieldMask update_mask = 2;
+
+  // Description of the access key.
+  string description = 3 [(length) = "<=256"];
+}
+
+message UpdateAccessKeyMetadata {
+  // ID of the AccessKey resource that is being updated.
+  string access_key_id = 1;
 }
 
 message DeleteAccessKeyRequest {

@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.iam.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/iam/v1/api_key.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -28,6 +29,15 @@ service ApiKeyService {
   // Creates an API key for the specified service account.
   rpc Create (CreateApiKeyRequest) returns (CreateApiKeyResponse) {
     option (google.api.http) = { post: "/iam/v1/apiKeys" body: "*" };
+  }
+
+  // Updates the specified API key.
+  rpc Update (UpdateApiKeyRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/iam/v1/apiKeys/{api_key_id}" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateApiKeyMetadata"
+      response: "ApiKey"
+    };
   }
 
   // Deletes the specified API key.
@@ -99,6 +109,23 @@ message CreateApiKeyResponse {
 
   // Secret part of the API key. This secret key you may use in the requests for authentication.
   string secret = 2;
+}
+
+message UpdateApiKeyRequest {
+  // ID of the ApiKey resource to update.
+  // To get the API key ID, use a [ApiKeyService.List] request.
+  string api_key_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Field mask that specifies which fields of the ApiKey resource are going to be updated.
+  google.protobuf.FieldMask update_mask = 2;
+
+  // Description of the API key.
+  string description = 3 [(length) = "<=256"];
+}
+
+message UpdateApiKeyMetadata {
+  // ID of the ApiKey resource that is being updated.
+  string api_key_id = 1;
 }
 
 message DeleteApiKeyRequest {

@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.iam.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/iam/v1/key.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -28,6 +29,15 @@ service KeyService {
   // Creates a key pair for the specified service account.
   rpc Create (CreateKeyRequest) returns (CreateKeyResponse) {
     option (google.api.http) = { post: "/iam/v1/keys" body: "*" };
+  }
+
+  // Updates the specified key pair.
+  rpc Update (UpdateKeyRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/iam/v1/keys/{key_id}" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateKeyMetadata"
+      response: "Key"
+    };
   }
 
   // Deletes the specified key pair.
@@ -111,6 +121,23 @@ message CreateKeyResponse {
   // A private key of the Key resource.
   // This key must be stored securely.
   string private_key = 2;
+}
+
+message UpdateKeyRequest {
+  // ID of the Key resource to update.
+  // To get key pair ID, use a [Service.List] request.
+  string key_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Field mask that specifies which fields of the Key resource are going to be updated.
+  google.protobuf.FieldMask update_mask = 2;
+
+  // Description of the key pair.
+  string description = 3 [(length) = "<=256"];
+}
+
+message UpdateKeyMetadata {
+  // ID of the Key resource that is being updated.
+  string key_id = 1;
 }
 
 message DeleteKeyRequest {

@@ -30,7 +30,7 @@ service MlModelService {
   }
 
   rpc Update (UpdateMlModelRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/managed-clickhouse/v1/clusters/{cluster_id}/mlModels" body: "*" };
+    option (google.api.http) = { patch: "/managed-clickhouse/v1/clusters/{cluster_id}/mlModels/{ml_model_name}" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateMlModelMetadata"
       response: "MlModel"
@@ -85,7 +85,7 @@ message CreateMlModelMetadata {
 message UpdateMlModelRequest {
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  string ml_mode_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+  string ml_model_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
   google.protobuf.FieldMask update_mask = 3;
 
