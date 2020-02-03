@@ -164,6 +164,8 @@ message CreateInstanceGroupRequest {
   // made by the Instance Groups component on behalf of the user (for example, creating instances, adding them to load balancer target group, etc.). For more information, see [Service accounts](/docs/iam/concepts/users/service-accounts).
   // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
   string service_account_id = 12;
+
+  repeated Variable variables = 13;
 }
 
 message CreateInstanceGroupFromYamlRequest {
@@ -221,6 +223,8 @@ message UpdateInstanceGroupRequest {
 
   // Load Balancer specification for load balancing support.
   LoadBalancerSpec load_balancer_spec = 14;
+
+  repeated Variable variables = 15;
 }
 
 message UpdateInstanceGroupFromYamlRequest {
