@@ -144,6 +144,8 @@ message UpdateUserRequest {
   repeated Permission permissions = 5;
 
   UserSettings settings = 6;
+
+  repeated UserQuota quotas = 7;
 }
 
 message UpdateUserMetadata {

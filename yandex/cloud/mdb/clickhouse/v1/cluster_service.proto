@@ -282,6 +282,9 @@ message CreateClusterRequest {
 
   // Name of the first shard in cluster. If not set, defaults to the value 'shard1'.
   string shard_name = 11 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  // ID of the service account used for access to Yandex Object Storage.
+  string service_account_id = 12;
 }
 
 message CreateClusterMetadata {
@@ -312,6 +315,9 @@ message UpdateClusterRequest {
 
   // New name for the cluster.
   string name = 6 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  // ID of the service account used for access to Yandex Object Storage.
+  string service_account_id = 7;
 }
 
 message UpdateClusterMetadata {

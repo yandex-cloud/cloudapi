@@ -239,6 +239,9 @@ message ScalePolicy {
     // Name of custom metric in Yandex Monitoring that should be used for scaling.
     string metric_name = 3 [(required) = true, (pattern) = "[a-zA-Z0-9./@_][ 0-9a-zA-Z./@_,:;()\\[\\]<>-]{0,198}"];
 
+    // Labels of custom metric in Yandex Monitoring that should be used for scaling.
+    map<string, string> labels = 5 [(pattern) = "[a-zA-Z0-9./@_][ 0-9a-zA-Z./@_,:;()\\[\\]<>-]{0,198}", (map_key).pattern = "^[a-zA-Z][0-9a-zA-Z_]{0,31}$"];
+
     // Target value for the custom metric. Instance Groups maintains this level for each availability zone.
     double target = 4 [(value) = ">0"];
   }
@@ -295,7 +298,7 @@ message InstanceTemplate {
   // Platforms allows you to create various types of instances: with a large amount of memory,
   // with a large number of cores, with a burstable performance.
   // For more information, see [Platforms](/docs/compute/concepts/vm-platforms).
-  string platform_id = 3;
+  string platform_id = 3 [(required) = true];
 
   // Computing resources of the instance such as the amount of memory and number of cores.
   ResourcesSpec resources_spec = 4 [(required) = true];

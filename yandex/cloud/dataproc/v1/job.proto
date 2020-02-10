@@ -28,6 +28,9 @@ message Job {
   // Name of the job, specified in the [JobService.Create] request.
   string name = 6;
 
+  // The id of the user who created the job
+  string created_by = 12;
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
 

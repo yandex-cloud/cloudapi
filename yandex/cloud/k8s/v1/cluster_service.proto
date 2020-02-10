@@ -337,7 +337,7 @@ message RegionalMasterSpec {
 
   repeated MasterLocation locations = 2;
 
-  // Specify to allocate a static public IP for the master
+  // Specify to allocate a static public IP for the master.
   ExternalAddressSpec external_v4_address_spec = 3;
 }
 

@@ -105,6 +105,9 @@ message Cluster {
 
   // Current state of the cluster.
   Status status = 12;
+
+  // ID of the service account used for access to Yandex Object Storage.
+  string service_account_id = 13;
 }
 
 // Monitoring system metadata.
