@@ -93,6 +93,8 @@ message Cluster {
   string node_service_account_id = 14;
 
   ReleaseChannel release_channel = 15;
+
+  NetworkPolicy network_policy = 16;
 }
 
 enum ReleaseChannel {
@@ -178,4 +180,12 @@ message MasterMaintenancePolicy {
   bool auto_upgrade = 1;
 
   MaintenanceWindow maintenance_window = 2;
+}
+
+message NetworkPolicy {
+  enum Provider {
+    PROVIDER_UNSPECIFIED = 0;
+    CALICO = 1;
+  }
+  Provider provider = 1;
 }

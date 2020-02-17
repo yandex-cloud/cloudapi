@@ -23,6 +23,7 @@ enum TriggerType {
   // The trigger is activated by messages from Yandex IoT Core.
   IOT_MESSAGE = 4;
   OBJECT_STORAGE = 5;
+  CONTAINER_REGISTRY = 6;
 }
 
 // A trigger to invoke a serverless function. For more information, see [Triggers](/docs/functions/concepts/trigger).
@@ -139,6 +140,30 @@ message Trigger {
     // Filter, optional.
     string prefix = 6;
     string suffix = 7;
+
+    oneof action {
+      option (exactly_one) = true;
+      InvokeFunctionWithRetry invoke_function = 101;
+    }
+  }
+
+  enum ContainerRegistryEventType {
+    CONTAINER_REGISTRY_EVENT_TYPE_UNSPECIFIED = 0;
+    CONTAINER_REGISTRY_EVENT_TYPE_CREATE_IMAGE = 1;
+    CONTAINER_REGISTRY_EVENT_TYPE_DELETE_IMAGE = 2;
+    CONTAINER_REGISTRY_EVENT_TYPE_CREATE_IMAGE_TAG = 3;
+    CONTAINER_REGISTRY_EVENT_TYPE_DELETE_IMAGE_TAG = 4;
+  }
+
+  message ContainerRegistry {
+    // Type (name) of events, at least one value is required.
+    repeated ContainerRegistryEventType event_type = 3 [(size) = ">0"];
+
+    string registry_id = 4;
+
+    // Filter, optional.
+    string image_name = 5;
+    string tag_name = 6;
 
     oneof action {
       option (exactly_one) = true;

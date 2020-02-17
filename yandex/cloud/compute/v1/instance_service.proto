@@ -115,6 +115,24 @@ service InstanceService {
     };
   }
 
+  // net
+
+  rpc AddOneToOneNat (AddInstanceOneToOneNatRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instances/{instance_id}/addOneToOneNat" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "AddInstanceOneToOneNatMetadata"
+      response: "Instance"
+     };
+  }
+
+  rpc RemoveOneToOneNat (RemoveInstanceOneToOneNatRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instances/{instance_id}/removeOneToOneNat" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "RemoveInstanceOneToOneNatMetadata"
+      response: "Instance"
+    };
+  }
+
   // Lists operations for the specified instance.
   rpc ListOperations (ListInstanceOperationsRequest) returns (ListInstanceOperationsResponse) {
     option (google.api.http) = { get: "/compute/v1/instances/{instance_id}/operations" };
@@ -430,6 +448,29 @@ message DetachInstanceDiskMetadata {
   string disk_id = 2;
 }
 
+// net
+
+message AddInstanceOneToOneNatRequest {
+  string instance_id = 1;
+  string network_interface_index = 2;
+  string internal_address = 3; // optional
+  OneToOneNatSpec one_to_one_nat_spec = 4;
+}
+
+message AddInstanceOneToOneNatMetadata {
+  string instance_id = 1;
+}
+
+message RemoveInstanceOneToOneNatRequest {
+  string instance_id = 1;
+  string network_interface_index = 2;
+  string internal_address = 3; // optional
+}
+
+message RemoveInstanceOneToOneNatMetadata {
+  string instance_id = 1;
+}
+
 message ListInstanceOperationsRequest {
   // ID of the Instance resource to list operations for.
   string instance_id = 1 [(required) = true, (length) = "<=50"];
@@ -554,5 +595,6 @@ message PrimaryAddressSpec {
 
 message OneToOneNatSpec {
   // External IP address version.
-  IpVersion ip_version = 1 [(required) = true];
+  IpVersion ip_version = 1; //only if address unspecified
+  string address = 2; //set static IP by value
 }

@@ -411,6 +411,9 @@ message CreateFunctionVersionRequest {
 
   // Environment settings for the version.
   map<string, string> environment = 12 [(length) = "<=4096", (map_key).pattern = "[a-zA-Z][a-zA-Z0-9_]*"];
+
+  // Function version tags. For details, see [Version tag](/docs/functions/concepts/function#tag).
+  repeated string tag = 13 [(pattern) = "[a-z][-_0-9a-z]*"];
 }
 
 message CreateFunctionVersionMetadata {

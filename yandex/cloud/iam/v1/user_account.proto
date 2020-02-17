@@ -34,9 +34,14 @@ message YandexPassportUserAccount {
 // A SAML federated user.
 // For more information, see [federations](/docs/iam/concepts/users/saml-federations).
 message SamlUserAccount {
+    message Attribute {
+        repeated string value = 1;
+    }
     // ID of the federation that the federation belongs to.
     string federation_id = 1 [(required) = true, (length) = "<=50"];
     // Name Id of the SAML federated user.
     // The name is unique within the federation. 1-256 characters long.
     string name_id = 2 [(required) = true, (length) = "1-256"];
+    // Additional attributes of the SAML federated user.
+    map <string, Attribute> attributes = 3;
 }

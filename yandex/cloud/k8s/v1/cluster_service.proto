@@ -183,6 +183,8 @@ message UpdateClusterRequest {
   // Service account to be used by the worker nodes of the Kubernetes cluster to access Container Registry
   // or to push node logs and metrics.
   string node_service_account_id = 8;
+
+  NetworkPolicy network_policy = 10;
 }
 
 message MasterUpdateSpec {
@@ -233,6 +235,8 @@ message CreateClusterRequest {
   string node_service_account_id = 10 [(required) = true];
 
   ReleaseChannel release_channel = 11;
+
+  NetworkPolicy network_policy = 12;
 }
 
 message CreateClusterMetadata {

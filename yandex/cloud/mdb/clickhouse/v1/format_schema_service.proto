@@ -30,7 +30,7 @@ service FormatSchemaService {
   }
 
   rpc Update (UpdateFormatSchemaRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/managed-clickhouse/v1/clusters/{cluster_id}/formatSchemas" body: "*" };
+    option (google.api.http) = { patch: "/managed-clickhouse/v1/clusters/{cluster_id}/formatSchemas/{format_schema_name}" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateFormatSchemaMetadata"
       response: "FormatSchema"

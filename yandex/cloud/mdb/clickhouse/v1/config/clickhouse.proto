@@ -389,6 +389,7 @@ message ClickhouseConfig {
   }
 
   // Logging level for the ClickHouse cluster.
+  // See description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#server_settings-logger).
   LogLevel log_level = 1;
 
   // Settings for the MergeTree engine.

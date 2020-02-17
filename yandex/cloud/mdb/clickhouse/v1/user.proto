@@ -73,12 +73,16 @@ message UserSettings {
   enum DistributedProductMode {
     DISTRIBUTED_PRODUCT_MODE_UNSPECIFIED = 0;
 
+    // Default value. Prohibits using these types of subqueries (returns the "Double-distributed in/JOIN subqueries is denied" exception).
     DISTRIBUTED_PRODUCT_MODE_DENY = 1;
 
+    //Replaces the database and table in the subquery with local ones for the destination server (shard), leaving the normal IN/JOIN.
     DISTRIBUTED_PRODUCT_MODE_LOCAL = 2;
 
+    //Replaces the IN/JOIN query with GLOBAL IN/GLOBAL JOIN.
     DISTRIBUTED_PRODUCT_MODE_GLOBAL = 3;
 
+    //Allows the use of these types of subqueries.
     DISTRIBUTED_PRODUCT_MODE_ALLOW = 4;
   }
 
