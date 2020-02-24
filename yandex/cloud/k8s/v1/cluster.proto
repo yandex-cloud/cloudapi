@@ -92,6 +92,10 @@ message Cluster {
   // Service account to be used by the worker nodes of the Kubernetes cluster to access Container Registry or to push node logs and metrics.
   string node_service_account_id = 14;
 
+  // When creating a Kubernetes cluster, you should specify one of three release channels. The release channel contains several Kubernetes versions.
+  // Channels differ in the set of available versions, the management of auto-updates, and the updates received.
+  // You can't change the channel once the Kubernetes cluster is created, you can only recreate the Kubernetes cluster and specify a new release channel.
+  // For more details see [documentation](https://cloud.yandex.com/docs/managed-kubernetes/concepts/release-channels-and-updates).
   ReleaseChannel release_channel = 15;
 
   NetworkPolicy network_policy = 16;
@@ -99,8 +103,15 @@ message Cluster {
 
 enum ReleaseChannel {
   RELEASE_CHANNEL_UNSPECIFIED = 0;
+
+  // Minor updates with new functions and improvements are often added.
+  // You can't disable automatic updates in this channel, but you can specify a time period for automatic updates.
   RAPID = 1;
+
+  // New functions and improvements are added in chunks shortly after they appear on `RAPID`.
   REGULAR = 2;
+
+  // Only updates related to bug fixes or security improvements are added.
   STABLE = 3;
 }
 
@@ -123,8 +134,10 @@ message Master {
   // Master authentication parameters are used to establish trust between the master and a client.
   MasterAuth master_auth = 4;
 
+  // Detailed information about the Kubernetes version that is running on the master.
   VersionInfo version_info = 5;
 
+  // Maintenance policy of the master.
   MasterMaintenancePolicy maintenance_policy = 6;
 }
 
@@ -137,10 +150,10 @@ message ZonalMaster {
   // ID of the availability zone where the master resides.
   string zone_id = 1;
 
-  // An IPv4 internal network address that is assigned to the master.
+  // IPv4 internal network address that is assigned to the master.
   string internal_v4_address = 2;
 
-  // An IPv4 external network address that is assigned to the master.
+  // IPv4 external network address that is assigned to the master.
   string external_v4_address = 3;
 }
 
@@ -148,10 +161,10 @@ message RegionalMaster {
   // ID of the region where the master resides.
   string region_id = 1;
 
-  // An IPv4 internal network address that is assigned to the master.
+  // IPv4 internal network address that is assigned to the master.
   string internal_v4_address = 2;
 
-  // An IPv4 external network address that is assigned to the master.
+  // IPv4 external network address that is assigned to the master.
   string external_v4_address = 3;
 }
 
@@ -177,8 +190,12 @@ message IPAllocationPolicy {
 }
 
 message MasterMaintenancePolicy {
+  // If set to true, automatic updates are installed in the specified period of time with no interaction from the user.
+  // If set to false, automatic upgrades are disabled.
   bool auto_upgrade = 1;
 
+  // Maintenance window settings. Update will start at the specified time and last no more than the specified duration.
+  // The time is set in UTC.
   MaintenanceWindow maintenance_window = 2;
 }
 

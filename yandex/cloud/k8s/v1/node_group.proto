@@ -75,10 +75,13 @@ message NodeGroup {
   // Deprecated. Use version_info.current_version.
   string node_version = 12;
 
+  // Detailed information about the Kubernetes version that is running on the node.
   VersionInfo version_info = 13;
 
+  // Maintenance policy of the node group.
   NodeGroupMaintenancePolicy maintenance_policy = 14;
 
+  // Support for unsafe sysctl parameters. For more details see [documentation](https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/).
   repeated string allowed_unsafe_sysctls = 15;
 }
 
@@ -90,12 +93,12 @@ message NodeTemplate {
   ResourcesSpec resources_spec = 2;
 
   // Specification for the boot disk that will be attached to the node.
+  DiskSpec boot_disk_spec = 3;
 
   // The metadata as `key:value` pairs assigned to this instance template. This includes custom metadata and predefined keys.
   //
   // For example, you may use the metadata in order to provide your public SSH key to the node.
   // For more information, see [Metadata](/docs/compute/concepts/vm-metadata).
-  DiskSpec boot_disk_spec = 3;
   map<string, string> metadata = 4 [(size) = "<=64", (length) = "<=131072", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Specification for the create network interfaces for the node group compute instances.
@@ -150,6 +153,7 @@ message ScalePolicy {
     option (exactly_one) = true;
     // Fixed scale policy of the node group.
     FixedScale fixed_scale = 1;
+
     // Auto scale policy of the node group.
     AutoScale auto_scale = 2;
   }
@@ -190,8 +194,14 @@ message SchedulingPolicy {
 }
 
 message NodeGroupMaintenancePolicy {
+  // If set to true, automatic updates are installed in the specified period of time with no interaction from the user.
+  // If set to false, automatic upgrades are disabled.
   bool auto_upgrade = 1;
+
+  // If set to true, automatic repairs are enabled. Default value is false.
   bool auto_repair = 2;
 
+  // Maintenance window settings. Update will start at the specified time and last no more than the specified duration.
+  // The time is set in UTC.
   MaintenanceWindow maintenance_window = 3;
 }

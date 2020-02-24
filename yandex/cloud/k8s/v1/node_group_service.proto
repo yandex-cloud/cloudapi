@@ -80,7 +80,7 @@ message ListNodeGroupsRequest {
   // Default value: 100.
   int64 page_size = 2 [(value) = "0-1000"];
 
-  // Page token. To get the next page of results, set [page_token] to the
+  // Page token. To get the next page of results, set `page_token` to the
   // [ListNodeGroupsResponse.next_page_token] returned by a previous list request.
   string page_token = 3 [(length) = "<=100"];
 
@@ -98,10 +98,10 @@ message ListNodeGroupsResponse {
 
   // This token allows you to get the next page of results for list requests. If the number of results
   // is larger than [ListNodeGroupsRequest.page_size], use
-  // the [next_page_token] as the value
+  // the `next_page_token` as the value
   // for the [ListNodeGroupsRequest.page_token] query parameter
   // in the next list request. Each subsequent list request will have its own
-  // [next_page_token] to continue paging through the results.
+  // `next_page_token` to continue paging through the results.
   string next_page_token = 2;
 }
 
@@ -146,11 +146,14 @@ message UpdateNodeGroupRequest {
   // Allocation policy of the node group by the zones and regions.
   NodeGroupAllocationPolicy allocation_policy = 9;
 
+  // Version of Kubernetes components that runs on the nodes.
   UpdateVersionSpec version = 10;
 
+  // Maintenance policy of the node group.
   NodeGroupMaintenancePolicy maintenance_policy = 11;
 
-  repeated string allowed_unsafe_sysctls = 12;
+  // Support for unsafe sysctl parameters. For more details see [documentation](https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/).
+  repeated string allowed_unsafe_sysctls = 12 [(length) = "<=253", (pattern) = "([a-z0-9]([-_a-z0-9]*[a-z0-9])?\\.)*([a-z0-9][-_a-z0-9]*)?[a-z0-9*]"];
 }
 
 message UpdateNodeGroupMetadata {
@@ -182,11 +185,14 @@ message CreateNodeGroupRequest {
   // Allocation policy of the node group by the zones and regions.
   NodeGroupAllocationPolicy allocation_policy = 7;
 
+  // Version of Kubernetes components that runs on the nodes.
   string version = 8;
 
+  // Maintenance policy of the node group.
   NodeGroupMaintenancePolicy maintenance_policy = 9;
 
-  repeated string allowed_unsafe_sysctls = 10;
+  // Support for unsafe sysctl parameters. For more details see [documentation](https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/).
+  repeated string allowed_unsafe_sysctls = 10 [(length) = "<=253", (pattern) = "([a-z0-9]([-_a-z0-9]*[a-z0-9])?\\.)*([a-z0-9][-_a-z0-9]*)?[a-z0-9*]"];
 }
 
 message CreateNodeGroupMetadata {
@@ -209,7 +215,7 @@ message ListNodeGroupOperationsRequest {
   // Default value: 100.
   int64 page_size = 2 [(value) = "0-1000"];
 
-  // Page token. To get the next page of results, set [page_token] to the
+  // Page token. To get the next page of results, set `page_token` to the
   // [ListNodeGroupOperationsResponse.next_page_token] returned by a previous list request.
   string page_token = 3 [(length) = "<=100"];
 
@@ -223,8 +229,8 @@ message ListNodeGroupOperationsResponse {
   repeated operation.Operation operations = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results
-  // is larger than [ListNodeGroupOperationsRequest.page_size], use the [next_page_token] as the value
+  // is larger than [ListNodeGroupOperationsRequest.page_size], use the `next_page_token` as the value
   // for the [ListNodeGroupOperationsRequest.page_token] query parameter in the next list request.
-  // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
+  // Each subsequent list request will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
 }

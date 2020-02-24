@@ -350,8 +350,8 @@ message UserSettings {
 // See in-depth description [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/quotas/).
 message UserQuota {
   // Duration of interval for quota in milliseconds.
-  // Minimal value is 1 minute.
-  google.protobuf.Int64Value interval_duration = 1 [(value) = ">=60000"];
+  // Minimal value is 1 second.
+  google.protobuf.Int64Value interval_duration = 1 [(value) = ">=1000"];
 
   // The total number of queries.
   // 0 - unlimited.
