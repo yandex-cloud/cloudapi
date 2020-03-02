@@ -154,6 +154,12 @@ message UpdateNodeGroupRequest {
 
   // Support for unsafe sysctl parameters. For more details see [documentation](https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/).
   repeated string allowed_unsafe_sysctls = 12 [(length) = "<=253", (pattern) = "([a-z0-9]([-_a-z0-9]*[a-z0-9])?\\.)*([a-z0-9][-_a-z0-9]*)?[a-z0-9*]"];
+
+  // Taints that are applied to the nodes of the node group at creation time.
+  repeated Taint node_taints = 13;
+
+  // Labels that are assigned to the nodes of the node group at creation time.
+  map<string, string> node_labels = 14;
 }
 
 message UpdateNodeGroupMetadata {
@@ -193,6 +199,12 @@ message CreateNodeGroupRequest {
 
   // Support for unsafe sysctl parameters. For more details see [documentation](https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/).
   repeated string allowed_unsafe_sysctls = 10 [(length) = "<=253", (pattern) = "([a-z0-9]([-_a-z0-9]*[a-z0-9])?\\.)*([a-z0-9][-_a-z0-9]*)?[a-z0-9*]"];
+
+  // Taints that are applied to the nodes of the node group at creation time.
+  repeated Taint node_taints = 11;
+
+  // Labels that are assigned to the nodes of the node group at creation time.
+  map<string, string> node_labels = 12;
 }
 
 message CreateNodeGroupMetadata {

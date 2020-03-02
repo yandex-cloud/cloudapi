@@ -83,6 +83,12 @@ message NodeGroup {
 
   // Support for unsafe sysctl parameters. For more details see [documentation](https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/).
   repeated string allowed_unsafe_sysctls = 15;
+
+  // Taints that are applied to the nodes of the node group at creation time.
+  repeated Taint node_taints = 16;
+
+  // Labels that are assigned to the nodes of the node group at creation time.
+  map<string, string> node_labels = 17;
 }
 
 message NodeTemplate {
@@ -204,4 +210,17 @@ message NodeGroupMaintenancePolicy {
   // Maintenance window settings. Update will start at the specified time and last no more than the specified duration.
   // The time is set in UTC.
   MaintenanceWindow maintenance_window = 3;
+}
+
+message Taint {
+  enum Effect {
+    EFFECT_UNSPECIFIED = 0;
+    NO_SCHEDULE = 1;
+    PREFER_NO_SCHEDULE = 2;
+    NO_EXECUTE =3;
+  }
+
+  string key = 1;
+  string value = 2;
+  Effect effect = 3;
 }

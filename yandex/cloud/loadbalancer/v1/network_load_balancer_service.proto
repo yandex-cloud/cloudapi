@@ -187,8 +187,8 @@ message CreateNetworkLoadBalancerRequest {
   // List of listeners and their specs for the network load balancer.
   repeated ListenerSpec listener_specs = 7 [(size) = "<=10"];
 
-  // List of attached target groups for the network load balancer. For now, we accept only one target_group per NetworkLoadBalancer resource.
-  repeated AttachedTargetGroup attached_target_groups = 8 [(size) = "<=1"];
+  // List of attached target groups for the network load balancer.
+  repeated AttachedTargetGroup attached_target_groups = 8 [(size) = "<=5"];
 }
 
 message CreateNetworkLoadBalancerMetadata {
@@ -219,8 +219,8 @@ message UpdateNetworkLoadBalancerRequest {
   // A list of listeners and their specs for the network load balancer.
   repeated ListenerSpec listener_specs = 6 [(size) = "<=10"];
 
-  // A list of attached target groups for the network load balancer. For now, we accept only one target_group per NetworkLoadBalancer resource.
-  repeated AttachedTargetGroup attached_target_groups = 7 [(size) = "<=1"];
+  // A list of attached target groups for the network load balancer.
+  repeated AttachedTargetGroup attached_target_groups = 7 [(size) = "<=5"];
 }
 
 message UpdateNetworkLoadBalancerMetadata {
