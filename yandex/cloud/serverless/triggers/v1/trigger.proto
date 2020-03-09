@@ -62,6 +62,7 @@ message Trigger {
       // Rule for a Yandex IoT Core trigger.
       IoTMessage iot_message = 4;
       ObjectStorage object_storage = 5;
+      ContainerRegistry container_registry = 6;
     }
   }
 
@@ -163,7 +164,7 @@ message Trigger {
 
     // Filter, optional.
     string image_name = 5;
-    string tag_name = 6;
+    string tag = 6;
 
     oneof action {
       option (exactly_one) = true;
