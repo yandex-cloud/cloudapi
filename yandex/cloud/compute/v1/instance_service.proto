@@ -133,6 +133,14 @@ service InstanceService {
     };
   }
 
+  rpc UpdateNetworkInterface (UpdateNetworkInterfaceRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/compute/v1/instances/{instance_id}/updateNetworkInterface" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateNetworkInterfaceMetadata"
+      response: "NetworkInterface"
+    };
+  }
+
   // Lists operations for the specified instance.
   rpc ListOperations (ListInstanceOperationsRequest) returns (ListInstanceOperationsResponse) {
     option (google.api.http) = { get: "/compute/v1/instances/{instance_id}/operations" };
@@ -201,13 +209,13 @@ message CreateInstanceRequest {
   string folder_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the instance.
-  string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 2 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
 
   // Description of the instance.
   string description = 3 [(length) = "<=256"];
 
   // Resource labels as `key:value` pairs.
-  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
 
   // ID of the availability zone where the instance resides.
   // To get a list of available zones, use the [yandex.cloud.compute.v1.ZoneService.List] request
@@ -251,7 +259,7 @@ message CreateInstanceRequest {
   // The host name must be unique within the network and region.
   // If not specified, the host name will be equal to [yandex.cloud.compute.v1.Instance.id] of the instance
   // and FQDN will be `<id>.auto.internal`. Otherwise FQDN will be `<hostname>.<region_id>.internal`.
-  string hostname = 12 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string hostname = 12 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
 
   // Scheduling policy configuration.
   SchedulingPolicy scheduling_policy = 13;
@@ -281,7 +289,7 @@ message UpdateInstanceRequest {
   google.protobuf.FieldMask update_mask = 2;
 
   // Name of the instance.
-  string name = 3 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
 
   // Description of the instance.
   string description = 4 [(length) = "<=256"];
@@ -289,7 +297,7 @@ message UpdateInstanceRequest {
   // Resource labels as `key:value` pairs.
   //
   // Existing set of `labels` is completely replaced by the provided set.
-  map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
 
   // ID of the hardware platform configuration for the instance.
   // This field affects the available values in [resources_spec] field.
@@ -471,6 +479,19 @@ message RemoveInstanceOneToOneNatMetadata {
   string instance_id = 1;
 }
 
+message UpdateNetworkInterfaceRequest {
+  string instance_id = 1 [(required) = true];
+  string network_interface_index = 2 [(required) = true];
+  google.protobuf.FieldMask update_mask = 3;
+
+  repeated string security_group_ids = 4;
+}
+
+message UpdateNetworkInterfaceMetadata {
+  string instance_id = 1;
+  string network_interface_index = 2;
+}
+
 message ListInstanceOperationsRequest {
   // ID of the Instance resource to list operations for.
   string instance_id = 1 [(required) = true, (length) = "<=50"];
@@ -550,7 +571,7 @@ message AttachedDiskSpec {
 
   message DiskSpec {
     // Name of the disk.
-    string name = 1 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+    string name = 1 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
 
     // Description of the disk.
     string description = 2 [(length) = "<=256"];
@@ -581,6 +602,9 @@ message NetworkInterfaceSpec {
 
   // Primary IPv6 address that will be assigned to the instance for this network interface. IPv6 not available yet.
   PrimaryAddressSpec primary_v6_address_spec = 3;
+
+  // ID's of security groups attached to the interface
+  repeated string security_group_ids = 6;
 }
 
 message PrimaryAddressSpec {

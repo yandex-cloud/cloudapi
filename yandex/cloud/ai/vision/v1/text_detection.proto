@@ -23,6 +23,17 @@ message Page {
 
   // Recognized text blocks in this page.
   repeated Block blocks = 3;
+
+  // Recognized entities
+  repeated Entity entities = 4;
+}
+
+message Entity {
+  // Entity name
+  string name = 1;
+
+  // Recognized entity text
+  string text = 2;
 }
 
 message Block {
@@ -64,4 +75,7 @@ message Word {
 
   // A list of detected languages together with confidence.
   repeated DetectedLanguage languages = 4;
+
+  // Id of recognized word in entities array
+  int64 entity_index = 5;
 }

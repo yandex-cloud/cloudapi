@@ -30,21 +30,25 @@ message ClickhouseConfig {
   // Options specific to the MergeTree table engine.
   message MergeTree {
     // Number of blocks of hashes to keep in ZooKeeper.
-    // See detailed description in [ClickHouse sources](https://github.com/yandex/ClickHouse/blob/v18.1.0-stable/dbms/src/Storages/MergeTree/MergeTreeSettings.h#L59).
     google.protobuf.Int64Value replicated_deduplication_window = 1;
 
     // Period of time to keep blocks of hashes for.
-    // See detailed description in [ClickHouse sources](https://github.com/yandex/ClickHouse/blob/v18.1.0-stable/dbms/src/Storages/MergeTree/MergeTreeSettings.h#L64).
     google.protobuf.Int64Value replicated_deduplication_window_seconds = 2;
 
+    // If table contains at least that many active parts in single partition, artificially slow down insert into table.
     google.protobuf.Int64Value parts_to_delay_insert = 3;
 
+    // If more than this number active parts in single partition, throw 'Too many parts ...' exception.
     google.protobuf.Int64Value parts_to_throw_insert = 4;
 
+    // How many tasks of merging and mutating parts are allowed simultaneously in ReplicatedMergeTree queue.
     google.protobuf.Int64Value max_replicated_merges_in_queue = 5;
 
+    // When there is less than specified number of free entries in pool (or replicated queue), start to lower maximum size of merge to process (or to put in queue).
+    // This is to allow small merges to process - not filling the pool with long running merges.
     google.protobuf.Int64Value number_of_free_entries_in_pool_to_lower_max_size_of_merge = 6;
 
+    // Maximum in total size of parts to merge, when there are minimum free threads in background pool (or entries in replication queue).
     google.protobuf.Int64Value max_bytes_to_merge_at_min_space_in_pool = 7;
   }
 
@@ -389,7 +393,7 @@ message ClickhouseConfig {
   }
 
   // Logging level for the ClickHouse cluster.
-  // See description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#server_settings-logger).
+  // Possible values: TRACE, DEBUG, INFORMATION, WARNING and ERROR.
   LogLevel log_level = 1;
 
   // Settings for the MergeTree engine.
@@ -418,28 +422,24 @@ message ClickhouseConfig {
   google.protobuf.Int64Value keep_alive_timeout = 8;
 
   // Cache size (in bytes) for uncompressed data used by MergeTree tables.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#uncompressed_cache_size).
   google.protobuf.Int64Value uncompressed_cache_size = 9;
 
   // Approximate size (in bytes) of the cache of "marks" used by MergeTree tables.
-  // See details in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#mark_cache_size).
   google.protobuf.Int64Value mark_cache_size = 10 [(value) = ">5368709120"];
 
   // Maximum size of the table that can be deleted using a DROP query.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#max_table_size_to_drop).
   google.protobuf.Int64Value max_table_size_to_drop = 11;
 
   // Maximum size of the partition that can be deleted using a DROP query.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#max_partition_size_to_drop).
   google.protobuf.Int64Value max_partition_size_to_drop = 13;
 
   // The setting is deprecated and has no effect.
   google.protobuf.Int64Value builtin_dictionaries_reload_interval = 12 [deprecated = true];
 
   // The server's time zone to be used in DateTime fields conversions. Specified as an IANA identifier.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#timezone).
   string timezone = 14;
 
+  // Address of the archive with the user geobase in Object Storage.
   string geobase_uri = 15;
 }
 

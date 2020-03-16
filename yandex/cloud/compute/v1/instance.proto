@@ -164,6 +164,9 @@ message NetworkInterface {
 
   // Primary IPv6 address that is assigned to the instance for this network interface. IPv6 not available yet.
   PrimaryAddress primary_v6_address = 5;
+
+  // ID's of security groups attached to the interface
+  repeated string security_group_ids = 6;
 }
 
 message PrimaryAddress {
