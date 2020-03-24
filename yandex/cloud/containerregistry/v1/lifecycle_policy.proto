@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package yandex.cloud.containerregistry.v1;
+
+import "yandex/cloud/validation.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/containerregistry/v1;containerregistry";
+option java_package = "yandex.cloud.api.containerregistry.v1";
+
+message LifecyclePolicy {
+    enum Status {
+        STATUS_UNSPECIFIED = 0;
+        ACTIVE = 1;
+        DISABLED = 2;
+    }
+
+    string id = 1;
+    string name = 2;
+    string repository_id = 3;
+    string description = 4;
+    Status status = 5;
+    google.protobuf.Timestamp created_at = 6;
+    repeated LifecycleRule rules = 7;
+}
+
+message LifecycleRule {
+    string description = 1 [(length) = "<=256"];
+    google.protobuf.Duration expire_period = 2 [(value) = ">24h"];
+    string tag_regexp = 3 [(length) = "<=256"];
+    bool untagged = 4;
+    int64 retained_top = 5 [(value) = ">=0"];
+}

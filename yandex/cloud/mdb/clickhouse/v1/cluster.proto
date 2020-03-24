@@ -294,4 +294,7 @@ message Access {
 
   // Allow access for Metrika
   bool metrika = 3;
+
+  // Allow access for Serverless
+  bool serverless = 4;
 }

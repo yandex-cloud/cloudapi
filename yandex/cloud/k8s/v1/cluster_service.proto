@@ -259,6 +259,9 @@ message CreateClusterRequest {
   ReleaseChannel release_channel = 11;
 
   NetworkPolicy network_policy = 12;
+
+  // KMS provider configuration.
+  KMSProvider kms_provider = 13;
 }
 
 message CreateClusterMetadata {

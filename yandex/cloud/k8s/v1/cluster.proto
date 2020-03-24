@@ -99,6 +99,9 @@ message Cluster {
   ReleaseChannel release_channel = 15;
 
   NetworkPolicy network_policy = 16;
+
+  // KMS provider configuration.
+  KMSProvider kms_provider = 17;
 }
 
 enum ReleaseChannel {
@@ -210,4 +213,10 @@ message NetworkPolicy {
     CALICO = 1;
   }
   Provider provider = 1;
+}
+
+message KMSProvider {
+  // KMS key ID for secrets encryption.
+  // To obtain a KMS key ID use a [yandex.cloud.kms.v1.SymmetricKeyService.List] request.
+  string key_id = 1;
 }

@@ -91,6 +91,45 @@ message Permission {
   repeated Privilege roles = 2 [(size) = ">=1"];
 }
 
+enum GlobalPermission {
+  GLOBAL_PERMISSION_UNSPECIFIED = 0;
+
+  // Enables use of the SHOW MASTER STATUS, SHOW SLAVE STATUS, and SHOW BINARY LOGS statements.
+  REPLICATION_CLIENT = 1;
+
+  // Enables the account to request updates that have been made to databases on the master server,
+  // using the SHOW SLAVE HOSTS, SHOW RELAYLOG EVENTS, and SHOW BINLOG EVENTS statements.
+  REPLICATION_SLAVE = 2;
+}
+
+message ConnectionLimits {
+
+  // The maximum permitted number of user questions per hour.
+  google.protobuf.Int64Value max_questions = 1 [(value) = ">=0"];
+
+  // The maximum permitted number of user updates per hour.
+  google.protobuf.Int64Value max_updates = 2 [(value) = ">=0"];
+
+  // The maximum permitted number of simultaneous client connections per hour.
+  google.protobuf.Int64Value max_connections = 3 [(value) = ">=0"];
+
+  // The maximum number of simultaneous connections permitted to any given MySQL user account.
+  google.protobuf.Int64Value max_user_connections = 4 [(value) = ">=0"];
+}
+
+enum AuthPlugin {
+  AUTH_PLUGIN_UNSPECIFIED = 0;
+
+  // Use [Native Pluggable Authentication](https://dev.mysql.com/doc/refman/8.0/en/native-pluggable-authentication.html).
+  MYSQL_NATIVE_PASSWORD = 1;
+
+  // Use [Caching SHA-2 Pluggable Authentication](https://dev.mysql.com/doc/refman/8.0/en/caching-sha2-pluggable-authentication.html).
+  CACHING_SHA2_PASSWORD = 2;
+
+  // Use [SHA-256 Pluggable Authentication](https://dev.mysql.com/doc/refman/8.0/en/sha256-pluggable-authentication.html).
+  SHA256_PASSWORD = 3;
+}
+
 message UserSpec {
   // Name of the MySQL user.
   string name = 1 [(required) = true, (length) = "<=32", (pattern) = "[a-zA-Z0-9_]*"];
@@ -100,4 +139,13 @@ message UserSpec {
 
   // Set of permissions to grant to the user.
   repeated Permission permissions = 3;
+
+  // Set of global permissions to grant to the user.
+  GlobalPermission global_permissions = 4;
+
+  // Set of user connection limits.
+  ConnectionLimits connection_limits = 5;
+
+  // User authentication plugin.
+  AuthPlugin authentication_plugin = 6;
 }
