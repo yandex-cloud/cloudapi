@@ -148,11 +148,12 @@ message ListDryRunLifecyclePolicyResultAffectedImagesRequest {
 }
 
 message ListDryRunLifecyclePolicyResultAffectedImagesResponse {
-    string dry_run_lifecycle_policy_result_id = 1;
-    string lifecycle_policy_id = 2;
-    google.protobuf.Timestamp run_at = 3;
-    int64 affected_images_count = 4;
+    repeated Image affected_images = 1;
 
-    repeated Image affected_images = 5;
+    string dry_run_lifecycle_policy_result_id = 2;
+    string lifecycle_policy_id = 3;
+    google.protobuf.Timestamp run_at = 4;
+    int64 affected_images_count = 5;
+
     string next_page_token = 6;
 }

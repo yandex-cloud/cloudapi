@@ -391,6 +391,10 @@ message PostgresqlConfig10_1C {
   PgHintPlanDebugPrint pg_hint_plan_debug_print = 111;
 
   LogLevel pg_hint_plan_message_level = 112;
+
+  google.protobuf.BoolValue online_analyze_enable = 113;
+
+  google.protobuf.BoolValue plantuner_fix_empty_table = 114;
 }
 
 message PostgresqlConfigSet10_1C {
