@@ -436,6 +436,9 @@ message NetworkInterfaceSpec {
 
   // Primary IPv6 address that is assigned to the instance for this network interface. IPv6 not available yet.
   PrimaryAddressSpec primary_v6_address_spec = 4;
+
+  // IDs of security groups.
+  repeated string security_group_ids = 5;
 }
 
 message PrimaryAddressSpec {

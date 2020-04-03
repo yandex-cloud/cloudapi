@@ -69,6 +69,9 @@ message NodeGroup {
   // Allocation policy by which resources for node group are allocated to zones and regions.
   NodeGroupAllocationPolicy allocation_policy = 10;
 
+  // Deploy policy according to which the updates are rolled out.
+  DeployPolicy deploy_policy = 18;
+
   // ID of the managed instance group associated with this node group.
   string instance_group_id = 11;
 
@@ -141,4 +144,18 @@ message NodeGroupMaintenancePolicy {
   // Maintenance window settings. Update will start at the specified time and last no more than the specified duration.
   // The time is set in UTC.
   MaintenanceWindow maintenance_window = 3;
+}
+
+message DeployPolicy {
+  // The maximum number of running instances that can be taken offline (i.e.,
+  // stopped or deleted) at the same time during the update process.
+  // If [max_expansion] is not specified or set to zero, [max_unavailable] must
+  // be set to a non-zero value.
+  int64 max_unavailable = 1 [(value) = "0-100"];
+
+  // The maximum number of instances that can be temporarily allocated above
+  // the group's target size during the update process.
+  // If [max_unavailable] is not specified or set to zero, [max_expansion] must
+  // be set to a non-zero value.
+  int64 max_expansion = 2 [(value) = "0-100"];
 }

@@ -178,10 +178,10 @@ enum IpVersion {
 
 message ResourcesSpec {
   // Amount of memory available to the node, specified in bytes.
-  int64 memory = 1 [(value) = "0-274877906944"];
+  int64 memory = 1 [(value) = "<=824633720832"];
 
   // Number of cores available to the node.
-  int64 cores = 2 [(value) = "0,1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32"];
+  int64 cores = 2 [(value) = "0,1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,40,44,48,52,56,60,64"];
 
   // Baseline level of CPU performance with the possibility to burst performance above that baseline level.
   // This field sets baseline performance for each core.

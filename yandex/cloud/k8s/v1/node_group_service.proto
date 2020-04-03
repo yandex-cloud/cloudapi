@@ -182,6 +182,10 @@ message UpdateNodeGroupRequest {
   // Allocation policy of the node group by the zones and regions.
   NodeGroupAllocationPolicy allocation_policy = 9;
 
+  // Deploy policy according to which the updates are rolled out. If not specified,
+  // the default is used.
+  DeployPolicy deploy_policy = 15;
+
   // Version of Kubernetes components that runs on the nodes.
   UpdateVersionSpec version = 10;
 
@@ -226,6 +230,10 @@ message CreateNodeGroupRequest {
 
   // Allocation policy of the node group by the zones and regions.
   NodeGroupAllocationPolicy allocation_policy = 7;
+
+  // Deploy policy according to which the updates are rolled out. If not specified,
+  // the default is used.
+  DeployPolicy deploy_policy = 13;
 
   // Version of Kubernetes components that runs on the nodes.
   string version = 8;

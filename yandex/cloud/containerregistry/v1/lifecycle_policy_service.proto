@@ -47,7 +47,7 @@ service LifecyclePolicyService {
         };
     }
 
-    rpc ListDryRunResults (ListDryRunLifecyclePolicyResultsRequest) returns (ListRunLifecyclePolicyResultsResponse);
+    rpc ListDryRunResults (ListDryRunLifecyclePolicyResultsRequest) returns (ListDryRunLifecyclePolicyResultsResponse);
 
     rpc ListDryRunResultAffectedImages (ListDryRunLifecyclePolicyResultAffectedImagesRequest) returns (ListDryRunLifecyclePolicyResultAffectedImagesResponse);
 }
@@ -132,7 +132,7 @@ message ListDryRunLifecyclePolicyResultsRequest {
     string order_by = 5 [(length) = "<=100"];
 }
 
-message ListRunLifecyclePolicyResultsResponse {
+message ListDryRunLifecyclePolicyResultsResponse {
     repeated DryRunLifecyclePolicyResult dry_run_lifecycle_policy_results = 1;
 
     string next_page_token = 2;
