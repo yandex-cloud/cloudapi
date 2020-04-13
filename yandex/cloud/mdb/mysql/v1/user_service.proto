@@ -140,6 +140,15 @@ message UpdateUserRequest {
 
   // New set of permissions for the user.
   repeated Permission permissions = 5;
+
+  // New set of global permissions to grant to the user.
+  repeated GlobalPermission global_permissions = 6;
+
+  // Set of changed user connection limits.
+  ConnectionLimits connection_limits = 7;
+
+  // New user authentication plugin.
+  AuthPlugin authentication_plugin = 8;
 }
 
 message UpdateUserMetadata {
