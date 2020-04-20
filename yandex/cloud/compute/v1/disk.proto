@@ -51,6 +51,8 @@ message Disk {
 
   // Size of the disk, specified in bytes.
   int64 size = 9;
+  // Block size of the disk, specifiedin bytes.
+  int64 block_size = 15;
 
   // License IDs that indicate which licenses are attached to this resource.
   // License IDs are used to calculate additional charges for the use of the virtual machine.

@@ -44,11 +44,12 @@ message ClickhouseConfig {
     // How many tasks of merging and mutating parts are allowed simultaneously in ReplicatedMergeTree queue.
     google.protobuf.Int64Value max_replicated_merges_in_queue = 5;
 
-    // When there is less than specified number of free entries in pool (or replicated queue), start to lower maximum size of merge to process (or to put in queue).
-    // This is to allow small merges to process - not filling the pool with long running merges.
+    // If there is less than specified number of free entries in background pool (or replicated queue), start to lower
+    // maximum size of merge to process.
     google.protobuf.Int64Value number_of_free_entries_in_pool_to_lower_max_size_of_merge = 6;
 
-    // Maximum in total size of parts to merge, when there are minimum free threads in background pool (or entries in replication queue).
+    // Maximum in total size of parts to merge, when there are minimum free threads in background pool (or entries
+    // in replication queue).
     google.protobuf.Int64Value max_bytes_to_merge_at_min_space_in_pool = 7;
   }
 
@@ -392,8 +393,7 @@ message ClickhouseConfig {
     repeated Pattern patterns = 2 [(size) = ">0"];
   }
 
-  // Logging level for the ClickHouse cluster.
-  // Possible values: TRACE, DEBUG, INFORMATION, WARNING and ERROR.
+  // Logging level for the ClickHouse cluster. Possible values: TRACE, DEBUG, INFORMATION, WARNING, ERROR.
   LogLevel log_level = 1;
 
   // Settings for the MergeTree engine.

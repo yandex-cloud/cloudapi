@@ -86,51 +86,47 @@ message UserSettings {
     DISTRIBUTED_PRODUCT_MODE_ALLOW = 4;
   }
 
-  // Restricts permissions for non-DDL queries.
-  // Possible values:
-  // * 0 (default) —  no restrictions.
-  // * 1 — only read data queries are allowed.
-  // * 2 — read data and change settings queries are allowed.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/permissions_for_queries/#settings_readonly).
+  // Restricts permissions for non-DDL queries. Possible values: 0 (default) — no restrictions,
+  // 1 — only read data queries are allowed, 2 — read data and change settings queries are allowed.
   google.protobuf.Int64Value readonly = 1 [(value) = "0-2"];
 
-  // Whether DDL queries are allowed. Default value: `false`.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/permissions_for_queries/#settings_allow_ddl).
+  // Whether DDL queries are allowed. Default value: false.
   google.protobuf.BoolValue allow_ddl = 2;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-insert_quorum).
+  // For INSERT queries in the replicated table, wait writing for the specified number of replicas and linearize
+  // the addition of the data.
   google.protobuf.Int64Value insert_quorum = 3 [(value) = ">=0"];
 
   // Connection timeout in milliseconds.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#connect-timeout-receive-timeout-send-timeout).
   google.protobuf.Int64Value connect_timeout = 39 [(value) = ">0"];
 
   // Receive timeout in milliseconds.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#connect-timeout-receive-timeout-send-timeout).
   google.protobuf.Int64Value receive_timeout = 40 [(value) = ">0"];
 
   // Send timeout in milliseconds.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#connect-timeout-receive-timeout-send-timeout).
   google.protobuf.Int64Value send_timeout = 41 [(value) = ">0"];
 
   // Quorum write timeout in milliseconds. Default value: 60000.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-insert_quorum_timeout).
   google.protobuf.Int64Value insert_quorum_timeout = 4 [(value) = ">=1000"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-select_sequential_consistency).
+  // For SELECT queries from the replicated table, throw an exception if the replica does not have a chunk written
+  // with the quorum; do not read the parts that have not yet been written with the quorum.
   google.protobuf.BoolValue select_sequential_consistency = 5;
 
-  // Max replica delay in milliseconds. If a replica lags more than the set value, this replica is not used. Default value: 300000.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-max_replica_delay_for_distributed_queries).
+  // Max replica delay in milliseconds. If a replica lags more than the set value, this replica is not used.
+  // Default value: 300000.
   google.protobuf.Int64Value max_replica_delay_for_distributed_queries = 6 [(value) = ">=1000"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-fallback_to_stale_replicas_for_distributed_queries).
+  // Determine the behavior when all replicas for the queried table are stale. If enabled, the query will be
+  // performed anyway. Otherwise, the error will be thrown.
   google.protobuf.BoolValue fallback_to_stale_replicas_for_distributed_queries = 7;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/alter/#synchronicity-of-alter-queries).
+  // Wait mode for ALTER queries on replicated tables.
+  // Possible values: 0 - do not wait, 1 - wait for execution only of itself, 2 - wait for everyone.
   google.protobuf.Int64Value replication_alter_partitions_sync = 42 [(value) = "0-2"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#distributed-product-mode).
+  // Determine the behavior of distributed subqueries. Possible values: DISTRIBUTED_PRODUCT_MODE_DENY,
+  // DISTRIBUTED_PRODUCT_MODE_LOCAL, DISTRIBUTED_PRODUCT_MODE_GLOBAL, DISTRIBUTED_PRODUCT_MODE_ALLOW.
   DistributedProductMode distributed_product_mode = 43;
 
   // Whether the memory-saving mode of distributed aggregation is enabled.
@@ -140,11 +136,9 @@ message UserSettings {
   google.protobuf.Int64Value distributed_ddl_task_timeout = 73;
 
   // Whether query compilation is enabled.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#compile).
   google.protobuf.BoolValue compile = 44;
 
   // The number of structurally identical queries before they are compiled.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#min-count-to-compile).
   google.protobuf.Int64Value min_count_to_compile = 45 [(value) = ">=0"];
 
   // Whether expression compilation is enabled.
@@ -153,29 +147,28 @@ message UserSettings {
   // The number of identical expressions before they are compiled.
   google.protobuf.Int64Value min_count_to_compile_expression = 47 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#max-block-size).
+  // The maximum block size for reading.
   google.protobuf.Int64Value max_block_size = 9 [(value) = ">0"];
 
-  // Squash blocks passed to INSERT query to specified size in rows, if blocks are not big enough. If set to `0`,
+  // Squash blocks passed to INSERT query to specified size in rows, if blocks are not big enough. If set to 0,
   // blocks will never be squashed.
   google.protobuf.Int64Value min_insert_block_size_rows = 48 [(value) = ">=0"];
 
-  // Squash blocks passed to INSERT query to specified size in bytes, if blocks are not big enough.  If set to `0`,
+  // Squash blocks passed to INSERT query to specified size in bytes, if blocks are not big enough. If set to 0,
   // blocks will never be squashed.
   google.protobuf.Int64Value min_insert_block_size_bytes = 49 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-max_insert_block_size).
+  // The maximum block size for insertion.
   google.protobuf.Int64Value max_insert_block_size = 10 [(value) = ">0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-min_bytes_to_use_direct_io).
+  // The minimum number of bytes for reading the data with O_DIRECT option during SELECT queries execution.
   google.protobuf.Int64Value min_bytes_to_use_direct_io = 50 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#setting-use_uncompressed_cache).
+  // Whether to use the cache of uncompressed blocks.
   google.protobuf.BoolValue use_uncompressed_cache = 51;
 
   // The maximum request size in rows to use the cache of uncompressed data. The cache is not used for requests larger
   // than the specified value.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#setting-merge_tree_max_rows_to_use_cache).
   google.protobuf.Int64Value merge_tree_max_rows_to_use_cache = 52 [(value) = ">0"];
 
   // The maximum request size in bytes to use the cache of uncompressed data. The cache is not used for requests larger
@@ -183,7 +176,6 @@ message UserSettings {
   google.protobuf.Int64Value merge_tree_max_bytes_to_use_cache = 53 [(value) = ">0"];
 
   // The minimum number of rows to be read from a file to enable concurrent read.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#setting-merge_tree_min_rows_for_concurrent_read).
   google.protobuf.Int64Value merge_tree_min_rows_for_concurrent_read = 54 [(value) = ">0"];
 
   // The minimum number of bytes to be read from a file to enable concurrent read.
@@ -200,127 +192,129 @@ message UserSettings {
   // Priority of the query.
   google.protobuf.Int64Value priority = 56 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-max_threads).
+  // The maximum number of threads to execute the request.
   google.protobuf.Int64Value max_threads = 8 [(value) = ">0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#settings_max_memory_usage).
+  // The maximum memory usage for processing of a single query.
   google.protobuf.Int64Value max_memory_usage = 11 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-memory-usage-for-user).
+  // The maximum memory usage for processing all concurrently running queries for the user.
   google.protobuf.Int64Value max_memory_usage_for_user = 12 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-max_network_bandwidth).
+  // The maximum speed of data exchange over the network in bytes per second for a query.
   google.protobuf.Int64Value max_network_bandwidth = 57;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-max_network_bandwidth_for_user).
+  // The maximum speed of data exchange over the network in bytes per second for all concurrently running user queries.
   google.protobuf.Int64Value max_network_bandwidth_for_user = 58;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-force_index_by_date).
+  // Disables query execution if the index can’t be used by date.
   google.protobuf.BoolValue force_index_by_date = 59;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#force-primary-key).
+  // Disables query execution if indexing by the primary key is not possible.
   google.protobuf.BoolValue force_primary_key = 60;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-rows-to-read).
+  // The maximum number of rows that can be read from a table when running a query.
   google.protobuf.Int64Value max_rows_to_read = 13 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-bytes-to-read).
+  // The maximum number of bytes (uncompressed data) that can be read from a table when running a query.
   google.protobuf.Int64Value max_bytes_to_read = 14 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#read-overflow-mode).
+  // Determine the behavior on exceeding max_rows_to_read or max_bytes_to_read limit.
+  // Possible values: OVERFLOW_MODE_THROW, OVERFLOW_MODE_BREAK.
   OverflowMode read_overflow_mode = 15;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-rows-to-group-by).
+  // The maximum number of unique keys received from aggregation.
   google.protobuf.Int64Value max_rows_to_group_by = 16 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#group-by-overflow-mode).
+  // Determine the behavior on exceeding max_rows_to_group_by limit. Possible values: GROUP_BY_OVERFLOW_MODE_THROW,
+  // GROUP_BY_OVERFLOW_MODE_BREAK, GROUP_BY_OVERFLOW_MODE_ANY.
   GroupByOverflowMode group_by_overflow_mode = 17;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-rows-to-sort).
+  // The maximum number of rows before sorting.
   google.protobuf.Int64Value max_rows_to_sort = 18 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-bytes-to-sort).
+  // The maximum number of bytes before sorting.
   google.protobuf.Int64Value max_bytes_to_sort = 19 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#sort-overflow-mode).
+  // Determine the behavior on exceeding max_rows_to_sort or max_bytes_to_sort limit.
+  // Possible values: OVERFLOW_MODE_THROW, OVERFLOW_MODE_BREAK.
   OverflowMode sort_overflow_mode = 20;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-result-rows).
+  // Limit on the number of rows in the result.
   google.protobuf.Int64Value max_result_rows = 21 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-result-bytes).
+  // Limit on the number of bytes in the result.
   google.protobuf.Int64Value max_result_bytes = 22 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#result-overflow-mode).
+  // Determine the behavior on exceeding max_result_rows or max_result_bytes limit.
+  // Possible values: OVERFLOW_MODE_THROW, OVERFLOW_MODE_BREAK.
   OverflowMode result_overflow_mode = 23;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-rows-in-distinct).
+  // The maximum number of different rows when using DISTINCT.
   google.protobuf.Int64Value max_rows_in_distinct = 24 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-bytes-in-distinct).
+  // The maximum number of bytes used by a hash table when using DISTINCT.
   google.protobuf.Int64Value max_bytes_in_distinct = 25 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#distinct-overflow-mode).
+  // Determine the behavior on exceeding max_rows_in_distinct or max_bytes_in_distinct limit.
+  // Possible values: OVERFLOW_MODE_THROW, OVERFLOW_MODE_BREAK.
   OverflowMode distinct_overflow_mode = 26;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-rows-to-transfer).
+  // The maximum number of rows that can be passed to a remote server or saved in a temporary table when using GLOBAL IN.
   google.protobuf.Int64Value max_rows_to_transfer = 27 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-bytes-to-transfer).
+  // The maximum number of bytes (uncompressed data) that can be passed to a remote server or saved in a temporary
+  // table when using GLOBAL IN.
   google.protobuf.Int64Value max_bytes_to_transfer = 28 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#transfer-overflow-mode).
+  // Determine the behavior on exceeding max_rows_to_transfer or max_bytes_to_transfer limit.
+  // Possible values: OVERFLOW_MODE_THROW, OVERFLOW_MODE_BREAK.
   OverflowMode transfer_overflow_mode = 29;
 
-  // Maximum query execution time in milliseconds.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-execution-time).
+  // The maximum query execution time in milliseconds.
   google.protobuf.Int64Value max_execution_time = 30 [(value) = ">=0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#timeout-overflow-mode).
+  // Determine the behavior on exceeding max_execution_time limit.
+  // Possible values: OVERFLOW_MODE_THROW, OVERFLOW_MODE_BREAK.
   OverflowMode timeout_overflow_mode = 31;
 
-  // Maximum number of columns that can be read from a table in a single query.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-columns-to-read).
+  // The maximum number of columns that can be read from a table in a single query.
   google.protobuf.Int64Value max_columns_to_read = 32 [(value) = ">=0"];
 
-  // Maximum number of temporary columns that must be kept in RAM at the same time when running a query, including constant columns.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-temporary-columns).
+  // The maximum number of temporary columns that must be kept in RAM at the same time when running a query, including constant columns.
   google.protobuf.Int64Value max_temporary_columns = 33 [(value) = ">=0"];
 
-  // Maximum number of temporary columns that must be kept in RAM at the same time when running a query, excluding constant columns.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-temporary-non-const-columns).
+  // The maximum number of temporary columns that must be kept in RAM at the same time when running a query, excluding constant columns.
   google.protobuf.Int64Value max_temporary_non_const_columns = 34 [(value) = ">=0"];
 
   // The maximum part of a query that can be taken to RAM for parsing with the SQL parser, in bytes. Default value: 262144.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-max_query_size).
   google.protobuf.Int64Value max_query_size = 35 [(value) = ">0"];
 
-  // Maximum depth of query syntax tree. Default value: 1000.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-ast-depth).
+  // The maximum depth of query syntax tree. Default value: 1000.
   google.protobuf.Int64Value max_ast_depth = 36 [(value) = ">0"];
 
-  // Maximum size of query syntax tree in number of nodes. Default value: 50000.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/query_complexity/#max-ast-elements).
+  // The maximum size of query syntax tree in number of nodes. Default value: 50000.
   google.protobuf.Int64Value max_ast_elements = 37 [(value) = ">0"];
 
-  // Maximum size of query syntax tree in number of nodes after expansion of aliases and the asterisk. Default value: 500000.
+  // The maximum size of query syntax tree in number of nodes after expansion of aliases and the asterisk. Default value: 500000.
   google.protobuf.Int64Value max_expanded_ast_elements = 38 [(value) = ">0"];
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-input_format_values_interpret_expressions).
+  // Enables or disables the full SQL parser if the fast stream parser cannot parse the data.
   google.protobuf.BoolValue input_format_values_interpret_expressions = 61;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#session_settings-input_format_defaults_for_omitted_fields).
+  // When performing INSERT queries, replace omitted input column values with default values of the respective columns.
   google.protobuf.BoolValue input_format_defaults_for_omitted_fields = 62;
 
   // Whether quoting of 64-bit integers is enabled in JSON output format.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#session_settings-output_format_json_quote_64bit_integers).
   google.protobuf.BoolValue output_format_json_quote_64bit_integers = 63;
 
-  // Whether output of special floating-point values (`+nan`, `-nan`, `+inf` and `-inf`) is enabled in JSON output format.
+  // Whether output of special floating-point values (+nan, -nan, +inf and -inf) is enabled in JSON output format.
   google.protobuf.BoolValue output_format_json_quote_denormals = 64;
 
+  // Whether LowCardinality type is enabled in Native format.
   google.protobuf.BoolValue low_cardinality_allow_in_native_format = 78;
 
+  // Return empty result when aggregating without keys on empty set.
   google.protobuf.BoolValue empty_result_for_aggregation_by_empty_set = 79;
 
   // HTTP connection timeout, in milliseconds.
@@ -332,17 +326,16 @@ message UserSettings {
   // HTTP send timeout, in milliseconds.
   google.protobuf.Int64Value http_send_timeout = 67;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-enable_http_compression).
+  // Whether data compression is enabled in HTTP responses.
   google.protobuf.BoolValue enable_http_compression = 68;
 
-  // Whether progress notifications using X-ClickHouse-Progress headers are enabled. Default value: `false`.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/settings/settings/#settings-send_progress_in_http_headers).
+  // Whether progress notifications using X-ClickHouse-Progress headers are enabled. Default value: false.
   google.protobuf.BoolValue send_progress_in_http_headers = 69;
 
   // Minimum interval between progress notifications, in milliseconds. Default value: 100.
   google.protobuf.Int64Value http_headers_progress_interval = 70;
 
-  // Whether CORS header in HTTP responses is enabled. Default value: `false`.
+  // Whether CORS header in HTTP responses is enabled. Default value: false.
   google.protobuf.BoolValue add_http_cors_header = 71;
 }
 

@@ -120,6 +120,11 @@ service ClusterService {
     option (google.api.http) = { get: "/managed-clickhouse/v1/clusters/{cluster_id}:logs" };
   }
 
+  // Same as ListLogs but using server-side streaming. Also allows for 'tail -f' semantics.
+  rpc StreamLogs (StreamClusterLogsRequest) returns (stream LogRecord) {
+    option (google.api.http) = { get: "/managed-clickhouse/v1/clusters/{cluster_id}:stream_logs" };
+  }
+
   // Retrieves the list of Operation resources for the specified cluster.
   rpc ListOperations (ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
     option (google.api.http) = { get: "/managed-clickhouse/v1/clusters/{cluster_id}/operations" };
@@ -508,6 +513,31 @@ message ListClusterOperationsRequest {
   // Page token.  To get the next page of results, set [page_token] to the [ListClusterOperationsResponse.next_page_token]
   // returned by a previous list request.
   string page_token = 3 [(length) = "<=100"];
+}
+
+message StreamClusterLogsRequest {
+  // Required. ID of the ClickHouse cluster.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Columns from logs table to get in the response.
+  repeated string column_filter = 2;
+
+  ServiceType service_type = 3;
+
+  enum ServiceType {
+    SERVICE_TYPE_UNSPECIFIED = 0;
+
+    // Logs of ClickHouse activity.
+    CLICKHOUSE = 1;
+  }
+
+  // Start timestamp for the logs request.
+  google.protobuf.Timestamp from_time = 4;
+
+  // End timestamp for the logs request.
+  // If this field is not set, all existing logs will be sent and then the new ones as
+  // they appear. In essence it has 'tail -f' semantics.
+  google.protobuf.Timestamp to_time = 5;
 }
 
 message ListClusterOperationsResponse {

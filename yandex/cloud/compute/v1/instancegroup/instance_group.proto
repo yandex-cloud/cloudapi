@@ -160,6 +160,9 @@ message ScalePolicy {
     AutoScale auto_scale = 2;
   }
 
+  // Test spec for [automatic scaling policy](/docs/compute/concepts/instance-groups/scale#auto-scale) of the instance group.
+  AutoScale test_auto_scale = 3;
+
   message AutoScale {
     // Lower limit for instance count in each zone.
     int64 min_zone_size = 1 [(value) = "0-100"];

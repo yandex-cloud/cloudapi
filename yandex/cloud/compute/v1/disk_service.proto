@@ -134,7 +134,7 @@ message CreateDiskRequest {
   // Size of the disk, specified in bytes.
   // If the disk was created from a image, this value should be more than the
   // [yandex.cloud.compute.v1.Image.min_disk_size] value.
-  int64 size = 7 [(required) = true, (value) = "4194304-4398046511104"];
+  int64 size = 7 [(required) = true, (value) = "4194304-28587302322176"];
 
   oneof source {
     // ID of the image to create the disk from.
@@ -143,6 +143,9 @@ message CreateDiskRequest {
     // ID of the snapshot to restore the disk from.
     string snapshot_id = 9 [(length) = "<=50"];
   }
+
+  // Block size used for disk, specified in bytes. The default is 4096.
+  int64 block_size = 10;
 }
 
 message CreateDiskMetadata {
