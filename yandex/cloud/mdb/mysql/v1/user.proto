@@ -19,6 +19,15 @@ message User {
 
   // Set of permissions granted to the user.
   repeated Permission permissions = 3;
+
+  // Set of global permissions to grant to the user.
+  repeated GlobalPermission global_permissions = 4;
+
+  // Set of user connection limits.
+  ConnectionLimits connection_limits = 5;
+
+  // User authentication plugin.
+  AuthPlugin authentication_plugin = 6;
 }
 
 message Permission {

@@ -186,6 +186,23 @@ service ClusterService {
       response: "google.protobuf.Empty"
     };
   }
+  // Resetup hosts.
+  rpc ResetupHosts (ResetupHostsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-mongodb/v1/clusters/{cluster_id}:resetupHosts" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "ResetupHostsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Restart hosts.
+  rpc RestartHosts (RestartHostsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-mongodb/v1/clusters/{cluster_id}:restartHosts" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "RestartHostsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
 }
 
 message GetClusterRequest {
@@ -689,6 +706,38 @@ message DeleteClusterShardMetadata {
 
   // Name of the shard being deleted.
   string shard_name = 2;
+}
+
+message ResetupHostsRequest {
+  // Required. ID of the MongoDB cluster.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Required. Name of the hosts to resetup.
+  repeated string host_names = 2 [(size) = ">0", (length) = "<=253"];
+}
+
+message ResetupHostsMetadata {
+  // Required. ID of the MongoDB cluster.
+  string cluster_id = 1;
+
+  // Required. The name of hosts to resetup.
+  repeated string host_names = 2;
+}
+
+message RestartHostsRequest {
+  // Required. ID of the MongoDB cluster.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Required. Name of the hosts to restart.
+  repeated string host_names = 2 [(size) = ">0", (length) = "<=253"];
+}
+
+message RestartHostsMetadata {
+  // Required. ID of the MongoDB cluster.
+  string cluster_id = 1;
+
+  // Required. The name of hosts to restart.
+  repeated string host_names = 2;
 }
 
 message HostSpec {

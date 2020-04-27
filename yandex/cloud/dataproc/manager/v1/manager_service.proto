@@ -46,7 +46,10 @@ message HDFSInfo {
     int64 missing_blocks_replica_one = 7;
     repeated HDFSNodeInfo live_nodes = 8;
     repeated HDFSNodeInfo dead_nodes = 9;
-    repeated HDFSNodeInfo decom_nodes = 10;
+    reserved 10;
+    string safemode = 11;
+    repeated HDFSNodeInfo decommissioning_nodes = 12;
+    repeated HDFSNodeInfo decommissioned_nodes = 13;
 }
 
 message HiveInfo {
@@ -97,4 +100,7 @@ message ReportRequest {
 
 // The response message containing the agent commands to apply on host.
 message ReportReply {
+    int64 decommission_timeout = 1;
+    repeated string yarn_hosts_to_decommission = 2;
+    repeated string hdfs_hosts_to_decommission = 3;
 }

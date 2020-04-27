@@ -154,6 +154,9 @@ message UpdateSubclusterRequest {
 
   // New number of hosts in the subcluster.
   int64 hosts_count = 6 [(required) = true, (value) = ">=1"];
+
+  // Timeout to gracefully decommission nodes. In seconds. Default value: 0
+  int64 decommission_timeout = 7 [(value) = "0-86400"];
 }
 
 message UpdateSubclusterMetadata {
@@ -172,6 +175,9 @@ message DeleteSubclusterRequest {
 
   // ID of the subcluster to delete.
   string subcluster_id = 2 [(required) = true, (length) = "<=50"];
+
+  // Timeout to gracefully decommission nodes. In seconds. Default value: 0
+  int64 decommission_timeout = 3 [(value) = "0-86400"];
 }
 
 message DeleteSubclusterMetadata {
