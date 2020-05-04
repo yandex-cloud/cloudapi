@@ -437,6 +437,9 @@ message RestoreClusterRequest {
 
   // ID of the folder to create the ClickHouse cluster in.
   string folder_id = 9 [(length) = "<=50"];
+
+  // ID of the service account used for access to Yandex Object Storage.
+  string service_account_id = 10;
 }
 
 message RestoreClusterMetadata {

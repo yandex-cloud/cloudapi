@@ -33,6 +33,11 @@ service JobService {
   rpc Get (GetJobRequest) returns (Job) {
     option (google.api.http) = { get: "/dataproc/v1/clusters/{cluster_id}/jobs/{job_id}" };
   }
+
+  // Returns a log for specified job.
+  rpc ListLog (ListJobLogRequest) returns (ListJobLogResponse) {
+    option (google.api.http) = { get: "/dataproc/v1/clusters/{cluster_id}/jobs/{job_id}:logs" };
+  }
 }
 
 message GetJobRequest {
@@ -110,4 +115,34 @@ message CreateJobMetadata {
 
   // ID of the job being created.
   string job_id = 2 [(length) = "<=50"];
+}
+
+message ListJobLogRequest {
+  // ID of the cluster that the job is being created for.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the job being created.
+  string job_id = 2 [(length) = "<=50"];
+
+  // The maximum bytes of job log per response to return. If the number of available
+  // bytes is larger than [page_size], the service returns a [ListJobLogResponse.next_page_token]
+  // that can be used to get the next page of output in subsequent list requests.
+  // Default value: 1048576.
+  int64 page_size = 3 [(value) = "<=1048576"];
+
+  // Page token. To get the next page of results, set `page_token` to the
+  // [ListJobLogResponse.next_page_token] returned by a previous list request.
+  string page_token = 4 [(length) = "<=100"];
+}
+
+message ListJobLogResponse {
+  // Requested part of Data Proc Job log.
+  string content = 1;
+
+  // This token allows you to get the next page of results for ListLog requests,
+  // if the number of results is larger than `page_size` specified in the request.
+  // To get the next page, specify the value of `next_page_token` as a value for
+  // the `page_token` parameter in the next ListLog request. Subsequent ListLog
+  // requests will have their own `next_page_token` to continue paging through the results.
+  string next_page_token = 2;
 }
