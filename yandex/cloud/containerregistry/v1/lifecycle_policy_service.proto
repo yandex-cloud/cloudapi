@@ -47,6 +47,8 @@ service LifecyclePolicyService {
         };
     }
 
+    rpc GetDryRunResult (GetDryRunLifecyclePolicyResultRequest) returns (DryRunLifecyclePolicyResult);
+
     rpc ListDryRunResults (ListDryRunLifecyclePolicyResultsRequest) returns (ListDryRunLifecyclePolicyResultsResponse);
 
     rpc ListDryRunResultAffectedImages (ListDryRunLifecyclePolicyResultAffectedImagesRequest) returns (ListDryRunLifecyclePolicyResultAffectedImagesResponse);
@@ -123,6 +125,10 @@ message DryRunLifecyclePolicyResult {
     int64 affected_images_count = 4;
 }
 
+message GetDryRunLifecyclePolicyResultRequest {
+    string dry_run_lifecycle_policy_result_id = 1 [(required) = true, (length) = "<=50"];
+}
+
 message ListDryRunLifecyclePolicyResultsRequest {
     string lifecycle_policy_id = 1 [(required) = true, (length) = "<=50"];
 
@@ -150,10 +156,5 @@ message ListDryRunLifecyclePolicyResultAffectedImagesRequest {
 message ListDryRunLifecyclePolicyResultAffectedImagesResponse {
     repeated Image affected_images = 1;
 
-    string dry_run_lifecycle_policy_result_id = 2;
-    string lifecycle_policy_id = 3;
-    google.protobuf.Timestamp run_at = 4;
-    int64 affected_images_count = 5;
-
-    string next_page_token = 6;
+    string next_page_token = 2;
 }

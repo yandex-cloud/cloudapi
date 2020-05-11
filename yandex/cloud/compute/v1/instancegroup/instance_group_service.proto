@@ -166,6 +166,9 @@ message CreateInstanceGroupRequest {
   string service_account_id = 12;
 
   repeated Variable variables = 13;
+
+  // Flag that inhibits deletion of the instance group
+  bool deletion_protection = 14;
 }
 
 message CreateInstanceGroupFromYamlRequest {
@@ -225,6 +228,9 @@ message UpdateInstanceGroupRequest {
   LoadBalancerSpec load_balancer_spec = 14;
 
   repeated Variable variables = 15;
+
+  // Flag that inhibits deletion of the instance group
+  bool deletion_protection = 16;
 }
 
 message UpdateInstanceGroupFromYamlRequest {

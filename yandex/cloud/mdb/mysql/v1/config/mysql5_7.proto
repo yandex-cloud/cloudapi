@@ -84,6 +84,16 @@ message MysqlConfig5_7 {
     SHA256_PASSWORD = 3;
   }
 
+  enum TransactionIsolation {
+    TRANSACTION_ISOLATION_UNSPECIFIED = 0;
+
+    READ_COMMITTED = 1;
+
+    REPEATABLE_READ = 2;
+
+    SERIALIZABLE = 3;
+  }
+
   // Size of the InnoDB buffer pool used for caching table and index data.
   //
   // For details, see [MySQL documentation for the parameter](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_buffer_pool_size).
@@ -120,7 +130,69 @@ message MysqlConfig5_7 {
   google.protobuf.Int64Value max_allowed_packet = 7 [(value) = "1024-134217728"];
 
   // Authentication plugin used in the managed MySQL cluster.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_default_authentication_plugin)
   AuthPlugin default_authentication_plugin = 8;
+
+  // Transaction log flush behaviour.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit)
+  google.protobuf.Int64Value innodb_flush_log_at_trx_commit = 9 [(value) = "1-2"];
+
+  // Max time in seconds for a transaction to wait for a row lock
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_lock_wait_timeout)
+  google.protobuf.Int64Value innodb_lock_wait_timeout = 10 [(value) = "1-28800"];
+
+  // Default transaction isolation level.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_transaction_isolation)
+  TransactionIsolation transaction_isolation = 11;
+
+  // Print information about deadlocks in error log
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_print_all_deadlocks)
+  google.protobuf.BoolValue innodb_print_all_deadlocks = 12;
+
+  // The number of seconds to wait for more data from a connection before aborting the read.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_net_read_timeout)
+  google.protobuf.Int64Value net_read_timeout = 13 [(value) = "1-1200"];
+
+  // The number of seconds to wait for a block to be written to a connection before aborting the write.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_net_write_timeout)
+  google.protobuf.Int64Value net_write_timeout = 14 [(value) = "1-1200"];
+
+  // The maximum permitted result length in bytes for the GROUP_CONCAT() function.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_group_concat_max_len)
+  google.protobuf.Int64Value group_concat_max_len = 15 [(value) = "4-33554432"];
+
+  // The maximum size of internal in-memory temporary tables.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_tmp_table_size)
+  google.protobuf.Int64Value tmp_table_size = 16 [(value) = "1024-134217728"];
+
+  // This variable sets the maximum size to which user-created MEMORY tables are permitted to grow.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_max_heap_table_size)
+  google.protobuf.Int64Value max_heap_table_size = 17 [(value) = "1024-134217728"];
+
+  // The servers default time zone.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_default-time-zone)
+  string default_time_zone = 18;
+
+  // The servers default character set.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_character_set_server)
+  string character_set_server = 19;
+
+  // The server default collation.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_collation_server)
+  string collation_server = 20;
 }
 
 message MysqlConfigSet5_7 {

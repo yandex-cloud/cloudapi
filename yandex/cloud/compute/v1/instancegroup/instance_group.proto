@@ -64,6 +64,9 @@ message InstanceGroup {
 
   repeated Variable variables = 18;
 
+  // Flag that inhibits deletion of the instance group
+  bool deletion_protection = 19;
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
