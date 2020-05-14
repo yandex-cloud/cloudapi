@@ -50,6 +50,7 @@ message SecurityGroupRule {
         option (exactly_one) = true;
 
         CidrBlocks cidr_blocks = 8;
+        string security_group_id = 9;
     }
 
     enum Direction {

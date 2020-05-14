@@ -108,7 +108,7 @@ message SecurityGroupRuleSpec {
         option (exactly_one) = true;
 
         CidrBlocks cidr_blocks = 7;
-        // string security_group_id = .. ;
+        string security_group_id = 8;
         // string subnet_id = .. ;
     }
 }

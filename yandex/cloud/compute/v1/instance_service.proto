@@ -133,11 +133,11 @@ service InstanceService {
     };
   }
 
-  rpc UpdateNetworkInterface (UpdateNetworkInterfaceRequest) returns (operation.Operation) {
+  rpc UpdateNetworkInterface (UpdateInstanceNetworkInterfaceRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/compute/v1/instances/{instance_id}/updateNetworkInterface" body: "*"};
     option (yandex.cloud.api.operation) = {
-      metadata: "UpdateNetworkInterfaceMetadata"
-      response: "NetworkInterface"
+      metadata: "UpdateInstanceNetworkInterfaceMetadata"
+      response: "Instance"
     };
   }
 
@@ -479,15 +479,18 @@ message RemoveInstanceOneToOneNatMetadata {
   string instance_id = 1;
 }
 
-message UpdateNetworkInterfaceRequest {
+message UpdateInstanceNetworkInterfaceRequest {
   string instance_id = 1 [(required) = true];
   string network_interface_index = 2 [(required) = true];
   google.protobuf.FieldMask update_mask = 3;
 
-  repeated string security_group_ids = 4;
+  string subnet_id = 4;
+  PrimaryAddressSpec primary_v4_address_spec = 5;
+  PrimaryAddressSpec primary_v6_address_spec = 6;
+  repeated string security_group_ids = 7;
 }
 
-message UpdateNetworkInterfaceMetadata {
+message UpdateInstanceNetworkInterfaceMetadata {
   string instance_id = 1;
   string network_interface_index = 2;
 }
