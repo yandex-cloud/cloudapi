@@ -146,6 +146,8 @@ message CreateSubnetRequest {
 
   // ID of route table the subnet is linked to.
   string route_table_id = 9 [(length) = "<=50"];
+
+  DhcpOptions dhcp_options = 10;
 }
 
 message CreateSubnetMetadata {
@@ -172,6 +174,8 @@ message UpdateSubnetRequest {
 
   // ID of route table the subnet is linked to.
   string route_table_id = 6 [(length) = "<=50"];
+
+  DhcpOptions dhcp_options = 7;
 }
 
 message UpdateSubnetMetadata {

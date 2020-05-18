@@ -10,6 +10,19 @@ option java_package = "yandex.cloud.api.iot.devices.v1";
 
 // A device. For more information, see [Device](/docs/iot-core/concepts/index#device).
 message Device {
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+
+    // Device is being created.
+    CREATING = 1;
+
+    // Device is ready to use.
+    ACTIVE = 2;
+
+    // Device is being deleted.
+    DELETING = 3;
+  }
+
   // ID of the device.
   string id = 1;
 
@@ -29,6 +42,9 @@ message Device {
   //
   // Alias is an alternate name of a device topic assigned by the user. Map alias to canonical topic name prefix, e.g. `my/custom/alias` match to `$device/abcdef/events`.
   map<string, string> topic_aliases = 6;
+
+  // Status of the device.
+  Status status = 7;
 }
 
 // A device certificate. For more information, see [Managing device certificates](/docs/iot-core/operations/certificates/device-certificates).

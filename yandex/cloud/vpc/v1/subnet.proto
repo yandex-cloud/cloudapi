@@ -45,4 +45,11 @@ message Subnet {
 
   // ID of route table the subnet is linked to.
   string route_table_id = 12;
+
+  DhcpOptions dhcp_options = 13;
+}
+
+message DhcpOptions {
+  repeated string domain_name_servers = 1;
+  string domain_name = 2;
 }
