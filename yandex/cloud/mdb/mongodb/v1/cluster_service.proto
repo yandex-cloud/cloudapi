@@ -887,13 +887,13 @@ message ConfigSpec {
 
   oneof mongodb_spec {
     // Configuration and resource allocation for a MongoDB 3.6 cluster.
-    MongodbSpec3_6 mongodb_spec_3_6 = 2;
+    MongodbSpec3_6 mongodb_spec_3_6 = 2 [json_name="mongodbSpec_3_6"];
 
     // Configuration and resource allocation for a MongoDB 4.0 cluster.
-    MongodbSpec4_0 mongodb_spec_4_0 = 4;
+    MongodbSpec4_0 mongodb_spec_4_0 = 4 [json_name="mongodbSpec_4_0"];
 
     // Configuration and resource allocation for a MongoDB 4.2 cluster.
-    MongodbSpec4_2 mongodb_spec_4_2 = 7;
+    MongodbSpec4_2 mongodb_spec_4_2 = 7 [json_name="mongodbSpec_4_2"];
   }
 
   // Time to start the daily backup, in the UTC timezone.

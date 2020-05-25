@@ -52,4 +52,5 @@ message Subnet {
 message DhcpOptions {
   repeated string domain_name_servers = 1;
   string domain_name = 2;
+  repeated string ntp_servers = 3;
 }

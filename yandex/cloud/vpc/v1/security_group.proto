@@ -30,6 +30,8 @@ message SecurityGroup {
     Status status = 8;
 
     repeated SecurityGroupRule rules = 9;
+
+    bool default_for_network = 10;
 }
 
 message SecurityGroupRule {
