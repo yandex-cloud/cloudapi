@@ -50,6 +50,7 @@ message HDFSInfo {
     string safemode = 11;
     repeated HDFSNodeInfo decommissioning_nodes = 12;
     repeated HDFSNodeInfo decommissioned_nodes = 13;
+    repeated string requested_decommission_hosts = 14; // Actual list of decommission hosts in HDFS namenode memory
 }
 
 message HiveInfo {
@@ -67,11 +68,13 @@ message YarnNodeInfo {
     int64 num_containers = 3;
     int64 used_memory_mb = 4;
     int64 available_memory_mb = 5;
+    int64 update_time = 6;
 }
 
 message YarnInfo {
     bool available = 1;
     repeated YarnNodeInfo live_nodes = 2;
+    repeated string requested_decommission_hosts = 3; // Actual list of decommission hosts in Yarn resource manager memory
 }
 
 message ZookeeperInfo {
@@ -89,6 +92,10 @@ message Info {
     ZookeeperInfo zookeeper = 4;
     HbaseInfo hbase = 5;
     OozieInfo oozie = 6;
+    // Report count is incremented every time report is sent by Dataproc Agent.
+    // So Worker can use this property to make sure that Dataproc Agent got data sent by Worker through Dataproc Manager
+    // for synchronization purposes
+    int64 report_count = 7;
 }
 
 // The request message containing the host status report.

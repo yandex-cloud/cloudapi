@@ -49,6 +49,9 @@ message Trigger {
   // Rule for trigger activation (always consistent with the trigger type).
   Rule rule = 8 [(required) = true];
 
+  // Trigger status
+  Status status = 9;
+
   // Description of a rule for trigger activation.
   message Rule {
     oneof rule {
@@ -170,6 +173,12 @@ message Trigger {
       option (exactly_one) = true;
       InvokeFunctionWithRetry invoke_function = 101;
     }
+  }
+
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+    ACTIVE = 1;
+    PAUSED = 2;
   }
 }
 

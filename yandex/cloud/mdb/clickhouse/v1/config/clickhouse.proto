@@ -441,6 +441,69 @@ message ClickhouseConfig {
 
   // Address of the archive with the user geobase in Object Storage.
   string geobase_uri = 15;
+
+  // The maximum size that query_log can grow to before old data will be removed. If set to 0, automatic removal of
+  // query_log data based on size is disabled.
+  google.protobuf.Int64Value query_log_retention_size = 16;
+
+  // The maximum time that query_log records will be retained before removal. If set to 0, automatic removal of
+  // query_log data based on time is disabled.
+  google.protobuf.Int64Value query_log_retention_time = 17;
+
+  // Whether query_thread_log system table is enabled.
+  google.protobuf.BoolValue query_thread_log_enabled = 18;
+
+  // The maximum size that query_thread_log can grow to before old data will be removed. If set to 0, automatic removal of
+  // query_thread_log data based on size is disabled.
+  google.protobuf.Int64Value query_thread_log_retention_size = 19;
+
+  // The maximum time that query_thread_log records will be retained before removal. If set to 0, automatic removal of
+  // query_thread_log data based on time is disabled.
+  google.protobuf.Int64Value query_thread_log_retention_time = 20;
+
+  // The maximum size that part_log can grow to before old data will be removed. If set to 0, automatic removal of
+  // part_log data based on size is disabled.
+  google.protobuf.Int64Value part_log_retention_size = 21;
+
+  // The maximum time that part_log records will be retained before removal. If set to 0, automatic removal of
+  // part_log data based on time is disabled.
+  google.protobuf.Int64Value part_log_retention_time = 22;
+
+  // Whether metric_log system table is enabled.
+  google.protobuf.BoolValue metric_log_enabled = 23;
+
+  // The maximum size that metric_log can grow to before old data will be removed. If set to 0, automatic removal of
+  // metric_log data based on size is disabled.
+  google.protobuf.Int64Value metric_log_retention_size = 24;
+
+  // The maximum time that metric_log records will be retained before removal. If set to 0, automatic removal of
+  // metric_log data based on time is disabled.
+  google.protobuf.Int64Value metric_log_retention_time = 25;
+
+  // Whether trace_log system table is enabled.
+  google.protobuf.BoolValue trace_log_enabled = 26;
+
+  // The maximum size that trace_log can grow to before old data will be removed. If set to 0, automatic removal of
+  // trace_log data based on size is disabled.
+  google.protobuf.Int64Value trace_log_retention_size = 27;
+
+  // The maximum time that trace_log records will be retained before removal. If set to 0, automatic removal of
+  // trace_log data based on time is disabled.
+  google.protobuf.Int64Value trace_log_retention_time = 28;
+
+  // Whether text_log system table is enabled.
+  google.protobuf.BoolValue text_log_enabled = 29;
+
+  // The maximum size that text_log can grow to before old data will be removed. If set to 0, automatic removal of
+  // text_log data based on size is disabled.
+  google.protobuf.Int64Value text_log_retention_size = 30;
+
+  // The maximum time that text_log records will be retained before removal. If set to 0, automatic removal of
+  // text_log data based on time is disabled.
+  google.protobuf.Int64Value text_log_retention_time = 31;
+
+  // Logging level for text_log system table. Possible values: TRACE, DEBUG, INFORMATION, WARNING, ERROR.
+  LogLevel text_log_level = 32;
 }
 
 message ClickhouseConfigSet {

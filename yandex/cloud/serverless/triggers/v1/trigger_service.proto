@@ -53,6 +53,24 @@ service TriggerService {
     };
   };
 
+  // Pauses the specified trigger.
+  rpc Pause (PauseTriggerRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/triggers/v1/triggers/{trigger_id}:pause" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "PauseTriggerMetadata"
+      response: "Trigger"
+    };
+  };
+
+  // Restarts the specified trigger.
+  rpc Resume (ResumeTriggerRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/triggers/v1/triggers/{trigger_id}:resume" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "ResumeTriggerMetadata"
+      response: "Trigger"
+    };
+  };
+
   // Lists operations for the specified trigger.
   rpc ListOperations (ListTriggerOperationsRequest) returns (ListTriggerOperationsResponse) {
     option (google.api.http) = { get: "/triggers/v1/triggers/{trigger_id}/operations" };
@@ -169,6 +187,30 @@ message DeleteTriggerRequest {
 
 message DeleteTriggerMetadata {
   // ID of the trigger that is being deleted.
+  string trigger_id = 1 [(required) = true];
+}
+
+message PauseTriggerRequest {
+  // ID of the trigger to pause
+  //
+  // To get a trigger ID make a [TriggerService.List] request.
+  string trigger_id = 1 [(required) = true];
+}
+
+message PauseTriggerMetadata {
+  // ID of the trigger that is being paused.
+  string trigger_id = 1 [(required) = true];
+}
+
+message ResumeTriggerRequest {
+  // ID of the trigger to pause
+  //
+  // To get a trigger ID make a [TriggerService.List] request.
+  string trigger_id = 1 [(required) = true];
+}
+
+message ResumeTriggerMetadata {
+  // ID of the trigger that is being paused.
   string trigger_id = 1 [(required) = true];
 }
 

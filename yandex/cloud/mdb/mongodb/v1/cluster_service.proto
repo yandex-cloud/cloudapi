@@ -401,6 +401,14 @@ message RestoreClusterRequest {
 
   // Required. ID of the folder to create the MongoDB cluster in.
   string folder_id = 9 [(length) = "<=50"];
+
+  message RecoveryTargetSpec {
+      // Timestamp of the recovery target
+      int64 timestamp = 1 [(value) = ">0"];
+  }
+
+  // Specification of the moment to which the MongoDB cluster should be restored.
+  RecoveryTargetSpec recovery_target_spec = 10;
 }
 
 message RestoreClusterMetadata {

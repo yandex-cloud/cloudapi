@@ -125,7 +125,7 @@ message CreateKeyResponse {
 
 message UpdateKeyRequest {
   // ID of the Key resource to update.
-  // To get key pair ID, use a [Service.List] request.
+  // To get key pair ID, use a [KeyService.List] request.
   string key_id = 1 [(required) = true, (length) = "<=50"];
 
   // Field mask that specifies which fields of the Key resource are going to be updated.

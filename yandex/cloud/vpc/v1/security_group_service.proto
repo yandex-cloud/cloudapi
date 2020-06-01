@@ -109,6 +109,7 @@ message SecurityGroupRuleSpec {
 
         CidrBlocks cidr_blocks = 7;
         string security_group_id = 8;
+        string predefined_target = 9;
         // string subnet_id = .. ;
     }
 }

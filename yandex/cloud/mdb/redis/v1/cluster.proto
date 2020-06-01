@@ -5,6 +5,7 @@ package yandex.cloud.mdb.redis.v1;
 import "google/protobuf/timestamp.proto";
 import "google/type/timeofday.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis5_0.proto";
+import "yandex/cloud/mdb/redis/v1/config/redis6_0.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/redis/v1;redis";
 option java_package = "yandex.cloud.api.mdb.redis.v1";
@@ -127,6 +128,8 @@ message ClusterConfig {
   oneof redis_config {
     // Configuration of a Redis 5.0 server.
     config.RedisConfigSet5_0 redis_config_5_0 = 2;
+    // Configuration of a Redis 6.0 server.
+    config.RedisConfigSet6_0 redis_config_6_0 = 6;
   }
 
   // Resources allocated to Redis hosts.

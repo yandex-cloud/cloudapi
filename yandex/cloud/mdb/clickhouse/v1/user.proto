@@ -135,6 +135,9 @@ message UserSettings {
   // Timeout for DDL queries, in milliseconds.
   google.protobuf.Int64Value distributed_ddl_task_timeout = 73;
 
+  // Whether unavailable shards can be skipped.
+  google.protobuf.BoolValue skip_unavailable_shards = 81;
+
   // Whether query compilation is enabled.
   google.protobuf.BoolValue compile = 44;
 

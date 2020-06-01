@@ -53,6 +53,7 @@ message SecurityGroupRule {
 
         CidrBlocks cidr_blocks = 8;
         string security_group_id = 9;
+        string predefined_target = 10;
     }
 
     enum Direction {
