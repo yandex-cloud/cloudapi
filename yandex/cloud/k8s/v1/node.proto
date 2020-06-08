@@ -186,6 +186,9 @@ message ResourcesSpec {
   // Baseline level of CPU performance with the possibility to burst performance above that baseline level.
   // This field sets baseline performance for each core.
   int64 core_fraction = 3 [(value) = "0,5,20,50,100"];
+
+  // Number of GPUs available to the node.
+  int64 gpus          = 4 [(value) = "0,1,2,4"];
 }
 
 message DiskSpec {

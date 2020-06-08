@@ -163,6 +163,20 @@ message Shard {
   ShardConfig config = 3;
 }
 
+message ShardGroup {
+  // Name of the shard group
+  string name = 1;
+
+  // ID of the cluster that the shard belongs to.
+  string cluster_id = 2;
+
+  // Description of the ClickHouse cluster shard group. 0-256 characters long.
+  string description = 3;
+
+  // List of shard names contained in shard group
+  repeated string shard_names = 4;
+}
+
 message ShardConfig {
   message Clickhouse {
     // ClickHouse settings for a shard.

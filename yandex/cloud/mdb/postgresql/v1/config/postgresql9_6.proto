@@ -305,7 +305,7 @@ message PostgresqlConfig9_6 {
 
   google.protobuf.Int64Value autovacuum_naptime = 77 [(value) = "1000-86400000"]; // in milliseconds.
 
-  google.protobuf.Int64Value archive_timeout = 78 [(value) = "10000-600000"]; // in milliseconds.
+  google.protobuf.Int64Value archive_timeout = 78 [(value) = "10000-86400000"]; // in milliseconds.
 
   google.protobuf.Int64Value track_activity_query_size = 79 [(value) = "100-102400"];
 

@@ -27,7 +27,7 @@ message LifecyclePolicy {
 
 message LifecycleRule {
     string description = 1 [(length) = "<=256"];
-    google.protobuf.Duration expire_period = 2 [(value) = ">24h"];
+    google.protobuf.Duration expire_period = 2 [(value) = ">=24h"];
     string tag_regexp = 3 [(length) = "<=256"];
     bool untagged = 4;
     int64 retained_top = 5 [(value) = ">=0"];

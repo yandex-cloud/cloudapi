@@ -407,8 +407,12 @@ message AttachedDiskSpec {
   // This value can be used to reference the device for mounting, resizing, and so on, from within the instance.
   string device_name = 2 [(pattern) = "|[a-z][-_0-9a-z]{0,19}"];
 
+  //oneof disk_spec or disk_id
   // Disk specification that is attached to the instance. For more information, see [Disks](/docs/compute/concepts/disk).
   DiskSpec disk_spec = 3 [(required) = true];
+
+  // Set to use an existing disk. To set use variables.
+  string disk_id = 4 [(length) = "<=128", (pattern) = "[-a-zA-Z0-9._{}]*"];
 
   message DiskSpec {
     // Description of the disk.

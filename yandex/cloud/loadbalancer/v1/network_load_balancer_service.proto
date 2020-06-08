@@ -185,7 +185,7 @@ message CreateNetworkLoadBalancerRequest {
   NetworkLoadBalancer.Type type = 6 [(required) = true];
 
   // List of listeners and their specs for the network load balancer.
-  repeated ListenerSpec listener_specs = 7 [(size) = "<=10"];
+  repeated ListenerSpec listener_specs = 7 [(size) = "<=1000"];
 
   // List of attached target groups for the network load balancer.
   repeated AttachedTargetGroup attached_target_groups = 8 [(size) = "<=5"];
@@ -217,7 +217,7 @@ message UpdateNetworkLoadBalancerRequest {
   map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // A list of listeners and their specs for the network load balancer.
-  repeated ListenerSpec listener_specs = 6 [(size) = "<=10"];
+  repeated ListenerSpec listener_specs = 6 [(size) = "<=1000"];
 
   // A list of attached target groups for the network load balancer.
   repeated AttachedTargetGroup attached_target_groups = 7 [(size) = "<=5"];

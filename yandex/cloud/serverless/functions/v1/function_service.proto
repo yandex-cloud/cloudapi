@@ -394,8 +394,6 @@ message CreateFunctionVersionRequest {
   // ID of the service account to associate with the version.
   string service_account_id = 7;
 
-  reserved 8;
-
   // Source of the deployment package for the version.
   oneof package_source {
     option (exactly_one) = true;
@@ -414,6 +412,9 @@ message CreateFunctionVersionRequest {
 
   // Function version tags. For details, see [Version tag](/docs/functions/concepts/function#tag).
   repeated string tag = 13 [(pattern) = "[a-z][-_0-9a-z]*"];
+
+  // Function version connectivity. If specified the version will be attached to specified network/subnet(s).
+  Connectivity connectivity = 17;
 }
 
 message CreateFunctionVersionMetadata {

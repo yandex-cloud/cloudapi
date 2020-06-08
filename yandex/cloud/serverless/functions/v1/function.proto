@@ -101,8 +101,6 @@ message Version {
   // ID of the service account associated with the version.
   string service_account_id = 10;
 
-  reserved 11;
-
   // Final size of the deployment package after unpacking.
   int64 image_size = 12;
 
@@ -117,6 +115,9 @@ message Version {
 
   // Environment settings for the version.
   map<string, string> environment = 16;
+
+  // Network access. If specified the version will be attached to specified network/subnet(s).
+  Connectivity connectivity = 17;
 }
 
 // Resources allocated to a version.
@@ -135,4 +136,16 @@ message Package {
 
   // SHA256 hash of the version deployment package.
   string sha256 = 3;
+}
+
+// Version connectivity specification.
+message Connectivity {
+
+  // Network the version will have access to.
+  // It's essential to specify network with subnets in all availability zones.
+  string network_id = 1;
+
+  // Complete list of subnets (from the same network) the version can be attached to.
+  // It's essential to specify at least one subnet for each availability zones.
+  repeated string subnet_id = 2;
 }
