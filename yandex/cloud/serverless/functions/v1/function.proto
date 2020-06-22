@@ -123,7 +123,7 @@ message Version {
 // Resources allocated to a version.
 message Resources {
   // Amount of memory available to the version, specified in bytes.
-  int64 memory = 1 [(value) = "134217728-1073741824"];
+  int64 memory = 1 [(value) = "134217728-2147483648"];
 }
 
 // Version deployment package.

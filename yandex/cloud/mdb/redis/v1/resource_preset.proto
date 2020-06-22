@@ -15,4 +15,7 @@ message ResourcePreset {
 
   // RAM volume for a Redis host created with the preset, in bytes.
   int64 memory = 3;
+
+  // Number of CPU cores for a Redis host created with the preset.
+  int64 cores = 4;
 }

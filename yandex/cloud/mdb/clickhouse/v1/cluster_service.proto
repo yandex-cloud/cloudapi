@@ -121,7 +121,7 @@ service ClusterService {
   }
 
   // Same as ListLogs but using server-side streaming. Also allows for 'tail -f' semantics.
-  rpc StreamLogs (StreamClusterLogsRequest) returns (stream LogRecord) {
+  rpc StreamLogs (StreamClusterLogsRequest) returns (stream StreamLogRecord) {
     option (google.api.http) = { get: "/managed-clickhouse/v1/clusters/{cluster_id}:stream_logs" };
   }
 
@@ -538,21 +538,19 @@ message ListClusterLogsResponse {
   // is larger than [ListClusterLogsRequest.page_size], use the [next_page_token] as the value
   // for the [ListClusterLogsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
+  // This value is interchangeable with `next_record_token` from StreamLogs method.
   string next_page_token = 2;
 }
 
-message ListClusterOperationsRequest {
-  // ID of the ClickHouse Cluster resource to list operations for.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+message StreamLogRecord {
+  // One of the requested log records.
+  LogRecord record = 1;
 
-  // The maximum number of results per page to return. If the number of available
-  // results is larger than [page_size], the service returns a [ListClusterOperationsResponse.next_page_token]
-  // that can be used to get the next page of results in subsequent list requests.
-  int64 page_size = 2 [(value) = "<=1000"];
-
-  // Page token.  To get the next page of results, set [page_token] to the [ListClusterOperationsResponse.next_page_token]
-  // returned by a previous list request.
-  string page_token = 3 [(length) = "<=100"];
+  // This token allows you to continue streaming logs starting from the exact
+  // same record. To continue streaming, specify value of `next_record_token`
+  // as value for `record_token` parameter in the next StreamLogs request.
+  // This value is interchangeable with `next_page_token` from ListLogs method.
+  string next_record_token = 2;
 }
 
 message StreamClusterLogsRequest {
@@ -578,6 +576,24 @@ message StreamClusterLogsRequest {
   // If this field is not set, all existing logs will be sent and then the new ones as
   // they appear. In essence it has 'tail -f' semantics.
   google.protobuf.Timestamp to_time = 5;
+
+  // Record token. Set `record_token` to the `next_record_token` returned by a previous StreamLogs
+  // request to start streaming from next log record.
+  string record_token = 6 [(length) = "<=100"];
+}
+
+message ListClusterOperationsRequest {
+  // ID of the ClickHouse Cluster resource to list operations for.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // The maximum number of results per page to return. If the number of available
+  // results is larger than [page_size], the service returns a [ListClusterOperationsResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  int64 page_size = 2 [(value) = "<=1000"];
+
+  // Page token.  To get the next page of results, set [page_token] to the [ListClusterOperationsResponse.next_page_token]
+  // returned by a previous list request.
+  string page_token = 3 [(length) = "<=100"];
 }
 
 message ListClusterOperationsResponse {
