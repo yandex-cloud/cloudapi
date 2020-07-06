@@ -76,14 +76,21 @@ message UserSettings {
     // Default value. Prohibits using these types of subqueries (returns the "Double-distributed in/JOIN subqueries is denied" exception).
     DISTRIBUTED_PRODUCT_MODE_DENY = 1;
 
-    //Replaces the database and table in the subquery with local ones for the destination server (shard), leaving the normal IN/JOIN.
+    // Replaces the database and table in the subquery with local ones for the destination server (shard), leaving the normal IN/JOIN.
     DISTRIBUTED_PRODUCT_MODE_LOCAL = 2;
 
-    //Replaces the IN/JOIN query with GLOBAL IN/GLOBAL JOIN.
+    // Replaces the IN/JOIN query with GLOBAL IN/GLOBAL JOIN.
     DISTRIBUTED_PRODUCT_MODE_GLOBAL = 3;
 
-    //Allows the use of these types of subqueries.
+    // Allows the use of these types of subqueries.
     DISTRIBUTED_PRODUCT_MODE_ALLOW = 4;
+  }
+
+  enum QuotaMode {
+    QUOTA_MODE_UNSPECIFIED = 0;
+    QUOTA_MODE_DEFAULT = 1;
+    QUOTA_MODE_KEYED = 2;
+    QUOTA_MODE_KEYED_BY_IP = 3;
   }
 
   // Restricts permissions for non-DDL queries. Possible values: 0 (default) — no restrictions,
@@ -340,6 +347,9 @@ message UserSettings {
 
   // Whether CORS header in HTTP responses is enabled. Default value: false.
   google.protobuf.BoolValue add_http_cors_header = 71;
+
+  // Quota accounting mode. Possible values: QUOTA_MODE_DEFAULT, QUOTA_MODE_KEYED and QUOTA_MODE_KEYED_BY_IP.
+  QuotaMode quota_mode = 80;
 }
 
 // ClickHouse quota representation. Each quota associated with an user and limits it resource usage for an interval.

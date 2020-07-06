@@ -404,7 +404,9 @@ message CreateFunctionVersionRequest {
     // Content of the deployment package.
     bytes content = 10 [(length) = "<=52428800"];
 
-    // reserved 11
+    // ID of the version to be copied from. Source version must belong to the same folder as the created version
+    // and the user must have read permissions to the source version.
+    string version_id = 11;
   };
 
   // Environment settings for the version.

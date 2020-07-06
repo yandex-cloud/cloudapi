@@ -5,6 +5,7 @@ package yandex.cloud.compute.v1.instancegroup;
 import "google/protobuf/field_mask.proto";
 import "google/api/annotations.proto";
 
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/compute/v1/instancegroup/instance_group.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -107,6 +108,29 @@ service InstanceGroupService {
   // Lists logs for the specified instance group.
   rpc ListLogRecords (ListInstanceGroupLogRecordsRequest) returns (ListInstanceGroupLogRecordsResponse) {
     option (google.api.http) = { get: "/compute/v1/instanceGroups/{instance_group_id}:logs" };
+  }
+
+  // Lists existing access bindings for the specified instance group.
+  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = { get: "/compute/v1/instanceGroups/{resource_id}:listAccessBindings" };
+  }
+
+  // Sets access bindings for the specified instance group.
+  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instanceGroups/{resource_id}:setAccessBindings" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Updates access bindings for the specified instance group.
+  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instanceGroups/{resource_id}:updateAccessBindings" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
   }
 }
 

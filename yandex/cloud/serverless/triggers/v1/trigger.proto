@@ -24,6 +24,9 @@ enum TriggerType {
   IOT_MESSAGE = 4;
   OBJECT_STORAGE = 5;
   CONTAINER_REGISTRY = 6;
+
+  // The trigger is activated by cloud log group events
+  CLOUD_LOGS = 7;
 }
 
 // A trigger to invoke a serverless function. For more information, see [Triggers](/docs/functions/concepts/trigger).
@@ -66,6 +69,7 @@ message Trigger {
       IoTMessage iot_message = 4;
       ObjectStorage object_storage = 5;
       ContainerRegistry container_registry = 6;
+      CloudLogs cloud_logs = 9;
     }
   }
 
@@ -175,6 +179,19 @@ message Trigger {
     }
   }
 
+  message CloudLogs {
+    // Log group identifiers, at least one value is required.
+    repeated string log_group_id = 1;
+
+    // Batch settings for processing log events.
+    CloudLogsBatchSettings batch_settings = 2 [(required) = true];
+
+    oneof action {
+      option (exactly_one) = true;
+      InvokeFunctionWithRetry invoke_function = 101;
+    }
+  }
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
     ACTIVE = 1;
@@ -229,6 +246,16 @@ message BatchSettings {
   // Maximum wait time. Trigger will send the batch of messages the time since the last batch
   // exceeds the `cutoff` value, regardless of the amount of messages in the queue.
   google.protobuf.Duration cutoff = 2 [(required) = true];
+}
+
+message CloudLogsBatchSettings {
+  // Batch size. Trigger will send the batch of messages to the associated function
+  // when the number of log events reaches this value, or the [cutoff] time has passed.
+  int64 size = 1 [(value) = "0-100"];
+
+  // Maximum wait time. Trigger will send the batch of messages the time since the last batch
+  // exceeds the `cutoff` value, regardless of the amount of log events.
+  google.protobuf.Duration cutoff = 2 [(value) = "1s-1m"];
 }
 
 // Settings for retrying to invoke a function.
