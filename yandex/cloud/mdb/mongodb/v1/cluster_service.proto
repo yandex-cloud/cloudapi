@@ -16,6 +16,7 @@ import "yandex/cloud/mdb/mongodb/v1/user.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb3_6.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_0.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_2.proto";
+import "yandex/cloud/mdb/mongodb/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1;mongodb";
 option java_package = "yandex.cloud.api.mdb.mongodb.v1";
@@ -103,6 +104,15 @@ service ClusterService {
     option (google.api.http) = { post: "/managed-mongodb/v1/clusters:restore" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "RestoreClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
+  // Reschedule planned maintenance operation.
+  rpc RescheduleMaintenance (RescheduleMaintenanceRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-mongodb/v1/clusters/{cluster_id}:rescheduleMaintenance" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "RescheduleMaintenanceMetadata"
       response: "Cluster"
     };
   }
@@ -306,6 +316,9 @@ message UpdateClusterRequest {
 
   // New name for the cluster.
   string name = 6 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 7;
 }
 
 message UpdateClusterMetadata {
@@ -417,6 +430,30 @@ message RestoreClusterMetadata {
 
   // ID of the backup that is being used for creating a cluster.
   string backup_id = 2;
+}
+message RescheduleMaintenanceRequest {
+  // Required. ID of the MongoDB cluster to maintenance reschedule.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  enum RescheduleType {
+    RESCHEDULE_TYPE_UNSPECIFIED = 0;
+    IMMEDIATE = 1;
+    NEXT_AVAILABLE_WINDOW = 2;
+    SPECIFIC_TIME = 3;
+  }
+  // Required. The type of reschedule request.
+  RescheduleType reschedule_type = 2[(required) = true];
+
+  // The time for SPECIFIC_TIME reschedule. Limited by two weeks since first time scheduled.
+  google.protobuf.Timestamp delayed_until = 3;
+}
+
+message RescheduleMaintenanceMetadata {
+  // Required. ID of the MongoDB cluster.
+  string cluster_id = 1;
+
+  // Required. New time of the planned maintenance. Can be in the past for rescheduled to "IMMEDIATE".
+  google.protobuf.Timestamp delayed_until = 4;
 }
 
 message LogRecord {

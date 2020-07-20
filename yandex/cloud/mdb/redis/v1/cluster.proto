@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 import "google/type/timeofday.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis5_0.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis6_0.proto";
+import "yandex/cloud/mdb/redis/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/redis/v1;redis";
 option java_package = "yandex.cloud.api.mdb.redis.v1";
@@ -107,6 +108,12 @@ message Cluster {
 
   // Redis cluster mode on/off.
   bool sharded = 13;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 14;
+
+  // Maintenance operation planned at nearest maintenance_window.
+  MaintenanceOperation planned_operation = 15;
 }
 
 message Monitoring {

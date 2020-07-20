@@ -73,6 +73,9 @@ message Cluster {
 
   // Object Storage bucket to be used for Data Proc jobs that are run in the cluster.
   string bucket = 13;
+
+  // Whether UI Proxy feature is enabled.
+  bool ui_proxy = 14;
 }
 
 // Metadata of a monitoring system for a Data Proc cluster.

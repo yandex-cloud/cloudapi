@@ -15,6 +15,7 @@ import "yandex/cloud/mdb/postgresql/v1/config/host10.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host10_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host11.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host12.proto";
+import "yandex/cloud/mdb/postgresql/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
 option java_package = "yandex.cloud.api.mdb.postgresql.v1";
@@ -114,6 +115,12 @@ message Cluster {
 
   // Current state of the cluster.
   Status status = 12;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 13;
+
+  // Maintenance operation planned at nearest maintenance_window.
+  MaintenanceOperation planned_operation = 14;
 }
 
 // Monitoring system.

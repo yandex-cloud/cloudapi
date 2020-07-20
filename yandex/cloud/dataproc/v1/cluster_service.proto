@@ -82,6 +82,11 @@ service ClusterService {
   rpc ListHosts (ListClusterHostsRequest) returns (ListClusterHostsResponse) {
     option (google.api.http) = { get: "/dataproc/v1/clusters/{cluster_id}/hosts" };
   }
+
+  // Retrieves a list of links to web interfaces being proxied by Data Proc UI Proxy.
+  rpc ListUILinks (ListUILinksRequest) returns (ListUILinksResponse) {
+    option (google.api.http) = { get: "/dataproc/v1/clusters/{cluster_id}/ui_links" };
+  }
 }
 
 message GetClusterRequest {
@@ -209,6 +214,9 @@ message CreateClusterRequest {
 
   // Name of the Object Storage bucket to use for Data Proc jobs.
   string bucket = 9;
+
+  // Enable UI Proxy feature.
+  bool ui_proxy = 10;
 }
 
 message CreateClusterMetadata {
@@ -245,6 +253,9 @@ message UpdateClusterRequest {
 
   // Timeout to gracefully decommission nodes. In seconds. Default value: 0
   int64 decommission_timeout = 9 [(value) = "0-86400"];
+
+  // Enable UI Proxy feature.
+  bool ui_proxy = 10;
 }
 
 message UpdateClusterMetadata {
@@ -357,4 +368,19 @@ message ListClusterHostsResponse {
   //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
+}
+
+message ListUILinksRequest {
+  // Required. ID of the Hadoop cluster.
+  string cluster_id = 1 [(length) = "<=50"];
+}
+
+message UILink {
+  string name = 1;
+  string url = 2;
+}
+
+message ListUILinksResponse {
+  // Requested list of ui links.
+  repeated UILink links = 1;
 }

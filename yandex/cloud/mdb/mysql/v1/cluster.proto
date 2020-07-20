@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 import "google/type/timeofday.proto";
 import "yandex/cloud/mdb/mysql/v1/config/mysql5_7.proto";
 import "yandex/cloud/mdb/mysql/v1/config/mysql8_0.proto";
+import "yandex/cloud/mdb/mysql/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mysql/v1;mysql";
 option java_package = "yandex.cloud.api.mdb.mysql.v1";
@@ -105,6 +106,12 @@ message Cluster {
 
   // Current state of the cluster.
   Status status = 12;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 13;
+
+  // Maintenance operation planned at nearest maintenance_window.
+  MaintenanceOperation planned_operation = 14;
 }
 
 message Monitoring {

@@ -431,6 +431,10 @@ message AttachedDiskSpec {
       // ID of the snapshot that will be used for disk creation.
       string snapshot_id = 5 [(length) = "<=50"];
     }
+
+    // When set to true, disk will not be deleted even after managed instance is deleted.
+    // It will be a user's responsibility to delete such disks.
+    bool preserve_after_instance_delete = 6;
   }
 }
 

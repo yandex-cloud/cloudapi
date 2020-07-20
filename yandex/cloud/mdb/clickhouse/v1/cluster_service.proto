@@ -15,6 +15,7 @@ import "yandex/cloud/mdb/clickhouse/v1/cluster.proto";
 import "yandex/cloud/mdb/clickhouse/v1/database.proto";
 import "yandex/cloud/mdb/clickhouse/v1/user.proto";
 import "yandex/cloud/mdb/clickhouse/v1/config/clickhouse.proto";
+import "yandex/cloud/mdb/clickhouse/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1;clickhouse";
 option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
@@ -114,6 +115,16 @@ service ClusterService {
       response: "Cluster"
     };
   }
+
+  // Reschedule planned maintenance operation.
+  rpc RescheduleMaintenance (RescheduleMaintenanceRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}:rescheduleMaintenance" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "RescheduleMaintenanceMetadata"
+      response: "Cluster"
+    };
+  }
+
 
   // Retrieves logs for the specified ClickHouse cluster.
   rpc ListLogs (ListClusterLogsRequest) returns (ListClusterLogsResponse) {
@@ -360,6 +371,9 @@ message UpdateClusterRequest {
 
   // ID of the service account used for access to Yandex Object Storage.
   string service_account_id = 7;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 8;
 }
 
 message UpdateClusterMetadata {
@@ -485,6 +499,31 @@ message RestoreClusterMetadata {
 
   // ID of the backup that is being used for creating a cluster.
   string backup_id = 2;
+}
+
+message RescheduleMaintenanceRequest {
+  // Required. ID of the ClickHouse cluster to maintenance reschedule.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  enum RescheduleType {
+    RESCHEDULE_TYPE_UNSPECIFIED = 0;
+    IMMEDIATE = 1;
+    NEXT_AVAILABLE_WINDOW = 2;
+    SPECIFIC_TIME = 3;
+  }
+  // Required. The type of reschedule request.
+  RescheduleType reschedule_type = 2[(required) = true];
+
+  // The time for SPECIFIC_TIME reschedule. Limited by two weeks since first time scheduled.
+  google.protobuf.Timestamp delayed_until = 3;
+}
+
+message RescheduleMaintenanceMetadata {
+  // Required. ID of the ClickHouse cluster.
+  string cluster_id = 1;
+
+  // Required. New time of the planned maintenance. Can be in the past for rescheduled to "IMMEDIATE".
+  google.protobuf.Timestamp delayed_until = 4;
 }
 
 message LogRecord {
@@ -975,7 +1014,9 @@ message ConfigSpec {
   // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 4;
 
-  // Access policy to DB
+  // Access policy for external services.
+  //
+  // If you want a specific service to access the ClickHouse cluster, then set the necessary values in this policy.
   Access access = 5;
 }
 

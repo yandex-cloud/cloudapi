@@ -110,6 +110,10 @@ message GetDeviceRequest {
   //
   // To get a device ID make a [DeviceService.List] request.
   string device_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Specifies which parts of the device resource should be returned
+  // in the response.
+  DeviceView device_view = 2;
 }
 
 message ListDevicesRequest {
@@ -135,6 +139,10 @@ message ListDevicesRequest {
   // Page token. To get the next page of results, set `page_token` to the
   // [ListDevicesResponse.next_page_token] returned by a previous list request.
   string page_token = 4 [(length) = "<=100"];
+
+  // Specifies which parts of the device resource should be returned
+  // in the response.
+  DeviceView device_view = 5;
 }
 
 message ListDevicesResponse {

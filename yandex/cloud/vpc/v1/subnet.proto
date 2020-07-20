@@ -54,3 +54,9 @@ message DhcpOptions {
   string domain_name = 2;
   repeated string ntp_servers = 3;
 }
+
+enum IpVersion {
+  IP_VERSION_UNSPECIFIED = 0;
+  IPV4 = 1;
+  IPV6 = 2;
+}

@@ -8,6 +8,7 @@ import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/vpc/v1/subnet.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
+import "yandex/cloud/reference/reference.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/vpc/v1;vpc";
 option java_package = "yandex.cloud.api.vpc.v1";
@@ -68,6 +69,9 @@ service SubnetService {
       response: "Subnet"
     };
   }
+
+  // List used addresses in specified subnet.
+  rpc ListUsedAddresses (ListUsedAddressesRequest) returns (ListUsedAddressesResponse);
 }
 
 message GetSubnetRequest {
@@ -230,4 +234,22 @@ message MoveSubnetRequest {
 message MoveSubnetMetadata {
   // ID of the Subnet resource that is being moved.
   string subnet_id = 1;
+}
+
+message ListUsedAddressesRequest {
+  string subnet_id = 1 [(required) = true];
+  int64 page_size = 2;
+  string page_token = 3;
+  string filter = 4;
+}
+
+message ListUsedAddressesResponse {
+  repeated UsedAddress addresses = 1;
+  string next_page_token = 2;
+}
+
+message UsedAddress {
+  string address = 1;
+  IpVersion ip_version = 2;
+  repeated reference.Reference references = 3;
 }
