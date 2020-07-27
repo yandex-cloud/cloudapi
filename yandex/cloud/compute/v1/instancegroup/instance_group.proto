@@ -266,9 +266,13 @@ message DeployPolicy {
   int64 max_unavailable = 1 [(value) = "0-100"];
 
   // The maximum number of instances that can be deleted at the same time.
+  //
+  //The value 0 is any number of virtual machines within the allowed values.
   int64 max_deleting = 2 [(value) = "0-100"];
 
   // The maximum number of instances that can be created at the same time.
+  //
+  //The value 0 is any number of virtual machines within the allowed values.
   int64 max_creating = 3 [(value) = "0-100"];
 
   // The maximum number of instances that can be temporarily allocated above the group's target size
