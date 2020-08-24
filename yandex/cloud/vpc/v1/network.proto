@@ -27,4 +27,7 @@ message Network {
 
   // Resource labels as `` key:value `` pairs. Мaximum of 64 per resource.
   map<string, string> labels = 6;
+
+  // ID of default security group for network.
+  string default_security_group_id = 7;
 }

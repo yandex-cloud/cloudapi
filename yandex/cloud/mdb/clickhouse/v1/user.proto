@@ -93,259 +93,641 @@ message UserSettings {
     QUOTA_MODE_KEYED_BY_IP = 3;
   }
 
-  // Restricts permissions for non-DDL queries. Possible values: 0 (default) — no restrictions,
-  // 1 — only read data queries are allowed, 2 — read data and change settings queries are allowed.
+  enum CountDistinctImplementation {
+    COUNT_DISTINCT_IMPLEMENTATION_UNSPECIFIED = 0;
+    COUNT_DISTINCT_IMPLEMENTATION_UNIQ = 1;
+    COUNT_DISTINCT_IMPLEMENTATION_UNIQ_COMBINED = 2;
+    COUNT_DISTINCT_IMPLEMENTATION_UNIQ_COMBINED_64 = 3;
+    COUNT_DISTINCT_IMPLEMENTATION_UNIQ_HLL_12 = 4;
+    COUNT_DISTINCT_IMPLEMENTATION_UNIQ_EXACT = 5;
+  }
+
+  // Restricts permissions for non-DDL queries. To restrict permissions for DDL queries, use [allow_ddl] instead.
+  // * **0** (default)—no restrictions.
+  // * **1**—only read data queries are allowed.
+  // * **2**—read data and change settings queries are allowed.
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/permissions-for-queries/#settings_readonly).
   google.protobuf.Int64Value readonly = 1 [(value) = "0-2"];
 
-  // Whether DDL queries are allowed. Default value: false.
+  // Determines whether DDL queries are allowed (e.g., **CREATE**, **ALTER**, **RENAME**, etc).
+  //
+  // Default value: **true**.
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/permissions-for-queries/#settings_allow_ddl).
   google.protobuf.BoolValue allow_ddl = 2;
 
-  // For INSERT queries in the replicated table, wait writing for the specified number of replicas and linearize
-  // the addition of the data.
+  // Enables or disables write quorum for ClickHouse cluster.
+  // If the value is less than **2**, then write quorum is disabled, otherwise it is enabled.
+  //
+  // When used, write quorum guarantees that ClickHouse has written data to the quorum of **insert_quorum** replicas with no errors until the [insert_quorum_timeout] expires.
+  // All replicas in the quorum are in the consistent state, meaning that they contain linearized data from the previous **INSERT** queries.
+  // Employ write quorum, if you need the guarantees that the written data would not be lost in case of one or more replicas failure.
+  //
+  // You can use [select_sequential_consistency] setting to read the data written with write quorum.
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#settings-insert_quorum).
   google.protobuf.Int64Value insert_quorum = 3 [(value) = ">=0"];
 
   // Connection timeout in milliseconds.
+  //
+  // Value must be greater than **0** (default: **10000**, 10 seconds).
   google.protobuf.Int64Value connect_timeout = 39 [(value) = ">0"];
 
   // Receive timeout in milliseconds.
+  //
+  // Value must be greater than **0** (default: **300000**, 300 seconds or 5 minutes).
   google.protobuf.Int64Value receive_timeout = 40 [(value) = ">0"];
 
   // Send timeout in milliseconds.
+  //
+  // Value must be greater than **0** (default: **300000**, 300 seconds or 5 minutes).
   google.protobuf.Int64Value send_timeout = 41 [(value) = ">0"];
 
-  // Quorum write timeout in milliseconds. Default value: 60000.
+  // Quorum write timeout in milliseconds.
+  //
+  // If the write quorum is enabled in the cluster, this timeout expires and some data is not written to the [insert_quorum] replicas, then ClickHouse will abort the execution of **INSERT** query and return an error.
+  // In this case, the client must send the query again to write the data block into the same or another replica.
+  //
+  // Minimum value: **1000**, 1 second (default: **60000**, 1 minute).
   google.protobuf.Int64Value insert_quorum_timeout = 4 [(value) = ">=1000"];
 
-  // For SELECT queries from the replicated table, throw an exception if the replica does not have a chunk written
-  // with the quorum; do not read the parts that have not yet been written with the quorum.
+  // Determines the behavior of **SELECT** queries from the replicated table: if enabled, ClickHouse will terminate a query with error message in case the replica does not have a chunk written with the quorum and will not read the parts that have not yet been written with the quorum.
+  //
+  // Default value: **false** (sequential consistency is disabled).
   google.protobuf.BoolValue select_sequential_consistency = 5;
 
-  // Max replica delay in milliseconds. If a replica lags more than the set value, this replica is not used.
-  // Default value: 300000.
+  // Max replica delay in milliseconds. If a replica lags more than the set value, this replica is not used and becomes a stale one.
+  //
+  // Minimum value: **1000**, 1 second (default: **300000**, 300 seconds or 5 minutes).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#settings-max_replica_delay_for_distributed_queries).
   google.protobuf.Int64Value max_replica_delay_for_distributed_queries = 6 [(value) = ">=1000"];
 
-  // Determine the behavior when all replicas for the queried table are stale. If enabled, the query will be
-  // performed anyway. Otherwise, the error will be thrown.
+  // Enables or disables query forcing to a stale replica in case the actual data is unavailable.
+  // If enabled, ClickHouse will choose the most up-to-date replica and force the query to use the data in this replica.
+  // This setting can be used when doing **SELECT** query from a distributed table that points to replicated tables.
+  //
+  // Default value: **true** (query forcing is enabled).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#settings-fallback_to_stale_replicas_for_distributed_queries).
   google.protobuf.BoolValue fallback_to_stale_replicas_for_distributed_queries = 7;
 
-  // Wait mode for ALTER queries on replicated tables.
-  // Possible values: 0 - do not wait, 1 - wait for execution only of itself, 2 - wait for everyone.
+  // Wait mode for asynchronous actions in **ALTER** queries on replicated tables:
+  //
+  // * **0**—do not wait for replicas.
+  // * **1**—only wait for own execution (default).
+  // * **2**—wait for all replicas.
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/sql-reference/statements/alter/#synchronicity-of-alter-queries).
   google.protobuf.Int64Value replication_alter_partitions_sync = 42 [(value) = "0-2"];
 
-  // Determine the behavior of distributed subqueries. Possible values: DISTRIBUTED_PRODUCT_MODE_DENY,
-  // DISTRIBUTED_PRODUCT_MODE_LOCAL, DISTRIBUTED_PRODUCT_MODE_GLOBAL, DISTRIBUTED_PRODUCT_MODE_ALLOW.
+  // Determine the behavior of distributed subqueries.
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#distributed-product-mode).
   DistributedProductMode distributed_product_mode = 43;
 
-  // Whether the memory-saving mode of distributed aggregation is enabled.
+  // Enables of disables memory saving mode when doing distributed aggregation.
+  //
+  // When ClickHouse works with a distributed query, external aggregation is done on remote servers.
+  // Enable this setting to achieve a smaller memory footprint on the server that sourced such a distributed query.
+  //
+  // Default value: **false** (memory saving mode is disabled).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/sql-reference/statements/select/group-by/#select-group-by-in-external-memory).
   google.protobuf.BoolValue distributed_aggregation_memory_efficient = 72;
 
   // Timeout for DDL queries, in milliseconds.
   google.protobuf.Int64Value distributed_ddl_task_timeout = 73;
 
-  // Whether unavailable shards can be skipped.
+  // Enables or disables silent skipping of unavailable shards.
+  //
+  // A shard is considered unavailable if all its replicas are also unavailable.
+  //
+  // Default value: **false** (silent skipping is disabled).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#settings-skip_unavailable_shards).
   google.protobuf.BoolValue skip_unavailable_shards = 81;
 
-  // Whether query compilation is enabled.
+  // Enables or disables query compilation.
+  // If you execute a lot of structurally identical queries, then enable this setting.
+  // As a result, such queries may be executed faster due to use of queries' compiled parts.
+  //
+  // Use this setting in combination with [min_count_to_compile] setting.
+  //
+  // Default value: **false** (compilation is disabled).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#compile).
   google.protobuf.BoolValue compile = 44;
 
-  // The number of structurally identical queries before they are compiled.
+  // How many structurally identical queries ClickHouse has to encounter before they are compiled.
+  //
+  // Minimum value: **0** (default: **3**).
+  //
+  // For the **0** value compilation is synchronous: a query waits for compilation process to complete prior to continuing execution.
+  // It is recommended to set this value only for testing purposes.
+  //
+  // For all other values, compilation is asynchronous: the compilation process executes in a separate thread.
+  // When a compiled part of query is ready, it will be used by ClickHouse for eligible queries, including the ones that are currently running.
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#min-count-to-compile).
   google.protobuf.Int64Value min_count_to_compile = 45 [(value) = ">=0"];
 
-  // Whether expression compilation is enabled.
+  // Enables or disables expression compilation.
+  // If you execute a lot of queries that contain identical expressions, then enable this setting.
+  // As a result, such queries may be executed faster due to use of compiled expressions.
+  //
+  // Use this setting in combination with [min_count_to_compile_expression] setting.
+  //
+  // Default value: **false** (expression compilation is disabled).
   google.protobuf.BoolValue compile_expressions = 46;
 
-  // The number of identical expressions before they are compiled.
+  // How many identical expressions ClickHouse has to encounter before they are compiled.
+  //
+  // Minimum value: **0** (default: **3**).
+  //
+  // For the **0** value compilation is synchronous: a query waits for expression compilation process to complete prior to continuing execution.
+  // It is recommended to set this value only for testing purposes.
+  //
+  // For all other values, compilation is asynchronous: the compilation process executes in a separate thread.
+  // When a compiled expression is ready, it will be used by ClickHouse for eligible queries, including the ones that are currently running.
   google.protobuf.Int64Value min_count_to_compile_expression = 47 [(value) = ">=0"];
 
   // The maximum block size for reading.
+  //
+  // Data in ClickHouse is organized and processed by blocks (block is a set of columns' parts).
+  // The internal processing cycles for a single block are efficient enough, but there are noticeable expenditures on each block.
+  //
+  // This setting is a recommendation for size of block (in a count of rows) that should be loaded from tables.
+  //
+  // Value must be greater than **0** (default: **65536**).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#setting-max_block_size).
   google.protobuf.Int64Value max_block_size = 9 [(value) = ">0"];
 
-  // Squash blocks passed to INSERT query to specified size in rows, if blocks are not big enough. If set to 0,
-  // blocks will never be squashed.
+  // Limits the minimum number of rows in a block to be inserted in a table by **INSERT** query.
+  // Blocks that are smaller than the specified value, will be squashed together into the bigger blocks.
+  //
+  // Minimal value: **0**, block squashing is disabled (default: **1048576**).
   google.protobuf.Int64Value min_insert_block_size_rows = 48 [(value) = ">=0"];
 
-  // Squash blocks passed to INSERT query to specified size in bytes, if blocks are not big enough. If set to 0,
-  // blocks will never be squashed.
+  // Limits the minimum number of bytes in a block to be inserted in a table by **INSERT** query.
+  // Blocks that are smaller than the specified value, will be squashed together into the bigger blocks.
+  //
+  // Minimal value: **0**, block squashing is disabled (default: **‭268435456‬‬**, 256 MB).
   google.protobuf.Int64Value min_insert_block_size_bytes = 49 [(value) = ">=0"];
 
-  // The maximum block size for insertion.
+  // Allows to form blocks of the specified size (in bytes) when inserting data in a table.
+  // This setting has effect only if server is creating such blocks by itself.
+  //
+  // Value must be greater than **0** (default: **1048576**).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#settings-max_insert_block_size).
   google.protobuf.Int64Value max_insert_block_size = 10 [(value) = ">0"];
 
-  // The minimum number of bytes for reading the data with O_DIRECT option during SELECT queries execution.
+  // Limits the minimum number of bytes to enable unbuffered direct reads from disk (Direct I/O).
+  //
+  // By default, ClickHouse does not read data directly from disk, but relies on the filesystem and its cache instead.
+  // Such reading strategy is effective when the data volume is small.
+  // If the amount of the data to read is huge, it is more effective to read directly from the disk, bypassing the filesystem cache.
+  //
+  // If the total amount of the data to read is greater than the value of this setting, then ClickHouse will fetch this data directly from the disk.
+  //
+  // Minimal value and default value: **0**, Direct I/O is disabled.
   google.protobuf.Int64Value min_bytes_to_use_direct_io = 50 [(value) = ">=0"];
 
-  // Whether to use the cache of uncompressed blocks.
+  // Determines whether to use the cache of uncompressed blocks, or not.
+  // Using this cache can significantly reduce latency and increase the throughput when a huge amount of small queries is to be processed.
+  // Enable this setting for the users who instantiates small queries frequently.
+  //
+  // This setting has effect only for tables of the MergeTree family.
+  //
+  // Default value: **false** (uncompressed cache is disabled).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#setting-use_uncompressed_cache).
   google.protobuf.BoolValue use_uncompressed_cache = 51;
 
-  // The maximum request size in rows to use the cache of uncompressed data. The cache is not used for requests larger
+  // Limits the maximum size in rows of the request that can use the cache of uncompressed data. The cache is not used for requests larger
   // than the specified value.
+  //
+  // Use this setting in combination with [use_uncompressed_cache] setting.
+  //
+  // Value must be greater than **0** (default: **128x8192**).
   google.protobuf.Int64Value merge_tree_max_rows_to_use_cache = 52 [(value) = ">0"];
 
-  // The maximum request size in bytes to use the cache of uncompressed data. The cache is not used for requests larger
+  // Limits the maximum size in bytes of the request that can use the cache of uncompressed data. The cache is not used for requests larger
   // than the specified value.
+  //
+  // Use this setting in combination with [use_uncompressed_cache] setting.
+  //
+  // Value must be greater than **0** (default: **192x10x1024x1024**).
   google.protobuf.Int64Value merge_tree_max_bytes_to_use_cache = 53 [(value) = ">0"];
 
-  // The minimum number of rows to be read from a file to enable concurrent read.
+  // Limits the minimum number of rows to be read from a file to enable concurrent read.
+  // If the number of rows to be read exceeds this value, then ClickHouse will try to use a few threads to read from a file concurrently.
+  //
+  // This setting has effect only for tables of the MergeTree family.
+  //
+  // Value must be greater than **0** (default: **20x8192**).
   google.protobuf.Int64Value merge_tree_min_rows_for_concurrent_read = 54 [(value) = ">0"];
 
-  // The minimum number of bytes to be read from a file to enable concurrent read.
+  // Limits the number of bytes to be read from a file to enable concurrent read.
+  // If the number of bytes to be read exceeds this value, then ClickHouse will try to use a few threads to read from a file concurrently.
+  //
+  // This setting has effect only for tables of the MergeTree family.
+  //
+  // Value must be greater than **0** (default: **24x10x1024x1024**).
   google.protobuf.Int64Value merge_tree_min_bytes_for_concurrent_read = 55 [(value) = ">0"];
 
+  // Sets the threshold of RAM consumption (in bytes) after that the temporary data, collected during the **GROUP BY** operation, should be flushed to disk to limit the RAM comsumption.
+  //
+  // By default, aggregation is done by employing hash table that resides in RAM.
+  // A query can result in aggregation of huge data volumes that can lead to memory exhaustion and abortion of the query (see the [max_memory_usage] setting).
+  // For such queries, you can use this setting to force ClickHouse to do flushing and complete aggregation successfully.
+  //
+  // Minimal value and default value: **0**, **GROUP BY** in the external memory is disabled.
+  //
+  // When using aggregation in external memory, it is recommended to set the value of this setting twice as low as the [max_memory_usage] setting value (by default, the maximum memory usage is limited to ten gigabytes).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/sql-reference/statements/select/group-by/#select-group-by-in-external-memory).
+  //
+  // See also: the [distributed_aggregation_memory_efficient] setting.
   google.protobuf.Int64Value max_bytes_before_external_group_by = 74;
 
+  // This setting is equivalent of the [max_bytes_before_external_group_by] setting, except for it is for sort operation (**ORDER BY**), not aggregation.
   google.protobuf.Int64Value max_bytes_before_external_sort = 75;
 
+  // Sets the threshold of the number of keys, after that the two-level aggregation should be used.
+  //
+  // Minimal value: **0**, threshold is not set (default: **10000‬‬**).
   google.protobuf.Int64Value group_by_two_level_threshold = 76;
 
+  // Sets the threshold of the number of bytes, after that the two-level aggregation should be used.
+  //
+  // Minimal value: **0**, threshold is not set (default: **100000000‬‬**).
   google.protobuf.Int64Value group_by_two_level_threshold_bytes = 77;
 
-  // Priority of the query.
+  // Sets the priority of a query.
+  //
+  // * **0**—priority is not used.
+  // * **1**—the highest priority.
+  // * and so on. The higher the number, the lower a query's priority.
+  //
+  // This setting should be set up for each query individually.
+  //
+  // If ClickHouse is working with the high-priority queries, and a low-priority query enters, then the low-priority query is paused until higher-priority queries are completed.
+  //
+  // Minimal value and default value: **0**, priority is not used.
   google.protobuf.Int64Value priority = 56 [(value) = ">=0"];
 
-  // The maximum number of threads to execute the request.
+  // Limits the maximum number of threads to process the request (setting does not take threads that read data from remote servers into account).
+  //
+  // This setting applies to threads that perform the same stages of the query processing pipeline in parallel.
+  //
+  // Minimal value and default value: **0** (the thread number is calculated automatically based on the number of physical CPU cores, no HyperThreading cores are taken into account).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#settings-max_threads).
   google.protobuf.Int64Value max_threads = 8 [(value) = ">0"];
 
-  // The maximum memory usage for processing of a single query.
+  // Limits the maximum memory usage (in bytes) for processing of a single user's query on a single server.
+  // This setting does not take server's free RAM amount or total RAM amount into account.
+  //
+  // This limitation is enforced for any user's single query on a single server.
+  //
+  // Minimal value: **0**, no limitation is set.
+  // Value that is set in the ClickHouse default config file: **10737418240** (10 GB).
+  //
+  // If you use [max_bytes_before_external_group_by] or [max_bytes_before_external_sort] setting, then it is recommended to set their values twice as low as [max_memory_usage] setting value.
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#settings_max_memory_usage).
   google.protobuf.Int64Value max_memory_usage = 11 [(value) = ">=0"];
 
-  // The maximum memory usage for processing all concurrently running queries for the user.
+  // Limits the maximum memory usage (in bytes) for processing of user's queries on a single server.
+  // This setting does not take server's free RAM amount or total RAM amount into account.
+  //
+  // This limitation is enforced for all queries that belong to one user and run simultaneously on a single server.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_memory_usage_for_user = 12 [(value) = ">=0"];
 
   // The maximum speed of data exchange over the network in bytes per second for a query.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_network_bandwidth = 57;
 
   // The maximum speed of data exchange over the network in bytes per second for all concurrently running user queries.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_network_bandwidth_for_user = 58;
 
-  // Disables query execution if the index can’t be used by date.
+  // If enabled, query is not executed if the ClickHouse can’t use index by date.
+  // This setting has effect only for tables of the MergeTree family.
+  //
+  // Default value: **false** (setting is disabled, query executes even if ClickHouse can't use index by date).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#settings-force_index_by_date).
   google.protobuf.BoolValue force_index_by_date = 59;
 
-  // Disables query execution if indexing by the primary key is not possible.
+  // If enabled, query is not executed if the ClickHouse can’t use index by primary key.
+  // This setting has effect only for tables of the MergeTree family.
+  //
+  // Default value: **false** (setting is disabled, query executes even if ClickHouse can't use index by primary key).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#force-primary-key).
   google.protobuf.BoolValue force_primary_key = 60;
 
-  // The maximum number of rows that can be read from a table when running a query.
+  // Limits the maximum number of rows that can be read from a table when running a query.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#max-rows-to-read).
   google.protobuf.Int64Value max_rows_to_read = 13 [(value) = ">=0"];
 
-  // The maximum number of bytes (uncompressed data) that can be read from a table when running a query.
+  // Limits the maximum number of bytes (uncompressed data) that can be read from a table when running a query.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_bytes_to_read = 14 [(value) = ">=0"];
 
-  // Determine the behavior on exceeding max_rows_to_read or max_bytes_to_read limit.
-  // Possible values: OVERFLOW_MODE_THROW, OVERFLOW_MODE_BREAK.
+  // Determines the behavior on exceeding [limits](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#restrictions-on-query-complexity) while reading the data.
+  //
+  // * **throw**—abort query execution, return an error.
+  // * **break**—stop query execution, return partial result.
   OverflowMode read_overflow_mode = 15;
 
-  // The maximum number of unique keys received from aggregation.
+  // Limits the maximum number of unique keys received from aggregation function.
+  // This setting helps to reduce RAM consumption while doing aggregation.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_rows_to_group_by = 16 [(value) = ">=0"];
 
-  // Determine the behavior on exceeding max_rows_to_group_by limit. Possible values: GROUP_BY_OVERFLOW_MODE_THROW,
-  // GROUP_BY_OVERFLOW_MODE_BREAK, GROUP_BY_OVERFLOW_MODE_ANY.
+  // Determines the behavior on exceeding [limits](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#restrictions-on-query-complexity) while doing aggregation.
+  //
+  // * **throw**—abort query execution, return an error.
+  // * **break**—stop query execution, return partial result.
+  // * **any**—perform approximate **GROUP BY** operation by continuing aggregation for the keys that got into the set, but don’t add new keys to the set.
   GroupByOverflowMode group_by_overflow_mode = 17;
 
-  // The maximum number of rows before sorting.
+  // Limits the maximum number of rows that can be read from a table for sorting.
+  // This setting helps to reduce RAM consumption.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_rows_to_sort = 18 [(value) = ">=0"];
 
-  // The maximum number of bytes before sorting.
+  // Limits the maximum number of bytes (uncompressed data) that can be read from a table for sorting.
+  // This setting helps to reduce RAM consumption.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_bytes_to_sort = 19 [(value) = ">=0"];
 
-  // Determine the behavior on exceeding max_rows_to_sort or max_bytes_to_sort limit.
-  // Possible values: OVERFLOW_MODE_THROW, OVERFLOW_MODE_BREAK.
+  // Determines the behavior on exceeding [limits](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#restrictions-on-query-complexity) while sorting.
+  //
+  // * **throw**—abort query execution, return an error.
+  // * **break**—stop query execution, return partial result.
   OverflowMode sort_overflow_mode = 20;
 
-  // Limit on the number of rows in the result.
+  // Limits the number of rows in the result.
+  // This limitation is also checked for subqueries and parts of distributed queries that run on remote servers.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_result_rows = 21 [(value) = ">=0"];
 
-  // Limit on the number of bytes in the result.
+  // Limits the number of bytes in the result.
+  // This limitation is also checked for subqueries and parts of distributed queries that run on remote servers.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_result_bytes = 22 [(value) = ">=0"];
 
-  // Determine the behavior on exceeding max_result_rows or max_result_bytes limit.
-  // Possible values: OVERFLOW_MODE_THROW, OVERFLOW_MODE_BREAK.
+  // Determines the behavior on exceeding [limits](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#restrictions-on-query-complexity) while forming result.
+  //
+  // * **throw**—abort query execution, return an error.
+  // * **break**—stop query execution, return partial result.
   OverflowMode result_overflow_mode = 23;
 
-  // The maximum number of different rows when using DISTINCT.
+  // Limits the maximum number of different rows when using **DISTINCT**.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_rows_in_distinct = 24 [(value) = ">=0"];
 
-  // The maximum number of bytes used by a hash table when using DISTINCT.
+  // Limits the maximum size of a hash table in bytes (uncompressed data) when using **DISTINCT**.
   google.protobuf.Int64Value max_bytes_in_distinct = 25 [(value) = ">=0"];
 
-  // Determine the behavior on exceeding max_rows_in_distinct or max_bytes_in_distinct limit.
-  // Possible values: OVERFLOW_MODE_THROW, OVERFLOW_MODE_BREAK.
+  // Determines the behavior on exceeding [limits](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#restrictions-on-query-complexity) while doing **DISCTINCT**.
+  //
+  // * **throw**—abort query execution, return an error.
+  // * **break**—stop query execution, return partial result.
   OverflowMode distinct_overflow_mode = 26;
 
-  // The maximum number of rows that can be passed to a remote server or saved in a temporary table when using GLOBAL IN.
+  // Limits the maximum number of rows that can be passed to a remote server or saved in a temporary table when using **GLOBAL IN**.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_rows_to_transfer = 27 [(value) = ">=0"];
 
-  // The maximum number of bytes (uncompressed data) that can be passed to a remote server or saved in a temporary
-  // table when using GLOBAL IN.
+  // Limits the maximum number of bytes (uncompressed data) that can be passed to a remote server or saved in a temporary
+  // table when using **GLOBAL IN**.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_bytes_to_transfer = 28 [(value) = ">=0"];
 
-  // Determine the behavior on exceeding max_rows_to_transfer or max_bytes_to_transfer limit.
-  // Possible values: OVERFLOW_MODE_THROW, OVERFLOW_MODE_BREAK.
+  // Determines the behavior on exceeding [limits](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#restrictions-on-query-complexity) while doing transfers.
+  //
+  // * **throw**—abort query execution, return an error.
+  // * **break**—stop query execution, return partial result.
   OverflowMode transfer_overflow_mode = 29;
 
-  // The maximum query execution time in milliseconds.
+  // Limits the maximum query execution time in milliseconds.
+  // At this moment, this limitation is not checked when passing one of the sorting stages, as well as merging and finalizing aggregation funictions.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_execution_time = 30 [(value) = ">=0"];
 
-  // Determine the behavior on exceeding max_execution_time limit.
-  // Possible values: OVERFLOW_MODE_THROW, OVERFLOW_MODE_BREAK.
+  // Determines the behavior on exceeding [limits](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#restrictions-on-query-complexity) of execution time.
+  //
+  // * **throw**—abort query execution, return an error.
+  // * **break**—stop query execution, return partial result.
   OverflowMode timeout_overflow_mode = 31;
 
-  // The maximum number of columns that can be read from a table in a single query.
+  // Limit on the number of rows in the set resulting from the execution of the IN section.
+  google.protobuf.Int64Value max_rows_in_set = 87 [(value) = ">=0"];
+
+  // Limit on the number of bytes in the set resulting from the execution of the IN section.
+  google.protobuf.Int64Value max_bytes_in_set = 88 [(value) = ">=0"];
+
+  // Determine the behavior on exceeding max_rows_in_set or max_bytes_in_set limit.
+  // Possible values: OVERFLOW_MODE_THROW, OVERFLOW_MODE_BREAK.
+  OverflowMode set_overflow_mode = 89;
+
+  // Limit on maximum size of the hash table for JOIN, in rows.
+  google.protobuf.Int64Value max_rows_in_join = 90 [(value) = ">=0"];
+
+  // Limit on maximum size of the hash table for JOIN, in bytes.
+  google.protobuf.Int64Value max_bytes_in_join = 91 [(value) = ">=0"];
+
+  // Determine the behavior on exceeding max_rows_in_join or max_bytes_in_join limit.
+  // Possible values: OVERFLOW_MODE_THROW, OVERFLOW_MODE_BREAK.
+  OverflowMode join_overflow_mode = 92;
+
+  // Limits the maximum number of columns that can be read from a table in a single query.
+  // If the query requires to read more columns to complete, then it will be aborted.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_columns_to_read = 32 [(value) = ">=0"];
 
-  // The maximum number of temporary columns that must be kept in RAM at the same time when running a query, including constant columns.
+  // Limits the maximum number of temporary columns that must be kept in RAM at the same time when running a query, including constant columns.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_temporary_columns = 33 [(value) = ">=0"];
 
-  // The maximum number of temporary columns that must be kept in RAM at the same time when running a query, excluding constant columns.
+  // Limits the maximum number of temporary columns that must be kept in RAM at the same time when running a query, excluding constant columns.
+  //
+  // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_temporary_non_const_columns = 34 [(value) = ">=0"];
 
-  // The maximum part of a query that can be taken to RAM for parsing with the SQL parser, in bytes. Default value: 262144.
+  // Limits the size of the part of a query that can be transferred to RAM for parsing with the SQL parser, in bytes.
+  //
+  // Value must be greater than **0** (default: **262144**).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#settings-max_query_size).
   google.protobuf.Int64Value max_query_size = 35 [(value) = ">0"];
 
-  // The maximum depth of query syntax tree. Default value: 1000.
+  // Limits the maximum depth of query syntax tree.
+  //
+  // Executing a big and complex query may result in building a syntax tree of enormous depth.
+  // By using this setting, you can prohibit execution of over-sized or non-optimized queries for huge tables.
+  //
+  // For example, the **SELECT *** query may result in more complex and deeper syntax tree, compared to the **SELECT ... WHERE ...** query, containing constraints and conditions, in the most cases.
+  // A user can be forced to construct more optimized queries, if this setting is used.
+  //
+  // Value must be greater than **0** (default: **1000**).
+  // If a too small value is set, it may render ClickHouse unable to execute even simple queries.
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#max-ast-depth).
   google.protobuf.Int64Value max_ast_depth = 36 [(value) = ">0"];
 
-  // The maximum size of query syntax tree in number of nodes. Default value: 50000.
+  // Limits the maximum size of query syntax tree in number of nodes.
+  //
+  // Executing a big and complex query may result in building a syntax tree of enormous size.
+  // By using this setting, you can prohibit execution of over-sized or non-optimized queries for huge tables.
+  //
+  // Value must be greater than **0** (default: **50000**).
+  // If a too small value is set, it may render ClickHouse unable to execute even simple queries.
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#max-ast-elements).
   google.protobuf.Int64Value max_ast_elements = 37 [(value) = ">0"];
 
-  // The maximum size of query syntax tree in number of nodes after expansion of aliases and the asterisk. Default value: 500000.
+  // Limits the maximum size of query syntax tree in number of nodes after expansion of aliases and the asterisk values.
+  //
+  // Executing a big and complex query may result in building a syntax tree of enormous size.
+  // By using this setting, you can prohibit execution of over-sized or non-optimized queries for huge tables.
+  //
+  // Value must be greater than **0** (default: **500000**).
+  // If a too small value is set, it may render ClickHouse unable to execute even simple queries.
   google.protobuf.Int64Value max_expanded_ast_elements = 38 [(value) = ">0"];
 
-  // Enables or disables the full SQL parser if the fast stream parser cannot parse the data.
+  // Minimal execution speed in rows per second.
+  google.protobuf.Int64Value min_execution_speed = 84 [(value) = ">=0"];
+
+  // Minimal execution speed in bytes per second.
+  google.protobuf.Int64Value min_execution_speed_bytes = 85 [(value) = ">=0"];
+
+  // Aggregate function to use for implementation of count(DISTINCT ...).
+  CountDistinctImplementation count_distinct_implementation = 86;
+
+  // Enables or disables SQL parser if the fast stream parser cannot parse the data.
+  //
+  // Enable this setting, if the data that you want to insert into a table contains SQL expressions.
+  //
+  // For example, the stream parser is unable to parse a value that contains **now()** expression; therefore an **INSERT** query for this value will fail and no data will be inserted into a table.
+  // With enabled SQL parser, this expression is parsed correctly: the **now()** expression will be parsed as SQL function, interpreted, and the current date and time will be inserted into the table as a result.
+  //
+  // This setting has effect only if you use [Values](https://clickhouse.tech/docs/en/interfaces/formats/#data-format-values) format when inserting data.
+  //
+  // Default value: **true** (SQL parser is enabled).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#settings-input_format_values_interpret_expressions).
   google.protobuf.BoolValue input_format_values_interpret_expressions = 61;
 
-  // When performing INSERT queries, replace omitted input column values with default values of the respective columns.
+  // Enables or disables replacing omitted input values with default values of the respective columns when performing **INSERT** queries.
+  //
+  // Default value: **true** (replacing is enabled).
   google.protobuf.BoolValue input_format_defaults_for_omitted_fields = 62;
 
-  // Whether quoting of 64-bit integers is enabled in JSON output format.
+  // Enables quoting of 64-bit integers in JSON output format.
+  //
+  // If this setting is enabled, then 64-bit integers (**UInt64** and **Int64**) will be quoted when written to JSON output in order to maintain compatibility with the most of the JavaScript engines.
+  // Otherwise, such integers will not be quoted.
+  //
+  // Default value: **false** (quoting 64-bit integers is disabled).
   google.protobuf.BoolValue output_format_json_quote_64bit_integers = 63;
 
-  // Whether output of special floating-point values (+nan, -nan, +inf and -inf) is enabled in JSON output format.
+  // Enables special floating-point values (**+nan**, **-nan**, **+inf** and **-inf**) in JSON output format.
+  //
+  // Default value: **false** (special values do not present in output).
   google.protobuf.BoolValue output_format_json_quote_denormals = 64;
 
-  // Whether LowCardinality type is enabled in Native format.
+  // Determines whether to use LowCardinality type in Native format.
+  //
+  // * **true** (default)—yes, use.
+  // * **false**—convert LowCardinality columns to regular columns when doing **SELECT**, and convert regular columns to LowCardinality when doing **INSERT**.
+  //
+  // LowCardinality columns (aka sparse columns) store data in more effective way, compared to regular columns, by using hash tables.
+  // If data to insert suits this storage format, ClickHouse will place them into LowCardinality column.
+  //
+  // If you use a third-party ClickHouse client that can't work with LowCardinality columns, then this client will not be able to correctly interpret the result of the query that asks for data stored in LowCardinality column.
+  // Disable this setting to convert LowCardinality column to regular column when creating the result, so such clients will be able to process the result.
+  //
+  // Official ClickHouse client works with LowCardinality columns out-of-the-box.
+  //
+  // Default value: **true** (LowCardinality columns are used in Native format).
   google.protobuf.BoolValue low_cardinality_allow_in_native_format = 78;
 
-  // Return empty result when aggregating without keys on empty set.
+  // Enables returning of empty result when aggregating without keys (with **GROUP BY** operation absent) on empty set (e.g., **SELECT count(*) FROM table WHERE 0**).
+  //
+  // * **true**—ClickHouse will return an empty result for such queries.
+  // * **false** (default)—ClickHouse will return a single-line result consisting of **NULL** values for aggregation functions, in accordance with SQL standard.
   google.protobuf.BoolValue empty_result_for_aggregation_by_empty_set = 79;
 
   // HTTP connection timeout, in milliseconds.
+  //
+  // Value must be greater than **0** (default: **1000**, 1 second).
   google.protobuf.Int64Value http_connection_timeout = 65;
 
   // HTTP receive timeout, in milliseconds.
+  //
+  // Value must be greater than **0** (default: **1800000**, 1800 seconds, 30 minutes).
   google.protobuf.Int64Value http_receive_timeout = 66;
 
   // HTTP send timeout, in milliseconds.
+  //
+  // Value must be greater than **0** (default: **1800000**, 1800 seconds, 30 minutes).
   google.protobuf.Int64Value http_send_timeout = 67;
 
-  // Whether data compression is enabled in HTTP responses.
+  // Enables or disables data compression in HTTP responses.
+  //
+  // By default, ClickHouse stores data compressed. When executing a query, its result is uncompressed.
+  // Use this setting to command ClickHouse to compress the result when sending it via HTTP.
+  //
+  // Enable this setting and add the **Accept-Encoding: <compression method>** HTTP header in a HTTP request to force compression of HTTP response from ClickHouse.
+  //
+  // ClickHouse support the following compression methods: **gzip**, **br** and **deflate**.
+  //
+  // Default value: **false** (compression is disabled).
+  //
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/interfaces/http/).
   google.protobuf.BoolValue enable_http_compression = 68;
 
-  // Whether progress notifications using X-ClickHouse-Progress headers are enabled. Default value: false.
+  // Enables progress notifications using **X-ClickHouse-Progress** HTTP header.
+  //
+  // Default value: **false** (notifications disabled).
   google.protobuf.BoolValue send_progress_in_http_headers = 69;
 
-  // Minimum interval between progress notifications, in milliseconds. Default value: 100.
+  // Minimum interval between progress notifications with **X-ClickHouse-Progress** HTTP header, in milliseconds.
+  //
+  // Value must be greater than **0** (default: **100**).
   google.protobuf.Int64Value http_headers_progress_interval = 70;
 
-  // Whether CORS header in HTTP responses is enabled. Default value: false.
+  // Adds CORS header in HTTP responses.
+  //
+  // Default value: **false** (header is not added).
   google.protobuf.BoolValue add_http_cors_header = 71;
 
   // Quota accounting mode. Possible values: QUOTA_MODE_DEFAULT, QUOTA_MODE_KEYED and QUOTA_MODE_KEYED_BY_IP.

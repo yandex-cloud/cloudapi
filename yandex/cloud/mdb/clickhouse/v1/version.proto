@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.clickhouse.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1;clickhouse";
+option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
+
+message Version {
+  // Version ID
+  string id = 1;
+
+  // Version name
+  string name = 2;
+
+  // Is version deprecated
+  bool deprecated = 3;
+
+  // List of versions that can be updated from current
+  repeated string updatable_to = 4;
+}

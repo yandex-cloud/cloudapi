@@ -219,6 +219,25 @@ message NetworkSettings {
 }
 
 message PlacementPolicy {
+  // Affinitity definition
+  message HostAffinityRule {
+    enum Operator {
+      OPERATOR_UNSPECIFIED = 0;
+      IN = 1;
+      NOT_IN = 2;
+    }
+
+    // Affinity label or one of reserved values - 'yc.hostId', 'yc.hostGroupId'
+    string key = 1;
+    // Include or exclude action
+    Operator op = 2;
+    // Affinity value or host ID or host group ID
+    repeated string values = 3;
+  }
+
   // Placement group ID.
   string placement_group_id = 1;
+
+  // List of affinity rules. Scheduler will attempt to allocate instances according to order of rules.
+  repeated HostAffinityRule host_affinity_rules = 2;
 }

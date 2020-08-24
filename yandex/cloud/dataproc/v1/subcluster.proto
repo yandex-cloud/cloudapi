@@ -5,6 +5,7 @@ package yandex.cloud.dataproc.v1;
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/dataproc/v1/common.proto";
 import "yandex/cloud/validation.proto";
+import "google/protobuf/duration.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/v1;dataproc";
 option java_package = "yandex.cloud.api.dataproc.v1";
@@ -42,6 +43,32 @@ enum Role {
   COMPUTENODE = 3;
 }
 
+message AutoscalingConfig {
+  // Upper limit for total instance subcluster count.
+  int64 max_hosts_count = 1 [(value) = "1-100"];
+
+  // Preemptible instances are stopped at least once every 24 hours, and can be stopped at any time
+  // if their resources are needed by Compute.
+  // For more information, see [Preemptible Virtual Machines](/docs/compute/concepts/preemptible-vm).
+  bool preemptible = 2;
+
+  // Time in seconds allotted for averaging metrics.
+  google.protobuf.Duration measurement_duration = 3 [(required) = true, (value) = "1m-10m"];
+
+  // The warmup time of the instance in seconds. During this time,
+  // traffic is sent to the instance, but instance metrics are not collected.
+  google.protobuf.Duration warmup_duration = 4 [(value) = "<=10m"];
+
+  // Minimum amount of time in seconds allotted for monitoring before
+  // Instance Groups can reduce the number of instances in the group.
+  // During this time, the group size doesn't decrease, even if the new metric values
+  // indicate that it should.
+  google.protobuf.Duration stabilization_duration = 5 [(value) = "1m-30m"];
+
+  // Defines an autoscaling rule based on the average CPU utilization of the instance group.
+  double cpu_utilization_target = 6 [(value) = "10-100"];
+}
+
 // A Data Proc subcluster. For details about the concept, see [documentation](/docs/data-proc/concepts/).
 message Subcluster {
   // ID of the subcluster. Generated at creation time.
@@ -67,6 +94,14 @@ message Subcluster {
 
   // Number of hosts in the subcluster.
   int64 hosts_count = 8;
+
+  reserved 9;
+
+  // Configuration for instance group based subclusters
+  AutoscalingConfig autoscaling_config = 10;
+
+  // ID of Compute Instance Group for autoscaling subclusters
+  string instance_group_id = 11;
 }
 
 // A Data Proc host. For details about the concept, see [documentation](/docs/data-proc/concepts/).

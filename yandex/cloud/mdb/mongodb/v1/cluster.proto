@@ -183,6 +183,15 @@ message Mongodb3_6 {
     Resources resources = 2;
   }
 
+  message MongoInfra {
+    config.MongosConfigSet3_6 config_mongos = 1;
+    config.MongoCfgConfigSet3_6 config_mongocfg = 2;
+
+    // Resources allocated to mongoinfra (mongos+mongocfg) hosts.
+    Resources resources = 3;
+  }
+
+
   // Configuration and resource allocation for mongod in a MongoDB 3.6 cluster.
   Mongod mongod = 1;
 
@@ -191,6 +200,9 @@ message Mongodb3_6 {
 
   // Configuration and resource allocation for mongos in a MongoDB 3.6 cluster.
   Mongos mongos = 3;
+
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB 3.6 cluster.
+  MongoInfra mongoinfra = 4;
 }
 
 message Mongodb4_0 {
@@ -218,6 +230,14 @@ message Mongodb4_0 {
     Resources resources = 2;
   }
 
+  message MongoInfra {
+    config.MongosConfigSet4_0 config_mongos = 1;
+    config.MongoCfgConfigSet4_0 config_mongocfg = 2;
+
+    // Resources allocated to mongoinfra (mongos+mongocfg) hosts.
+    Resources resources = 3;
+  }
+
   // Configuration and resource allocation for mongod in a MongoDB 4.0 cluster.
   Mongod mongod = 1;
 
@@ -226,6 +246,9 @@ message Mongodb4_0 {
 
   // Configuration and resource allocation for mongos in a MongoDB 4.0 cluster.
   Mongos mongos = 3;
+
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB 4.0 cluster.
+  MongoInfra mongoinfra = 4;
 }
 
 message Mongodb4_2 {
@@ -253,6 +276,14 @@ message Mongodb4_2 {
     Resources resources = 2;
   }
 
+  message MongoInfra {
+    config.MongosConfigSet4_2 config_mongos = 1;
+    config.MongoCfgConfigSet4_2 config_mongocfg = 2;
+
+    // Resources allocated to mongoinfra (mongos+mongocfg) hosts.
+    Resources resources = 3;
+  }
+
   // Configuration and resource allocation for mongod in a MongoDB 4.2 cluster.
   Mongod mongod = 1;
 
@@ -261,6 +292,9 @@ message Mongodb4_2 {
 
   // Configuration and resource allocation for mongos in a MongoDB 4.2 cluster.
   Mongos mongos = 3;
+
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB 4.2 cluster.
+  MongoInfra mongoinfra = 4;
 }
 
 message Shard {
@@ -283,6 +317,9 @@ message Host {
 
     // A mongocfg host.
     MONGOCFG = 3;
+
+    // A mongoinfra (mongos+mongocfg) host.
+    MONGOINFRA = 4;
   }
 
   enum Role {

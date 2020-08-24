@@ -149,6 +149,11 @@ message CreateSubclusterConfigSpec {
 
   // Number of hosts in the subcluster.
   int64 hosts_count = 5 [(required) = true, (value) = ">=1"];
+
+  reserved 6;
+
+  // Configuration for instance group based subclusters
+  AutoscalingConfig autoscaling_config = 7;
 }
 
 message UpdateSubclusterConfigSpec {
@@ -165,6 +170,9 @@ message UpdateSubclusterConfigSpec {
 
   // Number of hosts in the subcluster.
   int64 hosts_count = 4 [(value) = ">=1"];
+
+  // Configuration for instance group based subclusters
+  AutoscalingConfig autoscaling_config = 5;
 }
 
 message CreateClusterConfigSpec {

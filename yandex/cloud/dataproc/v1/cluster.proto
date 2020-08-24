@@ -107,6 +107,7 @@ message HadoopConfig {
     SPARK = 10;
     ZEPPELIN = 11;
     OOZIE = 12;
+    LIVY = 13;
   }
 
   // Set of services used in the cluster (if empty, the default set is used).

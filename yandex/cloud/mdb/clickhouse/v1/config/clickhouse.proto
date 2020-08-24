@@ -9,7 +9,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickh
 option java_package = "yandex.cloud.api.mdb.clickhouse.v1.config";
 
 // ClickHouse configuration options. Detailed description for each set of options
-// is available in [ClickHouse documentation](https://clickhouse.yandex/docs/ru/operations/server_settings/settings/).
+// is available in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/).
 //
 // Any options not listed here are not supported.
 message ClickhouseConfig {
@@ -504,6 +504,10 @@ message ClickhouseConfig {
 
   // Logging level for text_log system table. Possible values: TRACE, DEBUG, INFORMATION, WARNING, ERROR.
   LogLevel text_log_level = 32;
+
+  google.protobuf.Int64Value background_pool_size = 33 [(value) = ">0"];
+
+  google.protobuf.Int64Value background_schedule_pool_size = 34 [(value) = ">0"];
 }
 
 message ClickhouseConfigSet {
