@@ -53,6 +53,29 @@ message ClickhouseConfig {
     google.protobuf.Int64Value max_bytes_to_merge_at_min_space_in_pool = 7;
   }
 
+  message Kafka {
+    enum SecurityProtocol {
+      SECURITY_PROTOCOL_UNSPECIFIED = 0;
+      SECURITY_PROTOCOL_PLAINTEXT = 1;
+      SECURITY_PROTOCOL_SSL = 2;
+      SECURITY_PROTOCOL_SASL_PLAINTEXT = 3;
+      SECURITY_PROTOCOL_SASL_SSL = 4;
+    }
+
+    enum SaslMechanism {
+      SASL_MECHANISM_UNSPECIFIED = 0;
+      SASL_MECHANISM_GSSAPI = 1;
+      SASL_MECHANISM_PLAIN = 2;
+      SASL_MECHANISM_SCRAM_SHA_256 = 3;
+      SASL_MECHANISM_SCRAM_SHA_512 = 4;
+    }
+
+    SecurityProtocol security_protocol = 1;
+    SaslMechanism sasl_mechanism = 2;
+    string sasl_username = 3;
+    string sasl_password = 4;
+  }
+
   message Compression {
     enum Method {
       METHOD_UNSPECIFIED = 0;
@@ -411,6 +434,8 @@ message ClickhouseConfig {
   // Settings for thinning Graphite data.
   // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#server_settings-graphite_rollup).
   repeated GraphiteRollup graphite_rollup = 5;
+
+  Kafka kafka = 35;
 
   // Maximum number of inbound connections.
   google.protobuf.Int64Value max_connections = 6 [(value) = ">=10"];

@@ -100,6 +100,22 @@ service InstanceGroupService {
     option (google.api.http) = { get: "/compute/v1/instanceGroups/{instance_group_id}/instances" };
   }
 
+  // Delete instances from instance group
+  rpc DeleteInstances (DeleteInstancesRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteInstancesMetadata"
+      response: "InstanceGroup"
+    };
+  }
+
+  // Stop instances from instance group
+  rpc StopInstances (StopInstancesRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "StopInstancesMetadata"
+      response: "InstanceGroup"
+    };
+  }
+
   // Lists operations for the specified instance group.
   rpc ListOperations (ListInstanceGroupOperationsRequest) returns (ListInstanceGroupOperationsResponse) {
     option (google.api.http) = { get: "/compute/v1/instanceGroups/{instance_group_id}/operations" };
@@ -311,6 +327,11 @@ message DeleteInstancesMetadata {
   string instance_group_id = 1;
 }
 
+message StopInstancesMetadata {
+  // ID of the instance group that the instances are being stopped from.
+  string instance_group_id = 1;
+}
+
 message ListInstanceGroupsRequest {
   // ID of the folder to list instance groups in.
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
@@ -380,6 +401,32 @@ message ListInstanceGroupInstancesResponse {
   // in the next list request. Each subsequent list request will have its own
   // [next_page_token] to continue paging through the results.
   string next_page_token = 2;
+}
+
+message DeleteInstancesRequest {
+  // ID of the InstanceGroup resource to delete instances from.
+  // To get the instance group ID, use a [InstanceGroupService.List] request.
+  string instance_group_id = 1 [(required) = true, (length) = "<=50"];
+
+  // IDs of instances to delete. Instances will be deleted along with any dependent resources.
+  // Only allowed ids from ManagedInstance.id field, not ManagedInstance.instance_id.
+  repeated string managed_instance_ids = 2 [(size) = ">=1", (length) = "<=50"];
+
+  // When set to true instance group target size will not be decreased and
+  // new instance will be created in place of deleted. By default the group target size
+  // will be decreased by specified instance ids count.
+  bool create_another = 3;
+}
+
+message StopInstancesRequest {
+  // ID of the InstanceGroup resource to stop instances from.
+  // To get the instance group ID, use a [InstanceGroupService.List] request.
+  string instance_group_id = 1 [(required) = true, (length) = "<=50"];
+
+  // IDs of instances to stop. After stop instance could be updated, started or deleted
+  // according to scale and deploy policies.
+  // Only allowed ids from ManagedInstance.id field, not ManagedInstance.instance_id.
+  repeated string managed_instance_ids = 2 [(size) = ">=1", (length) = "<=50"];
 }
 
 message ListInstanceGroupOperationsRequest {

@@ -85,6 +85,11 @@ message OozieInfo {
     bool alive = 1;
 }
 
+message LivyInfo {
+    bool alive = 1;
+}
+
+
 message Info {
     HDFSInfo hdfs = 1;
     YarnInfo yarn = 2;
@@ -96,6 +101,7 @@ message Info {
     // So Worker can use this property to make sure that Dataproc Agent got data sent by Worker through Dataproc Manager
     // for synchronization purposes
     int64 report_count = 7;
+    LivyInfo livy = 8;
 }
 
 // The request message containing the host status report.

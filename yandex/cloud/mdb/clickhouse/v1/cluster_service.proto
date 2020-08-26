@@ -1018,6 +1018,8 @@ message ConfigSpec {
   //
   // If you want a specific service to access the ClickHouse cluster, then set the necessary values in this policy.
   Access access = 5;
+
+  CloudStorage cloud_storage = 6;
 }
 
 message ShardConfigSpec {

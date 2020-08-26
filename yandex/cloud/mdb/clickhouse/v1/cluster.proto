@@ -157,6 +157,8 @@ message ClusterConfig {
 
   // Access policy for external services.
   Access access = 5;
+
+  CloudStorage cloud_storage = 6;
 }
 
 message Shard {
@@ -322,4 +324,9 @@ message Access {
 
   // Allow access to cluster for Serverless.
   bool serverless = 4;
+}
+
+message CloudStorage {
+  // Whether to use Yandex Object Storage for storing ClickHouse data.
+  bool enabled = 1;
 }

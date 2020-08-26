@@ -17,7 +17,7 @@ message Subject {
   //    For example, you don't need to specify the IAM token in an API query.
   // * `<cloud generated id>`: An identifier that represents a user account.
   //    It can be used only if the [type] is `userAccount` or `serviceAccount`.
-  string id = 1 [(length) = "<=50"];
+  string id = 1 [(required) = true, (length) = "<=50"];
 
   // Type of the subject.
   //
@@ -28,12 +28,12 @@ message Subject {
   // * `system`: System group. This type represents several accounts with a common system identifier.
   //
   // For more information, see [Subject to which the role is assigned](/docs/iam/concepts/access-control/#subject).
-  string type = 2;
+  string type = 2 [(required) = true, (length) = "<=100"];
 }
 
 message AccessBinding {
   // ID of the [yandex.cloud.iam.v1.Role] that is assigned to the [subject].
-  string role_id = 1 [(length) = "<=50"];
+  string role_id = 1 [(required) = true, (length) = "<=50"];
 
   // Identity for which access binding is being created.
   // It can represent an account with a unique ID or several accounts with a system identifier.
@@ -45,7 +45,7 @@ message ListAccessBindingsRequest {
   //
   // To get the resource ID, use a corresponding List request.
   // For example, use the [yandex.cloud.resourcemanager.v1.CloudService.List] request to get the Cloud resource ID.
-  string resource_id = 1 [(required) = true];
+  string resource_id = 1 [(required) = true, (length) = "<=50"];
 
   // The maximum number of results per page that should be returned. If the number of available
   // results is larger than [page_size],
@@ -77,7 +77,7 @@ message SetAccessBindingsRequest {
   // ID of the resource for which access bindings are being set.
   //
   // To get the resource ID, use a corresponding List request.
-  string resource_id = 1 [(required) = true];
+  string resource_id = 1 [(required) = true, (length) = "<=50"];
 
   // Access bindings to be set. For more information, see [Access Bindings](/docs/iam/concepts/access-control/#access-bindings).
   repeated AccessBinding access_bindings = 2 [(required) = true];
@@ -90,10 +90,10 @@ message SetAccessBindingsMetadata {
 
 message UpdateAccessBindingsRequest {
   // ID of the resource for which access bindings are being updated.
-  string resource_id = 1 [(required) = true];
+  string resource_id = 1 [(required) = true, (length) = "<=50"];
 
   // Updates to access bindings.
-  repeated AccessBindingDelta access_binding_deltas = 2 [(required) = true];
+  repeated AccessBindingDelta access_binding_deltas = 2 [(size) = ">0", (required) = true];
 }
 
 message UpdateAccessBindingsMetadata {
