@@ -131,7 +131,7 @@ service ClusterService {
     option (google.api.http) = { get: "/managed-clickhouse/v1/clusters/{cluster_id}:logs" };
   }
 
-  // Same as ListLogs but using server-side streaming. Also allows for 'tail -f' semantics.
+  // Same as ListLogs but using server-side streaming. Also allows for `tail -f` semantics.
   rpc StreamLogs (StreamClusterLogsRequest) returns (stream StreamLogRecord) {
     option (google.api.http) = { get: "/managed-clickhouse/v1/clusters/{cluster_id}:stream_logs" };
   }
@@ -311,7 +311,7 @@ message CreateClusterRequest {
   // Description of the ClickHouse cluster.
   string description = 3 [(length) = "<=256"];
 
-  // Custom labels for the ClickHouse cluster as `` key:value `` pairs. Maximum 64 per resource.
+  // Custom labels for the ClickHouse cluster as `key:value` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
   map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
@@ -356,7 +356,7 @@ message UpdateClusterRequest {
   // New description of the ClickHouse cluster.
   string description = 3 [(length) = "<=256"];
 
-  // Custom labels for the ClickHouse cluster as `` key:value `` pairs. Maximum 64 per resource.
+  // Custom labels for the ClickHouse cluster as `key:value` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
   //
   // The new set of labels will completely replace the old ones. To add a label, request the current
@@ -469,7 +469,7 @@ message RestoreClusterRequest {
   // Description of the new ClickHouse cluster.
   string description = 3 [(length) = "<=256"];
 
-  // Custom labels for the ClickHouse cluster as `` key:value `` pairs. Maximum 64 per resource.
+  // Custom labels for the ClickHouse cluster as `key:value` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
   map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
@@ -577,7 +577,7 @@ message ListClusterLogsResponse {
   // is larger than [ListClusterLogsRequest.page_size], use the [next_page_token] as the value
   // for the [ListClusterLogsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
-  // This value is interchangeable with `next_record_token` from StreamLogs method.
+  // This value is interchangeable with the [StreamLogRecord.next_record_token] from StreamLogs method.
   string next_page_token = 2;
 }
 
@@ -586,9 +586,9 @@ message StreamLogRecord {
   LogRecord record = 1;
 
   // This token allows you to continue streaming logs starting from the exact
-  // same record. To continue streaming, specify value of `next_record_token`
-  // as value for `record_token` parameter in the next StreamLogs request.
-  // This value is interchangeable with `next_page_token` from ListLogs method.
+  // same record. To continue streaming, specify value of [next_record_token[
+  // as value for the [StreamClusterLogsRequest.record_token] parameter in the next StreamLogs request.
+  // This value is interchangeable with the [ListClusterLogsResponse.next_page_token] from ListLogs method.
   string next_record_token = 2;
 }
 
@@ -613,10 +613,10 @@ message StreamClusterLogsRequest {
 
   // End timestamp for the logs request.
   // If this field is not set, all existing logs will be sent and then the new ones as
-  // they appear. In essence it has 'tail -f' semantics.
+  // they appear. In essence it has `tail -f` semantics.
   google.protobuf.Timestamp to_time = 5;
 
-  // Record token. Set `record_token` to the `next_record_token` returned by a previous StreamLogs
+  // Record token. Set [record_token] to the [StreamLogRecord.next_record_token] returned by a previous StreamLogs
   // request to start streaming from next log record.
   string record_token = 6 [(length) = "<=100"];
 }
