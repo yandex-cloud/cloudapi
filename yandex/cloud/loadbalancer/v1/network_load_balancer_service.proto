@@ -179,7 +179,7 @@ message CreateNetworkLoadBalancerRequest {
   map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // ID of the region where the network load balancer resides.
-  string region_id = 5 [(required) = true, (length) = "<=50"];
+  string region_id = 5 [(length) = "<=50"];
 
   // Type of the network load balancer. Only external network load balancers are currently available.
   NetworkLoadBalancer.Type type = 6 [(required) = true];

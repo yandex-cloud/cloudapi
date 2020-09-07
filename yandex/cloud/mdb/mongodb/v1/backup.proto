@@ -10,6 +10,16 @@ option java_package = "yandex.cloud.api.mdb.mongodb.v1";
 // A MongoDB Backup resource. For more information, see the 
 // [Developer's Guide](/docs/managed-mongodb/concepts).
 message Backup {
+  enum BackupType {
+      BACKUP_TYPE_UNSPECIFIED = 0;
+
+      // Backup created by automated daily schedule
+      AUTOMATED = 1;
+
+      // Backup created by user request
+      MANUAL = 2;
+  }
+
   // ID of the backup.
   string id = 1;
 
@@ -29,4 +39,9 @@ message Backup {
   // Shard names used as a source for backup.
   repeated string source_shard_names = 6;
 
+  // Size of backup in bytes
+  int64 size = 7;
+
+  // How this backup was created (manual/automatic/etc...)
+  BackupType type = 8;
 }

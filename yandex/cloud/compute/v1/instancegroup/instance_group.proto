@@ -286,17 +286,17 @@ message DeployPolicy {
   // See [yandex.cloud.compute.v1.instancegroup.ManagedInstance.Status] for more information.
   google.protobuf.Duration startup_duration = 7 [(value) = "0m-1h"];
 
-  // Affects instance lifecycle during deploy.
+  // Affects the lifecycle of the instance during deployment.
   Strategy strategy = 8;
 
   enum Strategy {
     STRATEGY_UNSPECIFIED = 0;
 
-    // Instance group may force running instance to stop. This is the default.
+    // Instance Groups can forcefully stop a running instance. This is the default.
     PROACTIVE = 1;
 
-    // Instance group doesn't force running instance to stop.
-    // Instead, it will wait until instance stops itself or becomes unhealthy.
+    // Instance Groups does not stop a running instance.
+    // Instead, it will wait until the instance stops itself or becomes unhealthy.
     OPPORTUNISTIC = 2;
   }
 }

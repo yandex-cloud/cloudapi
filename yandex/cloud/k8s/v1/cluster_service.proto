@@ -59,6 +59,7 @@ service ClusterService {
 
   // Stops the specified Kubernetes cluster.
   rpc Stop(StopClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-kubernetes/v1/clusters/{cluster_id}:stop" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
@@ -67,6 +68,7 @@ service ClusterService {
 
   // Starts the specified Kubernetes cluster.
   rpc Start(StartClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-kubernetes/v1/clusters/{cluster_id}:start" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
@@ -146,9 +148,6 @@ message StopClusterRequest {
   // ID of the Kubernetes cluster to stop.
   // To get Kubernetes cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true];
-
-  // ID of the service account which has permission to stop the Kubernetes cluster.
-  string service_account_id = 2;
 }
 
 message StopClusterMetadata {
