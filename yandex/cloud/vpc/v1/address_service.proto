@@ -1,0 +1,122 @@
+syntax = "proto3";
+
+package yandex.cloud.vpc.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/vpc/v1/address.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/vpc/v1;vpc";
+option java_package = "yandex.cloud.api.vpc.v1";
+
+service AddressService {
+  rpc Get (GetAddressRequest) returns (Address);
+
+  rpc GetByValue (GetAddressByValueRequest) returns (Address);
+
+  rpc List (ListAddressesRequest) returns (ListAddressesResponse);
+
+  rpc Create (CreateAddressRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "CreateAddressMetadata"
+      response: "Address"
+    };
+  }
+
+  rpc Update (UpdateAddressRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateAddressMetadata"
+      response: "Address"
+    };
+  }
+
+  rpc Delete (DeleteAddressRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteAddressMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  rpc ListOperations (ListAddressOperationsRequest) returns (ListAddressOperationsResponse);
+}
+
+message GetAddressRequest {
+  string address_id = 1;
+}
+
+message GetAddressByValueRequest {
+  oneof address {
+    string external_ipv4_address = 1;
+  }
+}
+
+message ListAddressesRequest {
+  string folder_id = 1;
+  int64 page_size = 2;
+  string page_token = 3;
+  string filter = 4;
+}
+
+message ListAddressesResponse {
+  repeated Address addresses = 1;
+  string next_page_token = 2;
+}
+
+message CreateAddressRequest {
+  string folder_id = 1;
+  string name = 2;
+  string description = 3;
+  map<string, string> labels = 4;
+
+  oneof address_spec {
+    ExternalIpv4AddressSpec external_ipv4_address_spec = 5;
+  }
+}
+
+message ExternalIpv4AddressSpec {
+  string address = 1; // if unspecified, one will be automatically allocated from other params
+  string zone_id = 2; // only if address unspecified
+
+  AddressRequirements requirements = 3;
+}
+
+message CreateAddressMetadata {
+  string address_id = 1;
+}
+
+message UpdateAddressRequest {
+  string address_id = 1;
+
+  google.protobuf.FieldMask update_mask = 2;
+
+  string name = 3;
+  string description = 4;
+  map<string, string> labels = 5;
+
+  bool reserved = 6;
+}
+
+message UpdateAddressMetadata {
+    string address_id = 1;
+}
+
+message DeleteAddressRequest {
+    string address_id = 1;
+}
+
+message DeleteAddressMetadata {
+    string address_id = 1;
+}
+
+message ListAddressOperationsRequest {
+  string address_id = 1;
+  int64 page_size = 2;
+  string page_token = 3;
+}
+
+message ListAddressOperationsResponse {
+  repeated operation.Operation operations = 1;
+  string next_page_token = 2;
+}
