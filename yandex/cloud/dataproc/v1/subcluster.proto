@@ -67,6 +67,9 @@ message AutoscalingConfig {
 
   // Defines an autoscaling rule based on the average CPU utilization of the instance group.
   double cpu_utilization_target = 6 [(value) = "10-100"];
+
+  // Timeout to gracefully decommission nodes during downscaling. In seconds. Default value: 120
+  int64 decommission_timeout = 7 [(value) = "0-86400"];
 }
 
 // A Data Proc subcluster. For details about the concept, see [documentation](/docs/data-proc/concepts/).

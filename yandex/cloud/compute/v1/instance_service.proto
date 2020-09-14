@@ -5,6 +5,7 @@ package yandex.cloud.compute.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/compute/v1/disk.proto";
 import "yandex/cloud/compute/v1/instance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -585,6 +586,9 @@ message AttachedDiskSpec {
 
     // Size of the disk, specified in bytes.
     int64 size = 4 [(required) = true, (value) = "4194304-4398046511104"];
+
+    // Placement policy configuration.
+    DiskPlacementPolicy disk_placement_policy = 7;
 
     oneof source {
       // ID of the image to create the disk from.

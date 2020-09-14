@@ -146,6 +146,9 @@ message CreateDiskRequest {
 
   // Block size used for disk, specified in bytes. The default is 4096.
   int64 block_size = 10;
+
+  // Placement policy configuration.
+  DiskPlacementPolicy disk_placement_policy = 11;
 }
 
 message CreateDiskMetadata {
@@ -174,6 +177,9 @@ message UpdateDiskRequest {
 
   // Size of the disk, specified in bytes.
   int64 size = 6 [(value) = "4194304-4398046511104"];
+
+  // Placement policy configuration.
+  DiskPlacementPolicy disk_placement_policy = 7;
 }
 
 message UpdateDiskMetadata {

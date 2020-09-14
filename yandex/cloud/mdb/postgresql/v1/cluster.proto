@@ -5,6 +5,7 @@ package yandex.cloud.mdb.postgresql.v1;
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
+import "yandex/cloud/validation.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql10.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql10_1c.proto";
@@ -171,6 +172,9 @@ message ClusterConfig {
 
   // Access policy to DB
   Access access = 9;
+
+  // Configuration of the performance diagnostics service.
+  PerformanceDiagnostics performance_diagnostics = 12;
 }
 
 message ConnectionPoolerConfig {
@@ -346,4 +350,13 @@ message Resources {
 message Access {
   // Allow access for DataLens
   bool data_lens = 1;
+}
+
+message PerformanceDiagnostics {
+  // Configuration setting which enables/disables performance diagnostics service in cluster.
+  bool enabled = 1;
+  // Interval (in seconds) for pg_stat_activity sampling
+  int64 sessions_sampling_interval = 2 [(value) = "1-86400"];
+  // Interval (in seconds) for pg_stat_statements sampling
+  int64 statements_sampling_interval = 3 [(value) = "1-86400"];
 }

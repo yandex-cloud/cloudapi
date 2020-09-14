@@ -90,7 +90,7 @@ message ListHostGroupsRequest {
   // Page token. To get the next page of results,
   // set [page_token] to the [ListHostGroupsResponse.next_page_token]
   // returned by a previous list request.
-  string page_token = 3 [(length) = "<=100"];;
+  string page_token = 3 [(length) = "<=100"];
 
   // A filter expression that filters resources listed in the response.
   // Currently you can use filtering only on the [HostGroup.name] field.

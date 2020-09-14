@@ -77,4 +77,12 @@ message Disk {
 
   // Array of instances to which the disk is attached.
   repeated string instance_ids = 14;
+
+  // Placement policy configuration.
+  DiskPlacementPolicy disk_placement_policy = 16;
+}
+
+message DiskPlacementPolicy {
+  // Placement group ID.
+  string placement_group_id = 1;
 }

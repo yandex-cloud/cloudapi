@@ -768,6 +768,9 @@ message ConfigSpec {
 
   // Access policy to DB
   Access access = 9;
+
+  // Configuration of the performance diagnostics service.
+  PerformanceDiagnostics performance_diagnostics = 12;
 }
 
 message ConfigHostSpec {

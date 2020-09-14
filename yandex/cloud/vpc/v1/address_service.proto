@@ -12,13 +12,20 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/vpc/v1;vpc
 option java_package = "yandex.cloud.api.vpc.v1";
 
 service AddressService {
-  rpc Get (GetAddressRequest) returns (Address);
+  rpc Get (GetAddressRequest) returns (Address) {
+    option (google.api.http) = { get: "/vpc/v1/addresses/{address_id}" };
+  }
 
-  rpc GetByValue (GetAddressByValueRequest) returns (Address);
+  rpc GetByValue (GetAddressByValueRequest) returns (Address) {
+    option (google.api.http) = { get: "/vpc/v1/addresses:byValue" };
+  }
 
-  rpc List (ListAddressesRequest) returns (ListAddressesResponse);
+  rpc List (ListAddressesRequest) returns (ListAddressesResponse) {
+    option (google.api.http) = { get: "/vpc/v1/addresses" };
+  }
 
   rpc Create (CreateAddressRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/vpc/v1/addresses" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateAddressMetadata"
       response: "Address"
@@ -26,6 +33,7 @@ service AddressService {
   }
 
   rpc Update (UpdateAddressRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/vpc/v1/addresses/{address_id}" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateAddressMetadata"
       response: "Address"
@@ -33,13 +41,16 @@ service AddressService {
   }
 
   rpc Delete (DeleteAddressRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/vpc/v1/addresses/{address_id}" };
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteAddressMetadata"
       response: "google.protobuf.Empty"
     };
   }
 
-  rpc ListOperations (ListAddressOperationsRequest) returns (ListAddressOperationsResponse);
+  rpc ListOperations (ListAddressOperationsRequest) returns (ListAddressOperationsResponse) {
+    option (google.api.http) = { get: "/vpc/v1/addresses/{address_id}/operations" };
+  }
 }
 
 message GetAddressRequest {
