@@ -10,12 +10,16 @@ import "yandex/cloud/mdb/postgresql/v1/config/postgresql9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql10.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql10_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql11.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql11_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql12.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql12_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host10.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host10_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host11.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host11_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host12.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host12_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
@@ -154,8 +158,14 @@ message ClusterConfig {
     // Configuration of a PostgreSQL 11 server.
     config.PostgresqlConfigSet11 postgresql_config_11 = 8;
 
+    // Configuration of a PostgreSQL 11 1C server.
+    config.PostgresqlConfigSet11_1C postgresql_config_11_1c = 13;
+
     // Configuration of a PostgreSQL 12 server.
     config.PostgresqlConfigSet12 postgresql_config_12 = 11;
+
+    // Configuration of a PostgreSQL 12 1C server.
+    config.PostgresqlConfigSet12_1C postgresql_config_12_1c = 14;
   }
 
   // Configuration of the connection pooler.
@@ -296,8 +306,14 @@ message HostConfig {
     // Configuration for a host with PostgreSQL 11 server deployed.
     config.PostgresqlHostConfig11 postgresql_config_11 = 3;
 
+    // Configuration for a host with PostgreSQL 11 1C server deployed.
+    config.PostgresqlHostConfig11_1C postgresql_config_11_1c = 6;
+
     // Configuration for a host with PostgreSQL 12 server deployed.
     config.PostgresqlHostConfig12 postgresql_config_12 = 5;
+
+    // Configuration for a host with PostgreSQL 12 1C server deployed.
+    config.PostgresqlHostConfig12_1C postgresql_config_12_1c = 7;
   }
 }
 

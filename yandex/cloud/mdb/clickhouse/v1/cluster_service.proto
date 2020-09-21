@@ -619,6 +619,16 @@ message StreamClusterLogsRequest {
   // Record token. Set [record_token] to the [StreamLogRecord.next_record_token] returned by a previous StreamLogs
   // request to start streaming from next log record.
   string record_token = 6 [(length) = "<=100"];
+
+  // A filter expression that filters resources listed in the response.
+  // The expression must specify:
+  // 1. The field name. Currently filtering can be applied to the [LogRecord.logs.message.hostname], [LogRecord.logs.message.severity] fields.
+  // 2. A conditional operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
+  // 3. The value. Must be 1-63 characters long and match the regular expression `^[a-z0-9.-]{1,61}$`.
+  // Examples of a filter:
+  // - `message.hostname='node1.db.cloud.yandex.net'`
+  // - `message.severity IN ('Error', 'Fatal') AND message.hostname != 'node2.db.cloud.yandex.net'`.
+  string filter = 7 [(length) = "<=1000"];
 }
 
 message ListClusterOperationsRequest {
