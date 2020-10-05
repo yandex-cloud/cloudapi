@@ -9,14 +9,14 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1;compute";
 option java_package = "yandex.cloud.api.compute.v1";
 
-// Set of methods to view possible host configurations
+// Set of methods to view possible host configurations.
 service HostTypeService {
-  // Returns information about specified host type
+  // Returns information about specified host type.
   rpc Get (GetHostTypeRequest) returns (HostType) {
     option (google.api.http) = { get: "/compute/v1/hostTypes/{host_type_id}" };
   }
 
-  // List avaliable host types
+  // List avaliable host types.
   rpc List (ListHostTypesRequest) returns (ListHostTypesResponse) {
     option (google.api.http) = { get: "/compute/v1/hostTypes" };
   }

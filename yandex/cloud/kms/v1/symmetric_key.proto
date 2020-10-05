@@ -73,6 +73,9 @@ message SymmetricKey {
 
   // Time period between automatic key rotations.
   google.protobuf.Duration rotation_period = 11;
+
+  // Flag that inhibits deletion of the key
+  bool deletion_protection = 12;
 }
 
 

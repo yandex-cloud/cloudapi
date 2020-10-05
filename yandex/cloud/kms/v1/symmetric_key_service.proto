@@ -158,6 +158,9 @@ message CreateSymmetricKeyRequest {
   // Interval between automatic rotations. To disable automatic rotation, don't include
   // this field in the creation request.
   google.protobuf.Duration rotation_period = 6;
+
+  // Flag that inhibits deletion of the symmetric KMS key
+  bool deletion_protection = 7;
 }
 
 message CreateSymmetricKeyMetadata {
@@ -254,6 +257,9 @@ message UpdateSymmetricKeyRequest {
 
   // Time period between automatic symmetric KMS key rotations.
   google.protobuf.Duration rotation_period = 8; // period between two automatic rotations
+
+  // Flag that inhibits deletion of the symmetric KMS key
+  bool deletion_protection = 9;
 }
 
 message UpdateSymmetricKeyMetadata {

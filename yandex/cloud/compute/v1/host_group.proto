@@ -18,7 +18,7 @@ message HostGroup {
     DELETING = 4;
   }
 
-  // ID of the group
+  // ID of the group.
   string id = 1;
 
   // ID of the folder that the group belongs to.
@@ -36,16 +36,16 @@ message HostGroup {
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 6;
 
-  // Availability zone where all dedicated hosts are allocated
+  // Availability zone where all dedicated hosts are allocated.
   string zone_id = 7;
 
-  // Status of the group
+  // Status of the group.
   Status status = 8;
 
-  // ID  of host type. Resources provided by each host of the group
+  // ID of host type. Resources provided by each host of the group.
   string type_id = 9;
 
-  // Behaviour on maintenance events
+  // Behaviour on maintenance events.
   MaintenancePolicy maintenance_policy = 10;
 
   // Scale policy. Only fixed number of hosts are supported at this moment.
@@ -72,9 +72,9 @@ message Host {
 
 enum MaintenancePolicy {
   MAINTENANCE_POLICY_UNSPECIFIED = 0;
-  // Restart instances on the same host after maintenance event
+  // Restart instances on the same host after maintenance event.
   RESTART = 1;
-  // Migrate instances to another host before maintenance event
+  // Migrate instances to another host before maintenance event.
   MIGRATE = 2;
 }
 

@@ -159,6 +159,12 @@ message ClusterConfig {
   Access access = 5;
 
   CloudStorage cloud_storage = 6;
+
+  // Whether database management through SQL commands is enabled.
+  google.protobuf.BoolValue sql_database_management = 7;
+
+  // Whether user management through SQL commands is enabled.
+  google.protobuf.BoolValue sql_user_management = 8;
 }
 
 message Shard {

@@ -12,6 +12,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickh
 option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
 
 // A set of methods for managing ClickHouse Database resources.
+// NOTE: these methods are available only if database management through SQL is disabled.
 service DatabaseService {
   // Returns the specified ClickHouse Database resource.
   //

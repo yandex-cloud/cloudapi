@@ -587,6 +587,9 @@ message AttachedDiskSpec {
     // Size of the disk, specified in bytes.
     int64 size = 4 [(required) = true, (value) = "4194304-4398046511104"];
 
+    // Block size of the disk, specified in bytes. The default is 4096.
+    int64 block_size = 8;
+
     // Placement policy configuration.
     DiskPlacementPolicy disk_placement_policy = 7;
 

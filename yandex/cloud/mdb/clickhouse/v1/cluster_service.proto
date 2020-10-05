@@ -1030,6 +1030,15 @@ message ConfigSpec {
   Access access = 5;
 
   CloudStorage cloud_storage = 6;
+
+  // Whether database management through SQL commands is enabled.
+  google.protobuf.BoolValue sql_database_management = 7;
+
+  // Whether user management through SQL commands is enabled.
+  google.protobuf.BoolValue sql_user_management = 8;
+
+  // Password for user 'admin' that has SQL user management access.
+  string admin_password = 9;
 }
 
 message ShardConfigSpec {
