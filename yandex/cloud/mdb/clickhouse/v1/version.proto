@@ -6,15 +6,15 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickh
 option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
 
 message Version {
-  // Version ID
+  // ID of the version.
   string id = 1;
 
-  // Version name
+  // Name of the version.
   string name = 2;
 
-  // Is version deprecated
+  // Whether version is deprecated.
   bool deprecated = 3;
 
-  // List of versions that can be updated from current
+  // List of versions that can be updated from current.
   repeated string updatable_to = 4;
 }
