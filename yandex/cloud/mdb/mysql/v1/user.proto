@@ -91,6 +91,9 @@ message Permission {
 
     // Updating rows in the database.
     UPDATE = 18;
+
+    // Creation of a foreign key constraint for the parent table.
+    REFERENCES = 19;
   }
 
   // Name of the database that the permission grants access to.

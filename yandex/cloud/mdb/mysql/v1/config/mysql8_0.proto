@@ -52,6 +52,8 @@ message MysqlConfig8_0 {
     ANSI = 22;
 
     TRADITIONAL = 23;
+
+    NO_DIR_IN_CREATE = 24;
   }
 
   enum AuthPlugin {
@@ -75,6 +77,24 @@ message MysqlConfig8_0 {
     REPEATABLE_READ = 2;
 
     SERIALIZABLE = 3;
+  }
+
+  enum BinlogRowImage {
+      BINLOG_ROW_IMAGE_UNSPECIFIED = 0;
+
+      FULL = 1;
+
+      MINIMAL = 2;
+
+      NOBLOB = 3;
+  }
+
+  enum SlaveParallelType {
+      SLAVE_PARALLEL_TYPE_UNSPECIFIED = 0;
+
+      DATABASE = 1;
+
+      LOGICAL_CLOCK = 2;
   }
 
   // Size of the InnoDB buffer pool used for caching table and index data.
@@ -176,6 +196,152 @@ message MysqlConfig8_0 {
   //
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_collation_server)
   string collation_server = 20;
+
+  // Enables Innodb adaptive hash index
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_adaptive_hash_index)
+  google.protobuf.BoolValue innodb_adaptive_hash_index = 21;
+
+  // Enables the NUMA interleave memory policy for allocation of the InnoDB buffer pool.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_numa_interleave)
+  google.protobuf.BoolValue innodb_numa_interleave = 22;
+
+  // The size in bytes of the buffer that InnoDB uses to write to the log files on disk.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_log_buffer_size)
+  google.protobuf.Int64Value innodb_log_buffer_size = 23 [(value) = "1048576-268435456"];
+
+  // The size in bytes of the single Innodb Redo log file.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_log_file_size)
+  google.protobuf.Int64Value innodb_log_file_size = 24 [(value) = "268435456-4294967296"];
+
+  // Limits IO available for InnoDB background tasks
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_io_capacity)
+  google.protobuf.Int64Value innodb_io_capacity = 25 [(value) = "100-100000"];
+
+  // Limits IO available for InnoDB background tasks
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_io_capacity_max)
+  google.protobuf.Int64Value innodb_io_capacity_max = 26 [(value) = "100-100000"];
+
+  // The number of I/O threads for read operations in InnoDB.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_read_io_threads)
+  google.protobuf.Int64Value innodb_read_io_threads = 27 [(value) = "1-16"];
+
+  // The number of I/O threads for write operations in InnoDB.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_write_io_threads)
+  google.protobuf.Int64Value innodb_write_io_threads = 28 [(value) = "1-16"];
+
+  // The number of background threads devoted to the InnoDB purge operation.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_purge_threads)
+  google.protobuf.Int64Value innodb_purge_threads = 29 [(value) = "1-16"];
+
+  // Defines the maximum number of threads permitted inside of InnoDB.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_thread_concurrency)
+  google.protobuf.Int64Value innodb_thread_concurrency = 30 [(value) = "0-1000"];
+
+  // Limits the max size of InnoDB temp tablespace
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_temp_data_file_path)
+  google.protobuf.Int64Value innodb_temp_data_file_max_size = 31 [(value) = "0-107374182400"];
+
+  // How many threads the server should cache for reuse.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_thread_cache_size).
+  google.protobuf.Int64Value thread_cache_size = 32 [(value) = "10-10000"];
+
+  // The stack size for each thread. The default is large enough for normal operation.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_thread_stack).
+  google.protobuf.Int64Value thread_stack = 33 [(value) = "131072-16777216"];
+
+  // The minimum size of the buffer that is used for plain index scans, range index scans, and joins that do not use indexes and thus perform full table scans.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_join_buffer_size).
+  google.protobuf.Int64Value join_buffer_size = 34 [(value) = "1024-16777216"];
+
+  // Each session that must perform a sort allocates a buffer of this size.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_sort_buffer_size).
+  google.protobuf.Int64Value sort_buffer_size = 35 [(value) = "1024-16777216"];
+
+  // The number of table definitions that can be stored in the definition cache.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_table_definition_cache).
+  google.protobuf.Int64Value table_definition_cache = 36 [(value) = "400-524288"];
+
+  // The number of open tables for all threads.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_table_open_cache).
+  google.protobuf.Int64Value table_open_cache = 37 [(value) = "400-524288"];
+
+  // The number of open tables cache instances.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_table_open_cache_instances).
+  google.protobuf.Int64Value table_open_cache_instances = 38 [(value) = "1-32"];
+
+  // This system variable determines whether the server enables certain nonstandard behaviors for default values and NULL-value handling in TIMESTAMP columns.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_explicit_defaults_for_timestamp).
+  google.protobuf.BoolValue explicit_defaults_for_timestamp = 39;
+
+  // Can be used to control the operation of AUTO_INCREMENT columns.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/replication-options-master.html#sysvar_auto_increment_increment).
+  google.protobuf.Int64Value auto_increment_increment = 40 [(value) = "1-65535"];
+
+  // Can be used to control the operation of AUTO_INCREMENT columns.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/replication-options-master.html#sysvar_auto_increment_offset).
+  google.protobuf.Int64Value auto_increment_offset = 41 [(value) = "1-65535"];
+
+  // Controls how often the MySQL server synchronizes the binary log to disk.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_sync_binlog).
+  google.protobuf.Int64Value sync_binlog = 42 [(value) = "0-4096"];
+
+  // The size of the cache to hold changes to the binary log during a transaction.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_cache_size).
+  google.protobuf.Int64Value binlog_cache_size = 43 [(value) = "4096-67108864"];
+
+  // Controls how many microseconds the binary log commit waits before synchronizing the binary log file to disk.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_group_commit_sync_delay).
+  google.protobuf.Int64Value binlog_group_commit_sync_delay = 44 [(value) = "0-1000000"];
+
+  // For MySQL row-based replication, this variable determines how row images are written to the binary log.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_row_image).
+  BinlogRowImage binlog_row_image = 45;
+
+  // When enabled, it causes the server to write informational log events such as row query log events into its binary log.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_rows_query_log_events).
+  google.protobuf.BoolValue binlog_rows_query_log_events = 46;
+
+  // The number of replica acknowledgments the source must receive per transaction before proceeding.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/replication-options-master.html#sysvar_rpl_semi_sync_master_wait_for_slave_count).
+  google.protobuf.Int64Value rpl_semi_sync_master_wait_for_slave_count = 47 [(value) = "1-2"];
+
+  // When using a multithreaded replica, this variable specifies the policy used to decide which transactions are allowed to execute in parallel on the replica.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/replication-options-replica.html#sysvar_slave_parallel_type).
+  SlaveParallelType slave_parallel_type = 48;
+
+  // Sets the number of applier threads for executing replication transactions in parallel.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/replication-options-replica.html#sysvar_slave_parallel_workers).
+  google.protobuf.Int64Value slave_parallel_workers = 49 [(value) = "0-64"];
+
 }
 
 message MysqlConfigSet8_0 {
