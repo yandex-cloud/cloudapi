@@ -30,7 +30,7 @@ message InstanceGroup {
   map<string, string> labels = 6;
 
   // Instance template for creating the instance group.
-  // For more information, see [Instance Templates](/docs/compute/concepts/ig-instance-templates).
+  // For more information, see [Instance Templates](/docs/compute/concepts/instance-groups/instance-template).
   InstanceTemplate instance_template = 7;
 
   // [Scaling policy](/docs/compute/concepts/instance-groups/scale) of the instance group.
@@ -513,7 +513,7 @@ message NetworkSettings {
 }
 
 message LoadBalancerSpec {
-  // Specification of the target group that the instance group will be added to. For more information, see [Target groups and resources](/docs/load-balancer/target-resources).
+  // Specification of the target group that the instance group will be added to. For more information, see [Target groups and resources](/docs/load-balancer/concepts/target-resources).
   TargetGroupSpec target_group_spec = 1;
 }
 
