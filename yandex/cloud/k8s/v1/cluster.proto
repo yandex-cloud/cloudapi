@@ -142,6 +142,9 @@ message Master {
 
   // Maintenance policy of the master.
   MasterMaintenancePolicy maintenance_policy = 6;
+
+  // Master security groups.
+  repeated string security_group_ids = 8;
 }
 
 message MasterAuth {
@@ -195,6 +198,11 @@ message IPAllocationPolicy {
   //
   // It should not overlap with any subnet in the network the Kubernetes cluster located in.
   string service_ipv4_cidr_block = 2;
+
+  // IPv6 range for allocating pod IP addresses.
+  string cluster_ipv6_cidr_block = 6;
+  // IPv6 range for allocating Kubernetes service IP addresses
+  string service_ipv6_cidr_block = 7;
 }
 
 message MasterMaintenancePolicy {

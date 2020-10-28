@@ -147,25 +147,25 @@ message ClusterConfig {
   // Configuration for PostgreSQL servers in the cluster.
   oneof postgresql_config {
     // Configuration of a PostgreSQL 9.6 server.
-    config.PostgresqlConfigSet9_6 postgresql_config_9_6 = 2;
+    config.PostgresqlConfigSet9_6 postgresql_config_9_6 = 2 [json_name="postgresqlConfig_9_6"];
 
     // Configuration of a PostgreSQL 10 1C server.
-    config.PostgresqlConfigSet10_1C postgresql_config_10_1c = 10;
+    config.PostgresqlConfigSet10_1C postgresql_config_10_1c = 10 [json_name="postgresqlConfig_10_1c"];
 
     // Configuration of a PostgreSQL 10 server.
-    config.PostgresqlConfigSet10 postgresql_config_10 = 3;
+    config.PostgresqlConfigSet10 postgresql_config_10 = 3 [json_name="postgresqlConfig_10"];
 
     // Configuration of a PostgreSQL 11 server.
-    config.PostgresqlConfigSet11 postgresql_config_11 = 8;
+    config.PostgresqlConfigSet11 postgresql_config_11 = 8 [json_name="postgresqlConfig_11"];
 
     // Configuration of a PostgreSQL 11 1C server.
-    config.PostgresqlConfigSet11_1C postgresql_config_11_1c = 13;
+    config.PostgresqlConfigSet11_1C postgresql_config_11_1c = 13 [json_name="postgresqlConfig_11_1c"];
 
     // Configuration of a PostgreSQL 12 server.
-    config.PostgresqlConfigSet12 postgresql_config_12 = 11;
+    config.PostgresqlConfigSet12 postgresql_config_12 = 11 [json_name="postgresqlConfig_12"];
 
     // Configuration of a PostgreSQL 12 1C server.
-    config.PostgresqlConfigSet12_1C postgresql_config_12_1c = 14;
+    config.PostgresqlConfigSet12_1C postgresql_config_12_1c = 14 [json_name="postgresqlConfig_12_1c"];
   }
 
   // Configuration of the connection pooler.
@@ -295,25 +295,25 @@ message HostConfig {
   // Configuration of a PostgreSQL server for the host.
   oneof postgresql_config {
     // Configuration for a host with PostgreSQL 9.6 server deployed.
-    config.PostgresqlHostConfig9_6 postgresql_config_9_6 = 1;
+    config.PostgresqlHostConfig9_6 postgresql_config_9_6 = 1 [json_name="postgresqlHostConfig_9_6"];
 
     // Configuration for a host with PostgreSQL 10 1C server deployed.
-    config.PostgresqlHostConfig10_1C postgresql_config_10_1c = 4;
+    config.PostgresqlHostConfig10_1C postgresql_config_10_1c = 4 [json_name="postgresqlHostConfig_10_1c"];
 
     // Configuration for a host with PostgreSQL 10 server deployed.
-    config.PostgresqlHostConfig10 postgresql_config_10 = 2;
+    config.PostgresqlHostConfig10 postgresql_config_10 = 2 [json_name="postgresqlHostConfig_10"];
 
     // Configuration for a host with PostgreSQL 11 server deployed.
-    config.PostgresqlHostConfig11 postgresql_config_11 = 3;
+    config.PostgresqlHostConfig11 postgresql_config_11 = 3 [json_name="postgresqlHostConfig_11"];
 
     // Configuration for a host with PostgreSQL 11 1C server deployed.
-    config.PostgresqlHostConfig11_1C postgresql_config_11_1c = 6;
+    config.PostgresqlHostConfig11_1C postgresql_config_11_1c = 6 [json_name="postgresqlHostConfig_11_1c"];
 
     // Configuration for a host with PostgreSQL 12 server deployed.
-    config.PostgresqlHostConfig12 postgresql_config_12 = 5;
+    config.PostgresqlHostConfig12 postgresql_config_12 = 5 [json_name="postgresqlHostConfig_12"];
 
     // Configuration for a host with PostgreSQL 12 1C server deployed.
-    config.PostgresqlHostConfig12_1C postgresql_config_12_1c = 7;
+    config.PostgresqlHostConfig12_1C postgresql_config_12_1c = 7 [json_name="postgresqlHostConfig_12_1c"];
   }
 }
 
@@ -366,6 +366,11 @@ message Resources {
 message Access {
   // Allow access for DataLens
   bool data_lens = 1;
+
+  // Allow SQL queries to the cluster databases from the Yandex.Cloud management console.
+  //
+  // See [SQL queries in the management console](/docs/managed-postgresql/operations/web-sql-query) for more details.
+  bool web_sql = 2;
 }
 
 message PerformanceDiagnostics {

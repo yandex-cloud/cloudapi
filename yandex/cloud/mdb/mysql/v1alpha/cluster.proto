@@ -124,7 +124,7 @@ message ClusterConfig {
   // Configuration for MySQL servers in the cluster.
   oneof mysql_config {
     // Configuration of a MySQL 5.7 server.
-    config.MysqlConfigSet5_7 mysql_config_5_7 = 2;
+    config.MysqlConfigSet5_7 mysql_config_5_7 = 2 [json_name="mysqlConfig_5_7"];
   }
 
   // Resources allocated to MySQL hosts.

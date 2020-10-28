@@ -150,10 +150,29 @@ message NodeTemplate {
   map<string, string> metadata = 4 [(size) = "<=64", (length) = "<=131072", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Specification for the create network interfaces for the node group compute instances.
-  NodeAddressSpec v4_address_spec = 5;
+  // Deprecated, please use network_interface_specs.
+  NodeAddressSpec v4_address_spec = 5 [deprecated=true];
 
   // Scheduling policy configuration.
   SchedulingPolicy scheduling_policy = 6;
+
+  // New api, to specify network interfaces for the node group compute instances.
+  // Can not be used together with 'v4_address_spec'
+  repeated NetworkInterfaceSpec network_interface_specs = 7;
+}
+
+message NetworkInterfaceSpec {
+  // IDs of the subnets.
+  repeated string subnet_ids = 2;
+
+  // Primary IPv4 address that is assigned to the instance for this network interface.
+  NodeAddressSpec primary_v4_address_spec = 3;
+
+  // Primary IPv6 address that is assigned to the instance for this network interface.
+  NodeAddressSpec primary_v6_address_spec = 4;
+
+  // IDs of security groups.
+  repeated string security_group_ids = 5;
 }
 
 message NodeAddressSpec {

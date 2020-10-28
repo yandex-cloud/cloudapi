@@ -1,0 +1,308 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.kafka.v1;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/mdb/kafka/v1/common.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/kafka/v1;kafka";
+option java_package = "yandex.cloud.api.mdb.kafka.v1";
+
+
+// An Apache Kafka® cluster resource.
+// For more information, see the [Concepts](/docs/managed-kafka/concepts) section of the documentation.
+message Cluster {
+  enum Environment {
+    ENVIRONMENT_UNSPECIFIED = 0;
+
+    // stable environment with a conservative update policy when only hotfixes are applied during regular maintenance.
+    PRODUCTION = 1;
+
+    // environment with a more aggressive update policy when new versions are rolled out irrespective of backward compatibility.
+    PRESTABLE = 2;
+  }
+
+  enum Health {
+
+    // state of the cluster is unknown ([Host.health] of all hosts in the cluster is `UNKNOWN`).
+    HEALTH_UNKNOWN = 0;
+
+    // cluster is alive and well ([Host.health] of all hosts in the cluster is `ALIVE`).
+    ALIVE = 1;
+
+    // cluster is inoperable ([Host.health] of all hosts in the cluster is `DEAD`).
+    DEAD = 2;
+
+    // cluster is in degraded state ([Host.health] of at least one of the hosts in the cluster is not `ALIVE`).
+    DEGRADED = 3;
+  }
+
+  enum Status {
+
+    // cluster state is unknown.
+    STATUS_UNKNOWN = 0;
+
+    // cluster is being created.
+    CREATING = 1;
+
+    // cluster is running normally.
+    RUNNING = 2;
+
+    // cluster encountered a problem and cannot operate.
+    ERROR = 3;
+
+    // cluster is being updated.
+    UPDATING = 4;
+
+    // cluster is stopping.
+    STOPPING = 5;
+
+    // cluster stopped.
+    STOPPED = 6;
+
+    // cluster is starting.
+    STARTING = 7;
+  }
+
+  // ID of the Apache Kafka® cluster.
+  // This ID is assigned at creation time.
+  string id = 1;
+
+  // ID of the folder that the Apache Kafka® cluster belongs to.
+  string folder_id = 2;
+
+  // Creation timestamp.
+  google.protobuf.Timestamp created_at = 3;
+
+  // Name of the Apache Kafka® cluster.
+  // The name must be unique within the folder. 1-63 characters long.
+  string name = 4;
+
+  // Description of the Apache Kafka® cluster. 0-256 characters long.
+  string description = 5;
+
+  // Custom labels for the Apache Kafka® cluster as `key:value` pairs.
+  // A maximum of 64 labels per resource is allowed.
+  map<string, string> labels = 6;
+
+  // Deployment environment of the Apache Kafka® cluster.
+  Environment environment = 7;
+
+  // Description of monitoring systems relevant to the Apache Kafka® cluster.
+  repeated Monitoring monitoring = 8;
+
+  // Configuration of the Apache Kafka® cluster.
+  ConfigSpec config = 9;
+
+  // ID of the network that the cluster belongs to.
+  string network_id = 10;
+
+  // Aggregated cluster health.
+  Health health = 11;
+
+  // Current state of the cluster.
+  Status status = 12;
+}
+
+// Metadata of monitoring system.
+message Monitoring {
+  // Name of the monitoring system.
+  string name = 1;
+
+  // Description of the monitoring system.
+  string description = 2;
+
+  // Link to the monitoring system charts for the Apache Kafka® cluster.
+  string link = 3;
+}
+
+message ConfigSpec {
+  message Kafka {
+
+    // Resources allocated to Kafka brokers.
+    Resources resources = 1;
+
+    // Kafka broker configuration.
+    oneof kafka_config {
+      KafkaConfig2_1 kafka_config_2_1 = 2 [json_name="kafkaConfig_2_1"];
+      KafkaConfig2_6 kafka_config_2_6 = 3 [json_name="kafkaConfig_2_6"];
+    }
+  }
+
+  message Zookeeper {
+
+    // Resources allocated to ZooKeeper hosts.
+    Resources resources = 1;
+  }
+
+  // Version of Apache Kafka® used in the cluster.
+  string version = 1;
+
+  // Configuration and resource allocation for Kafka brokers.
+  Kafka kafka = 2;
+
+  // Configuration and resource allocation for ZooKeeper hosts.
+  Zookeeper zookeeper = 3;
+
+  // IDs of availability zones where Kafka brokers reside.
+  repeated string zone_id = 4;
+
+  // The number of Kafka brokers deployed in each availability zone.
+  google.protobuf.Int64Value brokers_count = 5;
+
+  // The flag that defines whether a public IP address is assigned to the cluster.
+  // If the value is `true`, then Apache Kafka® cluster is available on the Internet via it's public IP address.
+  bool assign_public_ip = 6;
+}
+
+// Computational resources.
+message Resources {
+  // ID of the preset for computational resources available to a host (CPU, memory, etc.).
+  // All available presets are listed in the [documentation](/docs/managed-kafka/concepts/instance-types).
+  string resource_preset_id = 1;
+
+  // Volume of the storage available to a host, in bytes.
+  int64 disk_size = 2;
+
+  // Type of the storage environment for the host.
+  string disk_type_id = 3;
+}
+
+// Kafka broker configuration.
+message KafkaConfig2_1 {
+  // Сluster topics compression type.
+  CompressionType compression_type = 1;
+
+  // The number of messages accumulated on a log partition before messages are flushed to disk.
+  //
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.flush_messages] setting.
+  google.protobuf.Int64Value log_flush_interval_messages = 2;
+
+  // The maximum time (in milliseconds) that a message in any topic is kept in memory before flushed to disk.
+  // If not set, the value of [log_flush_scheduler_interval_ms] is used.
+  //
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.flush_ms] setting.
+  google.protobuf.Int64Value log_flush_interval_ms = 3;
+
+  // The frequency of checks (in milliseconds) for any logs that need to be flushed to disk.
+  // This check is done by the log flusher.
+  google.protobuf.Int64Value log_flush_scheduler_interval_ms = 4;
+
+  // Partition size limit; Kafka will discard old log segments to free up space if `delete` [TopicConfig2_1.cleanup_policy] is in effect.
+  // This setting is helpful if you need to control the size of a log due to limited disk space.
+  //
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.retention_bytes] setting.
+  google.protobuf.Int64Value log_retention_bytes = 5;
+
+  // The number of hours to keep a log segment file before deleting it.
+  google.protobuf.Int64Value log_retention_hours = 6;
+
+  // The number of minutes to keep a log segment file before deleting it.
+  //
+  // If not set, the value of [log_retention_hours] is used.
+  google.protobuf.Int64Value log_retention_minutes = 7;
+
+  // The number of milliseconds to keep a log segment file before deleting it.
+  //
+  // If not set, the value of [log_retention_minutes] is used.
+  //
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.retention_ms] setting.
+  google.protobuf.Int64Value log_retention_ms = 8;
+}
+
+// Kafka 2.6 broker configuration.
+message KafkaConfig2_6 {
+  // Сluster topics compression type.
+  CompressionType compression_type = 1;
+
+  // The number of messages accumulated on a log partition before messages are flushed to disk.
+  //
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.flush_messages] setting.
+  google.protobuf.Int64Value log_flush_interval_messages = 2;
+
+  // The maximum time (in milliseconds) that a message in any topic is kept in memory before flushed to disk.
+  // If not set, the value of [log_flush_scheduler_interval_ms] is used.
+  //
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.flush_ms] setting.
+  google.protobuf.Int64Value log_flush_interval_ms = 3;
+
+  // The frequency of checks (in milliseconds) for any logs that need to be flushed to disk.
+  // This check is done by the log flusher.
+  google.protobuf.Int64Value log_flush_scheduler_interval_ms = 4;
+
+  // Partition size limit; Kafka will discard old log segments to free up space if `delete` [TopicConfig2_1.cleanup_policy] is in effect.
+  // This setting is helpful if you need to control the size of a log due to limited disk space.
+  //
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.retention_bytes] setting.
+  google.protobuf.Int64Value log_retention_bytes = 5;
+
+  // The number of hours to keep a log segment file before deleting it.
+  google.protobuf.Int64Value log_retention_hours = 6;
+
+  // The number of minutes to keep a log segment file before deleting it.
+  //
+  // If not set, the value of [log_retention_hours] is used.
+  google.protobuf.Int64Value log_retention_minutes = 7;
+
+  // The number of milliseconds to keep a log segment file before deleting it.
+  //
+  // If not set, the value of [log_retention_minutes] is used.
+  //
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.retention_ms] setting.
+  google.protobuf.Int64Value log_retention_ms = 8;
+}
+
+// Cluster host metadata.
+message Host {
+  enum Role {
+    ROLE_UNSPECIFIED = 0;
+
+    // the host is a Kafka broker.
+    KAFKA = 1;
+
+    // the host is a ZooKeeper server.
+    ZOOKEEPER = 2;
+  }
+
+  enum Health {
+
+    // health of the host is unknown.
+    UNKNOWN = 0;
+
+    // the host is performing all its functions normally.
+    ALIVE = 1;
+
+    // the host is inoperable and cannot perform any of its essential functions.
+    DEAD = 2;
+
+    // the host is degraded and can perform only some of its essential functions.
+    DEGRADED = 3;
+  }
+
+  // Name of the host.
+  string name = 1;
+
+  // ID of the Apache Kafka® cluster.
+  string cluster_id = 2;
+
+  // ID of the availability zone where the host resides.
+  string zone_id = 3;
+
+  // Host role.
+  Role role = 4;
+
+  // Resources allocated to the host.
+  Resources resources = 5;
+
+  // Aggregated host health data.
+  Health health = 6;
+
+  // ID of the subnet the host resides in.
+  string subnet_id = 8;
+
+  // The flag that defines whether a public IP address is assigned to the node.
+  //
+  // If the value is `true`, then this node is available on the Internet via it's public IP address.
+  bool assign_public_ip = 9;
+}

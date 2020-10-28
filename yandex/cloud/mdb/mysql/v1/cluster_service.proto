@@ -691,10 +691,10 @@ message ConfigSpec {
   // Configuration of a MySQL cluster.
   oneof mysql_config {
     // Configuration for a MySQL 5.7 cluster.
-    config.MysqlConfig5_7 mysql_config_5_7 = 2;
+    config.MysqlConfig5_7 mysql_config_5_7 = 2 [json_name="mysqlConfig_5_7"];
 
     // Configuration for a MySQL 8.0 cluster.
-    config.MysqlConfig8_0 mysql_config_8_0 = 6;
+    config.MysqlConfig8_0 mysql_config_8_0 = 6 [json_name="mysqlConfig_8_0"];
   }
 
   // Resources allocated to MySQL hosts.

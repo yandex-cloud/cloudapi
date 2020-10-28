@@ -210,6 +210,9 @@ message MasterUpdateSpec {
 
   // Maintenance policy of the master.
   MasterMaintenancePolicy maintenance_policy = 2;
+
+  // Master security groups.
+  repeated string security_group_ids = 3;
 }
 
 message UpdateClusterMetadata {
@@ -382,6 +385,9 @@ message MasterSpec {
 
   // Maintenance policy of the master.
   MasterMaintenancePolicy maintenance_policy = 4;
+
+  // Master security groups.
+  repeated string security_group_ids = 6;
 }
 
 message ZonalMasterSpec {

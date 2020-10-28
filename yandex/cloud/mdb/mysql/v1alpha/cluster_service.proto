@@ -530,7 +530,7 @@ message ConfigSpec {
   // Configuration of a MySQL cluster.
   oneof mysql_config {
     // Configuration for a MySQL 5.7 cluster.
-    config.MysqlConfig5_7 mysql_config_5_7 = 2;
+    config.MysqlConfig5_7 mysql_config_5_7 = 2 [json_name="mysqlConfig_5_7"];
   }
 
   // Resources allocated to MySQL hosts.
