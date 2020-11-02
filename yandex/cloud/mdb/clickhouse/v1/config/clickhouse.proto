@@ -76,6 +76,16 @@ message ClickhouseConfig {
     string sasl_password = 4;
   }
 
+  message KafkaTopic {
+    string name = 1 [(required) = true];
+    Kafka settings = 2 [(required) = true];
+  }
+
+  message Rabbitmq {
+    string username = 1;
+    string password = 2;
+  }
+
   message Compression {
     enum Method {
       METHOD_UNSPECIFIED = 0;
@@ -436,6 +446,10 @@ message ClickhouseConfig {
   repeated GraphiteRollup graphite_rollup = 5;
 
   Kafka kafka = 35;
+
+  repeated KafkaTopic kafka_topics = 36;
+
+  Rabbitmq rabbitmq = 37;
 
   // Maximum number of inbound connections.
   google.protobuf.Int64Value max_connections = 6 [(value) = ">=10"];

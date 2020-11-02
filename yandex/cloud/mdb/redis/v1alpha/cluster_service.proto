@@ -513,7 +513,7 @@ message ConfigSpec {
 
   // Configuration of a Redis cluster.
   oneof redis_spec {
-    config.RedisConfig5_0 redis_config_5_0 = 2;
+    config.RedisConfig5_0 redis_config_5_0 = 2 [json_name="redisConfig_5_0"];
   }
 
   // Resources allocated to Redis hosts.

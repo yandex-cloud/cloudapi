@@ -657,7 +657,8 @@ message UserSettings {
   // Otherwise, such integers will not be quoted.
   //
   // Default value: **false** (quoting 64-bit integers is disabled).
-  google.protobuf.BoolValue output_format_json_quote_64bit_integers = 63;
+  google.protobuf.BoolValue output_format_json_quote_64bit_integers = 63
+  [json_name="outputFormatJsonQuote_64bitIntegers"];
 
   // Enables special floating-point values (**+nan**, **-nan**, **+inf** and **-inf**) in JSON output format.
   //
@@ -685,6 +686,12 @@ message UserSettings {
   // * **true**—ClickHouse will return an empty result for such queries.
   // * **false** (default)—ClickHouse will return a single-line result consisting of **NULL** values for aggregation functions, in accordance with SQL standard.
   google.protobuf.BoolValue empty_result_for_aggregation_by_empty_set = 79;
+
+  google.protobuf.BoolValue joined_subquery_requires_alias = 93;
+
+  google.protobuf.BoolValue join_use_nulls = 94;
+
+  google.protobuf.BoolValue transform_null_in = 95;
 
   // HTTP connection timeout, in milliseconds.
   //

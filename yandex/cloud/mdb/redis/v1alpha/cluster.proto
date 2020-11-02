@@ -122,7 +122,7 @@ message ClusterConfig {
   // Configuration for Redis servers in the cluster.
   oneof redis_config {
     // Configuration of a Redis 5.0 server.
-    config.RedisConfigSet5_0 redis_config_5_0 = 2;
+    config.RedisConfigSet5_0 redis_config_5_0 = 2 [json_name="redisConfig_5_0"];
   }
 
   // Resources allocated to Redis hosts.

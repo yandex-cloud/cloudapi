@@ -147,16 +147,16 @@ message ClusterConfig {
   // Configuration for MongoDB servers in the cluster.
   oneof mongodb {
     // Configuration and resource allocation for a MongoDB 3.6 cluster.
-    Mongodb3_6 mongodb_3_6 = 2;
+    Mongodb3_6 mongodb_3_6 = 2 [json_name="mongodb_3_6"];
 
     // Configuration and resource allocation for a MongoDB 4.0 cluster.
-    Mongodb4_0 mongodb_4_0 = 4;
+    Mongodb4_0 mongodb_4_0 = 4 [json_name="mongodb_4_0"];
 
     // Configuration and resource allocation for a MongoDB 4.2 cluster.
-    Mongodb4_2 mongodb_4_2 = 7;
+    Mongodb4_2 mongodb_4_2 = 7 [json_name="mongodb_4_2"];
 
     // Configuration and resource allocation for a MongoDB 4.4 cluster.
-    Mongodb4_4 mongodb_4_4 = 8;
+    Mongodb4_4 mongodb_4_4 = 8 [json_name="mongodb_4_4"];
   }
 
   // Time to start the daily backup, in the UTC timezone.

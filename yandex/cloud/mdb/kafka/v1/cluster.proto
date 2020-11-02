@@ -76,7 +76,7 @@ message Cluster {
   google.protobuf.Timestamp created_at = 3;
 
   // Name of the Apache Kafka® cluster.
-  // The name must be unique within the folder. 1-63 characters long.
+  // The name must be unique within the folder. 1-63 characters long. Value must match the regular expression `[a-zA-Z0-9_-]*`.
   string name = 4;
 
   // Description of the Apache Kafka® cluster. 0-256 characters long.
@@ -136,7 +136,7 @@ message ConfigSpec {
     Resources resources = 1;
   }
 
-  // Version of Apache Kafka® used in the cluster.
+  // Version of Apache Kafka® used in the cluster. Possible values: `2.1`, `2.6`.
   string version = 1;
 
   // Configuration and resource allocation for Kafka brokers.
@@ -156,7 +156,6 @@ message ConfigSpec {
   bool assign_public_ip = 6;
 }
 
-// Computational resources.
 message Resources {
   // ID of the preset for computational resources available to a host (CPU, memory, etc.).
   // All available presets are listed in the [documentation](/docs/managed-kafka/concepts/instance-types).
@@ -169,7 +168,7 @@ message Resources {
   string disk_type_id = 3;
 }
 
-// Kafka broker configuration.
+// Kafka version 2.1 broker configuration.
 message KafkaConfig2_1 {
   // Сluster topics compression type.
   CompressionType compression_type = 1;
@@ -211,7 +210,7 @@ message KafkaConfig2_1 {
   google.protobuf.Int64Value log_retention_ms = 8;
 }
 
-// Kafka 2.6 broker configuration.
+// Kafka version 2.6 broker configuration.
 message KafkaConfig2_6 {
   // Сluster topics compression type.
   CompressionType compression_type = 1;
@@ -292,7 +291,7 @@ message Host {
   // Host role.
   Role role = 4;
 
-  // Resources allocated to the host.
+  // Computational resources allocated to the host.
   Resources resources = 5;
 
   // Aggregated host health data.
