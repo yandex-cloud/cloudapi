@@ -464,7 +464,7 @@ message ClickhouseConfig {
   google.protobuf.Int64Value uncompressed_cache_size = 9;
 
   // Approximate size (in bytes) of the cache of "marks" used by MergeTree tables.
-  google.protobuf.Int64Value mark_cache_size = 10 [(value) = ">5368709120"];
+  google.protobuf.Int64Value mark_cache_size = 10 [(value) = ">0"];
 
   // Maximum size of the table that can be deleted using a DROP query.
   google.protobuf.Int64Value max_table_size_to_drop = 11;
