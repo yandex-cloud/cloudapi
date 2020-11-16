@@ -715,6 +715,9 @@ message AddClusterHostsRequest {
 
   // Configurations for ClickHouse hosts that should be added to the cluster.
   repeated HostSpec host_specs = 2 [(size) = ">0"];
+
+  // Whether to copy schema to new ClickHouse hosts from replicas.
+  google.protobuf.BoolValue copy_schema = 3;
 }
 
 message AddClusterHostsMetadata {
@@ -792,6 +795,9 @@ message AddClusterShardRequest {
 
   // Configurations for ClickHouse hosts that should be created with the shard.
   repeated HostSpec host_specs = 4 [(size) = ">0"];
+
+  // Whether to copy schema to hosts of the shard to be created. The schema is copied from hosts of an existing shard.
+  google.protobuf.BoolValue copy_schema = 5;
 }
 
 message AddClusterShardMetadata {

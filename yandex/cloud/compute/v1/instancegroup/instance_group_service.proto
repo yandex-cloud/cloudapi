@@ -207,7 +207,11 @@ message CreateInstanceGroupRequest {
 
   repeated Variable variables = 13;
 
-  // Flag that inhibits deletion of the instance group
+  // Flag prohibiting deletion of the instance group.
+  //
+  // Allowed values:</br>- `false`: The instance group can be deleted.</br>- `true`: The instance group cannot be deleted.
+  //
+  // The default is `false`.
   bool deletion_protection = 14;
 }
 

@@ -180,7 +180,7 @@ message MysqlConfig8_0 {
   // This variable sets the maximum size to which user-created MEMORY tables are permitted to grow.
   //
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_max_heap_table_size)
-  google.protobuf.Int64Value max_heap_table_size = 17 [(value) = "1024-134217728"];
+  google.protobuf.Int64Value max_heap_table_size = 17 [(value) = "16384-134217728"];
 
   // The servers default time zone.
   //
@@ -342,6 +342,10 @@ message MysqlConfig8_0 {
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/replication-options-replica.html#sysvar_slave_parallel_workers).
   google.protobuf.Int64Value slave_parallel_workers = 49 [(value) = "0-64"];
 
+  // The time limit for regular expression matching operations performed by REGEXP_LIKE and similar functions
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/replication-options-replica.html#sysvar_regexp_time_limit).
+  google.protobuf.Int64Value regexp_time_limit = 50 [(value) = "0-1048576"];
 }
 
 message MysqlConfigSet8_0 {
