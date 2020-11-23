@@ -102,6 +102,9 @@ message Cluster {
 
   // KMS provider configuration.
   KMSProvider kms_provider = 17;
+
+  // Log group where cluster stores cluster system logs, like audit, events, or controlplane logs.
+  string log_group_id = 18;
 }
 
 enum ReleaseChannel {

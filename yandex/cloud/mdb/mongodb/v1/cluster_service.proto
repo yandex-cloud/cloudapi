@@ -288,6 +288,9 @@ message CreateClusterRequest {
 
   // ID of the network to create the cluster in.
   string network_id = 10 [(required) = true, (length) = "<=50"];
+
+  // User security groups
+  repeated string security_group_ids = 11;
 }
 
 message CreateClusterMetadata {
@@ -321,6 +324,9 @@ message UpdateClusterRequest {
 
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 7;
+
+  // User security groups
+  repeated string security_group_ids = 8;
 }
 
 message UpdateClusterMetadata {
@@ -424,6 +430,9 @@ message RestoreClusterRequest {
 
   // Specification of the moment to which the MongoDB cluster should be restored.
   RecoveryTargetSpec recovery_target_spec = 10;
+
+  // User security groups
+  repeated string security_group_ids = 11;
 }
 
 message RestoreClusterMetadata {

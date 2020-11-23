@@ -101,6 +101,24 @@ message TopicConfig2_1 {
   //
   // This setting overrides the cluster-level [KafkaConfig2_1.log_retention_ms] setting on the topic level.
   google.protobuf.Int64Value retention_ms = 9;
+
+  // The largest record batch size allowed in topic.
+  google.protobuf.Int64Value max_message_bytes = 10;
+
+  // This configuration specifies the minimum number of replicas that must acknowledge a write to topic for the write
+  // to be considered successful (when a producer sets acks to "all").
+  google.protobuf.Int64Value min_insync_replicas = 11;
+
+  // This configuration controls the segment file size for the log. Retention and cleaning is always done a file
+  // at a time so a larger segment size means fewer files but less granular control over retention.
+  //
+  // This setting overrides the cluster-level [KafkaConfig2_1.log_segment_bytes] setting on the topic level.
+  google.protobuf.Int64Value segment_bytes = 12;
+
+  // True if we should preallocate the file on disk when creating a new log segment.
+  //
+  // This setting overrides the cluster-level [KafkaConfig2_1.log_preallocate] setting on the topic level.
+  google.protobuf.BoolValue preallocate = 13;
 }
 
 // A topic settings for 2.6
@@ -153,4 +171,22 @@ message TopicConfig2_6 {
   //
   // This setting overrides the cluster-level [KafkaConfig2_6.log_retention_ms] setting on the topic level.
   google.protobuf.Int64Value retention_ms = 9;
+
+  // The largest record batch size allowed in topic.
+  google.protobuf.Int64Value max_message_bytes = 10;
+
+  // This configuration specifies the minimum number of replicas that must acknowledge a write to topic for the write
+  // to be considered successful (when a producer sets acks to "all").
+  google.protobuf.Int64Value min_insync_replicas = 11;
+
+  // This configuration controls the segment file size for the log. Retention and cleaning is always done a file
+  // at a time so a larger segment size means fewer files but less granular control over retention.
+  //
+  // This setting overrides the cluster-level [KafkaConfig2_6.log_segment_bytes] setting on the topic level.
+  google.protobuf.Int64Value segment_bytes = 12;
+
+  // True if we should preallocate the file on disk when creating a new log segment.
+  //
+  // This setting overrides the cluster-level [KafkaConfig2_6.log_preallocate] setting on the topic level.
+  google.protobuf.BoolValue preallocate = 13;
 }

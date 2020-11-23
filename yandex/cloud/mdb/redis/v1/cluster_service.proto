@@ -271,6 +271,9 @@ message CreateClusterRequest {
 
   // Redis cluster mode on/off.
   bool sharded = 11;
+
+  // User security groups
+  repeated string security_group_ids = 12;
 }
 
 message CreateClusterMetadata {
@@ -304,6 +307,9 @@ message UpdateClusterRequest {
 
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 7;
+
+  // User security groups
+  repeated string security_group_ids = 8;
 }
 
 message UpdateClusterMetadata {
@@ -402,6 +408,9 @@ message RestoreClusterRequest {
 
   // ID of the folder to create the Redis cluster in.
   string folder_id = 9 [(length) = "<=50"];
+
+  // User security groups
+  repeated string security_group_ids = 10;
 }
 
 message RestoreClusterMetadata {

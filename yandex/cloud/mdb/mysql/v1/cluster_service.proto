@@ -239,6 +239,9 @@ message CreateClusterRequest {
 
   // ID of the network to create the cluster in.
   string network_id = 10 [(length) = "<=50"];
+
+  // User security groups
+  repeated string security_group_ids = 11;
 }
 
 message CreateClusterMetadata {
@@ -272,6 +275,9 @@ message UpdateClusterRequest {
 
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 7;
+
+  // User security groups
+  repeated string security_group_ids = 8;
 }
 
 message UpdateClusterMetadata {
@@ -334,6 +340,9 @@ message RestoreClusterRequest {
 
   // ID of the folder to create the MySQL cluster in.
   string folder_id = 11 [(length) = "<=50"];
+
+  // User security groups
+  repeated string security_group_ids = 12;
 }
 
 message RestoreClusterMetadata {

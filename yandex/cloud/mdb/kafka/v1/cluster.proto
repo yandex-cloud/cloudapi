@@ -208,6 +208,16 @@ message KafkaConfig2_1 {
   //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.retention_ms] setting.
   google.protobuf.Int64Value log_retention_ms = 8;
+
+  // The maximum size of a single log file.
+  //
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.segment_bytes] setting.
+  google.protobuf.Int64Value log_segment_bytes = 9;
+
+  // Should pre allocate file when create new segment?
+  //
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.preallocate] setting.
+  google.protobuf.BoolValue log_preallocate = 10;
 }
 
 // Kafka version 2.6 broker configuration.
@@ -217,23 +227,23 @@ message KafkaConfig2_6 {
 
   // The number of messages accumulated on a log partition before messages are flushed to disk.
   //
-  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.flush_messages] setting.
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_6.flush_messages] setting.
   google.protobuf.Int64Value log_flush_interval_messages = 2;
 
   // The maximum time (in milliseconds) that a message in any topic is kept in memory before flushed to disk.
   // If not set, the value of [log_flush_scheduler_interval_ms] is used.
   //
-  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.flush_ms] setting.
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_6.flush_ms] setting.
   google.protobuf.Int64Value log_flush_interval_ms = 3;
 
   // The frequency of checks (in milliseconds) for any logs that need to be flushed to disk.
   // This check is done by the log flusher.
   google.protobuf.Int64Value log_flush_scheduler_interval_ms = 4;
 
-  // Partition size limit; Kafka will discard old log segments to free up space if `delete` [TopicConfig2_1.cleanup_policy] is in effect.
+  // Partition size limit; Kafka will discard old log segments to free up space if `delete` [TopicConfig2_6.cleanup_policy] is in effect.
   // This setting is helpful if you need to control the size of a log due to limited disk space.
   //
-  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.retention_bytes] setting.
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_6.retention_bytes] setting.
   google.protobuf.Int64Value log_retention_bytes = 5;
 
   // The number of hours to keep a log segment file before deleting it.
@@ -248,8 +258,18 @@ message KafkaConfig2_6 {
   //
   // If not set, the value of [log_retention_minutes] is used.
   //
-  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.retention_ms] setting.
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_6.retention_ms] setting.
   google.protobuf.Int64Value log_retention_ms = 8;
+
+  // The maximum size of a single log file.
+  //
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_6.segment_bytes] setting.
+  google.protobuf.Int64Value log_segment_bytes = 9;
+
+  // Should pre allocate file when create new segment?
+  //
+  // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_6.preallocate] setting.
+  google.protobuf.BoolValue log_preallocate = 10;
 }
 
 // Cluster host metadata.

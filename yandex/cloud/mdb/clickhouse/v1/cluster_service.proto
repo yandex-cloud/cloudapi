@@ -338,6 +338,9 @@ message CreateClusterRequest {
 
   // ID of the service account used for access to Yandex Object Storage.
   string service_account_id = 12;
+
+  // User security groups
+  repeated string security_group_ids = 13;
 }
 
 message CreateClusterMetadata {
@@ -374,6 +377,9 @@ message UpdateClusterRequest {
 
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 8;
+
+  // User security groups
+  repeated string security_group_ids = 9;
 }
 
 message UpdateClusterMetadata {
@@ -491,6 +497,9 @@ message RestoreClusterRequest {
 
   // ID of the service account used for access to Yandex Object Storage.
   string service_account_id = 10;
+
+  // User security groups
+  repeated string security_group_ids = 11;
 }
 
 message RestoreClusterMetadata {

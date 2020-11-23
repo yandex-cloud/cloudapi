@@ -114,6 +114,9 @@ message Cluster {
 
   // Maintenance operation planned at nearest maintenance_window.
   MaintenanceOperation planned_operation = 15;
+
+  // User security groups
+  repeated string security_group_ids = 16;
 }
 
 message Monitoring {
