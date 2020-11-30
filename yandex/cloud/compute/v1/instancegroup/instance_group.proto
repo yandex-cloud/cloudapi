@@ -254,6 +254,12 @@ message ScalePolicy {
 
     // Target value for the custom metric. Instance Groups maintains this level for each availability zone.
     double target = 4 [(value) = ">0"];
+
+    // Folder id of custom metric in Yandex Monitoring that should be used for scaling.
+    string folder_id = 6 [(length) = "<=50"];
+
+    // Service of custom metric in Yandex Monitoring that should be used for scaling.
+    string service = 7 [(length) = "<=200"];
   }
 
 
@@ -392,6 +398,14 @@ message InstanceTemplate {
   // If not set, `name` value will be used
   // It may also contain another placeholders, see metadata doc for full list.
   string hostname = 13 [(length) = "<=128"];
+
+  // Placement Group
+  PlacementPolicy placement_policy = 14;
+}
+
+message PlacementPolicy {
+  // Identifier of placement group
+  string placement_group_id = 1;
 }
 
 message ResourcesSpec {
@@ -486,6 +500,8 @@ message PrimaryAddressSpec {
 message OneToOneNatSpec {
   // IP version for the public IP address.
   IpVersion ip_version = 1;
+  // Manual set static public IP. To set use variables. (optional)
+  string address = 2;
 }
 
 enum IpVersion {

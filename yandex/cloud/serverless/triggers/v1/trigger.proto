@@ -52,7 +52,7 @@ message Trigger {
   // Rule for trigger activation (always consistent with the trigger type).
   Rule rule = 8 [(required) = true];
 
-  // Trigger status
+  // Trigger status.
   Status status = 9;
 
   // Description of a rule for trigger activation.
@@ -143,10 +143,12 @@ message Trigger {
     // Type (name) of events, at least one value is required.
     repeated ObjectStorageEventType event_type = 3 [(size) = ">0"];
 
+    // ID of the bucket.
     string bucket_id = 4;
 
-    // Filter, optional.
+    // Prefix of the object key. Filter, optional.
     string prefix = 6;
+    // Suffix of the object key. Filter, optional.
     string suffix = 7;
 
     oneof action {
@@ -167,10 +169,12 @@ message Trigger {
     // Type (name) of events, at least one value is required.
     repeated ContainerRegistryEventType event_type = 3 [(size) = ">0"];
 
+    // ID of the registry.
     string registry_id = 4;
 
-    // Filter, optional.
+    // Docker-image name. Filter, optional.
     string image_name = 5;
+    // Docker-image tag. Filter, optional.
     string tag = 6;
 
     oneof action {
@@ -204,7 +208,7 @@ message InvokeFunctionOnce {
   // ID of the function to invoke.
   string function_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Tag of the function version to execute.
+  // Version tag of the function to execute.
   string function_tag = 2;
 
   // ID of the service account that should be used to invoke the function.
@@ -216,7 +220,7 @@ message InvokeFunctionWithRetry {
   // ID of the function to invoke.
   string function_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Tag of the function version to execute.
+  // Version tag of the function to execute.
   string function_tag = 2;
 
   // ID of the service account which has permission to invoke the function.
@@ -225,7 +229,7 @@ message InvokeFunctionWithRetry {
   // Retry policy. If the field is not specified, or the value is empty, no retries will be attempted.
   RetrySettings retry_settings = 4;
 
-  // DLQ policy (no value means discarding a message)
+  // DLQ policy (no value means discarding a message).
   PutQueueMessage dead_letter_queue = 5;
 }
 
@@ -233,28 +237,28 @@ message PutQueueMessage {
   // ID of the queue.
   string queue_id = 11;
 
-  // SA which has write permission on the queue.
+  // Service account which has write permission on the queue.
   string service_account_id = 2 [(required) = true, (length) = "<=50"];
 }
 
 // Settings for batch processing of messages in a queue.
 message BatchSettings {
-  // Batch size. Trigger will send the batch of messages to the associated function
-  // when the number of messages in the queue reaches this value, or the [cutoff] time has passed.
+  // Batch size. Trigger will send the batch of messages to the function
+  // when the number of messages in the queue reaches [size], or the [cutoff] time has passed.
   int64 size = 1 [(value) = "0-10"];
 
-  // Maximum wait time. Trigger will send the batch of messages the time since the last batch
-  // exceeds the `cutoff` value, regardless of the amount of messages in the queue.
+  // Maximum wait time. Trigger will send the batch of messages to the function when
+  // the number of messages in the queue reaches [size], or the [cutoff] time has passed.
   google.protobuf.Duration cutoff = 2 [(required) = true];
 }
 
 message CloudLogsBatchSettings {
-  // Batch size. Trigger will send the batch of messages to the associated function
-  // when the number of log events reaches this value, or the [cutoff] time has passed.
+  // Batch size. Trigger will send the batch of messages to the function
+  // when the number of messages in the log group reaches [size], or the [cutoff] time has passed.
   int64 size = 1 [(value) = "0-100"];
 
-  // Maximum wait time. Trigger will send the batch of messages the time since the last batch
-  // exceeds the `cutoff` value, regardless of the amount of log events.
+  // Maximum wait time. Trigger will send the batch of messages to the function when
+  // the number of messages in the log group reaches [size], or the [cutoff] time has passed.
   google.protobuf.Duration cutoff = 2 [(value) = "1s-1m"];
 }
 
