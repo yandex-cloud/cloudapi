@@ -103,6 +103,9 @@ message Cluster {
 
   // Current state of the cluster.
   Status status = 12;
+
+  // User security groups
+  repeated string security_group_ids = 13;
 }
 
 // Metadata of monitoring system.

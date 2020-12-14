@@ -46,8 +46,8 @@ message TopicSpec {
 
   // User-defined settings for the topic.
   oneof topic_config {
-    TopicConfig2_1 topic_config_2_1 = 4;
-    TopicConfig2_6 topic_config_2_6 = 5;
+    TopicConfig2_1 topic_config_2_1 = 4 [json_name="topicConfig_2_1"];
+    TopicConfig2_6 topic_config_2_6 = 5 [json_name="topicConfig_2_6"];
   }
 }
 

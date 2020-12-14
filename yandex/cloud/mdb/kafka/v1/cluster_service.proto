@@ -181,6 +181,9 @@ message CreateClusterRequest {
 
     // IDs of subnets to create brokers in.
     repeated string subnet_id = 11;
+
+    // User security groups
+    repeated string security_group_ids = 12;
 }
 
 message CreateClusterMetadata {
@@ -214,6 +217,9 @@ message UpdateClusterRequest {
 
   // New name for the Apache Kafka® cluster.
   string name = 6 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  // User security groups
+  repeated string security_group_ids = 7;
 }
 
 message UpdateClusterMetadata {

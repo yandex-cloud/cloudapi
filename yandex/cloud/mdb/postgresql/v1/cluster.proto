@@ -12,6 +12,7 @@ import "yandex/cloud/mdb/postgresql/v1/config/postgresql10_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql11.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql11_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql12.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql13.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql12_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host10.proto";
@@ -19,6 +20,7 @@ import "yandex/cloud/mdb/postgresql/v1/config/host10_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host11.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host11_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host12.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host13.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host12_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/maintenance.proto";
 
@@ -169,6 +171,9 @@ message ClusterConfig {
 
     // Configuration of a PostgreSQL 12 1C server.
     config.PostgresqlConfigSet12_1C postgresql_config_12_1c = 14 [json_name="postgresqlConfig_12_1c"];
+
+    // Configuration of a PostgreSQL 13 server.
+    config.PostgresqlConfigSet13 postgresql_config_13 = 15 [json_name="postgresqlConfig_13"];
   }
 
   // Configuration of the connection pooler.
@@ -317,6 +322,9 @@ message HostConfig {
 
     // Configuration for a host with PostgreSQL 12 1C server deployed.
     config.PostgresqlHostConfig12_1C postgresql_config_12_1c = 7 [json_name="postgresqlHostConfig_12_1c"];
+
+    // Configuration for a host with PostgreSQL 13 server deployed.
+    config.PostgresqlHostConfig13 postgresql_config_13 = 8 [json_name="postgresqlHostConfig_13"];
   }
 }
 
