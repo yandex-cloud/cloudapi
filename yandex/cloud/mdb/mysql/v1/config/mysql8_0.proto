@@ -130,7 +130,7 @@ message MysqlConfig8_0 {
   // The maximum size in bytes of one packet.
   //
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_max_allowed_packet).
-  google.protobuf.Int64Value max_allowed_packet = 7 [(value) = "1024-134217728"];
+  google.protobuf.Int64Value max_allowed_packet = 7 [(value) = "1024-1073741824"];
 
   // Authentication plugin used in the managed MySQL cluster.
   //
