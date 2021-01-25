@@ -346,6 +346,9 @@ message MysqlConfig8_0 {
   //
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/replication-options-replica.html#sysvar_regexp_time_limit).
   google.protobuf.Int64Value regexp_time_limit = 50 [(value) = "0-1048576"];
+
+  // The size of the binary log to hold.
+  google.protobuf.Int64Value mdb_preserve_binlog_bytes = 51 [(value) = "1073741824-107374182400"];
 }
 
 message MysqlConfigSet8_0 {

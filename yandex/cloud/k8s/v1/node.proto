@@ -159,6 +159,8 @@ message NodeTemplate {
   // New api, to specify network interfaces for the node group compute instances.
   // Can not be used together with 'v4_address_spec'
   repeated NetworkInterfaceSpec network_interface_specs = 7;
+
+  PlacementPolicy placement_policy = 10;
 }
 
 message NetworkInterfaceSpec {
@@ -223,4 +225,9 @@ message SchedulingPolicy {
   // if their resources are needed by Compute.
   // For more information, see [Preemptible Virtual Machines](/docs/compute/concepts/preemptible-vm).
   bool preemptible = 1;
+}
+
+message PlacementPolicy {
+  // Identifier of placement group
+  string placement_group_id = 1;
 }
