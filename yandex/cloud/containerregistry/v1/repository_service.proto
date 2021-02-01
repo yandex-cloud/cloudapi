@@ -39,6 +39,24 @@ service RepositoryService {
     option (google.api.http) = { get: "/container-registry/v1/repositories/{resource_id}:listAccessBindings" };
   }
 
+  // Creates a repository in the specified registry.
+  rpc Create (CreateRepositoryRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/container-registry/v1/repositories" body: "*" };
+    option (yandex.cloud.api.operation) = {
+          metadata: "CreateRepositoryMetadata"
+          response: "Repository"
+        };
+  };
+
+  // Deletes the specified repository.
+  rpc Delete (DeleteRepositoryRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/container-registry/v1/repositories/{repository_id}" };
+    option (yandex.cloud.api.operation) = {
+          metadata: "DeleteRepositoryMetadata"
+          response: "google.protobuf.Empty"
+        };
+  }
+
   // Sets access bindings for the specified repository.
   rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/container-registry/v1/repositories/{resource_id}:setAccessBindings" body: "*" };
@@ -117,4 +135,26 @@ message ListRepositoriesResponse {
   // in the next list request. Each subsequent list request will have its own
   // [next_page_token] to continue paging through the results.
   string next_page_token = 2;
+}
+
+message CreateRepositoryRequest {
+  // Name of the repository.
+  //
+  // The name of the repository should match the name of the images that will be pushed in the repository.
+  string name = 1 [(required) = true, (pattern) = "[a-z0-9]+(?:[._-][a-z0-9]+)*(/([a-z0-9]+(?:[._-][a-z0-9]+)*))*"];
+}
+
+message CreateRepositoryMetadata {
+  // ID of the repository that is being created.
+  string repository_id = 1;
+}
+
+message DeleteRepositoryRequest {
+  // ID of the repository to delete.
+  string repository_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message DeleteRepositoryMetadata {
+  // ID of the repository that is being deleted.
+  string repository_id = 1;
 }

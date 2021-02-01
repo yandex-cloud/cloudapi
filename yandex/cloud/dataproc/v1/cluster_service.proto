@@ -225,6 +225,9 @@ message CreateClusterRequest {
 
   // Enable UI Proxy feature.
   bool ui_proxy = 10;
+
+  // User security groups.
+  repeated string security_group_ids = 11;
 }
 
 message CreateClusterMetadata {
@@ -264,6 +267,9 @@ message UpdateClusterRequest {
 
   // Enable UI Proxy feature.
   bool ui_proxy = 10;
+
+  // User security groups.
+  repeated string security_group_ids = 11;
 }
 
 message UpdateClusterMetadata {

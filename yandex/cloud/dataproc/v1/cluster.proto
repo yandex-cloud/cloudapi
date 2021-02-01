@@ -76,6 +76,9 @@ message Cluster {
 
   // Whether UI Proxy feature is enabled.
   bool ui_proxy = 14;
+
+  // User security groups.
+  repeated string security_group_ids = 15;
 }
 
 // Metadata of a monitoring system for a Data Proc cluster.

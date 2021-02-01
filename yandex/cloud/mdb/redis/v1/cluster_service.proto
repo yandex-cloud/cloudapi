@@ -5,6 +5,7 @@ package yandex.cloud.mdb.redis.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -274,6 +275,9 @@ message CreateClusterRequest {
 
   // User security groups
   repeated string security_group_ids = 12;
+
+  // TLS port and functionality on\off
+  google.protobuf.BoolValue tls_enabled = 13;
 }
 
 message CreateClusterMetadata {

@@ -117,6 +117,9 @@ message Cluster {
 
   // User security groups
   repeated string security_group_ids = 16;
+
+  // TLS port and functionality on\off
+  bool tls_enabled = 17;
 }
 
 message Monitoring {
@@ -261,6 +264,12 @@ message Resources {
 
   // Volume of the storage available to a host, in bytes.
   int64 disk_size = 2;
+
+  // Type of the storage environment for the host.
+  // Possible values:
+  // * network-ssd — network SSD drive,
+  // * local-ssd — local SSD storage.
+  string disk_type_id = 3;
 }
 
 message Access {
