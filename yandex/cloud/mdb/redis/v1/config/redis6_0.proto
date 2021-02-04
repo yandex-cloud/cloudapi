@@ -54,6 +54,18 @@ message RedisConfig6_0 {
 
   // Authentication password.
   string password = 3 [(pattern) = "[a-zA-Z0-9@=+?*.,!&#$^<>_-]{8,128}"];
+
+  // Number of database buckets on a single redis-server process.
+  google.protobuf.Int64Value databases = 4 [(value) = ">0"];
+
+  // Threshold for logging slow requests to server in microseconds (log only slower than it).
+  google.protobuf.Int64Value slowlog_log_slower_than = 5 [(value) = ">=0"];
+
+  // Max slow requests number to log.
+  google.protobuf.Int64Value slowlog_max_len = 6 [(value) = ">=0"];
+
+  // String setting for pub\sub functionality; subset of KEg$lshzxeAtm.
+  string notify_keyspace_events = 7 [(pattern) = "[KEg$lshzxeAtm]{0,13}"];
 }
 
 

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package yandex.cloud.containerregistry.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/containerregistry/v1;containerregistry";
+option java_package = "yandex.cloud.api.containerregistry.v1";
+
+message IpPermission {
+    enum Action {
+        ACTION_UNSPECIFIED = 0;
+        PULL = 1;
+        PUSH = 2;
+    }
+    Action action = 1;
+    string ip = 2;
+}

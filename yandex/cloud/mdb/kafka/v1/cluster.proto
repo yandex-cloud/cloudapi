@@ -221,6 +221,12 @@ message KafkaConfig2_1 {
   //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_1.preallocate] setting.
   google.protobuf.BoolValue log_preallocate = 10;
+
+  // The SO_SNDBUF buffer of the socket server sockets. If the value is -1, the OS default will be used.
+  google.protobuf.Int64Value socket_send_buffer_bytes = 11;
+
+  // The SO_RCVBUF buffer of the socket server sockets. If the value is -1, the OS default will be used.
+  google.protobuf.Int64Value socket_receive_buffer_bytes = 12;
 }
 
 // Kafka version 2.6 broker configuration.
@@ -273,6 +279,12 @@ message KafkaConfig2_6 {
   //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_6.preallocate] setting.
   google.protobuf.BoolValue log_preallocate = 10;
+
+  // The SO_SNDBUF buffer of the socket server sockets. If the value is -1, the OS default will be used.
+  google.protobuf.Int64Value socket_send_buffer_bytes = 11;
+
+  // The SO_RCVBUF buffer of the socket server sockets. If the value is -1, the OS default will be used.
+  google.protobuf.Int64Value socket_receive_buffer_bytes = 12;
 }
 
 // Cluster host metadata.

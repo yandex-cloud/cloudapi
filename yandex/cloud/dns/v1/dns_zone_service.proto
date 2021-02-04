@@ -1,0 +1,219 @@
+syntax = "proto3";
+
+package yandex.cloud.dns.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+
+import "yandex/cloud/access/access.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/dns/v1/dns_zone.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dns/v1;dns";
+option java_package = "yandex.cloud.api.dns.v1";
+
+service DnsZoneService {
+  rpc Get (GetDnsZoneRequest) returns (DnsZone) {
+    option (google.api.http) = { get: "/dns/v1/zones/{dns_zone_id}" };
+  };
+
+  rpc List (ListDnsZonesRequest) returns (ListDnsZonesResponse) {
+    option (google.api.http) = { get: "/dns/v1/zones" };
+  };
+
+  rpc Create (CreateDnsZoneRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/dns/v1/zones" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "CreateDnsZoneMetadata"
+      response: "DnsZone"
+    };
+  };
+
+  rpc Update (UpdateDnsZoneRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/dns/v1/zones/{dns_zone_id}" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateDnsZoneMetadata"
+      response: "DnsZone"
+    };
+  };
+
+  rpc Delete (DeleteDnsZoneRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/dns/v1/zones/{dns_zone_id}" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteDnsZoneMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
+
+  rpc GetRecordSet (GetDnsZoneRecordSetRequest) returns (RecordSet) {
+    option (google.api.http) = { get: "/dns/v1/zones/{dns_zone_id}:getRecordSet" };
+  };
+
+  rpc ListRecordSets (ListDnsZoneRecordSetsRequest) returns (ListDnsZoneRecordSetsResponse) {
+    option (google.api.http) = { get: "/dns/v1/zones/{dns_zone_id}:listRecordSets" };
+  };
+
+  // Метод для строго консистентного изменения состояния зоны. Возвращает ошибку если удаляемая запись не найдена, если
+  // у записи с таким ключом не совпадают остальные поля, или добавляемая запись с заданным ключом уже существует. Если
+  // запись по одному и тому же ключу находится в обоих списках, то она заменяется на запись в списке добавленных.
+  rpc UpdateRecordSets (UpdateRecordSetsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/dns/v1/zones/{dns_zone_id}:updateRecordSets" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateRecordSetsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
+
+  // Метод без строго контроля для изменения состояния зоны. При удалении не проверяет наличие удаляемой записи.
+  // Удаляет рекорды не по совпадению ключа, а по полному совпадению всех полей, что позволяет удалить часть рекордов из
+  // рекордсета.
+  rpc UpsertRecordSets (UpsertRecordSetsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/dns/v1/zones/{dns_zone_id}:upsertRecordSets" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpsertRecordSetsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
+
+  rpc ListOperations (ListDnsZoneOperationsRequest) returns (ListDnsZoneOperationsResponse) {
+    option (google.api.http) = { get: "/dns/v1/zones/{dns_zone_id}/operations" };
+  };
+
+  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = { get: "/dns/v1/zones/{resource_id}:listAccessBindings" };
+  };
+
+  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/dns/v1/zones/{resource_id}:setAccessBindings" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/dns/v1/zones/{resource_id}:updateAccessBindings" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+}
+
+message GetDnsZoneRequest {
+  string dns_zone_id = 1 [(required) = true];
+}
+
+message ListDnsZonesRequest {
+  string folder_id = 1 [(required) = true];
+
+  int64 page_size = 2 [(value) = "<=1000"];
+  string page_token = 3 [(length) = "<=1000"];
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListDnsZonesResponse {
+  repeated DnsZone dns_zones = 1;
+
+  string next_page_token = 2;
+}
+
+message CreateDnsZoneRequest {
+  string folder_id = 1 [(length) = "<=50", (required) = true];
+  string name = 2 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string description = 3 [(length) = "<=256"];
+  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+
+  string zone = 5 [(required) = true, (length) = "<=255", (pattern) = "[.]|[a-z0-9][-a-z0-9.]*\\."];
+
+  // должно быть проставлено ровно одно поле из следующих двух
+  PrivateVisibility private_visibility = 6;
+  PublicVisibility public_visibility = 7;
+}
+
+message CreateDnsZoneMetadata {
+  string dns_zone_id = 1;
+}
+
+message UpdateDnsZoneRequest {
+  string dns_zone_id = 1 [(length) = "20"];
+  google.protobuf.FieldMask update_mask = 2;
+
+  string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string description = 4 [(length) = "<=256"];
+  map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+
+  // разрешается менять только список идентификаторов сетей внутри private_visibility
+  PrivateVisibility private_visibility = 6;
+  PublicVisibility public_visibility = 7;
+}
+
+message UpdateDnsZoneMetadata {
+  string dns_zone_id = 1;
+}
+
+message DeleteDnsZoneRequest {
+  string dns_zone_id = 1 [(length) = "20"];
+}
+
+message DeleteDnsZoneMetadata {
+  string dns_zone_id = 1;
+}
+
+message GetDnsZoneRecordSetRequest {
+  string dns_zone_id = 1 [(length) = "20"];
+  string name = 2 [(required) = true, (length) = "<=255"];
+  string type = 3 [(required) = true, (length) = "<=10"];
+}
+
+message ListDnsZoneRecordSetsRequest {
+  string dns_zone_id = 1 [(length) = "20"];
+  string sub_domain = 2 [(length) = "<=255"];
+  string type = 3 [(length) = "<=10"];
+
+  int64 page_size = 4 [(value) = "<=1000"];
+  string page_token = 5 [(length) = "<=1000"];
+}
+
+message ListDnsZoneRecordSetsResponse {
+  repeated RecordSet record_sets = 1;
+
+  string next_page_token = 2;
+}
+
+message UpdateRecordSetsRequest {
+  string dns_zone_id = 1 [(length) = "20"];
+  repeated RecordSet deletions = 2 [(size) = "<=1000"];
+  repeated RecordSet additions = 3 [(size) = "<=1000"];
+}
+
+message UpdateRecordSetsMetadata {
+}
+
+message UpsertRecordSetsRequest {
+  string dns_zone_id = 1 [(length) = "20"];
+  // удаляет только конкретные рекорды внутри рекордсета
+  repeated RecordSet deletions = 2 [(size) = "<=1000"];
+  // заменяет указанные рекордсеты целиком
+  repeated RecordSet replacements = 3 [(size) = "<=1000"];
+  // для каждого рекордсета заменяет рекорды или добавляет новые
+  repeated RecordSet merges = 4 [(size) = "<=1000"];
+}
+
+message UpsertRecordSetsMetadata {
+}
+
+message ListDnsZoneOperationsRequest {
+  string dns_zone_id = 1 [(length) = "20"];
+
+  int64 page_size = 2 [(value) = "0-1000"];
+  string page_token = 3 [(length) = "<=1000"];
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListDnsZoneOperationsResponse {
+  repeated operation.Operation operations = 1;
+  string next_page_token = 2;
+}

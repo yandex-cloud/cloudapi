@@ -5,6 +5,7 @@ package yandex.cloud.containerregistry.v1;
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/containerregistry/v1/registry.proto";
+import "yandex/cloud/containerregistry/v1/ip_permission.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 import "google/protobuf/field_mask.proto";
@@ -76,6 +77,31 @@ service RegistryService {
     option (google.api.http) = { post: "/container-registry/v1/registries/{resource_id}:updateAccessBindings" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  //ip permissions
+  
+  // List ip permissions for the specified registry.
+  rpc ListIpPermission (ListIpPermissionRequest) returns (ListIpPermissionsResponse){
+    option (google.api.http) = { get: "/container-registry/v1/registries/{registry_id}:listIpPermission" };
+  }
+
+  // Set ip permissions for the specified registry.
+  rpc SetIpPermission (SetIpPermissionRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/container-registry/v1/registries/{registry_id}:setIpPermission" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "SetIpPermissionMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Update ip permissions for the specified registry.
+  rpc UpdateIpPermission (UpdateIpPermissionRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/container-registry/v1/registries/{registry_id}:updateIpPermission" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateIpPermissionMetadata"
       response: "google.protobuf.Empty"
     };
   }
@@ -178,5 +204,59 @@ message DeleteRegistryRequest {
 
 message DeleteRegistryMetadata {
   // ID of the registry that is being deleted.
+  string registry_id = 1;
+}
+
+enum IpPermissionAction {
+  IP_PERMISSION_ACTION_UNSPECIFIED = 0;
+
+  // Addition of an ip permission.
+  ADD = 1;
+
+  // Removal of an ip permission.
+  REMOVE = 2;
+}
+
+message IpPermissionDelta {
+  // The action that is being performed on an ip permission.
+  IpPermissionAction action = 1 [(required) = true];
+  
+  // Ip permission.
+  IpPermission ip_permission = 2 [(required) = true];
+}
+
+message SetIpPermissionRequest {
+  // ID of the registry for which ip permissions are being set.
+  string registry_id = 1 [(required) = true, (length) = "<=50"];
+
+  // IP permission to be set.
+  repeated IpPermission ip_permission = 2;
+}
+
+message UpdateIpPermissionRequest {
+  // ID of the registry for which ip permissions are being updated.
+  string registry_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Updates to IP permissions.
+  repeated IpPermissionDelta ip_permission_deltas = 2;
+}
+
+message ListIpPermissionRequest {
+  // ID of the Registry to return ip permission list.
+  string registry_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message ListIpPermissionsResponse {
+  // List of ip permissions for registry
+  repeated IpPermission permissions = 1;
+}
+
+message SetIpPermissionMetadata {
+  // ID of the registry that ip permission is being set.
+  string registry_id = 1;
+}
+
+message UpdateIpPermissionMetadata {
+  // ID of the registry that ip permission is being updated.
   string registry_id = 1;
 }

@@ -213,6 +213,9 @@ message CreateInstanceGroupRequest {
   //
   // The default is `false`.
   bool deletion_protection = 14;
+
+  // Application Load balancing (L7) specification.
+  ApplicationLoadBalancerSpec application_load_balancer_spec = 15;
 }
 
 message CreateInstanceGroupFromYamlRequest {

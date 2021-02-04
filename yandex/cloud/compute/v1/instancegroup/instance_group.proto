@@ -495,6 +495,9 @@ message PrimaryAddressSpec {
   // An external IP address configuration.
   // If not specified, then this managed instance will have no external internet access.
   OneToOneNatSpec one_to_one_nat_spec = 1;
+
+  // Internal DNS configuration
+  repeated DnsRecordSpec dns_record_specs = 2;
 }
 
 message OneToOneNatSpec {
@@ -502,6 +505,20 @@ message OneToOneNatSpec {
   IpVersion ip_version = 1;
   // Manual set static public IP. To set use variables. (optional)
   string address = 2;
+
+  // External DNS configuration
+  repeated DnsRecordSpec dns_record_specs = 3;
+}
+
+message DnsRecordSpec {
+  // FQDN (required)
+  string fqdn = 1 [(required) = true];
+  // DNS zone id (optional, if not set, private zone used)
+  string dns_zone_id = 2;
+  // DNS record ttl, values in 0-86400 (optional)
+  int64 ttl = 3 [(value) = "0-86400"];
+  // When set to true, also create PTR DNS record (optional)
+  bool ptr = 4;
 }
 
 enum IpVersion {
@@ -546,6 +563,20 @@ message TargetGroupSpec {
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 3 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+}
+
+message ApplicationLoadBalancerSpec {
+  // Specification of the alb's target group that the instance group will be added to.
+  ApplicationTargetGroupSpec target_group_spec = 1 [(required) = true];
+}
+
+message ApplicationTargetGroupSpec {
+  // Name of the target group.
+  string name = 1;
+  // Description of the target group.
+  string description = 2;
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 3;
 }
 
 message HealthChecksSpec {

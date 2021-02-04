@@ -175,6 +175,9 @@ message PrimaryAddress {
 
   // One-to-one NAT configuration. If missing, NAT has not been set up.
   OneToOneNat one_to_one_nat = 2;
+
+  // Internal DNS configuration
+  repeated DnsRecord dns_records = 3;
 }
 
 message OneToOneNat {
@@ -183,6 +186,13 @@ message OneToOneNat {
 
   // IP version for the external IP address.
   IpVersion ip_version = 2;
+
+  // External DNS configuration
+  repeated DnsRecord dns_records = 3;
+}
+
+message DnsRecord {
+  string fqdn = 1;
 }
 
 enum IpVersion {

@@ -415,6 +415,9 @@ message RestoreClusterRequest {
 
   // User security groups
   repeated string security_group_ids = 10;
+
+  // TLS port and functionality on\off
+  google.protobuf.BoolValue tls_enabled = 11;
 }
 
 message RestoreClusterMetadata {
