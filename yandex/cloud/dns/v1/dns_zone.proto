@@ -21,7 +21,7 @@ message DnsZone {
   PublicVisibility public_visibility = 9;
 }
 
-// name + type являются уникальным идентификатором рекордсета
+// name + type is a unique record set identifier
 message RecordSet {
   string name = 1 [(length) = "1-254"];
   string type = 2 [(length) = "1-20"];

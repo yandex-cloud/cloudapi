@@ -71,6 +71,11 @@ message InstanceGroup {
   // The default is `false`.
   bool deletion_protection = 19;
 
+  // Application load balancer spec
+  ApplicationLoadBalancerSpec application_load_balancer_spec = 20;
+  // Application load balancer state
+  ApplicationLoadBalancerState application_load_balancer_state = 21;
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -95,6 +100,11 @@ message InstanceGroup {
     // Instance group is being deleted.
     DELETING = 5;
   }
+}
+
+message ApplicationLoadBalancerState {
+  string target_group_id = 1;
+  string status_message = 2;
 }
 
 message Variable {

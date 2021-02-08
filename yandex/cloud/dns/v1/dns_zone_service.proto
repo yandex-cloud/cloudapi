@@ -55,9 +55,10 @@ service DnsZoneService {
     option (google.api.http) = { get: "/dns/v1/zones/{dns_zone_id}:listRecordSets" };
   };
 
-  // Метод для строго консистентного изменения состояния зоны. Возвращает ошибку если удаляемая запись не найдена, если
-  // у записи с таким ключом не совпадают остальные поля, или добавляемая запись с заданным ключом уже существует. Если
-  // запись по одному и тому же ключу находится в обоих списках, то она заменяется на запись в списке добавленных.
+  // Method with strict control for changing zone state. Returns error when deleted record is not found, found record
+  // with matched type and name but different ttl or value, or on attempt to add record with existing name and type.
+  // Deletions come first so if record with same name and type is present in both lists then existing record will be
+  // deleted and new one added.
   rpc UpdateRecordSets (UpdateRecordSetsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/dns/v1/zones/{dns_zone_id}:updateRecordSets" body: "*"};
     option (yandex.cloud.api.operation) = {
@@ -66,9 +67,8 @@ service DnsZoneService {
     };
   };
 
-  // Метод без строго контроля для изменения состояния зоны. При удалении не проверяет наличие удаляемой записи.
-  // Удаляет рекорды не по совпадению ключа, а по полному совпадению всех полей, что позволяет удалить часть рекордов из
-  // рекордсета.
+  // Method without strict control for changing zone state. Do not returns error when deleted record is not found.
+  // Delete records that match all specified fields which allows to delete only specified records from record set.
   rpc UpsertRecordSets (UpsertRecordSetsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/dns/v1/zones/{dns_zone_id}:upsertRecordSets" body: "*"};
     option (yandex.cloud.api.operation) = {
@@ -128,7 +128,7 @@ message CreateDnsZoneRequest {
 
   string zone = 5 [(required) = true, (length) = "<=255", (pattern) = "[.]|[a-z0-9][-a-z0-9.]*\\."];
 
-  // должно быть проставлено ровно одно поле из следующих двух
+  // at least one of two visibility fields must be set
   PrivateVisibility private_visibility = 6;
   PublicVisibility public_visibility = 7;
 }
@@ -145,7 +145,7 @@ message UpdateDnsZoneRequest {
   string description = 4 [(length) = "<=256"];
   map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
 
-  // разрешается менять только список идентификаторов сетей внутри private_visibility
+  // only network_ids change inside private_visibility is allowed
   PrivateVisibility private_visibility = 6;
   PublicVisibility public_visibility = 7;
 }
@@ -194,11 +194,11 @@ message UpdateRecordSetsMetadata {
 
 message UpsertRecordSetsRequest {
   string dns_zone_id = 1 [(length) = "20"];
-  // удаляет только конкретные рекорды внутри рекордсета
+  // delete only specified records from record set
   repeated RecordSet deletions = 2 [(size) = "<=1000"];
-  // заменяет указанные рекордсеты целиком
+  // replace specified record sets entirely
   repeated RecordSet replacements = 3 [(size) = "<=1000"];
-  // для каждого рекордсета заменяет рекорды или добавляет новые
+  // for each record set replace records or add new ones
   repeated RecordSet merges = 4 [(size) = "<=1000"];
 }
 
