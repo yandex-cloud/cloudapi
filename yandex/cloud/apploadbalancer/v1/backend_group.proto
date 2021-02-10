@@ -1,0 +1,211 @@
+syntax = "proto3";
+
+package yandex.cloud.apploadbalancer.v1;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "yandex/cloud/apploadbalancer/v1/payload.proto";
+import "yandex/cloud/apploadbalancer/v1/tls.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/apploadbalancer/v1;apploadbalancer";
+option java_package = "yandex.cloud.api.apploadbalancer.v1";
+
+message BackendGroup {
+  // Output only. ID of the backend group.
+  string id = 1;
+
+  // The name is unique within the folder. 3-63 characters long.
+  string name = 2;
+
+  // Description of the backend group. 0-256 characters long.
+  string description = 3;
+
+  // ID of the folder that the backend group belongs to.
+  string folder_id = 4;
+
+  // Resource labels as `key:value` pairs. Maximum of 64 per resource.
+  map<string, string> labels = 5;
+
+  oneof backend {
+    HttpBackendGroup http = 6;
+    GrpcBackendGroup grpc = 7;
+  }
+
+  // Creation timestamp for the backend group.
+  google.protobuf.Timestamp created_at = 9;
+}
+
+message HttpBackendGroup {
+  repeated HttpBackend backends = 1;
+}
+
+message GrpcBackendGroup {
+  repeated GrpcBackend backends = 1;
+}
+
+message HeaderSessionAffinity {
+  string header_name = 1 [(length) = "1-256"];
+}
+
+message CookieSessionAffinity {
+  string name = 1 [(length) = "1-256"];
+  // If not set, session cookie will be used (not persisted between browser restarts).
+  google.protobuf.Duration ttl = 2;
+}
+
+message ConnectionSessionAffinity {
+  bool source_ip = 1;
+}
+
+message LoadBalancingConfig {
+  // If percentage of healthy hosts in the backend is lower than panic_threshold,
+  // traffic will be routed to all backends no matter what the health status is.
+  // This helps to avoid healthy backends overloading  when everything is bad.
+  // zero means no panic threshold.
+  int64 panic_threshold = 1 [(value) = "0-100"];
+
+  // Percent of traffic to be sent to the same availability zone.
+  // The rest will be equally divided between other zones.
+  int64 locality_aware_routing_percent = 2 [(value) = "0-100"];
+
+  // If set, will route requests only to the same availability zone.
+  // Balancer won't know about endpoints in other zones.
+  bool strict_locality = 3;
+}
+
+message HttpBackend {
+  // Name.
+  string name = 1 [(required) = true];
+
+  // Traffic will be split between backends of the same BackendGroup according to
+  // their weights.
+  // If set to zero, backend will be disabled.
+  // If not set in all backends, they all will have equal weights.
+  // Must either set or unset in all backeds of the group.
+  google.protobuf.Int64Value backend_weight = 2;
+
+  LoadBalancingConfig load_balancing_config = 3;
+
+  // Port for all targets from target group.
+  int64 port = 4 [(value) = "0-65535"];
+
+  oneof backend_type {
+    option (exactly_one) = true;
+    // References target groups for the backend.
+    TargetGroupsBackend target_groups = 5;
+  }
+
+  // No health checks means no active health checking will be performed.
+  repeated HealthCheck healthchecks = 6;
+
+  // TLS settings for the upstream.
+  BackendTls tls = 7;
+
+  // Enables HTTP2 for upstream requests.
+  // If not set, HTTP 1.1 will be used by default.
+  bool use_http2 = 8;
+}
+
+message GrpcBackend {
+  // Name.
+  string name = 1 [(required) = true];
+
+  // Traffic will be split between backends of the same BackendGroup according to
+  // their weights.
+  // If set to zero, backend will be disabled.
+  // If not set in all backends, they all will have equal weights.
+  // Must either set or unset in all backeds of the group.
+  google.protobuf.Int64Value backend_weight = 2;
+
+  LoadBalancingConfig load_balancing_config = 3;
+
+  // Port for all targets from target group.
+  int64 port = 4 [(value) = "0-65535"];
+
+  oneof backend_type {
+    option (exactly_one) = true;
+    // References target groups for the backend.
+    TargetGroupsBackend target_groups = 5;
+  }
+
+  // No health checks means no active health checking will be performed.
+  repeated HealthCheck healthchecks = 7;
+
+  // TLS settings for the upstream.
+  BackendTls tls = 8;
+}
+
+message TargetGroupsBackend {
+  repeated string target_group_ids = 1 [(size)=">0"];
+}
+
+message BackendTls {
+  // SNI string for TLS connections.
+  string sni = 1;
+
+  // Validation context for backend TLS connections.
+  ValidationContext validation_context = 3;
+}
+
+// Active health check.
+message HealthCheck {
+  // Time to wait for a health check response.
+  google.protobuf.Duration timeout = 1 [(required) = true];
+
+  // Interval between health checks.
+  google.protobuf.Duration interval = 2 [(required) = true];
+
+
+  // An optional jitter amount as a percentage of interval.
+  // If specified, during every interval value of
+  // (interval_ms * interval_jitter_percent / 100) will be added to the wait time.
+  double interval_jitter_percent = 3;
+
+  // Number of consecutive successful health checks required to promote endpoint
+  // into the healthy state. 0 means 1.
+  // Note that during startup, only a single successful health check is required to mark a host healthy.
+  int64 healthy_threshold = 4;
+
+  // Number of consecutive failed health checks required to demote endpoint
+  // into the unhealthy state. 0 means 1.
+  // Note that for HTTP health checks, a single 503 immediately makes endpoint unhealthy.
+  int64 unhealthy_threshold = 5;
+
+  // Optional alternative port for health checking.
+  int64 healthcheck_port = 6 [(value) = "0-65535"];
+
+  // TCP (+TLS) health check ("Stream protocol HC").
+  message StreamHealthCheck {
+    // Optional message to send.
+    // If empty, it's a connect-only health check.
+    Payload send = 1;
+
+    // Optional text to search in reply.
+    Payload receive = 2;
+  }
+
+  message HttpHealthCheck {
+    // Optional "Host" HTTP header value.
+    string host = 1;
+
+    // HTTP path.
+    string path = 2 [(required) = true];
+
+    // If set, health checks will use HTTP/2.
+    bool use_http2 = 3;
+  }
+
+  message GrpcHealthCheck {
+    // Optional service name for grpc.health.v1.HealthCheckRequest message.
+    string service_name = 1;
+  }
+
+  oneof healthcheck {
+    option (exactly_one) = true;
+    StreamHealthCheck stream = 7;
+    HttpHealthCheck http = 8;
+    GrpcHealthCheck grpc = 9;
+  }
+}

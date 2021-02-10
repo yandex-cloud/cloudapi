@@ -10,7 +10,7 @@ option java_package = "yandex.cloud.api.mdb.kafka.v1";
 
 
 // A Kafka user.
-// For more information, see the [Operations → Accounts](/docs/managed-kafka/operations/cluster-accounts) section of the documentation.
+// For more information, see the [Operations -> Accounts](/docs/managed-kafka/operations/cluster-accounts) section of the documentation.
 message User {
   // Name of the Kafka user.
   string name = 1;

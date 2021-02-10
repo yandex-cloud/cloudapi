@@ -107,7 +107,7 @@ message CreateSubclusterRequest {
   // To get a cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Name of the subcluster. The name must be unique within the cluster. The name can’t be
+  // Name of the subcluster. The name must be unique within the cluster. The name can't be
   // changed when the subcluster is created.
   string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 

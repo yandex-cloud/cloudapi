@@ -26,7 +26,7 @@ message TargetGroup {
   // Description of the target group. 0-256 characters long.
   string description = 5;
 
-  // Resource labels as `` key:value `` pairs. Мaximum of 64 per resource. 
+  // Resource labels as `` key:value `` pairs. Maximum of 64 per resource.
   map<string, string> labels = 6;
 
   // ID of the region where the target group resides.

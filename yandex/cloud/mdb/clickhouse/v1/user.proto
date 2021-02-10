@@ -103,9 +103,9 @@ message UserSettings {
   }
 
   // Restricts permissions for non-DDL queries. To restrict permissions for DDL queries, use [allow_ddl] instead.
-  // * **0** (default)—no restrictions.
-  // * **1**—only read data queries are allowed.
-  // * **2**—read data and change settings queries are allowed.
+  // * **0** (default)-no restrictions.
+  // * **1**-only read data queries are allowed.
+  // * **2**-read data and change settings queries are allowed.
   //
   // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/permissions-for-queries/#settings_readonly).
   google.protobuf.Int64Value readonly = 1 [(value) = "0-2"];
@@ -175,9 +175,9 @@ message UserSettings {
 
   // Wait mode for asynchronous actions in **ALTER** queries on replicated tables:
   //
-  // * **0**—do not wait for replicas.
-  // * **1**—only wait for own execution (default).
-  // * **2**—wait for all replicas.
+  // * **0**-do not wait for replicas.
+  // * **1**-only wait for own execution (default).
+  // * **2**-wait for all replicas.
   //
   // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/sql-reference/statements/alter/#synchronicity-of-alter-queries).
   google.protobuf.Int64Value replication_alter_partitions_sync = 42 [(value) = "0-2"];
@@ -274,7 +274,7 @@ message UserSettings {
   // Limits the minimum number of bytes in a block to be inserted in a table by **INSERT** query.
   // Blocks that are smaller than the specified value, will be squashed together into the bigger blocks.
   //
-  // Minimal value: **0**, block squashing is disabled (default: **‭268435456‬‬**, 256 MB).
+  // Minimal value: **0**, block squashing is disabled (default: **268435456**, 256 MB).
   google.protobuf.Int64Value min_insert_block_size_bytes = 49 [(value) = ">=0"];
 
   // Allows to form blocks of the specified size (in bytes) when inserting data in a table.
@@ -359,18 +359,18 @@ message UserSettings {
 
   // Sets the threshold of the number of keys, after that the two-level aggregation should be used.
   //
-  // Minimal value: **0**, threshold is not set (default: **10000‬‬**).
+  // Minimal value: **0**, threshold is not set (default: **10000**).
   google.protobuf.Int64Value group_by_two_level_threshold = 76;
 
   // Sets the threshold of the number of bytes, after that the two-level aggregation should be used.
   //
-  // Minimal value: **0**, threshold is not set (default: **100000000‬‬**).
+  // Minimal value: **0**, threshold is not set (default: **100000000**).
   google.protobuf.Int64Value group_by_two_level_threshold_bytes = 77;
 
   // Sets the priority of a query.
   //
-  // * **0**—priority is not used.
-  // * **1**—the highest priority.
+  // * **0**-priority is not used.
+  // * **1**-the highest priority.
   // * and so on. The higher the number, the lower a query's priority.
   //
   // This setting should be set up for each query individually.
@@ -420,7 +420,7 @@ message UserSettings {
   // Minimal value and default value: **0**, no limitation is set.
   google.protobuf.Int64Value max_network_bandwidth_for_user = 58;
 
-  // If enabled, query is not executed if the ClickHouse can’t use index by date.
+  // If enabled, query is not executed if the ClickHouse can't use index by date.
   // This setting has effect only for tables of the MergeTree family.
   //
   // Default value: **false** (setting is disabled, query executes even if ClickHouse can't use index by date).
@@ -428,7 +428,7 @@ message UserSettings {
   // See in-depth description in [ClickHouse documentation](https://clickhouse.tech/docs/en/operations/settings/settings/#settings-force_index_by_date).
   google.protobuf.BoolValue force_index_by_date = 59;
 
-  // If enabled, query is not executed if the ClickHouse can’t use index by primary key.
+  // If enabled, query is not executed if the ClickHouse can't use index by primary key.
   // This setting has effect only for tables of the MergeTree family.
   //
   // Default value: **false** (setting is disabled, query executes even if ClickHouse can't use index by primary key).
@@ -450,8 +450,8 @@ message UserSettings {
 
   // Determines the behavior on exceeding [limits](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#restrictions-on-query-complexity) while reading the data.
   //
-  // * **throw**—abort query execution, return an error.
-  // * **break**—stop query execution, return partial result.
+  // * **throw**-abort query execution, return an error.
+  // * **break**-stop query execution, return partial result.
   OverflowMode read_overflow_mode = 15;
 
   // Limits the maximum number of unique keys received from aggregation function.
@@ -462,9 +462,9 @@ message UserSettings {
 
   // Determines the behavior on exceeding [limits](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#restrictions-on-query-complexity) while doing aggregation.
   //
-  // * **throw**—abort query execution, return an error.
-  // * **break**—stop query execution, return partial result.
-  // * **any**—perform approximate **GROUP BY** operation by continuing aggregation for the keys that got into the set, but don’t add new keys to the set.
+  // * **throw**-abort query execution, return an error.
+  // * **break**-stop query execution, return partial result.
+  // * **any**-perform approximate **GROUP BY** operation by continuing aggregation for the keys that got into the set, but don't add new keys to the set.
   GroupByOverflowMode group_by_overflow_mode = 17;
 
   // Limits the maximum number of rows that can be read from a table for sorting.
@@ -481,8 +481,8 @@ message UserSettings {
 
   // Determines the behavior on exceeding [limits](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#restrictions-on-query-complexity) while sorting.
   //
-  // * **throw**—abort query execution, return an error.
-  // * **break**—stop query execution, return partial result.
+  // * **throw**-abort query execution, return an error.
+  // * **break**-stop query execution, return partial result.
   OverflowMode sort_overflow_mode = 20;
 
   // Limits the number of rows in the result.
@@ -499,8 +499,8 @@ message UserSettings {
 
   // Determines the behavior on exceeding [limits](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#restrictions-on-query-complexity) while forming result.
   //
-  // * **throw**—abort query execution, return an error.
-  // * **break**—stop query execution, return partial result.
+  // * **throw**-abort query execution, return an error.
+  // * **break**-stop query execution, return partial result.
   OverflowMode result_overflow_mode = 23;
 
   // Limits the maximum number of different rows when using **DISTINCT**.
@@ -513,8 +513,8 @@ message UserSettings {
 
   // Determines the behavior on exceeding [limits](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#restrictions-on-query-complexity) while doing **DISCTINCT**.
   //
-  // * **throw**—abort query execution, return an error.
-  // * **break**—stop query execution, return partial result.
+  // * **throw**-abort query execution, return an error.
+  // * **break**-stop query execution, return partial result.
   OverflowMode distinct_overflow_mode = 26;
 
   // Limits the maximum number of rows that can be passed to a remote server or saved in a temporary table when using **GLOBAL IN**.
@@ -530,8 +530,8 @@ message UserSettings {
 
   // Determines the behavior on exceeding [limits](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#restrictions-on-query-complexity) while doing transfers.
   //
-  // * **throw**—abort query execution, return an error.
-  // * **break**—stop query execution, return partial result.
+  // * **throw**-abort query execution, return an error.
+  // * **break**-stop query execution, return partial result.
   OverflowMode transfer_overflow_mode = 29;
 
   // Limits the maximum query execution time in milliseconds.
@@ -542,8 +542,8 @@ message UserSettings {
 
   // Determines the behavior on exceeding [limits](https://clickhouse.tech/docs/en/operations/settings/query-complexity/#restrictions-on-query-complexity) of execution time.
   //
-  // * **throw**—abort query execution, return an error.
-  // * **break**—stop query execution, return partial result.
+  // * **throw**-abort query execution, return an error.
+  // * **break**-stop query execution, return partial result.
   OverflowMode timeout_overflow_mode = 31;
 
   // Limit on the number of rows in the set resulting from the execution of the IN section.
@@ -667,8 +667,8 @@ message UserSettings {
 
   // Determines whether to use LowCardinality type in Native format.
   //
-  // * **true** (default)—yes, use.
-  // * **false**—convert LowCardinality columns to regular columns when doing **SELECT**, and convert regular columns to LowCardinality when doing **INSERT**.
+  // * **true** (default)-yes, use.
+  // * **false**-convert LowCardinality columns to regular columns when doing **SELECT**, and convert regular columns to LowCardinality when doing **INSERT**.
   //
   // LowCardinality columns (aka sparse columns) store data in more effective way, compared to regular columns, by using hash tables.
   // If data to insert suits this storage format, ClickHouse will place them into LowCardinality column.
@@ -683,8 +683,8 @@ message UserSettings {
 
   // Enables returning of empty result when aggregating without keys (with **GROUP BY** operation absent) on empty set (e.g., **SELECT count(*) FROM table WHERE 0**).
   //
-  // * **true**—ClickHouse will return an empty result for such queries.
-  // * **false** (default)—ClickHouse will return a single-line result consisting of **NULL** values for aggregation functions, in accordance with SQL standard.
+  // * **true**-ClickHouse will return an empty result for such queries.
+  // * **false** (default)-ClickHouse will return a single-line result consisting of **NULL** values for aggregation functions, in accordance with SQL standard.
   google.protobuf.BoolValue empty_result_for_aggregation_by_empty_set = 79;
 
   google.protobuf.BoolValue joined_subquery_requires_alias = 93;

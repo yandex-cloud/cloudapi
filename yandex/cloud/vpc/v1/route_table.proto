@@ -24,7 +24,7 @@ message RouteTable {
   // Optional description of the route table. 0-256 characters long.
   string description = 5;
 
-  // Resource labels as `` key:value `` pairs. Мaximum of 64 per resource.
+  // Resource labels as `` key:value `` pairs. Maximum of 64 per resource.
   map<string, string> labels = 6;
 
   // ID of the network the route table belongs to.
@@ -47,6 +47,6 @@ message StaticRoute {
     string next_hop_address = 2;
   }
 
-  // Resource labels as `` key:value `` pairs. Мaximum of 64 per resource.
+  // Resource labels as `` key:value `` pairs. Maximum of 64 per resource.
   map<string, string> labels = 3;
 }

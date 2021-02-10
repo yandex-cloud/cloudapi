@@ -173,7 +173,7 @@ message Resources {
 
 // Kafka version 2.1 broker configuration.
 message KafkaConfig2_1 {
-  // Сluster topics compression type.
+  // Cluster topics compression type.
   CompressionType compression_type = 1;
 
   // The number of messages accumulated on a log partition before messages are flushed to disk.
@@ -231,7 +231,7 @@ message KafkaConfig2_1 {
 
 // Kafka version 2.6 broker configuration.
 message KafkaConfig2_6 {
-  // Сluster topics compression type.
+  // Cluster topics compression type.
   CompressionType compression_type = 1;
 
   // The number of messages accumulated on a log partition before messages are flushed to disk.

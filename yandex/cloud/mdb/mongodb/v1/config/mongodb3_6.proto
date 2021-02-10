@@ -47,8 +47,8 @@ message MongodConfig3_6 {
     message Journal {
       // Whether the journal is enabled or disabled.
       // Possible values:
-      // * true (default) — the journal is enabled.
-      // * false — the journal is disabled.
+      // * true (default) - the journal is enabled.
+      // * false - the journal is disabled.
       google.protobuf.BoolValue enabled = 1;
 
       // Commit interval between journal operations, in milliseconds.

@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package yandex.cloud.apploadbalancer.v1;
+
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/apploadbalancer/v1/virtual_host.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/apploadbalancer/v1;apploadbalancer";
+option java_package = "yandex.cloud.api.apploadbalancer.v1";
+
+message HttpRouter {
+  // Output only. ID of the router.
+  string id = 1;
+
+  // The name is unique within the folder. 3-63 characters long.
+  string name = 2;
+
+  // Description of the router. 0-256 characters long.
+  string description = 3;
+
+  // ID of the folder that the router belongs to.
+  string folder_id = 4;
+
+  // Resource labels as `key:value` pairs. Maximum of 64 per resource.
+  map<string, string> labels = 5;
+
+  // Only one virtual host with no authority (default match) can be specified.
+  repeated VirtualHost virtual_hosts = 6;
+
+  // Creation timestamp for the http router.
+  google.protobuf.Timestamp created_at = 7;
+}

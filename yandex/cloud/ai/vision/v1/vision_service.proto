@@ -97,8 +97,8 @@ message FeatureTextDetectionConfig {
 
   // Model to use for text detection.
   // Possible values:
-  // * page (default) — this model is suitable for detecting multiple text entries in an image.
-  // * line — this model is suitable for cropped images with one line of text.
+  // * page (default) - this model is suitable for detecting multiple text entries in an image.
+  // * line - this model is suitable for cropped images with one line of text.
   string model = 2 [(length) = "<=50"];
 }
 

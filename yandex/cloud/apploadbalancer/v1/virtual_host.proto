@@ -1,0 +1,218 @@
+syntax = "proto3";
+
+package yandex.cloud.apploadbalancer.v1;
+
+import "google/protobuf/duration.proto";
+import "yandex/cloud/apploadbalancer/v1/payload.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/apploadbalancer/v1;apploadbalancer";
+option java_package = "yandex.cloud.api.apploadbalancer.v1";
+
+message VirtualHost {
+  string name = 1 [(required) = true];
+
+  // A list of domains (host/authority header) that will be matched to this
+  // virtual host. Wildcard hosts are supported in the form of '*.foo.com' or
+  // '*-bar.foo.com'.
+  // If not specified, all domains will be matched.
+  repeated string authority = 2;
+
+  // Routes are matched *in-order*. Be careful when adding them to the end.
+  // For instance, having http '/' match first makes all other routes unused.
+  repeated Route routes = 3;
+
+  // Apply the following modifications to the request headers.
+  repeated HeaderModification modify_request_headers = 4;
+
+  // Apply the following modifications to the response headers.
+  repeated HeaderModification modify_response_headers = 5;
+}
+
+message HeaderModification {
+  // Name of the header.
+  string name = 1;
+
+  // Header values support the following formatters:
+  // https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#custom-request-response-headers
+  oneof operation {
+    // Append string to the header value.
+    string append = 2;
+    // New value for a header.
+    string replace = 3;
+    // Remove the header.
+    bool remove = 4;
+    // New name for a header.
+    string rename = 5;
+  }
+}
+
+message Route {
+  string name = 1 [(required) = true];
+  oneof route {
+    option (exactly_one) = true;
+    HttpRoute http = 2;
+    GrpcRoute grpc = 3;
+  }
+}
+
+message HttpRoute {
+  // Checks "/" prefix by default.
+  HttpRouteMatch match = 1;
+
+  oneof action {
+    option (exactly_one) = true;
+    HttpRouteAction route = 2;
+    RedirectAction redirect = 3;
+    DirectResponseAction direct_response = 4;
+  }
+}
+
+message GrpcRoute {
+  // Checks "/" prefix by default.
+  GrpcRouteMatch match = 1;
+
+  oneof action {
+    option (exactly_one) = true;
+    GrpcRouteAction route = 2;
+    GrpcStatusResponseAction status_response = 3;
+  }
+}
+
+message HttpRouteMatch {
+  repeated string http_method = 1;
+
+  // If not set, '/' is assumed.
+  StringMatch path = 2;
+}
+
+message GrpcRouteMatch {
+  // If not set, all services/methods are assumed.
+  StringMatch fqmn = 1;
+}
+
+message StringMatch {
+  oneof match {
+    option (exactly_one) = true;
+    string exact_match = 1;
+    string prefix_match = 2;
+  }
+}
+
+message RedirectAction {
+  // Replaces scheme.
+  // If the original scheme is `http` or `https`,
+  // will also remove the 80 or 443 port, if present.
+  string replace_scheme = 1;
+
+  // Replaces hostname.
+  string replace_host = 2;
+
+  // Replaces port.
+  int64 replace_port = 3;
+
+  oneof path {
+    // Replace path.
+    string replace_path = 4;
+
+    // Replace only matched prefix.
+    // Example:
+    //    match:    { prefix_match: "/some" }
+    //    redirect: { replace_prefix: "/other" }
+    // will redirect "/something" to "/otherthing"
+    string replace_prefix = 5;
+  }
+
+  // Remove query part.
+  bool remove_query = 6;
+
+  enum RedirectResponseCode {
+
+    // Moved Permanently HTTP Status Code - 301.
+    MOVED_PERMANENTLY = 0;
+
+    // Found HTTP Status Code - 302.
+    FOUND = 1;
+
+    // See Other HTTP Status Code - 303.
+    SEE_OTHER = 2;
+
+    // Temporary Redirect HTTP Status Code - 307.
+    TEMPORARY_REDIRECT = 3;
+
+    // Permanent Redirect HTTP Status Code - 308.
+    PERMANENT_REDIRECT = 4;
+  }
+
+  // The HTTP status code to use in the redirect response.
+  RedirectResponseCode response_code = 7;
+}
+
+message DirectResponseAction {
+  // HTTP response status.
+  int64 status = 1 [(value) = "100-599"];
+  // Optional response body.
+  Payload body = 2;
+}
+
+message GrpcStatusResponseAction {
+  enum Status {
+
+    OK = 0;
+    INVALID_ARGUMENT = 1;
+    NOT_FOUND = 2;
+    PERMISSION_DENIED = 3;
+    UNAUTHENTICATED = 4;
+    UNIMPLEMENTED = 5;
+    INTERNAL = 6;
+    UNAVAILABLE = 7;
+  }
+
+  Status status = 1;
+}
+
+message HttpRouteAction {
+  // Backend group to route requests.
+  string backend_group_id = 1 [(required) = true];
+
+  // Specifies the request timeout (overall time request processing is allowed to take) for the route.
+  // If not set, default is 60 seconds.
+  google.protobuf.Duration timeout = 2;
+
+  // Specifies the idle timeout (time without any data transfer for the active request) for the route.
+  // It is useful for streaming scenarios (i.e. long-polling, server-sent events) - one should set
+  // idle_timeout to something meaningful and timeout to the maximum time the stream is allowed to be alive.
+  // If not specified, there is no per-route idle timeout.
+  google.protobuf.Duration idle_timeout = 3;
+
+  oneof host_rewrite_specifier {
+    string host_rewrite = 4;
+    bool auto_host_rewrite = 5;
+  }
+
+  // If not empty, matched path prefix will be replaced by this value.
+  string prefix_rewrite = 6;
+
+  // Only specified upgrade types will be allowed. For example, "websocket".
+  repeated string upgrade_types = 7;
+}
+
+message GrpcRouteAction {
+  // Backend group to route requests.
+  string backend_group_id = 1 [(required) = true];
+
+  // Lower timeout may be specified by the client (using grpc-timeout header).
+  // If not set, default is 60 seconds.
+  google.protobuf.Duration max_timeout = 2;
+
+  // Specifies the idle timeout (time without any data transfer for the active request) for the route.
+  // It is useful for streaming scenarios - one should set idle_timeout to something meaningful
+  // and max_timeout to the maximum time the stream is allowed to be alive.
+  // If not specified, there is no per-route idle timeout.
+  google.protobuf.Duration idle_timeout = 3;
+
+  oneof host_rewrite_specifier {
+    string host_rewrite = 4;
+    bool auto_host_rewrite = 5;
+  }
+}

@@ -11,7 +11,7 @@ option java_package = "yandex.cloud.api.mdb.kafka.v1";
 
 
 // An Kafka topic.
-// For more information, see the [Concepts → Topics and partitions](/docs/managed-kafka/concepts/topics) section of the documentation.
+// For more information, see the [Concepts -> Topics and partitions](/docs/managed-kafka/concepts/topics) section of the documentation.
 message Topic {
   // Name of the topic.
   string name = 1;

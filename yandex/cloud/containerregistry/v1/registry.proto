@@ -37,6 +37,6 @@ message Registry {
   // Output only. Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
   google.protobuf.Timestamp created_at = 5;
 
-  // Resource labels as `key:value` pairs. Мaximum of 64 per resource.
+  // Resource labels as `key:value` pairs. Maximum of 64 per resource.
   map<string, string> labels = 6;
 }

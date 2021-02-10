@@ -39,11 +39,11 @@ service RepositoryService {
     option (google.api.http) = { get: "/container-registry/v1/repositories/{resource_id}:listAccessBindings" };
   }
 
-  // Creates a repository in the specified registry.
-  rpc Create (CreateRepositoryRequest) returns (operation.Operation) {
+  // Upserts a repository in the specified registry.
+  rpc Upsert (UpsertRepositoryRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/container-registry/v1/repositories" body: "*" };
     option (yandex.cloud.api.operation) = {
-          metadata: "CreateRepositoryMetadata"
+          metadata: "UpsertRepositoryMetadata"
           response: "Repository"
         };
   };
@@ -137,15 +137,15 @@ message ListRepositoriesResponse {
   string next_page_token = 2;
 }
 
-message CreateRepositoryRequest {
+message UpsertRepositoryRequest {
   // Name of the repository.
   //
   // The name of the repository should match the name of the images that will be pushed in the repository.
   string name = 1 [(required) = true, (pattern) = "[a-z0-9]+(?:[._-][a-z0-9]+)*(/([a-z0-9]+(?:[._-][a-z0-9]+)*))*"];
 }
 
-message CreateRepositoryMetadata {
-  // ID of the repository that is being created.
+message UpsertRepositoryMetadata {
+  // ID of the repository that is being upserted.
   string repository_id = 1;
 }
 

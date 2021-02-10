@@ -207,24 +207,6 @@ message DeleteRegistryMetadata {
   string registry_id = 1;
 }
 
-enum IpPermissionAction {
-  IP_PERMISSION_ACTION_UNSPECIFIED = 0;
-
-  // Addition of an ip permission.
-  ADD = 1;
-
-  // Removal of an ip permission.
-  REMOVE = 2;
-}
-
-message IpPermissionDelta {
-  // The action that is being performed on an ip permission.
-  IpPermissionAction action = 1 [(required) = true];
-  
-  // Ip permission.
-  IpPermission ip_permission = 2 [(required) = true];
-}
-
 message SetIpPermissionRequest {
   // ID of the registry for which ip permissions are being set.
   string registry_id = 1 [(required) = true, (length) = "<=50"];

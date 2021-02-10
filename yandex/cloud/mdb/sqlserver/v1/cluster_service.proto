@@ -546,8 +546,8 @@ message HostSpec {
   // a public IP to a host without one, recreate the host with [assign_public_ip] set as needed.
   //
   // Possible values:
-  // * false — don't assign a public IP to the host.
-  // * true — the host should have a public IP address.
+  // * false - don't assign a public IP to the host.
+  // * true - the host should have a public IP address.
   bool assign_public_ip = 3;
 }
 

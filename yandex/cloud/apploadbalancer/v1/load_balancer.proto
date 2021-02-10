@@ -1,0 +1,212 @@
+syntax = "proto3";
+
+package yandex.cloud.apploadbalancer.v1;
+
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
+import "yandex/cloud/apploadbalancer/v1/target_group.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/apploadbalancer/v1;apploadbalancer";
+option java_package = "yandex.cloud.api.apploadbalancer.v1";
+
+// A LoadBalancer resource.
+message LoadBalancer {
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+
+    // Application load balancer is being created.
+    CREATING = 1;
+
+    // Application load balancer is being started.
+    STARTING = 2;
+
+    // Application load balancer is active and sends traffic to the targets.
+    ACTIVE = 3;
+
+    // Application load balancer is being stopped.
+    STOPPING = 4;
+
+    // Application load balancer is stopped and doesn't send traffic to the targets.
+    STOPPED = 5;
+    
+    // Application load balancer is being deleted.
+    DELETING = 6;
+  }
+
+  // Output only. ID of the load balancer.
+  string id = 1;
+
+  // The name is unique within the folder. 3-63 characters long.
+  string name = 2;
+
+  // Description of the load balancer. 0-256 characters long.
+  string description = 3;
+
+  // ID of the folder that the load balancer belongs to.
+  string folder_id = 4;
+
+  // Resource labels as `key:value` pairs. Maximum of 64 per resource.
+  map<string, string> labels = 5;
+
+  // Status of the application load balancer.
+  Status status = 6;
+
+  // ID of the region that the load balancer located at.
+  string region_id = 7;
+
+  // ID of the network that the load balancer located at.
+  string network_id = 8;
+
+  // List of listeners for the application load balancer.
+  repeated Listener listeners = 9;
+
+  // Allocation sites for application load balancer instances.
+  AllocationPolicy allocation_policy = 10;
+
+  // Cloud log group used by the load balancer to store access logs.
+  string log_group_id = 11;
+
+  // ID's of security groups attached to the load balancer.
+  repeated string security_group_ids = 12;
+
+  // Creation timestamp for the load balancer.
+  google.protobuf.Timestamp created_at = 13;
+}
+
+message Address {
+  oneof address {
+    option (exactly_one) = true;
+
+    ExternalIpv4Address external_ipv4_address = 1;
+    InternalIpv4Address internal_ipv4_address = 2;
+    ExternalIpv6Address external_ipv6_address = 3;
+  }
+}
+
+message ExternalIpv4Address {
+  string address = 1;
+}
+
+message InternalIpv4Address {
+  string address = 1;
+  string subnet_id = 2;
+}
+
+message ExternalIpv6Address {
+  string address = 1;
+}
+
+message Location {
+   string zone_id = 1 [(required) = true];
+   string subnet_id = 2;
+
+   // If set, will disable all L7 instances in the zone for request handling.
+   bool disable_traffic = 3;
+}
+
+message AllocationPolicy {
+   repeated Location locations = 1 [(size) = ">=1", (unique) = true];
+}
+
+// A Listener resource.
+message Listener {
+  // Name of the listener. The name must be unique for each listener on a single load balancer. 3-63 characters long.
+  string name = 1 [(required) = true];
+
+  // Network endpoints (addresses and ports) of the listener.
+  repeated Endpoint endpoints = 2;
+
+  oneof listener {
+    option (exactly_one) = true;
+    HttpListener http = 3;
+    TlsListener tls = 4;
+  }
+}
+
+message Endpoint {
+  repeated Address addresses = 1 [(size) = ">0"];
+  repeated int64 ports = 2 [(size) = ">0", (value) = "1-65535"];
+}
+
+message HttpListener {
+  // Sets plaintext HTTP router, optional.
+  HttpHandler handler = 1;
+
+  // Shortcut for adding http -> https redirects,
+  // can be used instead of the HttpHandler above.
+  Redirects redirects = 2;
+}
+
+message TlsListener {
+  TlsHandler default_handler = 1 [(required) = true];
+  repeated SniMatch sni_handlers = 2;
+}
+
+message Http2Options {
+    int64 max_concurrent_streams = 1;
+}
+
+message HttpHandler {
+  string http_router_id = 1;
+
+  oneof protocol_settings {
+    // If set, will enable HTTP2 protocol for the handler.
+    Http2Options http2_options = 2;
+
+    // If set, will enable only HTTP1 protocol with HTTP1.0 support.
+    bool allow_http10 = 3;
+  }
+}
+
+message Redirects {
+  // Adds "*" VirtualHost with a http -> https redirect.
+  bool http_to_https = 1;
+}
+
+message SniMatch {
+  string name = 1 [(required) = true];
+  repeated string server_names = 2 [(size) = ">0"];
+  TlsHandler handler = 3 [(required) = true];
+}
+
+message TlsHandler {
+  oneof handler {
+    option (exactly_one) = true;
+    HttpHandler http_handler = 2;
+  }
+
+  // Certificate IDs in the Certificate Manager.
+  // Multiple TLS certificates can be associated with the same context to allow
+  // both RSA and ECDSA certificates.
+  // Only the first certificate of each type will be used.
+  repeated string certificate_ids = 3 [(size) = ">0"];
+}
+
+message TargetState {
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+    HEALTHY = 1;
+    PARTIALLY_HEALTHY = 2;
+    UNHEALTHY = 3;
+    DRAINING = 4;
+    TIMEOUT = 5;
+  }
+
+  message HealthcheckStatus {
+    repeated ZoneHealthcheckStatus zone_statuses = 1;
+  }
+
+  message ZoneHealthcheckStatus {
+    string zone_id = 1 [(required) = true];
+
+    // Healthcheck status of target for the specific zone.
+    Status status = 2;
+
+    // Whether UNHEALTHY status was set due to failed active checks or not.
+    bool failed_active_hc = 3;
+  }
+
+  // Statuses of the target for all known zones.
+  HealthcheckStatus status = 1;
+  Target target = 2 [(required) = true];
+}
