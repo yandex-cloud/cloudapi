@@ -170,11 +170,10 @@ message GetDnsZoneRecordSetRequest {
 
 message ListDnsZoneRecordSetsRequest {
   string dns_zone_id = 1 [(length) = "20"];
-  string sub_domain = 2 [(length) = "<=255"];
-  string type = 3 [(length) = "<=10"];
 
-  int64 page_size = 4 [(value) = "<=1000"];
-  string page_token = 5 [(length) = "<=1000"];
+  int64 page_size = 2 [(value) = "<=1000"];
+  string page_token = 3 [(length) = "<=1000"];
+  string filter = 4 [(length) = "<=1000"];
 }
 
 message ListDnsZoneRecordSetsResponse {

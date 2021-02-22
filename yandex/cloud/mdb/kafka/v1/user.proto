@@ -46,7 +46,7 @@ message Permission {
     ACCESS_ROLE_CONSUMER = 2;
   }
 
-  // Name of the topic that the permission grants access to.
+  // Name or prefix-pattern with wildcard for the topic that the permission grants access to.
   //
   // To get the topic name, make a [TopicService.List] request.
   string topic_name = 1;
