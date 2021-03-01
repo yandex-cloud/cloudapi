@@ -13,8 +13,13 @@ option java_package = "yandex.cloud.api.iam.v1";
 service IamTokenService {
   // Creates an IAM token for the specified identity.
   rpc Create (CreateIamTokenRequest) returns (CreateIamTokenResponse) {
-    option (google.api.http) = { post: "/iam/v1/tokens" body: "*" };
+    option (google.api.http) = {post: "/iam/v1/tokens" body: "*"};
   }
+
+  // Create iam token for service account.
+  rpc CreateForServiceAccount (CreateIamTokenForServiceAccountRequest) returns (CreateIamTokenResponse) {
+    option (google.api.http) = {post: "/iam/v1/tokens:createForServiceAccount" body: "*"};
+  };
 }
 
 message CreateIamTokenRequest {
@@ -40,4 +45,8 @@ message CreateIamTokenResponse {
 
   // IAM token expiration time.
   google.protobuf.Timestamp expires_at = 2;
+}
+
+message CreateIamTokenForServiceAccountRequest {
+  string service_account_id = 1 [(required) = true, (length) = "<=50"];
 }

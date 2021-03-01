@@ -124,6 +124,9 @@ message ClusterConfig {
 
   // Configuration and resource allocation for Elasticsearch nodes.
   Elasticsearch elasticsearch = 2;
+
+  // ElasticSearch edition.
+  string edition = 3;
 }
 
 message Elasticsearch {

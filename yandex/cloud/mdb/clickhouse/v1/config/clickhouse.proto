@@ -51,6 +51,8 @@ message ClickhouseConfig {
     // Maximum in total size of parts to merge, when there are minimum free threads in background pool (or entries
     // in replication queue).
     google.protobuf.Int64Value max_bytes_to_merge_at_min_space_in_pool = 7;
+
+    google.protobuf.Int64Value max_bytes_to_merge_at_max_space_in_pool = 8;
   }
 
   message Kafka {

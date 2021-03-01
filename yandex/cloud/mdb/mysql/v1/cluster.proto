@@ -4,6 +4,7 @@ package yandex.cloud.mdb.mysql.v1;
 
 import "google/protobuf/timestamp.proto";
 import "google/type/timeofday.proto";
+import "yandex/cloud/validation.proto";
 import "yandex/cloud/mdb/mysql/v1/config/mysql5_7.proto";
 import "yandex/cloud/mdb/mysql/v1/config/mysql8_0.proto";
 import "yandex/cloud/mdb/mysql/v1/maintenance.proto";
@@ -148,6 +149,9 @@ message ClusterConfig {
 
   // Access policy to DB
   Access access = 5;
+
+  // Configuration of the performance diagnostics service.
+  //PerformanceDiagnostics performance_diagnostics = 7;
 }
 
 message Host {
@@ -265,4 +269,13 @@ message Access {
   //
   // See [SQL queries in the management console](/docs/managed-mysql/operations/web-sql-query) for more details.
   bool web_sql = 2;
+}
+
+message PerformanceDiagnostics {
+  // Configuration setting which enables/disables performance diagnostics service in cluster.
+  bool enabled = 1;
+  // Interval (in seconds) for my_session sampling
+  int64 sessions_sampling_interval = 2 [(value) = "1-86400"];
+  // Interval (in seconds) for my_statements sampling
+  int64 statements_sampling_interval = 3 [(value) = "1-86400"];
 }

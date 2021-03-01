@@ -538,6 +538,9 @@ message ConfigSpec {
 
     // Configuration and resource allocation for Elasticsearch nodes.
     ElasticsearchSpec elasticsearch_spec = 2;
+
+    // ElasticSearch edition.
+    string edition = 3;
 }
 
 message AddClusterHostsRequest {
