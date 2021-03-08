@@ -157,6 +157,9 @@ message ConfigSpec {
   // The flag that defines whether a public IP address is assigned to the cluster.
   // If the value is `true`, then Apache Kafka® cluster is available on the Internet via it's public IP address.
   bool assign_public_ip = 6;
+
+  // Allows to manage topics via AdminAPI
+  bool unmanaged_topics = 7;
 }
 
 message Resources {
@@ -227,6 +230,9 @@ message KafkaConfig2_1 {
 
   // The SO_RCVBUF buffer of the socket server sockets. If the value is -1, the OS default will be used.
   google.protobuf.Int64Value socket_receive_buffer_bytes = 12;
+
+  // Enable auto creation of topic on the server
+  google.protobuf.BoolValue auto_create_topics_enable = 13;
 }
 
 // Kafka version 2.6 broker configuration.
@@ -285,6 +291,9 @@ message KafkaConfig2_6 {
 
   // The SO_RCVBUF buffer of the socket server sockets. If the value is -1, the OS default will be used.
   google.protobuf.Int64Value socket_receive_buffer_bytes = 12;
+
+  // Enable auto creation of topic on the server
+  google.protobuf.BoolValue auto_create_topics_enable = 13;
 }
 
 // Cluster host metadata.

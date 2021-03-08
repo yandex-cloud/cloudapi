@@ -44,6 +44,9 @@ message Permission {
 
     // consumer role for the user.
     ACCESS_ROLE_CONSUMER = 2;
+
+    // admin role for the user.
+    ACCESS_ROLE_ADMIN = 3;
   }
 
   // Name or prefix-pattern with wildcard for the topic that the permission grants access to.

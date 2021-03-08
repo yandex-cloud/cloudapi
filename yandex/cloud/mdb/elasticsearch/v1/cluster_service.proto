@@ -541,6 +541,9 @@ message ConfigSpec {
 
     // ElasticSearch edition.
     string edition = 3;
+
+    // ElasticSearch admin password.
+    string admin_password = 4;
 }
 
 message AddClusterHostsRequest {

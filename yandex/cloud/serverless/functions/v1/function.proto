@@ -118,6 +118,9 @@ message Version {
 
   // Network access. If specified the version will be attached to specified network/subnet(s).
   Connectivity connectivity = 17;
+
+  // Additional service accounts to be used by the version.
+  map<string, string> named_service_accounts = 18;
 }
 
 // Resources allocated to a version.
