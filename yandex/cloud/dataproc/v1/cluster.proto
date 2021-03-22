@@ -79,6 +79,9 @@ message Cluster {
 
   // User security groups.
   repeated string security_group_ids = 15;
+
+  // Host groups hosting VMs of the cluster.
+  repeated string host_group_ids = 16;
 }
 
 // Metadata of a monitoring system for a Data Proc cluster.

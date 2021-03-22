@@ -184,6 +184,9 @@ message CreateClusterRequest {
 
     // User security groups
     repeated string security_group_ids = 12;
+
+    // Host groups to place VMs of cluster on.
+    repeated string host_group_ids = 13;
 }
 
 message CreateClusterMetadata {

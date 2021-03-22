@@ -112,10 +112,10 @@ message Cluster {
   // Indicates current sharding status of the cluster.
   bool sharded = 13;
 
-  // Window of maintenance operations.
+  // Maintenance window for the cluster.
   MaintenanceWindow maintenance_window = 14;
 
-  // Maintenance operation planned at nearest maintenance_window.
+  // Planned maintenance operation to be started for the cluster within the nearest [maintenance_window].
   MaintenanceOperation planned_operation = 15;
 
   // User security groups

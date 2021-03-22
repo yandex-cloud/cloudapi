@@ -108,10 +108,10 @@ message Cluster {
   // Current state of the cluster.
   Status status = 12;
 
-  // Window of maintenance operations.
+  // Maintenance window for the cluster.
   MaintenanceWindow maintenance_window = 13;
 
-  // Maintenance operation planned at nearest maintenance_window.
+  // Planned maintenance operation to be started for the cluster within the nearest [maintenance_window].
   MaintenanceOperation planned_operation = 14;
 
   // User security groups

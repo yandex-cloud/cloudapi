@@ -116,7 +116,7 @@ service ClusterService {
     };
   }
 
-  // Reschedule planned maintenance operation.
+  // Reschedules planned maintenance operation.
   rpc RescheduleMaintenance (RescheduleMaintenanceRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}:rescheduleMaintenance" body: "*"};
     option (yandex.cloud.api.operation) = {
@@ -225,7 +225,7 @@ service ClusterService {
     };
   }
 
-  // Modifies the specified shard group.
+  // Updates the specified shard group.
   rpc UpdateShardGroup (UpdateClusterShardGroupRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/managed-clickhouse/v1/clusters/{cluster_id}/shardGroups/{shard_group_name}" body: "*" };
     option (yandex.cloud.api.operation) = {
@@ -375,7 +375,7 @@ message UpdateClusterRequest {
   // ID of the service account used for access to Yandex Object Storage.
   string service_account_id = 7;
 
-  // Window of maintenance operations.
+  // New maintenance window settings for the cluster.
   MaintenanceWindow maintenance_window = 8;
 
   // User security groups
@@ -511,27 +511,34 @@ message RestoreClusterMetadata {
 }
 
 message RescheduleMaintenanceRequest {
-  // Required. ID of the ClickHouse cluster to maintenance reschedule.
+  // ID of the ClickHouse cluster to reschedule the maintenance operation for.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   enum RescheduleType {
     RESCHEDULE_TYPE_UNSPECIFIED = 0;
+
+    // Start the maintenance operation immediately.
     IMMEDIATE = 1;
+
+    // Start the maintenance operation within the next available maintenance window.
     NEXT_AVAILABLE_WINDOW = 2;
+
+    // Start the maintenance operation at the specific time.
     SPECIFIC_TIME = 3;
   }
-  // Required. The type of reschedule request.
+  // The type of reschedule request.
   RescheduleType reschedule_type = 2[(required) = true];
 
-  // The time for SPECIFIC_TIME reschedule. Limited by two weeks since first time scheduled.
+  // The time until which this maintenance operation should be delayed. The value should be ahead of the first time when the maintenance operation has been scheduled for no more than two weeks. The value can also point to the past moment of time if [reschedule_type.IMMEDIATE] reschedule type is chosen.
   google.protobuf.Timestamp delayed_until = 3;
 }
 
+// Rescheduled maintenance operation metadata.
 message RescheduleMaintenanceMetadata {
   // Required. ID of the ClickHouse cluster.
   string cluster_id = 1;
 
-  // Required. New time of the planned maintenance. Can be in the past for rescheduled to "IMMEDIATE".
+  // Required. The time until which this maintenance operation is to be delayed.
   google.protobuf.Timestamp delayed_until = 4;
 }
 
@@ -861,75 +868,87 @@ message DeleteClusterShardMetadata {
 
 message GetClusterShardGroupRequest {
   // ID of the cluster that the shard group belongs to.
+  //
+  // To get the cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the shard group to request information about.
-  // To get the name of a shard group , use a [ClusterService.ListShardGroups] request.
+  //
+  // To get the name of a shard group, make a [ClusterService.ListShardGroups] request.
   string shard_group_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message ListClusterShardGroupsRequest {
   // ID of the cluster that the shard group belongs to.
+  //
+  // To get the cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // The maximum number of results per page to return. If the number of available
-  // results is larger than [page_size], the service returns a [ListClusterShardGroupsResponse.next_page_token]
-  // that can be used to get the next page of results in subsequent list requests.
+  // The maximum number of results per page to return.
+  //
+  // If the number of available results is larger than [page_size], the service returns a [ListClusterShardGroupsResponse.next_page_token] that can be used to get the next page of results in subsequent list requests.
   int64 page_size = 2 [(value) = "0-1000"];
 
-  // Page token. To get the next page of results, set [page_token] to the [ListClusterShardGroupsResponse.next_page_token]
-  // returned by a previous list request.
+  // Page token.
+  //
+  // To get the next page of results, set [page_token] to the [ListClusterShardGroupsResponse.next_page_token] returned by a previous list request.
   string page_token = 3 [(length) = "<=100"];
 }
 
 message ListClusterShardGroupsResponse {
-  // List of ClickHouse Cluster shard groups.
+  // List of ClickHouse cluster's shard groups.
   repeated ShardGroup shard_groups = 1;
 
-  // This token allows you to get the next page of results for list requests. If the number of results
-  // is larger than [ListClusterShardGroupsRequest.page_size], use the [next_page_token] as the value
-  // for the [ListClusterShardGroupsRequest.page_token] parameter in the next list request. Each subsequent
-  // list request will have its own [next_page_token] to continue paging through the results.
+  // This token allows you to get the next page of results for list requests.
+  //
+  // If the number of results is larger than [ListClusterShardGroupsRequest.page_size], use the [next_page_token] as the value for the [ListClusterShardGroupsRequest.page_token] parameter in the next list request.
+  // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
 }
 
 message CreateClusterShardGroupRequest {
   // ID of the ClickHouse cluster to add a shard group to.
-  // To get the ClickHouse cluster ID, use a [ClusterService.List] request.
+  //
+  // To get the cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name for the new shard group.
   string shard_group_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
-  // Description of the ClickHouse cluster shard group. 0-256 characters long.
+  // Description of the new shard group. 0-256 characters long.
   string description = 3;
 
-  // List of shard names that belongs to the new group.
+  // List of shard names that should be put into the new group.
+  //
+  // To get the list, make a [ClusterService.ListShardGroups] request.
   repeated string shard_names = 4;
 }
 
 message CreateClusterShardGroupMetadata {
-  // ID of the ClickHouse cluster to add a shard group to.
+  // ID of the cluster to add a shard group to.
   string cluster_id = 1;
 
-  // Name for the new shard group.
+  // Name of the shard group that is being added.
   string shard_group_name = 2;
 }
 
 message UpdateClusterShardGroupRequest {
-  // ID of the cluster that contains the shard group being updated.
+  // ID of the ClickHouse cluster that contains the shard group to update.
+  //
+  // To get the cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the shard group that should be updated.
+  //
+  // To get the name, make a [ClusterService.ListShardGroups] request.
   string shard_group_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
-  // Field mask that specifies which attributes of the ClickHouse shard group should be updated.
   google.protobuf.FieldMask update_mask = 3;
 
-  // Description of the ClickHouse cluster shard group. 0-256 characters long.
+  // Updated description of the shard group. 0-256 characters long.
   string description = 4;
 
-  // Updated list of shard names that belongs to the new group.
+  // Updated list of shard names that belongs to the shard group.
   repeated string shard_names = 5;
 }
 
@@ -937,23 +956,27 @@ message UpdateClusterShardGroupMetadata {
   // ID of the cluster that contains the shard group being updated.
   string cluster_id = 1;
 
-  // Name of the shard group that should be updated.
+  // Name of the shard group that is being updated.
   string shard_group_name = 2;
 }
 
 message DeleteClusterShardGroupRequest {
-  // ID of the ClickHouse cluster the shard group belongs to.
+  // ID of the ClickHouse cluster that contains the shard group to delete.
+  //
+  // To get the cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the shard group that should be deleted.
+  //
+  // To get the name, make a [ClusterService.ListShardGroups] request.
   string shard_group_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message DeleteClusterShardGroupMetadata {
-  // ID of the ClickHouse cluster the shard group belongs to.
+  // ID of the cluster that contains the shard group being deleted.
   string cluster_id = 1;
 
-  // Name of the shard group that should be deleted.
+  // Name of the shard group that is being deleted.
   string shard_group_name = 2;
 }
 

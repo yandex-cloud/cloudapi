@@ -106,6 +106,9 @@ message Cluster {
 
   // User security groups
   repeated string security_group_ids = 13;
+
+  // Host groups hosting VMs of the cluster.
+  repeated string host_group_ids = 14;
 }
 
 // Metadata of monitoring system.

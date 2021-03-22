@@ -122,7 +122,7 @@ service ClusterService {
     };
   }
 
-  // Reschedule planned maintenance operation.
+  // Reschedules planned maintenance operation.
   rpc RescheduleMaintenance (RescheduleMaintenanceRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-postgresql/v1/clusters/{cluster_id}:rescheduleMaintenance" body: "*"};
     option (yandex.cloud.api.operation) = {
@@ -299,7 +299,7 @@ message UpdateClusterRequest {
   // New name for the cluster.
   string name = 6 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
-  // Window of maintenance operations.
+  // New maintenance window settings for the cluster.
   MaintenanceWindow maintenance_window = 7;
 
   // User security groups
@@ -436,27 +436,35 @@ message StartClusterFailoverMetadata {
   string cluster_id = 1;
 }
 message RescheduleMaintenanceRequest {
-  // Required. ID of the PostgreSQL cluster to maintenance reschedule.
+  // ID of the PostgreSQL cluster to reschedule the maintenance operation for.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   enum RescheduleType {
     RESCHEDULE_TYPE_UNSPECIFIED = 0;
+
+    // Start the maintenance operation immediately.
     IMMEDIATE = 1;
+
+    // Start the maintenance operation within the next available maintenance window.
     NEXT_AVAILABLE_WINDOW = 2;
+
+    // Start the maintenance operation at the specific time.
     SPECIFIC_TIME = 3;
   }
-  // Required. The type of reschedule request.
+
+  // The type of reschedule request.
   RescheduleType reschedule_type = 2[(required) = true];
 
-  // The time for SPECIFIC_TIME reschedule. Limited by two weeks since first time scheduled.
+  // The time until which this maintenance operation should be delayed. The value should be ahead of the first time when the maintenance operation has been scheduled for no more than two weeks. The value can also point to the past moment of time if [reschedule_type.IMMEDIATE] reschedule type is chosen.
   google.protobuf.Timestamp delayed_until = 3;
 }
 
+// Rescheduled maintenance operation metadata.
 message RescheduleMaintenanceMetadata {
   // Required. ID of the PostgreSQL cluster.
   string cluster_id = 1;
 
-  // Required. New time of the planned maintenance. Can be in the past for rescheduled to "IMMEDIATE".
+  // Required. The time until which this maintenance operation is to be delayed.
   google.protobuf.Timestamp delayed_until = 4;
 }
 

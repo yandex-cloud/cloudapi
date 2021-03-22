@@ -110,10 +110,10 @@ message Cluster {
   // ID of the service account used for access to Yandex Object Storage.
   string service_account_id = 13;
 
-  // Window of maintenance operations.
+  // Maintenance window for the cluster.
   MaintenanceWindow maintenance_window = 14;
 
-  // Maintenance operation planned at nearest maintenance_window.
+  // Planned maintenance operation to be started for the cluster within the nearest [maintenance_window].
   MaintenanceOperation planned_operation = 15;
 
   // User security groups
@@ -182,16 +182,16 @@ message Shard {
 }
 
 message ShardGroup {
-  // Name of the shard group
+  // Name of the shard group.
   string name = 1;
 
-  // ID of the cluster that the shard belongs to.
+  // ID of the ClickHouse cluster that the shard group belongs to.
   string cluster_id = 2;
 
-  // Description of the ClickHouse cluster shard group. 0-256 characters long.
+  // Description of the shard group. 0-256 characters long.
   string description = 3;
 
-  // List of shard names contained in shard group
+  // List of shard names contained in the shard group.
   repeated string shard_names = 4;
 }
 
