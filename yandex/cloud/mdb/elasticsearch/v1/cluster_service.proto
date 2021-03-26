@@ -190,7 +190,7 @@ message CreateClusterRequest {
     ConfigSpec config_spec = 6 [(required) = true];
 
     // One or more descriptions of users to be created in Elasticsearch cluster.
-    repeated UserSpec user_specs = 8 [(size) = ">0"];
+    repeated UserSpec user_specs = 8; // optional, depricated will be removed in future versions
 
     // One or more configurations of hosts to be created in the Elasticsearch cluster.
     repeated HostSpec host_specs = 9 [(size) = ">0"];
