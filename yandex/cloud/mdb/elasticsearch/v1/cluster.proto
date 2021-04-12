@@ -104,6 +104,9 @@ message Cluster {
 
   // User security groups
   repeated string security_group_ids = 13;
+
+  // ID of the service account used for access to Yandex Object Storage.
+  string service_account_id = 14;
 }
 
 // Metadata of monitoring system.

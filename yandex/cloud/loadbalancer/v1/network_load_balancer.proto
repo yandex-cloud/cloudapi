@@ -143,6 +143,9 @@ message Listener {
 
   // ID of the subnet.
   string subnet_id = 6;
+
+  // IP version of the external address.
+  IpVersion ip_version = 7;
 }
 
 // State of the target that was returned after the last health check.

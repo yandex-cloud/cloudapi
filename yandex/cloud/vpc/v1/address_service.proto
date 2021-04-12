@@ -64,6 +64,14 @@ service AddressService {
   rpc ListOperations (ListAddressOperationsRequest) returns (ListAddressOperationsResponse) {
     option (google.api.http) = { get: "/vpc/v1/addresses/{address_id}/operations" };
   }
+
+  // Move an address to another folder
+  rpc Move (MoveAddressRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "MoveAddressMetadata"
+      response: "Address"
+    };
+  }
 }
 
 message GetAddressRequest {
@@ -229,4 +237,13 @@ message ListAddressOperationsResponse {
   //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
+}
+
+message MoveAddressRequest {
+    string address_id = 1 [(required) = true, (length) = "<=50"];
+    string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message MoveAddressMetadata {
+    string address_id = 1;
 }

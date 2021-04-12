@@ -572,4 +572,7 @@ message ConfigSpec {
 
   // Start time for the daily backup in UTC timezone
   google.type.TimeOfDay backup_window_start = 4;
+
+  // Access policy to DB
+  Access access = 6;
 }
