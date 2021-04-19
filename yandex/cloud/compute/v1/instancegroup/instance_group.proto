@@ -99,6 +99,9 @@ message InstanceGroup {
 
     // Instance group is being deleted.
     DELETING = 5;
+
+    // Instance group is paused.
+    PAUSED = 6;
   }
 }
 
@@ -562,6 +565,9 @@ message NetworkSettings {
 message LoadBalancerSpec {
   // Specification of the target group that the instance group will be added to. For more information, see [Target groups and resources](/docs/load-balancer/concepts/target-resources).
   TargetGroupSpec target_group_spec = 1;
+  // Timeout for waiting for the VM to be checked by the load balancer. If the timeout is exceeded,
+  // the VM will be turned off based on the deployment policy. Specified in seconds.
+  google.protobuf.Duration max_opening_traffic_duration = 2 [(value) = ">=1s"];
 }
 
 message TargetGroupSpec {
@@ -578,6 +584,9 @@ message TargetGroupSpec {
 message ApplicationLoadBalancerSpec {
   // Specification of the alb's target group that the instance group will be added to.
   ApplicationTargetGroupSpec target_group_spec = 1 [(required) = true];
+  // Timeout for waiting for the VM to be checked by the load balancer. If the timeout is exceeded,
+  // the VM will be turned off based on the deployment policy. Specified in seconds.
+  google.protobuf.Duration max_opening_traffic_duration = 2 [(value) = ">=1s"];
 }
 
 message ApplicationTargetGroupSpec {
@@ -592,6 +601,9 @@ message ApplicationTargetGroupSpec {
 message HealthChecksSpec {
   // Health checking specification. For more information, see [Health check](/docs/load-balancer/concepts/health-check).
   repeated HealthCheckSpec health_check_specs = 1 [(size) = ">=1"];
+  // Timeout for waiting for the VM to become healthy. If the timeout is exceeded,
+  // the VM will be turned off based on the deployment policy. Specified in seconds.
+  google.protobuf.Duration max_checking_health_duration = 2 [(value) = ">=1s"];
 }
 
 message HealthCheckSpec {

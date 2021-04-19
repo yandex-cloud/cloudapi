@@ -148,6 +148,22 @@ service InstanceGroupService {
       response: "google.protobuf.Empty"
     };
   }
+
+  // Resume all process in instance group.
+  rpc ResumeProcesses (ResumeInstanceGroupProcessesRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "ResumeInstanceGroupProcessMetadata"
+      response: "InstanceGroup"
+    };
+  }
+
+  // Pause all process in instance group.
+  rpc PauseProcesses (PauseInstanceGroupProcessesRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "PauseInstanceGroupProcessMetadata"
+      response: "InstanceGroup"
+    };
+  }
 }
 
 enum InstanceGroupView {
@@ -157,6 +173,22 @@ enum InstanceGroupView {
 
   // Returns the metadata of the instance template in the server response.
   FULL = 1;
+}
+
+message ResumeInstanceGroupProcessesRequest {
+  string instance_group_id = 1 [(length) = "<=50"];
+}
+
+message ResumeInstanceGroupProcessMetadata {
+  string instance_group_id = 1;
+}
+
+message PauseInstanceGroupProcessesRequest {
+  string instance_group_id = 1 [(length) = "<=50"];
+}
+
+message PauseInstanceGroupProcessMetadata {
+  string instance_group_id = 1;
 }
 
 message GetInstanceGroupRequest {
