@@ -54,4 +54,18 @@ message ApiGateway {
 
   // ID of the log group for the API gateway.
   string log_group_id = 10;
+
+  // List of domains attached to API gateway.
+  repeated AttachedDomain attached_domains = 11;
+}
+
+message AttachedDomain {
+  // ID of the domain.
+  string domain_id = 1;
+  // ID of the domain certificate.
+  string certificate_id = 2;
+  // Enabling flag.
+  bool enabled = 3;
+  // Name of the domain.
+  string domain = 5;
 }

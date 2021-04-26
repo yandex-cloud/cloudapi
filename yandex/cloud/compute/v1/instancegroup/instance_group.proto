@@ -511,6 +511,9 @@ message PrimaryAddressSpec {
 
   // Internal DNS configuration
   repeated DnsRecordSpec dns_record_specs = 2;
+
+  // Optional. Manual set static internal IP. To set use variables.
+  string address = 3;
 }
 
 message OneToOneNatSpec {

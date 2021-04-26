@@ -56,6 +56,24 @@ service ApiGatewayService {
     };
   };
 
+  // Attaches domain to the specified API gateway.
+  rpc AddDomain (AddDomainRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/apigateways/v1/apigateways/{api_gateway_id}:addDomain" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "AddDomainMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
+
+  // Detaches domain from the specified API gateway.
+  rpc RemoveDomain (RemoveDomainRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/apigateways/v1/apigateways/{api_gateway_id}:removeDomain" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "RemoveDomainMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
+
   // Returns the OpenAPI specification of specified API gateway.
   rpc GetOpenapiSpec (GetOpenapiSpecRequest) returns (GetOpenapiSpecResponse) {
     option (google.api.http) = { get: "/apigateways/v1/apigateways/{api_gateway_id}:spec" };
@@ -200,6 +218,20 @@ message DeleteApiGatewayRequest {
   string api_gateway_id = 1 [(required) = true];
 }
 
+message AddDomainRequest {
+  // ID of the API gateway that the domain is attached to.
+  string api_gateway_id = 1 [(required) = true];
+  // ID of the attaching domain.
+  string domain_id = 2 [(required) = true];
+}
+
+message RemoveDomainRequest {
+  // ID of the API gateway from which the domain is being detached.
+  string api_gateway_id = 1 [(required) = true];
+  // ID of the detaching domain.
+  string domain_id = 2 [(required) = true];
+}
+
 message CreateApiGatewayMetadata {
   // ID of the API gateway that is being created.
   string api_gateway_id = 1;
@@ -213,6 +245,20 @@ message UpdateApiGatewayMetadata {
 message DeleteApiGatewayMetadata {
   // ID of the API gateway that is being deleted.
   string api_gateway_id = 1;
+}
+
+message AddDomainMetadata {
+  // ID of the API gateway that the domain is attached to.
+  string api_gateway_id = 1;
+  // ID of the attaching domain.
+  string domain_id = 2;
+}
+
+message RemoveDomainMetadata {
+  // ID of the API gateway from which the domain is being detached.
+  string api_gateway_id = 1;
+  // ID of the detaching domain.
+  string domain_id = 2;
 }
 
 message ListOperationsRequest {

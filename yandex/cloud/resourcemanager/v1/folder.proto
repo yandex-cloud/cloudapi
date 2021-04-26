@@ -17,6 +17,9 @@ message Folder {
 
     // The folder is being deleted.
     DELETING = 2;
+
+    // Stopping folder resources and waiting for the deletion start timestamp.
+    PENDING_DELETION = 3;
   }
 
   // ID of the folder.
