@@ -10,6 +10,26 @@ option java_package = "yandex.cloud.api.vpc.v1";
 
 // An Address resource. For more information, see [Address](/docs/vpc/concepts/address).
 message Address {
+  enum Type {
+    TYPE_UNSPECIFIED = 0;
+
+    // Internal IP address.
+    INTERNAL = 1;
+
+    // Public IP address.
+    EXTERNAL = 2;
+  }
+
+  enum IpVersion {
+    IP_VERSION_UNSPECIFIED = 0;
+
+    // IPv4 address.
+    IPV4 = 1;
+
+    // IPv6 address.
+    IPV6 = 2;
+  }
+
   // ID of the address. Generated at creation time.
   string id = 1;
 
@@ -41,6 +61,12 @@ message Address {
 
   // Specifies if address is used or not.
   bool used = 16;
+
+  // Type of the IP address.
+  Type type = 17;
+
+  // Vervion of the IP address.
+  IpVersion ip_version = 18;
 }
 
 message ExternalIpv4Address {

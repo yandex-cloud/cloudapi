@@ -19,6 +19,7 @@ extend google.protobuf.FieldOptions {
   string length = 101505;
   bool unique = 101506;
   MapKeySpec map_key = 101510;
+  string bytes = 101511;
 }
 
 message MapKeySpec {

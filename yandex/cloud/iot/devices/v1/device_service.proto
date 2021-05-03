@@ -21,6 +21,10 @@ service DeviceService {
     option (google.api.http) = { get: "/iot-devices/v1/devices/{device_id}" };
   }
 
+  rpc GetByName (GetByNameDeviceRequest) returns (Device) {
+    option (google.api.http) = { get: "/iot-devices/v1/devices" };
+  }
+
   // Retrieves the list of devices in the specified registry.
   rpc List (ListDevicesRequest) returns (ListDevicesResponse) {
     option (google.api.http) = { get: "/iot-devices/v1/devices" };
@@ -114,6 +118,22 @@ message GetDeviceRequest {
   // Specifies which parts of the device resource should be returned
   // in the response.
   DeviceView device_view = 2;
+}
+
+message GetByNameDeviceRequest {
+  // ID of the registry to get device.
+  //
+  // To get a registry ID make a [yandex.cloud.iot.devices.v1.RegistryService.List] request.
+  string registry_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Name of the device to return.
+  //
+  // To get a device name make a [DeviceService.List] request.
+  string device_name = 2 [(required) = true, (length) = "<=50", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  // Specifies which parts of the device resource should be returned
+  // in the response.
+  DeviceView device_view = 3;
 }
 
 message ListDevicesRequest {

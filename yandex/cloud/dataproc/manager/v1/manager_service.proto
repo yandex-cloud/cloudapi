@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package yandex.cloud.dataproc.manager.v1;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/manager/v1;dataproc_manager";
 option java_package = "yandex.cloud.api.dataproc.manager.v1";
 
@@ -109,6 +111,7 @@ message ReportRequest {
     string cid = 1;
     int64 topology_revision = 2;
     Info info = 3;
+    google.protobuf.Timestamp collected_at = 4;
 }
 
 // The response message containing the agent commands to apply on host.
