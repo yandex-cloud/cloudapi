@@ -21,7 +21,7 @@ enum IpVersion {
   IPV6 = 2;
 }
 
-// A NetworkLoadBalancer resource. For more information, see [Network Load Balancer](/docs/load-balancer/concepts).
+// A NetworkLoadBalancer resource. For more information, see [Network Load Balancer](/docs/network-load-balancer/concepts).
 message NetworkLoadBalancer {
   enum Status {
     STATUS_UNSPECIFIED = 0;
@@ -62,7 +62,7 @@ message NetworkLoadBalancer {
   }
 
   // Type of session affinity. Only 5-tuple affinity is currently available.
-  // For more information, see [Load Balancer concepts](/load-balancer/concepts/).
+  // For more information, see [Load Balancer concepts](/docs/network-load-balancer/concepts/).
   enum SessionAffinity {
     SESSION_AFFINITY_UNSPECIFIED = 0;
 
@@ -107,7 +107,7 @@ message NetworkLoadBalancer {
   repeated AttachedTargetGroup attached_target_groups = 13;
 }
 
-// An AttachedTargetGroup resource. For more information, see [Targets and groups](/docs/load-balancer/concepts/target-resources).
+// An AttachedTargetGroup resource. For more information, see [Targets and groups](/docs/network-load-balancer/concepts/target-resources).
 message AttachedTargetGroup {
   // ID of the target group.
   string target_group_id = 1 [(required) = true, (length) = "<=50"];
@@ -117,7 +117,7 @@ message AttachedTargetGroup {
   repeated HealthCheck health_checks = 2 [(size) = "1"];
 }
 
-// A Listener resource. For more information, see [Listener](/docs/load-balancer/concepts/listener)
+// A Listener resource. For more information, see [Listener](/docs/network-load-balancer/concepts/listener)
 message Listener {
   // Network protocol to use.
   enum Protocol {

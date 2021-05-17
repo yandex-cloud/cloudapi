@@ -751,6 +751,9 @@ message PrimaryAddress {
 
   // One-to-one NAT configuration. If missing, NAT has not been set up.
   OneToOneNat one_to_one_nat = 2;
+
+  // Internal DNS configuration.
+  repeated DnsRecord dns_records = 3;
 }
 
 message OneToOneNat {
@@ -759,6 +762,21 @@ message OneToOneNat {
 
   // External IP address version.
   IpVersion ip_version = 2;
+
+  // External DNS configuration.
+  repeated DnsRecord dns_records = 3;
+}
+
+message DnsRecord {
+  // Name of the A/AAAA record as specified when creating the instance.
+  // Note that if `fqdn' has no trailing '.', it is specified relative to the zone (@see dns_zone_id).
+  string fqdn = 1 [(required) = true];
+  // DNS zone id (optional, if not set, some private zone is used).
+  string dns_zone_id = 2;
+  // DNS record ttl (optional, if 0, a reasonable default is used).
+  int64 ttl = 3 [(value) = "0-86400"];
+  // When true, indicates there is a corresponding auto-created PTR DNS record.
+  bool ptr = 4;
 }
 
 message LogRecord {

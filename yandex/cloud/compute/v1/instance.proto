@@ -192,7 +192,18 @@ message OneToOneNat {
 }
 
 message DnsRecord {
+  // Name of the A/AAAA record as specified when creating the instance.
+  // Note that if `fqdn' has no trailing '.', it is specified relative to the zone (@see dns_zone_id).
   string fqdn = 1;
+
+  // DNS zone id for the record (optional, if not set, some private zone is used).
+  string dns_zone_id = 2;
+
+  // DNS record ttl (optional, if not set, a reasonable default is used.)
+  int64 ttl = 3;
+
+  // When true, indicates there is a corresponding auto-created PTR DNS record.
+  bool ptr = 4;
 }
 
 enum IpVersion {
