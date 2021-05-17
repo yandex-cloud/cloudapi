@@ -147,6 +147,29 @@ service FunctionService {
     };
   }
 
+  // Lists existing scaling policies for specified function
+  rpc ListScalingPolicies (ListScalingPoliciesRequest) returns (ListScalingPoliciesResponse) {
+    option (google.api.http) = { get: "/functions/v1/functions/{function_id}/scalingPolicies" };
+  }
+
+  // Set scaling policy for specified function and tag
+  rpc SetScalingPolicy (SetScalingPolicyRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/functions/v1/functions/{function_id}:setScalingPolicy" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "SetScalingPolicyMetadata"
+      response: "ScalingPolicy"
+    };
+  }
+
+  // Remove scaling policy for specified function and tag
+  rpc RemoveScalingPolicy (RemoveScalingPolicyRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/functions/v1/functions/{function_id}:removeScalingPolicy" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "RemoveScalingPolicyMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
 }
 
 message GetFunctionRequest {
@@ -515,4 +538,76 @@ message ListFunctionTagHistoryResponse {
   //
   // Each subsequent page will have its own `nextPageToken` to continue paging through the results.
   string next_page_token = 2;
+}
+
+message ListScalingPoliciesRequest {
+  // ID of the function to retrieve scaling policies for.
+  //
+  // To get a function ID, make a [FunctionService.List] request.
+  string function_id = 1 [(required) = true];
+
+  // The maximum number of results per page that should be returned. If the number of available
+  // results is larger than `pageSize`, the service returns a [ListScalingPoliciesResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  //
+  // Default value: 100.
+  int64 page_size = 2 [(value) = "0-1000"];
+
+  // Page token. To get the next page of results, set `pageToken` to the
+  // [ListScalingPoliciesResponse.next_page_token] returned by a previous list request.
+  string page_token = 3 [(length) = "<=100"];
+}
+
+message ListScalingPoliciesResponse {
+  // Set of relevant scaling policies.
+  repeated ScalingPolicy scaling_policies = 1;
+
+  // Token for getting the next page of the list. If the number of results is greater than
+  // the specified [ListScalingPoliciesRequest.page_size], use `nextPageToken` as the value
+  // for the [ListScalingPoliciesRequest.page_token] parameter in the next list request.
+  //
+  // Each subsequent page will have its own `nextPageToken` to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message SetScalingPolicyRequest {
+  // ID of the function to retrieve scaling policies for.
+  //
+  // To get a function ID, make a [FunctionService.List] request.
+  string function_id = 1 [(required) = true];
+
+  // Version tag.
+  //
+  // To get the history of version tags make a [FunctionService.ListTagHistory] request.
+  string tag = 2 [(required) = true, (pattern) = "[a-z][-_0-9a-z]*"];
+
+  // Upper limit for instance count in each zone.
+  // 0 means no limit.
+  int64 zone_instances_limit = 5 [(value) = "0-1000"];
+
+  // Upper limit of requests count in each zone.
+  // 0 means no limit.
+  int64 zone_requests_limit = 6 [(value) = "0-1000"];
+}
+
+message SetScalingPolicyMetadata {
+  // ID of the function for which scaling policy was set.
+  string function_id = 1;
+}
+
+message RemoveScalingPolicyRequest {
+  // ID of the function to remove scaling policies for.
+  //
+  // To get a function ID, make a [FunctionService.List] request.
+  string function_id = 1 [(required) = true];
+
+  // Version tag.
+  //
+  // To get the history of version tags make a [FunctionService.ListTagHistory] request.
+  string tag = 2 [(required) = true, (pattern) = "[a-z][-_0-9a-z]*"];
+}
+
+message RemoveScalingPolicyMetadata {
+  // ID of the function for which scaling policy was removed.
+  string function_id = 1;
 }
