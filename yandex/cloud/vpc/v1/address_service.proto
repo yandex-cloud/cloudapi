@@ -67,6 +67,7 @@ service AddressService {
 
   // Move an address to another folder
   rpc Move (MoveAddressRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/vpc/v1/addresses/{address_id}:move" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "MoveAddressMetadata"
       response: "Address"
@@ -100,14 +101,14 @@ message ListAddressesRequest {
   // Default value: 100.
   int64 page_size = 2 [(value) = "<=1000"];
 
-  // Page token. To get the next page of results, set `page_token` to the 
+  // Page token. To get the next page of results, set `page_token` to the
   // [ListAddressesResponse.next_page_token] returned by a previous list request.
   string page_token = 3 [(length) = "<=100"];
-  
+
   // A filter expression that filters Address listed in the response.
   //
-  // The expression must specify: 
-  // 1. The field name. Currently you can use filtering only on [Address.name] field. 
+  // The expression must specify:
+  // 1. The field name. Currently you can use filtering only on [Address.name] field.
   // 2. An operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
   // 3. The value. Must be 3-63 characters long and match the regular expression `^[a-z][-a-z0-9]{1,61}[a-z0-9]`.
   // Example of a filter: `name=my-address`.
@@ -132,7 +133,7 @@ message CreateAddressRequest {
   // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Name of the address. 
+  // Name of the address.
   // The name must be unique within the folder.
   string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
@@ -151,7 +152,7 @@ message CreateAddressRequest {
 message ExternalIpv4AddressSpec {
   // Value of address.
   string address = 1; // if unspecified, one will be automatically allocated from other params
-  
+
   // Availability zone from which the address will be allocated.
   string zone_id = 2; // only if address unspecified
 
@@ -166,14 +167,14 @@ message CreateAddressMetadata {
 
 message UpdateAddressRequest {
   // ID of the address to update.
-  //  
+  //
   // To get the address ID make a [AddressService.List] request.
   string address_id = 1 [(required) = true, (length) = "<=50"];
 
   // Field mask that specifies which attributes of the Address should be updated.
   google.protobuf.FieldMask update_mask = 2;
 
-  // New name for the address. 
+  // New name for the address.
   // The name must be unique within the folder.
   string name = 3 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
@@ -222,7 +223,7 @@ message ListAddressOperationsRequest {
   // Default value: 100.
   int64 page_size = 2 [(value) = "<=1000"];
 
-  // Page token. To get the next page of results, set [page_token] to the 
+  // Page token. To get the next page of results, set [page_token] to the
   // [ListAddressOperationsResponse.next_page_token] returned by a previous list request.
   string page_token = 3 [(length) = "<=100"];
 }

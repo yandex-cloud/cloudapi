@@ -64,7 +64,7 @@ message GetTopicRequest {
   // Name of the Kafka topic resource to return.
   //
   // To get the name of the topic, make a [TopicService.List] request.
-  string topic_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_-]*"];
+  string topic_name = 2 [(required) = true, (length) = "1-256", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message ListTopicsRequest {
@@ -110,7 +110,7 @@ message CreateTopicMetadata {
   string cluster_id = 1;
 
   // Name of the Kafka topic that is being created.
-  string topic_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+  string topic_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message UpdateTopicRequest {
@@ -122,7 +122,7 @@ message UpdateTopicRequest {
   // Name of the topic to update.
   //
   // To get the name of the topic, make a [TopicService.List] request.
-  string topic_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_-]*"];
+  string topic_name = 2 [(required) = true, (length) = "1-256", (pattern) = "[a-zA-Z0-9_-]*"];
 
   google.protobuf.FieldMask update_mask = 3;
 
@@ -149,7 +149,7 @@ message DeleteTopicRequest {
   // Name of the topic to delete.
   //
   // To get the name of the topic, make a [TopicService.List] request.
-  string topic_name = 2 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_-]*"];
+  string topic_name = 2 [(required) = true, (length) = "1-256", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message DeleteTopicMetadata {

@@ -14,11 +14,16 @@ option java_package = "yandex.cloud.api.vpc.v1";
 
 service SecurityGroupService {
 
-    rpc Get (GetSecurityGroupRequest) returns (SecurityGroup);
+    rpc Get (GetSecurityGroupRequest) returns (SecurityGroup) {
+      option (google.api.http) = { get: "/vpc/v1/securityGroups/{security_group_id}" };
+    }
 
-    rpc List (ListSecurityGroupsRequest) returns (ListSecurityGroupsResponse);
+    rpc List (ListSecurityGroupsRequest) returns (ListSecurityGroupsResponse) {
+      option (google.api.http) = { get: "/vpc/v1/securityGroups" };
+    }
 
     rpc Create (CreateSecurityGroupRequest) returns (operation.Operation) {
+        option (google.api.http) = { post: "/vpc/v1/securityGroups" body: "*" };
         option (yandex.cloud.api.operation) = {
             metadata: "CreateSecurityGroupMetadata"
             response: "SecurityGroup"
@@ -26,6 +31,7 @@ service SecurityGroupService {
     }
 
     rpc Update (UpdateSecurityGroupRequest) returns (operation.Operation) {
+        option (google.api.http) = { patch: "/vpc/v1/securityGroups/{security_group_id}" body: "*" };
         option (yandex.cloud.api.operation) = {
             metadata: "UpdateSecurityGroupMetadata"
             response: "SecurityGroup"
@@ -33,6 +39,7 @@ service SecurityGroupService {
     }
 
     rpc UpdateRules (UpdateSecurityGroupRulesRequest) returns (operation.Operation) {
+        option (google.api.http) = { patch: "/vpc/v1/securityGroups/{security_group_id}/rules" body: "*" };
         option (yandex.cloud.api.operation) = {
             metadata: "UpdateSecurityGroupMetadata"
             response: "SecurityGroup"
@@ -41,6 +48,7 @@ service SecurityGroupService {
 
     // update rule description or labels
     rpc UpdateRule (UpdateSecurityGroupRuleRequest) returns (operation.Operation) {
+        option (google.api.http) = { patch: "/vpc/v1/securityGroups/{security_group_id}/rules/{rule_id}" body: "*" };
         option (yandex.cloud.api.operation) = {
             metadata: "UpdateSecurityGroupRuleMetadata"
             response: "SecurityGroupRule"
@@ -48,6 +56,7 @@ service SecurityGroupService {
     }
 
     rpc Delete (DeleteSecurityGroupRequest) returns (operation.Operation) {
+        option (google.api.http) = { delete: "/vpc/v1/securityGroups/{security_group_id}" };
         option (yandex.cloud.api.operation) = {
             metadata: "DeleteSecurityGroupMetadata"
             response: "google.protobuf.Empty"
@@ -55,13 +64,16 @@ service SecurityGroupService {
     }
 
     rpc Move (MoveSecurityGroupRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/vpc/v1/securityGroups/{security_group_id}:move" body: "*" };
         option (yandex.cloud.api.operation) = {
             metadata: "MoveSecurityGroupMetadata"
             response: "SecurityGroup"
         };
     }
 
-    rpc ListOperations (ListSecurityGroupOperationsRequest) returns (ListSecurityGroupOperationsResponse);
+    rpc ListOperations (ListSecurityGroupOperationsRequest) returns (ListSecurityGroupOperationsResponse) {
+      option (google.api.http) = { get: "/vpc/v1/securityGroups/{security_group_id}/operations" };
+    }
 }
 
 message GetSecurityGroupRequest {
@@ -133,6 +145,7 @@ message UpdateSecurityGroupRequest {
 
 message UpdateSecurityGroupMetadata {
     string security_group_id = 1;
+    repeated string added_rule_ids = 2;
 }
 
 message UpdateSecurityGroupRulesRequest {
