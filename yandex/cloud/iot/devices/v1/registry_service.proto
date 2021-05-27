@@ -22,7 +22,7 @@ service RegistryService {
   }
 
   rpc GetByName (GetByNameRegistryRequest) returns (Registry) {
-    option (google.api.http) = { get: "/iot-devices/v1/registries" };
+    option (google.api.http) = { get: "/iot-devices/v1/registries:getByName" };
   }
 
   // Retrieves the list of registries in the specified folder.

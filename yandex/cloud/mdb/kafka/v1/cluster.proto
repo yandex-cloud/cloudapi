@@ -236,6 +236,12 @@ message KafkaConfig2_1 {
 
   // Enable auto creation of topic on the server
   google.protobuf.BoolValue auto_create_topics_enable = 13;
+
+  // Default number of partitions per topic on the whole cluster
+  google.protobuf.Int64Value num_partitions = 14;
+
+  // Default replication factor of the topic on the whole cluster
+  google.protobuf.Int64Value default_replication_factor = 15;
 }
 
 // Kafka version 2.6 broker configuration.
@@ -297,6 +303,12 @@ message KafkaConfig2_6 {
 
   // Enable auto creation of topic on the server
   google.protobuf.BoolValue auto_create_topics_enable = 13;
+
+  // Default number of partitions per topic on the whole cluster
+  google.protobuf.Int64Value num_partitions = 14;
+
+  // Default replication factor of the topic on the whole cluster
+  google.protobuf.Int64Value default_replication_factor = 15;
 }
 
 // Cluster host metadata.

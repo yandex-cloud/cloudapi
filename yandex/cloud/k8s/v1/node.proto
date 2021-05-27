@@ -161,6 +161,21 @@ message NodeTemplate {
   repeated NetworkInterfaceSpec network_interface_specs = 7;
 
   PlacementPolicy placement_policy = 10;
+
+  message NetworkSettings {
+    enum Type {
+      TYPE_UNSPECIFIED = 0;
+      STANDARD = 1;
+      SOFTWARE_ACCELERATED = 2;
+      // unsupported yet, commented for possible future utilization.
+      //HARDWARE_ACCELERATED = 3;
+    }
+
+    Type type = 1 [(required) = true];
+  }
+
+  // this parameter allows to specify type of network acceleration used on nodes (instances)
+  NetworkSettings network_settings = 11;
 }
 
 message NetworkInterfaceSpec {

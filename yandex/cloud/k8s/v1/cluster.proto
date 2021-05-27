@@ -105,6 +105,10 @@ message Cluster {
 
   // Log group where cluster stores cluster system logs, like audit, events, or controlplane logs.
   string log_group_id = 18;
+
+  oneof network_implementation {
+    Cilium cilium = 19;
+  }
 }
 
 enum ReleaseChannel {
@@ -230,4 +234,13 @@ message KMSProvider {
   // KMS key ID for secrets encryption.
   // To obtain a KMS key ID use a [yandex.cloud.kms.v1.SymmetricKeyService.List] request.
   string key_id = 1;
+}
+
+message Cilium {
+  enum RoutingMode {
+    ROUTING_MODE_UNSPECIFIED = 0;
+    TUNNEL = 1;
+  }
+
+  RoutingMode routing_mode = 1;
 }

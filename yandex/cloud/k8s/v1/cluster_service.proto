@@ -264,6 +264,10 @@ message CreateClusterRequest {
 
   // KMS provider configuration.
   KMSProvider kms_provider = 13;
+
+  oneof network_implementation {
+    Cilium cilium = 14;
+  }
 }
 
 message CreateClusterMetadata {

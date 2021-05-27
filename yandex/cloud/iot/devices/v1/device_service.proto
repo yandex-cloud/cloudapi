@@ -22,7 +22,7 @@ service DeviceService {
   }
 
   rpc GetByName (GetByNameDeviceRequest) returns (Device) {
-    option (google.api.http) = { get: "/iot-devices/v1/devices" };
+    option (google.api.http) = { get: "/iot-devices/v1/devices:getByName" };
   }
 
   // Retrieves the list of devices in the specified registry.
