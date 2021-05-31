@@ -59,6 +59,8 @@ message Database {
   BackupConfig backup_config = 21;
 
   string document_api_endpoint = 22;
+
+  string kinesis_api_endpoint = 23;
 }
 
 message DedicatedDatabase {
