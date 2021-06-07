@@ -130,7 +130,7 @@ message OpenProjectResponse {
     // URL of the project that is being opened.
     // Make GET request to [project_url] with sessionToken query parameter equals to [session_token]
     // or POST request to [project_url] with sessionToken body parameter equals to [session_token]
-    // to fetch Datasphere web interface
+    // to fetch Datasphere web interface.
     string project_url = 1;
     // Session token of the project that is being opened.
     string session_token = 2;
