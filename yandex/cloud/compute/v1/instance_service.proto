@@ -116,8 +116,7 @@ service InstanceService {
     };
   }
 
-  // net
-
+  // Enables One-to-one NAT on the network interface.
   rpc AddOneToOneNat (AddInstanceOneToOneNatRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instances/{instance_id}/addOneToOneNat" body: "*"};
     option (yandex.cloud.api.operation) = {
@@ -126,6 +125,7 @@ service InstanceService {
      };
   }
 
+  // Removes One-to-one NAT from the network interface.
   rpc RemoveOneToOneNat (RemoveInstanceOneToOneNatRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instances/{instance_id}/removeOneToOneNat" body: "*"};
     option (yandex.cloud.api.operation) = {
@@ -134,6 +134,7 @@ service InstanceService {
     };
   }
 
+  // Updates the specified instance network interface.
   rpc UpdateNetworkInterface (UpdateInstanceNetworkInterfaceRequest) returns (operation.Operation) {
     option (google.api.http) = { patch: "/compute/v1/instances/{instance_id}/updateNetworkInterface" body: "*"};
     option (yandex.cloud.api.operation) = {
@@ -457,42 +458,71 @@ message DetachInstanceDiskMetadata {
   string disk_id = 2;
 }
 
-// net
-
+// Enables One-to-one NAT on the network interface.
 message AddInstanceOneToOneNatRequest {
+  // ID of the instance to enable One-to-One NAT on.
   string instance_id = 1;
+
+  // The index of the network interface to enable One-to-One NAT on.
   string network_interface_index = 2;
+
+  // The network address that is assigned to the instance for this network interface.
   string internal_address = 3; // optional
+
+  // An external IP address configuration.
+  // If not specified, then this instance will have no external internet access.
   OneToOneNatSpec one_to_one_nat_spec = 4;
 }
 
 message AddInstanceOneToOneNatMetadata {
+  // ID of the instance.
   string instance_id = 1;
 }
 
 message RemoveInstanceOneToOneNatRequest {
+  // ID of the instance to remove One-to-one NAT.
   string instance_id = 1;
+
+  // The index of the network interface to remove One-to-One NAT from.
   string network_interface_index = 2;
+
+  // The network address that is assigned to the instance for this network interface.
   string internal_address = 3; // optional
 }
 
 message RemoveInstanceOneToOneNatMetadata {
+  // ID of the instance.
   string instance_id = 1;
 }
 
 message UpdateInstanceNetworkInterfaceRequest {
+  // ID of the network interface that is being updated.
   string instance_id = 1 [(required) = true];
+
+  // The index of the network interface to be updated.
   string network_interface_index = 2 [(required) = true];
+
+  // Field mask that specifies which attributes of the instance should be updated.
   google.protobuf.FieldMask update_mask = 3;
 
+  // ID of the subnet.
   string subnet_id = 4;
+
+  // Primary IPv4 address that will be assigned to the instance for this network interface.
   PrimaryAddressSpec primary_v4_address_spec = 5;
+
+  // Primary IPv6 address that will be assigned to the instance for this network interface. IPv6 not available yet.
   PrimaryAddressSpec primary_v6_address_spec = 6;
+
+  // ID's of security groups attached to the interface.
   repeated string security_group_ids = 7;
 }
 
 message UpdateInstanceNetworkInterfaceMetadata {
+  // ID of the instant network interface that is being updated.
   string instance_id = 1;
+
+  // The index of the network interface.
   string network_interface_index = 2;
 }
 
