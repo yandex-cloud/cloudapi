@@ -279,6 +279,9 @@ message CreateClusterRequest {
 
   // TLS port and functionality on\off
   google.protobuf.BoolValue tls_enabled = 13;
+
+  // Deletion Protection inhibits deletion of the cluster
+  bool deletion_protection = 14;
 }
 
 message CreateClusterMetadata {
@@ -315,6 +318,9 @@ message UpdateClusterRequest {
 
   // User security groups
   repeated string security_group_ids = 8;
+
+  // Deletion Protection inhibits deletion of the cluster
+  bool deletion_protection = 9;
 }
 
 message UpdateClusterMetadata {

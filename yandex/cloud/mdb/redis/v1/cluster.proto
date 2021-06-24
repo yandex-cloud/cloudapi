@@ -121,6 +121,9 @@ message Cluster {
 
   // TLS port and functionality on\off
   bool tls_enabled = 17;
+
+  // Deletion Protection inhibits deletion of the cluster
+  bool deletion_protection = 18;
 }
 
 message Monitoring {

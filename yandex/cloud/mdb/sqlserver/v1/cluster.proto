@@ -108,6 +108,9 @@ message Cluster {
 
   // User security groups
   repeated string security_group_ids = 13;
+
+  // Deletion Protection inhibits deletion of the cluster
+  bool deletion_protection = 14;
 }
 
 message Monitoring {

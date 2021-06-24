@@ -267,6 +267,9 @@ message CreateClusterRequest {
 
   // User security groups
   repeated string security_group_ids = 11;
+
+  // Deletion Protection inhibits deletion of the cluster
+  bool deletion_protection = 12;
 }
 
 message CreateClusterMetadata {
@@ -304,6 +307,9 @@ message UpdateClusterRequest {
 
   // User security groups
   repeated string security_group_ids = 8;
+
+  // Deletion Protection inhibits deletion of the cluster
+  bool deletion_protection = 9;
 }
 
 message UpdateClusterMetadata {

@@ -107,6 +107,9 @@ message Cluster {
 
   // ID of the service account used for access to Yandex Object Storage.
   string service_account_id = 14;
+
+  // Deletion Protection inhibits deletion of the cluster
+  bool deletion_protection = 15;
 }
 
 // Metadata of monitoring system.
