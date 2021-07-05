@@ -215,6 +215,15 @@ service ClusterService {
       response: "google.protobuf.Empty"
     };
   }
+
+  // Stepdown hosts.
+  rpc StepdownHosts (StepdownHostsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-mongodb/v1/clusters/{cluster_id}:stepdownHosts" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "StepdownHostsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
 }
 
 message GetClusterRequest {
@@ -844,6 +853,22 @@ message RestartHostsMetadata {
   string cluster_id = 1;
 
   // Required. The name of hosts to restart.
+  repeated string host_names = 2;
+}
+
+message StepdownHostsRequest {
+  // Required. ID of the MongoDB cluster.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Required. Name of the hosts to resetup.
+  repeated string host_names = 2 [(size) = ">0", (length) = "<=253"];
+}
+
+message StepdownHostsMetadata {
+  // Required. ID of the MongoDB cluster.
+  string cluster_id = 1;
+
+  // Required. The name of hosts to resetup.
   repeated string host_names = 2;
 }
 
