@@ -158,6 +158,15 @@ service ClusterService {
     };
   }
 
+  // Updates the specified hosts.
+  rpc UpdateHosts (UpdateClusterHostsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-mysql/v1/clusters/{cluster_id}/hosts:batchUpdate" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateClusterHostsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
   // Deletes the specified hosts for a cluster.
   rpc DeleteHosts (DeleteClusterHostsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-mysql/v1/clusters/{cluster_id}/hosts:batchDelete" body: "*" };
@@ -674,12 +683,31 @@ message MoveClusterMetadata {
   string destination_folder_id = 3;
 }
 
+message UpdateClusterHostsRequest {
+  // ID of the MySQL cluster to update hosts in.
+  // To get the MySQL cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // New configurations to apply to hosts.
+  repeated UpdateHostSpec update_host_specs = 2 [(size) = ">0"];
+}
+
 message UpdateClusterHostsMetadata {
   // ID of the MySQL cluster to modify hosts in.
   string cluster_id = 1;
 
   // Names of hosts that are being modified.
   repeated string host_names = 2;
+}
+
+message UpdateHostSpec {
+  // Name of the host to update.
+  // To get the MySQL host name, use a [ClusterService.ListHosts] request.
+  string host_name = 1 [(required) = true];
+
+  // [Host.name] of the host to be used as the replication source (for cascading replication).
+  // To get the MySQL host name, use a [ClusterService.ListHosts] request.
+  string replication_source = 2;
 }
 
 message HostSpec {
@@ -701,6 +729,9 @@ message HostSpec {
   // * false - don't assign a public IP to the host.
   // * true - the host should have a public IP address.
   bool assign_public_ip = 3;
+
+  // [Host.name] of the host to be used as the replication source (for cascading replication).
+  string replication_source = 4;
 }
 
 message ConfigSpec {
