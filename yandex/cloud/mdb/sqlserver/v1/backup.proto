@@ -25,4 +25,7 @@ message Backup {
 
   // Time when the backup operation was started.
   google.protobuf.Timestamp started_at = 5;
+
+  // List databases included in the backup
+  repeated string databases = 6;
 }

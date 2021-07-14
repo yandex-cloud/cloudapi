@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package yandex.cloud.logging.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
+import "yandex/cloud/logging/v1/log_entry.proto";
+
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/logging/v1;logging";
+option java_package = "yandex.cloud.api.logging.v1";
+
+service LogReadingService {
+  rpc Read (ReadRequest) returns (ReadResponse) {
+    option (google.api.http) = { get: "/logging/v1/read" };
+  }
+}
+
+message ReadRequest {
+  oneof selector {
+    string page_token = 1;
+    Criteria criteria = 2;
+  }
+}
+
+message ReadResponse {
+  string log_group_id = 1;
+  repeated LogEntry entries = 2;
+  string next_page_token = 3;
+  string previous_page_token = 4;
+}
+
+message Criteria {
+  string log_group_id = 1 [(required) = true, (length) = "<=64"];
+  repeated string resource_types = 2 [(pattern) = "[a-zA-Z][-a-zA-Z0-9_.]{1,62}", (size) = "<=100"];
+  repeated string resource_ids = 3 [(pattern) = "[a-zA-Z][-a-zA-Z0-9_.]{1,62}", (size) = "<=100"];
+  google.protobuf.Timestamp since = 4;
+  google.protobuf.Timestamp until = 5;
+  repeated LogLevel.Level levels = 6 [(size) = "<=10"];
+
+  string filter = 7 [(length) = "<=1000"];
+
+  int64 page_size = 8  [(value) = "1-1000"];
+}

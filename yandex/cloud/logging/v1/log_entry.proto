@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package yandex.cloud.logging.v1;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/logging/v1/log_resource.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/logging/v1;logging";
+option java_package = "yandex.cloud.api.logging.v1";
+
+message LogEntry {
+  string uid = 1;
+  LogEntryResource resource = 2;
+  google.protobuf.Timestamp timestamp = 3;
+
+  google.protobuf.Timestamp ingested_at = 4;
+  google.protobuf.Timestamp saved_at = 5;
+
+  LogLevel.Level level = 6;
+  string message = 7;
+  google.protobuf.Struct json_payload = 8;
+}
+
+message IncomingLogEntry {
+  google.protobuf.Timestamp timestamp = 1 [(required) = true];
+  LogLevel.Level level = 2;
+  string message = 3 [(length) = "<=65536"];
+  google.protobuf.Struct json_payload = 4 [(bytes) = "<=65536"];
+}
+
+message Destination {
+  oneof destination {
+    string log_group_id = 1 [(length) = "<=64"];
+    string folder_id = 2 [(length) = "<=64"];
+  }
+}
+
+message LogLevel {
+  enum Level {
+    LEVEL_UNSPECIFIED = 0;
+    TRACE = 1;
+    DEBUG = 2;
+    INFO = 3;
+    WARN = 4;
+    ERROR = 5;
+    FATAL = 6;
+  }
+  Level level = 1;
+}

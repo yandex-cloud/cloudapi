@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.mdb.sqlserver.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -33,6 +34,15 @@ service DatabaseService {
       metadata: "CreateDatabaseMetadata"
       response: "Database"
     };
+  }
+
+    //Creates a new SQL Server database in the specified cluster from a backup
+  rpc Restore (RestoreDatabaseRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "RestoreDatabaseMetadata"
+      response: "Database"
+      };
   }
 
   // Deletes the specified SQL Server database.
@@ -102,6 +112,20 @@ message CreateDatabaseMetadata {
   string database_name = 2;
 }
 
+message RestoreDatabaseMetadata {
+  // ID of the SQLServer cluster where a database is being created.
+  string cluster_id = 1 [(required) = true];
+
+  // Name of the SQLServer database that is being created.
+  string database_name = 2 [(required) = true];
+
+  //name of the database which backup will be used to restore the database
+  string from_database = 3 [(required) = true];
+
+  //ID of a backup to be used
+  string backup_id = 4 [(required) = true];
+}
+
 message DeleteDatabaseRequest {
   // ID of the SQL Server cluster to delete a database in.
   //
@@ -120,4 +144,23 @@ message DeleteDatabaseMetadata {
 
   // Name of the SQL Server database being deleted.
   string database_name = 2;
+}
+
+message RestoreDatabaseRequest {
+  //Required. ID of the SQL Server cluster to restore a database in.
+  // To get the cluster ID, use a [ClusterService.List] request
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Name of the SQLServer database that is being restored.
+  string database_name = 2 [(required) = true];
+
+  //name of the database which backup will be used to restore the database
+  string from_database = 3 [(required) = true];
+
+  //ID of a backup to be used
+  string backup_id = 4 [(required) = true];
+
+  //Timestamp which is used for Point-in-Time recovery
+  google.protobuf.Timestamp time = 6 [(required) = true];
+
 }

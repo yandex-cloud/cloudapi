@@ -20,6 +20,9 @@ enum SymmetricAlgorithm {
 
   // AES algorithm with 256-bit keys.
   AES_256 = 3;
+
+  // AES algorithm with 256-bit keys hosted by HSM
+  AES_256_HSM = 4;
 }
 
 // A symmetric KMS key that may contain several versions of the cryptographic material.
@@ -118,4 +121,7 @@ message SymmetricKeyVersion {
   // Time when the key version is going to be destroyed. Empty unless the status
   // is `SCHEDULED_FOR_DESTRUCTION`.
   google.protobuf.Timestamp destroy_at = 7;
+
+  // Indication of the version that is hosted by HSM.
+  bool hosted_by_hsm = 8;
 }

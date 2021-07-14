@@ -212,6 +212,9 @@ message CreateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 12;
+  
+  //name of SQL Collation that cluster will be created with
+  string sqlcollation = 13 [(length) = "<=100"];
 }
 
 message CreateClusterMetadata {

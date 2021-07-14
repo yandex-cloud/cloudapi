@@ -111,6 +111,9 @@ message Cluster {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 14;
+
+  //SQL Server Collation
+  string sqlcollation = 15;
 }
 
 message Monitoring {

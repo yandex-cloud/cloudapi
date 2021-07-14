@@ -47,6 +47,7 @@ message ContainerAudio {
 
         // RIFF linear pcm with header audio file format.
         WAV = 1;
+        OGG_OPUS = 2;
     }
     ContainerAudioType container_audio_type = 1;
 }
@@ -106,6 +107,10 @@ message Hints {
         string voice = 1;
         // Template for synthesizing.
         AudioTemplate audio_template = 2;
+        // hint to change speed
+        double speed = 3;
+        // hint to regulate volume
+        double volume = 4;
     }
 }
 
@@ -123,6 +128,6 @@ message UtteranceSynthesisRequest {
     }
     // Optional hints for synthesis.
     repeated Hints hints = 4;
-    // Optional. Default: 22050 Hz, linear 16-bit signed little-endian PCM.
+    // Optional. Default: 22050 Hz, linear 16-bit signed little-endian PCM, with WAV header
     AudioFormatOptions output_audio_spec = 5;
 }
