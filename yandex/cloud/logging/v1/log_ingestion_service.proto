@@ -13,17 +13,28 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/logging/v1
 option java_package = "yandex.cloud.api.logging.v1";
 
 service LogIngestionService {
+  // Write log entries to specified destination.
   rpc Write (WriteRequest) returns (WriteResponse) {
     option (google.api.http) = { post: "/logging/v1/write" body: "*" };
   }
 }
 
 message WriteRequest {
+  // Log entries destination.
+  //
+  // See [Destination] for details.
   Destination destination = 1 [(required) = true];
+
+  // Common resource (type, ID) specification for log entries.
   LogEntryResource resource = 2;
+
+  // List of log entries.
   repeated IncomingLogEntry entries = 3 [(size) = "<=100"];
 }
 
 message WriteResponse {
+  // Map<idx, status> of ingest failures.
+  //
+  // If entry with idx N is absent, it was ingested successfully.
   map<int64, google.rpc.Status> errors = 1;
 }

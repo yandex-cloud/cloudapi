@@ -217,6 +217,9 @@ message Host {
 
   // Flag showing public IP assignment status to this host.
   bool assign_public_ip = 9;
+
+  // Name of the host to be used as the replication source for cascading replication.
+  string replication_source = 10;
 }
 
 
