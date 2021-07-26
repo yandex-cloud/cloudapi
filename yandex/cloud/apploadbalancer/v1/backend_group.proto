@@ -136,6 +136,9 @@ message HttpBackend {
 
     // Target groups that belong to the backend.
     TargetGroupsBackend target_groups = 5;
+
+    // Storage bucket to use as a backend.
+    StorageBucketBackend storage_bucket = 9;
   }
 
   // Health checks to perform on targets from target groups.
@@ -213,6 +216,12 @@ message BackendTls {
 
   // Validation context for TLS connections.
   ValidationContext validation_context = 3;
+}
+
+message StorageBucketBackend {
+  // Cloud S3 bucket name.
+  // Should have public access.
+  string bucket = 1 [(required) = true];
 }
 
 // A health check resource.

@@ -167,6 +167,10 @@ message ScalingPolicy {
   // Modification timestamp for the scaling policy
   google.protobuf.Timestamp modified_at = 4;
 
+  // Provisioned instances count in each zone.
+  // Billed separately.
+  int64 zone_provisioned_instances_count = 6;
+
   // Upper limit for instance count in each zone.
   // 0 means no limit.
   int64 zone_instances_limit = 7;

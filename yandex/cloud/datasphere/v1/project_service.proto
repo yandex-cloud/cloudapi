@@ -4,6 +4,8 @@ package yandex.cloud.datasphere.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -59,6 +61,16 @@ service ProjectService {
     rpc List (ListProjectsRequest) returns (ListProjectsResponse) {
         option (google.api.http) = { get: "/datasphere/v1/projects" };
     }
+
+    // Returns the unit balance of the specified project.
+    rpc GetUnitBalance (GetUnitBalanceRequest) returns (GetUnitBalanceResponse) {
+        option (google.api.http) = { get: "/datasphere/v1/projects/{project_id}:unitBalance" };
+    }
+
+    //  Sets the unit balance of the specified project.
+    rpc SetUnitBalance (SetUnitBalanceRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = { post: "/datasphere/v1/projects/{project_id}:unitBalance" body: "*" };
+    }
 }
 
 message CreateProjectRequest {
@@ -74,6 +86,9 @@ message CreateProjectRequest {
 
     // Settings of the project.
     Project.Settings settings = 4;
+
+    // Limits of the project.
+    Project.Limits limits = 5;
 }
 
 message CreateProjectMetadata {
@@ -97,6 +112,9 @@ message UpdateProjectRequest {
 
     // Settings of the project.
     Project.Settings settings = 5;
+
+    // Limits of the project.
+    Project.Limits limits = 6;
 }
 
 message UpdateProjectMetadata {
@@ -169,4 +187,22 @@ message ListProjectsResponse {
     // in the next list request. Each subsequent list request will have its own
     // [next_page_token] to continue paging through the results.
     string next_page_token = 2;
+}
+
+message GetUnitBalanceRequest {
+    // ID of the project to return the unit balance for.
+    string project_id = 1 [(required) = true, (length) = "<=200"];
+}
+
+message GetUnitBalanceResponse {
+    // The number of units available to the project.
+    google.protobuf.Int64Value unit_balance = 1;
+}
+
+message SetUnitBalanceRequest {
+    // ID of the project to set the unit balance for.
+    string project_id = 1 [(required) = true, (length) = "<=200"];
+
+    // The number of units available to the project.
+    google.protobuf.Int64Value unit_balance = 2;
 }

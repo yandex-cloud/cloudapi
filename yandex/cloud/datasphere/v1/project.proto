@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.datasphere.v1;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datasphere/v1;datasphere";
 option java_package = "yandex.cloud.api.datasphere.v1";
@@ -33,6 +34,13 @@ message Project {
         CommitMode commit_mode = 4;
     }
 
+    message Limits {
+        // The number of units that can be spent per hour.
+        google.protobuf.Int64Value max_units_per_hour = 2;
+        // The number of units that can be spent on the one execution.
+        google.protobuf.Int64Value max_units_per_execution = 3;
+    }
+
     // ID of the project.
     string id = 1;
 
@@ -48,4 +56,7 @@ message Project {
 
     // Settings of the project.
     Settings settings = 6;
+
+    // Limits of the project.
+    Limits limits = 7;
 }

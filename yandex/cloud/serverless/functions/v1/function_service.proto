@@ -581,6 +581,10 @@ message SetScalingPolicyRequest {
   // To get the history of version tags make a [FunctionService.ListTagHistory] request.
   string tag = 2 [(required) = true, (pattern) = "[a-z][-_0-9a-z]*|[$]latest"];
 
+  // Provisioned instances count in each zone.
+  // Billed separately.
+  int64 zone_provisioned_instances_count = 4 [(value) = "0-1000"];
+
   // Upper limit for instance count in each zone.
   // 0 means no limit.
   int64 zone_instances_limit = 5 [(value) = "0-1000"];
