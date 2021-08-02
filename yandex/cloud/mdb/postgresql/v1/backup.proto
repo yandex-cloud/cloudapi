@@ -10,7 +10,25 @@ option java_package = "yandex.cloud.api.mdb.postgresql.v1";
 // A PostgreSQL Backup resource. For more information, see
 // the [Developer's Guide](/docs/managed-postgresql/concepts/backup).
 message Backup {
-  // ID of the backup.
+  enum BackupMethod {
+    BACKUP_METHOD_UNSPECIFIED = 0;
+
+    // Base backup 
+    BASE = 1;
+
+    // Delta (incremental) PostgreSQL backup
+    INCREMENTAL = 2;
+  }
+  enum BackupCreationType {
+    BACKUP_CREATION_TYPE_UNSPECIFIED = 0;
+
+    // Backup created by automated daily schedule
+    AUTOMATED = 1;
+
+    // Backup created by user request
+    MANUAL = 2;
+  }
+  // Required. ID of the backup.
   string id = 1;
 
   // ID of the folder that the backup belongs to.
@@ -25,4 +43,14 @@ message Backup {
 
   // Time when the backup operation was started.
   google.protobuf.Timestamp started_at = 5;
+
+  // Size of backup in bytes
+  int64 size = 6;
+
+  // How this backup was created (manual/automatic/etc...)
+  BackupCreationType type = 7;
+  
+  // Method of backup creation
+  BackupMethod method = 8;
+
 }

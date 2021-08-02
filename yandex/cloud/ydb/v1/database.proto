@@ -73,6 +73,13 @@ message DedicatedDatabase {
 }
 
 message ServerlessDatabase {
+  // Specify explicit limit of request units for database.
+  // Default value is 0.
+  // If zero, then request units are unlimited for this database and units are limited
+  // by cloud quota value.
+  int64 request_units_per_second_limit = 1;
+  // Specify serverless database storage size limit. If zero, default value is applied.
+  int64 storage_size_limit = 2;
 }
 
 message ZonalDatabase {
@@ -96,6 +103,8 @@ message ScalePolicy {
 
 message StorageConfig {
    repeated StorageOption storage_options = 1 [(size) = ">=1"];
+   // output only field: storage size limit of dedicated database.
+   int64 storage_size_limit = 2;
 }
 
 message StorageOption {

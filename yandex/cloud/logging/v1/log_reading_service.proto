@@ -11,6 +11,7 @@ import "yandex/cloud/logging/v1/log_entry.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/logging/v1;logging";
 option java_package = "yandex.cloud.api.logging.v1";
 
+// A set of methods for reading from log groups.
 service LogReadingService {
   // Read log entries from the specified log group.
   rpc Read (ReadRequest) returns (ReadResponse) {
@@ -84,7 +85,7 @@ message Criteria {
   // Empty list disables filter.
   repeated LogLevel.Level levels = 6 [(size) = "<=10"];
 
-  // Filter expression. See documentation at https://cloud.yandex.ru/docs/logging/concepts/filter.
+  // Filter expression. For details about filtering, see [documentation](/docs/logging/concepts/filter).
   string filter = 7 [(length) = "<=1000"];
 
   // The maximum number of results per page to return.

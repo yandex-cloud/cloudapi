@@ -151,6 +151,7 @@ service InstanceGroupService {
 
   // Resume all process in instance group.
   rpc ResumeProcesses (ResumeInstanceGroupProcessesRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:resumeProcesses" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "ResumeInstanceGroupProcessMetadata"
       response: "InstanceGroup"
@@ -159,6 +160,7 @@ service InstanceGroupService {
 
   // Pause all process in instance group.
   rpc PauseProcesses (PauseInstanceGroupProcessesRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:pauseProcesses" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "PauseInstanceGroupProcessMetadata"
       response: "InstanceGroup"

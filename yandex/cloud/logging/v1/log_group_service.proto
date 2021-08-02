@@ -145,8 +145,7 @@ message ListLogGroupsRequest {
   //
   // The expression must specify:
   // 1. The field name. Currently filtering can only be applied to the [LogGroup.name] field.
-  // 2. A conditional operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN`
-  // for lists of values.
+  // 2. A conditional operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
   // 3. The value. Must be 3-63 characters long and match the regular expression `^[a-z][-a-z0-9]{1,61}[a-z0-9]$`.
   // Example of a filter: `name=my-log-group`.
   string filter = 4 [(length) = "<=1000"];
@@ -173,7 +172,7 @@ message CreateLogGroupRequest {
 
   // Name of the log group.
   // The name must be unique within the folder.
-  string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 2 [(pattern) = "([a-z]([-a-z0-9]{0,61}[a-z0-9])?)?"];
 
   // Description of the log group.
   string description = 3 [(length) = "<=256"];
@@ -204,7 +203,7 @@ message UpdateLogGroupRequest {
 
   // New name of the log group.
   // The name must be unique within the folder.
-  string name = 3 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 3 [(pattern) = "([a-z]([-a-z0-9]{0,61}[a-z0-9])?)?"];
 
   // New Description of the log group.
   string description = 4 [(length) = "<=256"];
@@ -274,14 +273,8 @@ message ListOperationsRequest {
   // A filter expression that filters resources listed in the response.
   //
   // The expression must specify:
-  // 1. The field name. Currently filtering can be applied to the following fields:
-  // * [operation.Operation.description]
-  // * [operation.Operation.created_at]
-  // * [operation.Operation.modified_at]
-  // * [operation.Operation.created_by]
-  // * [operation.Operation.done]
-  // 2. A conditional operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN`
-  // for lists of values.
+  // 1. The field name. Currently filtering can be applied to the [operation.Operation.description], [operation.Operation.created_at], [operation.Operation.modified_at], [operation.Operation.created_by], [operation.Operation.done] fields.
+  // 2. A conditional operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
   // 3. The value. Must be 3-63 characters long and match the regular expression `^[a-z][-a-z0-9]{1,61}[a-z0-9]$`.
   // Examples of a filter: `done=false`, `created_by='John.Doe'`.
   string filter = 4 [(length) = "<=1000"];

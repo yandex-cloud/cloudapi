@@ -53,9 +53,7 @@ message LogGroup {
   map<string, string> labels = 7;
 
 
-  // Log group status.
-  //
-  // See [Status] for possible values.
+  // Status of the log group.
   Status status = 8;
 
   // Log group entry retention period.
