@@ -190,6 +190,9 @@ message ClusterConfig {
 
   // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 7;
+  
+  // Retention policy of automated backups.
+  google.protobuf.Int64Value backup_retain_period_days = 17 [(value) = "7-60"];
 
   // Access policy to DB
   Access access = 9;

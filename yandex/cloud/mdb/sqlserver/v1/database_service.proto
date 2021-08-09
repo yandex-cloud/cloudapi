@@ -36,7 +36,7 @@ service DatabaseService {
     };
   }
 
-  //Creates a new SQL Server database in the specified cluster from a backup
+  // Creates a new SQL Server database in the specified cluster from a backup
   rpc Restore (RestoreDatabaseRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases:restore" body: "*" };
     option (yandex.cloud.api.operation) = {

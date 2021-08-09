@@ -149,7 +149,8 @@ service InstanceGroupService {
     };
   }
 
-  // Resume all process in instance group.
+  // Resumes all processes regarding management of the specified instance group,
+  // i.e. scaling, checking instances' health, auto-healing and updating them.
   rpc ResumeProcesses (ResumeInstanceGroupProcessesRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:resumeProcesses" body: "*" };
     option (yandex.cloud.api.operation) = {
@@ -158,7 +159,8 @@ service InstanceGroupService {
     };
   }
 
-  // Pause all process in instance group.
+  // Pauses all processes regarding management of the specified instance group,
+  // i.e. scaling, checking instances' health, auto-healing and updating them. Running instances are not stopped.
   rpc PauseProcesses (PauseInstanceGroupProcessesRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:pauseProcesses" body: "*" };
     option (yandex.cloud.api.operation) = {
@@ -178,18 +180,30 @@ enum InstanceGroupView {
 }
 
 message ResumeInstanceGroupProcessesRequest {
+  // ID of the instance group to resume processes in.
+  //
+  // The instance group must have a `PAUSED` status ([InstanceGroup.status]).
+  //
+  // To get the instance group ID, make a [InstanceGroupService.List] request.
   string instance_group_id = 1 [(length) = "<=50"];
 }
 
 message ResumeInstanceGroupProcessMetadata {
+  // ID of the instance group that processes are being resumed in.
   string instance_group_id = 1;
 }
 
 message PauseInstanceGroupProcessesRequest {
+  // ID of the instance group to pause processes in.
+  //
+  // The instance group must have an `ACTIVE` status ([InstanceGroup.status]).
+  //
+  // To get the instance group ID, make a [InstanceGroupService.List] request.
   string instance_group_id = 1 [(length) = "<=50"];
 }
 
 message PauseInstanceGroupProcessMetadata {
+  // ID of the instance group that processes are being paused in.
   string instance_group_id = 1;
 }
 

@@ -85,7 +85,11 @@ message Trigger {
       // Instructions for invoking a function once.
       InvokeFunctionOnce invoke_function = 101;
 
+      // Instructions for invoking a function with retry.
       InvokeFunctionWithRetry invoke_function_with_retry = 103;
+
+      // Instructions for invoking a container with retry.
+      InvokeContainerWithRetry invoke_container_with_retry = 104;
     }
   }
 
@@ -109,6 +113,9 @@ message Trigger {
 
       // Instructions for invoking a function once.
       InvokeFunctionOnce invoke_function = 101;
+
+      // Instructions for invoking a container once.
+      InvokeContainerOnce invoke_container = 102;
     }
   }
 
@@ -129,6 +136,9 @@ message Trigger {
 
       // Instructions for invoking a function with retries as needed.
       InvokeFunctionWithRetry invoke_function = 101;
+
+      // Instructions for invoking a container with retries as needed.
+      InvokeContainerWithRetry invoke_container = 102;
     }
   }
 
@@ -153,7 +163,12 @@ message Trigger {
 
     oneof action {
       option (exactly_one) = true;
+
+      // Instructions for invoking a function with retries as needed.
       InvokeFunctionWithRetry invoke_function = 101;
+
+      // Instructions for invoking a container with retries as needed.
+      InvokeContainerWithRetry invoke_container = 102;
     }
   }
 
@@ -179,7 +194,12 @@ message Trigger {
 
     oneof action {
       option (exactly_one) = true;
+
+      // Instructions for invoking a function with retries as needed.
       InvokeFunctionWithRetry invoke_function = 101;
+
+      // Instructions for invoking a container with retries as needed.
+      InvokeContainerWithRetry invoke_container = 102;
     }
   }
 
@@ -192,7 +212,12 @@ message Trigger {
 
     oneof action {
       option (exactly_one) = true;
+
+      // Instructions for invoking a function with retries as needed.
       InvokeFunctionWithRetry invoke_function = 101;
+
+      // Instructions for invoking a container with retries as needed.
+      InvokeContainerWithRetry invoke_container = 102;
     }
   }
 
@@ -231,6 +256,36 @@ message InvokeFunctionWithRetry {
 
   // DLQ policy (no value means discarding a message).
   PutQueueMessage dead_letter_queue = 5;
+}
+
+// A single container invocation.
+message InvokeContainerOnce {
+  // ID of the container to invoke.
+  string container_id = 1  [(required) = true, (length) = "<=50"];
+
+  // Endpoint HTTP path to invoke.
+  string path = 3;
+
+  // ID of the service account which has permission to invoke the container.
+  string service_account_id = 4;
+}
+
+// A container invocation with retries.
+message InvokeContainerWithRetry {
+  // ID of the container to invoke.
+  string container_id = 1  [(required) = true, (length) = "<=50"];
+
+  // Endpoint HTTP path to invoke.
+  string path = 3;
+
+  // ID of the service account which has permission to invoke the container.
+  string service_account_id = 4;
+
+  // Retry policy. If the field is not specified, or the value is empty, no retries will be attempted.
+  RetrySettings retry_settings = 5;
+
+  // DLQ policy (no value means discarding a message).
+  PutQueueMessage dead_letter_queue = 6;
 }
 
 message PutQueueMessage {

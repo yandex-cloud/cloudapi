@@ -25,7 +25,9 @@ service RepositoryService {
   // Returns the specified Repository resource.
   //
   // To get the list of available Repository resources, make a [List] request.
-  rpc GetByName (GetRepositoryByNameRequest) returns (Repository);
+  rpc GetByName (GetRepositoryByNameRequest) returns (Repository) {
+    option (google.api.http) = { get: "/container-registry/v1/repositories/{repository_name}:byName" };
+  }
 
   // Retrieves the list of Repository resources in the specified registry.
   rpc List (ListRepositoriesRequest) returns (ListRepositoriesResponse) {

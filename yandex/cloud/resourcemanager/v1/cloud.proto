@@ -20,4 +20,7 @@ message Cloud {
 
   // Description of the cloud. 0-256 characters long.
   string description = 4;
+
+  // ID of the organization that the cloud belongs to.
+  string organization_id = 6;
 }

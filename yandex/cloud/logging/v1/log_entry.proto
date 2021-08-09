@@ -61,14 +61,29 @@ message IncomingLogEntry {
   google.protobuf.Struct json_payload = 4 [(bytes) = "<=65536"];
 }
 
+message LogEntryDefaults {
+  // Default entry severity.
+  // Will be applied if entry level is unspecified.
+  //
+  // See [LogLevel.Level] for details.
+  LogLevel.Level level = 2;
+
+  // Default entry annotation.
+  // Will be merged with entry annotation.
+  // Any conflict will be resolved in favor of entry own annotaion.
+  google.protobuf.Struct json_payload = 4 [(bytes) = "<=65536"];
+}
+
 message Destination {
   // Entry destination.
   oneof destination {
+    option (exactly_one) = true;
+
     // Entry should be written to log group resolved by ID.
-    string log_group_id = 1 [(length) = "<=64"];
+    string log_group_id = 1 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
 
     // Entry should be written to default log group for the folder.
-    string folder_id = 2 [(length) = "<=64"];
+    string folder_id = 2 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
   }
 }
 

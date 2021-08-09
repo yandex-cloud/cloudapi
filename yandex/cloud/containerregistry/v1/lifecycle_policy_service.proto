@@ -10,16 +10,23 @@ import "yandex/cloud/validation.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 
+import "google/api/annotations.proto";
+
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/containerregistry/v1;containerregistry";
 option java_package = "yandex.cloud.api.containerregistry.v1";
 
 service LifecyclePolicyService {
 
-    rpc Get (GetLifecyclePolicyRequest) returns (LifecyclePolicy);
+    rpc Get (GetLifecyclePolicyRequest) returns (LifecyclePolicy) {
+        option (google.api.http) = { get: "/container-registry/v1/lifecyclePolicies/{lifecycle_policy_id}" };
+    }
 
-    rpc List (ListLifecyclePoliciesRequest) returns (ListLifecyclePoliciesResponse);
+    rpc List (ListLifecyclePoliciesRequest) returns (ListLifecyclePoliciesResponse) {
+        option (google.api.http) = { get: "/container-registry/v1/lifecyclePolicies" };
+    }
 
     rpc Create (CreateLifecyclePolicyRequest) returns (operation.Operation) {
+        option (google.api.http) = { post: "/container-registry/v1/lifecyclePolicies" body: "*" };
         option (yandex.cloud.api.operation) = {
           metadata: "CreateLifecyclePolicyMetadata"
           response: "LifecyclePolicy"
@@ -27,6 +34,7 @@ service LifecyclePolicyService {
     }
 
     rpc Update (UpdateLifecyclePolicyRequest) returns (operation.Operation) {
+        option (google.api.http) = { patch: "/container-registry/v1/lifecyclePolicies/{lifecycle_policy_id}" body: "*" };
         option (yandex.cloud.api.operation) = {
           metadata: "UpdateLifecyclePolicyMetadata"
           response: "LifecyclePolicy"
@@ -34,6 +42,7 @@ service LifecyclePolicyService {
     };
 
     rpc Delete (DeleteLifecyclePolicyRequest) returns (operation.Operation) {
+        option (google.api.http) = { delete: "/container-registry/v1/lifecyclePolicies/{lifecycle_policy_id}" };
         option (yandex.cloud.api.operation) = {
           metadata: "DeleteLifecyclePolicyMetadata"
           response: "google.protobuf.Empty"
@@ -41,17 +50,24 @@ service LifecyclePolicyService {
     }
 
     rpc DryRun (DryRunLifecyclePolicyRequest) returns (operation.Operation) {
+        option (google.api.http) = { post: "/container-registry/v1/dryRunLifecyclePolicy/{lifecycle_policy_id}" body: "*" };
         option (yandex.cloud.api.operation) = {
           metadata: "DryRunLifecyclePolicyMetadata"
           response: "DryRunLifecyclePolicyResult"
         };
     }
 
-    rpc GetDryRunResult (GetDryRunLifecyclePolicyResultRequest) returns (DryRunLifecyclePolicyResult);
+    rpc GetDryRunResult (GetDryRunLifecyclePolicyResultRequest) returns (DryRunLifecyclePolicyResult){
+        option (google.api.http) = { get: "/container-registry/v1/dryRunLifecyclePolicyResults/{dry_run_lifecycle_policy_result_id}" };
+    }
 
-    rpc ListDryRunResults (ListDryRunLifecyclePolicyResultsRequest) returns (ListDryRunLifecyclePolicyResultsResponse);
+    rpc ListDryRunResults (ListDryRunLifecyclePolicyResultsRequest) returns (ListDryRunLifecyclePolicyResultsResponse){
+        option (google.api.http) = { get: "/container-registry/v1/dryRunLifecyclePolicyResults" };
+    }
 
-    rpc ListDryRunResultAffectedImages (ListDryRunLifecyclePolicyResultAffectedImagesRequest) returns (ListDryRunLifecyclePolicyResultAffectedImagesResponse);
+    rpc ListDryRunResultAffectedImages (ListDryRunLifecyclePolicyResultAffectedImagesRequest) returns (ListDryRunLifecyclePolicyResultAffectedImagesResponse) {
+        option (google.api.http) = { get: "/container-registry/v1/dryRunLifecyclePolicyResults/{dry_run_lifecycle_policy_result_id}:affectedImages" };
+    }
 }
 
 message GetLifecyclePolicyRequest {

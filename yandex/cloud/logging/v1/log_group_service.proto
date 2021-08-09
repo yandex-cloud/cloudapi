@@ -172,7 +172,7 @@ message CreateLogGroupRequest {
 
   // Name of the log group.
   // The name must be unique within the folder.
-  string name = 2 [(pattern) = "([a-z]([-a-z0-9]{0,61}[a-z0-9])?)?"];
+  string name = 2 [(pattern) = "([a-z]([-a-z0-9]{1,61}[a-z0-9])?)?"];
 
   // Description of the log group.
   string description = 3 [(length) = "<=256"];
@@ -203,7 +203,7 @@ message UpdateLogGroupRequest {
 
   // New name of the log group.
   // The name must be unique within the folder.
-  string name = 3 [(pattern) = "([a-z]([-a-z0-9]{0,61}[a-z0-9])?)?"];
+  string name = 3 [(pattern) = "([a-z]([-a-z0-9]{1,61}[a-z0-9])?)?"];
 
   // New Description of the log group.
   string description = 4 [(length) = "<=256"];

@@ -30,7 +30,12 @@ message WriteRequest {
   LogEntryResource resource = 2;
 
   // List of log entries.
-  repeated IncomingLogEntry entries = 3 [(size) = "<=100"];
+  repeated IncomingLogEntry entries = 3 [(size) = "1-100"];
+
+  // Log entries defaults.
+  //
+  // See [LogEntryDefaults] for details.
+  LogEntryDefaults defaults = 4;
 }
 
 message WriteResponse {

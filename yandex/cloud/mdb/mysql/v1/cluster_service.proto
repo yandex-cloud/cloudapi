@@ -708,6 +708,9 @@ message UpdateHostSpec {
   // [Host.name] of the host to be used as the replication source (for cascading replication).
   // To get the MySQL host name, use a [ClusterService.ListHosts] request.
   string replication_source = 2;
+  
+  // Field mask that specifies which fields of the MySQL host should be updated.
+  google.protobuf.FieldMask update_mask = 3;
 }
 
 message HostSpec {
