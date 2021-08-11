@@ -96,7 +96,7 @@ message Vulnerability {
     // Output only. Severity of the Vulnerability.
     Severity severity = 1;
 
-    // Details of vulnerability depending on type. Only 'package' vulnerability is supported at the moment.
+    // Details of vulnerability depending on type. Only `package` vulnerability is supported at the moment.
     oneof vulnerability {
         option (exactly_one) = true;
         PackageVulnerability package = 2;

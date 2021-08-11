@@ -73,13 +73,20 @@ message DedicatedDatabase {
 }
 
 message ServerlessDatabase {
-  // Specify explicit limit of request units for database.
-  // Default value is 0.
-  // If zero, then request units are unlimited for this database and units are limited
-  // by cloud quota value.
-  int64 request_units_per_second_limit = 1;
+  // Let's define 1 RU  - 1 request unit
+  // Let's define 1 RCU - 1 request capacity unit, which is 1 RU per second.
+  // If `enable_throttling_rcu_limit` flag is true, the database will be throttled using `throttling_rcu_limit` value.
+  // Otherwise, the database is throttled using the cloud quotas.
+  // If zero, all requests will be blocked until non zero value is set.
+  int64 throttling_rcu_limit = 1;
   // Specify serverless database storage size limit. If zero, default value is applied.
   int64 storage_size_limit = 2;
+  // If false, the database is throttled by cloud value.
+  bool enable_throttling_rcu_limit = 3;
+  // Specify the number of provisioned RCUs to pay less if the database has predictable load.
+  // You will be charged for the provisioned capacity regularly even if this capacity is not fully consumed.
+  // You will be charged for the on-demand consumption only if provisioned capacity is consumed.
+  int64 provisioned_rcu_limit = 4;
 }
 
 message ZonalDatabase {
