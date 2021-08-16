@@ -39,12 +39,21 @@ message VirtualHost {
   // other routes are never matched.
   repeated Route routes = 3;
 
-  // Modifications that are made to the headers of incoming HTTP requests before they are forwarded to backends.
+  // Deprecated, use route_options.modify_request_headers.
   repeated HeaderModification modify_request_headers = 4;
 
-  // Modifications that are made to the headers of HTTP responses received from backends
-  // before responses are forwarded to clients.
+  // Deprecated, use route_options.modify_response_headers.
   repeated HeaderModification modify_response_headers = 5;
+
+  RouteOptions route_options = 6;
+}
+
+message RouteOptions {
+  // Apply the following modifications to the request headers.
+  repeated HeaderModification modify_request_headers = 1;
+
+  // Apply the following modifications to the response headers.
+  repeated HeaderModification modify_response_headers = 2;
 }
 
 // A header modification resource.
@@ -70,6 +79,7 @@ message HeaderModification {
     bool remove = 4;
 
     // Replaces the name of the header with the specified string.
+    // This operation is only supported for ALB Virtual Hosts.
     string rename = 5;
   }
 }
@@ -89,6 +99,7 @@ message Route {
     // gRPC route configuration.
     GrpcRoute grpc = 3;
   }
+  RouteOptions route_options = 4;
 }
 
 // An HTTP route configuration resource.

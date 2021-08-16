@@ -85,6 +85,9 @@ message Cluster {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 17;
+
+  // ID of the cloud logging log group to write logs. If not set, logs will not be sent to logging service
+  string log_group_id = 18;
 }
 
 // Metadata of a monitoring system for a Data Proc cluster.

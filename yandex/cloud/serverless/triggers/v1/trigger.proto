@@ -4,6 +4,7 @@ package yandex.cloud.serverless.triggers.v1;
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/logging/v1/log_entry.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/triggers/v1;triggers";
@@ -27,6 +28,9 @@ enum TriggerType {
 
   // The trigger is activated by cloud log group events
   CLOUD_LOGS = 7;
+  
+  // The trigger is activated by cloud log group events
+  LOGGING = 8;
 }
 
 // A trigger to invoke a serverless function. For more information, see [Triggers](/docs/functions/concepts/trigger).
@@ -70,6 +74,7 @@ message Trigger {
       ObjectStorage object_storage = 5;
       ContainerRegistry container_registry = 6;
       CloudLogs cloud_logs = 9;
+      Logging logging = 10;
     }
   }
 
@@ -221,6 +226,28 @@ message Trigger {
     }
   }
 
+  message Logging {
+    // Log events filter settings.
+    string log_group_id = 1 [(length) = "<=50"];
+
+    repeated string resource_type = 3 [(pattern) = "[a-zA-Z][-a-zA-Z0-9_.]{1,62}", (size) = "<=100"];
+    repeated string resource_id = 4 [(pattern) = "[a-zA-Z][-a-zA-Z0-9_.]{1,62}", (size) = "<=100"];
+    repeated yandex.cloud.logging.v1.LogLevel.Level levels = 5 [(size) = "<=10"];
+
+    // Batch settings for processing log events.
+    LoggingBatchSettings batch_settings = 6 [(required) = true];
+
+    oneof action {
+      option (exactly_one) = true;
+
+      // Instructions for invoking a function with retries as needed.
+      InvokeFunctionWithRetry invoke_function = 101;
+
+      // Instructions for invoking a container with retries as needed.
+      InvokeContainerWithRetry invoke_container = 103;
+    }
+  }
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
     ACTIVE = 1;
@@ -314,6 +341,16 @@ message CloudLogsBatchSettings {
 
   // Maximum wait time. Trigger will send the batch of messages to the function when
   // the number of messages in the log group reaches [size], or the [cutoff] time has passed.
+  google.protobuf.Duration cutoff = 2 [(value) = "1s-1m"];
+}
+
+message LoggingBatchSettings {
+  // Batch size. Trigger will send the batch of messages to the associated function
+  // when the number of log events reaches this value, or the [cutoff] time has passed.
+  int64 size = 1 [(value) = "1-100"];
+
+  // Maximum wait time. Trigger will send the batch of messages the time since the last batch
+  // exceeds the `cutoff` value, regardless of the amount of log events.
   google.protobuf.Duration cutoff = 2 [(value) = "1s-1m"];
 }
 

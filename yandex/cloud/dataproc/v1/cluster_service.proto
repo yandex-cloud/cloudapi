@@ -237,6 +237,9 @@ message CreateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 13;
+
+  // ID of the cloud logging log group to write logs. If not set, logs will not be sent to logging service
+  string log_group_id = 14;
 }
 
 message CreateClusterMetadata {
@@ -282,6 +285,9 @@ message UpdateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 12;
+
+  // ID of the cloud logging log group to write logs. If not set, logs will not be sent to logging service
+  string log_group_id = 13;
 }
 
 message UpdateClusterMetadata {
