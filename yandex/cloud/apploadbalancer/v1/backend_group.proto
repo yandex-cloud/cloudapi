@@ -121,7 +121,7 @@ message HttpBackend {
   // Weights must be set either for all backends in a group or for none of them.
   // Setting no weights is the same as setting equal non-zero weights for all backends.
   //
-  // If set to `0`, traffic is not sent to the backend.
+  // If the weight is non-positive, traffic is not sent to the backend.
   google.protobuf.Int64Value backend_weight = 2;
 
   // Load balancing configuration for the backend.
@@ -130,14 +130,22 @@ message HttpBackend {
   // Port used by all targets to receive traffic.
   int64 port = 4 [(value) = "0-65535"];
 
-  // Reference to targets that belong to the backend. For now, targets are referenced only via target groups.
+  // Reference to targets that belong to the backend.
+  //
+  // A backend may be a set of target groups or an Object Storage bucket. For details about backend types, see
+  // [documentation](/docs/application-load-balancer/concepts/backend-group#types).
   oneof backend_type {
     option (exactly_one) = true;
 
-    // Target groups that belong to the backend.
+    // Target groups that belong to the backend. For details about target groups, see
+    // [documentation](/docs/application-load-balancer/concepts/target-group).
     TargetGroupsBackend target_groups = 5;
 
-    // Storage bucket to use as a backend.
+    // Object Storage bucket to use as the backend. For details about buckets, see
+    // [documentation](/docs/storage/concepts/bucket).
+    //
+    // If a bucket is used as a backend, the list of bucket objects and the objects themselves must be publicly
+    // accessible. For instructions, see [documentation](/docs/storage/operations/buckets/bucket-availability).
     StorageBucketBackend storage_bucket = 9;
   }
 
@@ -170,7 +178,7 @@ message GrpcBackend {
   // Weights must be set either for all backends of a group or for none of them.
   // Setting no weights is the same as setting equal non-zero weights for all backends.
   //
-  // If set to `0`, traffic is not sent to the backend.
+  // If the weight is non-positive, traffic is not sent to the backend.
   google.protobuf.Int64Value backend_weight = 2;
 
   // Load balancing configuration for the backend.
@@ -218,9 +226,10 @@ message BackendTls {
   ValidationContext validation_context = 3;
 }
 
+// A resource for Object Storage bucket used as a backend. For details about the concept,
+// see [documentation](/docs/storage/concepts/bucket).
 message StorageBucketBackend {
-  // Cloud S3 bucket name.
-  // Should have public access.
+  // Name of the bucket.
   string bucket = 1 [(required) = true];
 }
 
