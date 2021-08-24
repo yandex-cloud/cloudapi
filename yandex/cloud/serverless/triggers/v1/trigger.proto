@@ -29,8 +29,11 @@ enum TriggerType {
   // The trigger is activated by cloud log group events
   CLOUD_LOGS = 7;
   
-  // The trigger is activated by cloud log group events
+  // The trigger is activated by logging group events
   LOGGING = 8;
+
+  // The trigger is activated by billing events
+  BILLING_BUDGET = 9;
 }
 
 // A trigger to invoke a serverless function. For more information, see [Triggers](/docs/functions/concepts/trigger).
@@ -75,6 +78,7 @@ message Trigger {
       ContainerRegistry container_registry = 6;
       CloudLogs cloud_logs = 9;
       Logging logging = 10;
+      BillingBudget billing_budget = 11;
     }
   }
 
@@ -361,4 +365,15 @@ message RetrySettings {
 
   // Time in seconds to wait between individual retries.
   google.protobuf.Duration interval = 2 [(required) = true];
+}
+
+message BillingBudget {
+  string billing_account_id = 1 [(required) = true, (length) = "<=50"];
+  string budget_id = 2 [(length) = "<=50"];
+
+  oneof action {
+    option (exactly_one) = true;
+    InvokeFunctionWithRetry invoke_function = 101;
+    InvokeContainerWithRetry invoke_container = 103;
+  }
 }

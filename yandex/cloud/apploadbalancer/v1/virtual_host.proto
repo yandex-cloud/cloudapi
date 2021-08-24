@@ -201,7 +201,7 @@ message RedirectAction {
     // Replacement for the whole path.
     string replace_path = 4;
 
-    // Replacement for the path prefix matched by [StringMatch.match].
+    // Replacement for the path prefix matched by [StringMatch].
     //
     // For instance, if [StringMatch.prefix_match] value is `/foo` and `replace_prefix` value is `/bar`,
     // a request with `https://example.com/foobaz` URI is redirected to `https://example.com/barbaz`.
@@ -313,7 +313,7 @@ message HttpRouteAction {
     bool auto_host_rewrite = 5;
   }
 
-  // Replacement for the path prefix matched by [StringMatch.match].
+  // Replacement for the path prefix matched by [StringMatch].
   //
   // For instance, if [StringMatch.prefix_match] value is `/foo` and `replace_prefix` value is `/bar`,
   // a request with `/foobaz` path is forwarded with `/barbaz` path.
