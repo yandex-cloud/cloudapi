@@ -71,6 +71,9 @@ message Image {
 
   // Operating system that is contained in the image.
   Os os = 12;
+
+  // When true, indicates there is an image pool for fast creation disks from the image.
+  bool pooled = 13;
 }
 
 message Os {

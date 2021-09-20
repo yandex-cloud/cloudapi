@@ -84,6 +84,9 @@ message Instance {
   // Array of secondary disks that are attached to the instance.
   repeated AttachedDisk secondary_disks = 13;
 
+  // Array of filesystems that are attached to the instance.
+  repeated AttachedFilesystem filesystems = 21;
+
   // Array of network interfaces that are attached to the instance.
   repeated NetworkInterface network_interfaces = 14;
 
@@ -146,6 +149,27 @@ message AttachedDisk {
 
   // ID of the disk that is attached to the instance.
   string disk_id = 4;
+}
+
+message AttachedFilesystem {
+  enum Mode {
+    MODE_UNSPECIFIED = 0;
+
+    // Read-only access.
+    READ_ONLY = 1;
+
+    // Read/Write access.
+    READ_WRITE = 2;
+  }
+
+  // Access mode to the Filesystem resource.
+  Mode mode = 1;
+
+  // Tag of the filesystem that should be detached.
+  string device_name = 2;
+
+  // ID of the filesystem that is attached to the instance.
+  string filesystem_id = 3;
 }
 
 message NetworkInterface {

@@ -51,12 +51,30 @@ message BackendGroup {
 message HttpBackendGroup {
   // List of HTTP backends.
   repeated HttpBackend backends = 1;
+
+  // session_affinity is applicable when   of the selected backend
+  // is MAGLEV_HASH.
+  // NOTE: session affinity does not work yet when multiple backends enabled in backend group.
+  oneof session_affinity {
+    ConnectionSessionAffinity connection = 2;
+    HeaderSessionAffinity header = 3;
+    CookieSessionAffinity cookie = 4;
+  }
 }
 
 // A gRPC backend group resource.
 message GrpcBackendGroup {
   // List of gRPC backends.
   repeated GrpcBackend backends = 1;
+
+  // session_affinity is applicable when load_balancing_mode of the selected backend
+  // is MAGLEV_HASH.
+  // NOTE: session affinity does not work yet when multiple backends enabled in backend group.
+  oneof session_affinity {
+    ConnectionSessionAffinity connection = 2;
+    HeaderSessionAffinity header = 3;
+    CookieSessionAffinity cookie = 4;
+  }
 }
 
 message HeaderSessionAffinity {
@@ -71,6 +89,16 @@ message CookieSessionAffinity {
 
 message ConnectionSessionAffinity {
   bool source_ip = 1;
+}
+
+enum LoadBalancingMode {
+
+  ROUND_ROBIN = 0;
+  RANDOM = 1;
+  // Using power of two choices.
+  LEAST_REQUEST = 2;
+  // MAGLEV_HASH allows session affinity for that backend.
+  MAGLEV_HASH = 3;
 }
 
 // A load balancing configuration resource.
@@ -109,6 +137,9 @@ message LoadBalancingConfig {
   //
   // Default value: `false`.
   bool strict_locality = 3;
+
+  // Specifies algorithm the load balancer uses for target selection in particular backend.
+  LoadBalancingMode mode = 4;
 }
 
 // An HTTP backend resource.

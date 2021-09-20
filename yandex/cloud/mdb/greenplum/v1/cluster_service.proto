@@ -173,6 +173,9 @@ message CreateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 16;
+
+  // Host groups to place VMs of cluster on.
+  repeated string host_group_ids = 17;
 }
 
 message CreateClusterMetadata {

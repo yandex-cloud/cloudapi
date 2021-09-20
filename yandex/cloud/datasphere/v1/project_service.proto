@@ -6,6 +6,8 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -67,9 +69,28 @@ service ProjectService {
         option (google.api.http) = { get: "/datasphere/v1/projects/{project_id}:unitBalance" };
     }
 
-    //  Sets the unit balance of the specified project.
+    // Sets the unit balance of the specified project.
     rpc SetUnitBalance (SetUnitBalanceRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = { post: "/datasphere/v1/projects/{project_id}:unitBalance" body: "*" };
+    }
+
+    // Executes code in the specified cell or notebook.
+    rpc Execute (ProjectExecutionRequest) returns (operation.Operation) {
+        option (google.api.http) = { post: "/datasphere/v1/projects/{project_id}:execute" body: "*" };
+        option (yandex.cloud.api.operation) = {
+            metadata: "ProjectExecutionMetadata"
+            response: "ProjectExecutionResponse"
+        };
+    }
+
+    // Returns outputs of the specified cell.
+    rpc GetCellOutputs (CellOutputsRequest) returns (CellOutputsResponse) {
+        option (google.api.http) = { get: "/datasphere/v1/projects/{project_id}:cellOutputs" };
+    }
+
+    // Returns state variables of the specified notebook.
+    rpc GetStateVariables (GetStateVariablesRequest) returns (GetStateVariablesResponse) {
+        option (google.api.http) = { get: "/datasphere/v1/projects/{project_id}:stateVariables" };
     }
 }
 
@@ -205,4 +226,84 @@ message SetUnitBalanceRequest {
 
     // The number of units available to the project.
     google.protobuf.Int64Value unit_balance = 2;
+}
+
+message ProjectExecutionRequest {
+    // ID of the project to execute notebook/cell in.
+    string project_id = 1 [(required) = true, (length) = "<=200"];
+    oneof target {
+        option (exactly_one) = true;
+
+        // ID of the notebook to execute.
+        string notebook_id = 2 [(length) = "<=200"];
+
+        // ID of the cell to execute.
+        string cell_id = 3 [(length) = "<=200"];
+    }
+
+    // Values of input variables.
+    google.protobuf.Struct input_variables = 4;
+
+    // Names of output variables.
+    repeated string output_variable_names = 5;
+}
+
+message ProjectExecutionMetadata {
+    // ID of the project in which notebook is being executed.
+    string project_id = 1;
+    oneof target {
+        option (exactly_one) = true;
+
+        // ID of the notebook that is being executed
+        string notebook_id = 2 [(length) = "<=200"];
+
+        // ID of the cell that is being executed
+        string cell_id = 3 [(length) = "<=200"];
+    }
+}
+
+message ProjectExecutionResponse {
+    // ID of the checkpoint resulting from the execution.
+    string checkpoint_id = 1;
+
+    // Values of output variables resulting from the execution.
+    google.protobuf.Struct output_variables = 2;
+}
+
+message CellOutputsRequest {
+    // ID of the project to return cell outputs for.
+    string project_id = 1 [(required) = true, (length) = "<=200"];
+
+    // ID of the cell to return outputs for.
+    string cell_id = 2 [(required) = true, (length) = "<=200"];
+
+    // ID of the checkpoint to return cell outputs for.
+    string checkpoint_id = 3;
+
+    // Timestamp from which to return outputs.
+    google.protobuf.Timestamp start_at = 4;
+}
+
+message CellOutputsResponse {
+    // List of outputs.
+    repeated string outputs = 1;
+}
+
+message GetStateVariablesRequest {
+    // ID of the project, for which to return state variables.
+    string project_id = 1 [(required) = true, (length) = "<=200"];
+
+    // ID of the notebook, for which to return state variables.
+    string notebook_id = 2 [(required) = true, (length) = "<=200"];
+
+    // Names of variables to return.
+    repeated string variable_names = 3;
+
+    // ID of the checkpoint, for which to return state variables.
+    string checkpoint_id = 4;
+}
+
+message GetStateVariablesResponse {
+    // Values of the specified variables.
+    google.protobuf.Struct variables = 1;
 }

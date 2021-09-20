@@ -24,13 +24,6 @@ service LogGroupService {
     option (google.api.http) = { get: "/logging/v1/logGroups/{log_group_id}" };
   }
 
-  // Returns default log group for the folder.
-  //
-  // To get the list of all available log groups, make a [List] request.
-  rpc GetDefault (GetDefaultLogGroupRequest) returns (LogGroup) {
-    option (google.api.http) = { get: "/logging/v1/logGroups/default" };
-  }
-
   // Returns stats for the specified log group.
   rpc Stats (GetLogGroupStatsRequest) returns (GetLogGroupStatsResponse) {
     option (google.api.http) = { get: "/logging/v1/logGroups/{log_group_id}/stats" };
@@ -117,13 +110,6 @@ message GetLogGroupStatsRequest {
   string log_group_id = 1 [(required) = true, (length) = "<=64"];
 }
 
-message GetDefaultLogGroupRequest {
-  // Folder ID of the default log group to return.
-  //
-  // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
-  string folder_id = 1 [(required) = true, (length) = "<=64"];
-}
-
 message ListLogGroupsRequest {
   // Folder ID of the log groups to return.
   //
@@ -183,8 +169,9 @@ message CreateLogGroupRequest {
   // Log group entry retention period.
   //
   // Entries will be present in group during this period.
-  // Must be at least `1h`.
-  google.protobuf.Duration retention_period = 5 [(value) = "1h-168h"];
+  // If specified, must be non-negative.
+  // Empty or zero value is treated as no limit.
+  google.protobuf.Duration retention_period = 5;
 }
 
 message CreateLogGroupMetadata {
@@ -214,8 +201,9 @@ message UpdateLogGroupRequest {
   // New log group entry retention period.
   //
   // Entries will be present in group during this period.
-  // Must be at least `1h`.
-  google.protobuf.Duration retention_period = 6 [(value) = "1h-168h"];
+  // If specified, must be non-negative.
+  // Empty or zero value is treated as no limit.
+  google.protobuf.Duration retention_period = 6;
 }
 
 message UpdateLogGroupMetadata {

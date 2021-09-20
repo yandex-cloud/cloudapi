@@ -235,7 +235,7 @@ message UpdateClusterRequest {
   // New configuration and resources for hosts in the Elasticsearch cluster.
   //
   // Use [update_mask] to prevent reverting all cluster settings that are not listed in `config_spec` to their default values.
-  ConfigSpec config_spec = 5;
+  ConfigSpecUpdate config_spec = 5;
 
   // New name for the Elasticsearch cluster.
   string name = 6 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
@@ -545,6 +545,20 @@ message ElasticsearchSpec {
 }
 
 message ConfigSpec {
+    // Elasticsearch version.
+    string version = 1; // No formal validation, a list of supported versions should suffice.
+
+    // Configuration and resource allocation for Elasticsearch nodes.
+    ElasticsearchSpec elasticsearch_spec = 2;
+
+    // ElasticSearch edition.
+    string edition = 3;
+
+    // ElasticSearch admin password.
+    string admin_password = 4 [(required) = true];
+}
+
+message ConfigSpecUpdate {
     // Elasticsearch version.
     string version = 1; // No formal validation, a list of supported versions should suffice.
 

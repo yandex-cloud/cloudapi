@@ -175,6 +175,9 @@ message CreateImageRequest {
   //
   // If not specified and you used the `image_id` or `disk_id` field to set the source, then the value can be inherited from the source resource.
   Os os = 12;
+
+  // When true, an image pool will be created for fast creation disks from the image.
+  bool pooled = 17;
 }
 
 message CreateImageMetadata {

@@ -34,6 +34,9 @@ enum TriggerType {
 
   // The trigger is activated by billing events
   BILLING_BUDGET = 9;
+
+  // The trigger is activated by YDS events
+  YDS = 10;
 }
 
 // A trigger to invoke a serverless function. For more information, see [Triggers](/docs/functions/concepts/trigger).
@@ -79,6 +82,7 @@ message Trigger {
       CloudLogs cloud_logs = 9;
       Logging logging = 10;
       BillingBudget billing_budget = 11;
+      DataStream data_stream = 12;
     }
   }
 
@@ -375,5 +379,36 @@ message BillingBudget {
     option (exactly_one) = true;
     InvokeFunctionWithRetry invoke_function = 101;
     InvokeContainerWithRetry invoke_container = 103;
+  }
+}
+
+message DataStreamBatchSettings {
+
+  // Batch size in bytes. Trigger will send the batch of messages to the associated function
+  // when size of log events reaches this value, or the [cutoff] time has passed.
+  int64 size = 1 [(value) = "1-65536"];
+
+  // Maximum wait time. Trigger will send the batch of messages the time since the last batch
+  // exceeds the `cutoff` value, regardless of the amount of log events.
+  google.protobuf.Duration cutoff = 2 [(value) = "1s-1m"];
+}
+
+message DataStream {
+  // Data stream endpoint.
+  string endpoint = 1;
+  // Data stream database.
+  string database = 2;
+  // Stream name.
+  string stream = 3;
+  // ID of the service account which has permission to read data stream.
+  string service_account_id = 4;
+
+  // Batch settings for processing events.
+  DataStreamBatchSettings batch_settings = 5;
+
+  oneof action {
+    option (exactly_one) = true;
+    InvokeFunctionWithRetry invoke_function = 13;
+    InvokeContainerWithRetry invoke_container = 15;
   }
 }

@@ -130,4 +130,12 @@ message UtteranceSynthesisRequest {
     repeated Hints hints = 4;
     // Optional. Default: 22050 Hz, linear 16-bit signed little-endian PCM, with WAV header
     AudioFormatOptions output_audio_spec = 5;
+    // Normalization type
+    enum LoudnessNormalizationType {
+        LOUDNESS_NORMALIZATION_TYPE_UNSPECIFIED = 0;
+        MAX_PEAK = 1;
+        LUFS = 2;
+    }
+    // Optional. Default: MAX_PEAK, type of loudness normalization.
+    LoudnessNormalizationType loudness_normalization_type = 6;
 }

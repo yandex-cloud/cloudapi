@@ -35,6 +35,9 @@ message Target {
     oneof mdb {
         option (exactly_one) = true;
 
+        // Clickhouse settings for proxy.
+        ClickHouse clickhouse = 1;
+
         // PostgreSQL settings for proxy.
         PostgreSQL postgresql = 2;
     }
@@ -53,6 +56,23 @@ message Target {
         string db = 4 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
         // PostgreSQL proxy-host for connection, output only field.
+        string endpoint = 5;
+    }
+
+    message ClickHouse {
+        // Cluster identifier for clickhouse.
+        string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+        // Clickhouse user.
+        string user = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+
+        // Clickhouse password, input only field.
+        string password = 3;
+
+        // Clickhouse database name.
+        string db = 4 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+        // Clickhouse proxy-host for connection, output only field.
         string endpoint = 5;
     }
 }

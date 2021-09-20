@@ -116,6 +116,24 @@ service InstanceService {
     };
   }
 
+  // Attaches the disk to the instance.
+  rpc AttachFilesystem (AttachInstanceFilesystemRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:attachFilesystem" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "AttachInstanceFilesystemMetadata"
+      response: "Instance"
+    };
+  }
+
+  // Detaches the disk from the instance.
+  rpc DetachFilesystem (DetachInstanceFilesystemRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:detachFilesystem" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "DetachInstanceFilesystemMetadata"
+      response: "Instance"
+    };
+  }
+
   // Enables One-to-one NAT on the network interface.
   rpc AddOneToOneNat (AddInstanceOneToOneNatRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instances/{instance_id}/addOneToOneNat" body: "*"};
@@ -250,6 +268,8 @@ message CreateInstanceRequest {
 
   // Array of secondary disks to attach to the instance.
   repeated AttachedDiskSpec secondary_disk_specs = 10 [(size) = "<=3"];
+  // Array of filesystems to attach to the instance.
+  repeated AttachedFilesystemSpec filesystem_specs = 17;
 
   // Network configuration for the instance. Specifies how the network interface is configured
   // to interact with other services on the internal network and on the internet.
@@ -458,6 +478,47 @@ message DetachInstanceDiskMetadata {
   string disk_id = 2;
 }
 
+message AttachInstanceFilesystemRequest {
+  // ID of the instance to attach the filesystem to.
+  // To get the instance ID, use a [InstanceService.List] request.
+  string instance_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Filesystem that should be attached.
+  AttachedFilesystemSpec attached_filesystem_spec = 2 [(required) = true];
+}
+
+message AttachInstanceFilesystemMetadata {
+  // ID of the instance.
+  string instance_id = 1;
+
+  // ID of the filesystem.
+  string filesystem_id = 2;
+}
+
+message DetachInstanceFilesystemRequest {
+  // ID of the instance to detach the filesystem from.
+  // To get the instance ID, use a [InstanceService.List] request.
+  string instance_id = 1 [(required) = true, (length) = "<=50"];
+
+  oneof filesystem {
+    option (exactly_one) = true;
+
+    // ID of the filesystem that should be detached.
+    string filesystem_id = 2 [(length) = "<=50"];
+
+    // Tag of the filesystem that should be detached.
+    string device_name = 3 [(pattern) = "[a-z][a-z0-9-_]{,19}"];
+  }
+}
+
+message DetachInstanceFilesystemMetadata {
+  // ID of the instance.
+  string instance_id = 1;
+
+  // ID of the filesystem.
+  string filesystem_id = 2;
+}
+
 // Enables One-to-one NAT on the network interface.
 message AddInstanceOneToOneNatRequest {
   // ID of the instance to enable One-to-One NAT on.
@@ -631,6 +692,28 @@ message AttachedDiskSpec {
       string snapshot_id = 6 [(length) = "<=50"];
     }
   }
+}
+
+message AttachedFilesystemSpec {
+  enum Mode {
+    MODE_UNSPECIFIED = 0;
+
+    // Read-only access.
+    READ_ONLY = 1;
+
+    // Read/Write access. Default value.
+    READ_WRITE = 2;
+  }
+
+  // The mode in which to attach this disk.
+  Mode mode = 1;
+
+  // This value can be used to reference the device for mounting, resizing, and so on, from within the instance.
+  // If not specified, a random value will be generated.
+  string device_name = 2 [(pattern) = "[a-z][a-z0-9-_]{,19}"];
+
+  // ID of the filesystem that should be attached.
+  string filesystem_id = 3 [(length) = "<=50"];
 }
 
 message NetworkInterfaceSpec {
