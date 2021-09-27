@@ -43,6 +43,9 @@ message Cluster {
 
     // Cluster is working below capacity ([Host.health] for at least one host in the cluster is not ALIVE).
     DEGRADED = 3;
+
+    // Cluster is working below capacity ([Host.health] for at least one host in the cluster is UNBALANCED).
+    UNBALANCED = 4;
   }
 
   enum Status {
@@ -86,7 +89,7 @@ message Cluster {
   // The name is unique within the folder. 1-63 characters long.
   string name = 4 [(required) = true, (length) = "<=63"];
   
-  // Green plum cluster config
+  // Greenplum cluster config
   GreenplumConfig config = 5;
 
   // Description of the Greenplum cluster. 0-256 characters long.

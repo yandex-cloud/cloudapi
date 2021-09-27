@@ -162,10 +162,13 @@ message AttachedFilesystem {
     READ_WRITE = 2;
   }
 
-  // Access mode to the Filesystem resource.
+  // Access mode to the filesystem.
   Mode mode = 1;
 
-  // Tag of the filesystem that should be detached.
+  // Name of the device representing the filesystem on the instance.
+  //
+  // The name should be used for referencing the filesystem from within the instance
+  // when it's being mounted, resized etc.
   string device_name = 2;
 
   // ID of the filesystem that is attached to the instance.

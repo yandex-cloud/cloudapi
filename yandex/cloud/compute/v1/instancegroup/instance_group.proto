@@ -203,7 +203,8 @@ message ScalePolicy {
     int64 max_size = 2 [(value) = "0-100"];
 
     // Time in seconds allotted for averaging metrics.
-    google.protobuf.Duration measurement_duration = 3 [(required) = true, (value) = "1m-10m"];
+    // 1 minute by default.
+    google.protobuf.Duration measurement_duration = 3 [(value) = "1m-10m"];
 
     // The warmup time of the instance in seconds. During this time,
     // traffic is sent to the instance, but instance metrics are not collected.

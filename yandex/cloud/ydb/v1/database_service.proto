@@ -196,6 +196,8 @@ message CreateDatabaseRequest {
   string location_id = 12;
   map<string, string> labels = 15;
   BackupConfig backup_config = 16;
+
+  MonitoringConfig monitoring_config = 17;
 }
 
 message CreateDatabaseMetadata {
@@ -233,6 +235,8 @@ message UpdateDatabaseRequest {
   string location_id = 14;
   map<string, string> labels = 17;
   BackupConfig backup_config = 18;
+
+  MonitoringConfig monitoring_config = 19;
 }
 
 message UpdateDatabaseMetadata {

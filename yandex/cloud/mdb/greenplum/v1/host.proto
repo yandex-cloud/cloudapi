@@ -38,6 +38,9 @@ message Host {
 
     // The host is working below capacity or not fully functional.
     DEGRADED = 3;
+
+    // One or more segments are not in prefer role.
+    UNBALANCED = 4;
   }
 
   // Name of the Greenplum host. The host name is assigned by MDB at creation time, and cannot be changed.
