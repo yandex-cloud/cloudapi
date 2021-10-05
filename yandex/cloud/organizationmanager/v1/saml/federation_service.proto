@@ -165,6 +165,9 @@ message CreateFederationRequest {
 
   // Use case insensitive Name IDs.
   bool case_insensitive_name_ids = 10;
+
+  // Resource labels as `` key:value `` pairs.
+  map<string, string> labels = 11 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 
 message CreateFederationMetadata {
@@ -220,6 +223,9 @@ message UpdateFederationRequest {
 
   // Use case insensitive name ids.
   bool case_insensitive_name_ids = 12;
+
+  // Resource labels as `` key:value `` pairs.
+  map<string, string> labels = 13 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 
 message UpdateFederationMetadata {

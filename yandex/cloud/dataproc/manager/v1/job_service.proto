@@ -54,6 +54,9 @@ message UpdateJobStatusRequest {
 
     // Required. New status of the job.
     Job.Status status = 3;
+
+    // Attributes of YARN application.
+    ApplicationInfo application_info = 4;
 }
 
 message UpdateJobStatusResponse {

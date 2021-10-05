@@ -23,4 +23,7 @@ message Cloud {
 
   // ID of the organization that the cloud belongs to.
   string organization_id = 6;
+
+  // Resource labels as `` key:value `` pairs. Maximum of 64 per resource.
+  map<string, string> labels = 7;
 }

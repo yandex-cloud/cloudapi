@@ -66,6 +66,25 @@ message Job {
     // Specification for a Hive job.
     HiveJob hive_job = 11;
   }
+
+  // Attributes of YARN application.
+  ApplicationInfo application_info = 13;
+}
+
+message ApplicationAttempt {
+  // ID of YARN application attempt
+  string id = 1;
+
+  // ID of YARN Application Master container
+  string am_container_id = 2;
+}
+
+message ApplicationInfo {
+  // ID of YARN application
+  string id = 1;
+
+  // YARN application attempts
+  repeated ApplicationAttempt application_attempts = 2;
 }
 
 message MapreduceJob {

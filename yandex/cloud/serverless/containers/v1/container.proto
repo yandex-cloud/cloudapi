@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package yandex.cloud.serverless.containers.v1;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/containers/v1;containers";
+option java_package = "yandex.cloud.api.serverless.containers.v1";
+
+message Container {
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+    CREATING = 1;
+    ACTIVE = 2;
+    DELETING = 3;
+    ERROR = 4;
+  }
+  string id = 1;
+  string folder_id = 2;
+  google.protobuf.Timestamp created_at = 3;
+  string name = 4;
+  string description = 5;
+  map<string, string> labels = 6;
+  string url = 8;
+  Status status = 9;
+}
+
+message Revision {
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+    CREATING = 1;
+    ACTIVE = 2;
+    OBSOLETE = 3;
+  }
+
+  string id = 1;
+  string container_id = 2;
+  string description = 3;
+  google.protobuf.Timestamp created_at = 4;
+  Image image = 5;
+  Resources resources = 6;
+  google.protobuf.Duration execution_timeout = 7;
+  int64 concurrency = 8;
+  string service_account_id = 9;
+  Status status = 10;
+}
+
+message Image {
+  string image_url = 1;
+  string image_digest = 2;
+  Command command = 3;
+  Args args = 4;
+  map<string, string> environment = 5 [(length) = "<=4096", (map_key).pattern = "[a-zA-Z][a-zA-Z0-9_]*"];
+  string working_dir = 6;
+}
+
+message Command {
+  repeated string command = 1;
+}
+
+message Args {
+  repeated string args = 1;
+}
+
+
+message Resources {
+  int64 memory = 1 [(value) = "134217728-8589934592"];
+  int64 cores = 2 [(value) = "1,2,4"];
+  int64 core_fraction = 3 [(value) = "0-100"];
+}

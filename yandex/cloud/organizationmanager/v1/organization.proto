@@ -23,4 +23,7 @@ message Organization {
 
     // Display name of the organization. 0-256 characters long.
     string title = 6;
+
+    // Resource labels as `` key:value `` pairs. Maximum of 64 per resource.
+    map<string, string> labels = 7;
 }

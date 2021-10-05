@@ -711,6 +711,12 @@ message UpdateHostSpec {
   
   // Field mask that specifies which fields of the MySQL host should be updated.
   google.protobuf.FieldMask update_mask = 3;
+
+  // Host backup priority, where 1 is the lowest priority
+  int64 backup_priority = 4;
+
+  // Whether the host should get a public IP address on creation.
+  bool assign_public_ip = 5;
 }
 
 message HostSpec {

@@ -47,8 +47,6 @@ service FolderService {
   }
 
   // Deletes the specified folder.
-  //
-  // The method is temporarily unavailable.
   rpc Delete (DeleteFolderRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/resource-manager/v1/folders/{folder_id}" };
     option (yandex.cloud.api.operation) = {

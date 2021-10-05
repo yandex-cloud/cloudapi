@@ -52,12 +52,25 @@ message HttpBackendGroup {
   // List of HTTP backends.
   repeated HttpBackend backends = 1;
 
-  // session_affinity is applicable when   of the selected backend
-  // is MAGLEV_HASH.
-  // NOTE: session affinity does not work yet when multiple backends enabled in backend group.
+  // Session affinity configuration for the backend group.
+  //
+  // For details about the concept, see
+  // [documentation](/docs/application-load-balancer/concepts/backend-group#session-affinity).
+  //
+  // If session affinity is configured, the backend group should contain exactly one active backend (i.e. with positive
+  // [HttpBackend.backend_weight]), its [HttpBackend.backend_type] should be [TargetGroupsBackend], and its
+  // [LoadBalancingConfig.load_balancing_mode] should be `MAGLEV_HASH`. If any of these conditions are not met, session
+  // affinity will not work.
   oneof session_affinity {
+    // Connection-based session affinity configuration.
+    //
+    // For now, a connection is defined only by an IP address of the client.
     ConnectionSessionAffinity connection = 2;
+
+    // HTTP-header-field-based session affinity configuration.
     HeaderSessionAffinity header = 3;
+
+    // Cookie-based session affinity configuration.
     CookieSessionAffinity cookie = 4;
   }
 }
@@ -67,37 +80,84 @@ message GrpcBackendGroup {
   // List of gRPC backends.
   repeated GrpcBackend backends = 1;
 
-  // session_affinity is applicable when load_balancing_mode of the selected backend
-  // is MAGLEV_HASH.
-  // NOTE: session affinity does not work yet when multiple backends enabled in backend group.
+  // Session affinity configuration for the backend group.
+  //
+  // For details about the concept, see
+  // [documentation](/docs/application-load-balancer/concepts/backend-group#session-affinity).
+  //
+  // If session affinity is configured, the backend group should contain exactly one active backend (i.e. with positive
+  // [GrpcBackend.backend_weight]), and its [LoadBalancingConfig.load_balancing_mode] should be `MAGLEV_HASH`. If any of
+  // these conditions are not met, session affinity will not work.
   oneof session_affinity {
+    // Connection-based session affinity configuration.
+    //
+    // For now, a connection is defined only by an IP address of the client.
     ConnectionSessionAffinity connection = 2;
+
+    // HTTP-header-field-based session affinity configuration.
     HeaderSessionAffinity header = 3;
+
+    // Cookie-based session affinity configuration.
     CookieSessionAffinity cookie = 4;
   }
 }
 
+// A resource for HTTP-header-field-based session affinity configuration.
 message HeaderSessionAffinity {
+  // Name of the HTTP header field that is used for session affinity.
   string header_name = 1 [(length) = "1-256"];
 }
 
+// A resource for cookie-based session affinity configuration.
 message CookieSessionAffinity {
+  // Name of the cookie that is used for session affinity.
   string name = 1 [(length) = "1-256"];
-  // If not set, session cookie will be used (not persisted between browser restarts).
+
+  // Maximum age of cookies that are generated for sessions (persistent cookies).
+  //
+  // If not set, session cookies are used, which are stored by clients in temporary memory and are deleted
+  // on client restarts.
   google.protobuf.Duration ttl = 2;
 }
 
+// A resource for connection-based session affinity configuration.
 message ConnectionSessionAffinity {
+  // Specifies whether an IP address of the client is used to define a connection for session affinity.
   bool source_ip = 1;
 }
 
+// A load balancing mode resource.
+// For details about the concept, see
+// [documentation](/docs/application-load-balancer/concepts/backend-group#balancing-mode).
 enum LoadBalancingMode {
 
+  // Round robin load balancing mode.
+  //
+  // All endpoints of the backend take their turns to receive requests attributed to the backend.
   ROUND_ROBIN = 0;
+
+  // Random load balancing mode. Default value.
+  //
+  // For a request attributed to the backend, an endpoint that receives it is picked at random.
   RANDOM = 1;
-  // Using power of two choices.
+
+  // Least request load balancing mode.
+  //
+  // To pick an endpoint that receives a request attributed to the backend, the power of two choices algorithm is used;
+  // that is, two endpoints are picked at random, and the request is sent to the one which has the fewest active
+  // requests.
   LEAST_REQUEST = 2;
-  // MAGLEV_HASH allows session affinity for that backend.
+
+  // Maglev hashing load balancing mode, used only if session affinity is working for the backend group.
+  //
+  // Each endpoint is hashed, and a hash table with 65537 rows is filled accordingly, so that every endpoint occupies
+  // the same amount of rows. An attribute of each request, specified in session affinity configuration of the backend
+  // group, is also hashed by the same function. The row with the same number as the resulting value is looked up in the
+  // table to determine the endpoint that receives the request.
+  //
+  // If session affinity is not working for the backend group (i.e. it is not configured or the group contains more
+  // than one backend with positive weight), endpoints for backends with `MAGLEV_HASH` load balancing mode are picked at
+  // `RANDOM` instead.
   MAGLEV_HASH = 3;
 }
 
@@ -138,7 +198,10 @@ message LoadBalancingConfig {
   // Default value: `false`.
   bool strict_locality = 3;
 
-  // Specifies algorithm the load balancer uses for target selection in particular backend.
+  // Load balancing mode for the backend.
+  //
+  // For detals about load balancing modes, see
+  // [documentation](/docs/application-load-balancer/concepts/backend-group#balancing-mode).
   LoadBalancingMode mode = 4;
 }
 

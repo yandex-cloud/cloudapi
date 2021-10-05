@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package yandex.cloud.billing.v1;
+
+import "google/api/annotations.proto";
+
+import "yandex/cloud/billing/v1/customer.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/billing/v1;billing";
+option java_package = "yandex.cloud.api.billing.v1";
+
+
+// A set of methods for managing Customer resources.
+service CustomerService {
+
+    // Retrieves the list of customers associated with the specified reseller.

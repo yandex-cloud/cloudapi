@@ -60,6 +60,9 @@ message Federation {
 
   // Use case insensitive Name IDs.
   bool case_insensitive_name_ids = 12;
+
+  // Resource labels as `` key:value `` pairs. Maximum of 64 per resource.
+  map<string, string> labels = 13;
 }
 
 enum BindingType {

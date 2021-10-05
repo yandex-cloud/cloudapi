@@ -153,7 +153,7 @@ message UpdateHttpRouterRequest {
   // a virtual host, make a [VirtualHostService.Create] request or a [VirtualHostService.Delete] request.
   repeated VirtualHost virtual_hosts = 6;
 
-  bool https_redirect = 7;
+  reserved 7;
 }
 
 message UpdateHttpRouterMetadata {
@@ -184,7 +184,7 @@ message CreateHttpRouterRequest {
   // Only one virtual host with no authority (default match) can be specified.
   repeated VirtualHost virtual_hosts = 5;
 
-  bool https_redirect = 6;
+  reserved 6;
 }
 
 message CreateHttpRouterMetadata {

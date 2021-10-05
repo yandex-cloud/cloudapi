@@ -734,6 +734,12 @@ message UpdateHostSpec {
 
   // Configuration of a PostgreSQL server for the host.
   ConfigHostSpec config_spec = 4;
+
+  // Field mask that specifies which fields of the PostgreSQL host should be updated.
+  google.protobuf.FieldMask update_mask = 5;
+
+  // Whether the host should get a public IP address on creation.
+  bool assign_public_ip = 6;
 }
 
 message HostSpec {

@@ -123,6 +123,9 @@ message UpdateOrganizationRequest {
 
   // Display name of the organization.
   string title = 5 [(length) = "<=256"];
+
+  // Resource labels as `` key:value `` pairs.
+  map<string, string> labels = 6 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 
 message UpdateOrganizationMetadata {
@@ -151,7 +154,7 @@ message ListOrganizationOperationsResponse {
   repeated operation.Operation operations = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results
-  // is larger than [ListOrganizationOperationsResponse.page_size], use the [next_page_token] as the value
+  // is larger than [ListOrganizationOperationsRequest.page_size], use the [next_page_token] as the value
   // for the [ListOrganizationOperationsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
