@@ -41,6 +41,9 @@ message ConnectorConfigMirrorMakerSpec {
 
   // List of Kafka topics, separated by ','
   string topics = 3;
+
+  // Replication factor for automatically created topics.
+  google.protobuf.Int64Value replication_factor = 4;
 }
 
 // Specification of ClusterConnection -
@@ -170,6 +173,9 @@ message ConnectorConfigMirrorMaker {
 
   // List of Kafka topics, separated by ','
   string topics = 3;
+
+  // Replication factor for automatically created topics.
+  google.protobuf.Int64Value replication_factor = 4;
 }
 
 // Resource ClusterConnection -

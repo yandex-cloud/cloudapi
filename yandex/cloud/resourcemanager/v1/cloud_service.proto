@@ -102,7 +102,7 @@ message ListCloudsRequest {
   // Page token. Set [page_token]
   // to the [ListCloudsResponse.next_page_token]
   // returned by a previous list request to get the next page of results.
-  string page_token = 2 [(length) = "<=100"];
+  string page_token = 2 [(length) = "<=1000"];
 
   // A filter expression that filters resources listed in the response.
   // The expression must specify:
