@@ -18,6 +18,7 @@ import "yandex/cloud/mdb/mongodb/v1/config/mongodb3_6.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_0.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_2.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_4.proto";
+import "yandex/cloud/mdb/mongodb/v1/config/mongodb5_0.proto";
 import "yandex/cloud/mdb/mongodb/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1;mongodb";
@@ -1088,8 +1089,55 @@ message MongodbSpec4_4 {
   MongoInfra mongoinfra = 4;
 }
 
+message MongodbSpec5_0 {
+  message Mongod {
+    // Configuration for mongod 5.0 hosts.
+    config.MongodConfig5_0 config = 1;
+
+    // Resources allocated to each mongod host.
+    Resources resources = 2;
+  }
+
+  message MongoCfg {
+    // Configuration for mongocfg 5.0 hosts.
+    config.MongoCfgConfig5_0 config = 1;
+
+    // Resources allocated to each mongocfg host.
+    Resources resources = 2;
+  }
+
+  message Mongos {
+    // Configuration for mongos 5.0 hosts.
+    config.MongosConfig5_0 config = 1;
+
+    // Resources allocated to each mongos host.
+    Resources resources = 2;
+  }
+
+  message MongoInfra {
+    // Configuration for mongoinfra 5.0 hosts.
+    config.MongosConfig5_0 config_mongos = 1;
+    config.MongoCfgConfig5_0 config_mongocfg = 2;
+
+    // Resources allocated to each mongoinfra (mongos+mongocfg) host.
+    Resources resources = 3;
+  }
+
+  // Configuration and resource allocation for mongod 5.0 hosts.
+  Mongod mongod = 1;
+
+  // Configuration and resource allocation for mongocfg 5.0 hosts.
+  MongoCfg mongocfg = 2;
+
+  // Configuration and resource allocation for mongos 5.0 hosts.
+  Mongos mongos = 3;
+
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) 5.0 hosts.
+  MongoInfra mongoinfra = 4;
+}
+
 message ConfigSpec {
-  // Version of MongoDB used in the cluster. Possible values: `3.6`, `4.0`, `4.2`, `4.4`.
+  // Version of MongoDB used in the cluster. Possible values: `3.6`, `4.0`, `4.2`, `4.4`, `5.0`.
   string version = 1;
 
   // MongoDB feature compatibility version. See usage details in [MongoDB documentation](https://docs.mongodb.com/manual/reference/command/setFeatureCompatibilityVersion/).
@@ -1099,6 +1147,7 @@ message ConfigSpec {
   // * `4.0` - persist data compatibility for version 4.0. After setting this option the data will not be compatible with 3.6 or older.
   // * `4.2` - persist data compatibility for version 4.2. After setting this option the data will not be compatible with 4.0 or older.
   // * `4.4` - persist data compatibility for version 4.4. After setting this option the data will not be compatible with 4.2 or older.
+  // * `5.0` - persist data compatibility for version 5.0. After setting this option the data will not be compatible with 4.4 or older.
   string feature_compatibility_version = 5;
 
   oneof mongodb_spec {
@@ -1113,6 +1162,9 @@ message ConfigSpec {
 
     // Configuration and resource allocation for a MongoDB 4.4 cluster.
     MongodbSpec4_4 mongodb_spec_4_4 = 8 [json_name="mongodbSpec_4_4"];
+
+    // Configuration and resource allocation for a MongoDB 5.0 cluster.
+    MongodbSpec5_0 mongodb_spec_5_0 = 10 [json_name="mongodbSpec_5_0"];
   }
 
   // Time to start the daily backup, in the UTC timezone.

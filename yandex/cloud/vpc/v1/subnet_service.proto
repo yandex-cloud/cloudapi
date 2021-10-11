@@ -40,16 +40,36 @@ service SubnetService {
   // Updates the specified subnet.
   // Method starts an asynchronous operation that can be cancelled while it is in progress.
   rpc Update (UpdateSubnetRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/vpc/v1/subnets/{subnet_id}" body: "*" };
+    option (google.api.http) = {patch: "/vpc/v1/subnets/{subnet_id}" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateSubnetMetadata"
       response: "Subnet"
     };
   }
 
+  // Adds CIDR blocks to the specified subnet.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
+  rpc AddCidrBlocks (AddSubnetCidrBlocksRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/vpc/v1/subnets/{subnet_id}:add-cidr-blocks" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "AddSubnetCidrBlocksMetadata"
+      response: "Subnet"
+    };
+  }
+
+  // Removes CIDR blocks from the specified subnet.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
+  rpc RemoveCidrBlocks (RemoveSubnetCidrBlocksRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/vpc/v1/subnets/{subnet_id}:remove-cidr-blocks" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "RemoveSubnetCidrBlocksMetadata"
+      response: "Subnet"
+    };
+  }
+
   // Deletes the specified subnet.
   rpc Delete (DeleteSubnetRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/vpc/v1/subnets/{subnet_id}" };
+    option (google.api.http) = {delete: "/vpc/v1/subnets/{subnet_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteSubnetMetadata"
       response: "google.protobuf.Empty"
@@ -184,7 +204,37 @@ message UpdateSubnetRequest {
 
 message UpdateSubnetMetadata {
   // ID of the Subnet resource that is being updated.
- string subnet_id = 1;
+  string subnet_id = 1;
+}
+
+message AddSubnetCidrBlocksRequest {
+  // ID of the Subnet resource that is being updated.
+  string subnet_id = 1 [(required) = true, (length) = "<=50"];
+
+  // CIDR block.
+  // The range of internal addresses that should be added to this subnet.
+  // For example, 10.0.0.0/22 or 192.168.0.0/24.
+  // Minimum subnet size is /28, maximum subnet size is /16.
+  repeated string v4_cidr_blocks = 2;
+}
+
+message AddSubnetCidrBlocksMetadata {
+  // ID of the Subnet resource that is being updated.
+  string subnet_id = 1;
+}
+
+message RemoveSubnetCidrBlocksRequest {
+  // ID of the Subnet resource that is being updated.
+  string subnet_id = 1 [(required) = true, (length) = "<=50"];
+
+  // CIDR block.
+  // The range of internal addresses that are removed from this subnet.
+  repeated string v4_cidr_blocks = 2;
+}
+
+message RemoveSubnetCidrBlocksMetadata {
+  // ID of the Subnet resource that is being updated.
+  string subnet_id = 1;
 }
 
 message DeleteSubnetRequest {

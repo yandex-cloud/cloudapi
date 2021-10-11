@@ -65,7 +65,7 @@ message AudioVariable {
     string variable_name = 1;
     // Start time of the variable in milliseconds.
     int64 variable_start_ms = 2;
-    // Lenght of the variable in milliseconds.
+    // Length of the variable in milliseconds.
     int64 variable_length_ms = 3;
 }
 
@@ -109,7 +109,7 @@ message Hints {
         AudioTemplate audio_template = 2;
         // hint to change speed
         double speed = 3;
-        // hint to regulate volume
+        // hint to regulate volume. For LOUDNESS_NORMALIZATION_TYPE_UNSPECIFIED normalization will use MAX_PEAK, if volume in (0, 1], LUFS if volume in [-145, 0).
         double volume = 4;
     }
 }
@@ -117,13 +117,13 @@ message Hints {
 message UtteranceSynthesisRequest {
     // The name of the model.
     //
-    // Currently avalible only `general`.
+    // Specifies basic synthesis functionality. Currently should be empty.
     string model = 1;
     // Text to synthesis, one of text synthesis markups.
     oneof Utterance {
         // Raw text (e.g. "Hello, Alice").
         string text = 2;
-        // Text template instalce, e.g. `{"Hello, {username}" with username="Alice"}`.
+        // Text template instance, e.g. `{"Hello, {username}" with username="Alice"}`.
         TextTemplate text_template = 3;
     }
     // Optional hints for synthesis.
@@ -136,6 +136,6 @@ message UtteranceSynthesisRequest {
         MAX_PEAK = 1;
         LUFS = 2;
     }
-    // Optional. Default: MAX_PEAK, type of loudness normalization.
+    // Optional. Default: LUFS, type of loudness normalization, default value -19.
     LoudnessNormalizationType loudness_normalization_type = 6;
 }

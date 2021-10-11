@@ -174,6 +174,9 @@ message Listener {
 
     // HTTPS (HTTP over TLS) listener settings.
     TlsListener tls = 4;
+
+    // TCP listener settings.
+    TcpListener tcp = 5;
   }
 }
 
@@ -210,10 +213,20 @@ message TlsListener {
   repeated SniMatch sni_handlers = 2;
 }
 
+// A TCP listener resource.
+message TcpListener {
+  StreamHandler handler = 1;
+}
+
 // An HTTP/2 options resource.
 message Http2Options {
   // Maximum number of concurrent HTTP/2 streams in a connection.
   int64 max_concurrent_streams = 1;
+}
+
+//A stream handler resource.
+message StreamHandler {
+  string backend_group_id = 1;
 }
 
 // An HTTP handler resource.
@@ -266,6 +279,9 @@ message TlsHandler {
     option (exactly_one) = true;
     // HTTP handler.
     HttpHandler http_handler = 2;
+
+    // Stream handler
+    StreamHandler stream_handler = 4;
   }
 
   // ID's of the TLS server certificates from [Certificate Manager](/docs/certificate-manager/).

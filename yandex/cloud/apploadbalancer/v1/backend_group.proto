@@ -41,10 +41,24 @@ message BackendGroup {
 
     // List of gRPC backends that the backend group consists of.
     GrpcBackendGroup grpc = 7;
+
+    // List of stream backends that the backend group consist of.
+    StreamBackendGroup stream = 10;
   }
 
   // Creation timestamp.
   google.protobuf.Timestamp created_at = 9;
+}
+
+// A Stream backend group resource.
+message StreamBackendGroup {
+  repeated StreamBackend backends = 1;
+
+  // session_affinity is applicable when load_balancing_mode of the selected backend
+  // is MAGLEV_HASH.
+  oneof session_affinity {
+    ConnectionSessionAffinity connection = 2;
+  }
 }
 
 // An HTTP backend group resource.
@@ -203,6 +217,28 @@ message LoadBalancingConfig {
   // For detals about load balancing modes, see
   // [documentation](/docs/application-load-balancer/concepts/backend-group#balancing-mode).
   LoadBalancingMode mode = 4;
+}
+
+// A stream backend resource.
+message StreamBackend {
+  string name = 1 [(pattern) = "[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+
+  // If not set, backend will be disabled.
+  google.protobuf.Int64Value backend_weight = 2;
+
+  LoadBalancingConfig load_balancing_config = 3;
+
+  // Optional alternative port for all targets.
+  int64 port = 4 [(value) = "0-65535"];
+
+  oneof backend_type {
+    option (exactly_one) = true;
+    TargetGroupsBackend target_groups = 5;
+  }
+
+  repeated HealthCheck healthchecks = 6;
+
+  BackendTls tls = 7;
 }
 
 // An HTTP backend resource.

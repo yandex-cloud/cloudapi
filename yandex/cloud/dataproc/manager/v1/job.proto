@@ -116,6 +116,15 @@ message SparkJob {
 
   // The name of the driver's main class.
   string main_class = 7;
+
+  // List of maven coordinates of jars to include on the driver and executor classpaths.
+  repeated string packages = 8;
+
+  // List of additional remote repositories to search for the maven coordinates given with --packages.
+  repeated string repositories = 9;
+
+  // List of groupId:artifactId, to exclude while resolving the dependencies provided in --packages to avoid dependency conflicts.
+  repeated string exclude_packages = 10;
 }
 
 message PysparkJob {
@@ -139,6 +148,15 @@ message PysparkJob {
 
   // URIs of Python files to pass to the PySpark framework.
   repeated string python_file_uris = 7;
+
+  // List of maven coordinates of jars to include on the driver and executor classpaths.
+  repeated string packages = 8;
+
+  // List of additional remote repositories to search for the maven coordinates given with --packages.
+  repeated string repositories = 9;
+
+  // List of groupId:artifactId, to exclude while resolving the dependencies provided in --packages to avoid dependency conflicts.
+  repeated string exclude_packages = 10;
 }
 
 message QueryList {
