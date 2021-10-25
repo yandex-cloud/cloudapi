@@ -92,6 +92,11 @@ service ProjectService {
     rpc GetStateVariables (GetStateVariablesRequest) returns (GetStateVariablesResponse) {
         option (google.api.http) = { get: "/datasphere/v1/projects/{project_id}:stateVariables" };
     }
+
+    // Returns metadata of the specified notebook.
+    rpc GetNotebookMetadata (GetNotebookMetadataRequest) returns (GetNotebookMetadataResponse) {
+        option (google.api.http) = { get: "/datasphere/v1/projects/{project_id}:notebookMetadata" };
+    }
 }
 
 message CreateProjectRequest {
@@ -306,4 +311,29 @@ message GetStateVariablesRequest {
 message GetStateVariablesResponse {
     // Values of the specified variables.
     google.protobuf.Struct variables = 1;
+}
+
+message GetNotebookMetadataRequest {
+    // ID of the project, for which to return notebook metadata.
+    string project_id = 1 [(required) = true, (length) = "<=200"];
+
+    // Path of the notebook to get metadata.
+    string notebook_path = 2 [(required) = true];
+}
+
+message GetNotebookMetadataResponse {
+    // ID of the specified notebook.
+    string notebook_id = 1;
+
+    // The time the notebook was created.
+    google.protobuf.Timestamp created_at = 2;
+
+    // The time the notebook was modified last time.
+    google.protobuf.Timestamp modified_at = 3;
+
+    // Content length of the specified notebook.
+    int64 content_length = 4;
+
+    // Cell ids of the specified notebook.
+    repeated string cell_ids = 5;
 }

@@ -226,7 +226,7 @@ message Http2Options {
 
 //A stream handler resource.
 message StreamHandler {
-  string backend_group_id = 1;
+  string backend_group_id = 1 [(required) = true];
 }
 
 // An HTTP handler resource.

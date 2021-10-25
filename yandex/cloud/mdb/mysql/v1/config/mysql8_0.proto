@@ -315,7 +315,7 @@ message MysqlConfig8_0 {
   // Controls how many microseconds the binary log commit waits before synchronizing the binary log file to disk.
   //
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_group_commit_sync_delay).
-  google.protobuf.Int64Value binlog_group_commit_sync_delay = 44 [(value) = "0-1000000"];
+  google.protobuf.Int64Value binlog_group_commit_sync_delay = 44 [(value) = "0-50000"];
 
   // For MySQL row-based replication, this variable determines how row images are written to the binary log.
   //

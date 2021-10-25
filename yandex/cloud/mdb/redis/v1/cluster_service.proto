@@ -118,7 +118,7 @@ service ClusterService {
 
   // Start a manual failover on the specified Redis cluster.
   rpc StartFailover (StartClusterFailoverRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/managed-redis/v1/clusters/{cluster_id}:startFailover" };
+    option (google.api.http) = { post: "/managed-redis/v1/clusters/{cluster_id}:startFailover" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "StartClusterFailoverMetadata"
       response: "Cluster"
@@ -438,11 +438,15 @@ message RestoreClusterMetadata {
 message StartClusterFailoverRequest {
   // ID of the Redis cluster to start failover on.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  // List of hostnames which should not be masters. Can be empty for sentinel clusters or can contain multiple hosts for sharded clusters.
+  repeated string host_names = 2 [(length) = "<=253"];
 }
 
 message StartClusterFailoverMetadata {
   // ID of the Redis cluster on which failover will be initiated.
   string cluster_id = 1;
+  // List of hostnames which should not be masters. Can be empty for sentinel clusters or can contain multiple hosts for sharded clusters.
+  repeated string host_names = 2;
 }
 message RescheduleMaintenanceRequest {
   // ID of the Redis cluster to reschedule the maintenance operation for.
