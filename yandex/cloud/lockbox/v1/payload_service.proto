@@ -15,7 +15,7 @@ service PayloadService {
   //
   // To get the list of all available secrets, make a [SecretService.List] request.
   rpc Get (GetPayloadRequest) returns (Payload) {
-    option (google.api.http) = { get: "/lockbox/v1/secrets/{secret_id}/payload" };
+    option (google.api.http) = {get: "/lockbox/v1/secrets/{secret_id}/payload"};
   }
 }
 

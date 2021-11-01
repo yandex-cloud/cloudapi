@@ -40,7 +40,7 @@ message NetworkLoadBalancer {
 
     // Network load balancer is stopped and doesn't send traffic to the targets.
     STOPPED = 5;
-    
+
     // Network load balancer is being deleted.
     DELETING = 6;
 

@@ -20,17 +20,17 @@ service PlacementGroupService {
   //
   // To get the list of all available placement groups, make a [List] request.
   rpc Get (GetPlacementGroupRequest) returns (PlacementGroup) {
-    option (google.api.http) = { get: "/compute/v1/placementGroups/{placement_group_id}" };
+    option (google.api.http) = {get: "/compute/v1/placementGroups/{placement_group_id}"};
   }
 
   // Retrieves the list of placement groups in the specified folder.
   rpc List (ListPlacementGroupsRequest) returns (ListPlacementGroupsResponse) {
-    option (google.api.http) = { get: "/compute/v1/placementGroups" };
+    option (google.api.http) = {get: "/compute/v1/placementGroups"};
   }
 
   // Creates a placement group in the specified folder.
   rpc Create (CreatePlacementGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/compute/v1/placementGroups" body: "*" };
+    option (google.api.http) = {post: "/compute/v1/placementGroups" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "CreatePlacementGroupMetadata"
       response: "PlacementGroup"
@@ -39,7 +39,7 @@ service PlacementGroupService {
 
   // Updates the specified placement group.
   rpc Update (UpdatePlacementGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/compute/v1/placementGroups/{placement_group_id}" body: "*" };
+    option (google.api.http) = {patch: "/compute/v1/placementGroups/{placement_group_id}" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpdatePlacementGroupMetadata"
       response: "PlacementGroup"
@@ -48,7 +48,7 @@ service PlacementGroupService {
 
   // Deletes the specified placement group.
   rpc Delete (DeletePlacementGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/compute/v1/placementGroups/{placement_group_id}" };
+    option (google.api.http) = {delete: "/compute/v1/placementGroups/{placement_group_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeletePlacementGroupMetadata"
       response: "google.protobuf.Empty"
@@ -57,12 +57,12 @@ service PlacementGroupService {
 
   // Lists instances for the specified placement group.
   rpc ListInstances (ListPlacementGroupInstancesRequest) returns (ListPlacementGroupInstancesResponse) {
-    option (google.api.http) = { get: "/compute/v1/placementGroups/{placement_group_id}/instances" };
+    option (google.api.http) = {get: "/compute/v1/placementGroups/{placement_group_id}/instances"};
   }
 
   // Lists operations for the specified placement group.
   rpc ListOperations (ListPlacementGroupOperationsRequest) returns (ListPlacementGroupOperationsResponse) {
-    option (google.api.http) = { get: "/compute/v1/placementGroups/{placement_group_id}/operations" };
+    option (google.api.http) = {get: "/compute/v1/placementGroups/{placement_group_id}/operations"};
   }
 }
 

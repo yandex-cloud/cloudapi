@@ -16,24 +16,24 @@ option java_package = "yandex.cloud.api.iam.v1";
 service ApiKeyService {
   // Retrieves the list of API keys for the specified service account.
   rpc List (ListApiKeysRequest) returns (ListApiKeysResponse) {
-    option (google.api.http) = { get: "/iam/v1/apiKeys" };
+    option (google.api.http) = {get: "/iam/v1/apiKeys"};
   }
 
   // Returns the specified API key.
   //
   // To get the list of available API keys, make a [List] request.
   rpc Get (GetApiKeyRequest) returns (ApiKey) {
-    option (google.api.http) = { get: "/iam/v1/apiKeys/{api_key_id}" };
+    option (google.api.http) = {get: "/iam/v1/apiKeys/{api_key_id}"};
   }
 
   // Creates an API key for the specified service account.
   rpc Create (CreateApiKeyRequest) returns (CreateApiKeyResponse) {
-    option (google.api.http) = { post: "/iam/v1/apiKeys" body: "*" };
+    option (google.api.http) = {post: "/iam/v1/apiKeys" body: "*"};
   }
 
   // Updates the specified API key.
   rpc Update (UpdateApiKeyRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/iam/v1/apiKeys/{api_key_id}" body: "*" };
+    option (google.api.http) = {patch: "/iam/v1/apiKeys/{api_key_id}" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateApiKeyMetadata"
       response: "ApiKey"
@@ -42,7 +42,7 @@ service ApiKeyService {
 
   // Deletes the specified API key.
   rpc Delete (DeleteApiKeyRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/iam/v1/apiKeys/{api_key_id}" };
+    option (google.api.http) = {delete: "/iam/v1/apiKeys/{api_key_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteApiKeyMetadata"
       response: "google.protobuf.Empty"
@@ -51,7 +51,7 @@ service ApiKeyService {
 
   // Retrieves the list of operations for the specified API key.
   rpc ListOperations (ListApiKeyOperationsRequest) returns (ListApiKeyOperationsResponse) {
-    option (google.api.http) = { get: "/iam/v1/apiKeys/{api_key_id}/operations" };
+    option (google.api.http) = {get: "/iam/v1/apiKeys/{api_key_id}/operations"};
   }
 }
 

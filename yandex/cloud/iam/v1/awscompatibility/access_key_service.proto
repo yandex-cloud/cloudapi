@@ -16,24 +16,24 @@ option java_package = "yandex.cloud.api.iam.v1.awscompatibility";
 service AccessKeyService {
   // Retrieves the list of access keys for the specified service account.
   rpc List (ListAccessKeysRequest) returns (ListAccessKeysResponse) {
-    option (google.api.http) = { get: "/iam/aws-compatibility/v1/accessKeys" };
+    option (google.api.http) = {get: "/iam/aws-compatibility/v1/accessKeys"};
   }
 
   // Returns the specified access key.
   //
   // To get the list of available access keys, make a [List] request.
   rpc Get (GetAccessKeyRequest) returns (AccessKey) {
-    option (google.api.http) = { get: "/iam/aws-compatibility/v1/accessKeys/{access_key_id}" };
+    option (google.api.http) = {get: "/iam/aws-compatibility/v1/accessKeys/{access_key_id}"};
   }
 
   // Creates an access key for the specified service account.
   rpc Create (CreateAccessKeyRequest) returns (CreateAccessKeyResponse) {
-    option (google.api.http) = { post: "/iam/aws-compatibility/v1/accessKeys" body: "*" };
+    option (google.api.http) = {post: "/iam/aws-compatibility/v1/accessKeys" body: "*"};
   }
 
   // Updates the specified access key.
   rpc Update (UpdateAccessKeyRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/iam/aws-compatibility/v1/accessKeys/{access_key_id}" body: "*" };
+    option (google.api.http) = {patch: "/iam/aws-compatibility/v1/accessKeys/{access_key_id}" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateAccessKeyMetadata"
       response: "AccessKey"
@@ -42,7 +42,7 @@ service AccessKeyService {
 
   // Deletes the specified access key.
   rpc Delete (DeleteAccessKeyRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/iam/aws-compatibility/v1/accessKeys/{access_key_id}" };
+    option (google.api.http) = {delete: "/iam/aws-compatibility/v1/accessKeys/{access_key_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteAccessKeyMetadata"
       response: "google.protobuf.Empty"
@@ -51,7 +51,7 @@ service AccessKeyService {
 
   // Retrieves the list of operations for the specified access key.
   rpc ListOperations (ListAccessKeyOperationsRequest) returns (ListAccessKeyOperationsResponse) {
-    option (google.api.http) = { get: "/iam/aws-compatibility/v1/accessKeys/{access_key_id}/operations" };
+    option (google.api.http) = {get: "/iam/aws-compatibility/v1/accessKeys/{access_key_id}/operations"};
   }
 }
 

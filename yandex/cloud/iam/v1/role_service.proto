@@ -15,12 +15,12 @@ service RoleService {
   //
   // To get the list of available Role resources, make a [List] request.
   rpc Get (GetRoleRequest) returns (Role) {
-    option (google.api.http) = { get: "/iam/v1/roles/{role_id}" };
+    option (google.api.http) = {get: "/iam/v1/roles/{role_id}"};
   }
 
   // Retrieves the list of Role resources.
   rpc List (ListRolesRequest) returns (ListRolesResponse) {
-    option (google.api.http) = { get: "/iam/v1/roles" };
+    option (google.api.http) = {get: "/iam/v1/roles"};
   }
 }
 

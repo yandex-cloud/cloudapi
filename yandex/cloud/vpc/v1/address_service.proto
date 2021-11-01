@@ -18,24 +18,24 @@ service AddressService {
   //
   // To get the list of all available Address resources, make a [List] request.
   rpc Get (GetAddressRequest) returns (Address) {
-    option (google.api.http) = { get: "/vpc/v1/addresses/{address_id}" };
+    option (google.api.http) = {get: "/vpc/v1/addresses/{address_id}"};
   }
 
   // Returns the specified Address resource by a given value.
   //
   // To get the list of all available Address resources, make a [List] request.
   rpc GetByValue (GetAddressByValueRequest) returns (Address) {
-    option (google.api.http) = { get: "/vpc/v1/addresses:byValue" };
+    option (google.api.http) = {get: "/vpc/v1/addresses:byValue"};
   }
 
   // Retrieves the list of Address resources in the specified folder.
   rpc List (ListAddressesRequest) returns (ListAddressesResponse) {
-    option (google.api.http) = { get: "/vpc/v1/addresses" };
+    option (google.api.http) = {get: "/vpc/v1/addresses"};
   }
 
   // Creates an address in the specified folder and network.
   rpc Create (CreateAddressRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/vpc/v1/addresses" body: "*" };
+    option (google.api.http) = {post: "/vpc/v1/addresses" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "CreateAddressMetadata"
       response: "Address"
@@ -44,7 +44,7 @@ service AddressService {
 
   // Updates the specified address.
   rpc Update (UpdateAddressRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/vpc/v1/addresses/{address_id}" body: "*" };
+    option (google.api.http) = {patch: "/vpc/v1/addresses/{address_id}" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateAddressMetadata"
       response: "Address"
@@ -53,7 +53,7 @@ service AddressService {
 
   // Deletes the specified address.
   rpc Delete (DeleteAddressRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/vpc/v1/addresses/{address_id}" };
+    option (google.api.http) = {delete: "/vpc/v1/addresses/{address_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteAddressMetadata"
       response: "google.protobuf.Empty"
@@ -62,12 +62,12 @@ service AddressService {
 
   // List operations for the specified address.
   rpc ListOperations (ListAddressOperationsRequest) returns (ListAddressOperationsResponse) {
-    option (google.api.http) = { get: "/vpc/v1/addresses/{address_id}/operations" };
+    option (google.api.http) = {get: "/vpc/v1/addresses/{address_id}/operations"};
   }
 
   // Move an address to another folder
   rpc Move (MoveAddressRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/vpc/v1/addresses/{address_id}:move" body: "*" };
+    option (google.api.http) = {post: "/vpc/v1/addresses/{address_id}:move" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "MoveAddressMetadata"
       response: "Address"
@@ -241,10 +241,10 @@ message ListAddressOperationsResponse {
 }
 
 message MoveAddressRequest {
-    string address_id = 1 [(required) = true, (length) = "<=50"];
-    string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+  string address_id = 1 [(required) = true, (length) = "<=50"];
+  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
 }
 
 message MoveAddressMetadata {
-    string address_id = 1;
+  string address_id = 1;
 }

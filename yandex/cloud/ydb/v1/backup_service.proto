@@ -15,21 +15,21 @@ option java_package = "yandex.cloud.api.ydb.v1";
 service BackupService {
   // Returns the specified backup.
   rpc Get (GetBackupRequest) returns (Backup) {
-    option (google.api.http) = { get: "/ydb/v1/backups/{backup_id}" };
+    option (google.api.http) = {get: "/ydb/v1/backups/{backup_id}"};
   }
 
   rpc ListPaths(ListPathsRequest) returns (ListPathsResponse) {
-    option (google.api.http) = { get: "/ydb/v1/backups/{backup_id}/paths" };
+    option (google.api.http) = {get: "/ydb/v1/backups/{backup_id}/paths"};
   }
 
   // Retrieves a list of backups.
   rpc List (ListBackupsRequest) returns (ListBackupsResponse) {
-    option (google.api.http) = { get: "/ydb/v1/backups" };
+    option (google.api.http) = {get: "/ydb/v1/backups"};
   }
 
   // Deletes the specified backup.
   rpc Delete (DeleteBackupRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/ydb/v1/backups/{backup_id}" };
+    option (google.api.http) = {delete: "/ydb/v1/backups/{backup_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteBackupMetadata"
       response: "google.protobuf.Empty"

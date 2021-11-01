@@ -25,17 +25,17 @@ service ClusterService {
   //
   // To get the list of available SQL Server clusters, make a [List] request.
   rpc Get (GetClusterRequest) returns (Cluster) {
-    option (google.api.http) = { get: "/mdb/sqlserver/v1/clusters/{cluster_id}" };
+    option (google.api.http) = {get: "/mdb/sqlserver/v1/clusters/{cluster_id}"};
   }
 
   // Retrieves the list of SQL Server clusters that belong to the specified folder.
   rpc List (ListClustersRequest) returns (ListClustersResponse) {
-    option (google.api.http) = { get: "/mdb/sqlserver/v1/clusters" };
+    option (google.api.http) = {get: "/mdb/sqlserver/v1/clusters"};
   }
 
   // Creates an SQL Server cluster in the specified folder.
   rpc Create (CreateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters" body: "*" };
+    option (google.api.http) = {post: "/mdb/sqlserver/v1/clusters" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "CreateClusterMetadata"
       response: "Cluster"
@@ -44,7 +44,7 @@ service ClusterService {
 
   // Modifies the specified SQL Server cluster.
   rpc Update (UpdateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/mdb/sqlserver/v1/clusters/{cluster_id}" body: "*" };
+    option (google.api.http) = {patch: "/mdb/sqlserver/v1/clusters/{cluster_id}" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateClusterMetadata"
       response: "Cluster"
@@ -53,7 +53,7 @@ service ClusterService {
 
   // Deletes the specified SQL Server cluster.
   rpc Delete (DeleteClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/mdb/sqlserver/v1/clusters/{cluster_id}" };
+    option (google.api.http) = {delete: "/mdb/sqlserver/v1/clusters/{cluster_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteClusterMetadata"
       response: "google.protobuf.Empty"
@@ -62,7 +62,7 @@ service ClusterService {
 
   // Starts the specified SQL Server cluster.
   rpc Start (StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters/{cluster_id}:start" };
+    option (google.api.http) = {post: "/mdb/sqlserver/v1/clusters/{cluster_id}:start"};
     option (yandex.cloud.api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
@@ -71,7 +71,7 @@ service ClusterService {
 
   // Stops the specified SQL Server cluster.
   rpc Stop (StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters/{cluster_id}:stop" };
+    option (google.api.http) = {post: "/mdb/sqlserver/v1/clusters/{cluster_id}:stop"};
     option (yandex.cloud.api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
@@ -80,7 +80,7 @@ service ClusterService {
 
   // Moves the specified SQL Server cluster to the specified folder.
   rpc Move (MoveClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters/{cluster_id}:move" body: "*" };
+    option (google.api.http) = {post: "/mdb/sqlserver/v1/clusters/{cluster_id}:move" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "MoveClusterMetadata"
       response: "Cluster"
@@ -89,7 +89,7 @@ service ClusterService {
 
   // Creates a backup for the specified SQL Server cluster.
   rpc Backup (BackupClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters/{cluster_id}:backup" };
+    option (google.api.http) = {post: "/mdb/sqlserver/v1/clusters/{cluster_id}:backup"};
     option (yandex.cloud.api.operation) = {
       metadata: "BackupClusterMetadata"
       response: "Cluster"
@@ -98,7 +98,7 @@ service ClusterService {
 
   // Creates a new SQL Server cluster using the specified backup.
   rpc Restore (RestoreClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters:restore" body: "*" };
+    option (google.api.http) = {post: "/mdb/sqlserver/v1/clusters:restore" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "RestoreClusterMetadata"
       response: "Cluster"
@@ -109,22 +109,22 @@ service ClusterService {
   //
   // For more information about logs, see the [Logs](/docs/managed-sqlserver/operations/cluster-logs) section in the documentation.
   rpc ListLogs (ListClusterLogsRequest) returns (ListClusterLogsResponse) {
-    option (google.api.http) = { get: "/mdb/sqlserver/v1/clusters/{cluster_id}:logs" };
+    option (google.api.http) = {get: "/mdb/sqlserver/v1/clusters/{cluster_id}:logs"};
   }
 
   // Retrieves the list of operations for the specified SQL Server cluster.
   rpc ListOperations (ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
-    option (google.api.http) = { get: "/mdb/sqlserver/v1/clusters/{cluster_id}/operations" };
+    option (google.api.http) = {get: "/mdb/sqlserver/v1/clusters/{cluster_id}/operations"};
   }
 
   // Retrieves the list of available backups for the specified SQL Server cluster.
   rpc ListBackups (ListClusterBackupsRequest) returns (ListClusterBackupsResponse) {
-    option (google.api.http) = { get: "/mdb/sqlserver/v1/clusters/{cluster_id}/backups" };
+    option (google.api.http) = {get: "/mdb/sqlserver/v1/clusters/{cluster_id}/backups"};
   }
 
   // Retrieves a list of hosts for the specified SQL Server cluster.
   rpc ListHosts (ListClusterHostsRequest) returns (ListClusterHostsResponse) {
-    option (google.api.http) = { get: "/mdb/sqlserver/v1/clusters/{cluster_id}/hosts" };
+    option (google.api.http) = {get: "/mdb/sqlserver/v1/clusters/{cluster_id}/hosts"};
   }
 
 }
@@ -212,7 +212,7 @@ message CreateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 12;
-  
+
   //name of SQL Collation that cluster will be created with
   string sqlcollation = 13 [(length) = "<=100"];
 }
@@ -570,10 +570,10 @@ message ConfigSpec {
   // Configuration of an SQL Server cluster.
   oneof sqlserver_config {
     // Configuration for an SQL Server 2016 SP2 Standard edition cluster.
-    config.SQLServerConfig2016sp2std sqlserver_config_2016sp2std = 2 [json_name="sqlserverConfig_2016sp2std"];
+    config.SQLServerConfig2016sp2std sqlserver_config_2016sp2std = 2 [json_name = "sqlserverConfig_2016sp2std"];
 
     // Configuration for an SQL Server 2016 SP2 Enterprise edition cluster.
-    config.SQLServerConfig2016sp2ent sqlserver_config_2016sp2ent = 5 [json_name="sqlserverConfig_2016sp2ent"];
+    config.SQLServerConfig2016sp2ent sqlserver_config_2016sp2ent = 5 [json_name = "sqlserverConfig_2016sp2ent"];
   }
 
   // Resources allocated to SQL Server hosts.

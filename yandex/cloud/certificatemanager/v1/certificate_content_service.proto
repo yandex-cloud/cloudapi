@@ -3,7 +3,6 @@ syntax = "proto3";
 package yandex.cloud.certificatemanager.v1;
 
 import "google/api/annotations.proto";
-import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/certificatemanager/v1;certificatemanager";
 option java_package = "yandex.cloud.api.certificatemanager.v1";
@@ -12,7 +11,7 @@ option java_package = "yandex.cloud.api.certificatemanager.v1";
 service CertificateContentService {
   // Returns chain and private key of the specified certificate.
   rpc Get (GetCertificateContentRequest) returns (GetCertificateContentResponse) {
-    option (google.api.http) = { get: "/certificate-manager/v1/certificates/{certificate_id}:getContent" };
+    option (google.api.http) = {get: "/certificate-manager/v1/certificates/{certificate_id}:getContent"};
   }
 }
 

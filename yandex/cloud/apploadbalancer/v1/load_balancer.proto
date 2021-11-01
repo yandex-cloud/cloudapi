@@ -29,7 +29,7 @@ message LoadBalancer {
 
     // The application load balancer is stopped and doesn't send traffic to the targets.
     STOPPED = 5;
-    
+
     // The application load balancer is being deleted.
     DELETING = 6;
   }
@@ -215,7 +215,7 @@ message TlsListener {
 
 // A TCP listener resource.
 message TcpListener {
-  StreamHandler handler = 1;
+  StreamHandler handler = 1 [(required) = true];
 }
 
 // An HTTP/2 options resource.

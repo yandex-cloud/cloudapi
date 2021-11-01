@@ -19,17 +19,17 @@ service TargetGroupService {
   //
   // To get the list of all available target groups, make a [List] request.
   rpc Get(GetTargetGroupRequest) returns (TargetGroup) {
-    option (google.api.http) = { get: "/apploadbalancer/v1/targetGroups/{target_group_id}" };
+    option (google.api.http) = {get: "/apploadbalancer/v1/targetGroups/{target_group_id}"};
   }
 
   // Lists target groups in the specified folder.
   rpc List(ListTargetGroupsRequest) returns (ListTargetGroupsResponse) {
-    option (google.api.http) = { get: "/apploadbalancer/v1/targetGroups" };
+    option (google.api.http) = {get: "/apploadbalancer/v1/targetGroups"};
   }
 
   // Creates a target group in the specified folder.
   rpc Create(CreateTargetGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/apploadbalancer/v1/targetGroups" body: "*" };
+    option (google.api.http) = {post: "/apploadbalancer/v1/targetGroups" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "CreateTargetGroupMetadata"
       response: "TargetGroup"
@@ -38,7 +38,7 @@ service TargetGroupService {
 
   // Updates the specified target group.
   rpc Update(UpdateTargetGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/apploadbalancer/v1/targetGroups/{target_group_id}" body: "*" };
+    option (google.api.http) = {patch: "/apploadbalancer/v1/targetGroups/{target_group_id}" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateTargetGroupMetadata"
       response: "TargetGroup"
@@ -47,7 +47,7 @@ service TargetGroupService {
 
   // Deletes the specified target group.
   rpc Delete(DeleteTargetGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/apploadbalancer/v1/targetGroups/{target_group_id}" };
+    option (google.api.http) = {delete: "/apploadbalancer/v1/targetGroups/{target_group_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteTargetGroupMetadata"
       response: "google.protobuf.Empty"
@@ -56,7 +56,7 @@ service TargetGroupService {
 
   // Adds targets to the specified target group.
   rpc AddTargets(AddTargetsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/apploadbalancer/v1/targetGroups/{target_group_id}:addTargets" body: "*" };
+    option (google.api.http) = {post: "/apploadbalancer/v1/targetGroups/{target_group_id}:addTargets" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "AddTargetsMetadata"
       response: "TargetGroup"
@@ -65,7 +65,7 @@ service TargetGroupService {
 
   // Removes targets from the specified target group.
   rpc RemoveTargets(RemoveTargetsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/apploadbalancer/v1/targetGroups/{target_group_id}:removeTargets" body: "*" };
+    option (google.api.http) = {post: "/apploadbalancer/v1/targetGroups/{target_group_id}:removeTargets" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "RemoveTargetsMetadata"
       response: "TargetGroup"
@@ -74,7 +74,7 @@ service TargetGroupService {
 
   // Lists operations for the specified target group.
   rpc ListOperations (ListTargetGroupOperationsRequest) returns (ListTargetGroupOperationsResponse) {
-    option (google.api.http) = { get: "/apploadbalancer/v1/targetGroups/{target_group_id}/operations" };
+    option (google.api.http) = {get: "/apploadbalancer/v1/targetGroups/{target_group_id}/operations"};
   }
 }
 

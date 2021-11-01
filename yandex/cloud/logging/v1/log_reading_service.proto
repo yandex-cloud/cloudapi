@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package yandex.cloud.logging.v1;
 
-import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/logging/v1/log_entry.proto";

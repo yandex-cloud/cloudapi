@@ -712,7 +712,7 @@ message UpdateHostSpec {
   // Field mask that specifies which fields of the MySQL host should be updated.
   google.protobuf.FieldMask update_mask = 3;
 
-  // Host backup priority, where 1 is the lowest priority
+  // Host backup priority
   int64 backup_priority = 4;
 
   // Whether the host should get a public IP address on creation.
@@ -741,6 +741,9 @@ message HostSpec {
 
   // [Host.name] of the host to be used as the replication source (for cascading replication).
   string replication_source = 4;
+
+  // Host backup priority
+  int64 backup_priority = 5;
 }
 
 message ConfigSpec {

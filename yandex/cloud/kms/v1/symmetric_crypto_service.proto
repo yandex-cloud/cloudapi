@@ -17,23 +17,23 @@ service SymmetricCryptoService {
 
   // Encrypts given plaintext with the specified key.
   rpc Encrypt (SymmetricEncryptRequest) returns (SymmetricEncryptResponse) {
-    option (google.api.http) = { post: "/kms/v1/keys/{key_id}:encrypt" body: "*" };
+    option (google.api.http) = {post: "/kms/v1/keys/{key_id}:encrypt" body: "*"};
   }
 
   // Decrypts the given ciphertext with the specified key.
   rpc Decrypt (SymmetricDecryptRequest) returns (SymmetricDecryptResponse) {
-    option (google.api.http) = { post: "/kms/v1/keys/{key_id}:decrypt" body: "*" };
+    option (google.api.http) = {post: "/kms/v1/keys/{key_id}:decrypt" body: "*"};
   }
 
   // Re-encrypts a ciphertext with the specified KMS key.
   rpc ReEncrypt (SymmetricReEncryptRequest) returns (SymmetricReEncryptResponse) {
-    option (google.api.http) = { post: "/kms/v1/keys/{key_id}:reEncrypt" body: "*" };
+    option (google.api.http) = {post: "/kms/v1/keys/{key_id}:reEncrypt" body: "*"};
   }
 
   // Generates a new symmetric data encryption key (not a KMS key) and returns
   // the generated key as plaintext and as ciphertext encrypted with the specified symmetric KMS key.
   rpc GenerateDataKey (GenerateDataKeyRequest) returns (GenerateDataKeyResponse) {
-    option (google.api.http) = { post: "/kms/v1/keys/{key_id}:generateDataKey" body: "*" };
+    option (google.api.http) = {post: "/kms/v1/keys/{key_id}:generateDataKey" body: "*"};
   }
 
 }

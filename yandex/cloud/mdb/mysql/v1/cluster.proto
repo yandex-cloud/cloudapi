@@ -220,6 +220,9 @@ message Host {
 
   // Name of the host to be used as the replication source for cascading replication.
   string replication_source = 10;
+
+  // Host backup priority
+  int64 backup_priority = 11;
 }
 
 
