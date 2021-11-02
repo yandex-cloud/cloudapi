@@ -86,7 +86,8 @@ message Cluster {
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 17;
 
-  // ID of the cloud logging log group to write logs. If not set, logs will not be sent to logging service
+  // ID of the cloud logging log group to write logs. If not set, default log group for the folder will be used.
+  // To prevent logs from being sent to the cloud set cluster property dataproc:disable_cloud_logging = true
   string log_group_id = 18;
 }
 

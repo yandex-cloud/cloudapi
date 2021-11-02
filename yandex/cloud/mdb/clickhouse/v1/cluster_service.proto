@@ -1083,6 +1083,9 @@ message ConfigSpec {
 
   // Password for user 'admin' that has SQL user management access.
   string admin_password = 9;
+
+  // Whether cluster should use embedded Keeper instead of Zookeeper
+  google.protobuf.BoolValue embedded_keeper = 10;
 }
 
 message ShardConfigSpec {
