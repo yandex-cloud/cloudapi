@@ -64,9 +64,8 @@ message Args {
   repeated string args = 1;
 }
 
-
 message Resources {
   int64 memory = 1 [(value) = "134217728-8589934592"];
-  int64 cores = 2 [(value) = "1,2,4"];
+  int64 cores = 2 [(value) = "0-1"];
   int64 core_fraction = 3 [(value) = "0-100"];
 }

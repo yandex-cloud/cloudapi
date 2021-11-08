@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package yandex.cloud.datatransfer.v1.endpoint;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datatransfer/v1/endpoint;endpoint";
+option java_package = "yandex.cloud.api.datatransfer.v1.endpoint";
+
+import "google/protobuf/empty.proto";
+
+enum ObjectTransferStage {
+    OBJECT_TRANSFER_STAGE_UNSPECIFIED = 0;
+    BEFORE_DATA = 1;
+    AFTER_DATA = 2;
+    NEVER = 3;
+}
+message Secret {
+    oneof value {
+        // Password
+        string raw = 1;
+    }
+}
+message TLSMode {
+    oneof tls_mode {
+        google.protobuf.Empty disabled = 1;
+        TLSConfig enabled = 2;
+    }
+}
+message TLSConfig {
+    // CA certificate
+    // 
+    // X.509 certificate of the certificate authority which issued the server's
+    // certificate, in PEM format. When CA certificate is specified TLS is used to
+    // connect to the server.
+    string ca_certificate = 1;
+}

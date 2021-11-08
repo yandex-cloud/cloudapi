@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package yandex.cloud.datatransfer.v1.endpoint;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datatransfer/v1/endpoint;endpoint";
+option java_package = "yandex.cloud.api.datatransfer.v1.endpoint";
+
+import "yandex/cloud/datatransfer/v1/endpoint/common.proto";
+
+message OnPremiseMysql {
+    repeated string hosts = 5;
+    // Database port
+    // 
+    // Will be used if the cluster ID is not specified. Default: 6432.
+    int64 port = 2;
+    // TLS mode
+    // 
+    // TLS settings for server connection. Disabled by default.
+    TLSMode tls_mode = 6;
+    // Network interface for endpoint
+    // 
+    // Default: public IPv4.
+    string subnet_id = 4;
+}
+message MysqlConnection {
+    oneof connection {
+        // MDB cluster
+        // 
+        // Yandex.Cloud Managed MySQL cluster ID
+        string mdb_cluster_id = 1;
+        // On-premise
+        // 
+        // Connection options for on-premise MySQL
+        OnPremiseMysql on_premise = 2;
+    }
+}
+message MysqlObjectTransferSettings {
+    // Views
+    // 
+    // CREATE VIEW ...
+    ObjectTransferStage view = 1;
+    // Routines
+    // 
+    // CREATE PROCEDURE ... ; CREATE FUNCTION ... ;
+    ObjectTransferStage routine = 2;
+    // Triggers
+    // 
+    // CREATE TRIGGER ...
+    ObjectTransferStage trigger = 3;
+}
+message MysqlSource {
+    // Connection settings
+    // 
+    // Database connection settings
+    MysqlConnection connection = 1;
+    // Database name
+    // 
+    // You can leave it empty, then it will be possible to transfer tables from several
+    // databases at the same time from this source.
+    string database = 2;
+    // Username
+    // 
+    // User for database access.
+    string user = 3;
+    // Password
+    // 
+    // Password for database access.
+    Secret password = 4;
+    repeated string include_tables_regex = 12;
+    repeated string exclude_tables_regex = 13;
+    // Database timezone
+    // 
+    // Is used for parsing timestamps for saving source timezones. Accepts values from
+    // IANA timezone database. Default: local timezone.
+    string timezone = 8;
+    // Schema migration
+    // 
+    // Select database objects to be transferred during activation or deactivation.
+    MysqlObjectTransferSettings object_transfer_settings = 11;
+}
+message MysqlTarget {
+    // Connection settings
+    // 
+    // Database connection settings
+    MysqlConnection connection = 1;
+    // Database name
+    // 
+    // Allowed to leave it empty, then the tables will be created in databases with the
+    // same names as on the source. If this field is empty, then you must fill below db
+    // schema for service table.
+    string database = 2;
+    // Username
+    // 
+    // User for database access.
+    string user = 3;
+    // Password
+    // 
+    // Password for database access.
+    Secret password = 4;
+    // sql_mode
+    // 
+    // Default: NO_AUTO_VALUE_ON_ZERO,NO_DIR_IN_CREATE,NO_ENGINE_SUBSTITUTION.
+    string sql_mode = 5;
+    // Disable constraints checks
+    // 
+    // Recommend to disable for increase replication speed, but if schema contain
+    // cascading operations we don't recommend to disable. This option set
+    // FOREIGN_KEY_CHECKS=0 and UNIQUE_CHECKS=0.
+    bool skip_constraint_checks = 6;
+    // Database timezone
+    // 
+    // Is used for parsing timestamps for saving source timezones. Accepts values from
+    // IANA timezone database. Default: local timezone.
+    string timezone = 7;
+}

@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package yandex.cloud.datatransfer.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datatransfer/v1;datatransfer";
+option java_package = "yandex.cloud.api.datatransfer.v1";
+
+import "google/api/annotations.proto";
+import "yandex/cloud/datatransfer/v1/transfer.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+
+service TransferService {
+    rpc Create(CreateTransferRequest) returns (operation.Operation) {
+        option (google.api.http) = { post: "/v1/transfer" body: "*" };
+        option (api.operation) = {
+            metadata: "CreateTransferMetadata"
+            response: "Transfer"
+        };
+    }
+    rpc Update(UpdateTransferRequest) returns (operation.Operation) {
+        option (google.api.http) = { patch: "/v1/transfer/{transfer_id}" body: "*" };
+        option (api.operation) = {
+            metadata: "UpdateTransferMetadata"
+            response: "Transfer"
+        };
+    }
+    rpc Delete(DeleteTransferRequest) returns (operation.Operation) {
+        option (google.api.http) = { delete: "/v1/transfer/{transfer_id}" };
+        option (api.operation) = {
+            metadata: "DeleteTransferMetadata"
+            response: "google.protobuf.Empty"
+        };
+    }
+    rpc Get(GetTransferRequest) returns (Transfer) {
+        option (google.api.http) = { get: "/v1/transfer/{transfer_id}" };
+    }
+    rpc Deactivate(DeactivateTransferRequest) returns (operation.Operation) {
+        option (google.api.http) = { post: "/v1/transfer/{transfer_id}:deactivate" body: "*" };
+        option (api.operation) = {
+            metadata: "DeactivateTransferMetadata"
+            response: "google.protobuf.Empty"
+        };
+    }
+    rpc Activate(ActivateTransferRequest) returns (operation.Operation) {
+        option (google.api.http) = { post: "/v1/transfer/{transfer_id}:activate" body: "*" };
+        option (api.operation) = {
+            metadata: "ActivateTransferMetadata"
+            response: "google.protobuf.Empty"
+        };
+    }
+}
+message CreateTransferRequest {
+    string source_id = 1;
+    string target_id = 2;
+    string name = 7;
+    string description = 3;
+    string folder_id = 4;
+    TransferType type = 6;
+}
+message CreateTransferMetadata {
+    string transfer_id = 1;
+}
+message UpdateTransferRequest {
+    string transfer_id = 1;
+    string description = 2;
+    string name = 4;
+}
+message UpdateTransferMetadata {
+    string transfer_id = 1;
+}
+message DeleteTransferRequest {
+    string transfer_id = 1;
+}
+message DeleteTransferMetadata {
+    string transfer_id = 1;
+}
+message GetTransferRequest {
+    string transfer_id = 1;
+}
+message DeactivateTransferRequest {
+    string transfer_id = 1;
+}
+message DeactivateTransferMetadata {
+    string transfer_id = 1;
+}
+message ActivateTransferRequest {
+    string transfer_id = 1;
+}
+message ActivateTransferMetadata {
+    string transfer_id = 1;
+}

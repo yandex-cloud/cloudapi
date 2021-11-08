@@ -192,7 +192,7 @@ message GreenplumMasterConfig {
   
     ON_CHANGE = 2;
 
-    ON_NO_STATES = 3;
+    ON_NO_STATS = 3;
   }
 
   // https://docs.greenplum.org/6-5/ref_guide/config_params/guc-list.html#gp_autostats_mode_in_functions
@@ -251,7 +251,7 @@ message GreenplumSegmentConfig {
   
     QUEUE = 1;
   
-    GREOUP = 2;
+    GROUP = 2;
   }
   // Identifies the resource management scheme currently enabled in the Greenplum Database cluster. The default scheme is to use resource queues.
   // https://docs.greenplum.org/6-5/ref_guide/config_params/guc-list.html#gp_resource_manager

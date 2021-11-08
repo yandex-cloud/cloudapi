@@ -9,19 +9,19 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/marketplac
 option java_package = "yandex.cloud.api.marketplace.v1.metering";
 
 message UsageRecord {
-  // Unique identitifier of the usage record (UUID format)
-  string uuid = 1 [(required) = true, (length) = "<=36"];
-  // Consumed Marketplace SaaS Sku ID, linked to `UsageRecord.product_id`
-  string sku_id = 2 [(required) = true, (length) = "<=50"];
-  // Quantity of sku consumed, measured in `sku.usage_unit` units (e.g. bytes)
-  int64 quantity = 3 [(value) = ">0"];
-  // Timestamp in UTC for which the usage is being reported
-  google.protobuf.Timestamp timestamp = 4 [(required) = true];
+    // Unique identifier of the usage record (UUID format).
+    string uuid = 1 [(required) = true, (length) = "<=36"];
+    // Consumed Marketplace SaaS Sku ID, linked to `UsageRecord.product_id`.
+    string sku_id = 2 [(required) = true, (length) = "<=50"];
+    // Quantity of sku consumed, measured in `sku.usage_unit` units (e.g. bytes).
+    int64 quantity = 3 [(value) = ">0"];
+    // Timestamp in UTC for which the usage is being reported.
+    google.protobuf.Timestamp timestamp = 4 [(required) = true];
 }
 
 message AcceptedUsageRecord{
-  // Unique identitifier of the usage record (UUID format)
-  string uuid = 1;
+    // Unique identifier of the usage record (UUID format).
+    string uuid = 1;
 }
 
 message RejectedUsageRecord{
@@ -37,8 +37,8 @@ message RejectedUsageRecord{
     INVALID_ID = 7;
   }
 
-  // Unique identitifier of the usage record (UUID format)
-  string uuid = 1;
-  // The reason of rejection
-  Reason reason = 2;
+    // Unique identifier of the usage record (UUID format).
+    string uuid = 1;
+    // The reason of rejection.
+    Reason reason = 2;
 }

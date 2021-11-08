@@ -217,6 +217,12 @@ message UpdateClusterRequest {
   // Greenplum cluster config
   GreenplumConfig config = 6;
 
+  // Configuration of the Greenplum master subcluster.
+  MasterSubclusterConfigSpec master_config = 7;
+
+  // Configuration of the Greenplum segment subcluster.
+  SegmentSubclusterConfigSpec segment_config = 8;
+
   // User security groups
   repeated string security_group_ids = 17;
 
