@@ -32,6 +32,9 @@ message Project {
 
         // Commit mode that is assigned to the project.
         CommitMode commit_mode = 4;
+
+        // Network interfaces security groups.
+        repeated string security_group_ids = 5;
     }
 
     message Limits {
