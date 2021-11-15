@@ -150,7 +150,8 @@ message CreateSubclusterConfigSpec {
   // Number of hosts in the subcluster.
   int64 hosts_count = 5 [(required) = true, (value) = ">=1"];
 
-  reserved 6;
+  // Assign public ip addresses for all hosts in subcluter.
+  bool assign_public_ip = 6;
 
   // Configuration for instance group based subclusters
   AutoscalingConfig autoscaling_config = 7;

@@ -98,7 +98,8 @@ message Subcluster {
   // Number of hosts in the subcluster.
   int64 hosts_count = 8;
 
-  reserved 9;
+  // Assign public ip addresses for all hosts in subcluter.
+  bool assign_public_ip = 9;
 
   // Configuration for instance group based subclusters
   AutoscalingConfig autoscaling_config = 10;
