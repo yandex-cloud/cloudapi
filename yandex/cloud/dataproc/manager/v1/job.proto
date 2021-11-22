@@ -38,6 +38,8 @@ message Job {
     RUNNING = 3; // Job is running.
     ERROR = 4; // Job failed.
     DONE = 5; // Job finished.
+    CANCELLED = 6; // Job cancelled.
+    CANCELLING = 7; // Job is waiting for cancellation.
   }
   // Status.
   Status status = 7;

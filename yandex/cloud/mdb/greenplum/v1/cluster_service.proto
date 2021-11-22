@@ -10,6 +10,7 @@ import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
 import "yandex/cloud/mdb/greenplum/v1/cluster.proto";
+import "yandex/cloud/mdb/greenplum/v1/maintenance.proto";
 import "yandex/cloud/mdb/greenplum/v1/config.proto";
 import "yandex/cloud/mdb/greenplum/v1/host.proto";
 
@@ -117,8 +118,8 @@ message ListClustersRequest {
   // A filter expression that filters resources listed in the response.
   // The expression must specify:
   // 1. The field name. Currently you can only use filtering with the [Cluster.name] field.
-  // 2. An operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
-  // 3. The value. Must be 1-63 characters long and match the regular expression `^[a-zA-Z0-9_-]+$`.
+  // 2. An `=` operator.
+  // 3. The value in double quotes (`"`). Must be 1-63 characters long and match the regular expression `[a-zA-Z0-9_-]+`.
   string filter = 4 [(length) = "<=1000"];
 }
 
@@ -185,6 +186,9 @@ message CreateClusterRequest {
 
   // Host groups to place VMs of cluster on.
   repeated string host_group_ids = 17;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 19;
 }
 
 message CreateClusterMetadata {
@@ -222,6 +226,9 @@ message UpdateClusterRequest {
 
   // Configuration of the Greenplum segment subcluster.
   SegmentSubclusterConfigSpec segment_config = 8;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 15;
 
   // User security groups
   repeated string security_group_ids = 17;

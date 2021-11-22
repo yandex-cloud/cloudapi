@@ -48,6 +48,12 @@ message Job {
 
     // Job is finished.
     DONE = 5;
+
+    // Job is cancelled.
+    CANCELLED = 6;
+
+    // Job is waiting for cancellation.
+    CANCELLING = 7;
   }
   // Job status.
   Status status = 7;

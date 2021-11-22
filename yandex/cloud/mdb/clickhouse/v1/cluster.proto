@@ -171,6 +171,9 @@ message ClusterConfig {
 
   // Whether user management through SQL commands is enabled.
   google.protobuf.BoolValue sql_user_management = 8;
+
+  // Whether cluster should use embedded Keeper instead of Zookeeper.
+  google.protobuf.BoolValue embedded_keeper = 9;
 }
 
 message Shard {

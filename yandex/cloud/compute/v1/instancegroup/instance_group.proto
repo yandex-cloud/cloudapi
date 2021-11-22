@@ -42,16 +42,17 @@ message InstanceGroup {
   // Allocation policy of the instance group by zones and regions.
   AllocationPolicy allocation_policy = 10;
 
-  // Information that indicates which entities can be related to this load balancer.
+  // Status of the Network Load Balancer target group attributed to the instance group.
   LoadBalancerState load_balancer_state = 11;
 
   // States of instances for this instance group.
   ManagedInstancesState managed_instances_state = 12;
 
-  // Load balancing specification.
+  // Settings for balancing load between instances via [Network Load Balancer](/docs/network-load-balancer/concepts)
+  // (OSI model layer 3).
   LoadBalancerSpec load_balancer_spec = 14;
 
-  // Health checking specification. For more information, see [Health check](/docs/load-balancer/concepts/health-check).
+  // Health checking specification. For more information, see [Health check](/docs/network-load-balancer/concepts/health-check).
   HealthChecksSpec health_checks_spec = 15;
 
   // ID of the service account. The service account will be used for all API calls
@@ -71,9 +72,13 @@ message InstanceGroup {
   // The default is `false`.
   bool deletion_protection = 19;
 
-  // Application load balancer spec
+  // Settings for balancing load between instances via [Application Load Balancer](/docs/application-load-balancer/concepts)
+  // (OSI model layer 7).
   ApplicationLoadBalancerSpec application_load_balancer_spec = 20;
-  // Application load balancer state
+
+  // Status of the Application Load Balancer target group attributed to the instance group.
+  //
+  // Returned if there is a working load balancer that the target group is connected to.
   ApplicationLoadBalancerState application_load_balancer_state = 21;
 
   enum Status {
@@ -117,7 +122,10 @@ message InstanceGroup {
 }
 
 message ApplicationLoadBalancerState {
+  // ID of the Application Load Balancer target group attributed to the instance group.
   string target_group_id = 1;
+
+  // Status message of the target group.
   string status_message = 2;
 }
 
@@ -127,7 +135,7 @@ message Variable {
 }
 
 message LoadBalancerState {
-  // ID of the target group used for load balancing.
+  // ID of the Network Load Balancer target group attributed to the instance group.
   string target_group_id = 1;
 
   // Status message of the target group.
@@ -224,6 +232,19 @@ message ScalePolicy {
 
     // Defines an autoscaling rule based on a [custom metric](/docs/monitoring/operations/metric/add) from Yandex Monitoring.
     repeated CustomRule custom_rules = 8 [(size) = "<=1"];
+
+    enum AutoScaleType {
+      AUTO_SCALE_TYPE_UNSPECIFIED = 0;
+
+      // Scale each zone independently. This is the default.
+      ZONAL = 1;
+
+      // Scale group as a whole.
+      REGIONAL = 2;
+    }
+
+    // Autoscaling type.
+    AutoScaleType auto_scale_type = 9;
   }
 
   message CpuUtilizationRule {
@@ -237,12 +258,12 @@ message ScalePolicy {
 
       // This type means that the metric applies to one instance.
       // First, Instance Groups calculates the average metric value for each instance,
-      // then averages the values for instances in one availability zone.
+      // then averages the values for instances in one availability zone or in whole group depends on autoscaling type.
       // This type of metric must have the `instance_id` label.
       UTILIZATION = 1;
 
-      // This type means that the metric applies to instances in one availability zone.
-      // This type of metric must have the `zone_id` label.
+      // This type means that the metric applies to instances in one availability zone or to whole group depends on autoscaling type.
+      // This type of metric must have the `zone_id` label if ZONAL autoscaling type is chosen.
       WORKLOAD = 2;
     }
 
@@ -616,8 +637,9 @@ message TargetGroupSpec {
 }
 
 message ApplicationLoadBalancerSpec {
-  // Specification of the alb's target group that the instance group will be added to.
+  // Basic properties of the Application Load Balancer target group attributed to the instance group.
   ApplicationTargetGroupSpec target_group_spec = 1 [(required) = true];
+
   // Timeout for waiting for the VM to be checked by the load balancer. If the timeout is exceeded,
   // the VM will be turned off based on the deployment policy. Specified in seconds.
   google.protobuf.Duration max_opening_traffic_duration = 2 [(value) = ">=1s"];

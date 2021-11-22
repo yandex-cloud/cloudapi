@@ -242,7 +242,11 @@ message CreateInstanceGroupRequest {
   // Allocation policy of the instance group by zones and regions.
   AllocationPolicy allocation_policy = 9 [(required) = true];
 
-  // Load balancing specification.
+  // Settings for balancing load between instances via [Network Load Balancer](/docs/network-load-balancer/concepts)
+  // (OSI model layer 3).
+  //
+  // If specified, a Network Load Balancer target group containing all instances from the instance group will be created
+  // and attributed to the instance group.
   LoadBalancerSpec load_balancer_spec = 10;
 
   // Health checking specification. For more information, see [Health check](/docs/load-balancer/concepts/health-check).
@@ -262,7 +266,11 @@ message CreateInstanceGroupRequest {
   // The default is `false`.
   bool deletion_protection = 14;
 
-  // Application Load balancing (L7) specification.
+  // Settings for balancing load between instances via [Application Load Balancer](/docs/application-load-balancer/concepts)
+  // (OSI model layer 7).
+  //
+  // If specified, an Application Load Balancer target group containing all instances from the instance group will be created
+  // and attributed to the instance group.
   ApplicationLoadBalancerSpec application_load_balancer_spec = 15;
 }
 
@@ -319,7 +327,8 @@ message UpdateInstanceGroupRequest {
   // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
   string service_account_id = 12;
 
-  // Load Balancer specification for load balancing support.
+  // Settings for balancing load between instances via [Network Load Balancer](/docs/network-load-balancer/concepts)
+  // (OSI model layer 3).
   LoadBalancerSpec load_balancer_spec = 14;
 
   repeated Variable variables = 15;

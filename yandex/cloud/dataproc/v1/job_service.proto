@@ -38,6 +38,15 @@ service JobService {
   rpc ListLog (ListJobLogRequest) returns (ListJobLogResponse) {
     option (google.api.http) = { get: "/dataproc/v1/clusters/{cluster_id}/jobs/{job_id}:logs" };
   }
+
+  // Cancels the specified Dataproc job.
+  rpc Cancel (CancelJobRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/dataproc/v1/clusters/{cluster_id}/jobs/{job_id}:cancel" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "CreateJobMetadata"
+      response: "Job"
+    };
+  }
 }
 
 message GetJobRequest {
@@ -68,8 +77,8 @@ message ListJobsRequest {
   //
   // The expression must specify:
   // 1. The field name. Currently you can use filtering only on [Job.name] field.
-  // 2. An operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
-  // 3. The value. Must be 3-63 characters long and match the regular expression `^[a-z][-a-z0-9]{1,61}[a-z0-9].
+  // 2. An `=` operator.
+  // 3. The value in double quotes (`"`). Must be 3-63 characters long and match the regular expression `[a-z][-a-z0-9]{1,61}[a-z0-9]`.
   // Example of a filter: `name=my-job`.
   string filter = 4 [(length) = "<=1000"];
 }
@@ -115,6 +124,14 @@ message CreateJobMetadata {
 
   // ID of the job being created.
   string job_id = 2 [(length) = "<=50"];
+}
+
+message CancelJobRequest {
+  // Required. ID of the Dataproc cluster.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Required. ID of the Dataproc job to cancel.
+  string job_id = 2 [(required) = true, (length) = "<=50"];
 }
 
 message ListJobLogRequest {

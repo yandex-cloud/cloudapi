@@ -89,12 +89,12 @@ message ListScanResultsRequest {
   // [ListRegistriesResponse.next_page_token] returned by a previous list request.
   string page_token = 4 [(length) = "<=100"];
 
-  // A filter expression that filters resources listed in the response.
-  // The expression must specify:
-  // 1. The field name. Currently you can use filtering only on [ScanResult.status] field.
-  // 2. An operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
-  // 3. Value or a list of values to compare against the values of the field.
-  string filter = 5 [(length) = "<=1000"];
+    // A filter expression that filters resources listed in the response.
+    // The expression must specify:
+    // 1. The field name. Currently you can use filtering only on [ScanResult.status] field.
+    // 2. An `=` operator.
+    // 3. The value in double quotes (`"`).
+    string filter = 5 [(length) = "<=1000"];
 
   // An order expression that orders resources listed in the response.
   // The expression must specify:
@@ -131,12 +131,12 @@ message ListVulnerabilitiesRequest {
   // [ListRegistriesResponse.next_page_token] returned by a previous list request.
   string page_token = 3 [(length) = "<=100"];
 
-  // A filter expression that filters resources listed in the response.
-  // The expression must specify:
-  // 1. The field name. Currently you can use filtering only on [Vulnerability.severity] and [PackageVulnerability.name] fields.
-  // 2. An operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
-  // 3. Value or a list of values to compare against the values of the field.
-  string filter = 4 [(length) = "<=1000"];
+    // A filter expression that filters resources listed in the response.
+    // The expression must specify:
+    // 1. The field name. Currently you can use filtering only on [Vulnerability.severity] and [PackageVulnerability.name] fields.
+    // 2. An `=` operator.
+    // 3. The value in double quotes (`"`).
+    string filter = 4 [(length) = "<=1000"];
 
   // An order expression that orders resources listed in the response.
   // The expression must specify:

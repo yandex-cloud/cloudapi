@@ -114,8 +114,8 @@ message ListBackendGroupsRequest {
   //
   // The expression must specify:
   // 1. The field name. Currently you can use filtering only on [BackendGroup.name] field.
-  // 2. An operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
-  // 3. The value. Must be 3-63 characters long and match the regular expression `^[a-z][-a-z0-9]{1,61}[a-z0-9]`.
+  // 2. An `=` operator.
+  // 3. The value in double quotes (`"`). Must be 3-63 characters long and match the regular expression `[a-z][-a-z0-9]{1,61}[a-z0-9]`.
   // Example of a filter: `name=my-backend-group`.
   string filter = 4 [(length) = "<=1000"];
 }
@@ -243,6 +243,9 @@ message AddBackendRequest {
 
     // gRPC backend to add to the backend group.
     GrpcBackend grpc = 3;
+
+    // New settings for the Stream backend.
+    StreamBackend stream = 5;
   }
 }
 
@@ -269,6 +272,9 @@ message UpdateBackendRequest {
 
     // New settings for the gRPC backend.
     GrpcBackend grpc = 4;
+
+    // New settings for the Stream backend.
+    StreamBackend stream = 5;
   }
 }
 
