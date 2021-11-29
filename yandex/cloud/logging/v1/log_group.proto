@@ -60,4 +60,9 @@ message LogGroup {
   //
   // Entries will be present in group during this period.
   google.protobuf.Duration retention_period = 9;
+
+  // Data stream name
+
+  string data_stream = 10;
+
 }

@@ -172,6 +172,10 @@ message CreateLogGroupRequest {
   // If specified, must be non-negative.
   // Empty or zero value is treated as no limit.
   google.protobuf.Duration retention_period = 5;
+  // Data stream name
+
+  // If specified, all log records will be written to this data stream
+  string data_stream = 6 [(length) = "<=512"];
 }
 
 message CreateLogGroupMetadata {
@@ -204,6 +208,11 @@ message UpdateLogGroupRequest {
   // If specified, must be non-negative.
   // Empty or zero value is treated as no limit.
   google.protobuf.Duration retention_period = 6;
+
+  // Data stream name
+
+  // If specified, log records will be written to this data stream
+  string data_stream = 7 [(length) = "<=512"];
 }
 
 message UpdateLogGroupMetadata {

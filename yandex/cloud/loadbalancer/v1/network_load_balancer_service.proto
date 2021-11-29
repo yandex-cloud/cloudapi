@@ -188,7 +188,7 @@ message CreateNetworkLoadBalancerRequest {
   repeated ListenerSpec listener_specs = 7 [(size) = "<=1000"];
 
   // List of attached target groups for the network load balancer.
-  repeated AttachedTargetGroup attached_target_groups = 8 [(size) = "<=5"];
+  repeated AttachedTargetGroup attached_target_groups = 8 [(size) = "<=1000"];
 }
 
 message CreateNetworkLoadBalancerMetadata {
@@ -220,7 +220,7 @@ message UpdateNetworkLoadBalancerRequest {
   repeated ListenerSpec listener_specs = 6 [(size) = "<=1000"];
 
   // A list of attached target groups for the network load balancer.
-  repeated AttachedTargetGroup attached_target_groups = 7 [(size) = "<=5"];
+  repeated AttachedTargetGroup attached_target_groups = 7 [(size) = "<=1000"];
 }
 
 message UpdateNetworkLoadBalancerMetadata {

@@ -228,10 +228,16 @@ message ScalePolicy {
     int64 initial_size = 6 [(value) = ">=1"];
 
     // Defines an autoscaling rule based on the average CPU utilization of the instance group.
+    //
+    // If more than one rule is specified, e.g. CPU utilization and one or more Yandex Monitoring metrics ([custom_rules]),
+    // the size of the instance group will be equal to the maximum of sizes calculated according to each metric.
     CpuUtilizationRule cpu_utilization_rule = 7;
 
     // Defines an autoscaling rule based on a [custom metric](/docs/monitoring/operations/metric/add) from Yandex Monitoring.
-    repeated CustomRule custom_rules = 8 [(size) = "<=1"];
+    //
+    // If more than one rule is specified, e.g. CPU utilization ([cpu_utilization_rule]) and one or more Yandex Monitoring
+    // metrics, the size of the instance group will be equal to the maximum of sizes calculated according to each metric.
+    repeated CustomRule custom_rules = 8 [(size) = "<=3"];
 
     enum AutoScaleType {
       AUTO_SCALE_TYPE_UNSPECIFIED = 0;
