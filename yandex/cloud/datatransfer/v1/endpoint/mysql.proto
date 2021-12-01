@@ -12,7 +12,7 @@ message OnPremiseMysql {
     repeated string hosts = 5;
     // Database port
     // 
-    // Will be used if the cluster ID is not specified. Default: 6432.
+    // Default: 3306.
     int64 port = 2;
     // TLS mode
     // 
@@ -25,7 +25,7 @@ message OnPremiseMysql {
 }
 message MysqlConnection {
     oneof connection {
-        // MDB cluster
+        // Managed cluster
         // 
         // Yandex.Cloud Managed MySQL cluster ID
         string mdb_cluster_id = 1;

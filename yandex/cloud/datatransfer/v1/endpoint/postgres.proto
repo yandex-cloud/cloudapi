@@ -91,7 +91,7 @@ message OnPremisePostgres {
 }
 message PostgresConnection {
     oneof connection {
-        // MDB cluster
+        // Managed cluster
         // 
         // Yandex.Cloud Managed PostgreSQL cluster ID
         string mdb_cluster_id = 1;
@@ -116,7 +116,7 @@ message PostgresSource {
     // 
     // Password for database access.
     Secret password = 4;
-    // List of tables
+    // Included tables
     // 
     // If none or empty list is presented, all tables are replicated. Can contain
     // regular expression.

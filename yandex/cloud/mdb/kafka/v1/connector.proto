@@ -30,6 +30,23 @@ message ConnectorSpec {
 
 }
 
+// An Apache Kafka® connector's update specification.
+message UpdateConnectorSpec {
+  // Maximum number of tasks to update.
+  google.protobuf.Int64Value tasks_max = 1;
+
+  // Properties passed with connector config to Connect service, that
+  // we should change or add in existing Properties-set of connector.
+  // Example: 'sync.topics.config.enabled: false'
+  map<string, string> properties = 2;
+
+  // Update specification for specific connector (for example, MirrorMaker).
+  oneof connector_config {
+    // Update specification for MirrorMaker.
+    ConnectorConfigMirrorMakerSpec connector_config_mirrormaker = 10;
+  }
+}
+
 // An An Apache Kafka® MirrorMaker
 // connector specification.
 message ConnectorConfigMirrorMakerSpec {

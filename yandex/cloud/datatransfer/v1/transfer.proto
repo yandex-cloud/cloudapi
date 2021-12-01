@@ -32,6 +32,7 @@ message Transfer {
     string folder_id = 2;
     string name = 4;
     string description = 5;
+    map<string,string> labels = 6;
     Endpoint source = 7;
     Endpoint target = 8;
     TransferStatus status = 10;

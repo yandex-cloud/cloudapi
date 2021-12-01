@@ -456,8 +456,11 @@ message ListenerSpec {
     // HTTP listener settings.
     HttpListener http = 3;
 
-    // HTTPS (HTTP over TLS) listener settings.
+    // TLS listener settings.
     TlsListener tls = 4;
+
+    // TCP listener settings.
+    StreamListener stream =5;
   }
 }
 

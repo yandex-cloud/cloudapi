@@ -175,8 +175,8 @@ message Listener {
     // HTTPS (HTTP over TLS) listener settings.
     TlsListener tls = 4;
 
-    // TCP listener settings.
-    TcpListener tcp = 5;
+    // Stream listener settings.
+    StreamListener stream = 5;
   }
 }
 
@@ -204,17 +204,17 @@ message HttpListener {
 
 // An HTTPS (HTTP over TLS) listener resource.
 message TlsListener {
-  // Settings for handling HTTPS requests by default,
-  // with Server Name Indication (SNI) not matching any of the [sni_handlers].
+  // Settings for handling requests by default, with Server Name
+  // Indication (SNI) not matching any of the [sni_handlers].
   TlsHandler default_handler = 1 [(required) = true];
 
-  // Settings for handling HTTPS requests with Server Name Indication (SNI)
+  // Settings for handling requests with Server Name Indication (SNI)
   // matching one of [SniMatch.server_names] values.
   repeated SniMatch sni_handlers = 2;
 }
 
-// A TCP listener resource.
-message TcpListener {
+// A Stream listener resource.
+message StreamListener {
   StreamHandler handler = 1 [(required) = true];
 }
 

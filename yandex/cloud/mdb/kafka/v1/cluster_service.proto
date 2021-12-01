@@ -11,6 +11,7 @@ import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/mdb/kafka/v1/cluster.proto";
 import "yandex/cloud/mdb/kafka/v1/topic.proto";
 import "yandex/cloud/mdb/kafka/v1/user.proto";
+import "yandex/cloud/mdb/kafka/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/kafka/v1;kafka";
 option java_package = "yandex.cloud.api.mdb.kafka.v1";
@@ -83,6 +84,15 @@ service ClusterService {
         response: "Cluster"
       };
     }
+
+  // Reschedule planned maintenance operation.
+  rpc RescheduleMaintenance (RescheduleMaintenanceRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-kafka/v1/clusters/{cluster_id}:rescheduleMaintenance" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "RescheduleMaintenanceMetadata"
+      response: "Cluster"
+    };
+  }
 
     // Retrieves logs for the specified Apache Kafka® cluster.
     //
@@ -190,6 +200,9 @@ message CreateClusterRequest {
 
     // Deletion Protection inhibits deletion of the cluster
     bool deletion_protection = 14;
+
+    // Window of maintenance operations.
+    MaintenanceWindow maintenance_window = 15;
 }
 
 message CreateClusterMetadata {
@@ -230,6 +243,9 @@ message UpdateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 8;
+
+  // New maintenance window settings for the cluster.
+  MaintenanceWindow maintenance_window = 9;
 }
 
 message UpdateClusterMetadata {
@@ -458,4 +474,36 @@ message StopClusterRequest {
 message StopClusterMetadata {
   // ID of the Apache Kafka® cluster.
   string cluster_id = 1;
+}
+
+message RescheduleMaintenanceRequest {
+  // ID of the Kafka cluster to reschedule the maintenance operation for.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  enum RescheduleType {
+    RESCHEDULE_TYPE_UNSPECIFIED = 0;
+
+    // Start the maintenance operation immediately.
+    IMMEDIATE = 1;
+
+    // Start the maintenance operation within the next available maintenance window.
+    NEXT_AVAILABLE_WINDOW = 2;
+
+    // Start the maintenance operation at the specific time.
+    SPECIFIC_TIME = 3;
+  }
+
+  // The type of reschedule request.
+  RescheduleType reschedule_type = 2[(required) = true];
+
+  // The time until which this maintenance operation should be delayed. The value should be ahead of the first time when the maintenance operation has been scheduled for no more than two weeks. The value can also point to the past moment of time if [reschedule_type.IMMEDIATE] reschedule type is chosen.
+  google.protobuf.Timestamp delayed_until = 3;
+}
+
+message RescheduleMaintenanceMetadata {
+  // ID of the Kafka cluster.
+  string cluster_id = 1;
+
+  // The time until which this maintenance operation is to be delayed.
+  google.protobuf.Timestamp delayed_until = 4;
 }

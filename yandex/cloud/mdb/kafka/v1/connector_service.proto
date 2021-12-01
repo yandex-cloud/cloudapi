@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.mdb.kafka.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -30,6 +31,15 @@ service ConnectorService {
     option (google.api.http) = { post: "/managed-kafka/v1/clusters/{cluster_id}/connectors" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateConnectorMetadata"
+      response: "Connector"
+    };
+  }
+
+  // Updates an Apache Kafka connector in the specified cluster.
+  rpc Update (UpdateConnectorRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/managed-kafka/v1/clusters/{cluster_id}/connectors/{connector_name}" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateConnectorMetadata"
       response: "Connector"
     };
   }
@@ -114,6 +124,30 @@ message CreateConnectorMetadata {
   string cluster_id = 1;
 
   // Name of the Apache Kafka connector that is being created.
+  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[a-zA-Z0-9_-]*"];
+}
+
+message UpdateConnectorRequest {
+  // Required. ID of the Apache Kafka cluster to update a connector in.
+  // To get the cluster ID use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Required. Name of the connector to update.
+  // To get the name of the connector, use a [ConnectorService.List] request.
+  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  // Field mask that specifies which fields of the Connector resource should be updated.
+  google.protobuf.FieldMask update_mask = 3;
+
+  // Required. Configuration of the connector to update.
+  UpdateConnectorSpec connector_spec = 4 [(required) = true];
+}
+
+message UpdateConnectorMetadata {
+  // ID of the Apache Kafka cluster where a connector is being updated.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Name of the Apache Kafka connector that is being updated.
   string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
