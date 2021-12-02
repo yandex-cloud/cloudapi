@@ -30,7 +30,7 @@ message RawAudio {
     enum AudioEncoding {
         AUDIO_ENCODING_UNSPECIFIED = 0;
 
-        // 16-bit signed little-endian (Linear PCM).
+        // Audio bit depth 16-bit signed little-endian (Linear PCM).
         LINEAR16_PCM = 1;
     }
 
@@ -45,7 +45,7 @@ message ContainerAudio {
     enum ContainerAudioType {
         CONTAINER_AUDIO_TYPE_UNSPECIFIED = 0;
 
-        // RIFF linear pcm with header audio file format.
+        // Audio bit depth 16-bit signed little-endian (Linear PCM).
         WAV = 1;
         OGG_OPUS = 2;
     }

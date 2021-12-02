@@ -40,7 +40,7 @@ message UserSpec {
   // Password of the ClickHouse user.
   string password = 2 [(required) = true, (length) = "8-128"];
 
-  // Set of permissions to grant to the user.
+  // Set of permissions to grant to the user. If not set, it's granted permissions to access all databases.
   repeated Permission permissions = 3;
 
   UserSettings settings = 4;
