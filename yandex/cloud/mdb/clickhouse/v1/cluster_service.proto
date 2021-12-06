@@ -471,9 +471,15 @@ message BackupClusterMetadata {
 }
 
 message RestoreClusterRequest {
-  // ID of the backup to create a cluster from.
+  // ID of the backup to restore from. This backup will be used to create one cluster shard.
   // To get the backup ID, use a [ClusterService.ListBackups] request.
   string backup_id = 1 [(required) = true];
+
+  // Additional IDs of the backups to restore from.
+  // Each additional backup is responsible for restoring separate shard.
+  // Restored cluster will have len(additional_backup_ids)+1 shards in total.
+  // To get the backup ID, use a [ClusterService.ListBackups] request.
+  repeated string additional_backup_ids = 13;
 
   // Name of the new ClickHouse cluster. The name must be unique within the folder.
   string name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
