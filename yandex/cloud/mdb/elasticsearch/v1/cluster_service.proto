@@ -11,6 +11,7 @@ import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/mdb/elasticsearch/v1/cluster.proto";
 import "yandex/cloud/mdb/elasticsearch/v1/user.proto";
 import "yandex/cloud/mdb/elasticsearch/v1/config/elasticsearch.proto";
+import "yandex/cloud/mdb/elasticsearch/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/elasticsearch/v1;elasticsearch";
 option java_package = "yandex.cloud.api.mdb.elasticsearch.v1";
@@ -122,6 +123,15 @@ service ClusterService {
           response: "google.protobuf.Empty"
         };
     }
+
+    // Reschedule planned maintenance operation.
+    rpc RescheduleMaintenance (RescheduleMaintenanceRequest) returns (operation.Operation) {
+        option (google.api.http) = { post: "/managed-elasticsearch/v1/clusters/{cluster_id}:rescheduleMaintenance" body: "*"};
+        option (yandex.cloud.api.operation) = {
+            metadata: "RescheduleMaintenanceMetadata"
+            response: "Cluster"
+        };
+    }
 }
 
 message GetClusterRequest {
@@ -206,6 +216,9 @@ message CreateClusterRequest {
 
     // Deletion Protection inhibits deletion of the cluster
     bool deletion_protection = 13;
+
+    // Window of maintenance operations.
+    MaintenanceWindow maintenance_window = 14;
 }
 
 message CreateClusterMetadata {
@@ -248,6 +261,9 @@ message UpdateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 9;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 10;
 }
 
 message UpdateClusterMetadata {
@@ -606,4 +622,29 @@ message DeleteClusterHostsMetadata {
 
     // Names of the hosts that are being deleted.
     repeated string host_names = 2;
+}
+
+message RescheduleMaintenanceRequest {
+    // Required. ID of the Elasticsearch cluster to maintenance reschedule.
+    string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+    enum RescheduleType {
+        RESCHEDULE_TYPE_UNSPECIFIED = 0;
+        IMMEDIATE = 1;
+        NEXT_AVAILABLE_WINDOW = 2;
+        SPECIFIC_TIME = 3;
+    }
+    // Required. The type of reschedule request.
+    RescheduleType reschedule_type = 2[(required) = true];
+
+    // The time for SPECIFIC_TIME reschedule. Limited by two weeks since first time scheduled.
+    google.protobuf.Timestamp delayed_until = 3;
+}
+
+message RescheduleMaintenanceMetadata {
+    // Required. ID of the Elasticsearch cluster.
+    string cluster_id = 1;
+
+    // Required. New time of the planned maintenance. Can be in the past for rescheduled to "IMMEDIATE".
+    google.protobuf.Timestamp delayed_until = 4;
 }
