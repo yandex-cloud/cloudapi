@@ -116,6 +116,30 @@ message MysqlConfig5_7 {
       LOGICAL_CLOCK = 2;
   }
 
+  enum LogSlowRateType {
+    LOG_SLOW_RATE_TYPE_UNSPECIFIED = 0;
+
+    SESSION = 1;
+
+    QUERY = 2;
+  }
+
+  enum LogSlowFilterType {
+    LOG_SLOW_FILTER_TYPE_UNSPECIFIED = 0;
+
+    FULL_SCAN = 1;
+
+    FULL_JOIN = 2;
+
+    TMP_TABLE = 3;
+
+    TMP_TABLE_ON_DISK = 4;
+
+    FILESORT = 5;
+
+    FILESORT_ON_DISK = 6;
+  }
+
   // Size of the InnoDB buffer pool used for caching table and index data.
   //
   // For details, see [MySQL documentation for the parameter](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_buffer_pool_size).
@@ -385,6 +409,36 @@ message MysqlConfig5_7 {
   //
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_range_optimizer_max_mem_size).
   google.protobuf.Int64Value range_optimizer_max_mem_size = 55 [(value) = "1048576-268435456"];
+
+  // Manages slow query log
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_slow_query_log).
+  google.protobuf.BoolValue slow_query_log = 56;
+
+  // Query execution time, after which query to be logged unconditionally, that is, log_slow_rate_limit will not apply to it
+  //
+  // For details, see [Percona documentation for the variable](https://www.percona.com/doc/percona-server/8.0/diagnostics/slow_extended.html#slow_query_log_always_write_time).
+  google.protobuf.DoubleValue slow_query_log_always_write_time = 57;
+
+  // Specifies slow log granularity for log_slow_rate_limit: QUERY or SESSION
+  //
+  // For details, see [Percona documentation for the variable](https://www.percona.com/doc/percona-server/8.0/diagnostics/slow_extended.html#log_slow_rate_type).
+  LogSlowRateType log_slow_rate_type = 58;
+
+  // Specifies what fraction of session/query should be logged. Logging is enabled for every nth session/query.
+  //
+  // For details, see [Percona documentation for the variable](https://www.percona.com/doc/percona-server/8.0/diagnostics/slow_extended.html#log_slow_rate_limit).
+  google.protobuf.Int64Value log_slow_rate_limit = 59 [(value) = "1-1000"];
+
+  // When TRUE, statements executed by stored procedures are logged to the slow log
+  //
+  // For details, see [Percona documentation for the variable](https://www.percona.com/doc/percona-server/8.0/diagnostics/slow_extended.html#log_slow_sp_statements).
+  google.protobuf.BoolValue log_slow_sp_statements = 60;
+  
+  // Filters the slow log by the query's execution plan
+  //
+  // For details, see [Percona documentation for the variable](https://www.percona.com/doc/percona-server/8.0/diagnostics/slow_extended.html#log_slow_filter).
+  repeated LogSlowFilterType log_slow_filter = 61;
 }
 
 message MysqlConfigSet5_7 {

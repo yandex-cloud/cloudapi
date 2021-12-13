@@ -138,4 +138,6 @@ message UtteranceSynthesisRequest {
     }
     // Optional. Default: LUFS, type of loudness normalization, default value -19.
     LoudnessNormalizationType loudness_normalization_type = 6;
+    // Optional. Automatically split long text to several utterances and bill accordingly. Some degradation in service quality is possible.
+    bool unsafe_mode = 7;
 }

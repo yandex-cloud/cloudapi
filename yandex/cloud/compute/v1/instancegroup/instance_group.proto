@@ -755,6 +755,9 @@ message ManagedInstance {
 
     // Instance was deleted.
     DELETED = 24;
+
+    // Instance Groups is preparing dependent resources.
+    PREPARING_RESOURCES = 25;
   }
 
   // ID of the managed instance.
