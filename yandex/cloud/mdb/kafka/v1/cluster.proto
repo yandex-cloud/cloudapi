@@ -184,7 +184,7 @@ message Resources {
   // All available presets are listed in the [documentation](/docs/managed-kafka/concepts/instance-types).
   string resource_preset_id = 1;
 
-  // Volume of the storage available to a host, in bytes.
+  // Volume of the storage available to a host, in bytes. Must be greater than 2 * partition segment size in bytes * partitions count, so each partition can have one active segment file and one closed segment file that can be deleted.
   int64 disk_size = 2;
 
   // Type of the storage environment for the host.

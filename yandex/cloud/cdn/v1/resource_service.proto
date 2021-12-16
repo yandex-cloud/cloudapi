@@ -56,7 +56,7 @@ service ResourceService {
         };
     }
 
-    // Get Provider's CNAME (edge endpoint) binded to specified folder id.
+    // Get Provider's CNAME (edge endpoint) bind to specified folder id.
     // Returns UNIMPLEMENTED error, if provider doesn't support CNAME request.
     rpc GetProviderCName(GetProviderCNameRequest) returns (GetProviderCNameResponse) {
         option (google.api.http) = { get: "/cdn/v1/cname/{folder_id}" };
@@ -103,11 +103,11 @@ message CreateResourceRequest {
             // ID of pre-created origin group.
             int64 origin_group_id = 1;
 
-            // Create new Origins group with single source, it's id will be 
+            // Create new Origins group with single source, it's id will be
             // returned in result.
             string origin_source = 2;
 
-            // Set up resourse origin parameters.
+            // Set up resource origin parameters.
             ResourceOriginParams origin_source_params = 3;
         }
     }
@@ -124,11 +124,11 @@ message CreateResourceRequest {
     // List of additional CNAMEs.
     SecondaryHostnames secondary_hostnames = 4;
 
-    // Specify the protocol schema to be used in communication with origin. 
+    // Specify the protocol schema to be used in communication with origin.
     OriginProtocol origin_protocol = 5;
 
     // Flag to create Resource either in active or disabled state.
-    // In active state Origins payload could be transmitted from CDN CNAME requests. 
+    // In active state Origins payload could be transmitted from CDN CNAME requests.
     // Default value: true
     google.protobuf.BoolValue active = 6;
 
@@ -139,9 +139,9 @@ message CreateResourceRequest {
     SSLTargetCertificate ssl_certificate = 8;
 }
 
-// A set of resourse origin parameters. 
+// A set of resource origin parameters.
 message ResourceOriginParams {
-    // Sourse of the content.
+    // Source of the content.
     string source = 1;
 
     // Set up type of the origin.
@@ -166,11 +166,11 @@ message UpdateResourceRequest {
     // Resource settings and options to tune CDN edge behavior.
     ResourceOptions options = 4;
 
-    // Specify the protocol schema to be used in communication with origin. 
+    // Specify the protocol schema to be used in communication with origin.
     OriginProtocol origin_protocol = 5;
-    
+
     // Flag to create Resource either in active or disabled state.
-    // In active state Origins payload could be transmitted from CDN CNAME requests. 
+    // In active state Origins payload could be transmitted from CDN CNAME requests.
     // Default value: true
     google.protobuf.BoolValue active = 6;
 
@@ -202,7 +202,7 @@ message GetProviderCNameRequest {
 message GetProviderCNameResponse {
     // Provider's CNAME.
     string cname = 1;
-    
+
     // ID of the folder that the provider belongs to.
     string folder_id = 2;
 }

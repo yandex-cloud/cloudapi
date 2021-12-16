@@ -184,6 +184,9 @@ message UpdateBackendGroupRequest {
 
     // New list of gRPC backends that the backend group will consist of.
     GrpcBackendGroup grpc = 7;
+
+    // New list of Stream backends that the backend group will consist of.
+    StreamBackendGroup stream = 8;
   }
 }
 
@@ -218,6 +221,9 @@ message CreateBackendGroupRequest {
 
     // List of gRPC backends that the backend group consists of.
     GrpcBackendGroup grpc = 6;
+
+    // List of Stream backends that the backend group consists of.
+    StreamBackendGroup stream = 7;
   }
 }
 

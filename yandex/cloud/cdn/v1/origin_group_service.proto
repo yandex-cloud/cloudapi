@@ -21,17 +21,17 @@ option java_package = "yandex.cloud.api.cdn.v1";
 service OriginGroupService {
     // Gets origin group with specified origin group id.
     rpc Get(GetOriginGroupRequest) returns (OriginGroup) {
-        option (google.api.http) = { get: "/cdn/v1/origin_groups/{origin_group_id}" };
+        option (google.api.http) = { get: "/cdn/v1/originGroups/{origin_group_id}" };
     }
 
     // Lists origins of origin group.
     rpc List(ListOriginGroupsRequest) returns (ListOriginGroupsResponse) {
-        option (google.api.http) = { get: "/cdn/v1/origin_groups" };
+        option (google.api.http) = { get: "/cdn/v1/originGroups" };
     }
 
     // Creates origin group.
     rpc Create(CreateOriginGroupRequest) returns (operation.Operation) {
-        option (google.api.http) = { post: "/cdn/v1/origin_groups" body: "*" };
+        option (google.api.http) = { post: "/cdn/v1/originGroups" body: "*" };
         option (yandex.cloud.api.operation) = {
           metadata: "CreateOriginGroupMetadata"
           response: "OriginGroup"
@@ -40,7 +40,7 @@ service OriginGroupService {
 
     // Updates origin group.
     rpc Update(UpdateOriginGroupRequest) returns (operation.Operation) {
-        option (google.api.http) = { patch: "/cdn/v1/origin_groups" body: "*" };
+        option (google.api.http) = { patch: "/cdn/v1/originGroups" body: "*" };
         option (yandex.cloud.api.operation) = {
           metadata: "UpdateOriginGroupMetadata"
           response: "OriginGroup"
@@ -49,7 +49,7 @@ service OriginGroupService {
 
     // Deletes origin group with specified origin group id.
     rpc Delete(DeleteOriginGroupRequest) returns (operation.Operation) {
-        option (google.api.http) = { delete: "/cdn/v1/origin_groups/{origin_group_id}" };
+        option (google.api.http) = { delete: "/cdn/v1/originGroups/{origin_group_id}" };
         option (yandex.cloud.api.operation) = {
           metadata: "DeleteOriginGroupMetadata"
           response: "google.protobuf.Empty"
@@ -150,7 +150,7 @@ message UpdateOriginGroupMetadata {
 message DeleteOriginGroupRequest {
     // ID of the folder that the origin group belongs to.
     string folder_id = 1 [(required) = true, (length) = "<=50"];
-    
+
     // ID of the origin group.
     int64 origin_group_id = 2 [(value) = ">0"];
 }

@@ -52,7 +52,7 @@ service SubnetService {
   rpc AddCidrBlocks (AddSubnetCidrBlocksRequest) returns (operation.Operation) {
     option (google.api.http) = {post: "/vpc/v1/subnets/{subnet_id}:add-cidr-blocks" body: "*"};
     option (yandex.cloud.api.operation) = {
-      metadata: "AddSubnetCidrBlocksMetadata"
+      metadata: "UpdateSubnetMetadata"
       response: "Subnet"
     };
   }
@@ -62,7 +62,7 @@ service SubnetService {
   rpc RemoveCidrBlocks (RemoveSubnetCidrBlocksRequest) returns (operation.Operation) {
     option (google.api.http) = {post: "/vpc/v1/subnets/{subnet_id}:remove-cidr-blocks" body: "*"};
     option (yandex.cloud.api.operation) = {
-      metadata: "RemoveSubnetCidrBlocksMetadata"
+      metadata: "UpdateSubnetMetadata"
       response: "Subnet"
     };
   }
