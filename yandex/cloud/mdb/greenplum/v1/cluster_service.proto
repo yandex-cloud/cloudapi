@@ -4,6 +4,7 @@ package yandex.cloud.mdb.greenplum.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -92,6 +93,10 @@ service ClusterService {
   // Retrieves a list of segment hosts for the specified cluster.
   rpc ListSegmentHosts (ListClusterHostsRequest) returns (ListClusterHostsResponse) {
     option (google.api.http) = {get: "/mdb/managed-greenplum/v1/clusters/{cluster_id}/segment-hosts"};
+  }
+  // Retrieves logs for the specified Greenplum cluster.
+  rpc ListLogs (ListClusterLogsRequest) returns (ListClusterLogsResponse) {
+    option (google.api.http) = { get: "/mdb/managed-greenplum/v1/clusters/{cluster_id}:logs" };
   }
 }
 
@@ -341,4 +346,74 @@ message SegmentSubclusterConfigSpec {
 
   // Configuration settings of a Greenplum segment server.
   GreenplumSegmentConfig config = 2;
+}
+
+message ListClusterLogsResponse {
+  // Requested log records.
+  repeated LogRecord logs = 1;
+
+  // This token allows you to get the next page of results for list requests. If the number of results
+  // is larger than [ListClusterLogsRequest.page_size], use the [next_page_token] as the value
+  // for the [ListClusterLogsRequest.page_token] query parameter in the next list request.
+  // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
+  // This value is interchangeable with the [StreamLogRecord.next_record_token] from StreamLogs method.
+  string next_page_token = 2;
+}
+
+message LogRecord {
+  // Log record timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  google.protobuf.Timestamp timestamp = 1;
+
+  // Contents of the log record.
+  map<string, string> message = 2;
+}
+message ListClusterLogsRequest {
+  // ID of the Greenplum cluster to request logs for.
+  // To get the Greenplum cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Columns from logs table to request.
+  // If no columns are specified, entire log records are returned.
+  repeated string column_filter = 2;
+
+  // Type of the service to request logs about.
+  ServiceType service_type = 3;
+
+  enum ServiceType {
+    SERVICE_TYPE_UNSPECIFIED = 0;
+
+    // Logs of Greenplum activity.
+    GREENPLUM = 1;
+    GREENPLUM_POOLER = 2;
+  }
+
+  // Start timestamp for the logs request, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  google.protobuf.Timestamp from_time = 4;
+
+  // End timestamp for the logs request, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  google.protobuf.Timestamp to_time = 5;
+
+  // The maximum number of results per page to return. If the number of available
+  // results is larger than [page_size], the service returns a [ListClusterLogsResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  int64 page_size = 6 [(value) = "<=1000"];
+
+  // Page token.  To get the next page of results, set [page_token] to the [ListClusterLogsResponse.next_page_token]
+  // returned by a previous list request.
+  string page_token = 7 [(length) = "<=100"];
+
+
+  // Always return `next_page_token`, even if current page is empty.
+  bool always_next_page_token = 8;
+
+  // A filter expression that filters resources listed in the response.
+  // The expression must specify:
+  // 1. The field name. Currently filtering can be applied to the [LogRecord.logs.message.hostname],
+  // [LogRecord.logs.message.error_severity] (for GREENPLUM service), [LogRecord.logs.message.level] (for GREENPLUM_POOLER service) fields.
+  // 2. A conditional operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
+  // 3. The value. Must be 1-63 characters long and match the regular expression `^[a-z0-9.-]{1,61}$`.
+  // Examples of a filter:
+  // `message.hostname='node1.db.cloud.yandex.net'`
+  // `message.error_severity IN ("ERROR", "FATAL", "PANIC") AND message.hostname = "node1.db.cloud.yandex.net"`
+  string filter = 9 [(length) = "<=1000"];
 }
