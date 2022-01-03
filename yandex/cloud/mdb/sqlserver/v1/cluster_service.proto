@@ -215,6 +215,9 @@ message CreateClusterRequest {
 
   //name of SQL Collation that cluster will be created with
   string sqlcollation = 13 [(length) = "<=100"];
+
+  // Host groups hosting VMs of the cluster.
+  repeated string host_group_ids = 14;
 }
 
 message CreateClusterMetadata {
@@ -322,6 +325,12 @@ message RestoreClusterRequest {
 
   // User security groups
   repeated string security_group_ids = 12;
+
+  // Deletion Protection inhibits deletion of the cluster
+  bool deletion_protection = 13;
+
+  // Host groups hosting VMs of the cluster.
+  repeated string host_group_ids = 14;
 }
 
 message RestoreClusterMetadata {

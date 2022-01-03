@@ -22,7 +22,7 @@ message WriteImageProductUsageRequest {
     bool validate_only = 1;
     // Marketplace Product's ID.
     string product_id = 2 [(required) = true, (length) = "<=50"];
-    // List of product usage records (up to 25 pet request).
+    // List of product usage records (up to 25 per request).
     repeated UsageRecord usage_records = 3 [(size) = "1-25"];
 }
 

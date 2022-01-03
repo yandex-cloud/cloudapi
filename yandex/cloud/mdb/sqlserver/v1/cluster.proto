@@ -114,6 +114,9 @@ message Cluster {
 
   //SQL Server Collation
   string sqlcollation = 15;
+
+  // Host groups hosting VMs of the cluster.
+  repeated string host_group_ids = 16;
 }
 
 message Monitoring {
