@@ -13,6 +13,7 @@ import "yandex/cloud/mdb/postgresql/v1/config/postgresql11.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql11_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql12.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql13.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql14.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql12_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host10.proto";
@@ -21,6 +22,7 @@ import "yandex/cloud/mdb/postgresql/v1/config/host11.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host11_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host12.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host13.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host14.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host12_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/maintenance.proto";
 
@@ -177,6 +179,9 @@ message ClusterConfig {
 
     // Configuration of a PostgreSQL 13 server.
     config.PostgresqlConfigSet13 postgresql_config_13 = 15 [json_name="postgresqlConfig_13"];
+
+    // Configuration of a PostgreSQL 14 server.
+    config.PostgresqlConfigSet14 postgresql_config_14 = 16 [json_name="postgresqlConfig_14"];
   }
 
   // Configuration of the connection pooler.
@@ -190,7 +195,7 @@ message ClusterConfig {
 
   // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 7;
-  
+
   // Retention policy of automated backups.
   google.protobuf.Int64Value backup_retain_period_days = 17 [(value) = "7-60"];
 
@@ -331,6 +336,9 @@ message HostConfig {
 
     // Configuration for a host with PostgreSQL 13 server deployed.
     config.PostgresqlHostConfig13 postgresql_config_13 = 8 [json_name="postgresqlHostConfig_13"];
+
+    // Configuration for a host with PostgreSQL 14 server deployed.
+    config.PostgresqlHostConfig14 postgresql_config_14 = 9 [json_name="postgresqlHostConfig_14"];
   }
 }
 

@@ -11,9 +11,9 @@ option java_package = "yandex.cloud.api.marketplace.v1.metering";
 message UsageRecord {
     // Unique identifier of the usage record (UUID format).
     string uuid = 1 [(required) = true, (length) = "<=36"];
-    // Consumed Marketplace SaaS Sku ID, linked to `UsageRecord.product_id`.
+    // Consumed Marketplace SKU ID, linked to `UsageRecord.product_id`.
     string sku_id = 2 [(required) = true, (length) = "<=50"];
-    // Quantity of sku consumed, measured in `sku.usage_unit` units (e.g. bytes).
+    // Quantity of SKU consumed, measured in `sku.usage_unit` units (e.g. bytes).
     int64 quantity = 3 [(value) = ">0"];
     // Timestamp in UTC for which the usage is being reported.
     google.protobuf.Timestamp timestamp = 4 [(required) = true];
