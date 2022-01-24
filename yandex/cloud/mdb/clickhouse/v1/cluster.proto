@@ -339,6 +339,12 @@ message Access {
 
   // Allow access to cluster for Serverless.
   bool serverless = 4;
+
+  // Allow access for DataTransfer
+  bool data_transfer = 5;
+
+  // Allow access for YandexQuery
+  bool yandex_query = 6;
 }
 
 message CloudStorage {

@@ -121,6 +121,9 @@ message Version {
 
   // Additional service accounts to be used by the version.
   map<string, string> named_service_accounts = 18;
+
+  // Lockbox secrets to be used by the version
+  repeated Secret secrets = 19;
 }
 
 // Resources allocated to a version.
@@ -178,4 +181,22 @@ message ScalingPolicy {
   // Upper limit of requests count in each zone.
   // 0 means no limit.
   int64 zone_requests_limit = 8;
+}
+
+// Secret for serverless function
+message Secret {
+
+  // ID of lockbox secret
+  string id = 1;
+
+  // ID of secret version
+  string version_id = 2;
+
+  // Key in secret's payload, which value to be delivered into function environment
+  string key = 3;
+
+  oneof reference {
+    // environment variable in which secret's value to be delivered
+    string environment_variable = 4;
+  }
 }

@@ -177,6 +177,9 @@ message CreateApiGatewayRequest {
     // The text of specification, JSON or YAML.
     string openapi_spec = 5;
   }
+
+  // Gateway connectivity. If specified the gateway will be attached to specified network/subnet(s).
+  Connectivity connectivity = 6;
 }
 
 message UpdateApiGatewayRequest {
@@ -208,6 +211,9 @@ message UpdateApiGatewayRequest {
     // The text of specification, JSON or YAML.
     string openapi_spec = 6;
   }
+
+  // Gateway connectivity. If specified the gateway will be attached to specified network/subnet(s).
+  Connectivity connectivity = 7;
 }
 
 message DeleteApiGatewayRequest {

@@ -65,6 +65,15 @@ service DiskService {
   rpc ListOperations (ListDiskOperationsRequest) returns (ListDiskOperationsResponse) {
     option (google.api.http) = { get: "/compute/v1/disks/{disk_id}/operations" };
   }
+
+  // Moves disk between folders.
+  rpc Move (MoveDiskRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/disks/{disk_id}:move" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "MoveDiskMetadata"
+      response: "Disk"
+    };
+  }
 }
 
 message GetDiskRequest {
@@ -221,4 +230,20 @@ message ListDiskOperationsResponse {
   // for the [ListDiskOperationsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
+}
+
+message MoveDiskRequest {
+  // ID of the disk that is being moved.
+  string disk_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the destination folder.
+  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message MoveDiskMetadata {
+  // ID of the disk that is being moved.
+  string disk_id = 1;
+  // ID of the source folder.
+  string source_folder_id = 2;
+  // ID of the destination folder.
+  string destination_folder_id = 3;
 }

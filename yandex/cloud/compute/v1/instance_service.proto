@@ -178,6 +178,15 @@ service InstanceService {
   rpc ListOperations (ListInstanceOperationsRequest) returns (ListInstanceOperationsResponse) {
     option (google.api.http) = { get: "/compute/v1/instances/{instance_id}/operations" };
   }
+
+  // Moves the specified instance between folders
+  rpc Move (MoveInstanceRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:move" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "MoveInstanceMetadata"
+      response: "Instance"
+    };
+  }
 }
 
 enum InstanceView {
@@ -786,4 +795,20 @@ message DnsRecordSpec {
   int64 ttl = 3 [(value) = "0-86400"];
   // When set to true, also create PTR DNS record (optional)
   bool ptr = 4;
+}
+
+message MoveInstanceRequest {
+  // ID of the instance that is being moved.
+  string instance_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the destination folder.
+  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message MoveInstanceMetadata {
+  // ID of the instance that is being moved.
+  string instance_id = 1;
+  // ID of the source folder.
+  string source_folder_id = 2;
+  // ID of the destination folder.
+  string destination_folder_id = 3;
 }
