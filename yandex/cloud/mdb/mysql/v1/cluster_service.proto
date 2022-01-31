@@ -713,10 +713,13 @@ message UpdateHostSpec {
   google.protobuf.FieldMask update_mask = 3;
 
   // Host backup priority
-  int64 backup_priority = 4;
+  int64 backup_priority = 4 [(value) = "0-100"];
 
   // Whether the host should get a public IP address on creation.
   bool assign_public_ip = 5;
+
+  // Host master promotion priority
+  int64 priority = 6 [(value) = "0-100"];
 }
 
 message HostSpec {
@@ -743,7 +746,10 @@ message HostSpec {
   string replication_source = 4;
 
   // Host backup priority
-  int64 backup_priority = 5;
+  int64 backup_priority = 5 [(value) = "0-100"];
+
+  // Host master promotion priority
+  int64 priority = 6 [(value) = "0-100"];
 }
 
 message ConfigSpec {

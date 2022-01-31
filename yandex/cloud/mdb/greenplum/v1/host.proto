@@ -8,23 +8,28 @@ import "yandex/cloud/mdb/greenplum/v1/config.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/greenplum/v1;greenplum";
-option java_outer_classname = "GPH";
 option java_package = "yandex.cloud.api.mdb.greenplum.v1";
 
-
-
+// A Greenplum® cluster host resource.
 message Host {
+
+  // Type of the host.
   enum Type {
+
+    // The type is not specified.
     TYPE_UNSPECIFIED = 0;
 
-    // Greenplum master host.
+    // A Greenplum® master host.
     MASTER = 1;
-    // Greenplum master host.
+
+    // A Greenplum® master replica host.
     REPLICA = 2;
-    // Greenplum segment host.
+
+    // A Greenplum® segment host.
     SEGMENT = 3;
   }
 
+  // Status code of the aggregated health of the host.
   enum Health {
 
     // Health of the host is unknown.
@@ -33,32 +38,32 @@ message Host {
     // The host is performing all its functions normally.
     ALIVE = 1;
 
-    // The host is inoperable, and cannot perform any of its essential functions.
+    // The host is inoperable and cannot perform any of its essential functions.
     DEAD = 2;
 
     // The host is working below capacity or not fully functional.
     DEGRADED = 3;
 
-    // One or more segments are not in prefer role.
+    // One or more segments are not in preferred role.
     UNBALANCED = 4;
   }
 
-  // Name of the Greenplum host. The host name is assigned by MDB at creation time, and cannot be changed.
+  // Name of the Greenplum® host. The host name is assigned by Yandex.Cloud at creation time and cannot be changed.
   // 1-63 characters long.
   //
   // The name is unique across all existing MDB hosts in Yandex.Cloud, as it defines the FQDN of the host.
   string name = 1 [(required) = true, (length) = "<=63"];
 
-  // ID of the Greenplum cluster. The ID is assigned by MDB at creation time.
+  // ID of the Greenplum® cluster. The ID is assigned by Yandex.Cloud at creation time.
   string cluster_id = 2;
 
-  // ID of the availability zone where the Greenplum host resides.
+  // ID of the availability zone the Greenplum® host belongs to.
   string zone_id = 3;
 
   // Type of the host.
   Type type = 4;
 
-  // Resources allocated to the Greenplum host.
+  // Resources allocated to the Greenplum® host.
   Resources resources = 5;
 
   // Status code of the aggregated health of the host.
@@ -67,6 +72,6 @@ message Host {
   // ID of the subnet that the host belongs to.
   string subnet_id = 7;
 
-  // Flag showing public IP assignment status to this host.
+  // Whether or not a public IP is assigned to the host.
   bool assign_public_ip = 8;
 }

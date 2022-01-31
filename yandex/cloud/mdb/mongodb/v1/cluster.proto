@@ -141,7 +141,7 @@ message Monitoring {
 }
 
 message ClusterConfig {
-  // Version of MongoDB server software. Possible values: `3.6`, `4.0`, `4.2`, `4.4`, `4.4_enterprise`, `5.0`, `5.0_enterprise`.
+  // Version of MongoDB server software. Possible values: `3.6`, `4.0`, `4.2`, `4.4`, `4.4-enterprise`, `5.0`, `5.0-enterprise`.
   string version = 1;
 
   // MongoDB feature compatibility version. See usage details in [MongoDB documentation](https://docs.mongodb.com/manual/reference/command/setFeatureCompatibilityVersion/).

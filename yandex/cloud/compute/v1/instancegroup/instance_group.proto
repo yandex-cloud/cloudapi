@@ -529,7 +529,7 @@ message AttachedDiskSpec {
     string type_id = 2 [(required) = true];
 
     // Size of the disk, specified in bytes.
-    int64 size = 3 [(value) = "4194304-4398046511104"];
+    int64 size = 3 [(value) = "4194304-28587302322176"];
 
     oneof source_oneof {
       // ID of the image that will be used for disk creation.

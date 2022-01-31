@@ -222,7 +222,10 @@ message Host {
   string replication_source = 10;
 
   // Host backup priority
-  int64 backup_priority = 11;
+  int64 backup_priority = 11 [(value) = "0-100"];
+
+  // Host master promotion priority
+  int64 priority = 12 [(value) = "0-100"];
 }
 
 

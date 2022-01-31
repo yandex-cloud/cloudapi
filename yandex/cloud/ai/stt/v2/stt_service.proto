@@ -92,6 +92,9 @@ message RecognitionSpec {
 
   // This mark allows disable normalization text
   bool raw_results = 10;
+
+  // Rewrite text in literature style (default: false)
+  bool literature_text = 11;
 }
 
 message SpeechRecognitionChunk {
