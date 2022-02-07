@@ -350,6 +350,19 @@ message TargetGroupsBackend {
   repeated string target_group_ids = 1 [(size)=">0"];
 }
 
+// Transport settings to be used instead of the settings configured per-cluster
+message PlaintextTransportSettings {
+}
+
+// Transport settings to be used instead of the settings configured per-cluster
+message SecureTransportSettings {
+  // SNI string for TLS connections.
+  string sni = 1;
+
+  // Validation context for backend TLS connections.
+  ValidationContext validation_context = 3;
+}
+
 // A resource for backend TLS settings.
 message BackendTls {
   // Server Name Indication (SNI) string for TLS connections.
@@ -454,5 +467,13 @@ message HealthCheck {
     HttpHealthCheck http = 8;
     // gRPC health check settings.
     GrpcHealthCheck grpc = 9;
+  }
+
+// Optional transport protocol for health checks.
+// When not set, health checks use the same protocol as the proxied traffic.
+// Use this when health checks' protocol settings differ from their backend, e.g. plaintext health checks for a TLS backend.
+  oneof transport_settings {
+    PlaintextTransportSettings plaintext = 10;
+    SecureTransportSettings tls = 11;
   }
 }

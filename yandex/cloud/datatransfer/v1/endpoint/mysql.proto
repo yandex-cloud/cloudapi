@@ -113,4 +113,13 @@ message MysqlTarget {
     // Is used for parsing timestamps for saving source timezones. Accepts values from
     // IANA timezone database. Default: local timezone.
     string timezone = 7;
+    // Cleanup policy
+    // 
+    // Cleanup policy for activate, reactivate and reupload processes. Default is
+    // DISABLED.
+    CleanupPolicy cleanup_policy = 8;
+    // Database schema for service table
+    // 
+    // Default: db name. Here created technical tables (__tm_keeper, __tm_gtid_keeper).
+    string service_database = 15;
 }

@@ -165,6 +165,7 @@ message DeployContainerRevisionRequest {
   string service_account_id = 7;
   ImageSpec image_spec = 8 [(required) = true];
   int64 concurrency = 9;
+  repeated Secret secrets = 10;
 }
 
 message ImageSpec {

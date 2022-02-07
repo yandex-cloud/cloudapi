@@ -25,7 +25,7 @@ message User {
 
 message UserSpec {
   // Name of the Kafka user.
-  string name = 1 [(required) = true, (length) = "1-63", (pattern) = "[a-zA-Z0-9_]*"];
+  string name = 1 [(required) = true, (length) = "1-256", (pattern) = "[a-zA-Z0-9_]*"];
 
   // Password of the Kafka user.
   string password = 2 [(required) = true, (length) = "8-128"];

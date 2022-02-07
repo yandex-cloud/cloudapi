@@ -425,6 +425,15 @@ message MysqlConfig8_0 {
   //
   // For details, see [Percona documentation for the variable](https://www.percona.com/doc/percona-server/8.0/diagnostics/slow_extended.html#log_slow_filter).
   repeated LogSlowFilterType log_slow_filter = 62;
+
+  // Replication lag threshold (seconds) which allows replica to be promoted to master while executing "switchover from".
+  // Should be less than mdb_offline_mode_disable_lag.
+  google.protobuf.Int64Value mdb_priority_choice_max_lag = 63 [(value) = "0-86400"];
+
+  // Specifies the page size for InnoDB tablespaces.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_page_size).
+  google.protobuf.Int64Value innodb_page_size = 64 [(value) = "4096-65536"];
 }
 
 message MysqlConfigSet8_0 {

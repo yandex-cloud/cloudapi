@@ -118,13 +118,13 @@ message PostgresSource {
     Secret password = 4;
     // Included tables
     // 
-    // If none or empty list is presented, all tables are replicated. Can contain
-    // regular expression.
+    // If none or empty list is presented, all tables are replicated. Full table name
+    // with schema. Can contain schema_name.* patterns.
     repeated string include_tables = 5;
     // Excluded tables
     // 
-    // If none or empty list is presented, all tables are replicated. Can contain
-    // regular expression.
+    // If none or empty list is presented, all tables are replicated. Full table name
+    // with schema. Can contain schema_name.* patterns.
     repeated string exclude_tables = 6;
     // Maximum WAL size for the replication slot
     // 
@@ -157,4 +157,9 @@ message PostgresTarget {
     // 
     // Password for database access.
     Secret password = 4;
+    // Cleanup policy
+    // 
+    // Cleanup policy for activate, reactivate and reupload processes. Default is
+    // DISABLED.
+    CleanupPolicy cleanup_policy = 5;
 }

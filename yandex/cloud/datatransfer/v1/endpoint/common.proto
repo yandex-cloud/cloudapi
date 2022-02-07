@@ -14,6 +14,12 @@ enum ObjectTransferStage {
     AFTER_DATA = 2;
     NEVER = 3;
 }
+enum CleanupPolicy {
+    CLEANUP_POLICY_UNSPECIFIED = 0;
+    DISABLED = 1;
+    DROP = 2;
+    TRUNCATE = 3;
+}
 message Secret {
     oneof value {
         // Password

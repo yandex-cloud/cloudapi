@@ -45,6 +45,7 @@ message Revision {
   int64 concurrency = 8;
   string service_account_id = 9;
   Status status = 10;
+  repeated Secret secrets = 11;
 }
 
 message Image {
@@ -68,4 +69,13 @@ message Resources {
   int64 memory = 1 [(value) = "134217728-8589934592"];
   int64 cores = 2 [(value) = "0-1"];
   int64 core_fraction = 3 [(value) = "0-100"];
+}
+
+message Secret {
+  string id = 1;
+  string version_id = 2;
+  string key = 3;
+  oneof reference {
+    string environment_variable = 4;
+  }
 }

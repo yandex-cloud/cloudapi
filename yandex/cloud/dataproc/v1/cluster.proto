@@ -135,6 +135,9 @@ message HadoopConfig {
 
   // List of public SSH keys to access to cluster hosts.
   repeated string ssh_public_keys = 3;
+
+  // Set of init-actions
+  repeated InitializationAction initialization_actions = 4;
 }
 
 message ClusterConfig {
@@ -144,4 +147,15 @@ message ClusterConfig {
 
   // Data Proc specific configuration options.
   HadoopConfig hadoop = 2;
+}
+
+message InitializationAction {
+  // URI of the executable file
+  string uri = 1;
+
+  // Arguments to the initialization action
+  repeated string args = 2;
+
+  // Execution timeout
+  int64 timeout = 3;
 }
