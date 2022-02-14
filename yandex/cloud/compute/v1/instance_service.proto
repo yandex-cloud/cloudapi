@@ -382,6 +382,9 @@ message UpdateInstanceRequest {
 
   // Placement policy configuration.
   PlacementPolicy placement_policy = 11;
+
+  // Scheduling policy configuration.
+  SchedulingPolicy scheduling_policy = 12;
 }
 
 message UpdateInstanceMetadata {

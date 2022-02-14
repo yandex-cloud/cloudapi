@@ -182,6 +182,9 @@ message UpdateFilesystemRequest {
   // 2. Add or remove a label in this set.
   // 3. Send the new set in this field.
   map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+
+  // Size of the filesystem, specified in bytes.
+  int64 size = 6;
 }
 
 message UpdateFilesystemMetadata {
