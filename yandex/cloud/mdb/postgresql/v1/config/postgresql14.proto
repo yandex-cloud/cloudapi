@@ -460,6 +460,15 @@ message PostgresqlConfig14 {
 
   google.protobuf.Int64Value vacuum_multixact_failsafe_age = 143 [(value) = "-1-2147483647"]; // in milliseconds.
 
+  google.protobuf.BoolValue pg_qualstats_enabled = 144;
+
+  google.protobuf.BoolValue pg_qualstats_track_constants = 145;
+
+  google.protobuf.Int64Value pg_qualstats_max = 146;
+  
+  google.protobuf.BoolValue pg_qualstats_resolve_oids = 147;
+    
+  google.protobuf.DoubleValue pg_qualstats_sample_rate = 148;
 }
 
 message PostgresqlConfigSet14 {

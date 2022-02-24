@@ -399,6 +399,16 @@ message PostgresqlConfig10_1C {
   google.protobuf.BoolValue online_analyze_enable = 113;
 
   google.protobuf.BoolValue plantuner_fix_empty_table = 114;
+
+  google.protobuf.BoolValue pg_qualstats_enabled = 115;
+
+  google.protobuf.BoolValue pg_qualstats_track_constants = 116;
+
+  google.protobuf.Int64Value pg_qualstats_max = 117;
+  
+  google.protobuf.BoolValue pg_qualstats_resolve_oids = 118;
+    
+  google.protobuf.DoubleValue pg_qualstats_sample_rate = 119;
 }
 
 message PostgresqlConfigSet10_1C {

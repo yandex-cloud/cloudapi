@@ -25,17 +25,17 @@ service ClusterService {
   //
   // To get the list of available Greenplum® clusters, make a [List] request.
   rpc Get (GetClusterRequest) returns (Cluster) {
-    option (google.api.http) = {get: "/mdb/managed-greenplum/v1/clusters/{cluster_id}"};
+    option (google.api.http) = {get: "/managed-greenplum/v1/clusters/{cluster_id}"};
   }
 
   // Retrieves a list of Greenplum® clusters that belong to the specified folder.
   rpc List (ListClustersRequest) returns (ListClustersResponse) {
-    option (google.api.http) = {get: "/mdb/managed-greenplum/v1/clusters"};
+    option (google.api.http) = {get: "/managed-greenplum/v1/clusters"};
   }
 
   // Creates a Greenplum® cluster in the specified folder.
   rpc Create (CreateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/mdb/managed-greenplum/v1/clusters" body: "*"};
+    option (google.api.http) = {post: "/managed-greenplum/v1/clusters" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "CreateClusterMetadata"
       response: "Cluster"
@@ -44,7 +44,7 @@ service ClusterService {
 
   // Updates the specified Greenplum® cluster.
   rpc Update (UpdateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {patch: "/mdb/managed-greenplum/v1/clusters/{cluster_id}" body: "*"};
+    option (google.api.http) = {patch: "/managed-greenplum/v1/clusters/{cluster_id}" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateClusterMetadata"
       response: "Cluster"
@@ -53,7 +53,7 @@ service ClusterService {
 
   // Deletes the specified Greenplum® cluster.
   rpc Delete (DeleteClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/mdb/managed-greenplum/v1/clusters/{cluster_id}"};
+    option (google.api.http) = {delete: "/managed-greenplum/v1/clusters/{cluster_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteClusterMetadata"
       response: "google.protobuf.Empty"
@@ -62,7 +62,7 @@ service ClusterService {
 
   // Starts the specified Greenplum® cluster.
   rpc Start (StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/mdb/managed-greenplum/v1/clusters/{cluster_id}:start"};
+    option (google.api.http) = {post: "/managed-greenplum/v1/clusters/{cluster_id}:start"};
     option (yandex.cloud.api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
@@ -71,7 +71,7 @@ service ClusterService {
 
   // Stops the specified Greenplum® cluster.
   rpc Stop (StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/mdb/managed-greenplum/v1/clusters/{cluster_id}:stop"};
+    option (google.api.http) = {post: "/managed-greenplum/v1/clusters/{cluster_id}:stop"};
     option (yandex.cloud.api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
@@ -80,22 +80,22 @@ service ClusterService {
 
   // Retrieves the list of Operation resources for the specified cluster.
   rpc ListOperations (ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
-    option (google.api.http) = {get: "/mdb/managed-greenplum/v1/clusters/{cluster_id}/operations"};
+    option (google.api.http) = {get: "/managed-greenplum/v1/clusters/{cluster_id}/operations"};
   }
 
   // Retrieves a list of master hosts for the specified cluster.
   rpc ListMasterHosts (ListClusterHostsRequest) returns (ListClusterHostsResponse) {
-    option (google.api.http) = {get: "/mdb/managed-greenplum/v1/clusters/{cluster_id}/master-hosts"};
+    option (google.api.http) = {get: "/managed-greenplum/v1/clusters/{cluster_id}/master-hosts"};
   }
 
   // Retrieves a list of segment hosts for the specified cluster.
   rpc ListSegmentHosts (ListClusterHostsRequest) returns (ListClusterHostsResponse) {
-    option (google.api.http) = {get: "/mdb/managed-greenplum/v1/clusters/{cluster_id}/segment-hosts"};
+    option (google.api.http) = {get: "/managed-greenplum/v1/clusters/{cluster_id}/segment-hosts"};
   }
 
   // Retrieves logs for the specified Greenplum® cluster.
   rpc ListLogs (ListClusterLogsRequest) returns (ListClusterLogsResponse) {
-    option (google.api.http) = { get: "/mdb/managed-greenplum/v1/clusters/{cluster_id}:logs" };
+    option (google.api.http) = { get: "/managed-greenplum/v1/clusters/{cluster_id}:logs" };
   }
 }
 

@@ -450,6 +450,15 @@ message PostgresqlConfig13 {
 
   google.protobuf.Int64Value log_parameter_max_length_on_error = 136 [(value) = "-1-2147483647"]; // in bytes.
 
+  google.protobuf.BoolValue pg_qualstats_enabled = 137;
+
+  google.protobuf.BoolValue pg_qualstats_track_constants = 138;
+
+  google.protobuf.Int64Value pg_qualstats_max = 139;
+  
+  google.protobuf.BoolValue pg_qualstats_resolve_oids = 140;
+    
+  google.protobuf.DoubleValue pg_qualstats_sample_rate = 141;
 }
 
 message PostgresqlConfigSet13 {

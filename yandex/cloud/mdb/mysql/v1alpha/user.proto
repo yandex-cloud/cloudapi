@@ -7,8 +7,7 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mysql/v1alpha;mysql";
 option java_package = "yandex.cloud.api.mdb.mysql.v1alpha";
 
-// A MySQL user. For more information, see
-// the [documentation](/docs/managed-mysql/concepts).
+// A MySQL user. For more information, see the [documentation](/docs/managed-mysql/concepts).
 message User {
   // Name of the MySQL user.
   string name = 1;
@@ -68,9 +67,7 @@ message Permission {
 
     // Selecting rows from tables.
     //
-    // Some SELECT statements can be allowed without the SELECT privilege. All
-    // statements that read column values require the SELECT privilege. See
-    // details in [MySQL documentation](https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html#priv_select).
+    // Some SELECT statements can be allowed without the SELECT privilege. All statements that read column values require the SELECT privilege. See details in [MySQL documentation](https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html#priv_select).
     SELECT = 15;
 
     // Using the SHOW CREATE VIEW statement. Also needed for views used with EXPLAIN.

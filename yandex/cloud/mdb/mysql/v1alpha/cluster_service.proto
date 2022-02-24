@@ -217,7 +217,7 @@ message UpdateClusterRequest {
   // To get the MySQL cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Field mask that specifies which fields of the MySQL cluster should be updated.
+  // Field mask that specifies which settings of the MySQL cluster should be updated.
   google.protobuf.FieldMask update_mask = 2;
 
   // New description of the MySQL cluster.

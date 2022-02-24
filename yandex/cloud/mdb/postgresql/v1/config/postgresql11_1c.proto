@@ -411,6 +411,16 @@ message PostgresqlConfig11_1C {
   PgHintPlanDebugPrint pg_hint_plan_debug_print = 120;
 
   LogLevel pg_hint_plan_message_level = 121;
+
+  google.protobuf.BoolValue pg_qualstats_enabled = 122;
+
+  google.protobuf.BoolValue pg_qualstats_track_constants = 123;
+
+  google.protobuf.Int64Value pg_qualstats_max = 124;
+  
+  google.protobuf.BoolValue pg_qualstats_resolve_oids = 125;
+    
+  google.protobuf.DoubleValue pg_qualstats_sample_rate = 126;
 }
 
 message PostgresqlConfigSet11_1C {

@@ -13,6 +13,7 @@ import "yandex/cloud/mdb/elasticsearch/v1/cluster.proto";
 import "yandex/cloud/mdb/elasticsearch/v1/user.proto";
 import "yandex/cloud/mdb/elasticsearch/v1/config/elasticsearch.proto";
 import "yandex/cloud/mdb/elasticsearch/v1/maintenance.proto";
+import "yandex/cloud/mdb/elasticsearch/v1/extension.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/elasticsearch/v1;elasticsearch";
 option java_package = "yandex.cloud.api.mdb.elasticsearch.v1";
@@ -244,6 +245,8 @@ message CreateClusterRequest {
 
     // Window of maintenance operations.
     MaintenanceWindow maintenance_window = 14;
+
+    repeated ExtensionSpec extension_specs = 15; // optional
 }
 
 message CreateClusterMetadata {
@@ -711,6 +714,8 @@ message RestoreClusterRequest {
 
     // ID of the folder to create the ElasticSearch cluster in.
     string folder_id = 14 [(required) = true, (length) = "<=50"];
+
+    repeated ExtensionSpec extension_specs = 15; // optional
 }
 
 message RestoreClusterMetadata {

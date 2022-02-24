@@ -69,6 +69,11 @@ message Cluster {
     STARTING = 7;
   }
 
+  enum PersistenceMode {
+    ON = 0; // cluster persistence mode on
+    OFF = 1; // cluster persistence mode off
+  }
+
   // ID of the Redis cluster.
   // This ID is assigned by MDB at creation time.
   string id = 1;
@@ -124,6 +129,9 @@ message Cluster {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 18;
+
+  // Persistence mode
+  PersistenceMode persistence_mode = 19;
 }
 
 message Monitoring {

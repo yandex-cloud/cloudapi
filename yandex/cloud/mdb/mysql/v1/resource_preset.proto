@@ -5,9 +5,13 @@ package yandex.cloud.mdb.mysql.v1;
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mysql/v1;mysql";
 option java_package = "yandex.cloud.api.mdb.mysql.v1";
 
-// A preset of resources for hardware configuration of MySQL hosts.
+// An object that represents MySQL resource preset.
+// A resource preset defines hardware configuration for cluster hosts.
+//
+// See [the documentation](/docs/managed-mysql/concepts/instance-types) for details.
 message ResourcePreset {
-  // ID of the resource preset.
+
+  // ID of the resource preset that defines available computational resources (vCPU, RAM, etc.) for a cluster host.
   string id = 1;
 
   // IDs of availability zones where the resource preset is available.

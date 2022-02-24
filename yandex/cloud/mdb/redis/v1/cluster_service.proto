@@ -282,6 +282,9 @@ message CreateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 14;
+
+  // Persistence mode
+  Cluster.PersistenceMode persistence_mode = 15;
 }
 
 message CreateClusterMetadata {
@@ -321,6 +324,9 @@ message UpdateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 9;
+
+  // Persistence mode
+  Cluster.PersistenceMode persistence_mode = 10;
 }
 
 message UpdateClusterMetadata {
@@ -425,6 +431,9 @@ message RestoreClusterRequest {
 
   // TLS port and functionality on\off
   google.protobuf.BoolValue tls_enabled = 11;
+
+  // Persistence mode
+  Cluster.PersistenceMode persistence_mode = 12;
 }
 
 message RestoreClusterMetadata {
