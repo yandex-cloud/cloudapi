@@ -14,10 +14,7 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cdn/v1;cdn";
 option java_package = "yandex.cloud.api.cdn.v1";
 
-
-//
 // Provider's resources management service.
-//
 service ResourceService {
     // Get client's CDN resource by resource id.
     rpc Get(GetResourceRequest) returns (Resource) {
@@ -29,7 +26,9 @@ service ResourceService {
         option (google.api.http) = { get: "/cdn/v1/resources" };
     }
 
-    // Creates client's CDN resource.
+    // Creates a CDN resource in the specified folder.
+    //
+    // Creation may take up to 15 minutes.
     rpc Create(CreateResourceRequest) returns (operation.Operation) {
         option (google.api.http) = { post: "/cdn/v1/resources" body: "*" };
         option (yandex.cloud.api.operation) = {
@@ -38,7 +37,12 @@ service ResourceService {
         };
     }
 
-    // Updates of client's CDN resource. (PATCH behavior)
+    // Updates the specified CDN resource.
+    //
+    // The method implements patch behaviour, i.e. only the fields specified in the request are updated in the resource.
+    //
+    // Changes may take up to 15 minutes to apply. Afterwards, it is recommended to purge the resource's cache via a
+    // [CacheService.Purge] request.
     rpc Update(UpdateResourceRequest) returns (operation.Operation) {
         option (google.api.http) = { patch: "/cdn/v1/resources/{resource_id}" body: "*" };
         option (yandex.cloud.api.operation) = {

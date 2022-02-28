@@ -38,7 +38,10 @@ service OriginGroupService {
         };
     }
 
-    // Updates origin group.
+    // Updates the specified origin group.
+    //
+    // Changes may take up to 15 minutes to apply. Afterwards, it is recommended to purge cache of the resources that
+    // use the origin group via a [CacheService.Purge] request.
     rpc Update(UpdateOriginGroupRequest) returns (operation.Operation) {
         option (google.api.http) = { patch: "/cdn/v1/originGroups" body: "*" };
         option (yandex.cloud.api.operation) = {

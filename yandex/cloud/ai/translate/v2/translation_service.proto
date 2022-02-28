@@ -65,6 +65,8 @@ message TranslateRequest {
 
   // Glossary to be applied for the translation. For more information, see [Glossaries](/docs/translate/concepts/glossary).
   TranslateGlossaryConfig glossary_config = 7;
+  // use speller
+  bool speller = 8;
 }
 
 message TranslateGlossaryConfig {

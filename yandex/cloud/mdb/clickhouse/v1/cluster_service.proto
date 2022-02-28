@@ -160,6 +160,15 @@ service ClusterService {
     };
   }
 
+  // Updates the specified hosts.
+  rpc UpdateHosts (UpdateClusterHostsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}/hosts:batchUpdate" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateClusterHostsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
   // Deletes the specified hosts for a cluster.
   rpc DeleteHosts (DeleteClusterHostsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}/hosts:batchDelete" body: "*" };
@@ -753,6 +762,35 @@ message AddClusterHostsMetadata {
   string cluster_id = 1;
 
   // Names of hosts that are being added to the cluster.
+  repeated string host_names = 2;
+}
+
+message UpdateHostSpec {
+  // Name of the host to update.
+  // To get the ClickHouse host name, use a [ClusterService.ListHosts] request.
+  string host_name = 1 [(required) = true];
+
+  // Field mask that specifies which fields of the ClickHouse host should be updated.
+  google.protobuf.FieldMask update_mask = 2;
+
+  // Whether the host should get a public IP address on creation.
+  google.protobuf.BoolValue assign_public_ip = 3;
+}
+
+message UpdateClusterHostsRequest {
+  // ID of the ClickHouse cluster to update hosts in.
+  // To get the ClickHouse cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // New configurations to apply to hosts.
+  repeated UpdateHostSpec update_host_specs = 2 [(size) = ">0"];
+}
+
+message UpdateClusterHostsMetadata {
+  // ID of the ClickHouse cluster to modify hosts in.
+  string cluster_id = 1;
+
+  // Names of hosts that are being modified.
   repeated string host_names = 2;
 }
 

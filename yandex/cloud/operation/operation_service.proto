@@ -17,6 +17,8 @@ service OperationService {
   }
 
   // Cancels the specified operation.
+  //
+  // Note that currently Yandex Object Storage API does not support cancelling operations.
   rpc Cancel (CancelOperationRequest) returns (Operation) {
     option (google.api.http) = { get: "/operations/{operation_id}:cancel" };
   }

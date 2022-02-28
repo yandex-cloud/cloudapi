@@ -14,6 +14,8 @@ option java_package = "yandex.cloud.api.cdn.v1";
 // A set of methods for managing Cache Service resources.
 service CacheService {
     // Removes specified files from the cache of the specified resource. For details about purging, see [documentation](/docs/cdn/concepts/caching#purge).
+    //
+    // Purging may take up to 15 minutes.
     rpc Purge(PurgeCacheRequest) returns (operation.Operation) {
         option (google.api.http) = { post: "/cdn/v1/cache/{resource_id}:purge" body: "*" };
         option (yandex.cloud.api.operation) = {
