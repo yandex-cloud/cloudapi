@@ -179,7 +179,12 @@ service InstanceService {
     option (google.api.http) = { get: "/compute/v1/instances/{instance_id}/operations" };
   }
 
-  // Moves the specified instance between folders
+  // Moves the specified instance to another folder of the same cloud.
+  //
+  // The instance must be stopped before moving. To stop the instance, make a [Stop] request.
+  //
+  // After moving, the instance will start recording its Yandex Monitoring default metrics to its new folder. Metrics
+  // that have been recorded to the source folder prior to moving will be retained.
   rpc Move (MoveInstanceRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:move" body: "*" };
     option (yandex.cloud.api.operation) = {
@@ -801,17 +806,24 @@ message DnsRecordSpec {
 }
 
 message MoveInstanceRequest {
-  // ID of the instance that is being moved.
+  // ID of the instance to move.
+  //
+  // To get the instance ID, make a [InstanceService.List] request.
   string instance_id = 1 [(required) = true, (length) = "<=50"];
-  // ID of the destination folder.
+
+  // ID of the folder to move the instance to.
+  //
+  // To get the folder ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
 }
 
 message MoveInstanceMetadata {
   // ID of the instance that is being moved.
   string instance_id = 1;
-  // ID of the source folder.
+
+  // ID of the folder that the instance is being moved from.
   string source_folder_id = 2;
-  // ID of the destination folder.
+
+  // ID of the folder that the instance is being moved to.
   string destination_folder_id = 3;
 }

@@ -66,7 +66,7 @@ service DiskService {
     option (google.api.http) = { get: "/compute/v1/disks/{disk_id}/operations" };
   }
 
-  // Moves disk between folders.
+  // Moves the specified disk to another folder of the same cloud.
   rpc Move (MoveDiskRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/disks/{disk_id}:move" body: "*" };
     option (yandex.cloud.api.operation) = {
@@ -233,17 +233,24 @@ message ListDiskOperationsResponse {
 }
 
 message MoveDiskRequest {
-  // ID of the disk that is being moved.
+  // ID of the disk to move.
+  //
+  // To get the disk ID, make a [DiskService.List] request.
   string disk_id = 1 [(required) = true, (length) = "<=50"];
-  // ID of the destination folder.
+
+  // ID of the folder to move the disk to.
+  //
+  // To get the folder ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
 }
 
 message MoveDiskMetadata {
   // ID of the disk that is being moved.
   string disk_id = 1;
-  // ID of the source folder.
+
+  // ID of the folder that the disk is being moved from.
   string source_folder_id = 2;
-  // ID of the destination folder.
+
+  // ID of the folder that the disk is being moved to.
   string destination_folder_id = 3;
 }
