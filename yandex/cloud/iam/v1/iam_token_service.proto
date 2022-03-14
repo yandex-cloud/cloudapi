@@ -26,7 +26,7 @@ message CreateIamTokenRequest {
   oneof identity {
     option (exactly_one) = true;
 
-    // OAuth token for a Yandex.Passport account.
+    // OAuth token for a Yandex account.
     // For more information, see [OAuth token](/docs/iam/concepts/authorization/oauth-token).
     string yandex_passport_oauth_token = 1;
 

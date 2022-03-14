@@ -266,7 +266,7 @@ message Host {
   // Name of the PostgreSQL host. The host name is assigned by MDB at creation time, and cannot be changed.
   // 1-63 characters long.
   //
-  // The name is unique across all existing MDB hosts in Yandex.Cloud, as it defines the FQDN of the host.
+  // The name is unique across all existing MDB hosts in Yandex Cloud, as it defines the FQDN of the host.
   string name = 1;
 
   // ID of the PostgreSQL host. The ID is assigned by MDB at creation time.
@@ -392,7 +392,7 @@ message Access {
   // Allow access for DataLens
   bool data_lens = 1;
 
-  // Allow SQL queries to the cluster databases from the Yandex.Cloud management console.
+  // Allow SQL queries to the cluster databases from the Yandex Cloud management console.
   //
   // See [SQL queries in the management console](/docs/managed-postgresql/operations/web-sql-query) for more details.
   bool web_sql = 2;

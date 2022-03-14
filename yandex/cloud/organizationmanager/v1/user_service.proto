@@ -55,7 +55,7 @@ message ListMembersResponse {
   string next_page_token = 2;
 
   message OrganizationUser {
-    // OpenID standard claims with additional Yandex.Organization claims.
+    // OpenID standard claims with additional Yandex Cloud Organization claims.
     yandex.cloud.oauth.SubjectClaims subject_claims = 1;
   }
 }

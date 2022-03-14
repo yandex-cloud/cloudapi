@@ -78,7 +78,7 @@ message Cluster {
   }
 
   // ID of the Greenplum® cluster.
-  // This ID is assigned by Yandex.Cloud at the time of cluster creation.
+  // This ID is assigned by Yandex Cloud at the time of cluster creation.
   string id = 1;
 
   // ID of the folder that the Greenplum® cluster belongs to.
@@ -90,7 +90,7 @@ message Cluster {
   // Name of the Greenplum® cluster.
   // The name is unique within the folder and is 1-63 characters long.
   string name = 4 [(required) = true, (length) = "<=63"];
-  
+
   // Greenplum® cluster configuration.
   GreenplumConfig config = 5;
 
@@ -207,6 +207,41 @@ message Access {
   // Allows data export from the cluster to Yandex DataLens.
   bool data_lens = 1;
 
-  // Allows SQL queries to the cluster databases from the Yandex.Cloud management console.
+  // Allows SQL queries to the cluster databases from the Yandex Cloud management console.
   bool web_sql = 2;
+}
+
+message GreenplumRestoreConfig {
+    // Time to start the daily backup, in the UTC timezone.
+    google.type.TimeOfDay backup_window_start = 1;
+
+    // Access policy for external services.
+    Access access = 2;
+
+    // ID of the availability zone where the host resides.
+    // To get a list of available zones, use the [yandex.cloud.compute.v1.ZoneService.List] request.
+    string zone_id = 3 [(length) = "<=50"];
+
+    // ID of the subnet that the host should belong to. This subnet should be a part
+    // of the network that the cluster belongs to.
+    // The ID of the network is set in the field [Cluster.network_id].
+    string subnet_id = 4 [(length) = "<=50"];
+
+    // Whether the host should get a public IP address on creation.
+    //
+    // After a host has been created, this setting cannot be changed. To remove an assigned public IP, or to assign
+    // a public IP to a host without one, recreate the host with [assign_public_ip] set as needed.
+    //
+    // Possible values:
+    // * false - don't assign a public IP to the master hosts.
+    // * true - the master hosts should have a public IP address.
+    bool assign_public_ip = 5;
+}
+
+message RestoreResources {
+    // ID of the preset for computational resources available to a host (CPU, memory etc.).
+    string resource_preset_id = 1;
+
+    // Volume of the storage available to a host.
+    int64 disk_size = 2;
 }

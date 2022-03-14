@@ -27,7 +27,7 @@ message MysqlConnection {
     oneof connection {
         // Managed cluster
         // 
-        // Yandex.Cloud Managed MySQL cluster ID
+        // Yandex Managed Service for MySQL cluster ID
         string mdb_cluster_id = 1;
         // On-premise
         // 

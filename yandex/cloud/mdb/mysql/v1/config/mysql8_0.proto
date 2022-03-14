@@ -372,7 +372,7 @@ message MysqlConfig8_0 {
   google.protobuf.Int64Value regexp_time_limit = 50 [(value) = "0-1048576"];
 
   // The size of the binary log to hold.
-  google.protobuf.Int64Value mdb_preserve_binlog_bytes = 51 [(value) = "1073741824-107374182400"];
+  google.protobuf.Int64Value mdb_preserve_binlog_bytes = 51 [(value) = "1073741824-1099511627776"];
   
   // The number of seconds the server waits for activity on an interactive connection before closing it.
   //
@@ -432,8 +432,28 @@ message MysqlConfig8_0 {
 
   // Specifies the page size for InnoDB tablespaces.
   //
-  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_page_size).
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_page_size).
   google.protobuf.Int64Value innodb_page_size = 64 [(value) = "4096-65536"];
+
+  // The limit in bytes on the size of the temporary log files used during online DDL operations
+  //
+  // See [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_online_alter_log_max_size) for details.
+  google.protobuf.Int64Value innodb_online_alter_log_max_size = 65 [(value) = "65536-107374182400"];
+
+  // Minimum length of words that are stored in an InnoDB FULLTEXT index
+  //
+  // See [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_ft_min_token_size) for details.
+  google.protobuf.Int64Value innodb_ft_min_token_size = 66 [(value) = "0-16"];
+
+  // Maximum length of words that are stored in an InnoDB FULLTEXT index
+  //
+  // See [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_ft_max_token_size) for details.
+  google.protobuf.Int64Value innodb_ft_max_token_size = 67 [(value) = "10-84"];
+
+  // Table names storage and comparison strategy
+  //
+  // See [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_lower_case_table_names) for details.
+  google.protobuf.Int64Value lower_case_table_names = 68 [(value) = "0-1"];
 }
 
 message MysqlConfigSet8_0 {
