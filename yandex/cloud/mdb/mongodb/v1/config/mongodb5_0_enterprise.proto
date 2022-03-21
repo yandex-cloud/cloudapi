@@ -85,6 +85,39 @@ message MongodConfig5_0_enterprise {
     google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-16384"];
   }
 
+  message Security {
+      message KMIP {
+          // KMIP server name
+          string server_name = 1;
+          // KMIP server port
+          google.protobuf.Int64Value port = 2;
+          // KMIP Server CA
+          string server_ca = 3;
+          // KMIP client certificate + private key (unencrypted)
+          string client_certificate = 4;
+          // KMIP Key identifier (if any)
+          string key_identifier = 5;
+
+      }
+
+      // If encryption at rest should be enabled or not
+      google.protobuf.BoolValue enable_encryption = 1;
+      // `kmip` section of mongod security config
+      KMIP kmip = 2;
+  }
+
+  message AuditLog {
+    // Audit filter
+    string filter = 1;
+    // Allows runtime configuration of audit filter and auditAuthorizationSuccess
+    google.protobuf.BoolValue runtime_configuration = 2;
+  }
+
+  message SetParameter {
+    // Enables the auditing of authorization successes
+    google.protobuf.BoolValue audit_authorization_success = 1;
+  }
+
   // `storage` section of mongod configuration.
   Storage storage = 1;
 
@@ -93,6 +126,15 @@ message MongodConfig5_0_enterprise {
 
   // `net` section of mongod configuration.
   Network net = 3;
+
+  // `security` section of mongod configuration.
+  Security security = 4;
+
+  // `AuditLog` section of mongod configuration.
+  AuditLog audit_log = 5;
+
+  // `SetParameter` section of mongod configuration.
+  SetParameter set_parameter = 6;
 }
 
 message MongoCfgConfig5_0_enterprise {

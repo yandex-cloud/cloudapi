@@ -242,6 +242,9 @@ message StreamBackend {
   repeated HealthCheck healthchecks = 6;
 
   BackendTls tls = 7;
+
+  // If set, proxy protocol will be enabled for this backend.
+  bool enable_proxy_protocol = 8;
 }
 
 // An HTTP backend resource.

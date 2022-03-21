@@ -296,6 +296,9 @@ message CreateInstanceRequest {
   // Array of secondary disks to attach to the instance.
   repeated AttachedDiskSpec secondary_disk_specs = 10 [(size) = "<=3"];
 
+  // Array of local disks to attach to the instance.
+  repeated AttachedLocalDiskSpec local_disk_specs = 18;
+
   // Array of filesystems to attach to the instance.
   //
   // The filesystems must reside in the same availability zone as the instance.
@@ -730,6 +733,11 @@ message AttachedDiskSpec {
       string snapshot_id = 6 [(length) = "<=50"];
     }
   }
+}
+
+message AttachedLocalDiskSpec {
+  // Size of the disk, specified in bytes.
+  int64 size = 1 [(required) = true];
 }
 
 message AttachedFilesystemSpec {

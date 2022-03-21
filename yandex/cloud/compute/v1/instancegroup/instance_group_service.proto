@@ -335,6 +335,10 @@ message UpdateInstanceGroupRequest {
 
   // Flag that inhibits deletion of the instance group
   bool deletion_protection = 16;
+
+  // Settings for balancing load between instances via [Application Load Balancer](/docs/application-load-balancer/concepts)
+  // (OSI model layer 7).
+  ApplicationLoadBalancerSpec application_load_balancer_spec = 17;
 }
 
 message UpdateInstanceGroupFromYamlRequest {

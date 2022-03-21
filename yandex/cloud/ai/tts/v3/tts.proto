@@ -48,6 +48,7 @@ message ContainerAudio {
         // Audio bit depth 16-bit signed little-endian (Linear PCM).
         WAV = 1;
         OGG_OPUS = 2;
+        MP3 = 3;
     }
     ContainerAudioType container_audio_type = 1;
 }
@@ -111,14 +112,14 @@ message Hints {
         double speed = 3;
         // hint to regulate volume. For LOUDNESS_NORMALIZATION_TYPE_UNSPECIFIED normalization will use MAX_PEAK, if volume in (0, 1], LUFS if volume in [-145, 0).
         double volume = 4;
+        string role = 5;
     }
 }
 
 message UtteranceSynthesisRequest {
     // The name of the model.
     //
-    // Specifies basic synthesis functionality. Currently should be empty.
-    string model = 1;
+    reserved 1;
     // Text to synthesis, one of text synthesis markups.
     oneof Utterance {
         // Raw text (e.g. "Hello, Alice").

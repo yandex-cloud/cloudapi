@@ -160,7 +160,7 @@ message ClusterConfig {
   Access access = 5;
 
   // Configuration of the performance diagnostics service.
-  //PerformanceDiagnostics performance_diagnostics = 7;
+  PerformanceDiagnostics performance_diagnostics = 7;
 }
 
 message Host {

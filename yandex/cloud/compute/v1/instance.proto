@@ -84,6 +84,9 @@ message Instance {
   // Array of secondary disks that are attached to the instance.
   repeated AttachedDisk secondary_disks = 13;
 
+  // Array of local disks that are attached to the instance.
+  repeated AttachedLocalDisk local_disks = 22;
+
   // Array of filesystems that are attached to the instance.
   repeated AttachedFilesystem filesystems = 21;
 
@@ -149,6 +152,17 @@ message AttachedDisk {
 
   // ID of the disk that is attached to the instance.
   string disk_id = 4;
+}
+
+message AttachedLocalDisk {
+  // Size of the disk, specified in bytes.
+  int64 size = 1;
+
+  // Serial number that is reflected into the /dev/disk/by-id/ tree
+  // of a Linux operating system running within the instance.
+  //
+  // This value can be used to reference the device for mounting, resizing, and so on, from within the instance.
+  string device_name = 2;
 }
 
 message AttachedFilesystem {
