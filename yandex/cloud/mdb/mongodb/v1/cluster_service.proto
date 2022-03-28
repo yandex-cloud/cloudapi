@@ -521,6 +521,8 @@ message ListClusterLogsRequest {
     MONGOD = 1;
     MONGOS = 2;
     MONGOCFG = 3;
+    // MongoDB Enterprise audit logs
+    AUDIT = 4;
   }
 
   // Start timestamp for the logs request, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
@@ -579,6 +581,8 @@ message StreamClusterLogsRequest {
     MONGOD = 1;
     MONGOS = 2;
     MONGOCFG = 3;
+    // MongoDB Enterprise audit logs
+    AUDIT = 4;
   }
 
   // Start timestamp for the logs request.

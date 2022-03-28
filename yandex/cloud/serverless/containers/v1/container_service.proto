@@ -166,6 +166,7 @@ message DeployContainerRevisionRequest {
   ImageSpec image_spec = 8 [(required) = true];
   int64 concurrency = 9;
   repeated Secret secrets = 10;
+  Connectivity connectivity = 11;
 }
 
 message ImageSpec {

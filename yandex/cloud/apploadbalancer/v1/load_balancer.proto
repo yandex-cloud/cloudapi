@@ -165,17 +165,21 @@ message Listener {
   // Endpoints are defined by their IP addresses and ports.
   repeated Endpoint endpoints = 2;
 
-  // HTTP or HTTPS (HTTP over TLS) listener settings.
+  // Listener type and settings.
   oneof listener {
     option (exactly_one) = true;
 
-    // HTTP listener settings.
+    // Unencrypted HTTP listener settings.
     HttpListener http = 3;
 
-    // HTTPS (HTTP over TLS) listener settings.
+    // TLS-encrypted HTTP or TCP stream listener settings.
+    //
+    // All handlers within a listener ([TlsListener.default_handler] and [TlsListener.sni_handlers]) must be of one
+    // type, [HttpHandler] or [StreamHandler]. Mixing HTTP and TCP stream traffic in a TLS-encrypted listener is not
+    // supported.
     TlsListener tls = 4;
 
-    // Stream listener settings.
+    // Unencrypted stream (TCP) listener settings.
     StreamListener stream = 5;
   }
 }
@@ -202,7 +206,7 @@ message HttpListener {
   Redirects redirects = 2;
 }
 
-// An HTTPS (HTTP over TLS) listener resource.
+// TLS-encrypted (HTTP or TCP stream) listener resource.
 message TlsListener {
   // Settings for handling requests by default, with Server Name
   // Indication (SNI) not matching any of the [sni_handlers].
@@ -213,8 +217,9 @@ message TlsListener {
   repeated SniMatch sni_handlers = 2;
 }
 
-// A Stream listener resource.
+// A stream (TCP) listener resource.
 message StreamListener {
+  // Settings for handling stream (TCP) requests.
   StreamHandler handler = 1 [(required) = true];
 }
 
@@ -224,16 +229,23 @@ message Http2Options {
   int64 max_concurrent_streams = 1;
 }
 
-//A stream handler resource.
+// A stream (TCP) handler resource.
 message StreamHandler {
+  // ID of the backend group processing requests. For details about the concept, see
+  // [documentation](/docs/application-load-balancer/concepts/backend-group).
+  //
+  // The backend group type, specified via [BackendGroup.backend], must be `stream`.
+  //
+  // To get the list of all available backend groups, make a [BackendGroupService.List] request.
   string backend_group_id = 1 [(required) = true];
 }
 
 // An HTTP handler resource.
 message HttpHandler {
-  // ID of the HTTP router processing requests.
+  // ID of the HTTP router processing requests. For details about the concept, see
+  // [documentation](/docs/application-load-balancer/concepts/http-router).
   //
-  // For details about the concept, see [documentation](/docs/application-load-balancer/concepts/http-router).
+  // To get the list of all available HTTP routers, make a [HttpRouterService.List] request.
   string http_router_id = 1;
 
   // Protocol settings.
@@ -272,7 +284,7 @@ message SniMatch {
   TlsHandler handler = 3 [(required) = true];
 }
 
-// An HTTPS (HTTP over TLS) handler resource.
+// A TLS-encrypted (HTTP or TCP stream) handler resource.
 message TlsHandler {
   // Settings for handling requests.
   oneof handler {
@@ -280,7 +292,7 @@ message TlsHandler {
     // HTTP handler.
     HttpHandler http_handler = 2;
 
-    // Stream handler
+    // Stream (TCP) handler.
     StreamHandler stream_handler = 4;
   }
 

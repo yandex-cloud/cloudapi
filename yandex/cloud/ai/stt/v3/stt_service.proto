@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package speechkit.stt.v3;
+
+import "yandex/cloud/ai/stt/v3/stt.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/stt/v3;stt";
+option java_package = "yandex.cloud.api.ai.stt.v3";
+
+// A set of methods for voice recognition.
+service Recognizer {
+
+    // Expects audio in real-time
+    rpc RecognizeStreaming (stream StreamingRequest) returns (stream StreamingResponse) {
+
+    }
+
+}

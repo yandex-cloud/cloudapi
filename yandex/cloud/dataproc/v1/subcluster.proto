@@ -118,7 +118,7 @@ message Host {
   // ID of the Data Proc subcluster that the host belongs to.
   string subcluster_id = 2;
 
-  // Host status code.
+  // Status code of the aggregated health of the host.
   Health health = 3;
 
   // ID of the Compute virtual machine that is used as the Data Proc host.

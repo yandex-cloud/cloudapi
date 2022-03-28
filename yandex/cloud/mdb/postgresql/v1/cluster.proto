@@ -396,8 +396,12 @@ message Access {
   //
   // See [SQL queries in the management console](/docs/managed-postgresql/operations/web-sql-query) for more details.
   bool web_sql = 2;
+
   // Allow access for Serverless
   bool serverless = 3;
+
+  // Allow access for DataTransfer.
+  bool data_transfer = 4;
 }
 
 message PerformanceDiagnostics {

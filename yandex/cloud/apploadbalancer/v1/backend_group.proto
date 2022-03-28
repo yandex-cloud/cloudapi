@@ -33,8 +33,6 @@ message BackendGroup {
   map<string, string> labels = 5;
 
   // Backends that the backend group consists of.
-  //
-  // A backend group must consist of either HTTP backends or gRPC backends.
   oneof backend {
     // List of HTTP backends that the backend group consists of.
     HttpBackendGroup http = 6;
@@ -42,7 +40,7 @@ message BackendGroup {
     // List of gRPC backends that the backend group consists of.
     GrpcBackendGroup grpc = 7;
 
-    // List of stream backends that the backend group consist of.
+    // List of stream (TCP) backends that the backend group consists of.
     StreamBackendGroup stream = 10;
   }
 
@@ -50,13 +48,24 @@ message BackendGroup {
   google.protobuf.Timestamp created_at = 9;
 }
 
-// A Stream backend group resource.
+// A stream (TCP) backend group resource.
 message StreamBackendGroup {
+  // List of stream (TCP) backends.
   repeated StreamBackend backends = 1;
 
-  // session_affinity is applicable when load_balancing_mode of the selected backend
-  // is MAGLEV_HASH.
+  // Session affinity configuration for the backend group.
+  //
+  // For details about the concept, see
+  // [documentation](/docs/application-load-balancer/concepts/backend-group#session-affinity).
+  //
+  // If session affinity is configured, the backend group should contain exactly one active backend (i.e. with positive
+  // [HttpBackend.backend_weight]), its [HttpBackend.backend_type] should be [TargetGroupsBackend], and its
+  // [LoadBalancingConfig.load_balancing_mode] should be `MAGLEV_HASH`. If any of these conditions are not met, session
+  // affinity will not work.
   oneof session_affinity {
+    // Connection-based session affinity configuration.
+    //
+    // For now, a connection is defined only by an IP address of the client.
     ConnectionSessionAffinity connection = 2;
   }
 }
@@ -222,25 +231,45 @@ message LoadBalancingConfig {
   LoadBalancingMode mode = 4;
 }
 
-// A stream backend resource.
+// A stream (TCP) backend resource.
 message StreamBackend {
+  // Name of the backend.
   string name = 1 [(pattern) = "[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
-  // If not set, backend will be disabled.
+  // Backend weight. Traffic is distributed between backends of a backend group according to their weights.
+  //
+  // Weights must be set either for all backends in a group or for none of them.
+  // Setting no weights is the same as setting equal non-zero weights for all backends.
+  //
+  // If the weight is non-positive, traffic is not sent to the backend.
   google.protobuf.Int64Value backend_weight = 2;
 
+  // Load balancing configuration for the backend.
   LoadBalancingConfig load_balancing_config = 3;
 
-  // Optional alternative port for all targets.
+  // Port used by all targets to receive traffic.
   int64 port = 4 [(value) = "0-65535"];
 
+  // Reference to targets that belong to the backend.
   oneof backend_type {
     option (exactly_one) = true;
+
+    // Target groups that belong to the backend. For details about target groups, see
+    // [documentation](/docs/application-load-balancer/concepts/target-group).
     TargetGroupsBackend target_groups = 5;
   }
 
+  // Health checks to perform on targets from target groups.
+  // For details about health checking, see [documentation](/docs/application-load-balancer/concepts/backend-group#health-checks).
+  //
+  // If no health checks are specified, active health checking is not performed.
   repeated HealthCheck healthchecks = 6;
 
+  // Settings for TLS connections between load balancer nodes and backend targets.
+  //
+  // If specified, the load balancer establishes TLS-encrypted TCP connections with targets and compares received
+  // certificates with the one specified in [BackendTls.validation_context].
+  // If not specified, the load balancer establishes unencrypted TCP connections with targets.
   BackendTls tls = 7;
 
   // If set, proxy protocol will be enabled for this backend.

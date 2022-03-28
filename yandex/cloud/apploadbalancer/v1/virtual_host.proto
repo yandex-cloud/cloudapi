@@ -281,6 +281,8 @@ message GrpcStatusResponseAction {
 // An HTTP route action resource.
 message HttpRouteAction {
   // Backend group to forward requests to.
+  //
+  // Stream (TCP) backend groups are not supported.
   string backend_group_id = 1 [(required) = true];
 
   // Overall timeout for an HTTP connection between a load balancer node an a backend from the backend group:

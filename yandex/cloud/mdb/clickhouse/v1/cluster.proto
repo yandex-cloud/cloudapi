@@ -14,7 +14,6 @@ option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
 // A ClickHouse Cluster resource. For more information, see the
 // [Cluster](/docs/managed-clickhouse/concepts) section in the Developer's Guide.
 message Cluster {
-  // Deployment environment.
   enum Environment {
     ENVIRONMENT_UNSPECIFIED = 0;
 

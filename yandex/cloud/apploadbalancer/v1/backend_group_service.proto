@@ -172,8 +172,6 @@ message UpdateBackendGroupRequest {
 
   // New list of backends in the backend group.
   //
-  // A backend group must consist of either HTTP backends or gRPC backends.
-  //
   // Existing list of backends is completely replaced by the specified list, so if you just want to add or remove
   // a target, make a [BackendGroupService.AddBackend] request or a [BackendGroupService.RemoveBackend] request.
   oneof backend {
@@ -185,7 +183,7 @@ message UpdateBackendGroupRequest {
     // New list of gRPC backends that the backend group will consist of.
     GrpcBackendGroup grpc = 7;
 
-    // New list of Stream backends that the backend group will consist of.
+    // New list of stream (TCP) backends that the backend group will consist of.
     StreamBackendGroup stream = 8;
   }
 }
@@ -213,8 +211,6 @@ message CreateBackendGroupRequest {
   map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
 
   // Backends that the backend group will consist of.
-  //
-  // A backend group must consist of either HTTP backends or gRPC backends.
   oneof backend {
     // List of HTTP backends that the backend group will consist of.
     HttpBackendGroup http = 5;
@@ -222,7 +218,7 @@ message CreateBackendGroupRequest {
     // List of gRPC backends that the backend group consists of.
     GrpcBackendGroup grpc = 6;
 
-    // List of Stream backends that the backend group consists of.
+    // List of stream (TCP) backends that the backend group consists of.
     StreamBackendGroup stream = 7;
   }
 }
@@ -239,8 +235,6 @@ message AddBackendRequest {
   string backend_group_id = 1 [(required) = true];
 
   // Backend to add to the backend group.
-  //
-  // A backend group must consist of either HTTP backends or gRPC backends.
   oneof backend {
     option (exactly_one) = true;
 
@@ -279,7 +273,7 @@ message UpdateBackendRequest {
     // New settings for the gRPC backend.
     GrpcBackend grpc = 4;
 
-    // New settings for the Stream backend.
+    // New settings for the stream (TCP) backend.
     StreamBackend stream = 5;
   }
 }

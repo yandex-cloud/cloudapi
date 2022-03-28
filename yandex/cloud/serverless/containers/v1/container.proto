@@ -46,6 +46,7 @@ message Revision {
   string service_account_id = 9;
   Status status = 10;
   repeated Secret secrets = 11;
+  Connectivity connectivity = 12;
 }
 
 message Image {
@@ -78,4 +79,9 @@ message Secret {
   oneof reference {
     string environment_variable = 4;
   }
+}
+
+message Connectivity {
+  string network_id = 1;
+  repeated string subnet_ids = 2;
 }

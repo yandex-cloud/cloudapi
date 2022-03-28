@@ -177,6 +177,9 @@ message ConfigSpec {
 
   // Enables managed schema registry on cluster
   bool schema_registry = 8;
+
+  // Access policy for external services.
+  Access access = 9;
 }
 
 message Resources {
@@ -444,4 +447,9 @@ message Host {
   //
   // If the value is `true`, then this node is available on the Internet via it's public IP address.
   bool assign_public_ip = 9;
+}
+
+message Access {
+  // Allow access for DataTransfer.
+  bool data_transfer = 1;
 }

@@ -12,8 +12,6 @@ option java_package = "yandex.cloud.api.mdb.greenplum.v1";
 
 // A Greenplum® cluster host resource.
 message Host {
-
-  // Type of the host.
   enum Type {
 
     // The type is not specified.
@@ -29,7 +27,6 @@ message Host {
     SEGMENT = 3;
   }
 
-  // Status code of the aggregated health of the host.
   enum Health {
 
     // Health of the host is unknown.

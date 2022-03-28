@@ -295,6 +295,9 @@ message Access {
   //
   // See [the documentation](/docs/managed-mysql/operations/web-sql-query) for details.
   bool web_sql = 2;
+
+  // Allow access for DataTransfer.
+  bool data_transfer = 3;
 }
 
 message PerformanceDiagnostics {

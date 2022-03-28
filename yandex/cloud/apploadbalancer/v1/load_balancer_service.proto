@@ -449,17 +449,21 @@ message ListenerSpec {
   // Endpoints are defined by their IP addresses and ports.
   repeated EndpointSpec endpoint_specs = 2 [(size) = ">0"];
 
-  // HTTP or HTTPS (HTTP over TLS) listener settings.
+  // Listener type and settings.
   oneof listener {
     option (exactly_one) = true;
 
-    // HTTP listener settings.
+    // Unencrypted HTTP listener settings.
     HttpListener http = 3;
 
-    // TLS listener settings.
+    // TLS-encrypted HTTP or TCP stream listener settings.
+    //
+    // All handlers within a listener ([TlsListener.default_handler] and [TlsListener.sni_handlers]) must be of one
+    // type, [HttpHandler] or [StreamHandler]. Mixing HTTP and TCP stream traffic in a TLS-encrypted listener is not
+    // supported.
     TlsListener tls = 4;
 
-    // TCP listener settings.
+    // Unencrypted stream (TCP) listener settings.
     StreamListener stream =5;
   }
 }

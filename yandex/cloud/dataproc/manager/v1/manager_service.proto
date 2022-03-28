@@ -7,9 +7,9 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/manager/v1;dataproc_manager";
 option java_package = "yandex.cloud.api.dataproc.manager.v1";
 
-// Data Proc manager service defifnition
+// Data Proc manager service definition.
 service DataprocManagerService {
-    // Sends a status report from a host
+    // Sends a status report from a host.
     rpc Report (ReportRequest) returns (ReportReply) {}
 }
 

@@ -16,8 +16,6 @@ option java_package = "yandex.cloud.api.mdb.greenplum.v1";
 
 // A Greenplum® cluster resource.
 message Cluster {
-
-  // Deployment environment.
   enum Environment {
     ENVIRONMENT_UNSPECIFIED = 0;
 
@@ -30,7 +28,6 @@ message Cluster {
     PRESTABLE = 2;
   }
 
-  // Aggregated health of the cluster.
   enum Health {
 
     // Health of the cluster is unknown ([Host.health] for every host in the cluster is UNKNOWN).
@@ -209,6 +206,9 @@ message Access {
 
   // Allows SQL queries to the cluster databases from the Yandex Cloud management console.
   bool web_sql = 2;
+
+  // Allow access for DataTransfer.
+  bool data_transfer = 3;
 }
 
 message GreenplumRestoreConfig {
