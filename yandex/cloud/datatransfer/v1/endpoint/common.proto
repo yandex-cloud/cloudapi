@@ -20,6 +20,12 @@ enum CleanupPolicy {
     DROP = 2;
     TRUNCATE = 3;
 }
+message AltName {
+    // From table name
+    string from_name = 1;
+    // To table name
+    string to_name = 2;
+}
 message Secret {
     oneof value {
         // Password
@@ -39,4 +45,6 @@ message TLSConfig {
     // certificate, in PEM format. When CA certificate is specified TLS is used to
     // connect to the server.
     string ca_certificate = 1;
+}
+message ColumnValue {
 }

@@ -73,6 +73,10 @@ message PostgresObjectTransferSettings {
     // 
     // CREATE CAST ...
     ObjectTransferStage cast = 16;
+    // Materialized views
+    // 
+    // CREATE MATERIALIZED VIEW ...
+    ObjectTransferStage materialized_view = 17;
 }
 message OnPremisePostgres {
     repeated string hosts = 5;
@@ -93,7 +97,7 @@ message PostgresConnection {
     oneof connection {
         // Managed cluster
         // 
-        // Yandex Managed Service for PostgreSQL cluster ID
+        // Yandex.Cloud Managed PostgreSQL cluster ID
         string mdb_cluster_id = 1;
         // On-premise
         // 
@@ -106,6 +110,8 @@ message PostgresSource {
     // 
     // Database connection settings
     PostgresConnection connection = 1;
+    // Security groups
+    repeated string security_groups = 14;
     // Database name
     string database = 2;
     // Username
@@ -132,7 +138,7 @@ message PostgresSource {
     // in a replication failure and deletion of the replication slot. Unlimited by
     // default.
     int64 slot_byte_lag_limit = 8;
-    // Database schema for service table
+    // Database schema for service tables
     // 
     // Default: public. Here created technical tables (__consumer_keeper,
     // __data_transfer_mole_finder).
@@ -147,6 +153,8 @@ message PostgresTarget {
     // 
     // Database connection settings
     PostgresConnection connection = 1;
+    // Security groups
+    repeated string security_groups = 7;
     // Database name
     string database = 2;
     // Username

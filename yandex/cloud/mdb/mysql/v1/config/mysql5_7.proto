@@ -473,6 +473,11 @@ message MysqlConfig5_7 {
   //
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_show_compatibility_56).
   google.protobuf.BoolValue show_compatibility_56 = 68 [json_name = "showCompatibility_56"];
+
+  // The number of times that any given stored procedure may be called recursively.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_max_sp_recursion_depth).
+  google.protobuf.Int64Value max_sp_recursion_depth = 69 [(value) = "0-255"];
 }
 
 message MysqlConfigSet5_7 {

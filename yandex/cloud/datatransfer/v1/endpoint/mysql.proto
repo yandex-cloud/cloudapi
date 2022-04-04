@@ -27,7 +27,7 @@ message MysqlConnection {
     oneof connection {
         // Managed cluster
         // 
-        // Yandex Managed Service for MySQL cluster ID
+        // Yandex.Cloud Managed MySQL cluster ID
         string mdb_cluster_id = 1;
         // On-premise
         // 
@@ -54,11 +54,18 @@ message MysqlSource {
     // 
     // Database connection settings
     MysqlConnection connection = 1;
+    // Security groups
+    repeated string security_groups = 14;
     // Database name
     // 
     // You can leave it empty, then it will be possible to transfer tables from several
     // databases at the same time from this source.
     string database = 2;
+    // Database for service tables
+    // 
+    // Default: data source database. Here created technical tables (__tm_keeper,
+    // __tm_gtid_keeper).
+    string service_database = 15;
     // Username
     // 
     // User for database access.
@@ -84,6 +91,8 @@ message MysqlTarget {
     // 
     // Database connection settings
     MysqlConnection connection = 1;
+    // Security groups
+    repeated string security_groups = 16;
     // Database name
     // 
     // Allowed to leave it empty, then the tables will be created in databases with the

@@ -55,6 +55,14 @@ service ContainerService {
     };
   }
 
+  rpc Rollback (RollbackContainerRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/containers/v1/containers/{container_id}:rollback" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "RollbackContainerMetadata"
+      response: "Container"
+    };
+  }
+
   rpc GetRevision (GetContainerRevisionRequest) returns (Revision) {
     option (google.api.http) = { get: "/containers/v1/revisions/{container_revision_id}" };
   }
@@ -180,6 +188,16 @@ message ImageSpec {
 
 message DeployContainerRevisionMetadata {
   string container_revision_id = 1;
+}
+
+message RollbackContainerRequest {
+  string container_id = 1 [(required) = true];
+  string revision_id = 2 [(required) = true];
+}
+
+message RollbackContainerMetadata {
+  string container_id = 1;
+  string revision_id = 2;
 }
 
 message ListContainerOperationsRequest {

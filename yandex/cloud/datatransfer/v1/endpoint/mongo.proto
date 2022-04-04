@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package yandex.cloud.datatransfer.v1.endpoint;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datatransfer/v1/endpoint;endpoint";
+option java_package = "yandex.cloud.api.datatransfer.v1.endpoint";
+option csharp_namespace = "Yandex.Cloud.Datatransfer.V1.EndPoint"; // there is a clash with class Endpoint in namespace Yandex.Cloud.Datatransfer.V1
+
+import "yandex/cloud/datatransfer/v1/endpoint/common.proto";
+
+message OnPremiseMongo {
+    repeated string hosts = 1;
+    int64 port = 2;
+    TLSMode tls_mode = 6;
+    string replica_set = 5;
+}
+message MongoConnectionOptions {
+    oneof address {
+        string mdb_cluster_id = 1;
+        OnPremiseMongo on_premise = 2;
+    }
+    string user = 3;
+    Secret password = 4;
+    string auth_source = 5;
+}
+message MongoConnection {
+    oneof connection {
+        MongoConnectionOptions connection_options = 3;
+    }
+}
+message MongoCollection {
+    string database_name = 1;
+    string collection_name = 2;
+}
+message MongoSource {
+    MongoConnection connection = 1;
+    string subnet_id = 2;
+    // Security groups
+    repeated string security_groups = 11;
+    repeated MongoCollection collections = 6;
+    repeated MongoCollection excluded_collections = 7;
+    bool secondary_preferred_mode = 8;
+}
+message MongoTarget {
+    MongoConnection connection = 1;
+    string subnet_id = 7;
+    // Security groups
+    repeated string security_groups = 8;
+    string database = 2;
+    CleanupPolicy cleanup_policy = 6;
+}
