@@ -272,6 +272,9 @@ message CreateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 12;
+
+  // Host groups hosting VMs of the cluster.
+  repeated string host_group_ids = 13;
 }
 
 message CreateClusterMetadata {
@@ -312,6 +315,9 @@ message UpdateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 9;
+
+  // Host groups hosting VMs of the cluster.
+  //repeated string host_group_ids = 10;
 }
 
 message UpdateClusterMetadata {
@@ -421,6 +427,12 @@ message RestoreClusterRequest {
 
   // User security groups
   repeated string security_group_ids = 12;
+
+  // Deletion Protection inhibits deletion of the cluster
+  bool deletion_protection = 13;
+
+  // Host groups hosting VMs of the cluster.
+  repeated string host_group_ids = 14;
 }
 
 message RestoreClusterMetadata {

@@ -118,8 +118,8 @@ message Hints {
 
 message UtteranceSynthesisRequest {
     // The name of the model.
-    //
-    reserved 1;
+    // Specifies basic synthesis functionality. Currently should be empty. Do not use it
+    string model = 1;
     // Text to synthesis, one of text synthesis markups.
     oneof Utterance {
         // Raw text (e.g. "Hello, Alice").
