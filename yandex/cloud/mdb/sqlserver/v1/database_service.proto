@@ -45,6 +45,25 @@ service DatabaseService {
       };
   }
 
+  //Imports a new SQL Server database from external backup
+  rpc ImportBackup (ImportDatabaseBackupRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases:import" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "ImportDatabaseBackupMetadata"
+      response: "Database"
+    };
+  }
+
+  //Exports database backup to external backup
+  rpc ExportBackup (ExportDatabaseBackupRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases/{database_name}:export" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "ExportDatabaseBackupMetadata"
+      response: "Database"
+    };
+  }
+
+
   // Deletes the specified SQL Server database.
   rpc Delete (DeleteDatabaseRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases/{database_name}" };
@@ -112,20 +131,6 @@ message CreateDatabaseMetadata {
   string database_name = 2;
 }
 
-message RestoreDatabaseMetadata {
-  // ID of the SQLServer cluster where a database is being created.
-  string cluster_id = 1 [(required) = true];
-
-  // Name of the SQLServer database that is being created.
-  string database_name = 2 [(required) = true];
-
-  //name of the database which backup will be used to restore the database
-  string from_database = 3 [(required) = true];
-
-  //ID of a backup to be used
-  string backup_id = 4 [(required) = true];
-}
-
 message DeleteDatabaseRequest {
   // ID of the SQL Server cluster to delete a database in.
   //
@@ -163,4 +168,83 @@ message RestoreDatabaseRequest {
   //Timestamp which is used for Point-in-Time recovery
   google.protobuf.Timestamp time = 6 [(required) = true];
 
+}
+
+message RestoreDatabaseMetadata {
+  // ID of the SQLServer cluster where a database is being created.
+  string cluster_id = 1 [(required) = true];
+
+  // Name of the SQLServer database that is being created.
+  string database_name = 2 [(required) = true];
+
+  //name of the database which backup will be used to restore the database
+  string from_database = 3 [(required) = true];
+
+  //ID of a backup to be used
+  string backup_id = 4 [(required) = true];
+}
+
+
+message ImportDatabaseBackupRequest {
+  //Required. ID of the SQL Server cluster to import a database in.
+  // To get the cluster ID, use a [ClusterService.List] request
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Name of the SQLServer database that is being imported.
+  string database_name = 2 [(required) = true];
+
+  // Name of object storage bucket to import backups from.
+  string s3_bucket = 3 [(required) = true];
+
+  // Path in object storage bucket to import backups from.
+  string s3_path = 4;
+
+  // List of .bak files in bucket containing database backup
+  repeated string files = 5 [(required) = true];
+}
+
+message ImportDatabaseBackupMetadata {
+  // ID of the SQLServer cluster where a database is being imported.
+  string cluster_id = 1 [(required) = true];
+
+  // Name of the SQLServer database that is being imported.
+  string database_name = 2 [(required) = true];
+
+  // Name of object storage bucket to import backups from.
+  string s3_bucket = 3 [(required) = true];
+
+  // Path in object storage bucket to import backups from.
+  string s3_path = 4;
+}
+
+message ExportDatabaseBackupRequest {
+  //Required. ID of the SQL Server cluster to export a database from.
+  // To get the cluster ID, use a [ClusterService.List] request
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Name of the SQLServer database that is being exported.
+  string database_name = 2 [(required) = true];
+
+  // Name of object storage bucket to export backups to
+  string s3_bucket = 3 [(required) = true];
+
+  // Path in object storage bucket to export backups to.
+  string s3_path = 4;
+
+  // Prefix for .bak files to  
+  string prefix = 5;
+}
+
+message ExportDatabaseBackupMetadata {
+  // ID of the SQLServer cluster where a database is being exported.
+  string cluster_id = 1 [(required) = true];
+
+  // Name of the SQLServer database that is being exported.
+  string database_name = 2 [(required) = true];
+
+  // Name of object storage bucket to import backups from.
+  string s3_bucket = 3 [(required) = true];
+
+  // Path in object storage bucket to import backups from.
+  string s3_path = 4;
 }

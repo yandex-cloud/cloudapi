@@ -105,6 +105,15 @@ service ClusterService {
     };
   }
 
+  // Starts a manual failover for a cluster.
+  rpc StartFailover (StartClusterFailoverRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters/{cluster_id}:startFailover" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "StartClusterFailoverMetadata"
+      response: "Cluster"
+    };
+  }
+
   // Retrieves logs for the specified SQL Server cluster.
   //
   // For more information about logs, see the [Logs](/docs/managed-sqlserver/operations/cluster-logs) section in the documentation.
@@ -218,6 +227,9 @@ message CreateClusterRequest {
 
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 14;
+
+  // ID of the service account used for access to Yandex Object Storage.
+  string service_account_id = 15;
 }
 
 message CreateClusterMetadata {
@@ -256,6 +268,9 @@ message UpdateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 8;
+
+  // ID of the service account used for access to Yandex Object Storage.
+  string service_account_id = 9;
 }
 
 message UpdateClusterMetadata {
@@ -331,6 +346,9 @@ message RestoreClusterRequest {
 
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 14;
+
+  // ID of the service account used for access to Yandex Object Storage.
+  string service_account_id = 15;
 }
 
 message RestoreClusterMetadata {
@@ -339,6 +357,21 @@ message RestoreClusterMetadata {
 
   // ID of the backup being used for creating a cluster.
   string backup_id = 2;
+}
+
+message StartClusterFailoverRequest {
+  // ID of sqlserver cluster.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Host name to switch master role to.
+  //
+  // To get this name, make a [ClusterService.ListHosts] request.
+  string host_name = 2 [(length) = "<=253"];
+}
+
+message StartClusterFailoverMetadata {
+  // ID of the sqlserver cluster being failovered.
+  string cluster_id = 1;
 }
 
 message LogRecord {

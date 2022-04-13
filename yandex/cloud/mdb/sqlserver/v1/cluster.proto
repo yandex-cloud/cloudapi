@@ -117,6 +117,9 @@ message Cluster {
 
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 16;
+
+  // ID of the service account used for access to Yandex Object Storage.
+  string service_account_id = 17;
 }
 
 message Monitoring {
