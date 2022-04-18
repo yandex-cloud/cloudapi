@@ -47,4 +47,7 @@ message TLSConfig {
     string ca_certificate = 1;
 }
 message ColumnValue {
+    oneof value {
+        string string_value = 1;
+    }
 }

@@ -91,6 +91,8 @@ message GlossaryPair {
 
   // Text in the target language.
   string translated_text = 2 [(required) = true];
+
+  bool exact = 3;
 }
 
 message TranslateResponse {

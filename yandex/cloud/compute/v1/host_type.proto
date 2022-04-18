@@ -15,4 +15,8 @@ message HostType {
   int64 cores = 2;
   // Ammount of memory available for instances.
   int64 memory = 3;
+  // Number of local disks available for instances
+  int64 disks = 4;
+  // Size of each local disk
+  int64 disk_size = 5;
 }
