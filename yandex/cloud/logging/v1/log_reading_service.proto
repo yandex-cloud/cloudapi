@@ -87,4 +87,9 @@ message Criteria {
 
   // The maximum number of results per page to return.
   int64 page_size = 8  [(value) = "1-1000"];
+
+  // Limits response to maximum size in bytes. Prevents gRPC resource exhaustion.
+  //
+  // Default value for max response size is 3.5 MiB
+  int64 max_response_size = 9 [(value) = "0-10485760"];
 }
