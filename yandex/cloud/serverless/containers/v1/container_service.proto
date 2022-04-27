@@ -175,6 +175,7 @@ message DeployContainerRevisionRequest {
   int64 concurrency = 9;
   repeated Secret secrets = 10;
   Connectivity connectivity = 11;
+  ProvisionPolicy provision_policy = 12;
 }
 
 message ImageSpec {
