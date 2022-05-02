@@ -28,6 +28,10 @@ service CertificateService {
     option (google.api.http) = { get: "/certificate-manager/v1/certificates" };
   }
 
+  rpc ListVersions (ListVersionsRequest) returns (ListVersionsResponse) {
+    option (google.api.http) = { get: "/certificate-manager/v1/certificates/{certificate_id}/versions" };
+  }
+
   // Creates a certificate in the specified folder.
   rpc Create (CreateCertificateRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/certificate-manager/v1/certificates" body: "*" };
@@ -133,6 +137,31 @@ message ListCertificatesRequest {
 message ListCertificatesResponse {
   // List of certificates in the specified folder.
   repeated Certificate certificates = 1;
+
+  // This token allows you to get the next page of results for list requests. If the number
+  // of results is greater than the specified [ListCertificatesRequest.page_size], use
+  // the `next_page_token` as the value for the [ListCertificatesRequest.page_token] query parameter
+  // in the next list request. Each subsequent list request will have its own
+  // [next_page_token] to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message ListVersionsRequest {
+  // ID of the certificate to list versions for.
+  string certificate_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Page token. To get the next page of results, set `page_token` to the
+  // [ListCertificatesResponse.next_page_token] returned by a previous list request.
+  int64 page_size = 2 [(value) = "<=1000"];
+
+  // Page token. To get the next page of results, set `page_token` to the
+  // [ListCertificatesResponse.next_page_token] returned by a previous list request.
+  string page_token = 3 [(length) = "<=100"];
+}
+
+message ListVersionsResponse {
+  // List of versions for the specified certificate.
+  repeated Version versions = 1;
 
   // This token allows you to get the next page of results for list requests. If the number
   // of results is greater than the specified [ListCertificatesRequest.page_size], use

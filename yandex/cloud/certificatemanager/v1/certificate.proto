@@ -176,3 +176,15 @@ enum ChallengeType {
   // Domain validation type that using HTTP-files.
   HTTP = 2;
 }
+
+// A certificate version
+message Version {
+  // ID of the version.
+  string id = 1;
+
+  // ID of the certificate that the version belongs to.
+  string certificate_id = 2;
+
+  // Time when the version was created.
+  google.protobuf.Timestamp created_at = 3;
+}

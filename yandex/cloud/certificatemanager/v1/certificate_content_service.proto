@@ -29,4 +29,7 @@ message GetCertificateContentResponse {
 message GetCertificateContentRequest {
   // ID of the certificate to download content.
   string certificate_id = 1;
+
+  // Optional ID of the version.
+  string version_id = 2;
 }
