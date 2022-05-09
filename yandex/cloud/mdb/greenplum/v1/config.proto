@@ -63,6 +63,17 @@ message SegmentSubclusterConfig {
   Resources resources = 1; 
 }
 
+enum LogStatement {
+    LOG_STATEMENT_UNSPECIFIED = 0;
+
+    NONE = 1;
+
+    DDL = 2;
+
+    MOD = 3;
+
+    ALL = 4;
+}
 
 message GreenplumConfig6_17 {
   // Maximum number of inbound connections on master segment
@@ -132,6 +143,21 @@ message GreenplumConfig6_19 {
   // Specifies whether the temporary files created, when a hash aggregation or hash join operation spills to disk, are compressed.
   // https://docs.greenplum.org/6-5/ref_guide/config_params/guc-list.html#gp_workfile_compression
   google.protobuf.BoolValue gp_workfile_compression = 7;
+
+  // Sets the maximum memory limit for a query. Helps avoid out-of-memory errors on a segment host during query processing as a result of setting statement_mem too high.
+  // Taking into account the configuration of a single segment host, calculate max_statement_mem as follows:
+  // (seghost_physical_memory) / (average_number_concurrent_queries)
+  // When changing both max_statement_mem and statement_mem, max_statement_mem must be changed first, or listed first in the postgresql.conf file.
+  // https://greenplum.docs.pivotal.io/6-19/ref_guide/config_params/guc-list.html#max_statement_mem
+  // Default value is 2097152000 (2000MB)
+  google.protobuf.Int64Value max_statement_mem = 8; // in bytes
+
+  // Controls which SQL statements are logged. DDL logs all data definition commands like CREATE, ALTER, and DROP commands.
+  // MOD logs all DDL statements, plus INSERT, UPDATE, DELETE, TRUNCATE, and COPY FROM.
+  // PREPARE and EXPLAIN ANALYZE statements are also logged if their contained command is of an appropriate type.
+  // https://docs.greenplum.org/6-5/ref_guide/config_params/guc-list.html#log_statement
+  // Default value is ddl
+  LogStatement log_statement = 9;
 }
 
 message GreenplumConfigSet6_17 {

@@ -52,25 +52,25 @@ service ExtensionService {
 }
 
 message GetExtensionRequest {
-  // Required. ID of the cluster.
+  // ID of the cluster.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. ID of the extension to return.
+  // ID of the extension to return.
   string extension_id = 2 [(required) = true];
 }
 
 message ListExtensionsRequest {
-  // Required. ID of the cluster to list extensions in.
+  // ID of the cluster to list extensions in.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // The maximum number of results per page that should be returned. If the number of available
-  // results is larger than `page_size`, the service returns a `next_page_token` that can be used
-  // to get the next page of results in subsequent ListBackups requests.
-  // Acceptable values are 0 to 1000, inclusive. Default value: 100.
+  // The maximum number of results per page to return.
+  //
+  // If the number of available results is larger than [page_size], the API returns a [ListExtensionsResponse.next_page_token] that can be used to get the next page of results in subsequent [ExtensionService.List] requests.
   int64 page_size = 2 [(value) = "0-1000"];
 
-  // Page token. Set `page_token` to the `next_page_token` returned by a previous ListBackups
-  // request to get the next page of results.
+  // Page token that can be used to iterate through multiple pages of results.
+  //
+  // To get the next page of results, set [page_token] to the [ListExtensionsResponse.next_page_token] returned by the previous [ExtensionService.List] request.
   string page_token = 3 [(length) = "<=100"];
 }
 
@@ -78,66 +78,67 @@ message ListExtensionsResponse {
   // Requested list of extensions.
   repeated Extension extensions = 1;
 
-  // This token allows you to get the next page of results for ListBackups requests,
-  // if the number of results is larger than `page_size` specified in the request.
-  // To get the next page, specify the value of `next_page_token` as a value for
-  // the `page_token` parameter in the next ListBackups request. Subsequent ListBackups
-  // requests will have their own `next_page_token` to continue paging through the results.
+  // The token that can be used to get the next page of results.
+  //
+  // If the number of results is larger than [ListExtensionsRequest.page_size], use the [next_page_token] as the value for the [ListExtensionsRequest.page_token] in the subsequent [ExtensionService.List] request to iterate through multiple pages of results.
+  //
+  // Each of the subsequent [ExtensionService.List] requests should use the [next_page_token] value returned in the previous request to continue paging through the results.
   string next_page_token = 2;
 }
 
 message DeleteExtensionRequest {
-  // Required. ID of the cluster.
+  // ID of the cluster.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. ID of the extension to delete.
+  // ID of the extension to delete.
   string extension_id = 2 [(required) = true];
 }
 
 message DeleteExtensionMetadata {
-  // Required. ID of the cluster.
+  // ID of the cluster.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. ID of the extension to delete.
+  // ID of the extension to delete.
   string extension_id = 2 [(required) = true];  
 }
 
 message UpdateExtensionRequest {
-  // Required. ID of the cluster.
+  // ID of the cluster.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. ID of the extension to delete.
+  // ID of the extension to update.
   string extension_id = 2 [(required) = true];
 
+  // The flag shows whether to make the extension active.
   bool active = 3;
 }
 
 message UpdateExtensionMetadata {
-  // Required. ID of the cluster.
+  // ID of the cluster.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. ID of the extension.
+  // ID of the extension.
   string extension_id = 2 [(required) = true];  
 }
 
 message CreateExtensionRequest {
-  // Required. ID of the cluster.
+  // ID of the cluster.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the extension.
   string name = 2 [(required) = true, (length) = "<=50"];
 
-  // URI of the zip arhive to create the new extension from.
-  // Currently only supports links that are stored in Yandex Object Storage.
+  // URI of the zip archive to create the new extension from. Currently only supports links that are stored in Yandex Object Storage.
   string uri = 3 [(required) = true];
 
+  // The flag that disables the extension.
   bool disabled = 4;
 }
 
 message CreateExtensionMetadata {
-  // Required. ID of the cluster.
+  // ID of the cluster.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. ID of the extension.
+  // ID of the extension.
   string extension_id = 2 [(required) = true];  
 }
