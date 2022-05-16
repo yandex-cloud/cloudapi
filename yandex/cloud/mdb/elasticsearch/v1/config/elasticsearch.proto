@@ -33,6 +33,16 @@ message ElasticsearchConfig7 {
   //
   // See in-depth description in [Elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-fielddata.html).
   string fielddata_cache_size = 4;
+
+  // Remote hosts for reindex have to be explicitly allowed in elasticsearch.yml using the reindex.remote.whitelist property.
+  // It can be set to a comma delimited list of allowed remote host and port combinations.
+  // Scheme is ignored, only the host and port are used.
+  string reindex_remote_whitelist = 6;
+
+  // List of paths to PEM encoded certificate files that should be trusted.
+  //
+  // See in-depth description in [Elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html#reindex-ssl)
+  string reindex_ssl_ca_path = 7;
 }
 
 // Elasticsearch 7.x data node configuration.

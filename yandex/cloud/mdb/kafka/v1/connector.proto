@@ -119,6 +119,10 @@ message ExternalClusterConnectionSpec {
   // we should use to connect
   // to cluster.
   string security_protocol = 5;
+
+  // CA in PEM format to connect to external cluster.
+  // Lines of certificate separated by '\n' symbol.
+  string ssl_truststore_certificates = 6;
 }
 
 // An Apache Kafka® connector resource.

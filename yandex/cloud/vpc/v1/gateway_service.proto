@@ -27,7 +27,7 @@ service GatewayService {
 
   // Creates a gateway in the specified folder.
   rpc Create (CreateGatewayRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/vpc/v1/gateways", body: "*"};
+    option (google.api.http) = {post: "/vpc/v1/gateways" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "CreateGatewayMetadata"
       response: "Gateway"
@@ -36,7 +36,7 @@ service GatewayService {
 
   // Updates the specified gateway.
   rpc Update (UpdateGatewayRequest) returns (operation.Operation) {
-    option (google.api.http) = {patch: "/vpc/v1/gateways/{gateway_id}", body: "*"};
+    option (google.api.http) = {patch: "/vpc/v1/gateways/{gateway_id}" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateGatewayMetadata"
       response: "Gateway"
@@ -59,7 +59,7 @@ service GatewayService {
 
   // Move a gateway to another folder
   rpc Move (MoveGatewayRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/vpc/v1/gateways/{gateway_id}:move", body: "*"};
+    option (google.api.http) = {post: "/vpc/v1/gateways/{gateway_id}:move" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "MoveGatewayMetadata"
       response: "Gateway"
