@@ -136,6 +136,15 @@ service ClusterService {
     option (google.api.http) = {get: "/mdb/sqlserver/v1/clusters/{cluster_id}/hosts"};
   }
 
+  // Updates the specified hosts.
+  rpc UpdateHosts (UpdateClusterHostsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters/{cluster_id}/hosts:batchUpdate" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateClusterHostsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
 }
 
 
@@ -600,6 +609,27 @@ message HostSpec {
   // * false - don't assign a public IP to the host.
   // * true - the host should have a public IP address.
   bool assign_public_ip = 3;
+}
+
+message UpdateHostSpec {
+  // Name of the host to update.
+  // To get the SQL Server host name, use a [ClusterService.ListHosts] request.
+  string host_name = 1 [(required) = true];
+
+  // Field mask that specifies which fields of the SQL Server host should be updated.
+  google.protobuf.FieldMask update_mask = 2;
+
+  // Whether the host should get a public IP address on creation.
+  bool assign_public_ip = 3;
+}
+
+message UpdateClusterHostsRequest {
+  // ID of the SQL Server cluster to update hosts in.
+  // To get the SQL Server cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // New configurations to apply to hosts.
+  repeated UpdateHostSpec update_host_specs = 2 [(size) = ">0"];
 }
 
 message ConfigSpec {

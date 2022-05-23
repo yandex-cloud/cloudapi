@@ -80,7 +80,7 @@ message SetAccessBindingsRequest {
   string resource_id = 1 [(required) = true, (length) = "<=50"];
 
   // Access bindings to be set. For more information, see [Access Bindings](/docs/iam/concepts/access-control/#access-bindings).
-  repeated AccessBinding access_bindings = 2 [(required) = true];
+  repeated AccessBinding access_bindings = 2 [(size) = "<=1000"];
 }
 
 message SetAccessBindingsMetadata {
@@ -93,7 +93,7 @@ message UpdateAccessBindingsRequest {
   string resource_id = 1 [(required) = true, (length) = "<=50"];
 
   // Updates to access bindings.
-  repeated AccessBindingDelta access_binding_deltas = 2 [(size) = ">0", (required) = true];
+  repeated AccessBindingDelta access_binding_deltas = 2 [(size) = "1-1000"];
 }
 
 message UpdateAccessBindingsMetadata {

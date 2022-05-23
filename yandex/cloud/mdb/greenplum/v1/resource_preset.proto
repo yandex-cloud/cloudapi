@@ -32,12 +32,6 @@ message ResourcePreset {
   // Host type
   Type type = 5;
 
-  // Min host count
-  int64 min_host_count = 6;
-
-  // Max host count
-  int64 max_host_count = 7;
-
   // The number of hosts must be divisible by host_count_divider
   int64 host_count_divider  = 8;
 

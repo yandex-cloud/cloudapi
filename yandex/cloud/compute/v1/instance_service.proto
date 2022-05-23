@@ -835,3 +835,18 @@ message MoveInstanceMetadata {
   // ID of the folder that the instance is being moved to.
   string destination_folder_id = 3;
 }
+
+message GuestStopInstanceMetadata {
+  // ID of the instance that was stopped from guest OS.
+  string instance_id = 1;
+}
+
+message PreemptInstanceMetadata {
+  // ID of the instance that is being preempted.
+  string instance_id = 1;
+}
+
+message CrashInstanceMetadata {
+  // ID of the instance that was crashed.
+  string instance_id = 1;
+}

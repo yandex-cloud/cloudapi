@@ -188,6 +188,16 @@ message NodeTemplate {
   }
 
   ContainerRuntimeSettings container_runtime_settings = 12;
+
+  // Name of the instance.
+  // In order to be unique it must contain at least on of instance unique placeholders:
+  //   {instance.short_id}
+  //   {instance.index}
+  //   combination of {instance.zone_id} and {instance.index_in_zone}
+  // Example: my-instance-{instance.index}
+  // If not set, default is used: {instance_group.id}-{instance.short_id}
+  // It may also contain another placeholders, see metadata doc for full list.
+  string name = 13 [(length) = "<=128"];
 }
 
 message NetworkInterfaceSpec {
@@ -207,6 +217,20 @@ message NetworkInterfaceSpec {
 message NodeAddressSpec {
   // One-to-one NAT configuration. Setting up one-to-one NAT ensures that public IP addresses are assigned to nodes, and therefore internet is accessible for all nodes of the node group. If the field is not set, NAT will not be set up.
   OneToOneNatSpec one_to_one_nat_spec = 1;
+
+  // Internal DNS configuration.
+  repeated DnsRecordSpec dns_record_specs = 2;
+}
+
+message DnsRecordSpec {
+  // FQDN (required).
+  string fqdn = 1 [(required) = true];
+  // DNS zone id (optional, if not set, private zone is used).
+  string dns_zone_id = 2;
+  // DNS record ttl, values in 0-86400 (optional).
+  int64 ttl = 3 [(value) = "0-86400"];
+  // When set to true, also create PTR DNS record (optional).
+  bool ptr = 4;
 }
 
 message OneToOneNatSpec {

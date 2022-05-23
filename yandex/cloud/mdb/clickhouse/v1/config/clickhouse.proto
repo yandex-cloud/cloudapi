@@ -9,7 +9,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickh
 option java_package = "yandex.cloud.api.mdb.clickhouse.v1.config";
 
 // ClickHouse configuration options. Detailed description for each set of options
-// is available in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/).
+// is available in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/server_settings/settings/).
 //
 // Any options not listed here are not supported.
 message ClickhouseConfig {
@@ -160,7 +160,7 @@ message ClickhouseConfig {
       string where = 7;
 
       // Query for checking the dictionary status, to pull only updated data.
-      // For more details, see [ClickHouse documentation on dictionaries](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_lifetime/).
+      // For more details, see [ClickHouse documentation on dictionaries](https://clickhouse.com/docs/en/query_language/dicts/external_dicts_dict_lifetime/).
       string invalidate_query = 8;
     }
 
@@ -246,7 +246,7 @@ message ClickhouseConfig {
       string password = 6;
 
       // Query for checking the dictionary status, to pull only updated data.
-      // For more details, see [ClickHouse documentation on dictionaries](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_lifetime/).
+      // For more details, see [ClickHouse documentation on dictionaries](https://clickhouse.com/docs/en/query_language/dicts/external_dicts_dict_lifetime/).
       string invalidate_query = 7;
 
       // Mode of SSL TCP/IP connection to the PostgreSQL host.
@@ -293,19 +293,19 @@ message ClickhouseConfig {
       Id id = 1;
 
       // Composite key for the dictionary, containing of one or more key columns.
-      // For details, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_structure/#composite-key).
+      // For details, see [ClickHouse documentation](https://clickhouse.com/docs/en/query_language/dicts/external_dicts_dict_structure/#composite-key).
       Key key = 3;
 
       // Field holding the beginning of the range for dictionaries with `RANGE_HASHED` layout.
-      // For details, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_layout/#range-hashed).
+      // For details, see [ClickHouse documentation](https://clickhouse.com/docs/en/query_language/dicts/external_dicts_dict_layout/#range-hashed).
       Attribute range_min = 4;
 
       // Field holding the end of the range for dictionaries with `RANGE_HASHED` layout.
-      // For details, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_layout/#range-hashed).
+      // For details, see [ClickHouse documentation](https://clickhouse.com/docs/en/query_language/dicts/external_dicts_dict_layout/#range-hashed).
       Attribute range_max = 5;
 
       // Description of the fields available for database queries.
-      // For details, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_structure/#attributes).
+      // For details, see [ClickHouse documentation](https://clickhouse.com/docs/en/query_language/dicts/external_dicts_dict_structure/#attributes).
       repeated Attribute attributes = 2 [(size) = ">0"];
     }
 
@@ -360,15 +360,15 @@ message ClickhouseConfig {
     string name = 1 [(required) = true];
 
     // Set of attributes for the external dictionary.
-    // For in-depth description, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_structure/).
+    // For in-depth description, see [ClickHouse documentation](https://clickhouse.com/docs/en/query_language/dicts/external_dicts_dict_structure/).
     Structure structure = 2 [(required) = true];
 
     // Layout for storing the dictionary in memory.
-    // For in-depth description, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_layout/).
+    // For in-depth description, see [ClickHouse documentation](https://clickhouse.com/docs/en/query_language/dicts/external_dicts_dict_layout/).
     Layout layout = 3 [(required) = true];
 
     // Setting for the period of time between dictionary updates.
-    // For details, see [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts_dict_lifetime/).
+    // For details, see [ClickHouse documentation](https://clickhouse.com/docs/en/query_language/dicts/external_dicts_dict_lifetime/).
     oneof lifetime {
       option (exactly_one) = true;
 
@@ -432,19 +432,19 @@ message ClickhouseConfig {
   LogLevel log_level = 1;
 
   // Settings for the MergeTree engine.
-  // See description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#merge_tree).
+  // See description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/server_settings/settings/#merge_tree).
   MergeTree merge_tree = 2;
 
   // Compression settings for the ClickHouse cluster.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#compression).
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/server_settings/settings/#compression).
   repeated Compression compression = 3;
 
   // Configuration of external dictionaries to be used by the ClickHouse cluster.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/query_language/dicts/external_dicts/).
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/query_language/dicts/external_dicts/).
   repeated ExternalDictionary dictionaries = 4;
 
   // Settings for thinning Graphite data.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.yandex/docs/en/operations/server_settings/settings/#server_settings-graphite_rollup).
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/server_settings/settings/#server_settings-graphite_rollup).
   repeated GraphiteRollup graphite_rollup = 5;
 
   Kafka kafka = 35;
