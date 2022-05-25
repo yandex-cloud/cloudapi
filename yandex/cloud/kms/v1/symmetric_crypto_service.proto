@@ -77,7 +77,6 @@ message SymmetricDecryptRequest {
   bytes aad_context = 2 [(length) = "<=8192"];
 
   // Ciphertext to be decrypted.
-  // Should be encoded with base64.
   bytes ciphertext = 3 [(required) = true];
 }
 
