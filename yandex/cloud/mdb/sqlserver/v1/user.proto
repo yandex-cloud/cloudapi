@@ -18,6 +18,9 @@ message User {
 
   // Set of permissions granted to the user.
   repeated Permission permissions = 3;
+
+  //Set of server roles granted to the login
+  repeated ServerRole server_roles = 4;
 }
 
 message Permission {
@@ -68,4 +71,17 @@ message UserSpec {
 
   // Set of permissions to grant to the user.
   repeated Permission permissions = 3;
+
+  //Set of server roles
+  repeated ServerRole server_roles = 4;
+}
+
+enum ServerRole {
+  SERVER_ROLE_UNSPECIFIED = 0;
+
+  //Effectively grants VIEW SERVER STATE to the login
+  //That gives an ability to use various dynamic management views to monitor server state
+  //Including Activity Monitor tool that is built-in into SSMS
+  //No intrusive actions are allowed, so this is pretty safe to grant
+  MDB_MONITOR = 1;
 }

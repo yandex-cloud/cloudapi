@@ -23,6 +23,9 @@ message ResourcePreset {
   // IDs of availability zones where the resource preset is available.
   repeated string zone_ids = 2;
 
+  // IDs of availability disk types available in the resource preset.
+  repeated string disk_type_ids = 10;
+
   // Number of CPU cores for a Greenplum host created with the preset.
   int64 cores = 3;
 
