@@ -83,6 +83,9 @@ message Certificate {
 
   // Domains validation challenges of the certificate. Used only for managed certificates.
   repeated Challenge challenges = 17;
+
+  // Flag that protects deletion of the certificate
+  bool deletion_protection = 18;
 }
 
 // Supported certificate types.

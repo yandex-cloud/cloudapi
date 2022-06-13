@@ -263,14 +263,20 @@ message UpdateClusterRequest {
   // Configuration of the Greenplum® segment subcluster.
   SegmentSubclusterConfigSpec segment_config = 8;
 
+  // Owner user password. Must be 8-128 characters long
+  string user_password = 13 [(required) = true, (length) = "8-128"];
+
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 15;
 
   // User security groups.
   repeated string security_group_ids = 17;
 
-  // Whether or not cluster is protected from being deleted.
+   // Whether or not cluster is protected from being deleted.
   bool deletion_protection = 18;
+
+  // Settings of the Greenplum® cluster.
+  ConfigSpec config_spec = 19;
 }
 
 message UpdateClusterMetadata {

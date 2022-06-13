@@ -9,12 +9,13 @@ option java_outer_classname = "PSD";
 option java_package = "yandex.cloud.api.mdb.sqlserver.v1";
 
 // An SQL Server database.
+//
 // For more information, see the [Concepts](/docs/managed-sqlserver/concepts) section of the documentation.
 message Database {
   // Name of the database.
   string name = 1;
 
-  // ID of the SQL Server cluster the database belongs to.
+  // ID of the SQL Server cluster that the database belongs to.
   string cluster_id = 2;
 }
 

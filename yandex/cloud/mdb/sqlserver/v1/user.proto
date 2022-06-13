@@ -19,21 +19,23 @@ message User {
   // Set of permissions granted to the user.
   repeated Permission permissions = 3;
 
-  //Set of server roles granted to the login
+  //Set of server roles granted to the login.
   repeated ServerRole server_roles = 4;
 }
 
 message Permission {
+
+  // Role granted to the user within the database.
   enum Role {
     ROLE_UNSPECIFIED = 0;
 
-    // Members of this fixed database role can perform all configuration and maintenance activities on the database, and can also drop the database in SQL Server.
+    // Members of this fixed database role can perform all configuration and maintenance activities on a database and can also drop a database in SQL Server.
     DB_OWNER = 1;
 
     // Members of this fixed database role can modify role membership for custom roles only and manage permissions. They can potentially elevate their privileges and their actions should be monitored.
     DB_SECURITYADMIN = 2;
 
-    // Members of this fixed database role can add or remove access to the database for Windows logins, Windows groups, and SQL Server logins.
+    // Members of this fixed database role can add or remove access to a database for Windows logins, Windows groups, and SQL Server logins.
     DB_ACCESSADMIN = 3;
 
     // Members of this fixed database role can back up the database.
@@ -48,10 +50,10 @@ message Permission {
     // Members of this fixed database role can read all data from all user tables.
     DB_DATAREADER = 7;
       
-    // Members of this fixed database role cannot add, modify, or delete any data in the user tables within a database. Denial has a higher priority than a grant, so you can use this role to quickly restrict one's privileges without explicitly revoking permissions or roles.
+    // Members of this fixed database role cannot add, modify, or delete any data in the user tables within a database. A denial has a higher priority than a grant, so you can use this role to quickly restrict one's privileges without explicitly revoking permissions or roles.
     DB_DENYDATAWRITER = 8;
 
-    // Members of this fixed database role cannot read any data in the user tables within a database. Denial has a higher priority than a grant, so you can use this role to quickly restrict one's privileges without explicitly revoking permissions or roles.
+    // Members of this fixed database role cannot read any data in the user tables within a database. A denial has a higher priority than a grant, so you can use this role to quickly restrict one's privileges without explicitly revoking permissions or roles.
     DB_DENYDATAREADER = 9;
   }
 
@@ -72,16 +74,18 @@ message UserSpec {
   // Set of permissions to grant to the user.
   repeated Permission permissions = 3;
 
-  //Set of server roles
+  // Set of server roles.
   repeated ServerRole server_roles = 4;
 }
 
+// Set of server roles.
 enum ServerRole {
   SERVER_ROLE_UNSPECIFIED = 0;
 
-  //Effectively grants VIEW SERVER STATE to the login
-  //That gives an ability to use various dynamic management views to monitor server state
-  //Including Activity Monitor tool that is built-in into SSMS
-  //No intrusive actions are allowed, so this is pretty safe to grant
+  // Effectively grants VIEW SERVER STATE to the login.
+  //
+  // That gives an ability to use various dynamic management views to monitor server state, including Activity Monitor tool that is built-in into SSMS.
+  //
+  // No intrusive actions are allowed, so this is pretty safe to grant.
   MDB_MONITOR = 1;
 }

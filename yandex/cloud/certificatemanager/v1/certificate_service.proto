@@ -193,6 +193,9 @@ message CreateCertificateRequest {
 
   // PEM-encoded private key content of the certificate.
   string private_key = 7 [(required) = true, (length) = "1-524288"];
+
+  // Flag that protects deletion of the certificate
+  bool deletion_protection = 8;
 }
 
 message CreateCertificateMetadata {
@@ -225,6 +228,9 @@ message UpdateCertificateRequest {
 
   // New PEM-encoded private key content for the certificate. Used only for imported certificates.
   string private_key = 8 [(length) = "<=524288"];
+
+  // Flag that protects deletion of the certificate
+  bool deletion_protection = 9;
 }
 
 message UpdateCertificateMetadata {
@@ -260,6 +266,9 @@ message RequestNewCertificateRequest {
 
   // Type of the domain validation challenge.
   ChallengeType challenge_type = 6;
+
+  // Flag that protects deletion of the certificate
+  bool deletion_protection = 7;
 }
 
 message RequestNewCertificateMetadata {
