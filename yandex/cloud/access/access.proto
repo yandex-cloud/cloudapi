@@ -118,3 +118,8 @@ message AccessBindingDelta {
   // Access binding. For more information, see [Access Bindings](/docs/iam/concepts/access-control/#access-bindings).
   AccessBinding access_binding = 2 [(required) = true];
 }
+
+message AccessBindingsOperationResult {
+  // Result access binding deltas.
+  repeated AccessBindingDelta effective_deltas = 1;
+}

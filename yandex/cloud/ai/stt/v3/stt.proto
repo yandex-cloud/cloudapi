@@ -17,9 +17,9 @@ message TextNormalizationOptions {
     TEXT_NORMALIZATION_DISABLED = 2;
   }
   TextNormalization text_normalization = 1;
-  // Filter profanity (default: false)
+  // Filter profanity (default: false).
   bool profanity_filter = 2;
-  // Rewrite text in literature style (default: false)
+  // Rewrite text in literature style (default: false).
   bool literature_text = 3;
 }
 
@@ -30,60 +30,69 @@ message DefaultEouClassifier {
     DEFAULT = 1;
     HIGH = 2;
   }
-  // EOU sensitivity.  Currently two levels, faster with more error and more conservative (our default)
+  // EOU sensitivity. Currently two levels, faster with more error and more conservative (our default).
   EouSensitivity type = 1;
-  // hint for max pause between words. Our EoU detector could use this information to distinguish between end of utterance and slow speech (like one <long pause> two <long pause> three, etc)
+  // Hint for max pause between words. Our EoU detector could use this information to distinguish between end of utterance and slow speech (like one <long pause> two <long pause> three, etc).
   int64 max_pause_between_words_hint_ms = 2;
 }
 
-// use EOU provided by user
+// Use EOU provided by user
 message ExternalEouClassifier {
 
 }
 
 message EouClassifierOptions {
-  // type of EOU classifier.
+  // Type of EOU classifier.
   oneof Classifier {
-    //EOU classifier provided by SpeechKit. Default
+    // EOU classifier provided by SpeechKit. Default.
     DefaultEouClassifier default_classifier = 1;
-    //EoU is enforced by external messages from user
+    // EoU is enforced by external messages from user.
     ExternalEouClassifier external_classifier = 2;
   }
 }
 
-// RAW Audio format spec (no container to infer type). used in AudioFormat options
+// RAW Audio format spec (no container to infer type). Used in AudioFormat options.
 message RawAudio {
   enum AudioEncoding {
     AUDIO_ENCODING_UNSPECIFIED = 0;
+    // Audio bit depth 16-bit signed little-endian (Linear PCM).
     LINEAR16_PCM = 1;
   }
 
-//  type of audio encoding
+//  Type of audio encoding
   AudioEncoding audio_encoding = 1;
 //  PCM sample rate
   int64 sample_rate_hertz = 2;
-//  PCM channel count. Currently only single channel audio is supported in real-time recognition
+//  PCM channel count. Currently only single channel audio is supported in real-time recognition.
   int64 audio_channel_count = 3;
 }
 
-// Audio with fixed type in container. used in AudioFormat options
+// Audio with fixed type in container. Used in AudioFormat options.
 message ContainerAudio {
   enum ContainerAudioType {
     CONTAINER_AUDIO_TYPE_UNSPECIFIED = 0;
+
+    // Audio bit depth 16-bit signed little-endian (Linear PCM).
     WAV = 1;
+
+    // Data is encoded using the OPUS audio codec and compressed using the OGG container format.
     OGG_OPUS = 2;
+
+    // Data is encoded using MPEG-1/2 Layer III and compressed using the MP3 container format.
     MP3 = 3;
   }
-//  type of audio container
+//  Type of audio container.
   ContainerAudioType container_audio_type = 1;
 }
 
-// audio format options
+// Audio format options.
 message AudioFormatOptions {
   oneof AudioFormat {
-//    audio without container
+
+    // Audio without container.
     RawAudio raw_audio = 1;
-//    audio is wrapped in container
+
+    // Audio is wrapped in container.
     ContainerAudio container_audio = 2;
   }
 }
@@ -104,181 +113,223 @@ message RecognitionModelOptions {
     REAL_TIME = 1;
     FULL_DATA = 2;
   }
-  //  reserved for future, do not use
+  //  Reserved for future, do not use.
   string model = 1;
-  //  config for input audio
+
+  //  Specified input audio.
   AudioFormatOptions audio_format = 2;
-  //  text normalization options
+
+  //  Text normalization options.
   TextNormalizationOptions text_normalization = 3;
-  // possible languages in audio
+
+  // Possible languages in audio.
   LanguageRestrictionOptions language_restriction = 4;
-  //how to deal with audio data (in real time, after all data is received, etc). Default is REAL_TIME
+
+  // How to deal with audio data (in real time, after all data is received, etc). Default is REAL_TIME.
   AudioProcessingType audio_processing_type = 5;
 }
 
 message StreamingOptions {
-//  configuration for speech recognition model
+
+  //  Configuration for speech recognition model.
   RecognitionModelOptions recognition_model = 1;
-//  configuration for end of utterance detection model
+
+  //  Configuration for end of utterance detection model.
   EouClassifierOptions eou_classifier = 2;
 }
 
-
-// data chunk with audio
+// Data chunk with audio.
 message AudioChunk {
-//  bytes with audio data
+
+  // Bytes with audio data.
   bytes data = 1;
 }
 
 message SilenceChunk {
-//  duration of silence chunk in ms
+
+  // Duration of silence chunk in ms.
   int64 duration_ms = 1;
 }
 
-// force EOU
+// Force EOU
 message Eou {
 }
 
 
-// streaming audio request
-// Events are control messages from user
-// first message should be session options
-// the next messages are audio data chunks or control messages
-//
+// Streaming audio request
+// Events are control messages from user.
+// First message should be session options.
+// The next messages are audio data chunks or control messages.
 message StreamingRequest {
   oneof Event {
-//    Session options. should be first message from user
+
+    // Session options. should be first message from user
     StreamingOptions session_options = 1;
-//    chunk with audio data
+
+    // Chunk with audio data.
     AudioChunk chunk = 2;
-//    chunk with silence
+
+    // Chunk with silence.
     SilenceChunk silence_chunk = 3;
-//    request to end current utterance. Works only with external EoU detector
+
+    // Request to end current utterance. Works only with external EoU detector.
     Eou eou = 4;
   }
 }
 
 
 
-// now response
+// Now response
 
 
-// recognized word
+// Recognized word.
 message Word {
-//  word text
+
+  //  Word text.
   string text = 1;
-//  estimation of word start time in ms
+
+  //  Estimation of word start time in ms
   int64 start_time_ms = 2;
-  //  estimation of word end time in ms
+
+  //  Estimation of word end time in ms
   int64 end_time_ms = 3;
 }
 
-//recognition of specific time frame
+// Recognition of specific time frame.
 message Alternative {
-//  words in time frame
+
+  //  Words in time frame.
   repeated Word words = 1;
-//  text in time frame
+
+  //  Text in time frame.
   string text = 2;
-//  start of time frame
+
+  // Start of time frame.
   int64 start_time_ms = 3;
-//  end of time frame
+
+  // End of time frame.
   int64 end_time_ms = 4;
-//  hypothesis confidence. Currently is not used
+
+  // Hypothesis confidence. Currently is not used.
   double confidence = 5;
 }
 
-//Update information from
+// Update information from
 message EouUpdate {
-//  end of utterance estimated time
+
+  // End of utterance estimated time.
   int64 time_ms = 2;
 }
 
-// update of hypothesis
+// Update of hypothesis.
 message AlternativeUpdate {
-//  list of hypothesis for timeframes
+
+  // List of hypothesis for timeframes.
   repeated Alternative alternatives = 1;
-//  tag for distinguish audio channels.
+
+  // Tag for distinguish audio channels.
   string channel_tag = 2;
 }
 
-// AudioCursors are state of ASR recognition stream
+// AudioCursors are state of ASR recognition stream.
 message AudioCursors {
-  // amount of audio chunks server received. This cursor is moved after each audio chunk was received by server.
+
+  // Amount of audio chunks server received. This cursor is moved after each audio chunk was received by server.
   int64 received_data_ms = 1;
-  // input stream reset data
+
+  // Input stream reset data.
   int64 reset_time_ms = 2;
-  //  how much audio was processed. This time includes trimming silences as well. This cursor is moved after server received enough data
-  //  to update recognition results (includes silence as well)
+
+  //  How much audio was processed. This time includes trimming silences as well. This cursor is moved after server received enough data
+  //  to update recognition results (includes silence as well).
   int64 partial_time_ms = 3;
+
   //  Time of last final. This cursor is moved when server decides that recognition from start of audio until final_time_ms will not change anymore
-  //  usually this even is followed by EOU detection (but this could change in future)
+  //  usually this even is followed by EOU detection (but this could change in future).
   int64 final_time_ms = 4;
+
   //  This is index of last final server send. Incremented after each new final.
   int64 final_index = 5;
-  //  Estimated time of EOU. Cursor is updated after each new EOU is sent
-  //  For external classifier this equals to received_data_ms at the moment EOU event arrives
-  //  For internal classifier this is estimation of time. The time is not exact and has the same guarantees as word timings
+
+  //  Estimated time of EOU. Cursor is updated after each new EOU is sent.
+  //  For external classifier this equals to received_data_ms at the moment EOU event arrives.
+  //  For internal classifier this is estimation of time. The time is not exact and has the same guarantees as word timings.
   int64 eou_time_ms = 6;
 }
 
 enum CodeType {
   CODE_TYPE_UNSPECIFIED = 0;
-  WORKING = 1;//all good
-  WARNING = 2; //for example, if speech is sent not in real time. or unknown context (and we've made fallback)
-  CLOSED = 3; //after session was closed
+  WORKING = 1; //all good
+  WARNING = 2; //for example, if speech is sent not in real time. or unknown context (and we've made fallback).
+  CLOSED = 3; //after session was closed.
 }
 
-//refinement for final hypo. For example, text normalization is refinement.
+// Refinement for final hypo. For example, text normalization is refinement.
 message FinalRefinement {
-//  index of final for which server sends additional information
+
+  // Index of final for which server sends additional information.
   int64 final_index = 1;
-//  type of refinement
+
+  // Type of refinement.
   oneof Type {
-//   normalized text instead of raw one
+
+    // Normalized text instead of raw one.
     AlternativeUpdate normalized_text = 2;
   }
 }
-//status message
+
+// Status message
 message StatusCode {
-//  code type
+
+  // Code type.
   CodeType code_type = 1;
-//  human readable message
+
+  // Human readable message.
   string message = 2;
 }
 
-//session identifier
+// Session identifier.
 message SessionUuid {
-//  internal session identifier
+
+  // Internal session identifier.
   string uuid = 1;
-//  user session identifier
+
+  // User session identifier.
   string user_request_id = 2;
 }
 
-// responses from server
-// each response contains session uuid
+// Responses from server.
+// Each response contains session uuid
 // AudioCursors
-// plus specific even
+// plus specific event
 message StreamingResponse {
-//  session identifier
+
+  // Session identifier
   SessionUuid session_uuid = 1;
-//  progress bar for stream session recognition: how many data we obtained; final and partial times; etc
+
+  // Progress bar for stream session recognition: how many data we obtained; final and partial times; etc.
   AudioCursors audio_cursors = 2;
-  // wall clock on server side. This is time when server wrote results to stream
+  // Wall clock on server side. This is time when server wrote results to stream
   int64 response_wall_time_ms = 3;
 
   oneof Event {
-    //    partial results, server will send them regularly after enough audio data was received from user. This are current text estimation
-    //    from final_time_ms to partial_time_ms. Could change after new data will arrive
+
+    // Partial results, server will send them regularly after enough audio data was received from user. This are current text estimation
+    //  from final_time_ms to partial_time_ms. Could change after new data will arrive.
     AlternativeUpdate partial = 4;
-    //    final results, the recognition is now fixed until final_time_ms. For now, final is sent only if the EOU event was triggered. This could be change in future releases
+
+    //  Final results, the recognition is now fixed until final_time_ms. For now, final is sent only if the EOU event was triggered. This could be change in future releases.
     AlternativeUpdate final = 5;
+
     //  After EOU classifier, send the message with final, send the EouUpdate with time of EOU
-    //  before eou_update we send final with the same time. there could be several finals before eou update
+    //  before eou_update we send final with the same time. there could be several finals before eou update.
     EouUpdate eou_update = 6;
+
     //    For each final, if normalization is enabled, sent the normalized text (or some other advanced post-processing).
-    //    Final normalization will introduce additional latency
+    //    Final normalization will introduce additional latency.
     FinalRefinement final_refinement = 7;
-    //    Status messages, send by server with fixed interval (keep-alive)
+
+    //    Status messages, send by server with fixed interval (keep-alive).
     StatusCode status_code = 8;
   }
 }

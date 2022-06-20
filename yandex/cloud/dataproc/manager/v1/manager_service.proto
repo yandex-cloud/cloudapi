@@ -91,6 +91,18 @@ message LivyInfo {
     bool alive = 1;
 }
 
+enum InitActsState {
+    INIT_ACTS_STATE_UNSPECIFIED = 0; // No init acts on cluster
+    FAILED = 1; // At least one failed init act
+    SUCCESSFUL = 2; // All init acts succeeded
+    IN_PROGRESS = 3; // Some init acts not finished
+}
+
+message InitActs {
+    InitActsState state = 1;
+    // fqdns of nodes for error message
+    repeated string fqdns = 2;
+}
 
 message Info {
     HDFSInfo hdfs = 1;
@@ -104,6 +116,7 @@ message Info {
     // for synchronization purposes
     int64 report_count = 7;
     LivyInfo livy = 8;
+    InitActs init_acts = 9;
 }
 
 // The request message containing the host status report.
