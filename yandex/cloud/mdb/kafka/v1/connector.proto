@@ -7,117 +7,94 @@ import "google/protobuf/wrappers.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/kafka/v1;kafka";
 option java_package = "yandex.cloud.api.mdb.kafka.v1";
 
-// An Apache Kafka® connector specification
+// An object that represents an Apache Kafka® connector.
+//
+// See [the documentation](/docs/managed-kafka/concepts/connectors) for details.
 message ConnectorSpec {
   // Name of the connector.
   string name = 1;
 
-  // Maximum number of connector tasks.
-  // Default is the number of brokers.
+  // Maximum number of connector tasks. Default value is the number of brokers.
   google.protobuf.Int64Value tasks_max = 2;
 
-  // Properties passed with connector config to Connect service.
-  // Example: 'sync.topics.config.enabled: true'.
+  // A set of properties passed to Managed Service for Apache Kafka® with the connector configuration.
+  // Example: `sync.topics.config.enabled: true`.
   map<string, string> properties = 3;
 
-  // Additional settings
-  // for specific connector.
-  // For example, of MirrorMaker.
+  // Additional settings for the connector.
   oneof connector_config {
-    // Configuration of MirrorMaker connector
+
+    // Configuration of the MirrorMaker connector.
     ConnectorConfigMirrorMakerSpec connector_config_mirrormaker = 10;
   }
 
 }
 
-// An Apache Kafka® connector's update specification.
 message UpdateConnectorSpec {
-  // Maximum number of tasks to update.
+  // Maximum number of connector tasks to update.
   google.protobuf.Int64Value tasks_max = 1;
 
-  // Properties passed with connector config to Connect service, that
-  // we should change or add in existing Properties-set of connector.
-  // Example: 'sync.topics.config.enabled: false'
+  // A set of new or changed properties to update for the connector. They are passed with the connector configuration to Managed Service for Apache Kafka®.
+  // Example: `sync.topics.config.enabled: false`.
   map<string, string> properties = 2;
 
-  // Update specification for specific connector (for example, MirrorMaker).
+  // Updated configuration for the connector.
   oneof connector_config {
-    // Update specification for MirrorMaker.
+
+    // Configuration of the MirrorMaker connector.
     ConnectorConfigMirrorMakerSpec connector_config_mirrormaker = 10;
   }
 }
 
-// An An Apache Kafka® MirrorMaker
-// connector specification.
 message ConnectorConfigMirrorMakerSpec {
-  // Source cluster configuration.
+
+  // Source cluster configuration for the MirrorMaker connector.
   ClusterConnectionSpec source_cluster = 1;
 
-  // Target cluster configuration.
+  // Target cluster configuration for the MirrorMaker connector.
   ClusterConnectionSpec target_cluster = 2;
 
-  // List of Kafka topics, separated by ','
+  // List of Kafka topics, separated by `,`.
   string topics = 3;
 
   // Replication factor for automatically created topics.
   google.protobuf.Int64Value replication_factor = 4;
 }
 
-// Specification of ClusterConnection -
-// connection to clusters, that
-// are source or target of MirrorMaker
-// clusters.
 message ClusterConnectionSpec {
 
-  // Alias of ClusterConnection.
-  // For example: 'source', 'target', ...
+  // Alias of cluster connection configuration.
+  // Examples: `source`, `target`.
   string alias = 1;
 
-  // Type of connection to Kafka cluster.
+  // Type of connection to Apache Kafka® cluster.
   oneof cluster_connection {
-    // If type is 'this_cluster' - we connect to
-    // cluster that is handle Kafka Connect Worker,
-    // on which we try to register connector.
+
+    // Connection configuration of the cluster the connector belongs to. As all credentials are already known, leave this parameter empty.
     ThisClusterSpec this_cluster = 2;
 
-    // If type is 'external_cluster' - we connect
-    // to cluster that is not handle Kafka Connect Worker,
-    // on which we try to register connector.
+    // Configuration of connection to an external cluster with all the necessary credentials.
     ExternalClusterConnectionSpec external_cluster = 3;
   }
 }
 
-// Specification of cluster_connection
-// type 'this_cluster'. This means
-// that we already have all credentials,
-// so this spec is empty.
 message ThisClusterSpec {
 }
 
-// Specification of connection to
-// external cluster. It contains
-// all necessary credentials to
-// connect to external cluster.
 message ExternalClusterConnectionSpec {
-  // List bootstrap servers of cluster,
-  // separated by ','.
+  // List of bootstrap servers of the cluster, separated by `,`.
   string bootstrap_servers = 1;
 
-  // Sasl username which
-  // we use to connect to cluster.
+  // SASL username to use for connection to the cluster.
   string sasl_username = 2;
 
-  // Sasl password which we use
-  // to connect to cluster.
+  // SASL password to use for connection to the cluster.
   string sasl_password = 3;
 
-  // Sasl mechanism, which we
-  // should use to connect to cluster.
+  // SASL mechanism to use for connection to the cluster.
   string sasl_mechanism = 4;
 
-  // Security protocol, which
-  // we should use to connect
-  // to cluster.
+  // Security protocol to use for connection to the cluster.
   string security_protocol = 5;
 
   // CA in PEM format to connect to external cluster.
@@ -125,17 +102,16 @@ message ExternalClusterConnectionSpec {
   string ssl_truststore_certificates = 6;
 }
 
-// An Apache Kafka® connector resource.
 message Connector {
   enum Health {
 
-    // State of the connector is unknown.
+    // Health of the connector is unknown.
     HEALTH_UNKNOWN = 0;
 
     // Connector is running.
     ALIVE = 1;
 
-    // Connector is failed to start.
+    // Connector has failed to start.
     DEAD = 2;
   }
 
@@ -147,21 +123,21 @@ message Connector {
     // Connector is running normally.
     RUNNING = 1;
 
-    // Connector encountered a problem and cannot operate.
+    // Connector has encountered a problem and cannot operate.
     ERROR = 2;
 
-    // Connector paused.
+    // Connector is paused.
     PAUSED = 3;
   }
 
   // Name of the connector.
   string name = 1;
 
-  // Maximum number of tasks. Default is the number of brokers
+  // Maximum number of connector tasks. Default value is the number of brokers.
   google.protobuf.Int64Value tasks_max = 2;
 
-  // Properties passed with connector config to Connect service
-  // Example: 'sync.topics.config.enabled: true'
+  // A set of properties passed to Managed Service for Apache Kafka® with the connector configuration.
+  // Example: `sync.topics.config.enabled: true`.
   map<string, string> properties = 3;
 
   // Connector health.
@@ -170,83 +146,61 @@ message Connector {
   // Current status of the connector.
   Status status = 5;
 
-  // ID of the Apache Kafka cluster that the connector belongs to.
+  // ID of the Apache Kafka® cluster that the connector belongs to.
   string cluster_id = 6;
 
-  // Additional settings
-  // for specific connector.
-  // For example, of MirrorMaker.
+  // Additional settings for the connector.
   oneof connector_config {
+
+    // Configuration of the MirrorMaker connector.
     ConnectorConfigMirrorMaker connector_config_mirrormaker = 10;
   }
 }
 
-// An An Apache Kafka® MirrorMaker
-// connector resource.
 message ConnectorConfigMirrorMaker {
-  // Source cluster resource
-  // settings.
+  // Source cluster connection configuration.
   ClusterConnection source_cluster = 1;
 
-  // Target cluster resource
-  // settings.
+  // Target cluster connection configuration.
   ClusterConnection target_cluster = 2;
 
-  // List of Kafka topics, separated by ','
+  // List of Kafka topics, separated by `,`.
   string topics = 3;
 
   // Replication factor for automatically created topics.
   google.protobuf.Int64Value replication_factor = 4;
 }
 
-// Resource ClusterConnection -
-// settings of
-// connection to clusters, that
-// are source or target of MirrorMaker
-// clusters.
 message ClusterConnection {
-  // Alias of ClusterConnection resource.
-  // For example: 'source', 'target', ...
+
+  // Alias of cluster connection configuration.
+  // Examples: `source`, `target`.
   string alias = 1;
 
-  // Type of connection to Kafka cluster.
+  // Type of connection to Apache Kafka® cluster.
   oneof cluster_connection {
-    // If type is 'this_cluster' - we connect to
-    // cluster that is handle Kafka Connect Worker,
-    // on which we try to register connector.
+
+    // Connection configuration of the cluster the connector belongs to. As all credentials are already known, leave this parameter empty.
     ThisCluster this_cluster = 2;
 
-    // If type is 'external_cluster' - we connect
-    // to cluster that is not handle Kafka Connect Worker,
-    // on which we try to register connector.
+    // Configuration of connection to an external cluster with all the necessary credentials.
     ExternalClusterConnection external_cluster = 3;
   }
 }
 
-// Resource of cluster_connection
-// type 'this_cluster'.
 message ThisCluster {
 }
 
-// Resource of connection to
-// external cluster. It contains
-// all settings of connection
-// to external cluster.
 message ExternalClusterConnection {
-  // List bootstrap servers of cluster,
-  // separated by ','
+  // List of bootstrap servers of the cluster, separated by `,`.
   string bootstrap_servers = 1;
 
-  // Sasl username which
-  // we use to connect to cluster.
+  // SASL username to use for connection to the cluster.
   string sasl_username = 2;
 
-  // Sasl mechanism, which we
-  // should use to connect to cluster.
+  // SASL mechanism to use for connection to the cluster.
   string sasl_mechanism = 4;
 
-  // Security protocol, which
-  // we should use to connect
-  // to cluster.
+  // Security protocol to use for connection to the cluster.
   string security_protocol = 5;
 }

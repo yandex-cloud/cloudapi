@@ -128,7 +128,7 @@ message CreateExtensionRequest {
   // Name of the extension.
   string name = 2 [(required) = true, (length) = "<=50"];
 
-  // URI of the zip archive to create the new extension from. Currently only supports links that are stored in Yandex Object Storage.
+  // URI of the zip archive to create the new extension from. Currently only supports links that are stored in Object Storage.
   string uri = 3 [(required) = true];
 
   // The flag that disables the extension.

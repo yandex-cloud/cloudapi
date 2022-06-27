@@ -240,7 +240,7 @@ message CreateClusterRequest {
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 14;
 
-  // ID of the service account used for access to Yandex Object Storage.
+  // ID of the service account used for access to Object Storage.
   string service_account_id = 15;
 }
 
@@ -282,7 +282,7 @@ message UpdateClusterRequest {
   // Determines whether the cluster is protected from being deleted.
   bool deletion_protection = 8;
 
-  // ID of the service account used for access to Yandex Object Storage.
+  // ID of the service account used for access to Object Storage.
   string service_account_id = 9;
 }
 
@@ -361,7 +361,7 @@ message RestoreClusterRequest {
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 14;
 
-  // ID of the service account used for access to Yandex Object Storage.
+  // ID of the service account used for access to Object Storage.
   string service_account_id = 15;
 }
 

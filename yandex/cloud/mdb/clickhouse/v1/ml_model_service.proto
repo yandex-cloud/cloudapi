@@ -103,7 +103,7 @@ message CreateMlModelRequest {
   // Type of the model.
   MlModelType type = 3 [(required) = true];
 
-  // Model file URL. You can only use models stored in Yandex Object Storage.
+  // Model file URL. You can only use models stored in Object Storage.
   string uri = 4 [(required) = true];
 }
 
@@ -126,7 +126,7 @@ message UpdateMlModelRequest {
 
   google.protobuf.FieldMask update_mask = 3;
 
-  // The new model file URL. You can only use models stored in Yandex Object Storage.
+  // The new model file URL. You can only use models stored in Object Storage.
   string uri = 4;
 }
 

@@ -18,10 +18,10 @@ enum TriggerType {
 
   // The trigger is activated by messages from a message queue.
   //
-  // Only Yandex Message Queue is currently supported.
+  // Only Message Queue is currently supported.
   MESSAGE_QUEUE = 3;
 
-  // The trigger is activated by messages from Yandex IoT Core.
+  // The trigger is activated by messages from IoT Core.
   IOT_MESSAGE = 4;
   OBJECT_STORAGE = 5;
   CONTAINER_REGISTRY = 6;
@@ -75,7 +75,7 @@ message Trigger {
       // Rule for a message queue trigger.
       MessageQueue message_queue = 3;
 
-      // Rule for a Yandex IoT Core trigger.
+      // Rule for a IoT Core trigger.
       IoTMessage iot_message = 4;
       ObjectStorage object_storage = 5;
       ContainerRegistry container_registry = 6;
@@ -108,7 +108,7 @@ message Trigger {
 
   // Rule for activating a message queue trigger.
   message MessageQueue {
-    // ID of the message queue in Yandex Message Queue.
+    // ID of the message queue in Message Queue.
     string queue_id = 11 [(required) = true];
 
     // ID of the service account which has read access to the message queue.
@@ -132,12 +132,12 @@ message Trigger {
     }
   }
 
-  // Rule for activating a Yandex IoT Core trigger.
+  // Rule for activating a IoT Core trigger.
   message IoTMessage {
-    // ID of the Yandex IoT Core registry.
+    // ID of the IoT Core registry.
     string registry_id = 1 [(required) = true];
 
-    // ID of the Yandex IoT Core device in the registry.
+    // ID of the IoT Core device in the registry.
     string device_id = 2;
 
     // MQTT topic whose messages activate the trigger.

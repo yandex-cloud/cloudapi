@@ -54,8 +54,6 @@ message LoadBalancer {
   Status status = 6;
 
   // ID of the region that the application load balancer is located at.
-  //
-  // Currently Yandex Cloud supports only `ru-central1` region.
   string region_id = 7;
 
   // ID of the network that the application load balancer belongs to.
@@ -132,7 +130,7 @@ message ExternalIpv6Address {
 message Location {
   // ID of the availability zone where the application load balancer resides.
   //
-  // Each Yandex Cloud availability zone can only be specified once.
+  // Each availability zone can only be specified once.
   string zone_id = 1 [(required) = true];
 
   // ID of the subnet that the application load balancer belongs to.

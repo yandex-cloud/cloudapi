@@ -14,7 +14,7 @@ import "google/rpc/status.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/vision/v1;vision";
 option java_package = "yandex.cloud.api.ai.vision.v1";
 
-// A set of methods for the Yandex Vision service.
+// A set of methods for the Vision service.
 service VisionService {
   // Analyzes a batch of images and returns results with annotations.
   rpc BatchAnalyze(BatchAnalyzeRequest) returns (BatchAnalyzeResponse) {

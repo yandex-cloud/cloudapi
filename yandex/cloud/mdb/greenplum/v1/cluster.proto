@@ -75,7 +75,7 @@ message Cluster {
   }
 
   // ID of the Greenplum® cluster.
-  // This ID is assigned by Yandex Cloud at the time of cluster creation.
+  // This ID is assigned by the platform at the time of cluster creation.
   string id = 1;
 
   // ID of the folder that the Greenplum® cluster belongs to.
@@ -201,10 +201,10 @@ message GreenplumConfig {
 // Greenplum® cluster access options.
 message Access {
 
-  // Allows data export from the cluster to Yandex DataLens.
+  // Allows data export from the cluster to DataLens.
   bool data_lens = 1;
 
-  // Allows SQL queries to the cluster databases from the Yandex Cloud management console.
+  // Allows SQL queries to the cluster databases from the management console.
   bool web_sql = 2;
 
   // Allow access for DataTransfer.

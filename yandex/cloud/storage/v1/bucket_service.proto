@@ -138,7 +138,7 @@ message ListBucketsResponse {
 message CreateBucketRequest {
   // Name of the bucket.
   //
-  // The name must be unique within Yandex Cloud. For naming limitations and rules, see
+  // The name must be unique within the platform. For naming limitations and rules, see
   // [documentation](/docs/storage/concepts/bucket#naming).
   string name = 1 [ (required) = true ];
 
@@ -255,7 +255,7 @@ message SelfManagedHTTPSConfigParams {
   string private_key_pem = 2 [(length) = "<=3145728"];
 }
 
-// A resource for a TLS certificate from Yandex Certificate Manager.
+// A resource for a TLS certificate from Certificate Manager.
 message CertificateManagerHTTPSConfigParams {
   // ID of the certificate.
   //
@@ -277,7 +277,7 @@ message SetBucketHTTPSConfigRequest {
     // Object Storage only supports [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail)-encoded certificates.
     SelfManagedHTTPSConfigParams self_managed = 2;
 
-    // TLS certificate from Yandex Certificate Manager.
+    // TLS certificate from Certificate Manager.
     //
     // To create a certificate in Certificate Manager, make a
     // [yandex.cloud.certificatemanager.v1.CertificateService.Create] request.

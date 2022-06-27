@@ -65,13 +65,13 @@ message OriginMeta {
         // A server with a domain name linked to it
         OriginNamedMeta common = 1;
 
-        // A Yandex Object Storage bucket not configured as a static site hosting.
+        // An Object Storage bucket not configured as a static site hosting.
         OriginNamedMeta bucket = 2;
 
-        // A Yandex Object Storage bucket configured as a static site hosting.
+        // An Object Storage bucket configured as a static site hosting.
         OriginNamedMeta website = 3;
 
-        // An L7 load balancer from Yandex Application Load Balancer.
+        // An L7 load balancer from Application Load Balancer.
         // CDN servers will access the load balancer at one of its IP addresses that must be selected in the origin settings.
         OriginBalancerMeta balancer = 4;
     }
@@ -83,7 +83,7 @@ message OriginNamedMeta {
     string name = 1;
 }
 
-// Yandex Application Load Balancer origin info. For details about the concept, see [documentation](/docs/cdn/concepts/origins).
+// Application Load Balancer origin info. For details about the concept, see [documentation](/docs/cdn/concepts/origins).
 message OriginBalancerMeta {
     // ID of the origin.
     string id = 1;

@@ -15,7 +15,7 @@ message MlModel {
   // Type of the model.
   MlModelType type = 3;
 
-  // Model file URL. You can only use models stored in Yandex Object Storage.
+  // Model file URL. You can only use models stored in Object Storage.
   string uri = 4;
 }
 

@@ -345,7 +345,7 @@ message CreateClusterRequest {
   // Name of the first shard in cluster. If not set, defaults to the value 'shard1'.
   string shard_name = 11 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
-  // ID of the service account used for access to Yandex Object Storage.
+  // ID of the service account used for access to Object Storage.
   string service_account_id = 12;
 
   // User security groups
@@ -384,7 +384,7 @@ message UpdateClusterRequest {
   // New name for the cluster.
   string name = 6 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
-  // ID of the service account used for access to Yandex Object Storage.
+  // ID of the service account used for access to Object Storage.
   string service_account_id = 7;
 
   // New maintenance window settings for the cluster.
@@ -516,7 +516,7 @@ message RestoreClusterRequest {
   // ID of the folder to create the ClickHouse cluster in.
   string folder_id = 9 [(length) = "<=50"];
 
-  // ID of the service account used for access to Yandex Object Storage.
+  // ID of the service account used for access to Object Storage.
   string service_account_id = 10;
 
   // User security groups

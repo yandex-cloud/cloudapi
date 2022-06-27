@@ -229,13 +229,13 @@ message ScalePolicy {
 
     // Defines an autoscaling rule based on the average CPU utilization of the instance group.
     //
-    // If more than one rule is specified, e.g. CPU utilization and one or more Yandex Monitoring metrics ([custom_rules]),
+    // If more than one rule is specified, e.g. CPU utilization and one or more Monitoring metrics ([custom_rules]),
     // the size of the instance group will be equal to the maximum of sizes calculated according to each metric.
     CpuUtilizationRule cpu_utilization_rule = 7;
 
-    // Defines an autoscaling rule based on a [custom metric](/docs/monitoring/operations/metric/add) from Yandex Monitoring.
+    // Defines an autoscaling rule based on a [custom metric](/docs/monitoring/operations/metric/add) from Monitoring.
     //
-    // If more than one rule is specified, e.g. CPU utilization ([cpu_utilization_rule]) and one or more Yandex Monitoring
+    // If more than one rule is specified, e.g. CPU utilization ([cpu_utilization_rule]) and one or more Monitoring
     // metrics, the size of the instance group will be equal to the maximum of sizes calculated according to each metric.
     repeated CustomRule custom_rules = 8 [(size) = "<=3"];
 
@@ -298,19 +298,19 @@ message ScalePolicy {
     // Type of custom metric. This field affects how Instance Groups calculates the average metric value.
     MetricType metric_type = 2 [(required) = true];
 
-    // Name of custom metric in Yandex Monitoring that should be used for scaling.
+    // Name of custom metric in Monitoring that should be used for scaling.
     string metric_name = 3 [(required) = true, (pattern) = "[a-zA-Z0-9./@_][ 0-9a-zA-Z./@_,:;()\\[\\]<>-]{0,198}"];
 
-    // Labels of custom metric in Yandex Monitoring that should be used for scaling.
+    // Labels of custom metric in Monitoring that should be used for scaling.
     map<string, string> labels = 5 [(pattern) = "[a-zA-Z0-9./@_][ 0-9a-zA-Z./@_,:;()\\[\\]<>-]{0,198}", (map_key).pattern = "^[a-zA-Z][0-9a-zA-Z_]{0,31}$"];
 
     // Target value for the custom metric. Instance Groups maintains this level for each availability zone.
     double target = 4 [(value) = ">0"];
 
-    // Folder id of custom metric in Yandex Monitoring that should be used for scaling.
+    // Folder id of custom metric in Monitoring that should be used for scaling.
     string folder_id = 6 [(length) = "<=50"];
 
-    // Service of custom metric in Yandex Monitoring that should be used for scaling.
+    // Service of custom metric in Monitoring that should be used for scaling.
     string service = 7 [(length) = "<=200"];
   }
 

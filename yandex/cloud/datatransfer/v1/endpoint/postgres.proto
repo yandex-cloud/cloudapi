@@ -97,7 +97,7 @@ message PostgresConnection {
     oneof connection {
         // Managed cluster
         // 
-        // Yandex.Cloud Managed PostgreSQL cluster ID
+        // Managed Service for PostgreSQL cluster ID
         string mdb_cluster_id = 1;
         // On-premise
         // 

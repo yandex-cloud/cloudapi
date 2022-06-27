@@ -108,14 +108,21 @@ message TextTemplate {
 message Hints {
     // The hint for TTS engine to specify synthesised audio characteristics. 
     oneof Hint {
+
         // Name of speaker to use.
         string voice = 1;
+
         // Template for synthesizing.
         AudioTemplate audio_template = 2;
+
         // Hint to change speed.
         double speed = 3;
-        // Hint to regulate volume. For LOUDNESS_NORMALIZATION_TYPE_UNSPECIFIED normalization will use MAX_PEAK, if volume in (0, 1], LUFS if volume in [-145, 0).
+
+        // Hint to regulate normalization level.
+        // * For `MAX_PEAK` loudness_normalization_type: volume changes in a range (0;1], default value is 0.7.
+        // * For `LUFS` loudness_normalization_type: volume changes in a range [-145;0), default value is -19.
         double volume = 4;
+
         // Hint to specify pronunciation character for the speaker.
         string role = 5;
     }
@@ -141,17 +148,18 @@ message UtteranceSynthesisRequest {
     // Optional. Default: 22050 Hz, linear 16-bit signed little-endian PCM, with WAV header
     AudioFormatOptions output_audio_spec = 5;
 
-    // Normalization type
+
     enum LoudnessNormalizationType {
         LOUDNESS_NORMALIZATION_TYPE_UNSPECIFIED = 0;
+
         // The type of normalization, wherein the gain is changed to bring the highest PCM sample value or analog signal peak to a given level.
-        // The volume changes in a range (0;1], default value is 0.7.
         MAX_PEAK = 1;
+
         // The type of normalization based on EBU R 128 recommendation.
-        // the volume changes in a range [-145;0], default value is -19.
         LUFS = 2;
     }
-    // Optional. Default: LUFS type of loudness normalization.
+    // Specifies type of loudness normalization.
+    // Optional. Default: `LUFS`.
     LoudnessNormalizationType loudness_normalization_type = 6;
 
     // Optional. Automatically split long text to several utterances and bill accordingly. Some degradation in service quality is possible.

@@ -237,7 +237,7 @@ message CreateClusterRequest {
     // User security groups
     repeated string security_group_ids = 11;
 
-    // ID of the service account used for access to Yandex Object Storage.
+    // ID of the service account used for access to Object Storage.
     string service_account_id = 12;
 
     // Deletion Protection inhibits deletion of the cluster
@@ -284,7 +284,7 @@ message UpdateClusterRequest {
   // User security groups
   repeated string security_group_ids = 7;
 
-  // ID of the service account used for access to Yandex Object Storage.
+  // ID of the service account used for access to Object Storage.
   string service_account_id = 8;
 
   // Deletion Protection inhibits deletion of the cluster
@@ -706,7 +706,7 @@ message RestoreClusterRequest {
     // User security groups
     repeated string security_group_ids = 11;
 
-    // ID of the service account used for access to Yandex Object Storage.
+    // ID of the service account used for access to Object Storage.
     string service_account_id = 12;
 
     // Deletion Protection inhibits deletion of the cluster

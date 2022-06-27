@@ -73,7 +73,7 @@ message Cluster {
 
   // ID of the cluster.
   //
-  // This ID is assigned by Yandex Cloud at the time of creation.
+  // This ID is assigned by the platform at the time of creation.
   string id = 1;
 
   // ID of the folder that the cluster belongs to.
@@ -197,8 +197,8 @@ message Host {
 
   // Name of the host.
   //
-  // This name is assigned by Yandex Cloud at the time of creation.
-  // The name is unique across all existing MDB hosts in Yandex Cloud, as it defines the FQDN of the host.
+  // This name is assigned by the platform at the time of creation.
+  // The name is unique across all MDB hosts that exist on the platform, as it defines the FQDN of the host.
   string name = 1;
 
   // ID of the cluster the host belongs to.
@@ -294,7 +294,7 @@ message Access {
   // See [the documentation](/docs/managed-mysql/operations/datalens-connect) for details.
   bool data_lens = 1;
 
-  // Allows SQL queries to the cluster databases from Yandex Cloud management console.
+  // Allows SQL queries to the cluster databases from management console.
   //
   // See [the documentation](/docs/managed-mysql/operations/web-sql-query) for details.
   bool web_sql = 2;

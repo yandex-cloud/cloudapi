@@ -106,7 +106,7 @@ message Cluster {
   // User security groups
   repeated string security_group_ids = 13;
 
-  // ID of the service account used for access to Yandex Object Storage.
+  // ID of the service account used for access to Object Storage.
   string service_account_id = 14;
 
   // Deletion Protection inhibits deletion of the cluster
