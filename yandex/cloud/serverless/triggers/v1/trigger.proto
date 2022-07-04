@@ -37,6 +37,9 @@ enum TriggerType {
 
   // The trigger is activated by YDS events
   YDS = 10;
+
+  // The trigger is activated by email
+  MAIL = 11;
 }
 
 // A trigger to invoke a serverless function. For more information, see [Triggers](/docs/functions/concepts/trigger).
@@ -83,6 +86,7 @@ message Trigger {
       Logging logging = 10;
       BillingBudget billing_budget = 11;
       DataStream data_stream = 12;
+      Mail mail = 13;
     }
   }
 
@@ -410,5 +414,18 @@ message DataStream {
     option (exactly_one) = true;
     InvokeFunctionWithRetry invoke_function = 13;
     InvokeContainerWithRetry invoke_container = 15;
+  }
+}
+
+message Mail {
+
+  // Address to receive emails for trigger activation.
+  // Field is ignored for write requests and populated on trigger creation.
+  string email = 2;
+
+  oneof action {
+    option (exactly_one) = true;
+    InvokeFunctionWithRetry invoke_function = 101;
+    InvokeContainerWithRetry invoke_container = 103;
   }
 }

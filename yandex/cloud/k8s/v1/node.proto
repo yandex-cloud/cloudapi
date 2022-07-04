@@ -144,6 +144,9 @@ message NodeTemplate {
   // It may also contain another placeholders, see metadata doc for full list.
   string name = 13 [(length) = "<=128"];
 
+  // these labels will be assigned to compute nodes (instances), created by the nodegroup
+  map<string, string> labels = 15 [(size) = "<=32", (length) = "<=128", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+
   // ID of the hardware platform configuration for the node.
   string platform_id = 1;
 

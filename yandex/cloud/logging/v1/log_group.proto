@@ -62,7 +62,6 @@ message LogGroup {
   google.protobuf.Duration retention_period = 9;
 
   // Data stream name
-
   string data_stream = 10;
 
 }

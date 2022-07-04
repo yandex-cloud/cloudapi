@@ -28,6 +28,9 @@ message GetResourcePresetRequest {
   // Required. ID of the resource preset to return.
   // To get the resource preset ID, use a [ResourcePresetService.List] request.
   string resource_preset_id = 1 [(required) = true];
+
+  // Required. ResourcePreset type - master or segment.
+  ResourcePreset.Type type = 2 [(required) = true];
 }
 
 message ListResourcePresetsRequest {
@@ -39,6 +42,9 @@ message ListResourcePresetsRequest {
   // Page token. To get the next page of results, set [page_token] to the [ListResourcePresetsResponse.next_page_token]
   // returned by a previous list request.
   string page_token = 3 [(length) = "<=100"];
+
+  // Required. ResourcePreset type - master or segment.
+  ResourcePreset.Type type = 4 [(required) = true];
 }
 
 message ListResourcePresetsResponse {

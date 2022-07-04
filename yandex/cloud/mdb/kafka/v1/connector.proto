@@ -26,6 +26,8 @@ message ConnectorSpec {
 
     // Configuration of the MirrorMaker connector.
     ConnectorConfigMirrorMakerSpec connector_config_mirrormaker = 10;
+    // Configuration of S3-Sink connector
+    ConnectorConfigS3SinkSpec connector_config_s3_sink = 11;
   }
 
 }
@@ -43,6 +45,8 @@ message UpdateConnectorSpec {
 
     // Configuration of the MirrorMaker connector.
     ConnectorConfigMirrorMakerSpec connector_config_mirrormaker = 10;
+    // Update specification for S3-Sink Connector.
+    UpdateConnectorConfigS3SinkSpec connector_config_s3_sink = 11;
   }
 }
 
@@ -154,6 +158,7 @@ message Connector {
 
     // Configuration of the MirrorMaker connector.
     ConnectorConfigMirrorMaker connector_config_mirrormaker = 10;
+    ConnectorConfigS3Sink connector_config_s3_sink = 11;
   }
 }
 
@@ -203,4 +208,88 @@ message ExternalClusterConnection {
 
   // Security protocol to use for connection to the cluster.
   string security_protocol = 5;
+}
+
+// Specification for S3Connection -
+// settings of connection to AWS-compatible S3 storage, that
+// are source or target of Kafka S3-connectors.
+// YC Object Storage is AWS-compatible.
+message S3ConnectionSpec {
+  string bucket_name = 1;
+  oneof storage {
+    ExternalS3StorageSpec external_s3 = 2;
+  }
+}
+
+message ExternalS3StorageSpec {
+  string access_key_id = 1;
+  string secret_access_key = 2;
+  string endpoint = 3;
+  // Default is 'us-east-1'
+  string region = 4;
+}
+
+// Resource for S3Connection -
+// settings of connection to AWS-compatible S3 storage, that
+// are source or target of Kafka S3-connectors.
+// YC Object Storage is AWS-compatible.
+message S3Connection {
+  string bucket_name = 1;
+  oneof storage {
+    ExternalS3Storage external_s3 = 2;
+  }
+}
+
+message ExternalS3Storage {
+  string access_key_id = 1;
+  string endpoint = 2;
+  // Default is 'us-east-1'
+  string region = 3;
+}
+
+// An Apache Kafka® S3-Sink
+// connector resource.
+message ConnectorConfigS3Sink {
+  // List of Kafka topics, separated by ','
+  string topics = 1;
+
+  // The compression type used for files put on GCS.
+  // The supported values are: `gzip`, `snappy`, `zstd`, `none`.
+  // Optional, the default is `none`.
+  string file_compression_type = 2;
+
+  // Max records per file.
+  google.protobuf.Int64Value file_max_records = 3;
+
+  // Credentials for connecting to S3 storage
+  S3Connection s3_connection = 4;
+}
+
+// Specification for Kafka S3-Sink Connector
+message ConnectorConfigS3SinkSpec {
+  // List of Kafka topics, separated by ','.
+  string topics = 1;
+
+  // The compression type used for files put on GCS.
+  // The supported values are: `gzip`, `snappy`, `zstd`, `none`.
+  // Optional, the default is `none`.
+  string file_compression_type = 2;
+
+  // Max records per file.
+  google.protobuf.Int64Value file_max_records = 3;
+
+  // Credentials for connecting to S3 storage
+  S3ConnectionSpec s3_connection = 4;
+}
+
+// Specification for update Kafka S3-Sink Connector
+message UpdateConnectorConfigS3SinkSpec {
+  // List of Kafka topics, separated by ','.
+  string topics = 1;
+
+  // Max records per file.
+  google.protobuf.Int64Value file_max_records = 2;
+
+  // Credentials for connecting to S3 storage
+  S3ConnectionSpec s3_connection = 3;
 }
