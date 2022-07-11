@@ -41,7 +41,7 @@ message ListBackupsRequest {
   int64 page_size = 2 [(value) = "<=1000"];
 
   // Page token.  To get the next page of results, Set [page_token] to the [ListBackupsResponse.next_page_token]
-  // returned by a previous list request.
+  // returned by the previous list request.
   string page_token = 3 [(length) = "<=100"];
 }
 

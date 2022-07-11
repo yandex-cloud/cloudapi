@@ -240,7 +240,7 @@ message CreateClusterRequest {
   // ID of the network.
   string network_id = 5 [(required) = true];
 
-  // IP allocation policy of the Kubernetes cluster.
+  // Master specification of the Kubernetes cluster.
   MasterSpec master_spec = 6 [(required) = true];
 
   // IP allocation policy of the Kubernetes cluster.
@@ -416,6 +416,9 @@ message RegionalMasterSpec {
 
   // Specify to allocate a static public IP for the master.
   ExternalAddressSpec external_v4_address_spec = 3;
+
+  // Specification of parameters for external IPv6 networking.
+  ExternalAddressSpec external_v6_address_spec = 4;
 }
 
 message InternalAddressSpec {
@@ -425,6 +428,8 @@ message InternalAddressSpec {
 }
 
 message ExternalAddressSpec {
+  // IP address.
+  string address = 1;
 }
 
 message MasterLocation {

@@ -41,12 +41,13 @@ message Host {
     // The host is working below capacity or not fully functional.
     DEGRADED = 3;
 
-    // One or more segments are not in preferred role.
+    // One or more segments are not in the preferred role.
     UNBALANCED = 4;
   }
 
-  // Name of the Greenplum® host. The host name is assigned by the platform at creation time and cannot be changed.
-  // 1-63 characters long.
+  // Name of the Greenplum® host.
+  //
+  // The host name is assigned by the platform at creation time and cannot be changed.
   //
   // The name is unique across all MDB hosts that exist on the platform, as it defines the FQDN of the host.
   string name = 1 [(required) = true, (length) = "<=63"];
@@ -69,6 +70,6 @@ message Host {
   // ID of the subnet that the host belongs to.
   string subnet_id = 7;
 
-  // Whether or not a public IP is assigned to the host.
+  // Determines whether a public IP is assigned to the host.
   bool assign_public_ip = 8;
 }

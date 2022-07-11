@@ -6,14 +6,14 @@ package yandex.cloud.mdb.greenplum.v1;
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/greenplum/v1;greenplum";
 option java_package = "yandex.cloud.api.mdb.greenplum.v1";
 
-// A preset of resources for hardware configuration of Greenplum hosts.
+// A preset of resources for hardware configuration of Greenplum® hosts.
 message ResourcePreset {
   enum Type {
     TYPE_UNSPECIFIED = 0;
 
-    // Greenplum master host.
+    // Greenplum® master host.
     MASTER = 1;
-    // Greenplum segment host.
+    // Greenplum® segment host.
     SEGMENT = 2;
   }
 
@@ -26,18 +26,18 @@ message ResourcePreset {
   // IDs of availability disk types available in the resource preset.
   repeated string disk_type_ids = 10;
 
-  // Number of CPU cores for a Greenplum host created with the preset.
+  // Number of CPU cores for a Greenplum® host created with the preset.
   int64 cores = 3;
 
-  // RAM volume for a Greenplum host created with the preset, in bytes.
+  // RAM volume for a Greenplum® host created with the preset, in bytes.
   int64 memory = 4;
 
-  // Host type
+  // Host type.
   Type type = 5;
 
-  // The number of hosts must be divisible by host_count_divider
+  // The number of hosts must be divisible by [host_count_divider].
   int64 host_count_divider  = 8;
 
-  // Max segment count in host (actual only for segment host)
+  // Maximum number of segments in segment host.
   int64 max_segment_in_host_count = 9;
 }

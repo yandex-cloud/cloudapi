@@ -78,6 +78,9 @@ message Instance {
   // For more information, see [Metadata](/docs/compute/concepts/vm-metadata).
   map<string, string> metadata = 11;
 
+  // Options allow user to configure access to instance's metadata
+  MetadataOptions metadata_options = 23;
+
   // Boot disk that is attached to the instance.
   AttachedDisk boot_disk = 12;
 
@@ -281,7 +284,7 @@ message NetworkSettings {
 }
 
 message PlacementPolicy {
-  // Affinitity definition
+  // Affinity definition
   message HostAffinityRule {
     enum Operator {
       OPERATOR_UNSPECIFIED = 0;
@@ -302,4 +305,28 @@ message PlacementPolicy {
 
   // List of affinity rules. Scheduler will attempt to allocate instances according to order of rules.
   repeated HostAffinityRule host_affinity_rules = 2;
+}
+
+message MetadataOptions {
+  // Enabled access to GCE flavored metadata
+  MetadataOption gce_http_endpoint = 1;
+
+  // Enabled access to AWS flavored metadata (IMDSv1)
+  MetadataOption aws_v1_http_endpoint = 2;
+
+  // Enabled access to IAM credentials with GCE flavored metadata
+  MetadataOption gce_http_token = 3;
+
+  // Enabled access to IAM credentials with AWS flavored metadata (IMDSv1)
+  MetadataOption aws_v1_http_token = 4;
+}
+
+enum MetadataOption {
+  METADATA_OPTION_UNSPECIFIED = 0;
+
+  // Option is enabled
+  ENABLED = 1;
+
+  // Option is disabled
+  DISABLED = 2;
 }

@@ -14,16 +14,15 @@ message Backup {
   // ID of the folder that the backup belongs to.
   string folder_id = 2;
 
-  // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format
-  // (i.e. when the backup operation was completed).
+  // Time when the backup operation was completed.
   google.protobuf.Timestamp created_at = 3;
 
-  // ID of the PostgreSQL cluster that the backup was created for.
+  // ID of the Greenplum® cluster that the backup was created for.
   string source_cluster_id = 4;
 
   // Time when the backup operation was started.
   google.protobuf.Timestamp started_at = 5;
 
-  // Size of backup in bytes
+  // Size of the backup in bytes.
   int64 size = 6;
 }

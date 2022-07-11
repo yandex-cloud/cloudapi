@@ -139,7 +139,7 @@ message ListClustersRequest {
 
     // Page token.
     //
-    // To get the next page of results, set [page_token] to the [ListClustersResponse.next_page_token] returned by a previous list request.
+    // To get the next page of results, set [page_token] to the [ListClustersResponse.next_page_token] returned by the previous list request.
     string page_token = 3 [(length) = "<=100"];
 
     // Filter support is not currently implemented. Any filters are ignored.
@@ -289,7 +289,7 @@ message ListClusterLogsRequest {
 
   // Page token.
   //
-  // To get the next page of results, set [page_token] to the [ListClusterLogsResponse.next_page_token] returned by a previous list request.
+  // To get the next page of results, set [page_token] to the [ListClusterLogsResponse.next_page_token] returned by the previous list request.
   string page_token = 6 [(length) = "<=100"];
 
   // The flag that defines behavior of providing the next page token.
@@ -388,7 +388,7 @@ message ListClusterOperationsRequest {
 
   // Page token.
   //
-  // To get the next page of results, set [page_token] to the [ListClusterOperationsResponse.next_page_token] returned by a previous list request.
+  // To get the next page of results, set [page_token] to the [ListClusterOperationsResponse.next_page_token] returned by the previous list request.
   string page_token = 3 [(length) = "<=100"];
 }
 
@@ -416,7 +416,7 @@ message ListClusterHostsRequest {
 
   // Page token.
   //
-  // To get the next page of results, set [page_token] to the [ListClusterHostsResponse.next_page_token] returned by a previous list request.
+  // To get the next page of results, set [page_token] to the [ListClusterHostsResponse.next_page_token] returned by the previous list request.
   string page_token = 3 [(length) = "<=100"];
 }
 

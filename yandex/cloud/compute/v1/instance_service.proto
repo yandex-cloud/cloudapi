@@ -290,6 +290,9 @@ message CreateInstanceRequest {
   // For more information, see [Metadata](/docs/compute/concepts/vm-metadata).
   map<string, string> metadata = 8;
 
+  // Options allow user to configure access to instance's metadata
+  MetadataOptions metadata_options = 19;
+
   // Boot disk to attach to the instance.
   AttachedDiskSpec boot_disk_spec = 9 [(required) = true];
 
@@ -380,6 +383,9 @@ message UpdateInstanceRequest {
   // For example, you may use the metadata in order to provide your public SSH key to the instance.
   // For more information, see [Metadata](/docs/compute/concepts/vm-metadata).
   map<string, string> metadata = 8;
+
+  // Options allow user to configure access to instance's metadata
+  MetadataOptions metadata_options = 13;
 
   // ID of the service account to use for [authentication inside the instance](/docs/compute/operations/vm-connect/auth-inside-vm).
   // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.

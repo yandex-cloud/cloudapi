@@ -456,7 +456,7 @@ message InstanceTemplate {
 }
 
 message PlacementPolicy {
-  // Affinitity definition
+  // Affinity definition
   message HostAffinityRule {
     enum Operator {
       OPERATOR_UNSPECIFIED = 0;

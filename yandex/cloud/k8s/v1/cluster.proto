@@ -187,6 +187,9 @@ message MasterEndpoints {
 
   // External endpoint that can be used to access Kubernetes cluster API from the internet (outside of the cloud).
   string external_v4_endpoint = 2;
+
+  // External IPv6 endpoint that can be used to access Kubernetes cluster API from the internet (outside of the cloud).
+  string external_v6_endpoint = 3;
 }
 
 message IPAllocationPolicy {
