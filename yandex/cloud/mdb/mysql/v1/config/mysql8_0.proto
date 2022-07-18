@@ -121,6 +121,16 @@ message MysqlConfig8_0 {
     FILESORT_ON_DISK = 6;
   }
 
+  enum BinlogTransactionDependencyTracking {
+    BINLOG_TRANSACTION_DEPENDENCY_TRACKING_UNSPECIFIED = 0;
+
+    COMMIT_ORDER = 1;
+
+    WRITESET = 2;
+
+    WRITESET_SESSION = 3;
+  }
+
   // Size of the InnoDB buffer pool used for caching table and index data.
   //
   // See [MySQL documentation](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_buffer_pool_size) for details.
@@ -464,6 +474,11 @@ message MysqlConfig8_0 {
   //
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_compression_level).
   google.protobuf.Int64Value innodb_compression_level = 70 [(value) = "0-9"];
+
+  // Specifies how the source mysqld generates the dependency information that it writes in the binary log to help replicas determine which transactions can be executed in parallel.
+  //
+  // For details, see [MySQL documentation for the variabl](https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#sysvar_binlog_transaction_dependency_tracking).
+  BinlogTransactionDependencyTracking binlog_transaction_dependency_tracking = 71;
 }
 
 message MysqlConfigSet8_0 {
