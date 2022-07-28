@@ -5,6 +5,7 @@ package yandex.cloud.mdb.mysql.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -901,4 +902,7 @@ message ConfigSpec {
 
   // Configuration of the performance diagnostics service.
   PerformanceDiagnostics performance_diagnostics = 7;
+
+  // Retention policy of automated backups.
+  google.protobuf.Int64Value backup_retain_period_days = 8 [(value) = "7-60"];
 }
