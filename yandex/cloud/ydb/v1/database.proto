@@ -63,6 +63,8 @@ message Database {
   string kinesis_api_endpoint = 23;
 
   MonitoringConfig monitoring_config = 24;
+
+  bool deletion_protection = 25;
 }
 
 
