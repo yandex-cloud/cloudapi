@@ -45,6 +45,8 @@ message StaticRoute {
   oneof next_hop {
     // Next hop IP address
     string next_hop_address = 2;
+    // Next hop gateway id
+    string gateway_id = 4;
   }
 
   // Resource labels as `` key:value `` pairs. Maximum of 64 per resource.

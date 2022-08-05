@@ -179,6 +179,9 @@ message RegionalMaster {
 
   // IPv4 external network address that is assigned to the master.
   string external_v4_address = 3;
+
+  // IPv6 external network address that is assigned to the master.
+  string external_v6_address = 4;
 }
 
 message MasterEndpoints {

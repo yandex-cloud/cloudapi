@@ -261,6 +261,15 @@ service ClusterService {
     };
   }
 
+  // Updates an external dictionary for the specified ClickHouse cluster.
+  rpc UpdateExternalDictionary (UpdateClusterExternalDictionaryRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}:updateExternalDictionary" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateClusterExternalDictionaryMetadata"
+      response: "Cluster"
+    };
+  }
+
   // Deletes the specified external dictionary.
   rpc DeleteExternalDictionary (DeleteClusterExternalDictionaryRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}:deleteExternalDictionary" body: "*" };
@@ -1042,6 +1051,26 @@ message CreateClusterExternalDictionaryRequest {
 message CreateClusterExternalDictionaryMetadata {
   // ID of the cluster for which an external dictionary is being created.
   string cluster_id = 1;
+}
+
+message UpdateClusterExternalDictionaryRequest {
+  // ID of the ClickHouse cluster to update the external dictionary for.
+  // To get the cluster ID, use a [List] request.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Configuration of the external dictionary.
+  config.ClickhouseConfig.ExternalDictionary external_dictionary = 2;
+
+  // Field mask that specifies which fields of the External Dictionary should be updated.
+  google.protobuf.FieldMask update_mask = 3;
+}
+
+message UpdateClusterExternalDictionaryMetadata {
+  // ID of the cluster for which an external dictionary is being updated.
+  string cluster_id = 1;
+
+  // Name of the external dictionary.
+  string external_dictionary_name = 2;
 }
 
 message DeleteClusterExternalDictionaryRequest {

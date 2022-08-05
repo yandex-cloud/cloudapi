@@ -14,7 +14,6 @@ option java_package = "yandex.cloud.api.mdb.kafka.v1";
 
 // A set of methods for managing Apache Kafka® connectors.
 service ConnectorService {
-
   // Returns information about an Apache Kafka® connector.
   rpc Get (GetConnectorRequest) returns (Connector) {
     option (google.api.http) = { get: "/managed-kafka/v1/clusters/{cluster_id}/connectors/{connector_name}" };
@@ -69,11 +68,10 @@ service ConnectorService {
       response: "Connector"
     };
   }
-
 }
 
 message GetConnectorRequest {
-  // ID of the cluster the connector belongs to.
+  // ID of the Apache Kafka® cluster the connector belongs to.
   //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
@@ -151,7 +149,7 @@ message UpdateConnectorMetadata {
   // ID of the Apache Kafka® cluster the connector is being updated in.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Name of the Apache Kafka connector that is being updated.
+  // Name of the Apache Kafka® connector that is being updated.
   string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 

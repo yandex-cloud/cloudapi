@@ -172,6 +172,8 @@ message PostgresqlConfig11 {
     SHARED_PRELOAD_LIBRARIES_TIMESCALEDB = 3;
 
     SHARED_PRELOAD_LIBRARIES_PG_QUALSTATS = 4;
+
+    SHARED_PRELOAD_LIBRARIES_PG_CRON = 5;
   }
 
   google.protobuf.Int64Value max_connections = 1;
