@@ -23,12 +23,14 @@ enum TriggerType {
 
   // The trigger is activated by messages from IoT Core.
   IOT_MESSAGE = 4;
+  IOT_BROKER_MESSAGE = 12;
+
   OBJECT_STORAGE = 5;
   CONTAINER_REGISTRY = 6;
 
   // The trigger is activated by cloud log group events
   CLOUD_LOGS = 7;
-  
+
   // The trigger is activated by logging group events
   LOGGING = 8;
 
@@ -80,6 +82,7 @@ message Trigger {
 
       // Rule for a IoT Core trigger.
       IoTMessage iot_message = 4;
+      IoTBrokerMessage iot_broker_message = 14;
       ObjectStorage object_storage = 5;
       ContainerRegistry container_registry = 6;
       CloudLogs cloud_logs = 9;
@@ -146,6 +149,26 @@ message Trigger {
 
     // MQTT topic whose messages activate the trigger.
     string mqtt_topic = 3;
+
+    // Action to be executed when the there's a new message in the MQTT topic.
+    oneof action {
+      option (exactly_one) = true;
+
+      // Instructions for invoking a function with retries as needed.
+      InvokeFunctionWithRetry invoke_function = 101;
+
+      // Instructions for invoking a container with retries as needed.
+      InvokeContainerWithRetry invoke_container = 102;
+    }
+  }
+
+  // Rule for activating a IoT Core Broker trigger.
+  message IoTBrokerMessage {
+    // ID of the IoT Core broker.
+    string broker_id = 1 [(required) = true];
+
+    // MQTT topic whose messages activate the trigger.
+    string mqtt_topic = 2;
 
     // Action to be executed when the there's a new message in the MQTT topic.
     oneof action {

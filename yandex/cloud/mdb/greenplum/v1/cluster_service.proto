@@ -52,6 +52,15 @@ service ClusterService {
     };
   }
 
+  // Expands the specified Greenplum® cluster.
+  rpc Expand (ExpandRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/managed-greenplum/v1/clusters/{cluster_id}/expand" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "AddClusterHostsMetadata"
+      response: "Cluster"
+    };
+  }
+
   // Deletes the specified Greenplum® cluster.
   rpc Delete (DeleteClusterRequest) returns (operation.Operation) {
     option (google.api.http) = {delete: "/managed-greenplum/v1/clusters/{cluster_id}"};
@@ -290,6 +299,26 @@ message UpdateClusterRequest {
 message UpdateClusterMetadata {
   // ID of the Greenplum® cluster resource that is being updated.
   string cluster_id = 1;
+}
+
+message AddClusterHostsMetadata {
+  // ID of the Greenplum Cluster resource that is being updated.
+  string cluster_id = 1;
+}
+
+message ExpandRequest {
+  // ID of the Greenplum Cluster resource to update.
+  // To get the Greenplum cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Number of hosts for add to the segment subcluster
+  int64 segment_host_count = 2;
+
+  // Number of segments per host to add
+  int64 add_segments_per_host_count = 3;
+
+  // Redistribute duration, in seconds
+  int64 duration = 4;
 }
 
 message DeleteClusterRequest {

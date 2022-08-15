@@ -12,26 +12,24 @@ option java_package = "yandex.cloud.api.mdb.postgresql.v1.config";
 // parameters which detailed description is available in
 // [PostgreSQL documentation](https://www.postgresql.org/docs/11/runtime-config.html).
 message PostgresqlConfig11_1C {
-  enum WalLevel {
-    WAL_LEVEL_UNSPECIFIED = 0;
+  enum BackslashQuote {
+    BACKSLASH_QUOTE_UNSPECIFIED = 0;
 
-    WAL_LEVEL_REPLICA = 1;
+    BACKSLASH_QUOTE = 1;
 
-    WAL_LEVEL_LOGICAL = 2;
+    BACKSLASH_QUOTE_ON = 2;
+
+    BACKSLASH_QUOTE_OFF = 3;
+
+    BACKSLASH_QUOTE_SAFE_ENCODING = 4;
   }
 
-  enum SynchronousCommit {
-    SYNCHRONOUS_COMMIT_UNSPECIFIED = 0;
+  enum ByteaOutput {
+    BYTEA_OUTPUT_UNSPECIFIED = 0;
 
-    SYNCHRONOUS_COMMIT_ON = 1;
+    BYTEA_OUTPUT_HEX = 1;
 
-    SYNCHRONOUS_COMMIT_OFF = 2;
-
-    SYNCHRONOUS_COMMIT_LOCAL = 3;
-
-    SYNCHRONOUS_COMMIT_REMOTE_WRITE = 4;
-
-    SYNCHRONOUS_COMMIT_REMOTE_APPLY = 5;
+    BYTEA_OUTPUT_ESCAPED = 2;
   }
 
   enum ConstraintExclusion {
@@ -52,6 +50,16 @@ message PostgresqlConfig11_1C {
     FORCE_PARALLEL_MODE_OFF = 2;
 
     FORCE_PARALLEL_MODE_REGRESS = 3;
+  }
+
+  enum LogErrorVerbosity {
+    LOG_ERROR_VERBOSITY_UNSPECIFIED = 0;
+
+    LOG_ERROR_VERBOSITY_TERSE = 1;
+
+    LOG_ERROR_VERBOSITY_DEFAULT = 2;
+
+    LOG_ERROR_VERBOSITY_VERBOSE = 3;
   }
 
   enum LogLevel {
@@ -80,16 +88,6 @@ message PostgresqlConfig11_1C {
     LOG_LEVEL_PANIC = 11;
   }
 
-  enum LogErrorVerbosity {
-    LOG_ERROR_VERBOSITY_UNSPECIFIED = 0;
-
-    LOG_ERROR_VERBOSITY_TERSE = 1;
-
-    LOG_ERROR_VERBOSITY_DEFAULT = 2;
-
-    LOG_ERROR_VERBOSITY_VERBOSE = 3;
-  }
-
   enum LogStatement {
     LOG_STATEMENT_UNSPECIFIED = 0;
 
@@ -100,54 +98,6 @@ message PostgresqlConfig11_1C {
     LOG_STATEMENT_MOD = 3;
 
     LOG_STATEMENT_ALL = 4;
-  }
-
-  enum TransactionIsolation {
-    TRANSACTION_ISOLATION_UNSPECIFIED = 0;
-
-    TRANSACTION_ISOLATION_READ_UNCOMMITTED = 1;
-
-    TRANSACTION_ISOLATION_READ_COMMITTED = 2;
-
-    TRANSACTION_ISOLATION_REPEATABLE_READ = 3;
-
-    TRANSACTION_ISOLATION_SERIALIZABLE = 4;
-  }
-
-  enum ByteaOutput {
-    BYTEA_OUTPUT_UNSPECIFIED = 0;
-
-    BYTEA_OUTPUT_HEX = 1;
-
-    BYTEA_OUTPUT_ESCAPED = 2;
-  }
-
-  enum XmlBinary {
-    XML_BINARY_UNSPECIFIED = 0;
-
-    XML_BINARY_BASE64 = 1;
-
-    XML_BINARY_HEX = 2;
-  }
-
-  enum XmlOption {
-    XML_OPTION_UNSPECIFIED = 0;
-
-    XML_OPTION_DOCUMENT = 1;
-
-    XML_OPTION_CONTENT = 2;
-  }
-
-  enum BackslashQuote {
-    BACKSLASH_QUOTE_UNSPECIFIED = 0;
-
-    BACKSLASH_QUOTE = 1;
-
-    BACKSLASH_QUOTE_ON = 2;
-
-    BACKSLASH_QUOTE_OFF = 3;
-
-    BACKSLASH_QUOTE_SAFE_ENCODING = 4;
   }
 
   enum PgHintPlanDebugPrint {
@@ -174,6 +124,56 @@ message PostgresqlConfig11_1C {
     SHARED_PRELOAD_LIBRARIES_PG_QUALSTATS = 4;
 
     SHARED_PRELOAD_LIBRARIES_PG_CRON = 5;
+  }
+
+  enum SynchronousCommit {
+    SYNCHRONOUS_COMMIT_UNSPECIFIED = 0;
+
+    SYNCHRONOUS_COMMIT_ON = 1;
+
+    SYNCHRONOUS_COMMIT_OFF = 2;
+
+    SYNCHRONOUS_COMMIT_LOCAL = 3;
+
+    SYNCHRONOUS_COMMIT_REMOTE_WRITE = 4;
+
+    SYNCHRONOUS_COMMIT_REMOTE_APPLY = 5;
+  }
+
+  enum TransactionIsolation {
+    TRANSACTION_ISOLATION_UNSPECIFIED = 0;
+
+    TRANSACTION_ISOLATION_READ_UNCOMMITTED = 1;
+
+    TRANSACTION_ISOLATION_READ_COMMITTED = 2;
+
+    TRANSACTION_ISOLATION_REPEATABLE_READ = 3;
+
+    TRANSACTION_ISOLATION_SERIALIZABLE = 4;
+  }
+
+  enum WalLevel {
+    WAL_LEVEL_UNSPECIFIED = 0;
+
+    WAL_LEVEL_REPLICA = 1;
+
+    WAL_LEVEL_LOGICAL = 2;
+  }
+
+  enum XmlBinary {
+    XML_BINARY_UNSPECIFIED = 0;
+
+    XML_BINARY_BASE64 = 1;
+
+    XML_BINARY_HEX = 2;
+  }
+
+  enum XmlOption {
+    XML_OPTION_UNSPECIFIED = 0;
+
+    XML_OPTION_DOCUMENT = 1;
+
+    XML_OPTION_CONTENT = 2;
   }
 
   google.protobuf.Int64Value max_connections = 1;
@@ -238,7 +238,7 @@ message PostgresqlConfig11_1C {
 
   google.protobuf.Int64Value from_collapse_limit = 31 [(value) = "1-2147483647"];
 
-  google.protobuf.Int64Value  join_collapse_limit = 32 [(value) = "1-2147483647"];
+  google.protobuf.Int64Value join_collapse_limit = 32 [(value) = "1-2147483647"];
 
   ForceParallelMode force_parallel_mode = 33;
 
@@ -330,6 +330,8 @@ message PostgresqlConfig11_1C {
 
   google.protobuf.Int64Value track_activity_query_size = 77 [(value) = "100-102400"];
 
+  google.protobuf.BoolValue online_analyze_enable = 79;
+
   google.protobuf.BoolValue enable_bitmapscan = 80;
 
   google.protobuf.BoolValue enable_hashagg = 81;
@@ -419,10 +421,12 @@ message PostgresqlConfig11_1C {
   google.protobuf.BoolValue pg_qualstats_track_constants = 123;
 
   google.protobuf.Int64Value pg_qualstats_max = 124;
-  
+
   google.protobuf.BoolValue pg_qualstats_resolve_oids = 125;
-    
+
   google.protobuf.DoubleValue pg_qualstats_sample_rate = 126;
+
+  google.protobuf.BoolValue plantuner_fix_empty_table = 149;
 }
 
 message PostgresqlConfigSet11_1C {

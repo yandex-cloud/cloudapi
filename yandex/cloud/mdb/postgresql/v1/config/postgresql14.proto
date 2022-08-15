@@ -12,26 +12,24 @@ option java_package = "yandex.cloud.api.mdb.postgresql.v1.config";
 // parameters which detailed description is available in
 // [PostgreSQL documentation](https://www.postgresql.org/docs/11/runtime-config.html).
 message PostgresqlConfig14 {
-  enum WalLevel {
-    WAL_LEVEL_UNSPECIFIED = 0;
+  enum BackslashQuote {
+    BACKSLASH_QUOTE_UNSPECIFIED = 0;
 
-    WAL_LEVEL_REPLICA = 1;
+    BACKSLASH_QUOTE = 1;
 
-    WAL_LEVEL_LOGICAL = 2;
+    BACKSLASH_QUOTE_ON = 2;
+
+    BACKSLASH_QUOTE_OFF = 3;
+
+    BACKSLASH_QUOTE_SAFE_ENCODING = 4;
   }
 
-  enum SynchronousCommit {
-    SYNCHRONOUS_COMMIT_UNSPECIFIED = 0;
+  enum ByteaOutput {
+    BYTEA_OUTPUT_UNSPECIFIED = 0;
 
-    SYNCHRONOUS_COMMIT_ON = 1;
+    BYTEA_OUTPUT_HEX = 1;
 
-    SYNCHRONOUS_COMMIT_OFF = 2;
-
-    SYNCHRONOUS_COMMIT_LOCAL = 3;
-
-    SYNCHRONOUS_COMMIT_REMOTE_WRITE = 4;
-
-    SYNCHRONOUS_COMMIT_REMOTE_APPLY = 5;
+    BYTEA_OUTPUT_ESCAPED = 2;
   }
 
   enum ConstraintExclusion {
@@ -52,6 +50,16 @@ message PostgresqlConfig14 {
     FORCE_PARALLEL_MODE_OFF = 2;
 
     FORCE_PARALLEL_MODE_REGRESS = 3;
+  }
+
+  enum LogErrorVerbosity {
+    LOG_ERROR_VERBOSITY_UNSPECIFIED = 0;
+
+    LOG_ERROR_VERBOSITY_TERSE = 1;
+
+    LOG_ERROR_VERBOSITY_DEFAULT = 2;
+
+    LOG_ERROR_VERBOSITY_VERBOSE = 3;
   }
 
   enum LogLevel {
@@ -80,16 +88,6 @@ message PostgresqlConfig14 {
     LOG_LEVEL_PANIC = 11;
   }
 
-  enum LogErrorVerbosity {
-    LOG_ERROR_VERBOSITY_UNSPECIFIED = 0;
-
-    LOG_ERROR_VERBOSITY_TERSE = 1;
-
-    LOG_ERROR_VERBOSITY_DEFAULT = 2;
-
-    LOG_ERROR_VERBOSITY_VERBOSE = 3;
-  }
-
   enum LogStatement {
     LOG_STATEMENT_UNSPECIFIED = 0;
 
@@ -100,6 +98,56 @@ message PostgresqlConfig14 {
     LOG_STATEMENT_MOD = 3;
 
     LOG_STATEMENT_ALL = 4;
+  }
+
+  enum PgHintPlanDebugPrint {
+    PG_HINT_PLAN_DEBUG_PRINT_UNSPECIFIED = 0;
+
+    PG_HINT_PLAN_DEBUG_PRINT_OFF = 1;
+
+    PG_HINT_PLAN_DEBUG_PRINT_ON = 2;
+
+    PG_HINT_PLAN_DEBUG_PRINT_DETAILED = 3;
+
+    PG_HINT_PLAN_DEBUG_PRINT_VERBOSE = 4;
+  }
+
+  enum PlanCacheMode {
+    PLAN_CACHE_MODE_UNSPECIFIED = 0;
+
+    PLAN_CACHE_MODE_AUTO = 1;
+
+    PLAN_CACHE_MODE_FORCE_CUSTOM_PLAN = 2;
+
+    PLAN_CACHE_MODE_FORCE_GENERIC_PLAN = 3;
+  }
+
+  enum SharedPreloadLibraries {
+    SHARED_PRELOAD_LIBRARIES_UNSPECIFIED = 0;
+
+    SHARED_PRELOAD_LIBRARIES_AUTO_EXPLAIN = 1;
+
+    SHARED_PRELOAD_LIBRARIES_PG_HINT_PLAN = 2;
+
+    SHARED_PRELOAD_LIBRARIES_TIMESCALEDB = 3;
+
+    SHARED_PRELOAD_LIBRARIES_PG_QUALSTATS = 4;
+
+    SHARED_PRELOAD_LIBRARIES_PG_CRON = 5;
+  }
+
+  enum SynchronousCommit {
+    SYNCHRONOUS_COMMIT_UNSPECIFIED = 0;
+
+    SYNCHRONOUS_COMMIT_ON = 1;
+
+    SYNCHRONOUS_COMMIT_OFF = 2;
+
+    SYNCHRONOUS_COMMIT_LOCAL = 3;
+
+    SYNCHRONOUS_COMMIT_REMOTE_WRITE = 4;
+
+    SYNCHRONOUS_COMMIT_REMOTE_APPLY = 5;
   }
 
   enum TransactionIsolation {
@@ -114,12 +162,12 @@ message PostgresqlConfig14 {
     TRANSACTION_ISOLATION_SERIALIZABLE = 4;
   }
 
-  enum ByteaOutput {
-    BYTEA_OUTPUT_UNSPECIFIED = 0;
+  enum WalLevel {
+    WAL_LEVEL_UNSPECIFIED = 0;
 
-    BYTEA_OUTPUT_HEX = 1;
+    WAL_LEVEL_REPLICA = 1;
 
-    BYTEA_OUTPUT_ESCAPED = 2;
+    WAL_LEVEL_LOGICAL = 2;
   }
 
   enum XmlBinary {
@@ -136,54 +184,6 @@ message PostgresqlConfig14 {
     XML_OPTION_DOCUMENT = 1;
 
     XML_OPTION_CONTENT = 2;
-  }
-
-  enum BackslashQuote {
-    BACKSLASH_QUOTE_UNSPECIFIED = 0;
-
-    BACKSLASH_QUOTE = 1;
-
-    BACKSLASH_QUOTE_ON = 2;
-
-    BACKSLASH_QUOTE_OFF = 3;
-
-    BACKSLASH_QUOTE_SAFE_ENCODING = 4;
-  }
-
-  enum PlanCacheMode {
-    PLAN_CACHE_MODE_UNSPECIFIED = 0;
-
-    PLAN_CACHE_MODE_AUTO = 1;
-
-    PLAN_CACHE_MODE_FORCE_CUSTOM_PLAN = 2;
-
-    PLAN_CACHE_MODE_FORCE_GENERIC_PLAN = 3;
-  }
-
-  enum PgHintPlanDebugPrint {
-    PG_HINT_PLAN_DEBUG_PRINT_UNSPECIFIED = 0;
-
-    PG_HINT_PLAN_DEBUG_PRINT_OFF = 1;
-
-    PG_HINT_PLAN_DEBUG_PRINT_ON = 2;
-
-    PG_HINT_PLAN_DEBUG_PRINT_DETAILED = 3;
-
-    PG_HINT_PLAN_DEBUG_PRINT_VERBOSE = 4;
-  }
-
-  enum SharedPreloadLibraries {
-    SHARED_PRELOAD_LIBRARIES_UNSPECIFIED = 0;
-
-    SHARED_PRELOAD_LIBRARIES_AUTO_EXPLAIN = 1;
-
-    SHARED_PRELOAD_LIBRARIES_PG_HINT_PLAN = 2;
-
-    SHARED_PRELOAD_LIBRARIES_TIMESCALEDB = 3;
-
-    SHARED_PRELOAD_LIBRARIES_PG_QUALSTATS = 4;
-
-    SHARED_PRELOAD_LIBRARIES_PG_CRON = 5;
   }
 
   google.protobuf.Int64Value max_connections = 1;
@@ -248,7 +248,7 @@ message PostgresqlConfig14 {
 
   google.protobuf.Int64Value from_collapse_limit = 31 [(value) = "1-2147483647"];
 
-  google.protobuf.Int64Value  join_collapse_limit = 32 [(value) = "1-2147483647"];
+  google.protobuf.Int64Value join_collapse_limit = 32 [(value) = "1-2147483647"];
 
   ForceParallelMode force_parallel_mode = 33;
 
@@ -467,9 +467,9 @@ message PostgresqlConfig14 {
   google.protobuf.BoolValue pg_qualstats_track_constants = 145;
 
   google.protobuf.Int64Value pg_qualstats_max = 146;
-  
+
   google.protobuf.BoolValue pg_qualstats_resolve_oids = 147;
-    
+
   google.protobuf.DoubleValue pg_qualstats_sample_rate = 148;
 }
 

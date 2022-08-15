@@ -15,6 +15,7 @@ import "yandex/cloud/mdb/redis/v1/cluster.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis5_0.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis6_0.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis6_2.proto";
+import "yandex/cloud/mdb/redis/v1/config/redis7_0.proto";
 import "yandex/cloud/mdb/redis/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/redis/v1;redis";
@@ -871,6 +872,7 @@ message ConfigSpec {
     config.RedisConfig5_0 redis_config_5_0 = 2 [json_name="redisConfig_5_0"];
     config.RedisConfig6_0 redis_config_6_0 = 6 [json_name="redisConfig_6_0"];
     config.RedisConfig6_2 redis_config_6_2 = 7 [json_name="redisConfig_6_2"];
+    config.RedisConfig7_0 redis_config_7_0 = 8 [json_name="redisConfig_7_0"];
   }
 
   // Resources allocated to Redis hosts.

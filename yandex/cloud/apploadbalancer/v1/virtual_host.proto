@@ -171,6 +171,9 @@ message StringMatch {
 
     // Prefix match string.
     string prefix_match = 2;
+
+    // Regular expression match string.
+    string regex_match = 3;
   }
 }
 

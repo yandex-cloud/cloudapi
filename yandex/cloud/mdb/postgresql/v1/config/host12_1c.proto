@@ -12,6 +12,25 @@ option java_package = "yandex.cloud.api.mdb.postgresql.v1.config";
 // parameters which detailed description is available in
 // [PostgreSQL documentation](https://www.postgresql.org/docs/11/runtime-config.html).
 message PostgresqlHostConfig12_1C {
+  enum BackslashQuote {
+    BACKSLASH_QUOTE_UNSPECIFIED = 0;
+
+    BACKSLASH_QUOTE = 1;
+
+    BACKSLASH_QUOTE_ON = 2;
+
+    BACKSLASH_QUOTE_OFF = 3;
+
+    BACKSLASH_QUOTE_SAFE_ENCODING = 4;
+  }
+
+  enum ByteaOutput {
+    BYTEA_OUTPUT_UNSPECIFIED = 0;
+
+    BYTEA_OUTPUT_HEX = 1;
+
+    BYTEA_OUTPUT_ESCAPED = 2;
+  }
 
   enum ConstraintExclusion {
     CONSTRAINT_EXCLUSION_UNSPECIFIED = 0;
@@ -31,6 +50,16 @@ message PostgresqlHostConfig12_1C {
     FORCE_PARALLEL_MODE_OFF = 2;
 
     FORCE_PARALLEL_MODE_REGRESS = 3;
+  }
+
+  enum LogErrorVerbosity {
+    LOG_ERROR_VERBOSITY_UNSPECIFIED = 0;
+
+    LOG_ERROR_VERBOSITY_TERSE = 1;
+
+    LOG_ERROR_VERBOSITY_DEFAULT = 2;
+
+    LOG_ERROR_VERBOSITY_VERBOSE = 3;
   }
 
   enum LogLevel {
@@ -59,16 +88,6 @@ message PostgresqlHostConfig12_1C {
     LOG_LEVEL_PANIC = 11;
   }
 
-  enum LogErrorVerbosity {
-    LOG_ERROR_VERBOSITY_UNSPECIFIED = 0;
-
-    LOG_ERROR_VERBOSITY_TERSE = 1;
-
-    LOG_ERROR_VERBOSITY_DEFAULT = 2;
-
-    LOG_ERROR_VERBOSITY_VERBOSE = 3;
-  }
-
   enum LogStatement {
     LOG_STATEMENT_UNSPECIFIED = 0;
 
@@ -93,14 +112,6 @@ message PostgresqlHostConfig12_1C {
     TRANSACTION_ISOLATION_SERIALIZABLE = 4;
   }
 
-  enum ByteaOutput {
-    BYTEA_OUTPUT_UNSPECIFIED = 0;
-
-    BYTEA_OUTPUT_HEX = 1;
-
-    BYTEA_OUTPUT_ESCAPED = 2;
-  }
-
   enum XmlBinary {
     XML_BINARY_UNSPECIFIED = 0;
 
@@ -115,18 +126,6 @@ message PostgresqlHostConfig12_1C {
     XML_OPTION_DOCUMENT = 1;
 
     XML_OPTION_CONTENT = 2;
-  }
-
-  enum BackslashQuote {
-    BACKSLASH_QUOTE_UNSPECIFIED = 0;
-
-    BACKSLASH_QUOTE = 1;
-
-    BACKSLASH_QUOTE_ON = 2;
-
-    BACKSLASH_QUOTE_OFF = 3;
-
-    BACKSLASH_QUOTE_SAFE_ENCODING = 4;
   }
 
   google.protobuf.Int64Value recovery_min_apply_delay = 1; // in milliseconds.
@@ -151,7 +150,7 @@ message PostgresqlHostConfig12_1C {
 
   google.protobuf.Int64Value from_collapse_limit = 11 [(value) = "1-2147483647"];
 
-  google.protobuf.Int64Value  join_collapse_limit = 12 [(value) = "1-2147483647"];
+  google.protobuf.Int64Value join_collapse_limit = 12 [(value) = "1-2147483647"];
 
   ForceParallelMode force_parallel_mode = 13;
 

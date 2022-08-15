@@ -11,7 +11,7 @@ option java_package = "yandex.cloud.api.mdb.postgresql.v1.config";
 // Options and structure of `PostgresqlConfig` reflects PostgreSQL configuration file
 // parameters which detailed description is available in
 // [PostgreSQL documentation](https://www.postgresql.org/docs/11/runtime-config.html).
-message PostgresqlHostConfig11 {
+message PostgresqlHostConfig13_1C {
   enum BackslashQuote {
     BACKSLASH_QUOTE_UNSPECIFIED = 0;
 

@@ -11,7 +11,7 @@ option java_package = "yandex.cloud.api.mdb.postgresql.v1.config";
 // Options and structure of `PostgresqlConfig` reflects PostgreSQL configuration file
 // parameters which detailed description is available in
 // [PostgreSQL documentation](https://www.postgresql.org/docs/11/runtime-config.html).
-message PostgresqlConfig11 {
+message PostgresqlConfig13_1C {
   enum BackslashQuote {
     BACKSLASH_QUOTE_UNSPECIFIED = 0;
 
@@ -110,6 +110,16 @@ message PostgresqlConfig11 {
     PG_HINT_PLAN_DEBUG_PRINT_DETAILED = 3;
 
     PG_HINT_PLAN_DEBUG_PRINT_VERBOSE = 4;
+  }
+
+  enum PlanCacheMode {
+    PLAN_CACHE_MODE_UNSPECIFIED = 0;
+
+    PLAN_CACHE_MODE_AUTO = 1;
+
+    PLAN_CACHE_MODE_FORCE_CUSTOM_PLAN = 2;
+
+    PLAN_CACHE_MODE_FORCE_GENERIC_PLAN = 3;
   }
 
   enum SharedPreloadLibraries {
@@ -330,6 +340,8 @@ message PostgresqlConfig11 {
 
   google.protobuf.Int64Value track_activity_query_size = 77 [(value) = "100-102400"];
 
+  google.protobuf.BoolValue online_analyze_enable = 79;
+
   google.protobuf.BoolValue enable_bitmapscan = 80;
 
   google.protobuf.BoolValue enable_hashagg = 81;
@@ -384,55 +396,85 @@ message PostgresqlConfig11 {
 
   google.protobuf.DoubleValue vacuum_cleanup_index_scale_factor = 106 [(value) = "0.0-10000000000.0"];
 
-  google.protobuf.Int64Value effective_io_concurrency = 107 [(value) = "0-1000"];
+  google.protobuf.DoubleValue log_transaction_sample_rate = 107 [(value) = "0.0-1.0"];
 
-  google.protobuf.Int64Value effective_cache_size = 108 [(value) = "0-549755813888"];
+  PlanCacheMode plan_cache_mode = 108;
 
-  repeated SharedPreloadLibraries shared_preload_libraries = 109;
+  google.protobuf.Int64Value effective_io_concurrency = 109 [(value) = "0-1000"];
 
-  google.protobuf.Int64Value auto_explain_log_min_duration = 110 [(value) = "-1-2147483647"]; // in milliseconds.
+  google.protobuf.Int64Value effective_cache_size = 110 [(value) = "0-549755813888"];
 
-  google.protobuf.BoolValue auto_explain_log_analyze = 111;
+  repeated SharedPreloadLibraries shared_preload_libraries = 111;
 
-  google.protobuf.BoolValue auto_explain_log_buffers = 112;
+  google.protobuf.Int64Value auto_explain_log_min_duration = 112 [(value) = "-1-2147483647"]; // in milliseconds.
 
-  google.protobuf.BoolValue auto_explain_log_timing = 113;
+  google.protobuf.BoolValue auto_explain_log_analyze = 113;
 
-  google.protobuf.BoolValue auto_explain_log_triggers = 114;
+  google.protobuf.BoolValue auto_explain_log_buffers = 114;
 
-  google.protobuf.BoolValue auto_explain_log_verbose = 115;
+  google.protobuf.BoolValue auto_explain_log_timing = 115;
 
-  google.protobuf.BoolValue auto_explain_log_nested_statements = 116;
+  google.protobuf.BoolValue auto_explain_log_triggers = 116;
 
-  google.protobuf.DoubleValue auto_explain_sample_rate = 117 [(value) = "0.0-1.0"];
+  google.protobuf.BoolValue auto_explain_log_verbose = 117;
 
-  google.protobuf.BoolValue pg_hint_plan_enable_hint = 118;
+  google.protobuf.BoolValue auto_explain_log_nested_statements = 118;
 
-  google.protobuf.BoolValue pg_hint_plan_enable_hint_table = 119;
+  google.protobuf.DoubleValue auto_explain_sample_rate = 119 [(value) = "0.0-1.0"];
 
-  PgHintPlanDebugPrint pg_hint_plan_debug_print = 120;
+  google.protobuf.BoolValue pg_hint_plan_enable_hint = 120;
 
-  LogLevel pg_hint_plan_message_level = 121;
+  google.protobuf.BoolValue pg_hint_plan_enable_hint_table = 121;
 
-  google.protobuf.BoolValue pg_qualstats_enabled = 122;
+  PgHintPlanDebugPrint pg_hint_plan_debug_print = 122;
 
-  google.protobuf.BoolValue pg_qualstats_track_constants = 123;
+  LogLevel pg_hint_plan_message_level = 123;
 
-  google.protobuf.Int64Value pg_qualstats_max = 124;
+  google.protobuf.DoubleValue hash_mem_multiplier = 124 [(value) = "0.0-1000.0"];
 
-  google.protobuf.BoolValue pg_qualstats_resolve_oids = 125;
+  google.protobuf.Int64Value logical_decoding_work_mem = 126 [(value) = "65536-1099511627776"]; // in bytes.
 
-  google.protobuf.DoubleValue pg_qualstats_sample_rate = 126;
+  google.protobuf.Int64Value maintenance_io_concurrency = 127 [(value) = "0-1000"];
+
+  google.protobuf.Int64Value max_slot_wal_keep_size = 128 [(value) = "-1-2251799812636672"]; // in bytes.
+
+  google.protobuf.Int64Value wal_keep_size = 129 [(value) = "-1-2251799812636672"]; // in bytes.
+
+  google.protobuf.BoolValue enable_incremental_sort = 130;
+
+  google.protobuf.Int64Value autovacuum_vacuum_insert_threshold = 131 [(value) = "-1-2147483647"];
+
+  google.protobuf.DoubleValue autovacuum_vacuum_insert_scale_factor = 132 [(value) = "0.0-100.0"];
+
+  google.protobuf.Int64Value log_min_duration_sample = 133 [(value) = "-1-2147483647"]; // in milliseconds.
+
+  google.protobuf.DoubleValue log_statement_sample_rate = 134 [(value) = "0.0-1.0"];
+
+  google.protobuf.Int64Value log_parameter_max_length = 135 [(value) = "-1-2147483647"]; // in bytes.
+
+  google.protobuf.Int64Value log_parameter_max_length_on_error = 136 [(value) = "-1-2147483647"]; // in bytes.
+
+  google.protobuf.BoolValue pg_qualstats_enabled = 137;
+
+  google.protobuf.BoolValue pg_qualstats_track_constants = 138;
+
+  google.protobuf.Int64Value pg_qualstats_max = 139;
+
+  google.protobuf.BoolValue pg_qualstats_resolve_oids = 140;
+
+  google.protobuf.DoubleValue pg_qualstats_sample_rate = 141;
+
+  google.protobuf.BoolValue plantuner_fix_empty_table = 149;
 }
 
-message PostgresqlConfigSet11 {
-  // Effective settings for a PostgreSQL 11 cluster (a combination of settings defined
+message PostgresqlConfigSet13_1C {
+  // Effective settings for a PostgreSQL 13 1C cluster (a combination of settings defined
   // in [user_config] and [default_config]).
-  PostgresqlConfig11 effective_config = 1;
+  PostgresqlConfig13_1C effective_config = 1;
 
-  // User-defined settings for a PostgreSQL 11 cluster.
-  PostgresqlConfig11 user_config = 2;
+  // User-defined settings for a PostgreSQL 13 1C cluster.
+  PostgresqlConfig13_1C user_config = 2;
 
-  // Default configuration for a PostgreSQL 11 cluster.
-  PostgresqlConfig11 default_config = 3;
+  // Default configuration for a PostgreSQL 13 1C cluster.
+  PostgresqlConfig13_1C default_config = 3;
 }
