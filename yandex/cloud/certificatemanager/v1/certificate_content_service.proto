@@ -15,6 +15,12 @@ service CertificateContentService {
   }
 }
 
+enum PrivateKeyFormat {
+  PRIVATE_KEY_FORMAT_UNSPECIFIED = 0;
+  PKCS1 = 1;
+  PKCS8 = 2;
+}
+
 message GetCertificateContentResponse {
   // ID of the certificate.
   string certificate_id = 1;
@@ -32,4 +38,7 @@ message GetCertificateContentRequest {
 
   // Optional ID of the version.
   string version_id = 2;
+
+  // Desired format of private key
+  PrivateKeyFormat private_key_format = 3;
 }

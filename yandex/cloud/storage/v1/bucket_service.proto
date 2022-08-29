@@ -147,8 +147,8 @@ message CreateBucketRequest {
   // To get the folder ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 2 [ (required) = true, (length) = "<=50" ];
 
-  // Default storage class for objects in the bucket. Supported classes are standard storage (`STANDARD`) and
-  // cold storage (`COLD`, `STANDARD_IA`, `NEARLINE` all synonyms).
+  // Default storage class for objects in the bucket. Supported classes are standard storage (`STANDARD`), cold storage
+  // (`COLD`, `STANDARD_IA`, `NEARLINE` all synonyms), and ice storage (`ICE` and `GLACIER` are synonyms).
   // For details, see [documentation](/docs/storage/concepts/storage-class).
   string default_storage_class = 4;
 
@@ -185,8 +185,8 @@ message UpdateBucketRequest {
   // For details, see [documentation](/docs/storage/concepts/bucket#bucket-access).
   AnonymousAccessFlags anonymous_access_flags = 3;
 
-  // Default storage class for objects in the bucket. Supported classes are standard storage (`STANDARD`) and
-  // cold storage (`COLD`, `STANDARD_IA`, `NEARLINE` all synonyms).
+  // Default storage class for objects in the bucket. Supported classes are standard storage (`STANDARD`), cold storage
+  // (`COLD`, `STANDARD_IA`, `NEARLINE` all synonyms), and ice storage (`ICE` and `GLACIER` are synonyms).
   // For details, see [documentation](/docs/storage/concepts/storage-class).
   string default_storage_class = 4;
 

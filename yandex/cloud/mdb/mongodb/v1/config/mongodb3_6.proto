@@ -139,7 +139,7 @@ message MongoCfgConfig3_6 {
     // The slow operation time threshold, in milliseconds. Operations that run
     // for longer than this threshold are considered slow, and are processed by the profiler
     // running in the SLOW_OP mode. For details see [MongoDB documentation](https://docs.mongodb.com/v3.6/reference/configuration-options/#operationProfiling.slowOpThresholdMs).
-    google.protobuf.Int64Value slow_op_threshold = 2  [(value) = ">0"];
+    google.protobuf.Int64Value slow_op_threshold = 2 [(value) = ">0"];
   }
 
   message Network {
@@ -155,7 +155,6 @@ message MongoCfgConfig3_6 {
 
   // `net` section of mongocfg configuration.
   Network net = 3;
-
 }
 
 message MongosConfig3_6 {

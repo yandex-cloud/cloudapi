@@ -20,7 +20,7 @@ message Backup {
       MANUAL = 2;
   }
 
-  // ID of the backup.
+  // ID of the backup. Required.
   string id = 1;
 
   // ID of the folder that the backup belongs to.

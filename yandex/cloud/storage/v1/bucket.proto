@@ -30,8 +30,8 @@ message Bucket {
   // For details, see [documentation](/docs/storage/concepts/bucket#bucket-access).
   AnonymousAccessFlags anonymous_access_flags = 4;
 
-  // Default storage class for objects in the bucket. Supported classes are standard storage (`STANDARD`) and
-  // cold storage (`COLD`, `STANDARD_IA`, `NEARLINE` all synonyms).
+  // Default storage class for objects in the bucket. Supported classes are standard storage (`STANDARD`), cold storage
+  // (`COLD`, `STANDARD_IA`, `NEARLINE` all synonyms), and ice storage (`ICE` and `GLACIER` are synonyms).
   // For details, see [documentation](/docs/storage/concepts/storage-class).
   string default_storage_class = 5;
 
@@ -329,10 +329,10 @@ message LifecycleRule {
     // version is transitioned.
     google.protobuf.Int64Value noncurrent_days = 1;
 
-    // Storage class to which a non-current version of an object is transitioned.
+    // Storage class to which a non-current version of an object is transitioned from standard storage.
     //
     // The only supported class is cold storage (`COLD`, `STANDARD_IA`, `NEARLINE` all synonyms). Transitions from cold
-    // to standard storage are not allowed.
+    // to standard storage and transitions to or from ice storage are not allowed.
     string storage_class = 2 [ (required) = true ];
   }
 
@@ -360,10 +360,10 @@ message LifecycleRule {
     // At most one of [days] and [date] fields can be specified.
     google.protobuf.Int64Value days = 2;
 
-    // Storage class to which an object is transitioned.
+    // Storage class to which an object is transitioned from standard storage.
     //
     // The only supported class is cold storage (`COLD`, `STANDARD_IA`, `NEARLINE` all synonyms). Transitions from cold
-    // to standard storage are not allowed.
+    // to standard storage and transitions to or from ice storage are not allowed.
     string storage_class = 4 [ (required) = true ];
   }
 
@@ -498,8 +498,8 @@ message Counters {
 
 // A resource for size of available space in a bucket for a storage class.
 message OptionalSizeByClass {
-  // Storage class. Supported classes are standard storage (`STANDARD`) and cold storage (`COLD`, `STANDARD_IA`,
-  // `NEARLINE` all synonyms).
+  // Storage class. Supported classes are standard storage (`STANDARD`), cold storage (`COLD`, `STANDARD_IA`, `NEARLINE`
+  // all synonyms), and ice storage (`ICE` and `GLACIER` are synonyms).
   // For details, see [documentation](/docs/storage/concepts/storage-class).
   string storage_class = 1;
 
@@ -509,8 +509,8 @@ message OptionalSizeByClass {
 
 // A resource for size of used space in a bucket for a storage class.
 message SizeByClass {
-  // Storage class. Supported classes are standard storage (`STANDARD`) and cold storage (`COLD`, `STANDARD_IA`,
-  // `NEARLINE` all synonyms).
+  // Storage class. Supported classes are standard storage (`STANDARD`), cold storage (`COLD`, `STANDARD_IA`, `NEARLINE`
+  // all synonyms), and ice storage (`ICE` and `GLACIER` are synonyms).
   // For details, see [documentation](/docs/storage/concepts/storage-class).
   string storage_class = 1;
 
@@ -520,8 +520,8 @@ message SizeByClass {
 
 // A resource for object-related statistics for a storage class by type of upload (simple vs. multipart).
 message CountersByClass {
-  // Storage class. Supported classes are standard storage (`STANDARD`) and cold storage (`COLD`, `STANDARD_IA`,
-  // `NEARLINE` all synonyms).
+  // Storage class. Supported classes are standard storage (`STANDARD`), cold storage (`COLD`, `STANDARD_IA`, `NEARLINE`
+  // all synonyms), and ice storage (`ice` and `GLACIER` are synonyms).
   // For details, see [documentation](/docs/storage/concepts/storage-class).
   string storage_class = 1;
 
@@ -549,8 +549,8 @@ message BucketStats {
   // Object-related statistics by storage class and type of upload (simple vs. multipart), in bytes.
   repeated CountersByClass storage_class_counters = 6;
 
-  // Default storage class for objects in the bucket. Supported classes are standard storage (`STANDARD`) and
-  // cold storage (`COLD`, `STANDARD_IA`, `NEARLINE` all synonyms).
+  // Default storage class for objects in the bucket. Supported classes are standard storage (`STANDARD`), cold storage
+  // (`COLD`, `STANDARD_IA`, `NEARLINE` all synonyms), and ice storage (`ICE` and `GLACIER` are synonyms).
   // For details, see [documentation](/docs/storage/concepts/storage-class).
   google.protobuf.StringValue default_storage_class = 7;
 

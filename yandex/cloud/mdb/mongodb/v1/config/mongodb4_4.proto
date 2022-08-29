@@ -31,6 +31,9 @@ message MongodConfig4_4 {
 
           // The [zlib](https://docs.mongodb.com/v4.4/reference/glossary/#term-zlib) compression.
           ZLIB = 3;
+
+          // The [zstd](https://docs.mongodb.com/v4.4/reference/glossary/#term-zstd) compression.
+          ZSTD = 4;
         }
 
         // Default type of compression to use for collection data.
@@ -148,7 +151,6 @@ message MongoCfgConfig4_4 {
 
   // `net` section of mongocfg configuration.
   Network net = 3;
-
 }
 
 message MongosConfig4_4 {

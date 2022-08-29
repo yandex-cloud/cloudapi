@@ -33,7 +33,6 @@ service BackupService {
       response: "google.protobuf.Empty"
     };
   }
-
 }
 
 message GetBackupRequest {

@@ -75,7 +75,7 @@ service DnsZoneService {
     option (google.api.http) = { post: "/dns/v1/zones/{dns_zone_id}:updateRecordSets" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateRecordSetsMetadata"
-      response: "google.protobuf.Empty"
+      response: "RecordSetDiff"
     };
   };
 
@@ -85,7 +85,7 @@ service DnsZoneService {
     option (google.api.http) = { post: "/dns/v1/zones/{dns_zone_id}:upsertRecordSets" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpsertRecordSetsMetadata"
-      response: "google.protobuf.Empty"
+      response: "RecordSetDiff"
     };
   };
 
@@ -332,6 +332,13 @@ message UpsertRecordSetsRequest {
 }
 
 message UpsertRecordSetsMetadata {
+}
+
+message RecordSetDiff {
+  // List of record sets that were added
+  repeated RecordSet additions = 1;
+  // List of record sets that were deleted
+  repeated RecordSet deletions = 2;
 }
 
 message ListDnsZoneOperationsRequest {

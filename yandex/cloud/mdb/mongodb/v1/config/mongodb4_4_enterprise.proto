@@ -31,6 +31,9 @@ message MongodConfig4_4_enterprise {
 
           // The [zlib](https://docs.mongodb.com/v4.4/reference/glossary/#term-zlib) compression.
           ZLIB = 3;
+
+          // The [zstd](https://docs.mongodb.com/v4.4/reference/glossary/#term-zstd) compression.
+          ZSTD = 4;
         }
 
         // Default type of compression to use for collection data.
@@ -172,7 +175,7 @@ message MongoCfgConfig4_4_enterprise {
     // The slow operation time threshold, in milliseconds. Operations that run
     // for longer than this threshold are considered slow, and are processed by the profiler
     // running in the SLOW_OP mode. For details see [MongoDB documentation](https://docs.mongodb.com/v4.4/reference/configuration-options/#operationProfiling.slowOpThresholdMs).
-    google.protobuf.Int64Value slow_op_threshold = 2  [(value) = ">0"];
+    google.protobuf.Int64Value slow_op_threshold = 2 [(value) = ">0"];
   }
 
   message Network {
@@ -188,7 +191,6 @@ message MongoCfgConfig4_4_enterprise {
 
   // `net` section of mongocfg configuration.
   Network net = 3;
-
 }
 
 message MongosConfig4_4_enterprise {

@@ -9,8 +9,8 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongod
 option java_package = "yandex.cloud.api.mdb.mongodb.v1.config";
 
 // Configuration of a mongod daemon. Supported options are a limited subset of all
-// options described in [MongoDB documentation](https://docs.mongodb.com/v5.0/reference/configuration-options/).
-message MongodConfig5_0 {
+// options described in [MongoDB documentation](https://docs.mongodb.com/v6.0/reference/configuration-options/).
+message MongodConfig6_0 {
   message Storage {
     // Configuration of WiredTiger storage engine.
     message WiredTiger {
@@ -26,13 +26,13 @@ message MongodConfig5_0 {
           // No compression.
           NONE = 1;
 
-          // The [Snappy](https://docs.mongodb.com/v5.0/reference/glossary/#term-snappy) compression.
+          // The [Snappy](https://docs.mongodb.com/v6.0/reference/glossary/#term-snappy) compression.
           SNAPPY = 2;
 
-          // The [zlib](https://docs.mongodb.com/v5.0/reference/glossary/#term-zlib) compression.
+          // The [zlib](https://docs.mongodb.com/v6.0/reference/glossary/#term-zlib) compression.
           ZLIB = 3;
 
-          // The [zstd](https://docs.mongodb.com/v5.0/reference/glossary/#term-zstd) compression.
+          // The [zstd](https://docs.mongodb.com/v6.0/reference/glossary/#term-zstd) compression.
           ZSTD = 4;
         }
 
@@ -50,13 +50,13 @@ message MongodConfig5_0 {
     message Journal {
       // Commit interval between journal operations, in milliseconds.
       // Default: 100.
-      google.protobuf.Int64Value commit_interval = 1 [(value) = "1-500"];
+      google.protobuf.Int64Value commit_interval = 2 [(value) = "1-500"];
     }
 
     // Configuration of the WiredTiger storage engine.
     WiredTiger wired_tiger = 1;
 
-    // Configuration of the MongoDB [journal](https://docs.mongodb.com/v5.0/reference/glossary/#term-journal).
+    // Configuration of the MongoDB [journal](https://docs.mongodb.com/v6.0/reference/glossary/#term-journal).
     Journal journal = 2;
   }
 
@@ -98,7 +98,7 @@ message MongodConfig5_0 {
   Network net = 3;
 }
 
-message MongoCfgConfig5_0 {
+message MongoCfgConfig6_0 {
   message Storage {
     // Configuration of WiredTiger storage engine.
     message WiredTiger {
@@ -134,7 +134,7 @@ message MongoCfgConfig5_0 {
 
     // The slow operation time threshold, in milliseconds. Operations that run
     // for longer than this threshold are considered slow, and are processed by the profiler
-    // running in the SLOW_OP mode. For details see [MongoDB documentation](https://docs.mongodb.com/v5.0/reference/configuration-options/#operationProfiling.slowOpThresholdMs).
+    // running in the SLOW_OP mode. For details see [MongoDB documentation](https://docs.mongodb.com/v6.0/reference/configuration-options/#operationProfiling.slowOpThresholdMs).
     google.protobuf.Int64Value slow_op_threshold = 2 [(value) = ">0"];
   }
 
@@ -153,48 +153,48 @@ message MongoCfgConfig5_0 {
   Network net = 3;
 }
 
-message MongosConfig5_0 {
+message MongosConfig6_0 {
   message Network {
     // The maximum number of simultaneous connections that mongos will accept.
     google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-16384"];
   }
 
   // Network settings for mongos.
-  Network net = 1;
+  Network net = 3;
 }
 
-message MongodConfigSet5_0 {
-  // Effective mongod settings for a MongoDB 5.0 cluster (a combination of settings defined
+message MongodConfigSet6_0 {
+  // Effective mongod settings for a MongoDB 6.0 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
-  MongodConfig5_0 effective_config = 1;
+  MongodConfig6_0 effective_config = 1;
 
-  // User-defined mongod settings for a MongoDB 5.0 cluster.
-  MongodConfig5_0 user_config = 2;
+  // User-defined mongod settings for a MongoDB 6.0 cluster.
+  MongodConfig6_0 user_config = 2;
 
-  // Default mongod configuration for a MongoDB 5.0 cluster.
-  MongodConfig5_0 default_config = 3;
+  // Default mongod configuration for a MongoDB 6.0 cluster.
+  MongodConfig6_0 default_config = 3;
 }
 
-message MongoCfgConfigSet5_0 {
-  // Effective mongocfg settings for a MongoDB 5.0 cluster (a combination of settings defined
+message MongoCfgConfigSet6_0 {
+  // Effective mongocfg settings for a MongoDB 6.0 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
-  MongoCfgConfig5_0 effective_config = 1;
+  MongoCfgConfig6_0 effective_config = 1;
 
-  // User-defined mongocfg settings for a MongoDB 5.0 cluster.
-  MongoCfgConfig5_0 user_config = 2;
+  // User-defined mongocfg settings for a MongoDB 6.0 cluster.
+  MongoCfgConfig6_0 user_config = 2;
 
-  // Default mongocfg configuration for a MongoDB 5.0 cluster.
-  MongoCfgConfig5_0 default_config = 3;
+  // Default mongocfg configuration for a MongoDB 6.0 cluster.
+  MongoCfgConfig6_0 default_config = 3;
 }
 
-message MongosConfigSet5_0 {
-  // Effective mongos settings for a MongoDB 5.0 cluster (a combination of settings defined
+message MongosConfigSet6_0 {
+  // Effective mongos settings for a MongoDB 6.0 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
-  MongosConfig5_0 effective_config = 1;
+  MongosConfig6_0 effective_config = 1;
 
-  // User-defined mongos settings for a MongoDB 5.0 cluster.
-  MongosConfig5_0 user_config = 2;
+  // User-defined mongos settings for a MongoDB 6.0 cluster.
+  MongosConfig6_0 user_config = 2;
 
-  // Default mongos configuration for a MongoDB 5.0 cluster.
-  MongosConfig5_0 default_config = 3;
+  // Default mongos configuration for a MongoDB 6.0 cluster.
+  MongosConfig6_0 default_config = 3;
 }

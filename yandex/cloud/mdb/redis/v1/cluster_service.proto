@@ -461,6 +461,9 @@ message RestoreClusterRequest {
 
   // Persistence mode
   Cluster.PersistenceMode persistence_mode = 12;
+
+  // Deletion Protection inhibits deletion of the cluster
+  bool deletion_protection = 13;
 }
 
 message RestoreClusterMetadata {
