@@ -183,6 +183,8 @@ message ServerlessDatabase {
   // You will be charged for the provisioned capacity regularly even if this capacity is not fully consumed.
   // You will be charged for the on-demand consumption only if provisioned capacity is consumed.
   int64 provisioned_rcu_limit = 4;
+  // write quota for topic service, defined in bytes per second.
+  int64 topic_write_quota = 5;
 }
 
 message ZonalDatabase {

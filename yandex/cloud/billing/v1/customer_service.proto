@@ -30,6 +30,15 @@ service CustomerService {
         };
     };
 
+    // Creates new reseller-served customer.
+    rpc CreateResellerServed(CreateResellerServedCustomerRequest) returns (operation.Operation) {
+        option (google.api.http) = { post: "/billing/v1/customers:createResellerServedCustomer" body: "*" };
+        option (yandex.cloud.api.operation) = {
+            metadata: "CustomerMetadata"
+            response: "Customer"
+        };
+    }
+
     // Activates specified customer. After customer is activated, he can use resources associated with his billing account.
     rpc Activate(ActivateCustomerRequest) returns (operation.Operation) {
         option (google.api.http) = { post: "/billing/v1/customers/{customer_id}:activate" };
@@ -93,6 +102,18 @@ message InviteCustomerRequest {
 
     // Person of the customer.
     CustomerPerson person = 4 [(required) = true];
+}
+
+message CreateResellerServedCustomerRequest {
+
+    // ID of the reseller that customer will be associated with.
+    string reseller_id = 1 [(required) = true, (length) = "<=50"];
+
+    // Name of the customer.
+    string name = 2 [(required) = true];
+
+    // Person of the customer.
+    CustomerPerson person = 3 [(required) = true];
 }
 
 message ActivateCustomerRequest {

@@ -116,6 +116,9 @@ message UpdateDatabaseRequest {
   // To get the name of the database use a [DatabaseService.List] request.
   string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
+  // Optional. New name of the database.
+  string new_database_name = 5 [(required) = false, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
   // Field mask that specifies which fields of the Database resource should be updated.
   google.protobuf.FieldMask update_mask = 3;
 
