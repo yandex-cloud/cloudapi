@@ -82,6 +82,9 @@ message LoadBalancer {
 
   // Creation timestamp.
   google.protobuf.Timestamp created_at = 13;
+
+  // Autoscale settings of the application load balancer.
+  AutoScalePolicy auto_scale_policy = 14;
 }
 
 // An endpoint address resource.
@@ -354,4 +357,11 @@ message TargetState {
 
   // Target.
   Target target = 2 [(required) = true];
+}
+
+message AutoScalePolicy {
+  // Lower limit for the number of resource units in each zone.
+  int64 min_zone_size = 1 [(value) = "0-1000"];
+  // Upper limit for the total number of resource units across all zones.
+  int64 max_size = 2 [(value) = "0-1000"];
 }

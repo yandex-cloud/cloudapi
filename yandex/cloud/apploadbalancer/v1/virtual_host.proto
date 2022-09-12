@@ -54,6 +54,62 @@ message RouteOptions {
 
   // Apply the following modifications to the response headers.
   repeated HeaderModification modify_response_headers = 2;
+
+  RBAC rbac = 5;
+}
+
+// Role Based Access Control (RBAC) provides router, virtual host, and route access control for the ALB
+// service. Requests are allowed or denied based on the `action` and whether a matching principal is
+// found. For instance, if the action is ALLOW and a matching principal is found the request should be
+// allowed.
+message RBAC {
+  enum Action {
+    ACTION_UNSPECIFIED = 0;
+
+    // Allows the request if and only if there is a principal that matches the request.
+    ALLOW = 1;
+
+    // Allows the request if and only if there are no principal that match the request.
+    DENY = 2;
+  }
+
+  // The action to take if a principal matches. Every action either allows or denies a request.
+  Action action = 1 [(required) = true];
+
+  // Required. A match occurs when at least one matches the request.
+  repeated Principals principals = 2 [(size) = ">=1"];
+}
+
+// Principals define a group of identities for a request.
+message Principals {
+  // Required. A match occurs when all principals match the request.
+  repeated Principal and_principals = 1;
+}
+
+// Principal defines an identity for a request.
+message Principal {
+  oneof identifier {
+    option (exactly_one) = true;
+
+    // A header (or pseudo-header such as :path or :method) of the incoming HTTP request.
+    HeaderMatcher header = 1;
+
+    // A CIDR block or IP that describes the request remote/origin address, e.g. ``192.0.0.0/24`` or``192.0.0.4`` .
+    string remote_ip = 2;
+
+    // When any is set, it matches any request.
+    bool any = 3;
+  }
+
+  message HeaderMatcher {
+    // Specifies the name of the header in the request.
+    string name = 1 [(required) = true];
+
+    // Specifies how the header match will be performed to route the request.
+    // In the absence of value a request that has specified header name will match,
+    // regardless of the header's value.
+    StringMatch value = 2;
+  }
 }
 
 // A header modification resource.

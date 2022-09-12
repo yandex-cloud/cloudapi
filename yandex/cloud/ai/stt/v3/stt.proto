@@ -195,6 +195,12 @@ message Word {
   int64 end_time_ms = 3;
 }
 
+// Estimation of language probability
+message LanguageEstimation {
+  string language_code = 1;
+  double probability = 2;
+}
+
 // Recognition of specific time frame.
 message Alternative {
 
@@ -212,6 +218,9 @@ message Alternative {
 
   // Hypothesis confidence. Currently is not used.
   double confidence = 5;
+
+  // Distribution over possible languages
+  repeated LanguageEstimation languages = 6;
 }
 
 // Update information from
