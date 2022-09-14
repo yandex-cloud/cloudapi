@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package yandex.cloud.apploadbalancer.v1;
+
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/apploadbalancer/v1;apploadbalancer";
+option java_package = "yandex.cloud.api.apploadbalancer.v1";
+
+enum HttpCodeInterval {
+  HTTP_CODE_INTERVAL_UNSPECIFIED = 0;
+  HTTP_CODE_INTERVAL_1XX = 1;
+  HTTP_CODE_INTERVAL_2XX = 2;
+  HTTP_CODE_INTERVAL_3XX = 3;
+  HTTP_CODE_INTERVAL_4XX = 4;
+  HTTP_CODE_INTERVAL_5XX = 5;
+}
+
+// LogDiscardRule discards a fraction of logs with certain codes.
+// If neither codes or intervals are provided, rule applies to all logs.
+message LogDiscardRule {
+  // HTTP codes that should be discarded.
+  repeated int64 codes = 1 [(value)="100-599"];
+
+  // Groups of HTTP codes like 4xx that should be discarded.
+  repeated HttpCodeInterval intervals = 2;
+
+  // Percent of logs to be discarded: 0 - keep all, 100 - keep none.
+  int64 percent = 3 [(value)="0-100"];
+}
+
+message LogOptions {
+  // Cloud Logging log group ID to store access logs.
+  // If not set then logs will be stored in default log group for the folder
+  // where load balancer located.
+  string log_group_id = 1;
+
+  repeated LogDiscardRule discard_rules = 2;
+}

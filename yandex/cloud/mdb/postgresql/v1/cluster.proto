@@ -279,6 +279,9 @@ message Host {
 
     // The host is degraded, and can perform only some of its essential functions.
     DEGRADED = 3;
+
+    // The host is alive, but in read-only mode.
+    READONLY = 4;
   }
 
   // Name of the PostgreSQL host. The host name is assigned by MDB at creation time, and cannot be changed.
@@ -390,6 +393,9 @@ message Service {
 
     // The server is dead or unresponsive.
     DEAD = 2;
+
+    // The server is in read-only mode.
+    READONLY = 3;
   }
 
   // Type of the service provided by the host.

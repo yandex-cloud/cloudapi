@@ -448,6 +448,12 @@ message PostgresqlConfig12 {
 
   google.protobuf.Int64Value geqo_effort = 154 [(value) = "1-10"];                // tradeoff between planning time and query plan quality, default is 5
 
+  google.protobuf.Int64Value geqo_pool_size = 155;                                // number of individuals in the genetic population, useful values are typically 100 to 1000; default - 0 - choose based on based on geqo_effort
+
+  google.protobuf.Int64Value geqo_generations = 156;                              // the number of generations used by GEQO, useful values are in the same range as the pool size
+
+  google.protobuf.DoubleValue geqo_selection_bias = 157 [(value) = "1.5-2.0"];    // selective pressure within the population
+
   google.protobuf.DoubleValue geqo_seed = 158 [(value) = "0.0-1.0"];              // initial value of the random number generator used by GEQO
 }
 

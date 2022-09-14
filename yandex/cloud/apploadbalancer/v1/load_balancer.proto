@@ -4,6 +4,7 @@ package yandex.cloud.apploadbalancer.v1;
 
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/validation.proto";
+import "yandex/cloud/apploadbalancer/v1/logging.proto";
 import "yandex/cloud/apploadbalancer/v1/target_group.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/apploadbalancer/v1;apploadbalancer";
@@ -85,6 +86,9 @@ message LoadBalancer {
 
   // Autoscale settings of the application load balancer.
   AutoScalePolicy auto_scale_policy = 14;
+
+  // Cloud logging settings of the application load balancer.
+  LogOptions log_options = 15;
 }
 
 // An endpoint address resource.

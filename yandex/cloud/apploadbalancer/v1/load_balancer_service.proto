@@ -8,6 +8,7 @@ import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/apploadbalancer/v1/load_balancer.proto";
+import "yandex/cloud/apploadbalancer/v1/logging.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/apploadbalancer/v1;apploadbalancer";
@@ -261,6 +262,12 @@ message UpdateLoadBalancerRequest {
   // 2. Add or remove a group in this set.
   // 3. Send the new set in this field.
   repeated string security_group_ids = 8;
+
+  // Autoscale settings of the application load balancer.
+  AutoScalePolicy auto_scale_policy = 9;
+
+  // Cloud logging settings of the application load balancer.
+  LogOptions log_options = 10;
 }
 
 message UpdateLoadBalancerMetadata {
@@ -310,6 +317,12 @@ message CreateLoadBalancerRequest {
   // For details about the concept,
   // see [documentation](/docs/application-load-balancer/concepts/application-load-balancer#security-groups).
   repeated string security_group_ids = 9;
+
+  // Autoscale settings of the application load balancer.
+  AutoScalePolicy auto_scale_policy = 10;
+
+  // Cloud logging settings of the application load balancer.
+  LogOptions log_options = 11;
 }
 
 message CreateLoadBalancerMetadata {
