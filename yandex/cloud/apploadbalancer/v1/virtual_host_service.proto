@@ -19,17 +19,17 @@ service VirtualHostService {
   //
   // To get the list of all virtual hosts of an HTTP router, make a [List] request.
   rpc Get (GetVirtualHostRequest) returns (VirtualHost) {
-    option (google.api.http) = { get: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}" };
+    option (google.api.http) = {get: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}"};
   }
 
   // Lists virtual hosts of the specified HTTP router.
   rpc List (ListVirtualHostsRequest) returns (ListVirtualHostsResponse) {
-    option (google.api.http) = { get: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts" };
+    option (google.api.http) = {get: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts"};
   }
 
   // Creates a virtual host in the specified HTTP router.
   rpc Create (CreateVirtualHostRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts" body: "*" };
+    option (google.api.http) = {post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "CreateVirtualHostMetadata"
       response: "VirtualHost"
@@ -38,7 +38,7 @@ service VirtualHostService {
 
   // Updates the specified virtual host of the specified HTTP router.
   rpc Update(UpdateVirtualHostRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}" body: "*" };
+    option (google.api.http) = {patch: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateVirtualHostMetadata"
       response: "VirtualHost"
@@ -47,7 +47,7 @@ service VirtualHostService {
 
   // Deletes the specified virtual host.
   rpc Delete (DeleteVirtualHostRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}" };
+    option (google.api.http) = {delete: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteVirtualHostMetadata"
       response: "google.protobuf.Empty"
@@ -56,7 +56,7 @@ service VirtualHostService {
 
   // Deletes the specified route from the specified virtual host.
   rpc RemoveRoute(RemoveRouteRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}:removeRoute" body: "*" };
+    option (google.api.http) = {post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}:removeRoute" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "RemoveRouteMetadata"
       response: "VirtualHost"
@@ -65,7 +65,7 @@ service VirtualHostService {
 
   // Updates the specified route of the specified virtual host.
   rpc UpdateRoute(UpdateRouteRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}:updateRoute" body: "*" };
+    option (google.api.http) = {post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}:updateRoute" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateRouteMetadata"
       response: "VirtualHost"
@@ -153,6 +153,9 @@ message CreateVirtualHostRequest {
   // Modifications that are made to the headers of HTTP responses received from backends
   // before responses are forwarded to clients.
   repeated HeaderModification modify_response_headers = 7;
+
+  // Route options for the virtual host.
+  RouteOptions route_options = 8;
 }
 
 message CreateVirtualHostMetadata {
@@ -219,6 +222,9 @@ message UpdateVirtualHostRequest {
   //
   // Existing list of modifications is completely replaced by the specified list.
   repeated HeaderModification modify_response_headers = 8;
+
+  // New route options for the virtual host.
+  RouteOptions route_options = 9;
 }
 
 message UpdateVirtualHostMetadata {
@@ -306,6 +312,9 @@ message UpdateRouteRequest {
     // New settings of the gRPC route.
     GrpcRoute grpc = 6;
   }
+
+  // New route options for the route.
+  RouteOptions route_options = 7;
 }
 
 message UpdateRouteMetadata {

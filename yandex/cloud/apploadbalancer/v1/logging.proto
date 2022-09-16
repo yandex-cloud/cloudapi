@@ -36,4 +36,7 @@ message LogOptions {
   string log_group_id = 1;
 
   repeated LogDiscardRule discard_rules = 2;
+
+  // Do not send logs to Cloud Logging log group.
+  bool disable = 3;
 }

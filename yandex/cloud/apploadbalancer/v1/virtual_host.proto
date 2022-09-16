@@ -55,7 +55,7 @@ message RouteOptions {
   // Apply the following modifications to the response headers.
   repeated HeaderModification modify_response_headers = 2;
 
-  RBAC rbac = 5;
+  RBAC rbac = 3;
 }
 
 // Role Based Access Control (RBAC) provides router, virtual host, and route access control for the ALB
@@ -83,7 +83,7 @@ message RBAC {
 // Principals define a group of identities for a request.
 message Principals {
   // Required. A match occurs when all principals match the request.
-  repeated Principal and_principals = 1;
+  repeated Principal and_principals = 1 [(size) = ">=1"];
 }
 
 // Principal defines an identity for a request.

@@ -154,6 +154,9 @@ message UpdateHttpRouterRequest {
   repeated VirtualHost virtual_hosts = 6;
 
   reserved 7;
+
+  // New route options for the HTTP router.
+  RouteOptions route_options = 8;
 }
 
 message UpdateHttpRouterMetadata {
@@ -185,6 +188,9 @@ message CreateHttpRouterRequest {
   repeated VirtualHost virtual_hosts = 5;
 
   reserved 6;
+
+  // Route options for the HTTP router.
+  RouteOptions route_options = 7;
 }
 
 message CreateHttpRouterMetadata {
