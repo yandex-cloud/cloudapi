@@ -59,7 +59,7 @@ message RecordSet {
 // Configuration for privately visible zones.
 message PrivateVisibility {
   // Network IDs.
-  repeated string network_ids = 1 [(size) = "0-10", (length) = "20", (unique) = true];
+  repeated string network_ids = 1 [(size) = "0-100", (length) = "20", (unique) = true];
 }
 
 // Configuration for publicly visible zones.
