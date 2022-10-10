@@ -14,6 +14,11 @@ service NodeService {
   rpc Execute(NodeExecutionRequest) returns (NodeExecutionResponse) {
     option (google.api.http) = { post: "/datasphere/v1/nodes/{node_id}:execute" body: "*" };
   }
+
+  // Executes NodeAlias requests.
+  rpc ExecuteAlias(AliasExecutionRequest) returns (AliasExecutionResponse) {
+    option (google.api.http) = { post: "/datasphere/v1/aliases/{alias_name}:execute" body: "*" };
+  };
 }
 
 message NodeExecutionRequest {
@@ -27,5 +32,19 @@ message NodeExecutionRequest {
 
 message NodeExecutionResponse {
   // Result of the execution.
+  google.protobuf.Struct output = 1;
+}
+
+message AliasExecutionRequest {
+  // ID of the folder that will be matched with Alias ACL
+  string folder_id = 1;
+  // Name of the Alias to perform request on
+  string alias_name = 2;
+  // Input data for the execution
+  google.protobuf.Struct input = 3;
+}
+
+message AliasExecutionResponse {
+  // Result of the execution
   google.protobuf.Struct output = 1;
 }

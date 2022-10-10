@@ -430,6 +430,9 @@ message KafkaConfig2_8 {
 
   // Offset storage time after a consumer group loses all its consumers. Default: 10080.
   google.protobuf.Int64Value offsets_retention_minutes = 19;
+
+  // The list of SASL mechanisms enabled in the Kafka server. Default: [SCRAM_SHA_512].
+  repeated SaslMechanism sasl_enabled_mechanisms = 20;
 }
 
 // Kafka version 3.x broker configuration.
@@ -509,6 +512,9 @@ message KafkaConfig3 {
 
   // Offset storage time after a consumer group loses all its consumers. Default: 10080.
   google.protobuf.Int64Value offsets_retention_minutes = 19;
+
+  // The list of SASL mechanisms enabled in the Kafka server. Default: [SCRAM_SHA_512].
+  repeated SaslMechanism sasl_enabled_mechanisms = 20;
 }
 
 // Cluster host metadata.

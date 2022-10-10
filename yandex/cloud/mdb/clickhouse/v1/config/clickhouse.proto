@@ -41,6 +41,10 @@ message ClickhouseConfig {
     // If more than this number active parts in single partition, throw 'Too many parts ...' exception.
     google.protobuf.Int64Value parts_to_throw_insert = 4;
 
+    google.protobuf.Int64Value inactive_parts_to_delay_insert = 9;
+
+    google.protobuf.Int64Value inactive_parts_to_throw_insert = 10;
+
     // How many tasks of merging and mutating parts are allowed simultaneously in ReplicatedMergeTree queue.
     google.protobuf.Int64Value max_replicated_merges_in_queue = 5;
 
@@ -53,6 +57,14 @@ message ClickhouseConfig {
     google.protobuf.Int64Value max_bytes_to_merge_at_min_space_in_pool = 7;
 
     google.protobuf.Int64Value max_bytes_to_merge_at_max_space_in_pool = 8;
+
+    google.protobuf.Int64Value min_bytes_for_wide_part = 11;
+
+    google.protobuf.Int64Value min_rows_for_wide_part = 12;
+
+    google.protobuf.BoolValue ttl_only_drop_parts = 13;
+
+    google.protobuf.BoolValue allow_remote_fs_zero_copy_replication = 14;
   }
 
   message Kafka {
@@ -86,6 +98,7 @@ message ClickhouseConfig {
   message Rabbitmq {
     string username = 1;
     string password = 2;
+    string vhost = 3;
   }
 
   message Compression {
@@ -546,9 +559,25 @@ message ClickhouseConfig {
   // Logging level for text_log system table. Possible values: TRACE, DEBUG, INFORMATION, WARNING, ERROR.
   LogLevel text_log_level = 32;
 
+  google.protobuf.BoolValue opentelemetry_span_log_enabled = 42;
+
   google.protobuf.Int64Value background_pool_size = 33 [(value) = ">0"];
 
   google.protobuf.Int64Value background_schedule_pool_size = 34 [(value) = ">0"];
+
+  google.protobuf.Int64Value background_fetches_pool_size = 38 [(value) = ">0"];
+
+  google.protobuf.Int64Value background_move_pool_size = 39 [(value) = ">0"];
+
+  google.protobuf.Int64Value background_distributed_schedule_pool_size = 40 [(value) = ">0"];
+
+  google.protobuf.Int64Value background_buffer_flush_schedule_pool_size = 41 [(value) = ">0"];
+
+  google.protobuf.StringValue default_database = 43;
+
+  google.protobuf.Int64Value total_memory_profiler_step = 44;
+
+  google.protobuf.DoubleValue total_memory_tracker_sample_probability = 45;
 }
 
 message ClickhouseConfigSet {

@@ -226,8 +226,6 @@ message DeleteApiGatewayRequest {
 message AddDomainRequest {
   // ID of the API gateway that the domain is attached to.
   string api_gateway_id = 1 [(required) = true];
-  // ID of the attaching domain.
-  string domain_id = 2 [deprecated = true];
   // Name of the attaching domain.
   string domain_name = 3;
   // ID of certificate for the attaching domain.
@@ -259,10 +257,12 @@ message DeleteApiGatewayMetadata {
 message AddDomainMetadata {
   // ID of the API gateway that the domain is attached to.
   string api_gateway_id = 1;
-  // ID of the attaching domain.
+  // ID of the attached domain.
   string domain_id = 2;
   // Name of the attaching domain.
   string domain_name = 3;
+  // ID of the certificate for provided domain.
+  string certificate_id = 4;
 }
 
 message RemoveDomainMetadata {

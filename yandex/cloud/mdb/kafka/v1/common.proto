@@ -26,3 +26,11 @@ enum CompressionType {
   // the codec to use is set by a producer (can be any of `ZSTD`, `LZ4`, `GZIP` or `SNAPPY` codecs).
   COMPRESSION_TYPE_PRODUCER = 6;
 }
+
+enum SaslMechanism {
+  SASL_MECHANISM_UNSPECIFIED = 0;
+
+  SASL_MECHANISM_SCRAM_SHA_256 = 1;
+
+  SASL_MECHANISM_SCRAM_SHA_512 = 2;
+}
