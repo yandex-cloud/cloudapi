@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/greenplum/v1;greenplum";
 option java_package = "yandex.cloud.api.mdb.greenplum.v1";
+option csharp_namespace = "Yandex.Cloud.Mdb.Greenplum.V1";
 
 message Backup {
   // Required. ID of the backup.

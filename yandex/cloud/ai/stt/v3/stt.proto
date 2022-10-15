@@ -4,6 +4,7 @@ package speechkit.stt.v3;
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/stt/v3;stt";
 option java_package = "yandex.cloud.api.ai.stt.v3";
+option csharp_namespace = "Yandex.Cloud.Ai.Stt.V3";
 
 
 // options

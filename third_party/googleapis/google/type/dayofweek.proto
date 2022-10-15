@@ -20,6 +20,7 @@ option go_package = "google.golang.org/genproto/googleapis/type/dayofweek;dayofw
 option java_multiple_files = true;
 option java_outer_classname = "DayOfWeekProto";
 option java_package = "com.google.type";
+option csharp_namespace = "Com.Google.Type";
 option objc_class_prefix = "GTP";
 
 

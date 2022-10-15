@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/iot/devices/v1;devices";
 option java_package = "yandex.cloud.api.iot.devices.v1";
+option csharp_namespace = "Yandex.Cloud.Iot.Devices.V1";
 
 // A registry. For more information, see [Registry](/docs/iot-core/concepts/index#registry).
 message Registry {

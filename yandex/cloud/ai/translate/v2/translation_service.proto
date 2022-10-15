@@ -8,6 +8,7 @@ import "yandex/cloud/ai/translate/v2/translation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/translate/v2;translate";
 option java_package = "yandex.cloud.api.ai.translate.v2";
+option csharp_namespace = "Yandex.Cloud.Ai.Translate.V2";
 
 // A set of methods for the Translate service.
 service TranslationService {

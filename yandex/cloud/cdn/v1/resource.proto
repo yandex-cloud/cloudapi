@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cdn/v1;cdn";
 option java_package = "yandex.cloud.api.cdn.v1";
+option csharp_namespace = "Yandex.Cloud.Cdn.V1";
 
 
 // List of secondary (alternative) CNAMEs.

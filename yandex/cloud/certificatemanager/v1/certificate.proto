@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/certificatemanager/v1;certificatemanager";
 option java_package = "yandex.cloud.api.certificatemanager.v1";
+option csharp_namespace = "Yandex.Cloud.Certificatemanager.V1";
 
 // A certificate. For details about the concept, see [documentation](docs/certificate-manager/concepts/).
 message Certificate {

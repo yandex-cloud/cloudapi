@@ -5,6 +5,7 @@ package yandex.cloud.mdb.greenplum.v1;
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/greenplum/v1;greenplum";
 option java_package = "yandex.cloud.api.mdb.greenplum.v1";
+option csharp_namespace = "Yandex.Cloud.Mdb.Greenplum.V1";
 
 // A preset of resources for hardware configuration of Greenplum® hosts.
 message ResourcePreset {

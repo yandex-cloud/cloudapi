@@ -5,6 +5,7 @@ import "yandex/cloud/ai/tts/v3/tts.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/tts/v3;tts";
 option java_package = "yandex.cloud.api.ai.tts.v3";
+option csharp_namespace = "Yandex.Cloud.Ai.Tts.V3";
 
 // A set of methods for voice synthesis.
 service Synthesizer {

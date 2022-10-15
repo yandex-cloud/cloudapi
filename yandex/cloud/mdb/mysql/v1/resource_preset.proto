@@ -4,6 +4,7 @@ package yandex.cloud.mdb.mysql.v1;
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mysql/v1;mysql";
 option java_package = "yandex.cloud.api.mdb.mysql.v1";
+option csharp_namespace = "Yandex.Cloud.Mdb.Mysql.V1";
 
 // An object that represents MySQL resource preset.
 // A resource preset defines hardware configuration for cluster hosts.

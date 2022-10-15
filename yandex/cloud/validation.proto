@@ -6,6 +6,7 @@ import "google/protobuf/descriptor.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud;cloud";
 option java_package = "yandex.cloud.api";
+option csharp_namespace = "Yandex.Cloud";
 
 extend google.protobuf.OneofOptions {
   bool exactly_one = 101400;

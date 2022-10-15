@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/iam/v1;iam";
 option java_package = "yandex.cloud.api.iam.v1";
+option csharp_namespace = "Yandex.Cloud.Iam.V1";
 
 // A Key resource. For more information, see [Authorized keys](/docs/iam/concepts/authorization/key).
 message Key {

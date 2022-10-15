@@ -7,6 +7,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/containerregistry/v1;containerregistry";
 option java_package = "yandex.cloud.api.containerregistry.v1";
+option csharp_namespace = "Yandex.Cloud.Containerregistry.V1";
 
 // An Image resource. For more information, see [Docker image](/docs/cloud/container-registry/docker-image).
 message Image {

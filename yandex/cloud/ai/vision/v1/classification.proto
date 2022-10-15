@@ -4,6 +4,7 @@ package yandex.cloud.ai.vision.v1;
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/vision/v1;vision";
 option java_package = "yandex.cloud.api.ai.vision.v1";
+option csharp_namespace = "Yandex.Cloud.Ai.Vision.V1";
 
 message ClassAnnotation {
   // Properties extracted by a specified model.

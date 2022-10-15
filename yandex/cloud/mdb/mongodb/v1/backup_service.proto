@@ -10,6 +10,7 @@ import "yandex/cloud/mdb/mongodb/v1/backup.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1;mongodb";
 option java_package = "yandex.cloud.api.mdb.mongodb.v1";
+option csharp_namespace = "Yandex.Cloud.Mdb.Mongodb.V1";
 
 // A set of methods for managing MongoDB Backup resources.
 service BackupService {

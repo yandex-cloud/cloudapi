@@ -21,6 +21,7 @@ option go_package = "google.golang.org/genproto/googleapis/api/annotations;annot
 option java_multiple_files = true;
 option java_outer_classname = "HttpProto";
 option java_package = "com.google.api";
+option csharp_namespace = "Com.Google.Api";
 option objc_class_prefix = "GAPI";
 
 

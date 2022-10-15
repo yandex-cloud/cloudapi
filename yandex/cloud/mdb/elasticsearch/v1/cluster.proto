@@ -8,6 +8,7 @@ import "yandex/cloud/mdb/elasticsearch/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/elasticsearch/v1;elasticsearch";
 option java_package = "yandex.cloud.api.mdb.elasticsearch.v1";
+option csharp_namespace = "Yandex.Cloud.Mdb.Elasticsearch.V1";
 
 // An Elasticsearch cluster resource.
 // For more information, see the [Concepts](/docs/managed-elasticsearch/concepts) section of the documentation.

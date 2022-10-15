@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/iam/v1/awscompatibility;awscompatibility";
 option java_package = "yandex.cloud.api.iam.v1.awscompatibility";
+option csharp_namespace = "Yandex.Cloud.Iam.V1.Awscompatibility";
 
 // An access key.
 // For more information, see [AWS-compatible access keys](/docs/iam/concepts/authorization/access-key).

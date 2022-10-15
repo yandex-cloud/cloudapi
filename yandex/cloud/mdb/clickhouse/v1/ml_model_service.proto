@@ -11,6 +11,7 @@ import "yandex/cloud/mdb/clickhouse/v1/ml_model.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1;clickhouse";
 option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
+option csharp_namespace = "Yandex.Cloud.Mdb.Clickhouse.V1";
 
 // A set of methods for managing machine learning models.
 service MlModelService {

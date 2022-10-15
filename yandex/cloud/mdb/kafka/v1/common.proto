@@ -4,6 +4,7 @@ package yandex.cloud.mdb.kafka.v1;
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/kafka/v1;kafka";
 option java_package = "yandex.cloud.api.mdb.kafka.v1";
+option csharp_namespace = "Yandex.Cloud.Mdb.Kafka.V1";
 
 enum CompressionType {
   COMPRESSION_TYPE_UNSPECIFIED = 0;

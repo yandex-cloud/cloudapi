@@ -9,6 +9,7 @@ import "yandex/cloud/apploadbalancer/v1/target_group.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/apploadbalancer/v1;apploadbalancer";
 option java_package = "yandex.cloud.api.apploadbalancer.v1";
+option csharp_namespace = "Yandex.Cloud.Apploadbalancer.V1";
 
 // An application load balancer resource.
 // For details about the concept, see [documentation](/docs/application-load-balancer/concepts/application-load-balancer).

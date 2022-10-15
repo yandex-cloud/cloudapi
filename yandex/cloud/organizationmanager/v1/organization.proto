@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/organizationmanager/v1;organizationmanager";
 option java_package = "yandex.cloud.api.organizationmanager.v1";
+option csharp_namespace = "Yandex.Cloud.Organizationmanager.V1";
 
 // An Organization resource. For more information, see [Organization](/docs/organization/enable-org).
 message Organization {

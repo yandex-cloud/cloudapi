@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1;compute";
 option java_package = "yandex.cloud.api.compute.v1";
+option csharp_namespace = "Yandex.Cloud.Compute.V1";
 
 // A Disk resource. For more information, see [Disks](/docs/compute/concepts/disk).
 message Disk {

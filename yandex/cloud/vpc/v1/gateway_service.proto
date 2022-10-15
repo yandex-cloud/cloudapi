@@ -11,6 +11,7 @@ import "yandex/cloud/vpc/v1/gateway.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/vpc/v1;vpc";
 option java_package = "yandex.cloud.api.vpc.v1";
+option csharp_namespace = "Yandex.Cloud.Vpc.V1";
 
 service GatewayService {
   // Returns the specified Gateway resource.

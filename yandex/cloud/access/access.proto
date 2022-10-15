@@ -6,6 +6,7 @@ import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/access;access";
 option java_package = "yandex.cloud.api.access";
+option csharp_namespace = "Yandex.Cloud.Access";
 
 message Subject {
   // ID of the subject.

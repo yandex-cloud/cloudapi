@@ -4,6 +4,7 @@ package yandex.cloud.endpoint;
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/endpoint;endpoint";
 option java_package = "yandex.cloud.api.endpoint";
+option csharp_namespace = "Yandex.Cloud.Endpoint";
 
 message ApiEndpoint {
     string id = 1;

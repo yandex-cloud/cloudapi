@@ -9,6 +9,7 @@ import "google/protobuf/duration.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/v1;dataproc";
 option java_package = "yandex.cloud.api.dataproc.v1";
+option csharp_namespace = "Yandex.Cloud.Dataproc.V1";
 
 enum Role {
 

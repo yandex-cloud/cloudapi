@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/apigateway/websocket/v1;websocket";
 option java_package = "yandex.cloud.api.serverless.apigateway.websocket.v1";
+option csharp_namespace = "Yandex.Cloud.Serverless.Apigateway.Websocket.V1";
 
 message Connection {
   // ID of the connection.

@@ -4,6 +4,7 @@ package yandex.cloud.oauth;
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/oauth;oauth";
 option java_package = "yandex.cloud.api.oauth.v1";
+option csharp_namespace = "Yandex.Cloud.Oauth.V1";
 
 import "yandex/cloud/validation.proto";
 

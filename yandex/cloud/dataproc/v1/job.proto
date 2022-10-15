@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/v1;dataproc";
 option java_package = "yandex.cloud.api.dataproc.v1";
+option csharp_namespace = "Yandex.Cloud.Dataproc.V1";
 option java_outer_classname = "PHJ";
 
 // A Data Proc job. For details about the concept, see [documentation](/docs/dataproc/concepts/jobs).

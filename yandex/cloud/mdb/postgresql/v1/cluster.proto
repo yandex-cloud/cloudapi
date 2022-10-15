@@ -34,6 +34,7 @@ import "yandex/cloud/mdb/postgresql/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
 option java_package = "yandex.cloud.api.mdb.postgresql.v1";
+option csharp_namespace = "Yandex.Cloud.Mdb.Postgresql.V1";
 
 // A PostgreSQL Cluster resource. For more information, see
 // the [Concepts](/docs/managed-postgresql/concepts) section of the documentation.

@@ -11,6 +11,7 @@ import "yandex/cloud/mdb/sqlserver/v1/config/sqlserver2019.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/sqlserver/v1;sqlserver";
 option java_outer_classname = "PSC";
 option java_package = "yandex.cloud.api.mdb.sqlserver.v1";
+option csharp_namespace = "Yandex.Cloud.Mdb.Sqlserver.V1";
 
 // An SQL Server cluster.
 //

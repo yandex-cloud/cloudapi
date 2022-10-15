@@ -6,6 +6,8 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/iot/broker/v1;broker";
 option java_package = "yandex.cloud.api.iot.broker.v1";
+option csharp_namespace = "Yandex.Cloud.Iot.Broker.V1";
+
 
 // A broker.
 message Broker {

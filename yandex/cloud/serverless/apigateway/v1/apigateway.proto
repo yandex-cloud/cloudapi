@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/apigateway/v1;apigateway";
 option java_package = "yandex.cloud.api.serverless.apigateway.v1";
+option csharp_namespace = "Yandex.Cloud.Serverless.Apigateway.V1";
 
 message ApiGateway {
   enum Status {

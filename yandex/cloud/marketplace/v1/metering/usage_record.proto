@@ -7,6 +7,7 @@ import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/marketplace/v1/metering;metering";
 option java_package = "yandex.cloud.api.marketplace.v1.metering";
+option csharp_namespace = "Yandex.Cloud.Marketplace.V1.Metering";
 
 message UsageRecord {
     // Unique identifier of the usage record (UUID format).

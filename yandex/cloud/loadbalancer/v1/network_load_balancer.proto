@@ -8,6 +8,7 @@ import "yandex/cloud/loadbalancer/v1/health_check.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/loadbalancer/v1;loadbalancer";
 option java_package = "yandex.cloud.api.loadbalancer.v1";
+option csharp_namespace = "Yandex.Cloud.Loadbalancer.V1";
 
 // IP version of the addresses that the load balancer works with.
 // Only IPv4 is currently available.
