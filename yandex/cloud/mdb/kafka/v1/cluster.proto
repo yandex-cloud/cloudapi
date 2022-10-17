@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.mdb.kafka.v1;
 
+import "google/protobuf/descriptor.proto";
 import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/mdb/kafka/v1/common.proto";
@@ -141,8 +142,8 @@ message ConfigSpec {
 
     // Kafka broker configuration.
     oneof kafka_config {
-      KafkaConfig2_1 kafka_config_2_1 = 2 [json_name="kafkaConfig_2_1"];
-      KafkaConfig2_6 kafka_config_2_6 = 3 [json_name="kafkaConfig_2_6"];
+      KafkaConfig2_1 kafka_config_2_1 = 2 [json_name="kafkaConfig_2_1", deprecated=true];
+      KafkaConfig2_6 kafka_config_2_6 = 3 [json_name="kafkaConfig_2_6", deprecated=true];
       KafkaConfig2_8 kafka_config_2_8 = 4 [json_name="kafkaConfig_2_8"];
       KafkaConfig3   kafka_config_3   = 5 [json_name="kafkaConfig_3"];
     }
@@ -195,8 +196,10 @@ message Resources {
   string disk_type_id = 3;
 }
 
-// Kafka version 2.1 broker configuration.
+// Deprecated. Version `2.1` of Kafka not supported in Yandex Cloud.
 message KafkaConfig2_1 {
+  option deprecated = true;
+
   // Cluster topics compression type.
   CompressionType compression_type = 1;
 
@@ -274,8 +277,10 @@ message KafkaConfig2_1 {
   google.protobuf.Int64Value offsets_retention_minutes = 19;
 }
 
-// Kafka version 2.6 broker configuration.
+// Deprecated. Version `2.6` of Kafka not supported in Yandex Cloud.
 message KafkaConfig2_6 {
+  option deprecated = true;
+
   // Cluster topics compression type.
   CompressionType compression_type = 1;
 

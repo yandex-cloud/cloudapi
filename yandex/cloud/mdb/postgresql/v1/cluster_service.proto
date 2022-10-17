@@ -395,7 +395,7 @@ message RestoreClusterRequest {
   string backup_id = 1 [(required) = true];
 
   // Timestamp of the moment to which the PostgreSQL cluster should be restored.
-  google.protobuf.Timestamp time = 2 [(required) = true];
+  google.protobuf.Timestamp time = 2;
 
   // Flag that indicates whether a database should be restored to the first backup point
   // available just after the timestamp specified in the [time] field instead of just before.

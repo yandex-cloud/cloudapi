@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.mdb.kafka.v1;
 
+import "google/protobuf/descriptor.proto";
 import "google/protobuf/wrappers.proto";
 import "yandex/cloud/mdb/kafka/v1/common.proto";
 
@@ -28,8 +29,8 @@ message Topic {
 
   // User-defined settings for the topic.
   oneof topic_config {
-    TopicConfig2_1 topic_config_2_1 = 5 [json_name = "topicConfig_2_1"];
-    TopicConfig2_6 topic_config_2_6 = 6 [json_name = "topicConfig_2_6"];
+    TopicConfig2_1 topic_config_2_1 = 5 [json_name = "topicConfig_2_1", deprecated=true];
+    TopicConfig2_6 topic_config_2_6 = 6 [json_name = "topicConfig_2_6", deprecated=true];
     TopicConfig2_8 topic_config_2_8 = 7 [json_name = "topicConfig_2_8"];
     TopicConfig3   topic_config_3   = 8 [json_name = "topicConfig_3"];
   }
@@ -47,15 +48,17 @@ message TopicSpec {
 
   // User-defined settings for the topic.
   oneof topic_config {
-    TopicConfig2_1 topic_config_2_1 = 4 [json_name = "topicConfig_2_1"];
-    TopicConfig2_6 topic_config_2_6 = 5 [json_name = "topicConfig_2_6"];
+    TopicConfig2_1 topic_config_2_1 = 4 [json_name = "topicConfig_2_1", deprecated=true];
+    TopicConfig2_6 topic_config_2_6 = 5 [json_name = "topicConfig_2_6", deprecated=true];
     TopicConfig2_8 topic_config_2_8 = 6 [json_name = "topicConfig_2_8"];
     TopicConfig3   topic_config_3   = 7 [json_name = "topicConfig_3"];
   }
 }
 
-// A topic settings for 2.1.
+// Deprecated. Version `2.1` of Kafka not supported in Yandex Cloud.
 message TopicConfig2_1 {
+  option deprecated = true;
+
   enum CleanupPolicy{
     CLEANUP_POLICY_UNSPECIFIED = 0;
 
@@ -124,8 +127,10 @@ message TopicConfig2_1 {
   google.protobuf.BoolValue preallocate = 13;
 }
 
-// A topic settings for 2.6
+// Deprecated. Version `2.6` of Kafka not supported in Yandex Cloud.
 message TopicConfig2_6 {
+  option deprecated = true;
+
   enum CleanupPolicy{
     CLEANUP_POLICY_UNSPECIFIED = 0;
 
