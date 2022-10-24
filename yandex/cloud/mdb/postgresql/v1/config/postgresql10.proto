@@ -176,6 +176,8 @@ message PostgresqlConfig10 {
     SHARED_PRELOAD_LIBRARIES_PG_CRON = 5;
 
     SHARED_PRELOAD_LIBRARIES_PGLOGICAL = 6;
+
+    SHARED_PRELOAD_LIBRARIES_PG_PREWARM = 7;
   }
 
   google.protobuf.Int64Value max_connections = 1;

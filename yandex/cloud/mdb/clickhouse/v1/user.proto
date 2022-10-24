@@ -152,7 +152,9 @@ message UserSettings {
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/permissions-for-queries/#settings_allow_ddl).
   google.protobuf.BoolValue allow_ddl = 2;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#settings-allow_introspection_functions).
+  // Enables [introspections functions](https://clickhouse.com/docs/en/sql-reference/functions/introspection) for query profiling.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#settings-allow_introspection_functions).
   google.protobuf.BoolValue allow_introspection_functions = 96;
 
   // Connection timeout in milliseconds.
@@ -160,8 +162,11 @@ message UserSettings {
   // Value must be greater than **0** (default: **10000**, 10 seconds).
   google.protobuf.Int64Value connect_timeout = 39 [(value) = ">0"];
 
-  // Connection timeout with failover in milliseconds.
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#connect-timeout-with-failover-ms).
+  // The timeout in milliseconds for connecting to a remote server for a Distributed table engine. Applies only if the cluster uses sharding and replication. If unsuccessful, several attempts are made to connect to various replicas.
+  //
+  // Default value: **50**.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#connect-timeout-with-failover-ms).
   google.protobuf.Int64Value connect_timeout_with_failover = 97 [(value) = ">0"];
 
   // Receive timeout in milliseconds.
@@ -174,7 +179,9 @@ message UserSettings {
   // Value must be greater than **0** (default: **300000**, 300 seconds or 5 minutes).
   google.protobuf.Int64Value send_timeout = 41 [(value) = ">0"];
 
-  // Check that the speed is not too low after the specified time has elapsed.
+  // Timeout (in seconds) between checks of execution speed. It is checked that execution speed is not less that specified in [min_execution_speed] parameter.
+  //
+  // Default value: **10**.
   google.protobuf.Int64Value timeout_before_checking_execution_speed = 98;
 
   // Enables or disables write quorum for ClickHouse cluster.
@@ -200,7 +207,11 @@ message UserSettings {
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#settings-insert_quorum_parallel).
   google.protobuf.BoolValue insert_quorum_parallel = 99;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#insert_null_as_default).
+  // Enables the insertion of default values instead of NULL into columns with not nullable data type.
+  //
+  // Default value: **true**.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#insert_null_as_default).
   google.protobuf.BoolValue insert_null_as_default = 100;
 
   // Determines the behavior of **SELECT** queries from the replicated table: if enabled, ClickHouse will terminate a query with error message in case the replica does not have a chunk written with the quorum and will not read the parts that have not yet been written with the quorum.
@@ -454,6 +465,7 @@ message UserSettings {
   google.protobuf.Int64Value max_partitions_per_insert_block = 102;
 
   // The maximum number of concurrent requests per user.
+  // Default value: 0 (no limit).
   google.protobuf.Int64Value max_concurrent_queries_for_user = 103;
 
   // If enabled, query is not executed if the ClickHouse can't use index by date.
@@ -735,7 +747,9 @@ message UserSettings {
   // Default value: **true** (LowCardinality columns are used in Native format).
   google.protobuf.BoolValue low_cardinality_allow_in_native_format = 78;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#allow_suspicious_low_cardinality_types).
+  // Allows specifying **LowCardinality** modifier for types of small fixed size (8 or less) in CREATE TABLE statements. Enabling this may increase merge times and memory consumption.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#allow_suspicious_low_cardinality_types).
   google.protobuf.BoolValue allow_suspicious_low_cardinality_types = 110;
 
   // Enables returning of empty result when aggregating without keys (with **GROUP BY** operation absent) on empty set (e.g., **SELECT count(*) FROM table WHERE 0**).
@@ -788,10 +802,18 @@ message UserSettings {
   // Default value: **false** (header is not added).
   google.protobuf.BoolValue add_http_cors_header = 71;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#cancel-http-readonly-queries-on-client-close).
+  // Cancels HTTP read-only queries (e.g. SELECT) when a client closes the connection without waiting for the response.
+  //
+  // Default value: **false**.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#cancel-http-readonly-queries-on-client-close).
   google.protobuf.BoolValue cancel_http_readonly_queries_on_client_close = 111;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#setting-max_http_get_redirects).
+  // Limits the maximum number of HTTP GET redirect hops for [URL-engine](https://clickhouse.com/docs/en/engines/table-engines/special/url) tables.
+  //
+  // If the parameter is set to **0** (default), no hops is allowed.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#setting-max_http_get_redirects).
   google.protobuf.Int64Value max_http_get_redirects = 112;
 
   google.protobuf.BoolValue joined_subquery_requires_alias = 93;
@@ -803,7 +825,9 @@ message UserSettings {
   // Quota accounting mode. Possible values: QUOTA_MODE_DEFAULT, QUOTA_MODE_KEYED and QUOTA_MODE_KEYED_BY_IP.
   QuotaMode quota_mode = 80;
 
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#flatten-nested).
+  // Sets the data format of a [nested](https://clickhouse.com/docs/en/sql-reference/data-types/nested-data-structures/nested) columns.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#flatten-nested).
   google.protobuf.BoolValue flatten_nested = 113;
 
   // Regular expression (for Regexp format)
@@ -815,31 +839,61 @@ message UserSettings {
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#format_regexp_skip_unmatched).
   google.protobuf.BoolValue format_regexp_skip_unmatched = 116;
 
-  // // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#async-insert).
+  // Enables asynchronous inserts.
+  //
+  // Disabled by default.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#async-insert).
   google.protobuf.BoolValue async_insert = 117;
 
-  // // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#async-insert-threads).
+  // The maximum number of threads for background data parsing and insertion.
+  //
+  // If the parameter is set to **0**, asynchronous insertions are disabled. Default value: **16**.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#async-insert-threads).
   google.protobuf.Int64Value async_insert_threads = 118;
 
-  // // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#wait-for-async-insert).
+  // Enables waiting for processing of asynchronous insertion. If enabled, server returns OK only after the data is inserted.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#wait-for-async-insert).
   google.protobuf.BoolValue wait_for_async_insert = 119;
 
-  // // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#wait-for-async-insert-timeout).
+  // The timeout (in seconds) for waiting for processing of asynchronous insertion.
+  //
+  // Default value: **120**.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#wait-for-async-insert-timeout).
   google.protobuf.Int64Value wait_for_async_insert_timeout = 120;
 
-  // // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#async-insert-max-data-size).
+  // The maximum size of the unparsed data in bytes collected per query before being inserted.
+  //
+  // If the parameter is set to **0**, asynchronous insertions are disabled. Default value: **100000**.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#async-insert-max-data-size).
   google.protobuf.Int64Value async_insert_max_data_size = 121;
 
-  // // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#async-insert-busy-timeout-ms).
+  // The maximum timeout in milliseconds since the first INSERT query before inserting collected data.
+  //
+  // If the parameter is set to **0**, the timeout is disabled. Default value: **200**.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#async-insert-busy-timeout-ms).
   google.protobuf.Int64Value async_insert_busy_timeout = 122;
 
-  // // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#async-insert-stale-timeout-ms).
+  // The maximum timeout in milliseconds since the last INSERT query before dumping collected data. If enabled, the settings prolongs the [async_insert_busy_timeout] with every INSERT query as long as [async_insert_max_data_size] is not exceeded.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#async-insert-stale-timeout-ms).
   google.protobuf.Int64Value async_insert_stale_timeout = 123;
 
-  // Whenever query memory usage becomes larger than every next step in number of bytes the memory profiler will collect the allocating stack trace. Zero means disabled memory profiler.
+  // Memory profiler step (in bytes).
+  //
+  // If the next query step requires more memory than this parameter specifies, the memory profiler collects the allocating stack trace. Values lower than a few megabytes slow down query processing.
+  //
+  // Default value: **4194304** (4 MB). Zero means disabled memory profiler.
   google.protobuf.Int64Value memory_profiler_step = 124;
 
   // Collect random allocations and deallocations and write them into system.trace_log with 'MemorySample' trace_type. The probability is for every alloc/free regardless to the size of the allocation.
+  //
+  // Possible values: from **0** to **1**. Default: **0**.
   google.protobuf.DoubleValue memory_profiler_sample_probability = 125;
 
   // The setting is deprecated and has no effect.

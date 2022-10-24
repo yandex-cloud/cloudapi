@@ -136,6 +136,8 @@ message PostgresqlConfig12_1C {
     SHARED_PRELOAD_LIBRARIES_PG_CRON = 5;
 
     SHARED_PRELOAD_LIBRARIES_PGLOGICAL = 6;
+
+    SHARED_PRELOAD_LIBRARIES_PG_PREWARM = 7;
   }
 
   enum SynchronousCommit {

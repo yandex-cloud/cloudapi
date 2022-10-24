@@ -152,6 +152,9 @@ message Master {
 
   // Master security groups.
   repeated string security_group_ids = 8;
+
+  // Cloud Logging for master components.
+  MasterLogging master_logging = 9;
 }
 
 message MasterAuth {
@@ -226,6 +229,31 @@ message MasterMaintenancePolicy {
   // Maintenance window settings. Update will start at the specified time and last no more than the specified duration.
   // The time is set in UTC.
   MaintenanceWindow maintenance_window = 2;
+}
+
+message MasterLogging {
+  // Identifies whether Cloud Logging is enabled for master components.
+  bool enabled = 1;
+
+  // The destination of master components' logs.
+  oneof destination {
+    // ID of the log group where logs of master components should be stored.
+    string log_group_id = 2 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
+
+    // ID of the folder where logs should be stored (in default group).
+    string folder_id = 3 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
+  }
+
+  reserved 4;
+
+  // Identifies whether Cloud Logging is enabled for cluster-autoscaler.
+  bool cluster_autoscaler_enabled = 5;
+
+  // Identifies whether Cloud Logging is enabled for kube-apiserver.
+  bool kube_apiserver_enabled = 6;
+
+  // Identifies whether Cloud Logging is enabled for events.
+  bool events_enabled = 7;
 }
 
 message NetworkPolicy {

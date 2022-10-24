@@ -58,10 +58,19 @@ message ClickhouseConfig {
 
     google.protobuf.Int64Value max_bytes_to_merge_at_max_space_in_pool = 8;
 
+    // Minimum number of bytes in a data part that can be stored in **Wide** format.
+    //
+    // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/mergetree/#min_bytes_for_wide_part).
     google.protobuf.Int64Value min_bytes_for_wide_part = 11;
 
+    // Minimum number of rows in a data part that can be stored in **Wide** format.
+    //
+    // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/mergetree/#min_bytes_for_wide_part).
     google.protobuf.Int64Value min_rows_for_wide_part = 12;
 
+    // Enables or disables complete dropping of data parts where all rows are expired in MergeTree tables.
+    //
+    // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#ttl_only_drop_parts).
     google.protobuf.BoolValue ttl_only_drop_parts = 13;
 
     google.protobuf.BoolValue allow_remote_fs_zero_copy_replication = 14;
@@ -96,8 +105,14 @@ message ClickhouseConfig {
   }
 
   message Rabbitmq {
+
+    // [RabbitMQ](https://clickhouse.com/docs/en/engines/table-engines/integrations/rabbitmq/) username
     string username = 1;
+
+    // [RabbitMQ](https://clickhouse.com/docs/en/engines/table-engines/integrations/rabbitmq/) password
     string password = 2;
+
+    // [RabbitMQ](https://clickhouse.com/docs/en/engines/table-engines/integrations/rabbitmq/) virtual host
     string vhost = 3;
   }
 
@@ -112,7 +127,7 @@ message ClickhouseConfig {
       ZSTD = 2;
     }
 
-    // Compression method to use for the specified combination of `min_part_size` and `min_part_size_ratio`.
+    // Compression method to use for the specified combination of [min_part_size] and [min_part_size_ratio].
     Method method = 1;
 
     // Minimum size of a part of a table.
@@ -565,6 +580,9 @@ message ClickhouseConfig {
 
   google.protobuf.Int64Value background_schedule_pool_size = 34 [(value) = ">0"];
 
+  // Sets the number of threads performing background fetches for tables with **ReplicatedMergeTree** engines. Default value: 8.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/server-configuration-parameters/settings/#background_fetches_pool_size).
   google.protobuf.Int64Value background_fetches_pool_size = 38 [(value) = ">0"];
 
   google.protobuf.Int64Value background_move_pool_size = 39 [(value) = ">0"];
@@ -573,8 +591,14 @@ message ClickhouseConfig {
 
   google.protobuf.Int64Value background_buffer_flush_schedule_pool_size = 41 [(value) = ">0"];
 
+  // The default database.
+  //
+  // To get a list of cluster databases, see [Yandex Managed ClickHouse documentation](https://cloud.yandex.com/en/docs/managed-clickhouse/operations/databases#list-db).
   google.protobuf.StringValue default_database = 43;
 
+  // Sets the memory size (in bytes) for a stack trace at every peak allocation step. Default value: **4194304**.
+  //
+  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/server-configuration-parameters/settings/#total-memory-profiler-step).
   google.protobuf.Int64Value total_memory_profiler_step = 44;
 
   google.protobuf.DoubleValue total_memory_tracker_sample_probability = 45;

@@ -36,7 +36,7 @@ message User {
   // Default value: `true` (login is allowed).
   google.protobuf.BoolValue login = 6;
 
-  // Roles and privileges that are granted to the user (`GRANT <role> TO <user>`).
+  // A set of roles and privileges that are granted to the user.
   //
   // For more information, see [the documentation](/docs/managed-postgresql/operations/grant).
   repeated string grants = 7 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
@@ -74,7 +74,7 @@ message UserSpec {
   // Default value: `true` (login is allowed).
   google.protobuf.BoolValue login = 6;
 
-  // Roles and privileges that are granted to the user (`GRANT <role> TO <user>`).
+  // A set of roles and privileges that are granted to the user.
   //
   // For more information, see [the documentation](/docs/managed-postgresql/operations/grant).
   repeated string grants = 7 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];

@@ -215,6 +215,9 @@ message MasterUpdateSpec {
 
   // Master security groups.
   repeated string security_group_ids = 3;
+
+  // Cloud Logging for master components.
+  MasterLogging master_logging = 4;
 }
 
 message UpdateClusterMetadata {
@@ -394,6 +397,9 @@ message MasterSpec {
 
   // Master security groups.
   repeated string security_group_ids = 6;
+
+  // Cloud Logging for master components.
+  MasterLogging master_logging = 7;
 }
 
 message ZonalMasterSpec {
