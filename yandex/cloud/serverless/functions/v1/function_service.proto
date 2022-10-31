@@ -441,7 +441,7 @@ message CreateFunctionVersionRequest {
   // Additional service accounts to be used by the version.
   map<string, string> named_service_accounts = 15;
 
-  // Lockbox secrets to be used by the version
+  // Yandex Lockbox secrets to be used by the version.
   repeated Secret secrets = 18;
 }
 

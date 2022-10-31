@@ -6,7 +6,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/stt/v3;
 option java_package = "yandex.cloud.api.ai.stt.v3";
 
 
-// options
+// Options
 message TextNormalizationOptions {
   // Normalization 
   enum TextNormalization {
@@ -17,7 +17,7 @@ message TextNormalizationOptions {
     TEXT_NORMALIZATION_DISABLED = 2;
   }
   TextNormalization text_normalization = 1;
-  // Filter profanity (default: false).
+  // Profanity filter (default: false).
   bool profanity_filter = 2;
   // Rewrite text in literature style (default: false).
   bool literature_text = 3;
@@ -32,7 +32,7 @@ message DefaultEouClassifier {
   }
   // EOU sensitivity. Currently two levels, faster with more error and more conservative (our default).
   EouSensitivity type = 1;
-  // Hint for max pause between words. Our EoU detector could use this information to distinguish between end of utterance and slow speech (like one <long pause> two <long pause> three, etc).
+  // Hint for max pause between words. Our EOU detector could use this information to distinguish between end of utterance and slow speech (like one <long pause> two <long pause> three, etc).
   int64 max_pause_between_words_hint_ms = 2;
 }
 
@@ -46,7 +46,7 @@ message EouClassifierOptions {
   oneof Classifier {
     // EOU classifier provided by SpeechKit. Default.
     DefaultEouClassifier default_classifier = 1;
-    // EoU is enforced by external messages from user.
+    // EOU is enforced by external messages from user.
     ExternalEouClassifier external_classifier = 2;
   }
 }
@@ -97,10 +97,15 @@ message AudioFormatOptions {
   }
 }
 
+// Type of restriction for the list of languages expected in the incoming speech stream.
 message LanguageRestrictionOptions {
   enum LanguageRestrictionType {
     LANGUAGE_RESTRICTION_TYPE_UNSPECIFIED = 0;
+
+    // The allowing list. The incoming audio can contain only the listed languages.
     WHITELIST = 1;
+
+    // The forbidding list. The incoming audio cannot contain the listed languages.
     BLACKLIST = 2;
   }
   LanguageRestrictionType restriction_type = 1;
@@ -145,6 +150,7 @@ message AudioChunk {
   bytes data = 1;
 }
 
+// Data chunk with silence.
 message SilenceChunk {
 
   // Duration of silence chunk in ms.
@@ -163,7 +169,7 @@ message Eou {
 message StreamingRequest {
   oneof Event {
 
-    // Session options. should be first message from user
+    // Session options. Should be the first message from user.
     StreamingOptions session_options = 1;
 
     // Chunk with audio data.
@@ -172,7 +178,7 @@ message StreamingRequest {
     // Chunk with silence.
     SilenceChunk silence_chunk = 3;
 
-    // Request to end current utterance. Works only with external EoU detector.
+    // Request to end current utterance. Works only with external EOU detector.
     Eou eou = 4;
   }
 }
@@ -188,26 +194,30 @@ message Word {
   //  Word text.
   string text = 1;
 
-  //  Estimation of word start time in ms
+  //  Estimation of word start time in ms.
   int64 start_time_ms = 2;
 
-  //  Estimation of word end time in ms
+  //  Estimation of word end time in ms.
   int64 end_time_ms = 3;
 }
 
-// Estimation of language probability
+// Estimation of language and its probability.
 message LanguageEstimation {
+
+  // Language code in ISO 639-1 format.
   string language_code = 1;
+
+  // Estimation of language probability.
   double probability = 2;
 }
 
 // Recognition of specific time frame.
 message Alternative {
 
-  //  Words in time frame.
+  // Words in time frame.
   repeated Word words = 1;
 
-  //  Text in time frame.
+  // Text in time frame.
   string text = 2;
 
   // Start of time frame.
@@ -216,17 +226,17 @@ message Alternative {
   // End of time frame.
   int64 end_time_ms = 4;
 
-  // Hypothesis confidence. Currently is not used.
+  // The hypothesis confidence. Currently is not used.
   double confidence = 5;
 
-  // Distribution over possible languages
+  // Distribution over possible languages.
   repeated LanguageEstimation languages = 6;
 }
 
-// Update information from
+// Update information for external End of Utterance.
 message EouUpdate {
 
-  // End of utterance estimated time.
+  // EOU estimated time.
   int64 time_ms = 2;
 }
 

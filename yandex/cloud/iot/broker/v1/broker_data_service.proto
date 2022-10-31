@@ -10,7 +10,7 @@ option java_package = "yandex.cloud.api.iot.broker.v1";
 
 // A set of methods to work with IoT Core messages on behalf of broker
 service BrokerDataService {
-  // Publishes message on behalf of specified registry
+  // Publishes message on behalf of specified broker
   rpc Publish (PublishBrokerDataRequest) returns (PublishBrokerDataResponse) {
     option (google.api.http) = { post: "/iot-broker/v1/brokers/{broker_id}/publish" body: "*" };
   }

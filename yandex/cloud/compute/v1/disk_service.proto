@@ -76,7 +76,7 @@ service DiskService {
     };
   }
 
-  // List snapshot schedules containing the disk
+  // Retrieves the list of snapshot schedules the specified disk is attached to.
   rpc ListSnapshotSchedules (ListDiskSnapshotSchedulesRequest) returns (ListDiskSnapshotSchedulesResponse);
 }
 
@@ -163,7 +163,7 @@ message CreateDiskRequest {
   // Placement policy configuration.
   DiskPlacementPolicy disk_placement_policy = 11;
 
-  // Snapshot schedules
+  // List of IDs of the snapshot schedules to attach the disk to.
   repeated string snapshot_schedule_ids = 12;
 }
 
@@ -263,26 +263,29 @@ message MoveDiskMetadata {
 }
 
 message ListDiskSnapshotSchedulesRequest {
-  // ID of the Disk resource to list snapshot schedules for.
+  // ID of the disk to list snapshot schedules for.
   string disk_id = 1;
 
   // The maximum number of results per page to return. If the number of available
-  // results is larger than [page_size], the service returns a [ListDiskOperationsResponse.next_page_token]
+  // results is larger than `page_size`, the service returns a [ListDiskSnapshotSchedulesResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
+  //
+  // Default value: 100.
   int64 page_size = 2;
 
-  // Page token. To get the next page of results, set [page_token] to the
+  // Page token. To get the next page of results, set `page_token` to the
   // [ListDiskSnapshotSchedulesResponse.next_page_token] returned by a previous list request.
   string page_token = 3;
 }
 
 message ListDiskSnapshotSchedulesResponse {
-  // List of snapshot schedules for the specified disk.
+  // List of snapshot schedules the specified disk is attached to.
   repeated SnapshotSchedule snapshot_schedules = 1;
 
-  // This token allows you to get the next page of results for list requests. If the number of results
-  // is larger than [ListDiskSnapshotSchedulesRequest.page_size], use the [next_page_token] as the value
-  // for the [ListDiskSnapshotSchedulesRequest.page_token] query parameter in the next list request.
-  // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
+  // Token for getting the next page of the list. If the number of results is greater than
+  // the specified [ListDiskSnapshotSchedulesRequest.page_size], use `next_page_token` as the value
+  // for the [ListDiskSnapshotSchedulesRequest.page_token] parameter in the next list request.
+  //
+  // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
 }
