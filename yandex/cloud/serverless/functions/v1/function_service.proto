@@ -443,6 +443,9 @@ message CreateFunctionVersionRequest {
 
   // Yandex Lockbox secrets to be used by the version.
   repeated Secret secrets = 18;
+
+  // Options for logging from the function
+  LogOptions log_options = 19;
 }
 
 message CreateFunctionVersionMetadata {
