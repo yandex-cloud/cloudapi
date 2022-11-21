@@ -77,7 +77,7 @@ message ListAccessKeysRequest {
   // Page token. To get the next page of results, set [page_token]
   // to the [ListAccessKeysResponse.next_page_token]
   // returned by a previous list request.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=2000"];
 }
 
 message ListAccessKeysResponse {
@@ -153,7 +153,7 @@ message ListAccessKeyOperationsRequest {
 
   // Page token. To get the next page of results, set [page_token] to the
   // [ListAccessKeyOperationsResponse.next_page_token] returned by a previous list request.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=2000"];
 }
 
 message ListAccessKeyOperationsResponse {

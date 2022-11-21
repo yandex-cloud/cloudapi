@@ -41,7 +41,7 @@ message ListMembersRequest {
   // Page token. Set [page_token]
   // to the [ListMembersResponse.next_page_token]
   // returned by a previous list request to get the next page of results.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=2000"];
 }
 
 message ListMembersResponse {

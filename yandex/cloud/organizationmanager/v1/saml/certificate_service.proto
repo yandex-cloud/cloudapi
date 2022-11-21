@@ -79,7 +79,7 @@ message ListCertificatesRequest {
   // Page token. To get the next page of results, set [page_token]
   // to the [ListCertificatesResponse.next_page_token]
   // returned by a previous list request.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=2000"];
 
   // A filter expression that filters resources listed in the response.
   // The expression must specify:
@@ -171,7 +171,7 @@ message ListCertificateOperationsRequest {
   // Page token. To get the next page of results, set [page_token]
   // to the [ListCertificateOperationsResponse.next_page_token]
   // returned by a previous list request.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=2000"];
 }
 
 message ListCertificateOperationsResponse {

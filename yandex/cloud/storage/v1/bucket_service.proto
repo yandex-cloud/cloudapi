@@ -163,6 +163,10 @@ message CreateBucketRequest {
   // Access control list (ACL) of the bucket.
   // For details, see [documentation](/docs/storage/concepts/acl).
   ACL acl = 7;
+
+  // List of object tag for the bucket.
+  // TODO: documentation details.
+  repeated Tag tags = 8;
 }
 
 message CreateBucketMetadata {
@@ -217,6 +221,10 @@ message UpdateBucketRequest {
   // Access control list (ACL) of the bucket.
   // For details, see [documentation](/docs/storage/concepts/acl).
   ACL acl = 11;
+
+  // List of object tag for the bucket.
+  // TODO: documentation details.
+  repeated Tag tags = 12;
 }
 
 message UpdateBucketMetadata {

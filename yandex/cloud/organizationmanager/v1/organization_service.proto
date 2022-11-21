@@ -85,7 +85,7 @@ message ListOrganizationsRequest {
   // Page token. Set [page_token]
   // to the [ListOrganizationsResponse.next_page_token]
   // returned by a previous list request to get the next page of results.
-  string page_token = 2 [(length) = "<=100"];
+  string page_token = 2 [(length) = "<=2000"];
   // A filter expression that filters resources listed in the response.
   // The expression must specify:
   // 1. The field name. Currently you can use filtering only on the [Organization.name] field.
@@ -146,7 +146,7 @@ message ListOrganizationOperationsRequest {
   // Page token. Set [page_token]
   // to the [ListOrganizationOperationsResponse.next_page_token]
   // returned by a previous list request to get the next page of results.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=2000"];
 }
 
 message ListOrganizationOperationsResponse {

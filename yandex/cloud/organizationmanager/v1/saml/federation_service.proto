@@ -97,7 +97,7 @@ message ListFederationsRequest {
   // Page token. To get the next page of results, set [page_token]
   // to the [ListFederationsResponse.next_page_token]
   // returned by a previous list request.
-  string page_token = 4 [(length) = "<=50"];
+  string page_token = 4 [(length) = "<=2000"];
 
   // A filter expression that filters resources listed in the response.
   // The expression must specify:
@@ -275,7 +275,15 @@ message ListFederatedUserAccountsRequest {
   // Page token. To get the next page of results, set [page_token]
   // to the [ListFederatedUserAccountsResponse.next_page_token]
   // returned by a previous list request.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=2000"];
+
+  // A filter expression that filters resources listed in the response.
+  // The expression must specify:
+  // 1. The field name. Currently you can use filtering only on the [name_id] field.
+  // 2. An `=` operator.
+  // 3. The value in double quotes (`"`). Must be 1-1000 characters long and match the regular expression
+  //   `[a-z0-9A-Z/@_.\-=+*\\]+`.
+  string filter = 4 [(length) = "<=1010"];
 }
 
 message ListFederatedUserAccountsResponse {
@@ -302,7 +310,7 @@ message ListFederationOperationsRequest {
   // Page token. To get the next page of results, set [page_token]
   // to the [ListFederationOperationsResponse.next_page_token]
   // returned by a previous list request.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=2000"];
 }
 
 message ListFederationOperationsResponse {

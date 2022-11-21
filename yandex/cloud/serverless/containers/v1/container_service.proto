@@ -313,6 +313,9 @@ message DeployContainerRevisionRequest {
   //
   // The policy is only applied when the revision is ACTIVE.
   ProvisionPolicy provision_policy = 12;
+
+  // Policy for scaling instances of the revision.
+  ScalingPolicy scaling_policy = 13;
 }
 
 // Revision image specification.

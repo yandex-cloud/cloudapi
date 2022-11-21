@@ -41,7 +41,7 @@ message ListRolesRequest {
   // Page token. To get the next page of results, set [page_token]
   // to the [ListRolesResponse.next_page_token]
   // returned by a previous list request.
-  string page_token = 2 [(length) = "<=100"];
+  string page_token = 2 [(length) = "<=2000"];
 
   // A filter expression that filters resources listed in the response.
   string filter = 3 [(length) = "<=1000"];

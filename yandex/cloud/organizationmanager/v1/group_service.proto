@@ -122,7 +122,7 @@ message ListGroupsRequest {
   // Page token. Set [page_token]
   // to the [ListGroupsResponse.next_page_token]
   // returned by a previous list request to get the next page of results.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=2000"];
 
   // A filter expression that filters resources listed in the response.
   // The expression must specify:
@@ -208,7 +208,7 @@ message ListGroupOperationsRequest {
   // Page token. Set [page_token]
   // to the [ListGroupOperationsResponse.next_page_token]
   // returned by a previous list request to get the next page of results.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=2000"];
 }
 
 message ListGroupOperationsResponse {
@@ -235,7 +235,7 @@ message ListGroupMembersRequest {
   // Page token. Set [page_token]
   // to the [ListGroupMembersResponse.next_page_token]
   // returned by a previous list request to get the next page of results.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=2000"];
 }
 
 message ListGroupMembersResponse {

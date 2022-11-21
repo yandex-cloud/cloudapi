@@ -65,6 +65,15 @@ message Bucket {
   // List of object lifecycle rules for the bucket.
   // For details, see [documentation](/docs/storage/concepts/lifecycles).
   repeated LifecycleRule lifecycle_rules = 13;
+
+  // List of object tag for the bucket.
+  // TODO: documentation details.
+  repeated Tag tags = 14;
+}
+
+message Tag {
+  string key = 1;
+  string value = 2;
 }
 
 message ACL {

@@ -107,7 +107,7 @@ message ListFoldersRequest {
   // Page token. Set [page_token]
   // to the [ListFoldersResponse.next_page_token]
   // returned by a previous list request to get the next page of results.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=2000"];
 
   // A filter expression that filters resources listed in the response.
   // The expression must specify:
@@ -209,7 +209,7 @@ message ListFolderOperationsRequest {
   // Page token. Set [page_token]
   // to the [ListFolderOperationsResponse.next_page_token]
   // returned by a previous list request to get the next page of results.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=2000"];
 }
 
 message ListFolderOperationsResponse {

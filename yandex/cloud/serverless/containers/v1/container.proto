@@ -107,6 +107,9 @@ message Revision {
   //
   // The policy is only applied when the revision is ACTIVE.
   ProvisionPolicy provision_policy = 13;
+
+  // Policy for scaling instances of the revision.
+  ScalingPolicy scaling_policy = 14;
 }
 
 // Revision image specification.
@@ -191,4 +194,14 @@ message Connectivity {
   //
   // Deprecated, it is sufficient to specify only network_id, without the list of subnet_ids.
   repeated string subnet_ids = 2;
+}
+
+message ScalingPolicy {
+  // Upper limit for instance count in each zone.
+  // 0 means no limit.
+  int64 zone_instances_limit = 1;
+
+  // Upper limit of requests count in each zone.
+  // 0 means no limit.
+  int64 zone_requests_limit = 2;
 }
