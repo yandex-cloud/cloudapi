@@ -496,8 +496,75 @@ message MysqlConfig5_7 {
 
   // Specifies how the source mysqld generates the dependency information that it writes in the binary log to help replicas determine which transactions can be executed in parallel.
   //
-  // For details, see [MySQL documentation for the variabl](https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html#sysvar_binlog_transaction_dependency_tracking).
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html#sysvar_binlog_transaction_dependency_tracking).
   BinlogTransactionDependencyTracking binlog_transaction_dependency_tracking = 71;
+
+  // Config specific will be all changes to a table take effect immediately or you must use COMMIT to accept a transaction or ROLLBACK to cancel it.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_autocommit).
+  google.protobuf.BoolValue autocommit = 72;
+
+  // Enables or disables periodic output for the standard InnoDB Monitor.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_status_output).
+  google.protobuf.BoolValue innodb_status_output = 73;
+
+  // When innodb_strict_mode is enabled, InnoDB returns errors rather than warnings when checking for invalid or incompatible table options.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_strict_mode).
+  google.protobuf.BoolValue innodb_strict_mode = 74;
+
+  // Makes InnoDB to write information about all lock wait timeout errors into the log file.
+  //
+  // For details, see [Percona documentation for the variable](https://docs.percona.com/percona-server/5.7/diagnostics/innodb_show_status.html?highlight=innodb_print_lock_wait_timeout_info).
+  google.protobuf.BoolValue innodb_print_lock_wait_timeout_info = 75;
+
+  // System variable specifies the verbosity for handling events intended for the error log
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_log_error_verbosity).
+  google.protobuf.Int64Value log_error_verbosity = 76 [(value) = "1-3"];
+
+  // The maximum number of bytes of memory reserved per session for computation of normalized statement digests.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_max_digest_length).
+  google.protobuf.Int64Value max_digest_length = 77 [(value) = "0-1048576"];
+
+  // Do not cache results that are larger than this number of bytes.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_query_cache_limit).
+  google.protobuf.Int64Value query_cache_limit = 78;
+
+  // The amount of memory allocated for caching query results.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_query_cache_size).
+  google.protobuf.Int64Value query_cache_size = 79;
+
+  // Set the query cache type.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_query_cache_type).
+  google.protobuf.Int64Value query_cache_type = 80 [(value) = "0-2"];
+
+  // // This variable specifies the timeout in seconds for attempts to acquire metadata locks
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_lock_wait_timeout).
+  google.protobuf.Int64Value lock_wait_timeout = 81 [(value) = "1-31536000"];
+
+  // This variable limits the total number of prepared statements in the server.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_max_prepared_stmt_count).
+  google.protobuf.Int64Value max_prepared_stmt_count = 82 [(value) = "0-1048576"];
+
+  // The system variable enables control over optimizer behavior.
+  //
+  // For details, see [MySQL documentation for the variable]
+  // https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_optimizer_switch
+  // https://dev.mysql.com/doc/refman/5.7/en/switchable-optimizations.html
+  string optimizer_switch = 83;
+
+  // The maximum depth of search performed by the query optimizer
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html)
+  google.protobuf.Int64Value optimizer_search_depth = 84 [(value) = "0-62"];
 }
 
 message MysqlConfigSet5_7 {

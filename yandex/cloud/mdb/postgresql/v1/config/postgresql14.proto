@@ -138,6 +138,8 @@ message PostgresqlConfig14 {
     SHARED_PRELOAD_LIBRARIES_PGLOGICAL = 6;
 
     SHARED_PRELOAD_LIBRARIES_PG_PREWARM = 7;
+
+    SHARED_PRELOAD_LIBRARIES_PGAUDIT = 8;
   }
 
   enum SynchronousCommit {
