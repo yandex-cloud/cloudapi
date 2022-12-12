@@ -147,6 +147,8 @@ message CreateAddressRequest {
   oneof address_spec {
     ExternalIpv4AddressSpec external_ipv4_address_spec = 5;
   }
+  // Specifies if address protected from deletion.
+  bool deletion_protection = 10;
 }
 
 message ExternalIpv4AddressSpec {
@@ -192,6 +194,9 @@ message UpdateAddressRequest {
 
   // Specifies if address is reserved or not.
   bool reserved = 6;
+
+  // Specifies if address protected from deletion.
+  bool deletion_protection = 7;
 }
 
 message UpdateAddressMetadata {

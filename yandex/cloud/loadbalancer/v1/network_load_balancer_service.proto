@@ -189,6 +189,9 @@ message CreateNetworkLoadBalancerRequest {
 
   // List of attached target groups for the network load balancer.
   repeated AttachedTargetGroup attached_target_groups = 8 [(size) = "<=1000"];
+
+  // Specifies if network load balancer protected from deletion.
+  bool deletion_protection = 9;
 }
 
 message CreateNetworkLoadBalancerMetadata {
@@ -221,6 +224,9 @@ message UpdateNetworkLoadBalancerRequest {
 
   // A list of attached target groups for the network load balancer.
   repeated AttachedTargetGroup attached_target_groups = 7 [(size) = "<=1000"];
+
+  // Specifies if network load balancer protected from deletion.
+  bool deletion_protection = 8;
 }
 
 message UpdateNetworkLoadBalancerMetadata {

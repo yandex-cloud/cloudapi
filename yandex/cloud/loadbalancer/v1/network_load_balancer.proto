@@ -105,6 +105,9 @@ message NetworkLoadBalancer {
 
   // List of target groups attached to the network load balancer.
   repeated AttachedTargetGroup attached_target_groups = 13;
+
+  // Specifies if network load balancer protected from deletion.
+  bool deletion_protection = 14;
 }
 
 // An AttachedTargetGroup resource. For more information, see [Targets and groups](/docs/network-load-balancer/concepts/target-resources).

@@ -67,6 +67,9 @@ message Address {
 
   // Vervion of the IP address.
   IpVersion ip_version = 18;
+
+  // Specifies if address protected from deletion.
+  bool deletion_protection = 19;
 }
 
 message ExternalIpv4Address {

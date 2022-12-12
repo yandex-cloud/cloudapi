@@ -140,6 +140,19 @@ message UserSettings {
     TRANSACTION_ISOLATION_SERIALIZABLE = 4;
   }
 
+  enum PoolingMode {
+    POOLING_MODE_UNSPECIFIED = 0;
+
+    // (default) server connection will be assigned to it for the whole duration the client stays connected
+    SESSION = 1;
+
+    // server connection is assigned to a client only during a transaction
+    TRANSACTION = 2;
+
+    // server connection will be put back into the pool immediately after a query completes
+    STATEMENT = 3;
+  }
+
   // SQL sets an isolation level for each transaction.
   // This setting defines the default isolation level to be set for all new SQL transactions.
   //
@@ -182,4 +195,46 @@ message UserSettings {
   //
   // See in-depth description in [PostgreSQL documentation](https://www.postgresql.org/docs/current/runtime-config-logging.html).
   LogStatement log_statement = 6;
+
+  // Mode that the connection pooler is working in with specified user.
+  //
+  // See in-depth description in [Odyssey documentation](https://github.com/yandex/odyssey/blob/master/documentation/configuration.md#pool-string)
+  PoolingMode pool_mode = 7;
+
+  // User can use prepared statements with transaction pooling.
+  //
+  // See in-depth description in [PostgreSQL documentation](https://www.postgresql.org/docs/current/sql-prepare.html)
+  google.protobuf.BoolValue prepared_statements_pooling = 8;
+
+  // The maximum time (in seconds) for synchronization between standby and primary
+  // 
+  // See in-depth description in [PostgreSQL documentation](https://www.postgresql.org/docs/current/warm-standby.html)
+  google.protobuf.Int64Value catchup_timeout = 9;
+
+  // The maximum time (in milliseconds) to wait for WAL replication (can be set only for PostgreSQL 12+)
+  // Terminate replication connections that are inactive for longer than this amount of time. 
+  //
+  // Default value: `6000` (60 seconds).
+  //
+  // Value of `0` disables the timeout mechanism.
+  //
+  // See in-depth description in [PostgreSQL documentation](https://www.postgresql.org/docs/current/runtime-config-replication.html)
+  google.protobuf.Int64Value wal_sender_timeout = 10;
+
+  // Sets the maximum allowed idle time (in milliseconds) between queries, when in a transaction.
+  //
+  // Values of `0` (default) disables the timeout.
+  //
+  // See in-depth description in [PostgreSQL documentation](https://www.postgresql.org/docs/current/runtime-config-client.html)
+  google.protobuf.Int64Value idle_in_transaction_session_timeout = 11;
+
+  // The maximum time (in milliseconds) to wait for statement
+  // The timeout is measured from the time a command arrives at the server until it is completed by the server. 
+  //
+  // If `log_min_error_statement` is set to ERROR or lower, the statement that timed out will also be logged.
+  //
+  // Value of `0` (default) disables the timeout
+  //
+  // See in-depth description in [PostgreSQL documentation](https://www.postgresql.org/docs/current/runtime-config-client.html)
+  google.protobuf.Int64Value statement_timeout = 12;
 }
