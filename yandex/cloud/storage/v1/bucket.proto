@@ -69,6 +69,10 @@ message Bucket {
   // List of object tag for the bucket.
   // TODO: documentation details.
   repeated Tag tags = 14;
+
+  // Configuration for object lock on the bucket.
+  // For details about the concept, see [documentation](/docs/storage/concepts/object-lock).
+  ObjectLock object_lock = 15;
 }
 
 message Tag {
@@ -400,6 +404,10 @@ message LifecycleRule {
   message RuleFilter {
     // Key prefix that the object must have in order for the rule to apply.
     string prefix = 1;
+    // Size that the object must be greater.
+    google.protobuf.Int64Value object_size_greater_than = 2;
+    // Size that the object must be less t.
+    google.protobuf.Int64Value object_size_less_than = 3;
   }
 
   // ID of the rule. Provided by the client or generated at creation time.
@@ -613,4 +621,38 @@ message HTTPSConfig {
   // To get information about the certificate from Certificate Manager, make a
   // [yandex.cloud.certificatemanager.v1.CertificateService.Get] request.
   string certificate_id = 8;
+}
+
+// A resource for Object Lock configuration of a bucket.
+// For details about the concept, see [documentation](/docs/storage/concepts/object-lock).
+message ObjectLock {
+  // Activity status of the object lock settings on the bucket
+  enum ObjectLockStatus {
+    OBJECT_LOCK_STATUS_UNSPECIFIED = 0;
+    OBJECT_LOCK_STATUS_DISABLED = 1;
+    OBJECT_LOCK_STATUS_ENABLED = 2;
+  }
+
+  // Default lock configuration for added objects
+  message DefaultRetention {
+    // Lock type
+    enum Mode {
+      MODE_UNSPECIFIED = 0;
+      MODE_GOVERNANCE = 1;
+      MODE_COMPLIANCE = 2;
+    }
+
+    Mode mode = 1;
+    oneof period {
+      option (exactly_one) = true;
+
+      // Number of days for locking
+      int64 days = 2;
+      // Number of years for locking
+      int64 years = 3;
+    }
+  }
+
+  ObjectLockStatus status = 2;
+  DefaultRetention default_retention = 3;
 }

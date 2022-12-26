@@ -362,6 +362,9 @@ message CreateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 14;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 15;
 }
 
 message CreateClusterMetadata {

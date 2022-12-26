@@ -180,6 +180,9 @@ message CreateApiGatewayRequest {
 
   // Gateway connectivity. If specified the gateway will be attached to specified network/subnet(s).
   Connectivity connectivity = 6;
+
+  // Options for logging from the API gateway.
+  LogOptions log_options = 7;
 }
 
 message UpdateApiGatewayRequest {
@@ -214,6 +217,9 @@ message UpdateApiGatewayRequest {
 
   // Gateway connectivity. If specified the gateway will be attached to specified network/subnet(s).
   Connectivity connectivity = 7;
+
+  // Options for logging from the API gateway.
+  LogOptions log_options = 8;
 }
 
 message DeleteApiGatewayRequest {

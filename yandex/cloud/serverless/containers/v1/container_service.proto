@@ -316,6 +316,9 @@ message DeployContainerRevisionRequest {
 
   // Policy for scaling instances of the revision.
   ScalingPolicy scaling_policy = 13;
+
+  // Options for logging from the container.
+  LogOptions log_options = 14;
 }
 
 // Revision image specification.

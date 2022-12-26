@@ -225,6 +225,10 @@ message UpdateBucketRequest {
   // List of object tag for the bucket.
   // TODO: documentation details.
   repeated Tag tags = 12;
+
+  // Configuration for object lock on the bucket.
+  // For details about the concept, see [documentation](/docs/storage/concepts/object-lock).
+  ObjectLock object_lock = 13;
 }
 
 message UpdateBucketMetadata {
