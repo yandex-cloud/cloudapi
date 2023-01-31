@@ -266,6 +266,9 @@ message HttpHandler {
     // Enables support for incoming HTTP/1.0 and HTTP/1.1 requests and disables it for HTTP/2 requests.
     bool allow_http10 = 3;
   }
+
+  // When unset, will preserve the incoming x-request-id header, otherwise would rewrite it with a new value.
+  bool rewrite_request_id = 4;
 }
 
 // A listener redirects resource.

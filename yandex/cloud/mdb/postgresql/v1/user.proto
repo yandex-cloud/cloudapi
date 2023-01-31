@@ -144,13 +144,13 @@ message UserSettings {
     POOLING_MODE_UNSPECIFIED = 0;
 
     // (default) server connection will be assigned to it for the whole duration the client stays connected
-    SESSION = 1;
+    POOLING_MODE_SESSION = 1;
 
     // server connection is assigned to a client only during a transaction
-    TRANSACTION = 2;
+    POOLING_MODE_TRANSACTION = 2;
 
     // server connection will be put back into the pool immediately after a query completes
-    STATEMENT = 3;
+    POOLING_MODE_STATEMENT = 3;
   }
 
   // SQL sets an isolation level for each transaction.

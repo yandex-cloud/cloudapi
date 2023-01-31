@@ -134,6 +134,9 @@ message Cluster {
 
   // Persistence mode
   PersistenceMode persistence_mode = 19;
+
+  // Enable FQDN instead of ip
+  bool announce_hostnames = 20;
 }
 
 message Monitoring {

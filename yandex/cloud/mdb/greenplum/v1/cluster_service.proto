@@ -239,6 +239,8 @@ message ConfigSpec {
   oneof greenplum_config {
     GreenplumConfig6_17 greenplum_config_6_17 = 1 [json_name="greenplumConfig_6_17"];
     GreenplumConfig6_19 greenplum_config_6_19 = 2 [json_name="greenplumConfig_6_19"];
+    GreenplumConfig6_21 greenplum_config_6_21 = 4 [json_name="greenplumConfig_6_21"];
+    GreenplumConfig6_22 greenplum_config_6_22 = 5 [json_name="greenplumConfig_6_22"];
   }
 
   // Odyssey® pool settings.

@@ -295,6 +295,9 @@ message CreateClusterRequest {
 
   // Persistence mode
   Cluster.PersistenceMode persistence_mode = 15;
+
+  // Enable FQDN instead of ip
+  bool announce_hostnames = 16;
 }
 
 message CreateClusterMetadata {
@@ -337,6 +340,9 @@ message UpdateClusterRequest {
 
   // Persistence mode
   Cluster.PersistenceMode persistence_mode = 10;
+
+  // Enable FQDN instead of ip
+  bool announce_hostnames = 12;
 }
 
 message UpdateClusterMetadata {
@@ -464,6 +470,9 @@ message RestoreClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 13;
+
+  // Enable FQDN instead of ip
+  bool announce_hostnames = 14;
 }
 
 message RestoreClusterMetadata {

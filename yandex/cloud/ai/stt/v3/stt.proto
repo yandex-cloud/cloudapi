@@ -16,11 +16,18 @@ message TextNormalizationOptions {
     // Disable normalization
     TEXT_NORMALIZATION_DISABLED = 2;
   }
+  enum PhoneFormattingMode {
+    PHONE_FORMATTING_MODE_UNSPECIFIED = 0;
+    // Disable phone formatting
+    PHONE_FORMATTING_MODE_DISABLED = 1;
+  }
   TextNormalization text_normalization = 1;
   // Profanity filter (default: false).
   bool profanity_filter = 2;
   // Rewrite text in literature style (default: false).
   bool literature_text = 3;
+  // Define phone formatting mode
+  PhoneFormattingMode phone_formatting_mode = 4;
 }
 
 

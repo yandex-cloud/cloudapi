@@ -91,7 +91,9 @@ service SubnetService {
   }
 
   // List used addresses in specified subnet.
-  rpc ListUsedAddresses (ListUsedAddressesRequest) returns (ListUsedAddressesResponse);
+  rpc ListUsedAddresses (ListUsedAddressesRequest) returns (ListUsedAddressesResponse) {
+    option (google.api.http) = { get: "/vpc/v1/subnets/{subnet_id}/addresses" };
+  }
 }
 
 message GetSubnetRequest {
