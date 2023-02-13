@@ -55,4 +55,12 @@ message Permission {
 
   // Access role type to grant to the user.
   AccessRole role = 2;
+
+  // Lists hosts allowed for this permission.
+  // When not defined, access from any host is allowed.
+  //
+  // Bare in mind that the same host might appear in multiple permissions at the same time,
+  // hence removing individual permission doesn't automatically restricts access from the [allow_hosts] of the permission.
+  // If the same host(s) is listed for another permission of the same principal/topic, the host(s) remains allowed.
+  repeated string allow_hosts = 4;
 }
