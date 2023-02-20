@@ -332,6 +332,9 @@ message CreateInstanceRequest {
   // Network settings.
   NetworkSettings network_settings = 15;
 
+  // GPU settings.
+  GpuSettings gpu_settings = 20;
+  
   // Placement policy configuration.
   PlacementPolicy placement_policy = 16;
 }

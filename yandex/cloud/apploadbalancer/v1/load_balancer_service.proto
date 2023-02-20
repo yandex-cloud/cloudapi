@@ -263,7 +263,14 @@ message UpdateLoadBalancerRequest {
   // 3. Send the new set in this field.
   repeated string security_group_ids = 8;
 
-  // Autoscale settings of the application load balancer.
+  // New scaling settings of the application load balancer.
+  //
+  // The scaling settings relate to a special internal instance group which facilitates the balancer's work.
+  // Instances in this group are called _resource units_. The group is scaled automatically based on incoming load
+  // and within limitations specified in these settings.
+  //
+  // For details about the concept,
+  // see [documentation](/docs/application-load-balancer/concepts/application-load-balancer#lcu-scaling).
   AutoScalePolicy auto_scale_policy = 9;
 
   // Cloud logging settings of the application load balancer.
@@ -318,7 +325,14 @@ message CreateLoadBalancerRequest {
   // see [documentation](/docs/application-load-balancer/concepts/application-load-balancer#security-groups).
   repeated string security_group_ids = 9;
 
-  // Autoscale settings of the application load balancer.
+  // Scaling settings of the application load balancer.
+  //
+  // The scaling settings relate to a special internal instance group which facilitates the balancer's work.
+  // Instances in this group are called _resource units_. The group is scaled automatically based on incoming load
+  // and within limitations specified in these settings.
+  //
+  // For details about the concept,
+  // see [documentation](/docs/application-load-balancer/concepts/application-load-balancer#lcu-scaling).
   AutoScalePolicy auto_scale_policy = 10;
 
   // Cloud logging settings of the application load balancer.

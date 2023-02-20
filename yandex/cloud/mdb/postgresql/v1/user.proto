@@ -40,6 +40,11 @@ message User {
   //
   // For more information, see [the documentation](/docs/managed-postgresql/operations/grant).
   repeated string grants = 7 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+
+  // Deletion Protection inhibits deletion of the user
+  //
+  // Default value: `unspecified` (inherits cluster's deletion_protection)
+  google.protobuf.BoolValue deletion_protection = 8;
 }
 
 message Permission {
@@ -78,6 +83,11 @@ message UserSpec {
   //
   // For more information, see [the documentation](/docs/managed-postgresql/operations/grant).
   repeated string grants = 7 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+
+  // Deletion Protection inhibits deletion of the user
+  //
+  // Default value: `unspecified` (inherits cluster's deletion_protection)
+  google.protobuf.BoolValue deletion_protection = 8;
 }
 
 // PostgreSQL user settings.
@@ -218,7 +228,7 @@ message UserSettings {
   // The maximum time (in milliseconds) to wait for WAL replication (can be set only for PostgreSQL 12+)
   // Terminate replication connections that are inactive for longer than this amount of time. 
   //
-  // Default value: `6000` (60 seconds).
+  // Default value: `60000` (60 seconds).
   //
   // Value of `0` disables the timeout mechanism.
   //

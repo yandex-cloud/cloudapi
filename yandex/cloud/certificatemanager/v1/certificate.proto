@@ -86,6 +86,9 @@ message Certificate {
 
   // Flag that protects deletion of the certificate
   bool deletion_protection = 18;
+
+  // Mark imported certificates without uploaded chain or with chain which not lead to root certificate
+  bool incomplete_chain = 19;
 }
 
 // Supported certificate types.

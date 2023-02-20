@@ -96,6 +96,9 @@ message Instance {
   // Array of network interfaces that are attached to the instance.
   repeated NetworkInterface network_interfaces = 14;
 
+  // GPU settings
+  GpuSettings gpu_settings = 26;
+
   // A domain name of the instance. FQDN is defined by the server
   // in the format `<hostname>.<region_id>.internal` when the instance is created.
   // If the hostname were not specified when the instance was created, FQDN would be `<id>.auto.internal`.
@@ -281,6 +284,11 @@ message NetworkSettings {
 
   // Network Type
   Type type = 1;
+}
+
+message GpuSettings {
+  // Attach instance to specified GPU cluster.
+  string gpu_cluster_id = 1;
 }
 
 message PlacementPolicy {

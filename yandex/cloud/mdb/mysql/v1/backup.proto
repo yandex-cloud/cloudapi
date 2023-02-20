@@ -12,6 +12,15 @@ option java_package = "yandex.cloud.api.mdb.mysql.v1";
 //
 // See [the documentation](/docs/managed-mysql/concepts/backup) for details.
 message Backup {
+  enum BackupCreationType {
+    BACKUP_CREATION_TYPE_UNSPECIFIED = 0;
+
+    // Backup created by automated daily schedule
+    AUTOMATED = 1;
+
+    // Backup created by user request
+    MANUAL = 2;
+  }
 
   // ID of the backup.
   string id = 1 [(required) = true];
@@ -27,4 +36,10 @@ message Backup {
 
   // Start timestamp (the time when the backup operation was started).
   google.protobuf.Timestamp started_at = 5;
+
+  // Size of backup, in bytes
+  int64 size = 6;
+
+  // How this backup was created (manual/automatic/etc...)
+  BackupCreationType type = 7;
 }

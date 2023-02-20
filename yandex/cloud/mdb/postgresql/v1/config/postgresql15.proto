@@ -140,8 +140,6 @@ message PostgresqlConfig15 {
     SHARED_PRELOAD_LIBRARIES_PG_PREWARM = 7;
 
     SHARED_PRELOAD_LIBRARIES_PGAUDIT = 8;
-
-    SHARED_PRELOAD_LIBRARIES_PG_TRGM = 9;
   }
 
   enum SynchronousCommit {
@@ -483,6 +481,12 @@ message PostgresqlConfig15 {
   google.protobuf.Int64Value max_stack_depth = 150 [(value) = "65536-134217728"]; // in bytes.
 
   google.protobuf.BoolValue enable_group_by_reordering = 151;
+
+  google.protobuf.DoubleValue pg_trgm_similarity_threshold = 159 [(value) = "0.0-1.0"];
+
+  google.protobuf.DoubleValue pg_trgm_word_similarity_threshold = 160 [(value) = "0.0-1.0"];
+
+  google.protobuf.DoubleValue pg_trgm_strict_word_similarity_threshold = 161 [(value) = "0.0-1.0"];
 }
 
 message PostgresqlConfigSet15 {

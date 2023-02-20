@@ -140,8 +140,6 @@ message PostgresqlConfig13 {
     SHARED_PRELOAD_LIBRARIES_PG_PREWARM = 7;
 
     SHARED_PRELOAD_LIBRARIES_PGAUDIT = 8;
-
-    SHARED_PRELOAD_LIBRARIES_PG_TRGM = 9;
   }
 
   enum SynchronousCommit {
@@ -485,6 +483,12 @@ message PostgresqlConfig13 {
   google.protobuf.DoubleValue geqo_selection_bias = 157 [(value) = "1.5-2.0"];    // selective pressure within the population
 
   google.protobuf.DoubleValue geqo_seed = 158 [(value) = "0.0-1.0"];              // initial value of the random number generator used by GEQO
+
+  google.protobuf.DoubleValue pg_trgm_similarity_threshold = 159 [(value) = "0.0-1.0"];
+
+  google.protobuf.DoubleValue pg_trgm_word_similarity_threshold = 160 [(value) = "0.0-1.0"];
+
+  google.protobuf.DoubleValue pg_trgm_strict_word_similarity_threshold = 161 [(value) = "0.0-1.0"];
 }
 
 message PostgresqlConfigSet13 {
