@@ -87,3 +87,30 @@ message RegistryPassword {
   // Creation timestamp.
   google.protobuf.Timestamp created_at = 3;
 }
+
+// A Yandex Data Streams export.
+message DataStreamExport {
+  // ID of the YDS export.
+  string id = 1;
+
+  // Name of the YDS export.
+  string name = 2;
+
+  // ID of the registry that the YDS export belongs to.
+  string registry_id = 3;
+
+  // MQTT topic whose messages export to YDS.
+  string mqtt_topic_filter = 4;
+
+  // YDS database.
+  string database = 5;
+
+  // YDS stream name.
+  string stream = 6;
+
+  // ID of the service account which has permission to write to data stream.
+  string service_account_id = 7;
+
+  // Creation timestamp.
+  google.protobuf.Timestamp created_at = 8;
+}

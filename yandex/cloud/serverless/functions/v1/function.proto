@@ -157,7 +157,7 @@ message Connectivity {
 
   // Complete list of subnets (from the same network) the version can be attached to.
   // It's essential to specify at least one subnet for each availability zones.
-  repeated string subnet_id = 2;
+  repeated string subnet_id = 2  [(length) = ">0", (unique) = true];
 }
 
 message ScalingPolicy {

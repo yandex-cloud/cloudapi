@@ -108,6 +108,25 @@ service RegistryService {
     option (google.api.http) = { get: "/iot-devices/v1/registries/{registry_id}:listDeviceTopicAliases" };
   }
 
+  // Retrieves the list of YDS exports for the specified registry.
+  rpc ListDataStreamExports (ListDataStreamExportsRequest) returns (ListDataStreamExportsResponse);
+
+  // Adds YDS export for the specified registry.
+  rpc AddDataStreamExport (AddDataStreamExportRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "AddDataStreamExportMetadata"
+      response: "DataStreamExport"
+    };
+  }
+
+  // Deletes the specified YDS export.
+  rpc DeleteDataStreamExport (DeleteDataStreamExportRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteDataStreamExportMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
   // Lists operations for the specified registry.
   rpc ListOperations (ListRegistryOperationsRequest) returns (ListRegistryOperationsResponse) {
     option (google.api.http) = { get: "/iot-devices/v1/registries/{registry_id}/operations" };
@@ -393,4 +412,62 @@ message ListRegistryOperationsResponse {
   //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
+}
+
+message AddDataStreamExportRequest {
+  // Name of the YDS export. The name must be unique within the folder.
+  string name = 1 [(length) = "<=50", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  // ID of the registry to add a YDS export for.
+  //
+  // To get a registry ID make a [RegistryService.List] request.
+  string registry_id = 2 [(required) = true, (length) = "<=50"];
+
+  // MQTT topic whose messages export to YDS.
+  string mqtt_topic_filter = 4 [(length) = "<=1024"];
+
+  // YDS database.
+  string database = 5 [(required) = true, (length) = "<=512"];
+
+  // YDS stream name.
+  string stream = 6 [(required) = true, (length) = "<=512"];
+
+  // ID of the service account which has permission to write to data stream.
+  string service_account_id = 7 [(required) = true, (length) = "<=50"];
+}
+
+message AddDataStreamExportMetadata {
+  // ID of the registry for which the YDS export was added.
+  string registry_id = 1;
+
+  // ID of the added YDS export.
+  string data_stream_export_id = 2;
+}
+
+message DeleteDataStreamExportRequest {
+  // ID of a registry for which the YDS export is being deleted.
+  string registry_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the YDS export to delete.
+  string data_stream_export_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message DeleteDataStreamExportMetadata {
+  // ID of a registry for which the YDS export was deleted.
+  string registry_id = 1 [(required) = true];
+
+  // ID of the deleted YDS export.
+  string data_stream_export_id = 2 [(required) = true];
+}
+
+message ListDataStreamExportsRequest {
+  // ID of the registry to list YDS exports in.
+  //
+  // To get a registry ID make a [RegistryService.List] request.
+  string registry_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message ListDataStreamExportsResponse {
+  // List of YDS exports for the specified registry.
+  repeated DataStreamExport data_stream_exports = 1;
 }

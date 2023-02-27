@@ -197,7 +197,7 @@ message Connectivity {
   // The list of subnets (from the same network) the revision can be attached to.
   //
   // Deprecated, it is sufficient to specify only network_id, without the list of subnet_ids.
-  repeated string subnet_ids = 2;
+  repeated string subnet_ids = 2  [(length) = ">0", (unique) = true];
 }
 
 message LogOptions {

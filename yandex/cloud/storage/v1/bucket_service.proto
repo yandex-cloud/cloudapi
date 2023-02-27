@@ -165,7 +165,6 @@ message CreateBucketRequest {
   ACL acl = 7;
 
   // List of object tag for the bucket.
-  // TODO: documentation details.
   repeated Tag tags = 8;
 }
 
@@ -223,7 +222,6 @@ message UpdateBucketRequest {
   ACL acl = 11;
 
   // List of object tag for the bucket.
-  // TODO: documentation details.
   repeated Tag tags = 12;
 
   // Configuration for object lock on the bucket.

@@ -67,7 +67,6 @@ message Bucket {
   repeated LifecycleRule lifecycle_rules = 13;
 
   // List of object tag for the bucket.
-  // TODO: documentation details.
   repeated Tag tags = 14;
 
   // Configuration for object lock on the bucket.
