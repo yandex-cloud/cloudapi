@@ -4,6 +4,7 @@ package yandex.cloud.mdb.postgresql.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -126,7 +127,12 @@ message UpdateDatabaseRequest {
   //
   // If the field is sent, the list of enabled extensions is rewritten entirely.
   // Therefore, to disable an active extension you should simply send the list omitting this extension.
-  repeated Extension extensions = 4;
+  repeated Extension extensions = 4;  
+  
+  // Deletion Protection inhibits deletion of the database
+  //
+  // Default value: `unspecified` (inherits cluster's deletion_protection)
+  google.protobuf.BoolValue deletion_protection = 6;
 }
 
 message UpdateDatabaseMetadata {

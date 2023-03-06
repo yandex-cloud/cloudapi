@@ -42,7 +42,7 @@ message Database {
 
 message Extension {
   // Name of the extension, e.g. `pg_trgm` or `pg_btree`.
-  // Extensions supported by Managed Service for PostgreSQL are [listed in the Developer's Guide](/docs/managed-postgresql/operations/cluster-extensions).
+  // Extensions supported by Managed Service for PostgreSQL are [listed in the Developer's Guide](/docs/managed-postgresql/operations/extensions/cluster-extensions).
   string name = 1;
 
   // Version of the extension.

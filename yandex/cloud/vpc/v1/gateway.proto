@@ -7,7 +7,7 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/vpc/v1;vpc";
 option java_package = "yandex.cloud.api.vpc.v1";
 
-// A Gateway resource. For more information, see [Gateway](/docs/vpc/concepts/gateway).
+// A Gateway resource. For more information, see [Gateway](/docs/vpc/concepts/gateways).
 message Gateway {
   // ID of the gateway. Generated at creation time.
   string id = 1;

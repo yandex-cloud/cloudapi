@@ -249,7 +249,7 @@ message CreateInstanceGroupRequest {
   // and attributed to the instance group.
   LoadBalancerSpec load_balancer_spec = 10;
 
-  // Health checking specification. For more information, see [Health check](/docs/load-balancer/concepts/health-check).
+  // Health checking specification. For more information, see [Health check](/docs/network-load-balancer/concepts/health-check).
   HealthChecksSpec health_checks_spec = 11;
 
   // ID of the service account. The service account will be used for all API calls
@@ -319,7 +319,7 @@ message UpdateInstanceGroupRequest {
   // Allocation policy of the instance group by zones and regions.
   AllocationPolicy allocation_policy = 9 [(required) = true];
 
-  // Health checking specification. For more information, see [Health check](/docs/load-balancer/concepts/health-check).
+  // Health checking specification. For more information, see [Health check](/docs/network-load-balancer/concepts/health-check).
   HealthChecksSpec health_checks_spec = 11;
 
   // ID of the service account. The service account will be used for all API calls

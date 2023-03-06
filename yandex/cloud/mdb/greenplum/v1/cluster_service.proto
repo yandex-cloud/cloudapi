@@ -618,6 +618,9 @@ message RestoreClusterRequest {
     // To get the backup ID, use a [ClusterService.ListBackups] request.
     string backup_id = 1 [(required) = true];
 
+    // Timestamp of the moment to which the Greenplum cluster should be restored.
+    google.protobuf.Timestamp time = 16;
+
     // ID of the folder to create the Greenplum® cluster in.
     //
     string folder_id = 2 [(required) = true, (length) = "<=50"];

@@ -658,7 +658,7 @@ message NetworkSettings {
 }
 
 message LoadBalancerSpec {
-  // Specification of the target group that the instance group will be added to. For more information, see [Target groups and resources](/docs/load-balancer/concepts/target-resources).
+  // Specification of the target group that the instance group will be added to. For more information, see [Target groups and resources](/docs/network-load-balancer/concepts/target-resources).
   TargetGroupSpec target_group_spec = 1;
   // Timeout for waiting for the VM to be checked by the load balancer. If the timeout is exceeded,
   // the VM will be turned off based on the deployment policy. Specified in seconds.
@@ -695,7 +695,7 @@ message ApplicationTargetGroupSpec {
 }
 
 message HealthChecksSpec {
-  // Health checking specification. For more information, see [Health check](/docs/load-balancer/concepts/health-check).
+  // Health checking specification. For more information, see [Health check](/docs/network-load-balancer/concepts/health-check).
   repeated HealthCheckSpec health_check_specs = 1 [(size) = ">=1"];
   // Timeout for waiting for the VM to become healthy. If the timeout is exceeded,
   // the VM will be turned off based on the deployment policy. Specified in seconds.

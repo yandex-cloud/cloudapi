@@ -29,17 +29,22 @@ message PlacementGroup {
   map<string, string> labels = 6;
 
   // Placement strategy. To specify a placement strategy, send the corresponding
-  // field containing an empty structure.
+  // field containing approriate structure.
   oneof placement_strategy {
     option (exactly_one) = true;
 
     // Anti-affinity placement strategy (`spread`). Instances are distributed
     // over distinct failure domains.
     SpreadPlacementStrategy spread_placement_strategy = 7;
+    PartitionPlacementStrategy partition_placement_strategy = 8;
   }
 }
 
 // This is an empty structure that must be passed to explicitly
 // specify the required placement strategy.
 message SpreadPlacementStrategy {
+}
+
+message PartitionPlacementStrategy {
+  int64 partitions = 1 [(value) = "2-5"];
 }

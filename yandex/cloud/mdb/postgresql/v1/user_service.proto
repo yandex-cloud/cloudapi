@@ -164,6 +164,11 @@ message UpdateUserRequest {
   //
   // For more information, see [the documentation](/docs/managed-postgresql/operations/grant).
   repeated string grants = 9 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+
+  // Deletion Protection inhibits deletion of the user
+  //
+  // Default value: `unspecified` (inherits cluster's deletion_protection)
+  google.protobuf.BoolValue deletion_protection = 10;
 }
 
 message UpdateUserMetadata {
