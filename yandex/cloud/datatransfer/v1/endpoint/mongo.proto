@@ -19,8 +19,11 @@ message MongoConnectionOptions {
         string mdb_cluster_id = 1;
         OnPremiseMongo on_premise = 2;
     }
+    // User name
     string user = 3;
+    // Password for user
     Secret password = 4;
+    // Database name associated with the credentials
     string auth_source = 5;
 }
 message MongoConnection {
@@ -37,8 +40,13 @@ message MongoSource {
     string subnet_id = 2;
     // Security groups
     repeated string security_groups = 11;
+    // List of collections for replication. Empty list implies replication of all
+    // tables on the deployment. Allowed to use * as collection name.
     repeated MongoCollection collections = 6;
+    // List of forbidden collections for replication. Allowed to use * as collection
+    // name for forbid all collections of concrete schema.
     repeated MongoCollection excluded_collections = 7;
+    // Read mode for mongo client
     bool secondary_preferred_mode = 8;
 }
 message MongoTarget {
@@ -46,6 +54,7 @@ message MongoTarget {
     string subnet_id = 7;
     // Security groups
     repeated string security_groups = 8;
+    // Database name
     string database = 2;
     CleanupPolicy cleanup_policy = 6;
 }

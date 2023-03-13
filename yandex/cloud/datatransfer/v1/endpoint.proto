@@ -7,6 +7,7 @@ option java_package = "yandex.cloud.api.datatransfer.v1";
 
 import "yandex/cloud/datatransfer/v1/endpoint/clickhouse.proto";
 import "yandex/cloud/datatransfer/v1/endpoint/common.proto";
+import "yandex/cloud/datatransfer/v1/endpoint/kafka.proto";
 import "yandex/cloud/datatransfer/v1/endpoint/mongo.proto";
 import "yandex/cloud/datatransfer/v1/endpoint/mysql.proto";
 import "yandex/cloud/datatransfer/v1/endpoint/postgres.proto";
@@ -23,11 +24,13 @@ message EndpointSettings {
     oneof settings {
         endpoint.MysqlSource mysql_source = 1;
         endpoint.PostgresSource postgres_source = 2;
+        endpoint.KafkaSource kafka_source = 8;
         endpoint.MongoSource mongo_source = 9;
         endpoint.ClickhouseSource clickhouse_source = 16;
         endpoint.MysqlTarget mysql_target = 101;
         endpoint.PostgresTarget postgres_target = 102;
         endpoint.ClickhouseTarget clickhouse_target = 104;
+        endpoint.KafkaTarget kafka_target = 110;
         endpoint.MongoTarget mongo_target = 111;
     }
 }

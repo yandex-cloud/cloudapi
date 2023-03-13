@@ -181,8 +181,9 @@ message UpdateBucketRequest {
   // To get the bucket name, make a [BucketService.List] request.
   string name = 1 [ (required) = true ];
 
-  // Field mask that specifies which attributes of the bucket should be updated.
-  google.protobuf.FieldMask field_mask = 2 [ (required) = true ];
+  // Update mask that specifies which attributes of the bucket should be updated.
+  // Use * for full update.
+  google.protobuf.FieldMask update_mask = 2 [ (required) = true ];
 
   // Flags for configuring public (anonymous) access to the bucket's content and settings.
   // For details, see [documentation](/docs/storage/concepts/bucket#bucket-access).

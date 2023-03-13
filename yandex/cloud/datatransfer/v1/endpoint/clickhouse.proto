@@ -13,6 +13,7 @@ enum ClickhouseCleanupPolicy {
     CLICKHOUSE_CLEANUP_POLICY_UNSPECIFIED = 0;
     CLICKHOUSE_CLEANUP_POLICY_DISABLED = 1;
     CLICKHOUSE_CLEANUP_POLICY_DROP = 2;
+    CLICKHOUSE_CLEANUP_POLICY_TRUNCATE = 3;
 }
 message ClickhouseShard {
     string name = 1;
@@ -29,6 +30,7 @@ message ClickhouseConnectionOptions {
         string mdb_cluster_id = 5;
         OnPremiseClickhouse on_premise = 2;
     }
+    // Database
     string database = 8;
     string user = 6;
     Secret password = 7;
@@ -60,7 +62,11 @@ message ClickhouseSource {
     ClickhouseConnection connection = 1;
     string subnet_id = 9;
     repeated string security_groups = 10;
+    // While list of tables for replication. If none or empty list is presented - will
+    // replicate all tables. Can contain * patterns.
     repeated string include_tables = 7;
+    // Exclude list of tables for replication. If none or empty list is presented -
+    // will replicate all tables. Can contain * patterns.
     repeated string exclude_tables = 8;
 }
 message ClickhouseTarget {
@@ -68,6 +74,7 @@ message ClickhouseTarget {
     string subnet_id = 12;
     repeated string security_groups = 51;
     string clickhouse_cluster_name = 50;
+    // Alternative table names in target
     repeated AltName alt_names = 17;
     ClickhouseSharding sharding = 22;
     ClickhouseCleanupPolicy cleanup_policy = 21;

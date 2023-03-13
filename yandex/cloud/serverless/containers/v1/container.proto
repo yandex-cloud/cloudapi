@@ -158,7 +158,7 @@ message Args {
 // Resources allocated to a revision.
 message Resources {
   // Amount of memory available to the revision, specified in bytes.
-  int64 memory = 1 [(value) = "134217728-8589934592"];
+  int64 memory = 1 [(value) = "134217728-4294967296"];
 
   // Number of cores available to the revision.
   int64 cores = 2 [(value) = "0-1"];

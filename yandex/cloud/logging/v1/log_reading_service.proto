@@ -10,7 +10,7 @@ import "yandex/cloud/logging/v1/log_entry.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/logging/v1;logging";
 option java_package = "yandex.cloud.api.logging.v1";
 
-// A set of methods for reading from log groups. To make a request use `reader.logging.yandexcloud.net`.
+// A set of methods for reading from log groups.
 service LogReadingService {
   // Read log entries from the specified log group.
   rpc Read (ReadRequest) returns (ReadResponse);

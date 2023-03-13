@@ -10,27 +10,57 @@ import "google/protobuf/empty.proto";
 
 enum ObjectTransferStage {
     OBJECT_TRANSFER_STAGE_UNSPECIFIED = 0;
+    // Before data transfer
     BEFORE_DATA = 1;
+    // After data transfer
     AFTER_DATA = 2;
+    // Don't copy
     NEVER = 3;
 }
 enum CleanupPolicy {
     CLEANUP_POLICY_UNSPECIFIED = 0;
+    // Don't cleanup
     DISABLED = 1;
+    // Drop
     DROP = 2;
+    // Truncate
     TRUNCATE = 3;
 }
+enum ColumnType {
+    COLUMN_TYPE_UNSPECIFIED = 0;
+    INT64 = 14;
+    INT32 = 1;
+    INT16 = 2;
+    INT8 = 3;
+    UINT64 = 4;
+    UINT32 = 5;
+    UINT16 = 6;
+    UINT8 = 7;
+    DOUBLE = 8;
+    BOOLEAN = 9;
+    STRING = 10;
+    UTF8 = 11;
+    ANY = 12;
+    DATETIME = 13;
+}
 message AltName {
-    // From table name
+    // Source table name
     string from_name = 1;
-    // To table name
+    // Target table name
     string to_name = 2;
 }
 message Secret {
     oneof value {
-        // Password
+        // Raw secret value
         string raw = 1;
     }
+}
+message ColSchema {
+    string name = 1;
+    ColumnType type = 2;
+    bool key = 3;
+    bool required = 4;
+    string path = 5;
 }
 message TLSMode {
     oneof tls_mode {
@@ -50,4 +80,31 @@ message ColumnValue {
     oneof value {
         string string_value = 1;
     }
+}
+message DataTransformationOptions {
+    // Cloud function
+    string cloud_function = 1;
+    // Service account
+    string service_account_id = 8;
+    // Number of retries
+    int64 number_of_retries = 2;
+    // Buffer size for function
+    string buffer_size = 3;
+    // Flush interval
+    string buffer_flush_interval = 4;
+    // Invocation timeout
+    string invocation_timeout = 5;
+}
+message FieldList {
+    // Column schema
+    repeated ColSchema fields = 2;
+}
+message DataSchema {
+    oneof schema {
+        FieldList fields = 2;
+        string json_fields = 1;
+    }
+}
+// No authentication
+message NoAuth {
 }

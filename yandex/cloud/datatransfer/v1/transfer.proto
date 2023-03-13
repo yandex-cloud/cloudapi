@@ -18,15 +18,24 @@ enum TransferType {
 }
 enum TransferStatus {
     TRANSFER_STATUS_UNSPECIFIED = 0;
+    // Transfer does some work before running
     CREATING = 1;
+    // Transfer created but not started by user
     CREATED = 2;
+    // Transfer currently doing replication work
     RUNNING = 3;
+    // Transfer shutdown
     STOPPING = 4;
+    // Transfer stopped by user
     STOPPED = 5;
+    // Transfer stopped by system
     ERROR = 6;
+    // Transfer copy snapshot
     SNAPSHOTTING = 7;
+    // Transfer reach terminal phase
     DONE = 8;
 }
+// Transfer core entity
 message Transfer {
     string id = 1;
     string folder_id = 2;

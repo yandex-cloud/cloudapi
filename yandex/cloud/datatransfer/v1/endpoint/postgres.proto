@@ -17,6 +17,8 @@ message PostgresObjectTransferSettings {
     // 
     // CREATE SEQUENCE ... OWNED BY ...
     ObjectTransferStage sequence_owned_by = 2;
+    // 
+    ObjectTransferStage sequence_set = 18;
     // Tables
     // 
     // CREATE TABLE ...
@@ -45,6 +47,10 @@ message PostgresObjectTransferSettings {
     // 
     // CREATE VIEW ...
     ObjectTransferStage view = 9;
+    // Materialized views
+    // 
+    // CREATE MATERIALIZED VIEW ...
+    ObjectTransferStage materialized_view = 17;
     // Functions
     // 
     // CREATE FUNCTION ...
@@ -73,53 +79,33 @@ message PostgresObjectTransferSettings {
     // 
     // CREATE CAST ...
     ObjectTransferStage cast = 16;
-    // Materialized views
-    // 
-    // CREATE MATERIALIZED VIEW ...
-    ObjectTransferStage materialized_view = 17;
 }
 message OnPremisePostgres {
     repeated string hosts = 5;
-    // Database port
-    // 
-    // Will be used if the cluster ID is not specified. Default: 6432.
+    // Will be used if the cluster ID is not specified.
     int64 port = 2;
-    // TLS mode
-    // 
     // TLS settings for server connection. Disabled by default.
     TLSMode tls_mode = 6;
-    // Network interface for endpoint
-    // 
-    // Default: public IPv4.
+    // Network interface for endpoint. If none will assume public ipv4
     string subnet_id = 4;
 }
 message PostgresConnection {
     oneof connection {
-        // Managed cluster
-        // 
         // Managed Service for PostgreSQL cluster ID
         string mdb_cluster_id = 1;
-        // On-premise
-        // 
         // Connection options for on-premise PostgreSQL
         OnPremisePostgres on_premise = 2;
     }
 }
 message PostgresSource {
-    // Connection settings
-    // 
     // Database connection settings
     PostgresConnection connection = 1;
     // Security groups
     repeated string security_groups = 14;
     // Database name
     string database = 2;
-    // Username
-    // 
     // User for database access.
     string user = 3;
-    // Password
-    // 
     // Password for database access.
     Secret password = 4;
     // Included tables
@@ -132,42 +118,27 @@ message PostgresSource {
     // If none or empty list is presented, all tables are replicated. Full table name
     // with schema. Can contain schema_name.* patterns.
     repeated string exclude_tables = 6;
-    // Maximum WAL size for the replication slot
-    // 
-    // Maximum WAL size held by the replication slot. Exceeding this limit will result
-    // in a replication failure and deletion of the replication slot. Unlimited by
-    // default.
+    // Maximum lag of replication slot (in bytes); after exceeding this limit
+    // replication will be aborted.
     int64 slot_byte_lag_limit = 8;
-    // Database schema for service tables
-    // 
-    // Default: public. Here created technical tables (__consumer_keeper,
-    // __data_transfer_mole_finder).
+    // Database schema for service tables (__consumer_keeper,
+    // __data_transfer_mole_finder). Default is public
     string service_schema = 9;
-    // Schema migration
-    // 
     // Select database objects to be transferred during activation or deactivation.
     PostgresObjectTransferSettings object_transfer_settings = 13;
 }
 message PostgresTarget {
-    // Connection settings
-    // 
     // Database connection settings
     PostgresConnection connection = 1;
     // Security groups
     repeated string security_groups = 7;
     // Database name
     string database = 2;
-    // Username
-    // 
     // User for database access.
     string user = 3;
-    // Password
-    // 
     // Password for database access.
     Secret password = 4;
-    // Cleanup policy
-    // 
     // Cleanup policy for activate, reactivate and reupload processes. Default is
-    // DISABLED.
+    // truncate.
     CleanupPolicy cleanup_policy = 5;
 }

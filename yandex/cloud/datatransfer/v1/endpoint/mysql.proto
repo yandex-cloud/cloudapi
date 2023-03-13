@@ -11,26 +11,16 @@ import "yandex/cloud/datatransfer/v1/endpoint/common.proto";
 message OnPremiseMysql {
     repeated string hosts = 5;
     // Database port
-    // 
-    // Default: 3306.
     int64 port = 2;
-    // TLS mode
-    // 
     // TLS settings for server connection. Disabled by default.
     TLSMode tls_mode = 6;
-    // Network interface for endpoint
-    // 
-    // Default: public IPv4.
+    // Network interface for endpoint. If none will assume public ipv4
     string subnet_id = 4;
 }
 message MysqlConnection {
     oneof connection {
-        // Managed cluster
-        // 
         // Managed Service for MySQL cluster ID
         string mdb_cluster_id = 1;
-        // On-premise
-        // 
         // Connection options for on-premise MySQL
         OnPremiseMysql on_premise = 2;
     }
@@ -48,10 +38,9 @@ message MysqlObjectTransferSettings {
     // 
     // CREATE TRIGGER ...
     ObjectTransferStage trigger = 3;
+    ObjectTransferStage tables = 4;
 }
 message MysqlSource {
-    // Connection settings
-    // 
     // Database connection settings
     MysqlConnection connection = 1;
     // Security groups
@@ -66,12 +55,8 @@ message MysqlSource {
     // Default: data source database. Here created technical tables (__tm_keeper,
     // __tm_gtid_keeper).
     string service_database = 15;
-    // Username
-    // 
     // User for database access.
     string user = 3;
-    // Password
-    // 
     // Password for database access.
     Secret password = 4;
     repeated string include_tables_regex = 12;
@@ -87,8 +72,6 @@ message MysqlSource {
     MysqlObjectTransferSettings object_transfer_settings = 11;
 }
 message MysqlTarget {
-    // Connection settings
-    // 
     // Database connection settings
     MysqlConnection connection = 1;
     // Security groups
@@ -99,16 +82,10 @@ message MysqlTarget {
     // same names as on the source. If this field is empty, then you must fill below db
     // schema for service table.
     string database = 2;
-    // Username
-    // 
     // User for database access.
     string user = 3;
-    // Password
-    // 
     // Password for database access.
     Secret password = 4;
-    // sql_mode
-    // 
     // Default: NO_AUTO_VALUE_ON_ZERO,NO_DIR_IN_CREATE,NO_ENGINE_SUBSTITUTION.
     string sql_mode = 5;
     // Disable constraints checks
