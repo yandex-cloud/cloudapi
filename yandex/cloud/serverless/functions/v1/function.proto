@@ -128,6 +128,9 @@ message Version {
 
   // Options for logging from the function
   LogOptions log_options = 20;
+
+  // S3 mounts to be used by the version.
+  repeated S3Mount s3_mounts = 21;
 }
 
 // Resources allocated to a version.
@@ -223,4 +226,18 @@ message LogOptions {
   //
   // See [LogLevel.Level] for details.
   yandex.cloud.logging.v1.LogLevel.Level min_level = 4;
+}
+
+message S3Mount {
+  // S3 bucket name for mounting.
+  string bucket_id = 1 [(required) = true, (length) = "3-63", (pattern) = "[-.0-9a-zA-Z]*"];
+
+  // S3 bucket prefix for mounting.
+  string prefix = 2;
+
+  // Mount point directory name (not path) for mounting.
+  string mount_point_name = 3 [(required) = true, (length) = "1-100", (pattern) = "[-_0-9a-zA-Z]*"];
+
+  // Is mount read only.
+  bool read_only = 4;
 }

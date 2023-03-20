@@ -319,6 +319,9 @@ message DeployContainerRevisionRequest {
 
   // Options for logging from the container.
   LogOptions log_options = 14;
+
+  // S3 mounts to be used by the version.
+  repeated S3Mount s3_mounts = 15;
 }
 
 // Revision image specification.

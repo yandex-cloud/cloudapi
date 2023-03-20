@@ -316,7 +316,7 @@ message GreenplumConfig6_22 {
 
 // Configuration settings version 6.17
 message GreenplumConfigSet6_17 {
-  // Effective settings for a Greenplum® cluster (a combination of settings defined in [GreenplumConfigSet6_17.user_config] and [GreenplumConfigSet6_17.default_config]).
+  // Effective settings for a Greenplum® cluster (a combination of settings defined in [user_config] and [default_config]).
   GreenplumConfig6_17 effective_config = 1 [(required) = true];
 
   // User-defined settings for a Greenplum® cluster.
@@ -328,7 +328,7 @@ message GreenplumConfigSet6_17 {
 
 // Configuration settings version 6.19
 message GreenplumConfigSet6_19 {
-  // Effective settings for a Greenplum® cluster (a combination of settings defined in [GreenplumConfigSet6_19.user_config] and [GreenplumConfigSet6_19.default_config]).
+  // Effective settings for a Greenplum® cluster (a combination of settings defined in [user_config] and [default_config]).
   GreenplumConfig6_19 effective_config = 1 [(required) = true];
 
   // User-defined settings for a Greenplum® cluster.
@@ -339,26 +339,24 @@ message GreenplumConfigSet6_19 {
 }
 
 message GreenplumConfigSet6_21 {
-  // Effective settings for a Greenplum (a combination of settings defined
-  // in [user_config] and [default_config]).
+  // Effective settings for a Greenplum®  cluster (a combination of settings defined in [user_config] and [default_config]).
   GreenplumConfig6_21 effective_config = 1 [(required) = true];
 
-  // User-defined settings for a Greenplum.
+  // User-defined settings for a Greenplum® cluster.
   GreenplumConfig6_21 user_config = 2;
 
-  // Default configuration for a Greenplum.
+  // Default configuration for a Greenplum® cluster.
   GreenplumConfig6_21 default_config = 3;
 }
 
 message GreenplumConfigSet6_22 {
-  // Effective settings for a Greenplum (a combination of settings defined
-  // in [user_config] and [default_config]).
+  // Effective settings for a Greenplum®  cluster (a combination of settings defined in [user_config] and [default_config]).
   GreenplumConfig6_22 effective_config = 1 [(required) = true];
 
-  // User-defined settings for a Greenplum.
+  // User-defined settings for a Greenplum® cluster.
   GreenplumConfig6_22 user_config = 2;
 
-  // Default configuration for a Greenplum.
+  // Default configuration for a Greenplum® cluster.
   GreenplumConfig6_22 default_config = 3;
 }
 

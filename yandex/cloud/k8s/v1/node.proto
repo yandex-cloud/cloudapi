@@ -156,10 +156,9 @@ message NodeTemplate {
   // Specification for the boot disk that will be attached to the node.
   DiskSpec boot_disk_spec = 3;
 
-  // The metadata as `key:value` pairs assigned to this instance template. This includes custom metadata and predefined keys.
+  // The metadata as `key:value` pairs assigned to this instance template. Only SSH keys are supported as metadata.
   //
-  // For example, you may use the metadata in order to provide your public SSH key to the node.
-  // For more information, see [Metadata](/docs/compute/concepts/vm-metadata).
+  // For more information, see [Connecting to a node over SSH](/docs/managed-kubernetes/operations/node-connect-ssh).
   map<string, string> metadata = 4 [(size) = "<=64", (length) = "<=131072", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Specification for the create network interfaces for the node group compute instances.
