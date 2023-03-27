@@ -354,6 +354,8 @@ message BackupClusterMetadata {
 
   // ID of the cluster that is being backed up.
   string cluster_id = 1;
+  // ID of the MySQL backup that is created.
+  string backup_id = 2;
 }
 
 message RestoreClusterRequest {

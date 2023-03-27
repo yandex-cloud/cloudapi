@@ -389,6 +389,8 @@ message BackupClusterRequest {
 message BackupClusterMetadata {
   // ID of the PostgreSQL cluster that is being backed up.
   string cluster_id = 1;
+  // ID of the PostgreSQL backup that is being created.
+  string backup_id = 2;
 }
 
 message RestoreClusterRequest {
@@ -418,10 +420,10 @@ message RestoreClusterRequest {
   map<string, string> labels = 6 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Deployment environment of the new PostgreSQL cluster.
-  Cluster.Environment environment = 7;
+  Cluster.Environment environment = 7 [(required) = true];
 
   // Configuration for the PostgreSQL cluster to be created.
-  ConfigSpec config_spec = 8;
+  ConfigSpec config_spec = 8 [(required) = true];
 
   // Configurations for PostgreSQL hosts that should be created for
   // the cluster that is being created from the backup.

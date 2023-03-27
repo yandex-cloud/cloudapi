@@ -75,4 +75,6 @@ message DeleteBackupRequest {
 message DeleteBackupMetadata {
   // Required. ID of the PostgreSQL backup that is currently being deleted.
   string backup_id = 1;
+  // ID of the cluster which backup belonged to.
+  string cluster_id = 2;
 }
