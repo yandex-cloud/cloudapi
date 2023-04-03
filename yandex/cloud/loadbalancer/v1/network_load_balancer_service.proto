@@ -181,7 +181,7 @@ message CreateNetworkLoadBalancerRequest {
   // ID of the region where the network load balancer resides.
   string region_id = 5 [(length) = "<=50"];
 
-  // Type of the network load balancer. Only external network load balancers are currently available.
+  // Type of the network load balancer.
   NetworkLoadBalancer.Type type = 6 [(required) = true];
 
   // List of listeners and their specs for the network load balancer.

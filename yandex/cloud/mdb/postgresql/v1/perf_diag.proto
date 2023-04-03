@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.postgresql.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
+option java_package = "yandex.cloud.api.mdb.postgresql.v1";
+
+message PrimaryKey {
+    string host           = 1;
+    string user           = 2;
+    string database       = 4;
+    bool toplevel         = 5;
+    string query_id       = 6;
+    string plan_id        = 7;
+}
+
+message QueryStats {
+    google.protobuf.Timestamp time               =  1;
+
+    string query                                 =  2;
+    string normalized_plan                       =  3;
+    string example_plan                          =  4;
+
+    int64 plans                                  =  5;
+    double total_plan_time                       =  6;
+    double min_plan_time                         =  7;
+    double max_plan_time                         =  8;
+    double mean_plan_time                        =  9;
+    double stddev_plan_time                      = 10;
+
+    int64 calls                                  = 11;
+    double total_time                            = 12;  // total_exec_time
+    double min_time                              = 13;  // min_exec_time
+    double max_time                              = 14;  // max_exec_time
+    double mean_time                             = 15;  // mean_exec_time
+    double stddev_time                           = 16;  // stddev_exec_time
+    int64 rows                                   = 17;
+    int64 shared_blks_hit                        = 18;
+    int64 shared_blks_read                       = 19;
+    int64 shared_blks_dirtied                    = 20;
+    int64 shared_blks_written                    = 21;
+    int64 local_blks_hit                         = 22;
+    int64 local_blks_read                        = 23;
+    int64 local_blks_dirtied                     = 24;
+    int64 local_blks_written                     = 25;
+    int64 temp_blks_read                         = 26;
+    int64 temp_blks_written                      = 27;
+    double blk_read_time                         = 28;
+    double blk_write_time                        = 29;
+    double temp_blk_read_time                    = 30;
+    double temp_blk_write_time                   = 31;
+    int64 wal_records                            = 32;
+    int64 wal_fpi                                = 33;
+    int64 wal_bytes                              = 34;
+    int64 jit_functions                          = 35;
+    double jit_generation_time                   = 36;
+    int64 jit_inlining_count                     = 37;
+    double jit_inlining_time                     = 38;
+    int64 jit_optimization_count                 = 39;
+    double jit_optimization_time                 = 40;
+    int64 jit_emission_count                     = 41;
+    double jit_emission_time                     = 42;
+
+    int64 startup_cost                           = 43;
+    int64 total_cost                             = 44;
+    int64 plan_rows                              = 45;
+    int64 plan_width                             = 46;
+
+    int64 reads                                  = 47;
+    int64 writes                                 = 48;
+    double user_time                             = 49;
+    double system_time                           = 50;
+}
+
+message QueryStatement {
+    PrimaryKey key                               =  1;
+    QueryStats stats                             =  2;
+}

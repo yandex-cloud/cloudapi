@@ -398,7 +398,7 @@ message RetrySettings {
   int64 retry_attempts = 1 [(value) = "1-5"];
 
   // Time in seconds to wait between individual retries.
-  google.protobuf.Duration interval = 2 [(required) = true];
+  google.protobuf.Duration interval = 2 [(value) = "10s-1m", (required) = true];
 }
 
 message BillingBudget {

@@ -50,7 +50,6 @@ message NetworkLoadBalancer {
     INACTIVE = 7;
   }
 
-  // Type of the load balancer. Only external load balancers are currently available.
   enum Type {
     TYPE_UNSPECIFIED = 0;
 

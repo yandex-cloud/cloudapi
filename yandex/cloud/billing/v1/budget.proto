@@ -61,11 +61,11 @@ enum BudgetStatus {
 message CostBudgetSpec {
 
     // Max cost threshold of the budget. Amount currency is the same as corresponding [yandex.cloud.billing.v1.BillingAccount.currency].
-    string amount = 1;
+    string amount = 1 [(required) = true];
 
     // IDs of the [yandex.cloud.iam.v1.UserAccount].
     // Specified users will be be notified if the budget exceeds.
-    repeated string notification_user_account_ids = 2;
+    repeated string notification_user_account_ids = 2 [(size) = ">=1"];
 
     // List of the [ThresholdRule].
     // Rules define intermediate cost thresholds of the budget.
@@ -89,18 +89,18 @@ message CostBudgetSpec {
 
     // End date of the budget.
     // Must be the last day of a month and must be formatted like YYYY-MM-DD.
-    string end_date = 7;
+    string end_date = 7 [(required) = true];
 }
 
 // Expense budget specification describes budget that can be used to control expense of cloud resources usage.
 message ExpenseBudgetSpec {
 
     // Max expense threshold of the budget. Amount currency is the same as corresponding [yandex.cloud.billing.v1.BillingAccount.currency].
-    string amount = 1;
+    string amount = 1 [(required) = true];
 
     // IDs of the [yandex.cloud.iam.v1.UserAccount].
     // Specified users will be be notified if the budget exceeds.
-    repeated string notification_user_account_ids = 2;
+    repeated string notification_user_account_ids = 2 [(size) = ">=1"];
 
     // List of the [ThresholdRule].
     // Rules define intermediate expense thresholds of the budget.
@@ -124,7 +124,7 @@ message ExpenseBudgetSpec {
 
     // End date of the budget.
     // Must be the last day of a month and must be formatted like YYYY-MM-DD.
-    string end_date = 7;
+    string end_date = 7 [(required) = true];
 }
 
 
@@ -132,11 +132,11 @@ message ExpenseBudgetSpec {
 message BalanceBudgetSpec {
 
     // Max balance threshold of the budget. Amount currency is the same as corresponding [yandex.cloud.billing.v1.BillingAccount.currency].
-    string amount = 1;
+    string amount = 1 [(required) = true];
 
     // IDs of the [yandex.cloud.iam.v1.UserAccount].
     // Specified users will be be notified if the budget exceeds.
-    repeated string notification_user_account_ids = 2;
+    repeated string notification_user_account_ids = 2 [(size) = ">=1"];
 
     // List of the [ThresholdRule].
     // Rules define intermediate balance thresholds of the budget.
@@ -148,7 +148,7 @@ message BalanceBudgetSpec {
 
     // End date of the budget.
     // Must be the last day of a month and must be formatted like YYYY-MM-DD.
-    string end_date = 5;
+    string end_date = 5 [(required) = true];
 }
 
 enum ResetPeriodType {
@@ -197,12 +197,12 @@ message CloudFoldersConsumptionFilter {
 message ThresholdRule {
 
     // Type of the rule.
-    ThresholdType type = 1;
+    ThresholdType type = 1 [(required) = true];
 
     // Amount of the rule.
     //  * Must be less than 100 if type is PERCENT.
     //  * Must be less than budget's amount if type is AMOUNT.
-    string amount = 2;
+    string amount = 2 [(required) = true];
 
     // IDs of the [yandex.cloud.iam.v1.UserAccount].
     // Specified users will be be notified if the threshold exceeds.
