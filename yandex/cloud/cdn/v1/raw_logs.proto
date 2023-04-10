@@ -14,8 +14,10 @@ enum RawLogsStatus {
     RAW_LOGS_STATUS_NOT_ACTIVATED = 1;
     // Raw logs was activated, and logs storing process works as expected.
     RAW_LOGS_STATUS_OK = 2;
-    // Raw logs was activated, but logs CDN provider has been failed to store logs.
+    // Raw logs was activated, but CDN provider has been failed to store logs.
     RAW_LOGS_STATUS_FAILED = 3;
+    // Raw logs was activated, but logs storing process is expected.
+    RAW_LOGS_STATUS_PENDING = 4;
 }
 
 // User settings for Raw logs.

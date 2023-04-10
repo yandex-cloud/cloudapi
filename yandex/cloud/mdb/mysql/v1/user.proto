@@ -122,6 +122,17 @@ enum GlobalPermission {
   // The privilege enables use of `SHOW PROCESSLIST` or `mysqladmin` processlist to see threads belonging to other users.
   // You can always see your own threads. The `PROCESS` privilege also enables use of `SHOW ENGINE`.
   PROCESS = 3;
+
+  // Enables use of the `FLUSH OPTIMIZER_COSTS` statement.
+  FLUSH_OPTIMIZER_COSTS = 4;
+
+  // Enables a user to access definitions and properties of all stored routines (stored procedures and functions), even those for which the user is not named as the routine DEFINER.
+  // This access includes:
+  // The contents of the Information Schema `ROUTINES` table.
+  // The `SHOW CREATE FUNCTION` and `SHOW CREATE PROCEDURE` statements.
+  // The `SHOW FUNCTION CODE` and `SHOW PROCEDURE CODE` statements.
+  // The SHOW `FUNCTION STATUS` and `SHOW PROCEDURE STATUS` statements.
+  SHOW_ROUTINE = 5;
 }
 
 message ConnectionLimits {
