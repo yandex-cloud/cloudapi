@@ -200,6 +200,12 @@ message NodeTemplate {
   }
 
   ContainerRuntimeSettings container_runtime_settings = 12;
+
+  message ContainerNetworkSettings {
+    int64 pod_mtu = 1;
+  }
+
+  ContainerNetworkSettings container_network_settings = 16;
 }
 
 message NetworkInterfaceSpec {

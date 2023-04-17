@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+package yandex.cloud.loadtesting.agent.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/validation.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/loadtesting/agent/v1/test.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/loadtesting/agent/v1;agent";
+option java_package = "yandex.cloud.api.loadtesting.agent.v1";
+
+
+service TestService {
+  // Returns test by test id.
+  rpc Get (GetTestRequest) returns (Test) {
+    option (google.api.http) = { get: "/loadtesting/agent/v1/tests/{test_id}" };
+  };
+
+  // Creates test for the specified folder.
+  rpc Create (CreateTestRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/loadtesting/agent/v1/tests" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "CreateTestMetadata"
+      response: "Test"
+    };
+  };
+
+  // Updates the specified test.
+  rpc Update (UpdateTestRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/loadtesting/agent/v1/tests/{test_id}" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateTestMetadata"
+      response: "Test"
+    };
+  };
+}
+
+message GetTestRequest {
+  string test_id = 1 [(yandex.cloud.required) = true, (yandex.cloud.length) = "<=50"];
+}
+
+message CreateTestRequest {
+
+  string folder_id = 1 [(yandex.cloud.length) = "<=50"];
+  string name = 2  [(yandex.cloud.pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string description = 3 [(yandex.cloud.length) = "<=256"];
+  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (yandex.cloud.length) = "<=63",
+    (yandex.cloud.pattern) = "[-_0-9a-z]*", (yandex.cloud.map_key).length = "1-63",
+    (yandex.cloud.map_key).pattern = "[a-z][-_0-9a-z]*"];
+
+  Test.Generator generator = 5;
+  string agent_instance_id = 6 [(yandex.cloud.length) = "<=50"];
+
+  // Fields for TestConfig creation. These fields have the higher priority than yaml config.
+  // These fields are taken from Form
+  string target_address = 7 [(yandex.cloud.required) = true, (yandex.cloud.length) = "<=50"];
+  int64 target_port = 8;
+  string target_version = 9 [(yandex.cloud.length) = "<=50"];
+  int64 instances = 10;
+  Schedule load_schedule = 11;
+
+  string config = 12 [(yandex.cloud.required) = true];
+  string ammo_id = 13 [(yandex.cloud.length) = "<=50"];
+  repeated string ammo_urls = 14 [(yandex.cloud.length) = "<=1024"];
+  repeated string ammo_headers = 15;
+  AmmoType ammo_type = 16;
+  bool ssl = 17;
+
+  int64 imbalance_point = 18;
+  int64 imbalance_ts = 19;
+
+  string logging_log_group_id = 20;
+}
+
+message CreateTestMetadata {
+  string test_id = 1;
+}
+
+message UpdateTestRequest {
+  string test_id = 1 [(yandex.cloud.required) = true, (yandex.cloud.length) = "<=50"];
+  google.protobuf.FieldMask update_mask = 2;
+  string name = 3 [(yandex.cloud.pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string description = 4 [(yandex.cloud.length) = "<=256"];
+  map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (yandex.cloud.length) = "<=63",
+    (yandex.cloud.pattern) = "[-_0-9a-z]*", (yandex.cloud.map_key).length = "1-63",
+    (yandex.cloud.map_key).pattern = "[a-z][-_0-9a-z]*"];
+  bool favorite = 6;
+  string target_version = 7 [(yandex.cloud.length) = "<=50"];
+  int64 imbalance_point = 8;
+  int64 imbalance_ts = 9;
+  string imbalance_comment = 10;
+}
+
+message UpdateTestMetadata {
+  string test_id = 1;
+}

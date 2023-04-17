@@ -66,7 +66,8 @@ message Bucket {
   // For details, see [documentation](/docs/storage/concepts/lifecycles).
   repeated LifecycleRule lifecycle_rules = 13;
 
-  // List of object tag for the bucket.
+  // List of tags for the bucket.
+  // For details, see [documentation](/docs/resource-manager/concepts/labels).
   repeated Tag tags = 14;
 
   // Configuration for object lock on the bucket.
@@ -75,7 +76,9 @@ message Bucket {
 }
 
 message Tag {
+  // Key of the bucket tag.
   string key = 1;
+  // Value of the bucket tag.
   string value = 2;
 }
 

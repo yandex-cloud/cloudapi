@@ -19,7 +19,7 @@ service BucketService {
   // Retrieves the list of buckets in the specified folder.
   //
   // The following fields will not be returned for buckets in the list: [Bucket.policy], [Bucket.acl], [Bucket.cors],
-  // [Bucket.website_settings], [Bucket.lifecycle_rules].
+  // [Bucket.website_settings], [Bucket.lifecycle_rules], [Bucket.tags].
   rpc List (ListBucketsRequest) returns (ListBucketsResponse) {
     option (google.api.http) = { get: "/storage/v1/buckets" };
   };
@@ -99,12 +99,13 @@ message GetBucketRequest {
     // Returns basic information about a bucket.
     //
     // The following fields will _not_ be returned: [Bucket.acl], [Bucket.cors], [Bucket.website_settings],
-    // [Bucket.lifecycle_rules].
+    // [Bucket.lifecycle_rules], [Bucket.tags].
     VIEW_BASIC = 1;
 
     // Returns basic information and access control list (ACL) for the bucket.
     //
-    // The following fields will _not_ be returned: [Bucket.cors], [Bucket.website_settings], [Bucket.lifecycle_rules].
+    // The following fields will _not_ be returned: [Bucket.cors], [Bucket.website_settings], [Bucket.lifecycle_rules],
+    // [Bucket.tags].
     VIEW_ACL = 2;
 
     // Returns full information about a bucket.
@@ -164,7 +165,8 @@ message CreateBucketRequest {
   // For details, see [documentation](/docs/storage/concepts/acl).
   ACL acl = 7;
 
-  // List of object tag for the bucket.
+  // List of tags for the bucket.
+  // For details, see [documentation](/docs/resource-manager/concepts/labels).
   repeated Tag tags = 8;
 }
 
@@ -222,7 +224,8 @@ message UpdateBucketRequest {
   // For details, see [documentation](/docs/storage/concepts/acl).
   ACL acl = 11;
 
-  // List of object tag for the bucket.
+  // List of tags for the bucket.
+  // For details, see [documentation](/docs/resource-manager/concepts/labels).
   repeated Tag tags = 12;
 
   // Configuration for object lock on the bucket.
