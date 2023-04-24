@@ -451,6 +451,8 @@ message PostgresqlConfig11 {
   google.protobuf.DoubleValue pg_trgm_word_similarity_threshold = 160 [(value) = "0.0-1.0"];
 
   google.protobuf.DoubleValue pg_trgm_strict_word_similarity_threshold = 161 [(value) = "0.0-1.0"];
+
+  google.protobuf.Int64Value max_standby_archive_delay = 162; // in milliseconds.
 }
 
 message PostgresqlConfigSet11 {

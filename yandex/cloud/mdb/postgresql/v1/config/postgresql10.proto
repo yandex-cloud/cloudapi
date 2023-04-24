@@ -429,6 +429,8 @@ message PostgresqlConfig10 {
   google.protobuf.DoubleValue geqo_selection_bias = 157 [(value) = "1.5-2.0"];    // selective pressure within the population
 
   google.protobuf.DoubleValue geqo_seed = 158 [(value) = "0.0-1.0"];              // initial value of the random number generator used by GEQO
+
+  google.protobuf.Int64Value max_standby_archive_delay = 162; // in milliseconds.
 }
 
 message PostgresqlConfigSet10 {

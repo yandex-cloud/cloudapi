@@ -565,6 +565,11 @@ message MysqlConfig5_7 {
   //
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html)
   google.protobuf.Int64Value optimizer_search_depth = 84 [(value) = "0-62"];
+
+  // Enables and disables collection of query times
+  //
+  // For details, see [Percona documentation for the variable](https://docs.percona.com/percona-server/5.7/diagnostics/response_time_distribution.html#query_response_time_stats).
+  google.protobuf.BoolValue query_response_time_stats = 85;
 }
 
 message MysqlConfigSet5_7 {
