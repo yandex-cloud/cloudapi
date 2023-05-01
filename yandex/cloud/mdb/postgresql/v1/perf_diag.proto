@@ -7,6 +7,33 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
 option java_package = "yandex.cloud.api.mdb.postgresql.v1";
 
+message SessionState {
+  // Collect timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  google.protobuf.Timestamp time = 1;
+  string host = 2;
+  int64 pid = 3;
+  string database = 4;
+  string user = 5;
+  string application_name = 6;
+  google.protobuf.Timestamp backend_start = 7;
+  google.protobuf.Timestamp xact_start = 8;
+  google.protobuf.Timestamp query_start = 9;
+  google.protobuf.Timestamp state_change = 10;
+  string wait_event_type = 11;
+  string wait_event = 12;
+  string state = 13;
+  string query = 14;
+  string backend_type = 15;
+  string client_addr = 16;
+  string client_hostname = 17;
+  int64 client_port = 18;
+  int64 backend_xid = 19;
+  int64 backend_xmin = 20;
+  reserved 21;
+  string blocking_pids = 22;
+  string query_id = 23;
+}
+
 message PrimaryKey {
     string host           = 1;
     string user           = 2;

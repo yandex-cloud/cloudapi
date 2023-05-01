@@ -244,7 +244,8 @@ message MasterLogging {
     string folder_id = 3 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
   }
 
-  reserved 4;
+  // Identifies whether Cloud Logging is enabled for audit logs.
+  bool audit_enabled = 4;
 
   // Identifies whether Cloud Logging is enabled for cluster-autoscaler.
   bool cluster_autoscaler_enabled = 5;

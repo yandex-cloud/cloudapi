@@ -73,6 +73,10 @@ message Bucket {
   // Configuration for object lock on the bucket.
   // For details about the concept, see [documentation](/docs/storage/concepts/object-lock).
   ObjectLock object_lock = 15;
+
+  // Configuration for bucket's encryption
+  // For detauls, see [documentation](/docs/storage/concepts/encryption)
+  Encryption encryption = 16;
 }
 
 message Tag {
@@ -657,4 +661,13 @@ message ObjectLock {
 
   ObjectLockStatus status = 2;
   DefaultRetention default_retention = 3;
+}
+
+message Encryption {
+    message EncryptionRule {
+        string kms_master_key_id = 1;
+        string sse_algorithm = 2;
+    }
+
+    repeated EncryptionRule rules = 1;
 }

@@ -83,4 +83,7 @@ enum BindingType {
 message FederationSecuritySettings {
   // Enable encrypted assertions.
   bool encrypted_assertions = 1;
+
+  // Value parameter ForceAuthn in SAMLRequest.
+  bool force_authn = 2;
 }

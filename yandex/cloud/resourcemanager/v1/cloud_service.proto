@@ -48,6 +48,7 @@ service CloudService {
 
   // Deletes the specified cloud.
   rpc Delete (DeleteCloudRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/resource-manager/v1/clouds/{cloud_id}" };
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteCloudMetadata"
       response: "google.protobuf.Empty"
