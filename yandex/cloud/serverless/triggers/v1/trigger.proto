@@ -270,6 +270,7 @@ message Trigger {
 
     repeated string resource_type = 3 [(pattern) = "[a-zA-Z][-a-zA-Z0-9_.]{1,62}", (size) = "<=100"];
     repeated string resource_id = 4 [(pattern) = "[a-zA-Z][-a-zA-Z0-9_.]{1,62}", (size) = "<=100"];
+    repeated string stream_name = 7 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]", (size) = "<=100"];
     repeated yandex.cloud.logging.v1.LogLevel.Level levels = 5 [(size) = "<=10"];
 
     // Batch settings for processing log events.
