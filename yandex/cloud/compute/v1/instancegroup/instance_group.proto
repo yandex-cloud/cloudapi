@@ -577,6 +577,9 @@ message AttachedDiskSpec {
     // It will be a user's responsibility to delete such disks.
     bool preserve_after_instance_delete = 6;
   }
+
+  // When set can be later used to change DiskSpec of actual disk.
+  string name = 7 [(length) = "<=128"];
 }
 
 message NetworkInterfaceSpec {

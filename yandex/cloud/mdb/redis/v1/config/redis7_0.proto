@@ -81,6 +81,9 @@ message RedisConfig7_0 {
 
   // Redis connection output buffers limits for clients.
   ClientOutputBufferLimit client_output_buffer_limit_normal = 9;
+
+  // Redis maxmemory percent
+  google.protobuf.Int64Value maxmemory_percent = 10 [(value) = "1-75"];
 }
 
 message RedisConfigSet7_0 {

@@ -42,6 +42,7 @@ message Job {
   string logging_log_group_id = 4;
   StorageObject test_data = 5;
   repeated TestDataEntry data_payload = 6;
+  TestArtifactUploadSettings artifact_upload_settings = 7;
 }
 
 message File {
@@ -58,6 +59,14 @@ message TestDataEntry {
   string name = 1;
   bool is_transient = 2;
   StorageObject storage_object = 3;
+}
+
+message TestArtifactUploadSettings {
+  string output_bucket = 1;
+  string output_name = 2;
+  bool is_archive = 3;
+  repeated string filter_include = 4;
+  repeated string filter_exclude = 5;
 }
 
 message GetJobTransientFile {
