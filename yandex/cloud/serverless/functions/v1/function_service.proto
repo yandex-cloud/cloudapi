@@ -448,7 +448,7 @@ message CreateFunctionVersionRequest {
   LogOptions log_options = 19;
 
   // S3 mounts to be used by the version.
-  repeated S3Mount s3_mounts = 20;
+  repeated StorageMount storage_mounts = 20;
 }
 
 message CreateFunctionVersionMetadata {

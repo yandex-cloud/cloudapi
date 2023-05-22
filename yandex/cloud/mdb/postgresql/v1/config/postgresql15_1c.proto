@@ -501,6 +501,11 @@ message PostgresqlConfig15_1C {
   google.protobuf.DoubleValue pg_trgm_word_similarity_threshold = 160 [(value) = "0.0-1.0"];
 
   google.protobuf.DoubleValue pg_trgm_strict_word_similarity_threshold = 161 [(value) = "0.0-1.0"];
+
+  google.protobuf.Int64Value max_standby_archive_delay = 162; // in milliseconds.
+
+  google.protobuf.Int64Value session_duration_timeout = 163 [(value) = "0-2147483647"]; // Terminate any session that exceeds the designated timeout, specified in seconds. If a timeout is not specified, the default session timeout is set to 12 hours. To disable it, specify a value of 0.
+
 }
 
 message PostgresqlConfigSet15_1C {

@@ -116,7 +116,7 @@ message Revision {
   LogOptions log_options = 15;
 
   // S3 mounts to be used by the version.
-  repeated S3Mount s3_mounts = 16;
+  repeated StorageMount storage_mounts = 16;
 }
 
 // Revision image specification.
@@ -233,7 +233,7 @@ message ScalingPolicy {
   int64 zone_requests_limit = 2;
 }
 
-message S3Mount {
+message StorageMount {
   // S3 bucket name for mounting.
   string bucket_id = 1 [(required) = true, (length) = "3-63", (pattern) = "[-.0-9a-zA-Z]*"];
 

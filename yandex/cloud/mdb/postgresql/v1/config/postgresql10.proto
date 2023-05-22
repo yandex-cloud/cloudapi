@@ -431,6 +431,9 @@ message PostgresqlConfig10 {
   google.protobuf.DoubleValue geqo_seed = 158 [(value) = "0.0-1.0"];              // initial value of the random number generator used by GEQO
 
   google.protobuf.Int64Value max_standby_archive_delay = 162; // in milliseconds.
+
+  google.protobuf.Int64Value session_duration_timeout = 163 [(value) = "0-2147483647"]; // Terminate any session that exceeds the designated timeout, specified in seconds. If a timeout is not specified, the default session timeout is set to 12 hours. To disable it, specify a value of 0.
+
 }
 
 message PostgresqlConfigSet10 {

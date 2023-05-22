@@ -5,6 +5,7 @@ package yandex.cloud.mdb.redis.v1;
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
+import "yandex/cloud/mdb/redis/v1/config/redis.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis5_0.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis6_0.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis6_2.proto";
@@ -174,6 +175,9 @@ message ClusterConfig {
 
   // Access policy to DB
   Access access = 5;
+
+  // Unified configuration of a Redis cluster.
+  config.RedisConfigSet redis = 9;
 }
 
 message Shard {

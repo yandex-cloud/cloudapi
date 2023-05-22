@@ -130,7 +130,7 @@ message Version {
   LogOptions log_options = 20;
 
   // S3 mounts to be used by the version.
-  repeated S3Mount s3_mounts = 21;
+  repeated StorageMount storage_mounts = 21;
 }
 
 // Resources allocated to a version.
@@ -228,7 +228,7 @@ message LogOptions {
   yandex.cloud.logging.v1.LogLevel.Level min_level = 4;
 }
 
-message S3Mount {
+message StorageMount {
   // S3 bucket name for mounting.
   string bucket_id = 1 [(required) = true, (length) = "3-63", (pattern) = "[-.0-9a-zA-Z]*"];
 
