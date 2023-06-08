@@ -8,6 +8,7 @@ option csharp_namespace = "Yandex.Cloud.Datatransfer.V1.EndPoint"; // there is a
 
 import "yandex/cloud/datatransfer/v1/endpoint/common.proto";
 import "yandex/cloud/datatransfer/v1/endpoint/parsers.proto";
+import "yandex/cloud/datatransfer/v1/endpoint/serializers.proto";
 
 enum KafkaMechanism {
     KAFKA_MECHANISM_UNSPECIFIED = 0;
@@ -69,6 +70,8 @@ message KafkaTarget {
     repeated string security_groups = 3;
     // Target topic settings
     KafkaTargetTopicSettings topic_settings = 7;
+    // Data serialization format settings
+    Serializer serializer = 8;
 }
 message KafkaTargetTopicSettings {
     oneof topic_settings {

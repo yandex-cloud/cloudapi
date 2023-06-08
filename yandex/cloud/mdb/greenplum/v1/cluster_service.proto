@@ -476,6 +476,9 @@ message ListClusterLogsRequest {
 
     // Greenplum® pooler logs.
     GREENPLUM_POOLER = 2;
+
+    // Greenplum® PXF service logs.
+    GREENPLUM_PXF = 3;
   }
 
   // Start timestamp for the logs request.
@@ -565,6 +568,9 @@ message StreamClusterLogsRequest {
 
     // Greenplum® pooler logs.
     GREENPLUM_POOLER = 2;
+
+    // Greenplum® PXF service logs.
+    GREENPLUM_PXF = 3;
   }
 
   // Start timestamp for the logs request.
@@ -667,6 +673,12 @@ message RestoreClusterRequest {
 
     // A Greenplum® cluster maintenance window. Should be defined by either one of the two options.
     MaintenanceWindow maintenance_window = 15;
+
+    // Number of segment hosts
+    int64 segment_host_count = 17;
+
+    // Number of segments on each host
+    int64 segment_in_host = 18;
 }
 
 message RestoreClusterMetadata {

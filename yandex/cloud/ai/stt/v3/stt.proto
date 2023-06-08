@@ -253,8 +253,7 @@ message AlternativeUpdate {
   // List of hypothesis for timeframes.
   repeated Alternative alternatives = 1;
 
-  // Tag for distinguish audio channels.
-  string channel_tag = 2;
+  string channel_tag = 2 [deprecated = true];
 }
 
 // AudioCursors are state of ASR recognition stream.
@@ -358,4 +357,7 @@ message StreamingResponse {
     //    Status messages, send by server with fixed interval (keep-alive).
     StatusCode status_code = 8;
   }
+
+  // Tag for distinguish audio channels.
+  string channel_tag = 9;
 }

@@ -22,6 +22,8 @@ message Test {
     STOPPING = 9;
     STOPPED = 10;
     AUTOSTOPPED = 11;
+    WAITING = 12;
+    DELETING = 13;
   }
 
   enum Generator {

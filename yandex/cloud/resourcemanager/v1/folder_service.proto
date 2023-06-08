@@ -72,7 +72,7 @@ service FolderService {
     option (google.api.http) = { post: "/resource-manager/v1/folders/{resource_id}:setAccessBindings" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
-      response: "google.protobuf.Empty"
+      response: "access.AccessBindingsOperationResult"
     };
   }
 
@@ -81,7 +81,7 @@ service FolderService {
     option (google.api.http) = { post: "/resource-manager/v1/folders/{resource_id}:updateAccessBindings" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
-      response: "google.protobuf.Empty"
+      response: "access.AccessBindingsOperationResult"
     };
   }
 }

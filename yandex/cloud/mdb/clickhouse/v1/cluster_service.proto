@@ -598,7 +598,7 @@ message ListClusterLogsRequest {
   repeated string column_filter = 2;
 
   // Type of the service to request logs about.
-  ServiceType service_type = 3;
+  ServiceType service_type = 3 [(required) = true];
 
   enum ServiceType {
     SERVICE_TYPE_UNSPECIFIED = 0;
@@ -653,7 +653,7 @@ message StreamClusterLogsRequest {
   // Columns from logs table to get in the response.
   repeated string column_filter = 2;
 
-  ServiceType service_type = 3;
+  ServiceType service_type = 3 [(required) = true];
 
   enum ServiceType {
     SERVICE_TYPE_UNSPECIFIED = 0;

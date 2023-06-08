@@ -26,6 +26,8 @@ message ClaimAgentStatusRequest {
     PREPARING_TEST = 2;
     TESTING = 3;
     TANK_FAILED = 4;
+    STOPPED = 5;
+    UPLOADING_ARTIFACTS = 6;
   }
   Status status = 2;
 }
