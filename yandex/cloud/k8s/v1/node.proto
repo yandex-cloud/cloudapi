@@ -54,6 +54,10 @@ message Node {
     // Node is still registered but its instance
     // is deleted (this is our bug).
     MISSING = 5;
+    // Node is stopped
+    STOPPED            = 6;
+    // Backend request to kubernetes api was unsuccessful.
+    UNKNOWN            = 7;
   }
 
   // Node specification.
