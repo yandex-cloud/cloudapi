@@ -192,6 +192,17 @@ service InstanceService {
       response: "Instance"
     };
   }
+
+  // Moves the specified instance to another availability zone
+  //
+  // Running instance will be restarted during this operation.
+  rpc Relocate(RelocateInstanceRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:relocate" body: "*" };
+      option (yandex.cloud.api.operation) = {
+          metadata: "RelocateInstanceMetadata"
+          response: "Instance"
+      };
+  }
 }
 
 enum InstanceView {
@@ -843,6 +854,29 @@ message MoveInstanceMetadata {
 
   // ID of the folder that the instance is being moved to.
   string destination_folder_id = 3;
+}
+
+message RelocateInstanceRequest {
+  // ID of the instance to move.
+  //
+  // To get the instance ID, make a [InstanceService.List] request.
+  string instance_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the availability zone to move the instance to.
+  //
+  // To get the zone ID, make a [ZoneService.List] request.
+  string destination_zone_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message RelocateInstanceMetadata {
+  // ID of the instance that is being moved.
+  string instance_id = 1;
+
+  // ID of the availability zone that the instance is being moved from.
+  string source_zone_id = 2;
+
+  // ID of the availability zone that the instance is being moved to.
+  string destination_zone_id = 3;
 }
 
 message GuestStopInstanceMetadata {

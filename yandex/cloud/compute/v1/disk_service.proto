@@ -76,6 +76,18 @@ service DiskService {
     };
   }
 
+  // Moves the specified disk to another availability zone
+  //
+  // Disk must be detached from instances. To move attached
+  // disk use [InstanceService.Relocate] request.
+  rpc Relocate(RelocateDiskRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/disks/{disk_id}:relocate" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "RelocateDiskMetadata"
+      response: "Disk"
+    };
+  }
+
   // Retrieves the list of snapshot schedules the specified disk is attached to.
   rpc ListSnapshotSchedules (ListDiskSnapshotSchedulesRequest) returns (ListDiskSnapshotSchedulesResponse);
 }
@@ -260,6 +272,29 @@ message MoveDiskMetadata {
 
   // ID of the folder that the disk is being moved to.
   string destination_folder_id = 3;
+}
+
+message RelocateDiskRequest {
+  // ID of the disk to move.
+  //
+  // To get the disk ID, make a [DiskService.List] request.
+  string disk_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the availability zone to move the disk to.
+  //
+  // To get the zone ID, make a [ZoneService.List] request.
+  string destination_zone_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message RelocateDiskMetadata {
+  // ID of the disk that is being moved.
+  string disk_id = 1;
+
+  // ID of the availability zone that the disk is being moved from.
+  string source_zone_id = 2;
+
+  // ID of the availability zone that the disk is being moved to.
+  string destination_zone_id = 3;
 }
 
 message ListDiskSnapshotSchedulesRequest {
