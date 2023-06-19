@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package yandex.cloud.datatransfer.v1.endpoint;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datatransfer/v1/endpoint;endpoint";
+option java_package = "yandex.cloud.api.datatransfer.v1.endpoint";
+option csharp_namespace = "Yandex.Cloud.Datatransfer.V1.EndPoint"; // there is a clash with class Endpoint in namespace Yandex.Cloud.Datatransfer.V1
+
+enum YdbCleanupPolicy {
+    YDB_CLEANUP_POLICY_UNSPECIFIED = 0;
+    YDB_CLEANUP_POLICY_DISABLED = 1;
+    YDB_CLEANUP_POLICY_DROP = 2;
+}
+
+message YdbSource {
+    // Path in YDB where to store tables
+    string database = 1;
+    // Instance of YDB. example: ydb-ru-prestable.yandex.net:2135
+    string instance = 2;
+    string service_account_id = 6;
+    repeated string paths = 5;
+    // Network interface for endpoint. If none will assume public ipv4
+    string subnet_id = 30;
+    // Security groups
+    repeated string security_groups = 34;
+    // Authorization Key
+    string sa_key_content = 33;
+}
+
+message YdbTarget {
+    // Path in YDB where to store tables
+    string database = 1;
+    // Instance of YDB. example: ydb-ru-prestable.yandex.net:2135
+    string instance = 2;
+    string service_account_id = 11;
+    // Path extension for database, each table will be layouted into this path
+    string path = 10;
+    // Network interface for endpoint. If none will assume public ipv4
+    string subnet_id = 30;
+    // Security groups
+    repeated string security_groups = 33;
+    // SA content
+    string sa_key_content = 32;
+    // Cleanup policy
+    YdbCleanupPolicy cleanup_policy = 21;
+}
