@@ -42,10 +42,17 @@ message DiskPlacementGroup {
 
   // Placement strategy.
   oneof placement_strategy {
-    // Distribute instances over distinct failure domains.
+    // Distribute disks over distinct failure domains.
     DiskSpreadPlacementStrategy spread_placement_strategy = 8;
+
+    // Distribute disks over partitions.
+    DiskPartitionPlacementStrategy partition_placement_strategy = 9;
   }
 }
 
 message DiskSpreadPlacementStrategy {
+}
+
+message DiskPartitionPlacementStrategy {
+  int64 partitions = 1;
 }

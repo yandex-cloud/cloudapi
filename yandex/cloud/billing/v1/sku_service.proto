@@ -39,7 +39,7 @@ message GetSkuRequest {
     string currency = 2 [(required) = true];
 
     // Optional ID of the billing account.
-    // If specified, contract prices for concrete billing account are included in the response.
+    // If specified, contract prices for a particular billing account are included in the response.
     // To get the billing account ID, use [BillingAccountService.List] request.
     string billing_account_id = 3;
 }
@@ -54,7 +54,7 @@ message ListSkusRequest {
     string currency = 1 [(required) = true];
 
     // Optional ID of the billing account.
-    // If specified, contract prices for concrete billing account are included in the response.
+    // If specified, contract prices for a particular billing account are included in the response.
     // To get the billing account ID, use [BillingAccountService.List] request.
     string billing_account_id = 2;
 

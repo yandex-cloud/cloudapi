@@ -128,6 +128,9 @@ message CreateDiskPlacementGroupRequest {
 
     // Distribute disks over distinct failure domains.
     DiskSpreadPlacementStrategy spread_placement_strategy = 6;
+
+    // Distribute disks over partitions.
+    DiskPartitionPlacementStrategy partition_placement_strategy = 7;
   }
 }
 

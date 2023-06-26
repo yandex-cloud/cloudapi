@@ -85,4 +85,5 @@ message Disk {
 message DiskPlacementPolicy {
   // Placement group ID.
   string placement_group_id = 1;
+  int64 placement_group_partition = 2;
 }
