@@ -58,6 +58,25 @@ message EouClassifierOptions {
   }
 }
 
+message RecognitionClassifier {
+  enum TriggerType {
+    TRIGGER_TYPE_UNSPECIFIED = 0; // Do not use
+    ON_UTTERANCE = 1; // Apply classifier to utterance responses
+    ON_FINAL = 2; // Apply classifier to final responses
+  }
+
+  // Classifier name
+  string classifier = 1;
+
+  // Describes the types of responses to which the classification results will come
+  repeated TriggerType triggers = 2;
+}
+
+message RecognitionClassifierOptions {
+  // List of classifiers to use
+  repeated RecognitionClassifier classifiers = 1;
+}
+
 // RAW Audio format spec (no container to infer type). Used in AudioFormat options.
 message RawAudio {
   enum AudioEncoding {
@@ -148,6 +167,9 @@ message StreamingOptions {
 
   //  Configuration for end of utterance detection model.
   EouClassifierOptions eou_classifier = 2;
+
+  //  Configuration for classifiers over speech recognition.
+  RecognitionClassifierOptions recognition_classifier = 3;
 }
 
 // Data chunk with audio.
@@ -323,6 +345,56 @@ message SessionUuid {
   string user_request_id = 2;
 }
 
+message PhraseHighlight {
+  // Text transcription of the highlighted audio segment
+  string text = 1;
+
+  // Start time of the highlighted audio segment
+  int64 start_time_ms = 2;
+
+  // End time of the highlighted audio segment
+  int64 end_time_ms = 3;
+}
+
+message RecognitionClassifierLabel {
+  // The label of the class predicted by the classifier
+  string label = 1;
+
+  // The prediction confidence
+  double confidence = 2;
+}
+
+message RecognitionClassifierResult {
+  // Name of the triggered classifier
+  string classifier = 1;
+
+  // List of highlights, i.e. parts of phrase that determine the result of the classification
+  repeated PhraseHighlight highlights = 2;
+
+  // Classifier predictions
+  repeated RecognitionClassifierLabel labels = 3;
+}
+
+message RecognitionClassifierUpdate {
+  enum WindowType {
+    WINDOW_TYPE_UNSPECIFIED = 0; // Never used
+    LAST_UTTERANCE = 1; // The result of applying the classifier to the last utterance response
+    LAST_FINAL = 2; // The result of applying the classifier to the last final response
+  }
+
+  // Response window type
+  WindowType window_type = 1;
+
+  // Start time of the audio segment used for classification
+  int64 start_time_ms = 2;
+
+  // End time of the audio segment used for classification
+  int64 end_time_ms = 3;
+
+  // Result for dictionary-based classifier
+  RecognitionClassifierResult classifier_result = 4;
+}
+
 // Responses from server.
 // Each response contains session uuid
 // AudioCursors
@@ -356,6 +428,9 @@ message StreamingResponse {
 
     //    Status messages, send by server with fixed interval (keep-alive).
     StatusCode status_code = 8;
+
+    //  Result of the triggered classifier
+    RecognitionClassifierUpdate classifier_update = 10;
   }
 
   // Tag for distinguish audio channels.
