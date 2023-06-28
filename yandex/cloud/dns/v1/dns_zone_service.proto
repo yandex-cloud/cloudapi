@@ -117,6 +117,31 @@ service DnsZoneService {
       response: "google.protobuf.Empty"
     };
   }
+
+  // Atomically updates zone private networks
+  rpc UpdatePrivateNetworks(UpdateDnsZonePrivateNetworksRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/dns/v1/zones/{dns_zone_id}:updatePrivateNetworks" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateDnsZonePrivateNetworksMetadata"
+      response: "DnsZone"
+    };
+  }
+}
+
+message UpdateDnsZonePrivateNetworksRequest {
+  // ID of the DNS zone which private networks will be updated
+  string dns_zone_id = 1;
+
+  // Network IDs to remove
+  repeated string private_network_id_additions = 2;
+
+  // Network IDs to add
+  repeated string private_network_id_deletions = 3;
+}
+
+message UpdateDnsZonePrivateNetworksMetadata {
+  // ID of the DNS zone which private networks was updated
+  string dns_zone_id = 1;
 }
 
 message GetDnsZoneRequest {
