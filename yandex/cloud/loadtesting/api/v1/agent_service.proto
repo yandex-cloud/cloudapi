@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package yandex.cloud.loadtesting.api.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/loadtesting/api/v1;loadtesting";
+option java_package = "yandex.cloud.api.loadtesting.api.v1";
+
+import "google/api/annotations.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/loadtesting/api/v1/agent/create_compute_instance.proto";
+import "yandex/cloud/loadtesting/api/v1/agent/agent.proto";
+import "yandex/cloud/validation.proto";
+
+service AgentService {
+  rpc Create(CreateAgentRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/loadtesting/api/v1/agent" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "CreateAgentMetadata"
+      response: "agent.Agent"
+    };
+  };
+  rpc Get(GetAgentRequest) returns (agent.Agent) {
+    option (google.api.http) = { get: "/loadtesting/api/v1/agent/{agent_id}" };
+  };
+  rpc Delete(DeleteAgentRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/loadtesting/api/v1/agent/{agent_id}"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteAgentMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
+}
+
+message CreateAgentRequest {
+  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string description = 3 [(length) = "<=256"];
+  agent.CreateComputeInstance compute_instance_params = 4;
+  string agent_version = 5;
+}
+
+message CreateAgentMetadata {
+  string agent_id = 1;
+}
+
+message GetAgentRequest {
+  string agent_id = 2;
+}
+
+message DeleteAgentRequest {
+  string agent_id = 1;
+}
+
+message DeleteAgentMetadata {
+  string agent_id = 1;
+}

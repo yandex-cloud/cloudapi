@@ -83,7 +83,7 @@ message GetGroupMappingResponse {
 message CreateGroupMappingRequest {
   // Federation the group mapping will be created for
   string federation_id = 1 [(required) = true, (length) = "<=50"];
-  // A new state of synchronization to update (if mentioned in updated_fields).
+  // Synchronization status.
   bool enabled = 3;
 }
 
@@ -96,8 +96,8 @@ message UpdateGroupMappingRequest {
   // Federation the group mapping update is requested
   string federation_id = 1 [(required) = true, (length) = "<=50"];
   // A set of fields that should be updated
-  google.protobuf.FieldMask updated_fields = 2 [(required) = true];
-  // A new state of synchronization to update (if mentioned in updated_fields).
+  google.protobuf.FieldMask update_mask = 2;
+  // A new state of synchronization to update (if mentioned in update_mask).
   bool enabled = 3;
 }
 

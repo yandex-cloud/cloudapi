@@ -74,6 +74,19 @@ message ClickhouseConfig {
     google.protobuf.BoolValue ttl_only_drop_parts = 13;
 
     google.protobuf.BoolValue allow_remote_fs_zero_copy_replication = 14;
+
+	google.protobuf.Int64Value merge_with_ttl_timeout = 15;
+
+    google.protobuf.Int64Value merge_with_recompression_ttl_timeout = 16;
+
+    google.protobuf.Int64Value max_parts_in_total = 17;
+
+    google.protobuf.Int64Value max_number_of_merges_with_ttl_in_pool = 18;
+
+    google.protobuf.Int64Value cleanup_delay_period = 19;
+
+    google.protobuf.Int64Value number_of_free_entries_in_pool_to_execute_mutation = 20;
+
   }
 
   message Kafka {
@@ -433,7 +446,7 @@ message ClickhouseConfig {
     message Pattern {
       message Retention {
         // Minimum age of the data in seconds.
-        int64 age = 1 [(value) = ">0"];
+        int64 age = 1 [(value) = ">=0"];
 
         // Precision of determining the age of the data, in seconds.
         int64 precision = 2 [(value) = ">0"];
@@ -590,6 +603,8 @@ message ClickhouseConfig {
   google.protobuf.Int64Value background_distributed_schedule_pool_size = 40 [(value) = ">0"];
 
   google.protobuf.Int64Value background_buffer_flush_schedule_pool_size = 41 [(value) = ">0"];
+
+  google.protobuf.Int64Value background_message_broker_schedule_pool_size = 46 [(value) = ">0"];
 
   // The default database.
   //

@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package yandex.cloud.marketplace.licensemanager.v1;
+
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/marketplace/licensemanager/v1/lock.proto";
+import "yandex/cloud/marketplace/licensemanager/v1/template.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/marketplace/licensemanager/v1;licensemanager";
+option java_package = "yandex.cloud.api.marketplace.licensemanager.v1";
+
+message Instance {
+    string id = 1;
+    string cloud_id = 2;
+    string folder_id = 3;
+    string template_id = 4;
+    string template_version_id = 5;
+
+    string name = 6;
+    google.protobuf.Timestamp start_time = 7;
+    google.protobuf.Timestamp end_time = 8;
+    google.protobuf.Timestamp created_at = 9;
+    google.protobuf.Timestamp updated_at = 10;
+    State state = 11;
+    repeated Lock locks = 12;
+    Template license_template = 13;
+
+    enum State {
+        STATE_UNSPECIFIED = 0;
+        PENDING = 1;
+        ACTIVE = 2;
+        CANCELLED = 3;
+        EXPIRED = 4;
+        DEPRECATED = 5;
+        DELETED = 6;
+    }
+}

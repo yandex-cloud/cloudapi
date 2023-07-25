@@ -153,6 +153,9 @@ message Trigger {
     // MQTT topic whose messages activate the trigger.
     string mqtt_topic = 3;
 
+    // Batch settings for processing events.
+    BatchSettings batch_settings = 4;
+
     // Action to be executed when the there's a new message in the MQTT topic.
     oneof action {
       option (exactly_one) = true;
@@ -172,6 +175,9 @@ message Trigger {
 
     // MQTT topic whose messages activate the trigger.
     string mqtt_topic = 2;
+
+    // Batch settings for processing events.
+    BatchSettings batch_settings = 3;
 
     // Action to be executed when the there's a new message in the MQTT topic.
     oneof action {
@@ -204,6 +210,9 @@ message Trigger {
     // Suffix of the object key. Filter, optional.
     string suffix = 7;
 
+    // Batch settings for processing events.
+    BatchSettings batch_settings = 8;
+
     oneof action {
       option (exactly_one) = true;
 
@@ -234,6 +243,9 @@ message Trigger {
     string image_name = 5;
     // Docker-image tag. Filter, optional.
     string tag = 6;
+
+    // Batch settings for processing events.
+    BatchSettings batch_settings = 7;
 
     oneof action {
       option (exactly_one) = true;
@@ -449,6 +461,9 @@ message Mail {
   // Address to receive emails for trigger activation.
   // Field is ignored for write requests and populated on trigger creation.
   string email = 2;
+
+  // Batch settings for processing events.
+  BatchSettings batch_settings = 3;
 
   oneof action {
     option (exactly_one) = true;

@@ -77,6 +77,26 @@ service InstanceGroupService {
     };
   }
 
+  // Performs rolling restart of specified instances for the specified instance group.
+  // Rolling restart does restart of instances respecting all group policies.
+  rpc RollingRestart (RollingRestartRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:rollingRestart" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "RollingRestartMetadata"
+      response: "InstanceGroup"
+    };
+  }
+
+  // Performs rolling recreate of specified instances for the specified instance group.
+  // Rolling recreate does recreate of instance VMs respecting all group policies.
+  rpc RollingRecreate (RollingRecreateRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:rollingRecreate" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "RollingRecreateMetadata"
+      response: "InstanceGroup"
+    };
+  }
+
   // Starts the specified instance group.
   rpc Start (StartInstanceGroupRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instanceGroups/{instance_group_id}:start" };
@@ -375,6 +395,36 @@ message StopInstanceGroupRequest {
 
 message StopInstanceGroupMetadata {
   // ID of the InstanceGroup resource that is being stopped.
+  string instance_group_id = 1;
+}
+
+message RollingRestartRequest {
+  // ID of the instance group to restart instances in.
+  // To get the instance group ID, use a [InstanceGroupService.List] request.
+  string instance_group_id = 1 [(required) = true, (length) = "<=50"];
+
+  // IDs of managed instances in the group to restart
+  // To get instance IDs, use a [InstanceGroupService.ListInstances] request.
+  repeated string managed_instance_ids = 2;
+}
+
+message RollingRestartMetadata {
+  // ID of the InstanceGroup resource that is being rolling restarted.
+  string instance_group_id = 1;
+}
+
+message RollingRecreateRequest {
+  // ID of the instance group to recreate instances in.
+  // To get the instance group ID, use a [InstanceGroupService.List] request.
+  string instance_group_id = 1 [(required) = true, (length) = "<=50"];
+
+  // IDs of managed instances in the group to recreate
+  // To get instance IDs, use a [InstanceGroupService.ListInstances] request.
+  repeated string managed_instance_ids = 2;
+}
+
+message RollingRecreateMetadata {
+  // ID of the InstanceGroup resource that is being rolling recreated.
   string instance_group_id = 1;
 }
 

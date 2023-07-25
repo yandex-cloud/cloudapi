@@ -137,6 +137,14 @@ message UserSettings {
     DATE_TIME_OUTPUT_FORMAT_UNIX_TIMESTAMP = 3;
   }
 
+  enum LocalFilesystemReadMethod {
+    LOCAL_FILESYSTEM_READ_METHOD_UNSPECIFIED = 0;
+    LOCAL_FILESYSTEM_READ_METHOD_READ = 1;
+    LOCAL_FILESYSTEM_READ_METHOD_PREAD_THREADPOOL = 2;
+    LOCAL_FILESYSTEM_READ_METHOD_PREAD = 3;
+    LOCAL_FILESYSTEM_READ_METHOD_NMAP = 4;
+  }
+
   // Restricts permissions for non-DDL queries. To restrict permissions for DDL queries, use [allow_ddl] instead.
   // * **0** (default)-no restrictions.
   // * **1**-only read data queries are allowed.
@@ -895,6 +903,25 @@ message UserSettings {
   //
   // Possible values: from **0** to **1**. Default: **0**.
   google.protobuf.DoubleValue memory_profiler_sample_probability = 125;
+
+  // Sets the maximum number of parallel threads for the SELECT query data read phase with the FINAL modifier. 
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#max-final-threads).
+  google.protobuf.Int64Value max_final_threads = 126 [(value) = ">=0"];
+
+  // Enables or disables order-preserving parallel parsing of data formats. Supported only for [TSV](https://clickhouse.com/docs/en/interfaces/formats#tabseparated), [TKSV](https://clickhouse.com/docs/en/interfaces/formats#tskv), [CSV](https://clickhouse.com/docs/en/interfaces/formats#csv) and [JSONEachRow](https://clickhouse.com/docs/en/interfaces/formats#jsoneachrow) formats.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#input-format-parallel-parsing)
+  google.protobuf.BoolValue input_format_parallel_parsing = 127;
+
+  // Enables or disables the insertion of JSON data with nested objects.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#input-format-parallel-parsing)
+  google.protobuf.BoolValue input_format_import_nested_json = 128;
+
+  // Method of reading data from local filesystem, one of: read, pread, mmap, io_uring, pread_threadpool. The 'io_uring' method is experimental and does not work for Log, TinyLog, StripeLog, File, Set and Join, and other tables with append-able files in presence of concurrent reads and writes.
+  LocalFilesystemReadMethod local_filesystem_read_method = 129;
+
+  // The maximum size of the buffer to read from the filesystem.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/codebrowser/ClickHouse/src/Core/Settings.h.html#DB::SettingsTraits::Data::max_read_buffer_size)
+  google.protobuf.Int64Value max_read_buffer_size = 130 [(value) = ">0"];
 
   // The setting is deprecated and has no effect.
   google.protobuf.BoolValue compile = 44 [deprecated = true];

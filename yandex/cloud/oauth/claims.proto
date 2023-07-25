@@ -35,7 +35,8 @@ message SubjectClaims {
     // If the phone number contains an extension, it is RECOMMENDED that the extension be represented using the RFC 3966 [RFC3966] extension syntax, for example, +1 (604) 555-1234;ext=5678.
     string phone_number = 17;
 
-
+    // Subject type.
+    SubjectType sub_type = 99;
     // User federation, non-empty only for federated users.
     Federation federation = 100;
 }
@@ -46,4 +47,12 @@ message Federation {
     string id = 1 [(required) = true, (length) = "<=50"];
     // Name of the federation. The name is unique within the cloud or organization
     string name = 3;
+}
+
+enum SubjectType {
+    SUBJECT_TYPE_UNSPECIFIED = 0;
+    USER_ACCOUNT = 1;
+    SERVICE_ACCOUNT = 2;
+    GROUP = 3;
+    INVITEE = 4;
 }

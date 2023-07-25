@@ -67,7 +67,6 @@ message RecognitionClassifier {
 
   // Classifier name
   string classifier = 1;
-
   // Describes the types of responses to which the classification results will come
   repeated TriggerType triggers = 2;
 }
@@ -75,6 +74,15 @@ message RecognitionClassifier {
 message RecognitionClassifierOptions {
   // List of classifiers to use
   repeated RecognitionClassifier classifiers = 1;
+}
+
+message SpeechAnalysisOptions {
+  // Analyse speech for every speaker
+  bool enable_speaker_analysis = 1;
+  // Analyse conversation of two speakers
+  bool enable_conversation_analysis = 2;
+  // Quantile levels in range (0, 1) for descriptive statistics
+  repeated double descriptive_statistics_quantiles = 3;
 }
 
 // RAW Audio format spec (no container to infer type). Used in AudioFormat options.
@@ -85,11 +93,11 @@ message RawAudio {
     LINEAR16_PCM = 1;
   }
 
-//  Type of audio encoding
+  // Type of audio encoding
   AudioEncoding audio_encoding = 1;
-//  PCM sample rate
+  // PCM sample rate
   int64 sample_rate_hertz = 2;
-//  PCM channel count. Currently only single channel audio is supported in real-time recognition.
+  // PCM channel count. Currently only single channel audio is supported in real-time recognition.
   int64 audio_channel_count = 3;
 }
 
@@ -107,7 +115,7 @@ message ContainerAudio {
     // Data is encoded using MPEG-1/2 Layer III and compressed using the MP3 container format.
     MP3 = 3;
   }
-//  Type of audio container.
+  // Type of audio container.
   ContainerAudioType container_audio_type = 1;
 }
 
@@ -127,30 +135,33 @@ message AudioFormatOptions {
 message LanguageRestrictionOptions {
   enum LanguageRestrictionType {
     LANGUAGE_RESTRICTION_TYPE_UNSPECIFIED = 0;
-
     // The allowing list. The incoming audio can contain only the listed languages.
     WHITELIST = 1;
-
     // The forbidding list. The incoming audio cannot contain the listed languages.
     BLACKLIST = 2;
   }
+  // Language restriction type
   LanguageRestrictionType restriction_type = 1;
+  // The list of language codes to restrict recognition in the case of an auto model
   repeated string language_code = 2;
 }
 
 message RecognitionModelOptions {
   enum AudioProcessingType {
     AUDIO_PROCESSING_TYPE_UNSPECIFIED = 0;
+    // Process audio in mode optimized for real-time recognition, i.e. send partials and final responses as soon as possible
     REAL_TIME = 1;
+    // Process audio after all data was received
     FULL_DATA = 2;
   }
-  //  Reserved for future, do not use.
+  // Sets the recognition model for the cloud version of SpeechKit. Possible values: 'general', 'general:rc', 'general:deprecated'.
+  // The model is ignored for SpeechKit Hybrid.
   string model = 1;
 
-  //  Specified input audio.
+  // Specified input audio.
   AudioFormatOptions audio_format = 2;
 
-  //  Text normalization options.
+  // Text normalization options.
   TextNormalizationOptions text_normalization = 3;
 
   // Possible languages in audio.
@@ -161,20 +172,21 @@ message RecognitionModelOptions {
 }
 
 message StreamingOptions {
-
-  //  Configuration for speech recognition model.
+  // Configuration for speech recognition model.
   RecognitionModelOptions recognition_model = 1;
 
-  //  Configuration for end of utterance detection model.
+  // Configuration for end of utterance detection model.
   EouClassifierOptions eou_classifier = 2;
 
-  //  Configuration for classifiers over speech recognition.
+  // Configuration for classifiers over speech recognition.
   RecognitionClassifierOptions recognition_classifier = 3;
+
+  // Configuration for speech analysis over speech recognition.
+  SpeechAnalysisOptions speech_analysis = 4;
 }
 
 // Data chunk with audio.
 message AudioChunk {
-
   // Bytes with audio data.
   bytes data = 1;
 }
@@ -189,7 +201,6 @@ message SilenceChunk {
 // Force EOU
 message Eou {
 }
-
 
 // Streaming audio request
 // Events are control messages from user.
@@ -212,7 +223,22 @@ message StreamingRequest {
   }
 }
 
+message RecognizeFileRequest {
+    oneof AudioSource {
+      // Bytes with data
+      bytes content = 1;
+      // S3 data url
+      string uri = 2;
+    }
+  // Configuration for speech recognition model.
+  RecognitionModelOptions recognition_model = 3;
 
+  // Configuration for classifiers over speech recognition.
+  RecognitionClassifierOptions recognition_classifier = 4;
+
+  // Configuration for speech analysis over speech recognition.
+  SpeechAnalysisOptions speech_analysis = 5;
+}
 
 // Now response
 
@@ -220,13 +246,13 @@ message StreamingRequest {
 // Recognized word.
 message Word {
 
-  //  Word text.
+  // Word text.
   string text = 1;
 
-  //  Estimation of word start time in ms.
+  // Estimation of word start time in ms.
   int64 start_time_ms = 2;
 
-  //  Estimation of word end time in ms.
+  // Estimation of word end time in ms.
   int64 end_time_ms = 3;
 }
 
@@ -287,20 +313,20 @@ message AudioCursors {
   // Input stream reset data.
   int64 reset_time_ms = 2;
 
-  //  How much audio was processed. This time includes trimming silences as well. This cursor is moved after server received enough data
-  //  to update recognition results (includes silence as well).
+  // How much audio was processed. This time includes trimming silences as well. This cursor is moved after server received enough data
+  // to update recognition results (includes silence as well).
   int64 partial_time_ms = 3;
 
-  //  Time of last final. This cursor is moved when server decides that recognition from start of audio until final_time_ms will not change anymore
-  //  usually this even is followed by EOU detection (but this could change in future).
+  // Time of last final. This cursor is moved when server decides that recognition from start of audio until final_time_ms will not change anymore
+  // usually this even is followed by EOU detection (but this could change in future).
   int64 final_time_ms = 4;
 
-  //  This is index of last final server send. Incremented after each new final.
+  // This is index of last final server send. Incremented after each new final.
   int64 final_index = 5;
 
-  //  Estimated time of EOU. Cursor is updated after each new EOU is sent.
-  //  For external classifier this equals to received_data_ms at the moment EOU event arrives.
-  //  For internal classifier this is estimation of time. The time is not exact and has the same guarantees as word timings.
+  // Estimated time of EOU. Cursor is updated after each new EOU is sent.
+  // For external classifier this equals to received_data_ms at the moment EOU event arrives.
+  // For internal classifier this is estimation of time. The time is not exact and has the same guarantees as word timings.
   int64 eou_time_ms = 6;
 }
 
@@ -395,6 +421,132 @@ message RecognitionClassifierUpdate {
   RecognitionClassifierResult classifier_result = 4;
 }
 
+message DescriptiveStatistics {
+  message Quantile {
+    // Quantile level in range (0, 1)
+    double level = 1;
+
+    // Quantile value
+    double value = 2;
+  }
+
+  // Minimum observed value
+  double min = 1;
+
+  // Maximum observed value
+  double max = 2;
+
+  // Estimated mean of distribution
+  double mean = 3;
+
+  // Estimated standard deviation of distribution
+  double std = 4;
+
+  // List of evaluated quantiles
+  repeated Quantile quantiles = 5;
+}
+
+message AudioSegmentBoundaries {
+  // Audio segment start time
+  int64 start_time_ms = 1;
+
+  // Audio segment end time
+  int64 end_time_ms = 2;
+}
+
+message SpeakerAnalysis {
+  enum WindowType {
+    WINDOW_TYPE_UNSPECIFIED = 0;
+    TOTAL = 1; // Stats for all received audio
+    LAST_UTTERANCE = 2; // Stats for last utterance
+  }
+
+  // Speaker tag
+  string speaker_tag = 1;
+
+  // Response window type
+  WindowType window_type = 2;
+
+  // Audio segment boundaries
+  AudioSegmentBoundaries speech_boundaries = 3;
+
+  // Total speech duration
+  int64 total_speech_ms = 4;
+
+  // Speech ratio within audio segment
+  double speech_ratio = 5;
+
+  // Total silence duration
+  int64 total_silence_ms = 6;
+
+  // Silence ratio within audio segment
+  double silence_ratio = 7;
+
+  // Number of words in recognized speech
+  int64 words_count = 8;
+
+  // Number of letters in recognized speech
+  int64 letters_count = 9;
+
+  // Descriptive statistics for words per second distribution
+  DescriptiveStatistics words_per_second = 10;
+
+  // Descriptive statistics for letters per second distribution
+  DescriptiveStatistics letters_per_second = 11;
+
+  // Descriptive statistics for words per utterance distribution
+  DescriptiveStatistics words_per_utterance = 12;
+
+  // Descriptive statistics for letters per utterance distribution
+  DescriptiveStatistics letters_per_utterance = 13;
+
+  // Number of utterances
+  int64 utterance_count = 14;
+
+  // Descriptive statistics for utterance duration distribution
+  DescriptiveStatistics utterance_duration_estimation = 15;
+}
+
+message ConversationAnalysis {
+  message InterruptsEvaluation {
+    // Speaker tag
+    string speaker_tag = 1;
+
+    // Number of interrupts made by the speaker
+    int64 interrupts_count = 2;
+
+    // Total duration of all interrupts
+    int64 interrupts_duration_ms = 3;
+
+    // Boundaries for every interrupt
+    repeated AudioSegmentBoundaries interrupts = 4;
+  }
+
+  // Audio segment boundaries
+  AudioSegmentBoundaries conversation_boundaries = 1;
+
+  // Total simultaneous silence duration
+  int64 total_simultaneous_silence_duration_ms = 2;
+
+  // Simultaneous silence ratio within audio segment
+  double total_simultaneous_silence_ratio = 3;
+
+  // Descriptive statistics for simultaneous silence duration distribution
+  DescriptiveStatistics simultaneous_silence_duration_estimation = 4;
+
+  // Total simultaneous speech duration
+  int64 total_simultaneous_speech_duration_ms = 5;
+
+  // Simultaneous speech ratio within audio segment
+  double total_simultaneous_speech_ratio = 6;
+
+  // Descriptive statistics for simultaneous speech duration distribution
+  DescriptiveStatistics simultaneous_speech_duration_estimation = 7;
+
+  // Interrupts description for every speaker
+  repeated InterruptsEvaluation speaker_interrupts = 8;
+}
+
 // Responses from server.
 // Each response contains session uuid
 // AudioCursors
@@ -406,31 +558,38 @@ message StreamingResponse {
 
   // Progress bar for stream session recognition: how many data we obtained; final and partial times; etc.
   AudioCursors audio_cursors = 2;
+
   // Wall clock on server side. This is time when server wrote results to stream
   int64 response_wall_time_ms = 3;
 
   oneof Event {
 
     // Partial results, server will send them regularly after enough audio data was received from user. This are current text estimation
-    //  from final_time_ms to partial_time_ms. Could change after new data will arrive.
+    // from final_time_ms to partial_time_ms. Could change after new data will arrive.
     AlternativeUpdate partial = 4;
 
-    //  Final results, the recognition is now fixed until final_time_ms. For now, final is sent only if the EOU event was triggered. This could be change in future releases.
+    // Final results, the recognition is now fixed until final_time_ms. For now, final is sent only if the EOU event was triggered. This could be change in future releases.
     AlternativeUpdate final = 5;
 
-    //  After EOU classifier, send the message with final, send the EouUpdate with time of EOU
-    //  before eou_update we send final with the same time. there could be several finals before eou update.
+    // After EOU classifier, send the message with final, send the EouUpdate with time of EOU
+    // before eou_update we send final with the same time. there could be several finals before eou update.
     EouUpdate eou_update = 6;
 
-    //    For each final, if normalization is enabled, sent the normalized text (or some other advanced post-processing).
-    //    Final normalization will introduce additional latency.
+    // For each final, if normalization is enabled, sent the normalized text (or some other advanced post-processing).
+    // Final normalization will introduce additional latency.
     FinalRefinement final_refinement = 7;
 
-    //    Status messages, send by server with fixed interval (keep-alive).
+    // Status messages, send by server with fixed interval (keep-alive).
     StatusCode status_code = 8;
 
-    //  Result of the triggered classifier
+    // Result of the triggered classifier
     RecognitionClassifierUpdate classifier_update = 10;
+
+    // Speech statistics for every speaker
+    SpeakerAnalysis speaker_analysis = 11;
+
+    // Conversation statistics
+    ConversationAnalysis conversation_analysis = 12;
   }
 
   // Tag for distinguish audio channels.

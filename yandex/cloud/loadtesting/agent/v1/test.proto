@@ -30,6 +30,7 @@ message Test {
     GENERATOR_UNSPECIFIED = 0;
     PANDORA = 1;
     PHANTOM = 2;
+    JMETER = 3;
   }
 
   string id = 1;

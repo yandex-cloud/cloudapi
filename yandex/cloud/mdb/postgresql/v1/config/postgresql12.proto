@@ -468,7 +468,11 @@ message PostgresqlConfig12 {
 
   google.protobuf.Int64Value max_standby_archive_delay = 162; // in milliseconds.
 
-  google.protobuf.Int64Value session_duration_timeout = 163 [(value) = "0-2147483647"]; // Terminate any session that exceeds the designated timeout, specified in seconds. If a timeout is not specified, the default session timeout is set to 12 hours. To disable it, specify a value of 0.
+  google.protobuf.Int64Value session_duration_timeout = 163 [(value) = "0-2147483647"]; // Terminate any session that exceeds the designated timeout, specified in milliseconds. If a timeout is not specified, the default session timeout is set to 12 hours. To disable it, specify a value of 0.
+
+  google.protobuf.BoolValue log_replication_commands = 164;
+
+  google.protobuf.Int64Value log_autovacuum_min_duration = 165 [(value) = "-1-2147483647"]; // in milliseconds. The default is 1000 (1 sec).
 }
 
 message PostgresqlConfigSet12 {
