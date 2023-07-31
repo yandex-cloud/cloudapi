@@ -28,6 +28,7 @@ message ListInstancesRequest {
     int64 page_size = 2 [(value) = "0-1000"];
     string page_token = 3 [(length) = "<=100"];
     string filter = 4 [(length) = "<=1000"];
+    string order_by = 5 [(length) = "<=100"];
 }
 
 message ListInstancesResponse {
