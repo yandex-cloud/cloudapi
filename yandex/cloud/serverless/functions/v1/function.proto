@@ -135,7 +135,7 @@ message Version {
 
 // Resources allocated to a version.
 message Resources {
-  // Amount of memory available to the version, specified in bytes.
+  // Amount of memory available to the version, specified in bytes, multiple of 128MB.
   int64 memory = 1 [(value) = "134217728-4294967296"];
 }
 

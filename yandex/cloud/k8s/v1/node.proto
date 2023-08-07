@@ -216,8 +216,24 @@ message NodeTemplate {
 }
 
 message GpuSettings {
+  enum GpuEnvironment {
+    // Use one of the values below, depending on the default for the specific Cloud installation.
+    GPU_ENVIRONMENT_UNSPECIFIED = 0;
+
+    // Use a node image with the pre-installed GPU toolkit, drivers and CUDA.
+    RUNC_DRIVERS_CUDA = 1;
+
+    // Use a node image with the pre-installed GPU toolkit but without drivers.
+    // You should install drivers on a node yourself in that case.
+    // There are tools to help you to do that, for example gpu-operator.
+    RUNC = 2;
+  }
+
   // GPU cluster id, that mk8s node will join.
   string gpu_cluster_id = 1;
+
+  // GPU environment configured on node.
+  GpuEnvironment gpu_environment = 2;
 }
 
 message NetworkInterfaceSpec {

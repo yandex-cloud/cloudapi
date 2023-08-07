@@ -12,6 +12,7 @@ import "yandex/cloud/mdb/opensearch/v1/auth.proto";
 import "yandex/cloud/mdb/opensearch/v1/cluster.proto";
 import "yandex/cloud/mdb/opensearch/v1/backup.proto";
 import "yandex/cloud/mdb/opensearch/v1/maintenance.proto";
+import "yandex/cloud/mdb/opensearch/v1/config/opensearch.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/opensearch/v1;opensearch";
 option java_package = "yandex.cloud.api.mdb.opensearch.v1";
@@ -650,6 +651,10 @@ message OpenSearchCreateSpec {
     // OpenSearch type host groups of the cluster.
     repeated NodeGroup node_groups = 2;
 
+    oneof config {
+        config.OpenSearchConfig2 opensearch_config_2 = 3 [json_name="opensearchConfig_2"];
+    }
+
 }
 
 // Dashboards create-time configuration.
@@ -702,6 +707,10 @@ message ConfigUpdateSpec {
 message OpenSearchClusterUpdateSpec {
     // Names of the cluster plugins.
     repeated string plugins = 1;
+
+    oneof config {
+        config.OpenSearchConfig2 opensearch_config_2 = 2 [json_name="opensearchConfig_2"];
+    }
 }
 
 // Dashboards configuration.

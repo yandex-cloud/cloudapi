@@ -116,6 +116,12 @@ message Instance {
 
   // Placement policy configuration.
   PlacementPolicy placement_policy = 20;
+
+  // ID of the dedicated host group that the instance belongs to.
+  string host_group_id = 27;
+
+  // ID of the dedicated host that the instance belongs to.
+  string host_id = 28;
 }
 
 message Resources {

@@ -160,13 +160,14 @@ message Args {
 
 // Resources allocated to a revision.
 message Resources {
-  // Amount of memory available to the revision, specified in bytes.
+  // Amount of memory available to the revision, specified in bytes, multiple of 128MB.
   int64 memory = 1 [(value) = "134217728-4294967296"];
 
   // Number of cores available to the revision.
-  int64 cores = 2 [(value) = "0-1"];
+  int64 cores = 2 [(value) = "0-2"];
 
-  // Specifies baseline performance for a core in percent.
+  // Specifies baseline performance for a core in percent, multiple of 5%.
+  // Should be 100% for cores > 1.
   int64 core_fraction = 3 [(value) = "0-100"];
 }
 

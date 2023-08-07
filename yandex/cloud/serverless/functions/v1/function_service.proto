@@ -80,6 +80,17 @@ service FunctionService {
   }
 
 
+  // Deletes the specified version of a function.
+  //
+  // NOTE: old untagged function versions are deleted automatically.
+  rpc DeleteVersion (DeleteFunctionVersionRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/functions/v1/versions/{function_version_id}" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteFunctionVersionMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
+
   // Set a tag for the specified version of a function.
   rpc SetTag (SetFunctionTagRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/functions/v1/versions/{function_version_id}:setTag" body: "*" };
@@ -296,6 +307,22 @@ message DeleteFunctionRequest {
 message DeleteFunctionMetadata {
   // ID of the function that is being deleted.
   string function_id = 1;
+}
+
+message DeleteFunctionVersionRequest {
+  reserved 1;
+  // ID of the function's version to delete.
+  string function_version_id = 2 [(required) = true];
+  // Forces deletion of the version tags.
+  //
+  // If the value equals false and the function has tags with the selected version then request returns an error.
+  bool force = 3;
+}
+
+message DeleteFunctionVersionMetadata {
+  reserved 1;
+  // ID of the function's version is being deleted.
+  string function_version_id = 2;
 }
 
 message ListRuntimesRequest {
