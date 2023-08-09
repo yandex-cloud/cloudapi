@@ -319,6 +319,9 @@ message PlacementPolicy {
 
   // List of affinity rules. Scheduler will attempt to allocate instances according to order of rules.
   repeated HostAffinityRule host_affinity_rules = 2;
+
+  // Placement group partition
+  int64 placement_group_partition = 3;
 }
 
 message MetadataOptions {
