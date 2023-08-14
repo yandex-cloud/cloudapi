@@ -57,6 +57,28 @@ message ConnectionPoolerConfig {
   google.protobuf.Int64Value client_idle_timeout = 3;
 }
 
+message BackgroundActivityStartAt {
+    int64 hours = 1 [(value) = "0-23"];
+    int64 minutes = 2 [(value) = "0-59"];
+}
+
+message TableSizes {
+    repeated BackgroundActivityStartAt starts = 1 [(size) = "<=4"];
+}
+
+message AnalyzeAndVacuum {
+    BackgroundActivityStartAt start = 1;
+    // in seconds 24*60*60-1 = 86399
+    google.protobuf.Int64Value analyze_timeout = 2[(value) = "0-86399"];
+    // in seconds 24*60*60-1 = 86399
+    google.protobuf.Int64Value vacuum_timeout = 3[(value) = "0-86399"];
+}
+
+message BackgroundActivitiesConfig {
+    TableSizes table_sizes = 1;
+    AnalyzeAndVacuum analyze_and_vacuum = 2;
+}
+
 // Configuration of the master subcluster.
 
 message MasterSubclusterConfig {

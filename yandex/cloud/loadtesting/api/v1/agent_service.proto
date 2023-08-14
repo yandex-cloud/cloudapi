@@ -23,6 +23,9 @@ service AgentService {
   rpc Get(GetAgentRequest) returns (agent.Agent) {
     option (google.api.http) = { get: "/loadtesting/api/v1/agent/{agent_id}" };
   };
+  rpc List(ListAgentsRequest) returns (ListAgentsResponse) {
+    option (google.api.http) = { get: "/loadtesting/api/v1/agent" };
+  };
   rpc Delete(DeleteAgentRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/loadtesting/api/v1/agent/{agent_id}"};
     option (yandex.cloud.api.operation) = {
@@ -54,4 +57,16 @@ message DeleteAgentRequest {
 
 message DeleteAgentMetadata {
   string agent_id = 1;
+}
+
+message ListAgentsRequest {
+  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  int64 page_size = 2 [(value) = "<=1000"];
+  string page_token = 3 [(length) = "<=100"];
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListAgentsResponse {
+  repeated agent.Agent agents = 1;
+  string next_page_token = 2 [(length) = "<=100"];
 }

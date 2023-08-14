@@ -182,6 +182,14 @@ message ConfigSpec {
 
   // Access policy for external services.
   Access access = 9;
+
+  message RestAPIConfig {
+    // Is REST API enabled for this cluster.
+    bool enabled = 1;
+  }
+
+  // Configuration of REST API.
+  RestAPIConfig rest_api_config = 10;
 }
 
 message Resources {

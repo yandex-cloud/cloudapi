@@ -456,6 +456,14 @@ message DataStream {
   }
 }
 
+message ObjectStorageBucketSettings {
+  // Bucket for saving.
+  string bucket_id = 1 [(length) = "3-63", (pattern) = "[-.0-9a-zA-Z]*"];
+
+  // SA which has write permission on storage.
+  string service_account_id = 2 [(required) = true, (length) = "<=50"];
+}
+
 message Mail {
 
   // Address to receive emails for trigger activation.
@@ -464,6 +472,9 @@ message Mail {
 
   // Batch settings for processing events.
   BatchSettings batch_settings = 3;
+
+  // Bucket settings for saving attachments.
+  ObjectStorageBucketSettings attachments_bucket = 4;
 
   oneof action {
     option (exactly_one) = true;

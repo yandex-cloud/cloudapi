@@ -15,6 +15,7 @@ import "yandex/cloud/mdb/greenplum/v1/maintenance.proto";
 import "yandex/cloud/mdb/greenplum/v1/config.proto";
 import "yandex/cloud/mdb/greenplum/v1/host.proto";
 import "yandex/cloud/mdb/greenplum/v1/backup.proto";
+import "yandex/cloud/mdb/greenplum/v1/pxf.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/greenplum/v1;greenplum";
 option java_package = "yandex.cloud.api.mdb.greenplum.v1";
@@ -245,6 +246,10 @@ message ConfigSpec {
 
   // Odyssey® pool settings.
   ConnectionPoolerConfig pool = 3;
+
+  BackgroundActivitiesConfig background_activities = 6;
+
+  PXFConfig pxf_config = 8;
 }
 
 message CreateClusterMetadata {
