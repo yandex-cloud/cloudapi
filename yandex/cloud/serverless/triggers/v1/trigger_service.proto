@@ -170,6 +170,9 @@ message UpdateTriggerRequest {
   // Existing set of labels is completely replaced by the provided set, so if you just want
   // to add or remove a label, request the current set of labels with a [TriggerService.Get] request.
   map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+
+  // New parameters for trigger.
+  Trigger.Rule rule = 6;
 }
 
 message UpdateTriggerMetadata {

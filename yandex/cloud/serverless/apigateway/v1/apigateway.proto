@@ -4,6 +4,7 @@ package yandex.cloud.serverless.apigateway.v1;
 
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/logging/v1/log_entry.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/apigateway/v1;apigateway";
 option java_package = "yandex.cloud.api.serverless.apigateway.v1";
@@ -63,6 +64,12 @@ message ApiGateway {
 
   // Options for logging from the API gateway.
   LogOptions log_options = 13;
+
+  // Values of variables defined in the specification.
+  map<string, VariableInput> variables = 14;
+
+  // Canary release of the gateway.
+  Canary canary = 15;
 }
 
 message AttachedDomain {
@@ -106,4 +113,22 @@ message LogOptions {
   //
   // See [LogLevel.Level] for details.
   yandex.cloud.logging.v1.LogLevel.Level min_level = 4;
+}
+
+message Canary {
+  // It describes percentage of requests, which will be processed by canary.
+  int64 weight = 1 [(value) = "1-99"];
+
+  // Values specification variables, associated with canary.
+  map<string, VariableInput> variables = 2 [(size) = ">0"];
+}
+
+message VariableInput {
+  // Variable value that can has only primitive type
+  oneof variable_value {
+    string string_value = 1;
+    int64 int_value = 2;
+    double double_value = 3;
+    bool bool_value = 4;
+  }
 }

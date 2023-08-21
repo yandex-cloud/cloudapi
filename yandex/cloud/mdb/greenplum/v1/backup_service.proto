@@ -54,3 +54,15 @@ message ListBackupsResponse {
   // Each subsequent ListBackups request has its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
 }
+
+message DeleteBackupRequest {
+  // Required. ID of the backup to delete.
+  string backup_id = 1 [(required) = true];
+}
+
+message DeleteBackupMetadata {
+  // Required. ID of the Greenplum backup that is currently being deleted.
+  string backup_id = 1;
+  // ID of the Greenplum backup that is being created.
+  string cluster_id = 2;
+}

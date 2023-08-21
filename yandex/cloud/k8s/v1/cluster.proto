@@ -134,6 +134,12 @@ message Master {
     RegionalMaster regional_master = 7;
   }
 
+  // Locations specification for Kubernetes control-plane (master) instances.
+  repeated Location locations = 10;
+
+  // Number of etcd nodes in cluster.
+  int64 etcd_cluster_size = 11;
+
   // Version of Kubernetes components that runs on the master.
   string version = 2;
 
@@ -185,6 +191,14 @@ message RegionalMaster {
 
   // IPv6 external network address that is assigned to the master.
   string external_v6_address = 4;
+}
+
+message Location {
+  // ID of the availability zone where the master resides.
+  string zone_id = 1;
+
+  // ID of the VPC network's subnet where the master resides.
+  string subnet_id = 2;
 }
 
 message MasterEndpoints {

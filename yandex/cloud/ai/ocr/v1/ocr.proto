@@ -1,0 +1,81 @@
+syntax = "proto3";
+package yandex.cloud.ai.ocr.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/ocr/v1;ocr";
+option java_package = "yandex.cloud.api.ai.ocr.v1";
+
+
+message Polygon {
+    // The bounding polygon vertices.
+    repeated Vertex vertices = 1;
+}
+
+message Vertex {
+    // X coordinate in pixels.
+    int64 x = 1;
+
+    // Y coordinate in pixels.
+    int64 y = 2;
+}
+
+
+message TextAnnotation {
+    // Page width in pixels.
+    int64 width = 1;
+
+    // Page height in pixels.
+    int64 height = 2;
+
+    // Recognized text blocks in this page.
+    repeated Block blocks = 3;
+
+    // Recognized entities
+    repeated Entity entities = 4;
+}
+
+message Entity {
+    // Entity name
+    string name = 1;
+
+    // Recognized entity text
+    string text = 2;
+}
+
+message Block {
+    // Area on the page where the text block is located.
+    Polygon bounding_box = 1;
+
+    // Recognized lines in this block.
+    repeated Line lines = 2;
+
+    message DetectedLanguage {
+        // Detected language code.
+        string language_code = 1;
+    }
+    // A list of detected languages
+    repeated DetectedLanguage languages = 3;
+}
+
+message Alternative {
+    // Recognized text.
+    string text = 1;
+    // Recognized words
+    repeated Word words = 2;
+}
+
+message Line {
+    // Area on the page where the line is located.
+    Polygon bounding_box = 1;
+    repeated Alternative alternatives = 2;
+}
+
+message Word {
+    // Area on the page where the word is located.
+    Polygon bounding_box = 1;
+
+    // Recognized word value.
+    string text = 2;
+
+    // Id of recognized word in entities array
+    int64 entity_index = 3;
+}

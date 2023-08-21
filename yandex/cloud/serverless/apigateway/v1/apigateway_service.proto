@@ -183,6 +183,12 @@ message CreateApiGatewayRequest {
 
   // Options for logging from the API gateway.
   LogOptions log_options = 7;
+
+  // Values of variables defined in the specification.
+  map<string, VariableInput> variables = 8;
+
+  // Canary release of the gateway.
+  Canary canary = 9;
 }
 
 message UpdateApiGatewayRequest {
@@ -220,6 +226,12 @@ message UpdateApiGatewayRequest {
 
   // Options for logging from the API gateway.
   LogOptions log_options = 8;
+
+  // Values of variables defined in the specification.
+  map<string, VariableInput> variables = 9;
+
+  // Canary release of the gateway.
+  Canary canary = 10;
 }
 
 message DeleteApiGatewayRequest {
