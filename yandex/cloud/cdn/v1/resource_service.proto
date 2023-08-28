@@ -141,6 +141,9 @@ message CreateResourceRequest {
 
     // SSL Certificate options.
     SSLTargetCertificate ssl_certificate = 8;
+    
+    // Labels of the resource.
+    map<string, string> labels = 9;
 }
 
 // A set of resource origin parameters.
@@ -180,6 +183,9 @@ message UpdateResourceRequest {
 
     // SSL Certificate options.
     SSLTargetCertificate ssl_certificate = 7;
+    
+    // Resource labels. At some point will be needed for granular detailing.
+    map<string, string> labels = 8;
 }
 
 message UpdateResourceMetadata {

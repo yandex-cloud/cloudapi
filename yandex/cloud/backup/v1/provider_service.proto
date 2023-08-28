@@ -13,3 +13,41 @@ option java_package = "yandex.cloud.api.backup.v1";
 
 service ProviderService {
     // Activate provider for specified client.
+    rpc Activate(ActivateProviderRequest)  returns (operation.Operation) {
+        option (google.api.http) = {post: "/backup/v1/providers/{name}:activate" body: "*"};
+        option (yandex.cloud.api.operation) = {
+            metadata: "ActivateProviderMetadata"
+            response: "google.protobuf.Empty"
+        };
+    };
+
+    // List activated providers for specified client.
+    rpc ListActivated(ListActivatedProvidersRequest)  returns (ListActivatedProvidersResponse) {
+        option (google.api.http) = {get: "/backup/v1/providers"};
+    };
+}
+
+message ActivateProviderRequest {
+    // Activate provider for Folder iD.
+    string folder_id = 1 [ (required) = true, (length) = "<=50"];
+    reserved 2;
+    // Activate specific provider by name.
+    //
+    // For more information, please see [activate-provider](/docs/backup/quickstart#activate-provider)
+    string name = 3 [ (required) = true ];
+}
+
+message ActivateProviderMetadata {
+    // Activate provider for Folder iD.
+    string folder_id = 1 [ (required) = true, (length) = "<=50" ];
+}
+
+message ListActivatedProvidersRequest {
+    string folder_id = 1 [ (required) = true, (length) = "<=50" ];
+}
+
+message ListActivatedProvidersResponse {
+    string folder_id = 1;
+    reserved 2;
+    repeated string names = 3;
+}

@@ -232,6 +232,9 @@ message CreateClusterRequest {
 
   // Configuration of Greenplum® and Odyssey®.
   ConfigSpec config_spec = 20;
+
+  // Cloud storage settings
+  CloudStorage cloud_storage = 21;
 }
 
 // Configuration of Greenplum® and Odyssey®.
@@ -242,6 +245,7 @@ message ConfigSpec {
     GreenplumConfig6_19 greenplum_config_6_19 = 2 [json_name="greenplumConfig_6_19"];
     GreenplumConfig6_21 greenplum_config_6_21 = 4 [json_name="greenplumConfig_6_21"];
     GreenplumConfig6_22 greenplum_config_6_22 = 5 [json_name="greenplumConfig_6_22"];
+    GreenplumConfig6 greenplum_config_6 = 9 [json_name="greenplumConfig_6"];
   }
 
   // Odyssey® pool settings.
@@ -301,6 +305,9 @@ message UpdateClusterRequest {
 
   // Settings of the Greenplum® cluster.
   ConfigSpec config_spec = 19;
+
+  // Cloud storage settings
+  CloudStorage cloud_storage = 20;
 }
 
 message UpdateClusterMetadata {

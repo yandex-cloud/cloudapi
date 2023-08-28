@@ -16,7 +16,7 @@ message Instance {
     string template_id = 4;
     string template_version_id = 5;
 
-    string name = 6;
+    reserved 6;
     string description = 14;
 
     google.protobuf.Timestamp start_time = 7;

@@ -55,6 +55,9 @@ message Resource {
 
     // SSL certificate options.
     SSLCertificate ssl_certificate = 12;
+    
+    // Labels of the resource.
+    map<string, string> labels = 13;
 }
 
 // This option defines the protocol that will be used by CDN servers to request
