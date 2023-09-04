@@ -868,6 +868,9 @@ message ConfigSpec {
 
   // Configuration of the performance diagnostics service.
   PerformanceDiagnostics performance_diagnostics = 12;
+
+  // Disk size autoscaling
+  DiskSizeAutoscaling disk_size_autoscaling = 23;
 }
 
 message ConfigHostSpec {

@@ -45,7 +45,7 @@ message LogEntry {
   google.protobuf.Struct json_payload = 8;
 
   // Entry stream name.
-  string stream_name = 9 [(pattern) = "|[a-zA-Z][-a-zA-Z0-9_.]{0,63}"];
+  string stream_name = 9 [(length) = "<=63"];
 }
 
 message IncomingLogEntry {
@@ -64,7 +64,7 @@ message IncomingLogEntry {
   google.protobuf.Struct json_payload = 4 [(bytes) = "<=65536"];
 
   // Entry stream name.
-  string stream_name = 5 [(pattern) = "|[a-zA-Z][-a-zA-Z0-9_.]{0,63}"];
+  string stream_name = 5 [(length) = "<=63"];
 }
 
 message LogEntryDefaults {
@@ -80,7 +80,7 @@ message LogEntryDefaults {
   google.protobuf.Struct json_payload = 4 [(bytes) = "<=65536"];
 
   // Entry stream name.
-  string stream_name = 5 [(pattern) = "|[a-zA-Z][-a-zA-Z0-9_.]{0,63}"];
+  string stream_name = 5 [(length) = "<=63"];
 }
 
 message Destination {

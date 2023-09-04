@@ -384,7 +384,6 @@ message ListClusterNodesResponse {
 
 message MasterSpec {
   oneof master_type {
-    option (exactly_one) = true;
     // Specification of the zonal master.
     ZonalMasterSpec zonal_master_spec = 1;
 
@@ -404,6 +403,12 @@ message MasterSpec {
   // Works in conjunction with [locations]. See it's documentation for details.
   // Optional. If not set, will be assumed equal to the number of locations.
   int64 etcd_cluster_size = 9 [(value) = "0,1,3"];
+
+  // Specification of parameters for external IPv4 networking.
+  ExternalAddressSpec external_v4_address_spec = 10;
+
+  // Specification of parameters for external IPv6 networking.
+  ExternalAddressSpec external_v6_address_spec = 11;
 
   // Version of Kubernetes components that runs on the master.
   string version = 3;

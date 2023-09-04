@@ -13,7 +13,7 @@ message GenerationOptions {
   bool partial_results = 1;
   // Affects creativity and randomness of the responses. It is a double number between 0 and infinity. A low temperature causes the responses to be straightforward, a high temperature causes high-level creativity and randomness.
   google.protobuf.DoubleValue temperature = 2;
-  // Sets response limit in tokens. It is a int number between 1 and 2000.
+  // Sets response limit in tokens. The total length of [instruction_text], [request_text], and [max_tokens] should be equal or less than 7400 tokens.
   google.protobuf.Int64Value max_tokens = 3;
 }
 
@@ -29,7 +29,7 @@ message Alternative {
 
 // Contains description of the message for Chat.
 message Message {
-  // Message sender.
+  // Identifies who sent message. For message from the LLM model, the mandatory value is "assistant".
   string role = 1;
   // Text of the message.
   string text = 2;
@@ -37,10 +37,10 @@ message Message {
 
 // Contains description of the LLM token (base coding unit).
 message Token {
-  // Internal token id.
+  // Internal token ID.
   int64 id = 1;
   // Token text representation.
   string text = 2;
-  // Defines if token is special or not. Special tokens define the behaviour of the model and are not visible for users.
+  // Type of token (special or not special). Special tokens define the behaviour of the model and are not visible for users.
   bool special = 3;
 }

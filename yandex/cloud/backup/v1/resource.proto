@@ -24,12 +24,15 @@ message Resource {
         OTHER = 5;
     }
 
+    // Compute Cloud instance ID.
     string compute_instance_id = 1;
 
     google.protobuf.Timestamp created_at = 2;
     google.protobuf.Timestamp updated_at = 3;
 
+    // If this field is true, it means that instance is online.
     bool online = 4;
+    // If this field is true, it means that backup is enabled to instance.
     bool enabled = 5;
 
     Status status = 6;
@@ -43,7 +46,7 @@ message Resource {
     google.protobuf.Timestamp last_backup_time = 9;
     google.protobuf.Timestamp next_backup_time = 10;
 
-    // Resource Identifier is used to identify Compute Cloud instance in backup service.
+    // Resource ID is used to identify Compute Cloud instance in backup service.
     string resource_id = 11;
     // Status `is_active` shows whether current Compute Cloud instance controls Cloud Backup resource.
     // If status `is_active` is false it means Compute Cloud instance is not able to manipulate
@@ -74,13 +77,18 @@ message Task {
         COMPLETED = 5;
     }
 
+    // Task ID.
     int64 id = 1;
     // Shows whether the task is cancellable.
     // Note: task cancellation is not supported yet.
     bool cancellable = 2;
+    // Policy ID.
     string policy_id = 3;
+    // Type of the task.
     Type type = 4;
+    // Task progress.
     Progress progress = 5;
+    // Task status.
     Status status = 6;
 
     google.protobuf.Timestamp enqueued_at = 7;
@@ -88,5 +96,6 @@ message Task {
     google.protobuf.Timestamp updated_at = 9;
     google.protobuf.Timestamp completed_at = 10;
 
+    // Compute Cloud instance ID.
     string compute_instance_id = 11;
 }

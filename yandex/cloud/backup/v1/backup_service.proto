@@ -80,12 +80,16 @@ message ListArchivesResponse {
 
 message ListBackupsRequest {
     message ArchiveParameters {
+        // Archive ID.
         string archive_id = 1 [ (required) = true ];
+        // Folder ID.
         string folder_id = 2 [ (required) = true ];
     }
 
     message InstancePolicy {
+        // Compute Cloud instance ID.
         string compute_instance_id = 1;
+        // Policy ID.
         string policy_id = 2;
     }
 
@@ -99,9 +103,9 @@ message ListBackupsRequest {
         string folder_id = 3;
         // List backups that belongs to specific instance and policy at the same time.
         InstancePolicy instance_policy = 4;
-        // List backups by specific resource_id (not resource_id).
+        // List backups by specific resource ID.
         string resource_id = 6;
-        // List backups by specific policy_id.
+        // List backups by specific policy ID.
         string policy_id = 7;
     };
 
@@ -124,7 +128,9 @@ message ListBackupsResponse {
 }
 
 message ListFilesRequest {
+    // Folder ID.
     string folder_id = 1 [(required) = true];
+    // Backup ID.
     string backup_id = 2 [(required) = true];
     // Empty source will list disks of the backup.
     string source_id = 3 [(required) = false];
@@ -135,7 +141,9 @@ message ListFilesResponse {
 }
 
 message GetBackupRequest {
+    // Backup ID.
     string backup_id = 1 [(required) = true];
+    // Folder ID.
     string folder_id = 2 [(required) = true];
 }
 
@@ -158,6 +166,7 @@ message StartRecoveryMetadata {
 message TargetPathOriginal {}
 
 message TargetPathCustom {
+    // Custom folder for file recovery.
     string path = 1;
 }
 
@@ -178,7 +187,7 @@ message FilesRecoveryOptions {
     // specifies whether the recovery plan is able to reboot host if needed.
     bool reboot_if_needed = 2 [(required) = false];
 
-    // Path strategory for selected files.
+    // Path strategy for selected files.
     oneof type {
         option (exactly_one) = true;
 
@@ -190,8 +199,9 @@ message FilesRecoveryOptions {
 }
 
 message StartFilesRecoveryRequest {
-    // compute_instance_id is a destination instance id.
+    // Destination instance ID.
     string compute_instance_id = 1 [(required) = true];
+    // Backup ID.
     string backup_id = 2 [(required) = true];
     FilesRecoveryOptions opts = 3 [(required) = true];
     repeated string source_ids = 4 [(size) = ">0"];
@@ -199,7 +209,9 @@ message StartFilesRecoveryRequest {
 
 message StartFilesRecoveryMetadata {
     double progress_percentage = 1;
+    // Destination instance ID.
     string compute_instance_id = 2 [(required) = true];
+    // Backup ID.
     string backup_id = 3 [(required) = true];
     repeated string source_ids = 4 [(size) = ">0"];
 }

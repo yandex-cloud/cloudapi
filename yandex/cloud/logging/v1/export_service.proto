@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package yandex.cloud.logging.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/logging/v1/export.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/logging/v1;logging";
+option java_package = "yandex.cloud.api.logging.v1";
+
+service ExportService {
+  rpc Run (RunExportRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/logging/v1/run-export" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "RunExportMetadata"
+      response: "RunExportDetails"
+    };
+  }
+}
+
+message RunExportRequest {
+  string group_id = 1 [(required) = true, (length) = "<=64"];
+  string sink_id = 2 [(required) = true, (length) = "<=64"];
+  ExportParams params = 3 [(required) = true];
+  string result_filename = 4 [(required) = true];
+  google.protobuf.Timestamp since = 5 [(required) = true];
+  google.protobuf.Timestamp until = 6 [(required) = true];
+}
+
+message RunExportDetails {
+  string group_id = 1 ;
+  string sink_id = 2;
+  ExportParams params = 3;
+  string result_filename = 4;
+  google.protobuf.Timestamp since = 5;
+  google.protobuf.Timestamp until = 6;
+}
+
+message RunExportMetadata {
+  string group_id = 1;
+  string sink_id = 2;
+  string result_filename = 3;
+}

@@ -227,6 +227,9 @@ message ClusterConfig {
 
   // Configuration of the performance diagnostics service.
   PerformanceDiagnostics performance_diagnostics = 12;
+
+  // Disk size autoscaling
+  DiskSizeAutoscaling disk_size_autoscaling = 23;
 }
 
 message ConnectionPoolerConfig {
@@ -452,4 +455,15 @@ message PerformanceDiagnostics {
   int64 sessions_sampling_interval = 2 [(value) = "1-86400"];
   // Interval (in seconds) for pg_stat_statements sampling
   int64 statements_sampling_interval = 3 [(value) = "1-86400"];
+}
+
+message DiskSizeAutoscaling {
+  // Amount of used storage for automatic disk scaling in the maintenance window, 0 means disabled, in percent.
+  int64 planned_usage_threshold = 1 [(required) = false, (value) = "0-100"];
+
+  // Amount of used storage for immediately  automatic disk scaling, 0 means disabled, in percent.
+  int64 emergency_usage_threshold = 2 [(required) = false, (value) = "0-100"];
+
+  // Limit on how large the storage for database instances can automatically grow, in bytes.
+  int64 disk_size_limit = 3;
 }

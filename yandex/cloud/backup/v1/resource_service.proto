@@ -12,8 +12,9 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/backup/v1;backup";
 option java_package = "yandex.cloud.api.backup.v1";
 
+// A set of methods for managing backup resources: [Compute Cloud instances](/docs/backup/concepts/vm-connection#os).
 service ResourceService {
-    // List resources: [Compute Cloud instances](/docs/backup/concepts/vm-connection#os).
+    // List resources: Compute Cloud instances.
     rpc List(ListResourcesRequest) returns (ListResourcesResponse) {
         option (google.api.http) = { get: "/backup/v1/resources" };
     };
@@ -52,48 +53,65 @@ service ResourceService {
 }
 
 message ListResourcesRequest {
+    // Folder ID.
     string folder_id = 1 [ (required) = true, (length) = "<=50" ];
+    // Number of results per page.
     int64 page_size = 2 [ (value) = "<=1000" ];
+    // Token for the results page.
     string page_token = 3 [ (length) = "<=100" ];
 }
 
 message ListResourcesResponse {
+    // Set of resource parameters.
     repeated Resource resources = 1;
+    // Token for the next results page.
     string next_page_token = 2;
 }
 
 message GetResourceRequest {
+    // Compute Cloud instance ID.
     string compute_instance_id = 1 [ (required) = true, (length) = "<=50" ];
 }
 
 message GetResourceResponse {
+    // Set of resource parameters.
     Resource resource = 1;
 }
 
 message DeleteResourceRequest {
+    // Compute Cloud instance ID.
     string compute_instance_id = 1 [ (required) = true, (length) = "<=50" ];
+    // Resource ID is used to identify Compute Cloud instance in backup service.
     string resource_id = 2 [ (required) = true ];
 }
 
 message DeleteResourceMetadata {
-    // Compute Cloud Instance ID of the Backup.
+    // Compute Cloud instance ID.
     string compute_instance_id = 1;
 }
 
 message ListTasksRequest {
+    // Compute Cloud instance ID.
     string compute_instance_id = 1 [ (required) = true, (length) = "<=50" ];
+    // Number of results per page. 
     int64 page_size = 2 [ (value) = "<=1000" ];
+    // Token for the results page.
     string page_token = 3 [ (length) = "<=100" ];
 }
 
 message ListTasksResponse {
+    // Set of tasks parameters.
     repeated Task tasks = 1;
+    // Token for the next results page.
     string next_page_token = 2;
 }
 
 message ListDirectoryRequest {
+    // Folder ID.
     string folder_id = 1 [ (required) = true, (length) = "<=50" ];
+    // Compute Cloud instance ID.
     string compute_instance_id = 2 [ (required) = true ];
+    // Path to list items in.
     string path = 3 [ (required) = false ];
 }
 
@@ -106,6 +124,7 @@ message ListDirectoryResponse {
             FILE = 3;
         }
 
+        // Item name.
         string name = 1;
         // Might be Volume, Directory of File.
         Type type = 2;
@@ -118,12 +137,17 @@ message ListDirectoryResponse {
 }
 
 message CreateDirectoryRequest {
+    // Folder ID.
     string folder_id = 1 [ (required) = true, (length) = "<=50" ];
+    // Compute Cloud instance ID.
     string compute_instance_id = 2 [ (required) = true ];
+    // Path to create directory in.
     string path = 3 [ (required) = true ];
 }
 
 message CreateDirectoryMetadata {
+    // Compute Cloud instance ID.
     string compute_instance_id = 1;
+    // Path to create directory metadata in.
     string path = 2;
 }

@@ -56,6 +56,9 @@ message RouteOptions {
   repeated HeaderModification modify_response_headers = 2;
 
   RBAC rbac = 3;
+
+  // Security profile that will take effect to all requests routed via particular virtual host.
+  string security_profile_id = 4;
 }
 
 // Role Based Access Control (RBAC) provides router, virtual host, and route access control for the ALB

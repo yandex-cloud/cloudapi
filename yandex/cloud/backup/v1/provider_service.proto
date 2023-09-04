@@ -11,6 +11,7 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/backup/v1;backup";
 option java_package = "yandex.cloud.api.backup.v1";
 
+// A set of methods for managing [backup providers](/docs/backup/concepts/#providers).
 service ProviderService {
     // Activate provider for specified client.
     rpc Activate(ActivateProviderRequest)  returns (operation.Operation) {
@@ -38,16 +39,19 @@ message ActivateProviderRequest {
 }
 
 message ActivateProviderMetadata {
-    // Activate provider for Folder iD.
+    // Activate provider for folder specified by ID.
     string folder_id = 1 [ (required) = true, (length) = "<=50" ];
 }
 
 message ListActivatedProvidersRequest {
+    // ID of the folder to find out the backup provider.
     string folder_id = 1 [ (required) = true, (length) = "<=50" ];
 }
 
 message ListActivatedProvidersResponse {
+    // Folder ID.
     string folder_id = 1;
     reserved 2;
+    // Name of the backup provider.
     repeated string names = 3;
 }

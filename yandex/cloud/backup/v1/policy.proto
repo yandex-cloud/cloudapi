@@ -9,12 +9,17 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/backup/v1;
 option java_package = "yandex.cloud.api.backup.v1";
 
 message Policy {
+    // Policy ID.
     string id = 1 [ (required) = true, (length) = "<=50"];
+    // Policy name.
     string name = 2 [ (required) = true, (length) = "<=50"];
     google.protobuf.Timestamp created_at = 3;
     google.protobuf.Timestamp updated_at = 4;
+    // If this field is true, it means that the policy is enabled.
     bool enabled = 5;
+    // Set of policy settings
     PolicySettings settings = 6;
+    // ID of the folder that the policy belongs to.
     string folder_id = 7;
 }
 
@@ -33,6 +38,7 @@ enum Format {
     AUTO = 3;
 }
 
+// Set of policy settings
 message PolicySettings {
     // Compression rate of the backups.
     enum Compression {
@@ -93,7 +99,7 @@ message PolicySettings {
 
     message ArchiveProperties {
         // The name of the generated archive. The name may use the following variables: `[Machine Name]`, `[Plan ID]`, `[Plan Name]`, `[Unique ID]`, `[Virtualization Server Type]`.
-        // Default value: `[Machine Name]-[Plan ID]-[Unique ID]`.
+        // Default value: `[Machine Name]-[Plan ID]-[Unique ID]A`.
         string name = 1;
     }
 
@@ -122,7 +128,9 @@ message PolicySettings {
     }
 
     message TimeOfDay {
+        // Hours.
         int64 hour = 1;
+        // Minutes.
         int64 minute = 2;
     }
 
@@ -146,14 +154,18 @@ message PolicySettings {
     message Scheduling {
         message BackupSet {
             message Time {
+                // Days in a week to perform a backup.
                 repeated Day weekdays = 1 [(unique) = true];
+                // Time to repeat the backup.
                 repeated TimeOfDay repeat_at = 2;
-
+                // Frequency of backup repetition.
                 Interval repeat_every = 3;
+                // The start time of the backup time interval.
                 TimeOfDay time_from = 4;
+                // The end time of the backup time interval.
                 TimeOfDay time_to = 5;
 
-                // Monthdays are days in month.
+                // Days in a month to perform a backup.
                 // Allowed values are from 1 to 31.
                 repeated int64 monthdays = 6 [(unique) = true];
                 // If set to true, last day of month will activate
@@ -161,10 +173,11 @@ message PolicySettings {
                 bool include_last_day_of_month = 7;
                 // Set of values. Allowed values form 1 to 12.
                 repeated int64 months = 8 [(unique) = true];
-
+                // Possible types: `REPEATE_PERIOD_UNSPECIFIED`, `HOURLY`, `DAILY`, `WEEKLY`, `MONTHLY`.
                 RepeatePeriod type = 9 [ (required) = true ];
             }
             message SinceLastExecTime {
+                // The interval between backups.
                 Interval delay = 1 [ (required) = true ];
             }
 
@@ -258,7 +271,9 @@ message PolicyApplication {
         DISABLED = 3;
     }
 
+    // Policy ID.
     string policy_id = 1;
+    // Compute Cloud instance ID.
     string compute_instance_id = 2;
     bool enabled = 3;
     Status status = 4;

@@ -21,13 +21,15 @@ message InstructRequest {
   // For example, the instruction is "You are the youngest Nobel laureate", the request text is "Tell us about your daily routine".
   oneof Instruction {
 
-    // Text of the instruction. The total length of [instruction_text] and [request_text] should be equal or less to 2500 tokens.
+    // Text of the instruction. The total length of [instruction_text], [request_text], and [max_tokens] should be equal or less than 7400 tokens.
     string instruction_text = 3;
+
+    string instruction_uri = 5;
   }
 
   // Request
   oneof Request {
-    // Text of the instruction. The total length of [instruction_text] and [request_text] should be equal or less to 2500 tokens.
+    // Text of the instruction. The total length of [instruction_text], [request_text], and [max_tokens] should be equal or less than 7400 tokens.
     string request_text = 4;
   }
 }
@@ -59,11 +61,11 @@ message ChatRequest {
   repeated Message messages = 4;
 }
 
-// Contains a model-generated assistant's response for the chat query
+// Contains a model-generated assistant's response for the chat query.
 message ChatResponse {
-  // Assistant's message
+  // Assistant's message.
   Message message = 1;
-  // Total number of tokens for chat request and chat response
+  // Total number of tokens for chat request and chat response.
   int64 num_tokens = 2;
 }
 
@@ -77,24 +79,46 @@ service TextGenerationService {
   }
 }
 
-// Tokenization request
+// Tokenization request.
 message TokenizeRequest {
 
   // Possible value for now: `general`.
   string model = 1 [(length) = "<=50"];
 
-  // Text for tokenization request
+  // Text for tokenization request.
   string text = 2;
 }
 
-// Tokenization response
+// Tokenization response.
 message TokenizeResponse {
-  // Sequence of tokens in tokenized text
+  // Sequence of tokens in tokenized text.
   repeated Token tokens = 1;
 }
 
 service TokenizerService {
   rpc Tokenize (TokenizeRequest) returns (TokenizeResponse) {
     option (google.api.http) = {post: "/llm/v1alpha/tokenize" body: "*"};
+  }
+}
+
+message EmbeddingRequest {
+  enum EmbeddingType {
+    EMBEDDING_TYPE_UNSPECIFIED = 0;
+    EMBEDDING_TYPE_QUERY = 1;
+    EMBEDDING_TYPE_DOCUMENT = 2;
+  }
+  EmbeddingType embedding_type = 1;
+  string model = 2;
+  string text = 3;
+}
+
+message EmbeddingResponse {
+  repeated double embedding = 1;
+  int64 num_tokens = 2;
+}
+
+service EmbeddingsService {
+  rpc Embedding (EmbeddingRequest) returns (EmbeddingResponse) {
+    option (google.api.http) = {post: "/llm/v1alpha/embedding" body: "*"};
   }
 }
