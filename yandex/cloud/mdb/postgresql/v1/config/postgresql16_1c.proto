@@ -11,7 +11,7 @@ option java_package = "yandex.cloud.api.mdb.postgresql.v1.config";
 // Options and structure of `PostgresqlConfig` reflects PostgreSQL configuration file
 // parameters which detailed description is available in
 // [PostgreSQL documentation](https://www.postgresql.org/docs/11/runtime-config.html).
-message PostgresqlConfig15 {
+message PostgresqlConfig16_1C {
   enum BackslashQuote {
     BACKSLASH_QUOTE_UNSPECIFIED = 0;
 
@@ -42,14 +42,14 @@ message PostgresqlConfig15 {
     CONSTRAINT_EXCLUSION_PARTITION = 3;
   }
 
-  enum ForceParallelMode {
-    FORCE_PARALLEL_MODE_UNSPECIFIED = 0;
+  enum DebugParallelQuery {
+    DEBUG_PARALLEL_QUERY_UNSPECIFIED = 0;
 
-    FORCE_PARALLEL_MODE_ON = 1;
+    DEBUG_PARALLEL_QUERY_ON = 1;
 
-    FORCE_PARALLEL_MODE_OFF = 2;
+    DEBUG_PARALLEL_QUERY_OFF = 2;
 
-    FORCE_PARALLEL_MODE_REGRESS = 3;
+    DEBUG_PARALLEL_QUERY_REGRESS = 3;
   }
 
   enum LogErrorVerbosity {
@@ -74,6 +74,8 @@ message PostgresqlConfig15 {
     LOG_LEVEL_DEBUG2 = 4;
 
     LOG_LEVEL_DEBUG1 = 5;
+
+    LOG_LEVEL_INFO = 12;
 
     LOG_LEVEL_LOG = 6;
 
@@ -256,7 +258,7 @@ message PostgresqlConfig15 {
 
   google.protobuf.Int64Value join_collapse_limit = 32 [(value) = "1-2147483647"];
 
-  ForceParallelMode force_parallel_mode = 33;
+  DebugParallelQuery debug_parallel_query = 33;
 
   LogLevel client_min_messages = 34;
 
@@ -343,6 +345,8 @@ message PostgresqlConfig15 {
   google.protobuf.Int64Value archive_timeout = 76 [(value) = "10000-86400000"]; // in milliseconds.
 
   google.protobuf.Int64Value track_activity_query_size = 77 [(value) = "100-102400"];
+
+  google.protobuf.BoolValue online_analyze_enable = 79;
 
   google.protobuf.BoolValue enable_bitmapscan = 80;
 
@@ -478,6 +482,8 @@ message PostgresqlConfig15 {
 
   google.protobuf.DoubleValue pg_qualstats_sample_rate = 148;
 
+  google.protobuf.BoolValue plantuner_fix_empty_table = 149;
+
   google.protobuf.Int64Value max_stack_depth = 150 [(value) = "65536-134217728"]; // in bytes.
 
   google.protobuf.BoolValue enable_group_by_reordering = 151;
@@ -511,14 +517,14 @@ message PostgresqlConfig15 {
   google.protobuf.Int64Value log_autovacuum_min_duration = 165 [(value) = "-1-2147483647"]; // in milliseconds. The default is 1000 (1 sec).
 }
 
-message PostgresqlConfigSet15 {
-  // Effective settings for a PostgreSQL 15 cluster (a combination of settings defined
+message PostgresqlConfigSet16_1C {
+  // Effective settings for a PostgreSQL 16 1C cluster (a combination of settings defined
   // in [user_config] and [default_config]).
-  PostgresqlConfig15 effective_config = 1;
+  PostgresqlConfig16_1C effective_config = 1;
 
-  // User-defined settings for a PostgreSQL 15 cluster.
-  PostgresqlConfig15 user_config = 2;
+  // User-defined settings for a PostgreSQL 16 1C cluster.
+  PostgresqlConfig16_1C user_config = 2;
 
-  // Default configuration for a PostgreSQL 15 cluster.
-  PostgresqlConfig15 default_config = 3;
+  // Default configuration for a PostgreSQL 16 1C cluster.
+  PostgresqlConfig16_1C default_config = 3;
 }

@@ -356,4 +356,6 @@ message CloudStorage {
   google.protobuf.BoolValue data_cache_enabled = 3;
 
   google.protobuf.Int64Value data_cache_max_size = 4;
+
+  google.protobuf.BoolValue prefer_not_to_merge = 5;
 }

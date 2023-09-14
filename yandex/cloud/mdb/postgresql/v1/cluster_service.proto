@@ -27,6 +27,8 @@ import "yandex/cloud/mdb/postgresql/v1/config/postgresql14.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql14_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql15.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql15_1c.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql16.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql16_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host10.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host10_1c.proto";
@@ -40,6 +42,8 @@ import "yandex/cloud/mdb/postgresql/v1/config/host14.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host14_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host15.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host15_1c.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host16.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host16_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
@@ -846,6 +850,12 @@ message ConfigSpec {
 
     // Configuration for a PostgreSQL 15 1C cluster.
     config.PostgresqlConfig15_1C postgresql_config_15_1c = 22 [json_name="postgresqlConfig_15_1c"];
+
+    // Configuration for a PostgreSQL 16 cluster.
+    config.PostgresqlConfig16 postgresql_config_16 = 24 [json_name="postgresqlConfig_16"];
+
+    // Configuration for a PostgreSQL 16 1C cluster.
+    config.PostgresqlConfig16_1C postgresql_config_16_1c = 25 [json_name="postgresqlConfig_16_1c"];
   }
 
   // Configuration of the connection pooler.
@@ -913,5 +923,11 @@ message ConfigHostSpec {
 
     // Configuration for a host with PostgreSQL 15 1C server deployed.
     config.PostgresqlHostConfig15_1C postgresql_config_15_1c = 13 [json_name="postgresqlHostConfig_15_1c"];
+
+    // Configuration for a host with PostgreSQL 16 server deployed.
+    config.PostgresqlHostConfig16 postgresql_config_16 = 14 [json_name="postgresqlHostConfig_16"];
+
+    // Configuration for a host with PostgreSQL 16 1C server deployed.
+    config.PostgresqlHostConfig16_1C postgresql_config_16_1c = 15 [json_name="postgresqlHostConfig_16_1c"];
   }
 }

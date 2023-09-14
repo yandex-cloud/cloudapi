@@ -10,6 +10,16 @@ option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
 // A ClickHouse Backup resource. See the [Developer's Guide](/docs/managed-clickhouse/concepts)
 // for more information.
 message Backup {
+  enum BackupType {
+    BACKUP_TYPE_UNSPECIFIED = 0;
+
+    // Backup created by automated daily schedule.
+    AUTOMATED = 1;
+
+    // Backup created by user request.
+    MANUAL = 2;
+  }
+
   // ID of the backup.
   string id = 1;
 
@@ -28,4 +38,10 @@ message Backup {
 
   // Time when the backup operation was started.
   google.protobuf.Timestamp started_at = 5;
+
+  // Size of backup in bytes.
+  int64 size = 7;
+
+  // How this backup was created (manual/automatic/etc...).
+  BackupType type = 8;
 }

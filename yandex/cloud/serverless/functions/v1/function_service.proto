@@ -476,6 +476,9 @@ message CreateFunctionVersionRequest {
 
   // S3 mounts to be used by the version.
   repeated StorageMount storage_mounts = 20;
+
+  // Config for asynchronous invocations of the version
+  AsyncInvocationConfig async_invocation_config = 22;
 }
 
 message CreateFunctionVersionMetadata {

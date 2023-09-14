@@ -29,15 +29,15 @@ message TextAnnotation {
     // Recognized text blocks in this page.
     repeated Block blocks = 3;
 
-    // Recognized entities
+    // Recognized entities.
     repeated Entity entities = 4;
 }
 
 message Entity {
-    // Entity name
+    // Entity name.
     string name = 1;
 
-    // Recognized entity text
+    // Recognized entity text.
     string text = 2;
 }
 
@@ -56,17 +56,13 @@ message Block {
     repeated DetectedLanguage languages = 3;
 }
 
-message Alternative {
-    // Recognized text.
-    string text = 1;
-    // Recognized words
-    repeated Word words = 2;
-}
-
 message Line {
     // Area on the page where the line is located.
     Polygon bounding_box = 1;
-    repeated Alternative alternatives = 2;
+    // Recognized text.
+    string text = 2;
+    // Recognized words
+    repeated Word words = 3;
 }
 
 message Word {
@@ -76,6 +72,6 @@ message Word {
     // Recognized word value.
     string text = 2;
 
-    // Id of recognized word in entities array
+    // ID of the recognized word in entities array.
     int64 entity_index = 3;
 }

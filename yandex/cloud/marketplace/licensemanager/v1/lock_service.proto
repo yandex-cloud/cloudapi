@@ -27,10 +27,10 @@ service LockService {
         };
     }
 
-    rpc Ensure(CreateLockRequest) returns (operation.Operation) {
+    rpc Ensure(EnsureLockRequest) returns (operation.Operation) {
         option (google.api.http) = { post: "/marketplace/license-manager/v1/locks/{instance_id}:ensure" body: "*" };
         option (yandex.cloud.api.operation) = {
-            metadata: "CreateLockMetadata"
+            metadata: "EnsureLockMetadata"
             response: "Lock"
         };
     }
@@ -49,6 +49,11 @@ message GetLockRequest {
 }
 
 message CreateLockRequest {
+    string instance_id = 1 [(required) = true]; // license
+    string resource_id = 2 [(required) = true];
+}
+
+message EnsureLockRequest {
     string instance_id = 1 [(required) = true]; // license
     string resource_id = 2 [(required) = true];
 }

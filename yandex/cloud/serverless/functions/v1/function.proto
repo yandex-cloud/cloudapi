@@ -131,6 +131,9 @@ message Version {
 
   // S3 mounts to be used by the version.
   repeated StorageMount storage_mounts = 21;
+
+  // Config for asynchronous invocations of the version
+  AsyncInvocationConfig async_invocation_config = 22;
 }
 
 // Resources allocated to a version.
@@ -240,4 +243,40 @@ message StorageMount {
 
   // Is mount read only.
   bool read_only = 4;
+}
+
+message AsyncInvocationConfig {
+  // Target to which a result of an invocation will be sent
+  message ResponseTarget {
+    oneof target {
+      option (exactly_one) = true;
+      // Target to ignore a result
+      EmptyTarget empty_target = 1;
+      // Target to send a result to ymq
+      YMQTarget ymq_target = 2;
+    }
+  }
+
+  // Number of retries of version invocation
+  int64 retries_count = 1 [(value) = "0-100"];
+
+  // Target for successful result of the version's invocation
+  ResponseTarget success_target = 2 [(required) = true];
+
+  // Target for unsuccessful result, if all retries failed
+  ResponseTarget failure_target = 3 [(required) = true];
+
+  // Service account which can invoke version
+  string service_account_id = 4;
+}
+
+message YMQTarget {
+  // Queue ARN
+  string queue_arn = 1 [(required) = true];
+
+  // Service account which has write permission on the queue.
+  string service_account_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message EmptyTarget {
 }
