@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package yandex.cloud.loadtesting.api.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/loadtesting/api/v1;loadtesting";
+option java_package = "yandex.cloud.api.loadtesting.api.v1";
+
+import "google/api/annotations.proto";
+import "yandex/cloud/loadtesting/api/v1/report/table/report.proto";
+import "yandex/cloud/loadtesting/api/v1/report/status.proto";
+import "yandex/cloud/validation.proto";
+
+
+service ReportService {
+  rpc GetTable(GetTableReportRequest) returns (GetTableReportResponse) {
+    option (google.api.http) = { get: "/loadtesting/api/v1/reports/{test_id}/table" };
+  }
+}
+
+message GetTableReportRequest {
+  string test_id = 1 [(required) = true];
+}
+
+message GetTableReportResponse {
+  report.Status status = 1;
+  report.table.Report overall = 2;
+  map<string, report.table.Report> cases = 3;
+}

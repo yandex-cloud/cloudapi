@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package yandex.cloud.loadtesting.api.v1.report;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/loadtesting/api/v1/report;report";
+option java_package = "yandex.cloud.api.loadtesting.api.v1.report";
+
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  COLLECTING = 1;
+  CALCULATING = 2;
+  READY = 3;
+}

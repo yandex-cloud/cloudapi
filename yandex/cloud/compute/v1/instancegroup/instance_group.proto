@@ -351,6 +351,10 @@ message DeployPolicy {
   // Affects the lifecycle of the instance during deployment.
   Strategy strategy = 8;
 
+  // If instance update requires a less disruptive action than [minimal_action],
+  // Instance Groups performs [minimal_action] to execute the update
+  MinimalAction minimal_action = 14;
+
   enum Strategy {
     STRATEGY_UNSPECIFIED = 0;
 
@@ -360,6 +364,16 @@ message DeployPolicy {
     // Instance Groups does not stop a running instance.
     // Instead, it will wait until the instance stops itself or becomes unhealthy.
     OPPORTUNISTIC = 2;
+  }
+
+  enum MinimalAction {
+    MINIMAL_ACTION_UNSPECIFIED = 0;
+    // Updating an instance without stopping. This is the default.
+    LIVE_UPDATE = 1;
+    // Updating an instance with restart: stopping and then starting the instance.
+    RESTART = 2;
+    // Re-creating an instance: deleting an instance and creating a new one.
+    RECREATE = 3;
   }
 }
 
