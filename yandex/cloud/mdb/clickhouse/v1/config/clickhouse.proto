@@ -552,6 +552,9 @@ message ClickhouseConfig {
   // The server's time zone to be used in DateTime fields conversions. Specified as an IANA identifier.
   string timezone = 14;
 
+  // Enable or disable geobase.
+  google.protobuf.BoolValue geobase_enabled = 66;
+
   // Address of the archive with the user geobase in Object Storage.
   string geobase_uri = 15;
 
@@ -618,9 +621,79 @@ message ClickhouseConfig {
   // Logging level for text_log system table. Possible values: TRACE, DEBUG, INFORMATION, WARNING, ERROR.
   LogLevel text_log_level = 32;
 
+  // Enable or disable opentelemetry_span_log system table. Default value: false.
   google.protobuf.BoolValue opentelemetry_span_log_enabled = 42;
 
+  // The maximum size that opentelemetry_span_log can grow to before old data will be removed. If set to 0 (default),
+  // automatic removal of opentelemetry_span_log data based on size is disabled.
+  google.protobuf.Int64Value opentelemetry_span_log_retention_size = 55 [(value) = ">=0"];
+
+  // The maximum time that opentelemetry_span_log records will be retained before removal. If set to 0,
+  // automatic removal of opentelemetry_span_log data based on time is disabled.
+  google.protobuf.Int64Value opentelemetry_span_log_retention_time = 56 [(value) = ">=0"];
+
+  // Enable or disable query_views_log system table. Default value: false.
+  google.protobuf.BoolValue query_views_log_enabled = 49;
+
+  // The maximum size that query_views_log can grow to before old data will be removed. If set to 0 (default),
+  // automatic removal of query_views_log data based on size is disabled.
+  google.protobuf.Int64Value query_views_log_retention_size = 50 [(value) = ">=0"];
+
+  // The maximum time that query_views_log records will be retained before removal. If set to 0,
+  // automatic removal of query_views_log data based on time is disabled.
+  google.protobuf.Int64Value query_views_log_retention_time = 51 [(value) = ">=0"];
+
+  // Enable or disable asynchronous_metric_log system table. Default value: false.
+  google.protobuf.BoolValue asynchronous_metric_log_enabled = 52;
+
+  // The maximum size that asynchronous_metric_log can grow to before old data will be removed. If set to 0 (default),
+  // automatic removal of asynchronous_metric_log data based on size is disabled.
+  google.protobuf.Int64Value asynchronous_metric_log_retention_size = 53 [(value) = ">=0"];
+
+  // The maximum time that asynchronous_metric_log records will be retained before removal. If set to 0,
+  // automatic removal of asynchronous_metric_log data based on time is disabled.
+  google.protobuf.Int64Value asynchronous_metric_log_retention_time = 54 [(value) = ">=0"];
+
+  // Enable or disable session_log system table. Default value: false.
+  google.protobuf.BoolValue session_log_enabled = 57;
+
+  // The maximum size that session_log can grow to before old data will be removed. If set to 0 (default),
+  // automatic removal of session_log data based on size is disabled.
+  google.protobuf.Int64Value session_log_retention_size = 58 [(value) = ">=0"];
+
+  // The maximum time that session_log records will be retained before removal. If set to 0,
+  // automatic removal of session_log data based on time is disabled.
+  google.protobuf.Int64Value session_log_retention_time = 59 [(value) = ">=0"];
+
+  // Enable or disable zookeeper_log system table. Default value: false.
+  google.protobuf.BoolValue zookeeper_log_enabled = 60;
+
+  // The maximum size that zookeeper_log can grow to before old data will be removed. If set to 0 (default),
+  // automatic removal of zookeeper_log data based on size is disabled.
+  google.protobuf.Int64Value zookeeper_log_retention_size = 61 [(value) = ">=0"];
+
+  // The maximum time that zookeeper_log records will be retained before removal. If set to 0,
+  // automatic removal of zookeeper_log data based on time is disabled.
+  google.protobuf.Int64Value zookeeper_log_retention_time = 62 [(value) = ">=0"];
+
+  // Enable or disable asynchronous_insert_log system table. Default value: false.
+  // Minimal required ClickHouse version: 22.10.
+  google.protobuf.BoolValue asynchronous_insert_log_enabled = 63;
+
+  // The maximum size that asynchronous_insert_log can grow to before old data will be removed. If set to 0 (default),
+  // automatic removal of asynchronous_insert_log data based on size is disabled.
+  google.protobuf.Int64Value asynchronous_insert_log_retention_size = 64 [(value) = ">=0"];
+
+  // The maximum time that asynchronous_insert_log records will be retained before removal. If set to 0,
+  // automatic removal of asynchronous_insert_log data based on time is disabled.
+  google.protobuf.Int64Value asynchronous_insert_log_retention_time = 65 [(value) = ">=0"];
+
   google.protobuf.Int64Value background_pool_size = 33 [(value) = ">0"];
+
+  // Sets a ratio between the number of threads and the number of background merges and mutations that can be executed concurrently. For example, if the ratio equals to 2 and background_pool_size is set to 16 then ClickHouse can execute 32 background merges concurrently. This is possible, because background operations could be suspended and postponed. This is needed to give small merges more execution priority. You can only increase this ratio at runtime. To lower it you have to restart the server. The same as for background_pool_size setting background_merges_mutations_concurrency_ratio could be applied from the default profile for backward compatibility.
+  // Default: 2
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/server-configuration-parameters/settings#background_merges_mutations_concurrency_ratio)
+  google.protobuf.Int64Value background_merges_mutations_concurrency_ratio = 48 [(value) = ">0"];
 
   google.protobuf.Int64Value background_schedule_pool_size = 34 [(value) = ">0"];
 
@@ -637,6 +710,11 @@ message ClickhouseConfig {
 
   google.protobuf.Int64Value background_message_broker_schedule_pool_size = 46 [(value) = ">0"];
 
+  // The maximum number of threads that will be used for performing a variety of operations (mostly garbage collection) for *MergeTree-engine tables in a background.
+  // Default: 8
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/server-configuration-parameters/settings#background_common_pool_size)
+  google.protobuf.Int64Value background_common_pool_size = 47 [(value) = ">0"];
+
   // The default database.
   //
   // To get a list of cluster databases, see [Yandex Managed ClickHouse documentation](https://cloud.yandex.com/en/docs/managed-clickhouse/operations/databases#list-db).
@@ -648,71 +726,6 @@ message ClickhouseConfig {
   google.protobuf.Int64Value total_memory_profiler_step = 44;
 
   google.protobuf.DoubleValue total_memory_tracker_sample_probability = 45;
-
-  // The maximum number of threads that will be used for performing a variety of operations (mostly garbage collection) for *MergeTree-engine tables in a background.
-  // Default: 8
-  // Min version: 21.11
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/server-configuration-parameters/settings#background_common_pool_size)
-  google.protobuf.Int64Value background_common_pool_size = 47 [(value) = ">0"];
-
-  // Sets a ratio between the number of threads and the number of background merges and mutations that can be executed concurrently. For example, if the ratio equals to 2 and background_pool_size is set to 16 then ClickHouse can execute 32 background merges concurrently. This is possible, because background operations could be suspended and postponed. This is needed to give small merges more execution priority. You can only increase this ratio at runtime. To lower it you have to restart the server. The same as for background_pool_size setting background_merges_mutations_concurrency_ratio could be applied from the default profile for backward compatibility.
-  // Default: 2
-  // Min_version: 21.11
-  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/server-configuration-parameters/settings#background_merges_mutations_concurrency_ratio)
-  google.protobuf.Int64Value background_merges_mutations_concurrency_ratio = 48 [(value) = ">0"];
-
-  // Default: false
-  // Min version: 21.9
-  google.protobuf.BoolValue query_views_log_enabled = 49;
-
-  // Default: 0
-  google.protobuf.Int64Value query_views_log_retention_size = 50 [(value) = ">=0"];
-
-  google.protobuf.Int64Value query_views_log_retention_time = 51 [(value) = ">=0"];
-
-  // Default: false
-  // Min version: 20.11
-  google.protobuf.BoolValue asynchronous_metric_log_enabled = 52;
-
-  // Default: 0
-  google.protobuf.Int64Value asynchronous_metric_log_retention_size = 53 [(value) = ">=0"];
-
-  google.protobuf.Int64Value asynchronous_metric_log_retention_time = 54 [(value) = ">=0"];
-
-  // Default: 0
-  // Min version: 20.11
-  google.protobuf.Int64Value opentelemetry_span_log_retention_size = 55 [(value) = ">=0"];
-
-  google.protobuf.Int64Value opentelemetry_span_log_retention_time = 56 [(value) = ">=0"];
-
-  // Default: false
-  // Min version: 21.11
-  google.protobuf.BoolValue session_log_enabled = 57;
-
-  // Default: 0
-  google.protobuf.Int64Value session_log_retention_size = 58 [(value) = ">=0"];
-
-  google.protobuf.Int64Value session_log_retention_time = 59 [(value) = ">=0"];
-
-  // Default: false
-  // Min version: 21.9
-  google.protobuf.BoolValue zookeeper_log_enabled = 60;
-
-  // Default: 0
-  google.protobuf.Int64Value zookeeper_log_retention_size = 61 [(value) = ">=0"];
-
-  google.protobuf.Int64Value zookeeper_log_retention_time = 62 [(value) = ">=0"];
-
-  // Default: false
-  // Min version: 22.10
-  google.protobuf.BoolValue asynchronous_insert_log_enabled = 63;
-
-  // Default: 0
-  google.protobuf.Int64Value asynchronous_insert_log_retention_size = 64 [(value) = ">=0"];
-
-  google.protobuf.Int64Value asynchronous_insert_log_retention_time = 65 [(value) = ">=0"];
-
-  google.protobuf.BoolValue geobase_enabled = 66;
 }
 
 message ClickhouseConfigSet {

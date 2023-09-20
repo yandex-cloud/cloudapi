@@ -35,7 +35,7 @@ message Permission {
 
 message UserSpec {
   // Name of the ClickHouse user.
-  string name = 1 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+  string name = 1 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_][a-zA-Z0-9_-]*"];
 
   // Password of the ClickHouse user.
   string password = 2 [(required) = true, (length) = "8-128"];

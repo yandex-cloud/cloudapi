@@ -68,6 +68,9 @@ message Host {
 
   // ID of the physical server that the host belongs to.
   string server_id = 3;
+
+  // Set temporarily if maintenance is planned for this host, and a new host was provided as a replacement.
+  Replacement replacement = 4;
 }
 
 enum MaintenancePolicy {
@@ -86,4 +89,12 @@ message ScalePolicy {
   oneof scale_type {
     FixedScale fixed_scale = 1;
   }
+}
+
+message Replacement {
+  // ID of the host which replaces this one.
+  string host_id = 1;
+
+  // The date and time when this host will be automatically freed of instances.
+  google.protobuf.Timestamp deadline_at = 2;
 }

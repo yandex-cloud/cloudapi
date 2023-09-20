@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package yandex.cloud.datasphere.v2.jobs;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datasphere/v2/jobs;datasphere";
+option java_outer_classname = "Jobs";
+option java_package = "yandex.cloud.api.datasphere.v2.jobs";
+
+// Job parameters.
+message JobParameters {
+  // List of input files.
+  repeated File input_files = 1;
+  // List of output files descriptions.
+  repeated FileDesc output_files = 2;
+  // List of DataSphere S3 mount ids.
+  repeated string s3_mount_ids = 3;
+  // List of DataSphere dataset ids.
+  repeated string dataset_ids = 4;
+  // Job run command.
+  string cmd = 5;
+  // Job environment description.
+  Environment env = 6;
+  // Should project disk be attached to VM.
+  bool attach_project_disk = 7;
+  // VM specification.
+  CloudInstanceType cloud_instance_type = 8;
+}
+
+message CloudInstanceType {
+  // Name of DataSphere VM configuration.
+  string name = 1;
+}
+
+message File {
+  FileDesc desc = 1;
+  // SHA256 of the file.
+  string sha256 = 2;
+  // File size in bytes.
+  int64 size_bytes = 3;
+}
+
+message StorageFile {
+  File file = 1;
+  // File URL.
+  string url = 2;
+}
+
+message FileDesc {
+  // Path of the file on filesystem.
+  string path = 1;
+  // Variable to use in cmd substitution.
+  string var = 2;
+}
+
+message Environment {
+  // Environment variables.
+  map<string, string> vars = 1;
+
+  oneof docker_image {
+    // DS docker image id.
+    string docker_image_resource_id = 2;
+    DockerImageSpec docker_image_spec = 3;
+  }
+
+  PythonEnv python_env = 4;
+}
+
+message DockerImageSpec {
+  // Docker image URL.
+  string image_url = 1;
+  // Username for container registry.
+  string username = 2;
+  // Password for container registry.
+  oneof password {
+    // Plaintext password.
+    string password_plain_text = 3;
+    // ID of DataSphere secret containing password.
+    string password_ds_secret_name = 4;
+  }
+}
+
+message PythonEnv {
+  // Conda YAML.
+  string conda_yaml = 1;
+  // List of local modules descriptions.
+  repeated File local_modules = 2;
+}
+
+// Instance of the job.
+message Job {
+  // ID of the job.
+  string id = 1;
+  // Name of the job.
+  string name = 2;
+  // Description of the job.
+  string desc = 3;
+  // Creation timestamp of the job.
+  google.protobuf.Timestamp created_at = 4;
+  // Finish timestamp of the job.
+  google.protobuf.Timestamp finished_at = 5;
+  // Status of the job.
+  JobStatus status = 6;
+  // Config of the job, copied from configuration file.
+  string config = 7;
+  // ID of the user who created the job.
+  string created_by_id = 8;
+  // ID of the project.
+  string project_id = 9;
+  JobParameters job_parameters = 10;
+}
+
+enum JobStatus {
+  JOB_STATUS_UNSPECIFIED = 0;
+  CREATING = 1;
+  EXECUTING = 2;
+  UPLOADING_OUTPUT = 3;
+  SUCCESS = 4;
+  ERROR = 5;
+  CANCELLED = 6;
+}
+
+message JobResult {
+  // Execution return code.
+  int64 return_code = 1;
+}
