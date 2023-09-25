@@ -90,6 +90,14 @@ service SubnetService {
     };
   }
 
+  rpc Relocate (RelocateSubnetRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/vpc/v1/subnets/{subnet_id}:relocate" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "RelocateSubnetMetadata"
+      response: "Subnet"
+    };
+  }
+
   // List used addresses in specified subnet.
   rpc ListUsedAddresses (ListUsedAddressesRequest) returns (ListUsedAddressesResponse) {
     option (google.api.http) = { get: "/vpc/v1/subnets/{subnet_id}/addresses" };
@@ -304,4 +312,13 @@ message UsedAddress {
   string address = 1;
   IpVersion ip_version = 2;
   repeated reference.Reference references = 3;
+}
+
+message RelocateSubnetRequest {
+  string subnet_id = 1 [(required) = true, (length) = "<=50"];
+  string destination_zone_id = 2 [(required) = true];
+}
+
+message RelocateSubnetMetadata {
+  string subnet_id = 1;
 }
