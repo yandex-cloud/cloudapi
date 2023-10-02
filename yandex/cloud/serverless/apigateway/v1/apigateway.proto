@@ -117,7 +117,7 @@ message LogOptions {
 
 message Canary {
   // It describes percentage of requests, which will be processed by canary.
-  int64 weight = 1 [(value) = "1-99"];
+  int64 weight = 1 [(value) = "0-99"];
 
   // Values specification variables, associated with canary.
   map<string, VariableInput> variables = 2 [(size) = ">0"];
