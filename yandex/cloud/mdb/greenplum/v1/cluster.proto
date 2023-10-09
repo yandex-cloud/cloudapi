@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.mdb.greenplum.v1;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
 
 import "yandex/cloud/validation.proto";
@@ -191,6 +192,9 @@ message GreenplumConfig {
 
   // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 2;
+
+  // Retention policy of automated backups.
+  google.protobuf.Int64Value backup_retain_period_days = 9 [(value) = "1-7"];
 
   // Access policy for external services.
   Access access = 3;

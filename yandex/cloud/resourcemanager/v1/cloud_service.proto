@@ -219,4 +219,7 @@ message DeleteCloudMetadata {
   string cloud_id = 1;
   // The timestamp after which the process of deleting the cloud should begin.
   google.protobuf.Timestamp delete_after = 2;
+  // Information about operation cancellation
+  string cancelled_by = 3;
+  google.protobuf.Timestamp cancelled_at = 4;
 }

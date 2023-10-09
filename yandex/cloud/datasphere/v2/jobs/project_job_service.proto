@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.datasphere.v2.jobs;
 
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/datasphere/v2/jobs/jobs.proto";
@@ -35,10 +36,12 @@ service ProjectJobService {
   rpc Finalize (FinalizeProjectJobRequest) returns (FinalizeProjectJobResponse);
 
   // Returns stream of job logs.
-  rpc ReadStdLogs (ReadProjectJobStdLogsRequest) returns (stream ReadProjectJobStdLogsResponse);
+  rpc ReadStdLogs (ReadProjectJobStdLogsRequest) returns (stream ReadProjectJobStdLogsResponse) {
+    option deprecated = true;
+  };
 
-  // Returns URL for downloading job logs.
-  rpc DownloadStdLogs (DownloadProjectJobStdLogsRequest) returns (DownloadProjectJobStdLogsResponse);
+  // Returns stream of job logs.
+  rpc ReadLogs (ReadProjectJobLogsRequest) returns (stream ReadProjectJobLogsResponse);
 
   // Lists jobs.
   rpc List (ListProjectJobRequest) returns (ListProjectJobResponse);
@@ -136,17 +139,19 @@ message ReadProjectJobStdLogsResponse {
   int64 offset = 2;
 }
 
-message DownloadProjectJobStdLogsRequest {
+message ReadProjectJobLogsRequest {
   // ID of the job.
   string job_id = 1;
+
+  // Log offset.
+  int64 offset = 2;
 }
 
-message DownloadProjectJobStdLogsResponse {
-  // URL to download stdout log.
-  string stdout_url = 1;
+message ReadProjectJobLogsResponse {
+  repeated LogMessage logs = 1;
 
-  // URL to download stderr log.
-  string stderr_url = 2;
+  // Log offset.
+  int64 offset = 2;
 }
 
 message ListProjectJobRequest {
@@ -206,4 +211,26 @@ message StdLog {
 
   // Log type.
   Type type = 2;
+}
+
+enum StandardStream {
+  STANDARD_STREAM_UNSPECIFIED = 0;
+  // Stdout.
+  OUT = 1;
+  // Stderr.
+  ERR = 2;
+}
+
+message LogMessage {
+  // Log message contents.
+  bytes content = 1;
+  // Log message creation timestamp.
+  google.protobuf.Timestamp created_at = 2;
+
+  oneof source {
+    // Program standard streams.
+    StandardStream standard_stream = 3;
+    // System debug log files.
+    string file_path = 4;
+  }
 }

@@ -194,6 +194,9 @@ message DeleteFolderMetadata {
   string folder_id = 1;
   // The timestamp after which the process of deleting the folder should begin.
   google.protobuf.Timestamp delete_after = 2;
+  // Information about operation cancellation
+  string cancelled_by = 3;
+  google.protobuf.Timestamp cancelled_at = 4;
 }
 
 message ListFolderOperationsRequest {

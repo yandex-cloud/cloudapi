@@ -5,6 +5,7 @@ package yandex.cloud.compute.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/compute/v1/instance.proto";
 import "yandex/cloud/compute/v1/placement_group.proto";
@@ -63,6 +64,31 @@ service PlacementGroupService {
   // Lists operations for the specified placement group.
   rpc ListOperations (ListPlacementGroupOperationsRequest) returns (ListPlacementGroupOperationsResponse) {
     option (google.api.http) = {get: "/compute/v1/placementGroups/{placement_group_id}/operations"};
+  }
+
+  // access
+
+  // Lists access bindings for the placement group.
+  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = { get: "/compute/v1/placementGroups/{resource_id}:listAccessBindings" };
+  }
+
+  // Sets access bindings for the placement group.
+  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/placementGroups/{resource_id}:setAccessBindings" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
+  }
+
+  // Updates access bindings for the placement group.
+  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/placementGroups/{resource_id}:updateAccessBindings" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
   }
 }
 
