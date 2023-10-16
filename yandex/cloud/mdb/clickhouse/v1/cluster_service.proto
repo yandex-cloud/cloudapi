@@ -178,6 +178,14 @@ service ClusterService {
     };
   }
 
+  rpc RestartHosts (RestartClusterHostsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}/hosts:restartHosts" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "RestartHostsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
   // Returns the specified shard.
   rpc GetShard (GetClusterShardRequest) returns (Shard) {
     option (google.api.http) = { get: "/managed-clickhouse/v1/clusters/{cluster_id}/shards/{shard_name}" };
@@ -825,6 +833,22 @@ message DeleteClusterHostsMetadata {
   string cluster_id = 1;
 
   // Names of hosts that are being deleted.
+  repeated string host_names = 2;
+}
+
+message RestartClusterHostsRequest {
+  // Required. ID of the Clickhouse cluster.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Required. Name of the hosts to restart.
+  repeated string host_names = 2 [(size) = ">0", (length) = "<=353"];
+}
+
+message RestartHostsMetadata {
+  // Required. ID of the ClickHouse cluster.
+  string cluster_id = 1;
+
+  // Required. The name of restarting host.
   repeated string host_names = 2;
 }
 

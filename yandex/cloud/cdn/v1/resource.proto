@@ -96,6 +96,17 @@ enum RewriteFlag {
     PERMANENT = 4;
 }
 
+// SecureKeyURLType defines type of the URL signing.
+enum SecureKeyURLType {
+    SECURE_KEY_URL_TYPE_UNSPECIFIED = 0;
+
+    // Use scpecific IP address in URL signing. URL will be availible only for this IP.
+    ENABLE_IP_SIGNING = 1;
+
+    // Sign URL without using IP address. URL will be available for all IP addresses.
+    DISABLE_IP_SIGNING = 2;
+}
+
 // A major set of various resource options.
 message ResourceOptions {
     // Set up bool values.
@@ -282,6 +293,18 @@ message ResourceOptions {
         RewriteFlag flag = 3;
     }
 
+    message SecureKeyOption {
+        // True - the option is enabled and its [flag] is applied to the resource.
+        // False - the option is disabled and its default value of the [flag] is used for the resource.
+        bool enabled = 1;
+
+        // The key for the URL signing.
+        string key = 2;
+
+        // The type of the URL signing. The URL could be available for all IP addresses or for the only one IP.
+        SecureKeyURLType type = 3;
+    }
+
     // Set up a cache status.
     BoolOption disable_cache = 1;
 
@@ -359,6 +382,9 @@ message ResourceOptions {
 
     // Changing or redirecting query paths.
     RewriteOption rewrite = 19;
+
+    // Secure token to protect contect and limit access by IP addresses and time limits
+    SecureKeyOption secure_key = 20;
 }
 
 // A set of the personal SSL certificate parameters.

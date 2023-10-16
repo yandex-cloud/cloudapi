@@ -24,6 +24,8 @@ message Lock {
     google.protobuf.Timestamp updated_at = 7;
     // Subscription lock state.
     State state = 8;
+    // ID of the subscription template.
+    string template_id = 9;
 
     enum State {
         STATE_UNSPECIFIED = 0;

@@ -17,4 +17,5 @@ message Agent {
   Status status = 7;
   repeated string errors = 8;
   string current_job_id = 9;
+  string agent_version_id = 10;
 }
