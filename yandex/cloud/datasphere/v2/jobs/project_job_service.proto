@@ -5,6 +5,7 @@ package yandex.cloud.datasphere.v2.jobs;
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/validation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/datasphere/v2/jobs/jobs.proto";
 
@@ -42,6 +43,9 @@ service ProjectJobService {
 
   // Returns stream of job logs.
   rpc ReadLogs (ReadProjectJobLogsRequest) returns (stream ReadProjectJobLogsResponse);
+
+  // Returns download urls for job files.
+  rpc DownloadJobFiles (DownloadProjectJobFilesRequest) returns (DownloadProjectJobFilesResponse);
 
   // Lists jobs.
   rpc List (ListProjectJobRequest) returns (ListProjectJobResponse);
@@ -152,6 +156,15 @@ message ReadProjectJobLogsResponse {
 
   // Log offset.
   int64 offset = 2;
+}
+
+message DownloadProjectJobFilesRequest {
+  string job_id = 1 [(required) = true];
+  repeated File files = 2 [(size) = ">=1"];
+}
+
+message DownloadProjectJobFilesResponse {
+  repeated StorageFile download_files = 1;
 }
 
 message ListProjectJobRequest {

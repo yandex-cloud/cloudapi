@@ -173,7 +173,8 @@ message ConfigSpec {
   bool assign_public_ip = 6;
 
   // Allows to manage topics via AdminAPI
-  bool unmanaged_topics = 7;
+  // Deprecated. Feature enabled permanently.
+  bool unmanaged_topics = 7 [deprecated=true];
 
   // Enables managed schema registry on cluster
   bool schema_registry = 8;
