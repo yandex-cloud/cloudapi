@@ -171,6 +171,18 @@ message RecognitionModelOptions {
   AudioProcessingType audio_processing_type = 5;
 }
 
+message SpeakerLabelingOptions {
+  enum SpeakerLabeling {
+    SPEAKER_LABELING_UNSPECIFIED = 0;
+    // Enable speaker labeling
+    SPEAKER_LABELING_ENABLED = 1;
+    // Disable speaker labeling
+    SPEAKER_LABELING_DISABLED = 2;
+  }
+  // Specifies the execution of speaker labeling. Default is SPEAKER_LABELING_DISABLED.
+  SpeakerLabeling speaker_labeling = 1;
+}
+
 message StreamingOptions {
   // Configuration for speech recognition model.
   RecognitionModelOptions recognition_model = 1;
@@ -183,6 +195,9 @@ message StreamingOptions {
 
   // Configuration for speech analysis over speech recognition.
   SpeechAnalysisOptions speech_analysis = 4;
+
+  // Configuration for speaker labeling
+  SpeakerLabelingOptions speaker_labeling = 5;
 }
 
 // Data chunk with audio.
