@@ -880,8 +880,17 @@ message OpenSearchNodeGroupUpdateSpec {
     // Number of hosts in the group.
     int64 hosts_count = 2;
 
-    // Roles of the host group.
+    // Opensearch roles applicable to the node group.
     repeated OpenSearch.GroupRole roles = 3;
+
+    // IDs of the availability zones for hosts
+    repeated string zone_ids = 4;
+
+    // IDs of the subnets for hosts
+    repeated string subnet_ids = 5;
+
+    // Whether the hosts should get a public IP address.
+    bool assign_public_ip = 6;
 }
 
 message AddOpenSearchNodeGroupRequest {
@@ -924,6 +933,15 @@ message DashboardsNodeGroupUpdateSpec {
 
     // Number of hosts in the group.
     int64 hosts_count = 2;
+
+    // IDs of the availability zones for hosts
+    repeated string zone_ids = 3;
+
+    // IDs of the subnets for hosts
+    repeated string subnet_ids = 4;
+
+    // Whether the hosts should get a public IP address.
+    bool assign_public_ip = 5;
 }
 
 message AddDashboardsNodeGroupRequest {

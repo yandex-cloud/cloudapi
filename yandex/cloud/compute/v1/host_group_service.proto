@@ -4,6 +4,7 @@ package yandex.cloud.compute.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
@@ -68,6 +69,15 @@ service HostGroupService {
   // Lists hosts that belongs to the specified host group.
   rpc ListHosts (ListHostGroupHostsRequest) returns (ListHostGroupHostsResponse) {
     option (google.api.http) = { get: "/compute/v1/hostGroups/{host_group_id}/hosts" };
+  }
+
+  // Update host
+  rpc UpdateHost (UpdateHostGroupHostRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/compute/v1/hostGroups/{host_group_id}/hosts/{host_id}" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateHostGroupHostMetadata"
+      response: "Host"
+    };
   }
 
   // access
@@ -283,6 +293,29 @@ message ListHostGroupHostsResponse {
   // in the next list request. Each subsequent list request will have its own
   // [next_page_token] to continue paging through the results.
   string next_page_token = 2;
+}
+
+message UpdateHostGroupHostRequest {
+  // ID of the host group to update.
+  string host_group_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the host to update.
+  string host_id = 2 [(required) = true, (length) = "<=50"];
+
+  // Field mask that specifies which fields of the Host are going to be updated.
+  google.protobuf.FieldMask update_mask = 3;
+
+  // The date and time when this host will be automatically freed of instances.
+  // Timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  google.protobuf.Timestamp deadline_at = 4;
+}
+
+message UpdateHostGroupHostMetadata {
+  // ID of the host group that is being updated.
+  string host_group_id = 1;
+
+  // ID of the host that is being updated.
+  string host_id = 2;
 }
 
 message ListHostGroupOperationsRequest {

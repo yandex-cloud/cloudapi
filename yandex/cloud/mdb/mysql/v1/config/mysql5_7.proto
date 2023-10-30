@@ -569,6 +569,16 @@ message MysqlConfig5_7 {
   //
   // For details, see [Percona documentation for the variable](https://docs.percona.com/percona-server/5.7/diagnostics/response_time_distribution.html#query_response_time_stats).
   google.protobuf.BoolValue query_response_time_stats = 85;
+
+  // Enables or disables collection of statistics
+  //
+  // For details, see [Percona documentation for the variable](https://docs.percona.com/percona-server/5.7/diagnostics/user_stats.html#userstat).
+  google.protobuf.BoolValue userstat = 86;
+
+  // The execution timeout for SELECT statements, in milliseconds. If the value is 0, timeouts are not enabled.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_max_execution_time)
+  google.protobuf.Int64Value max_execution_time = 87 [(value) = "0-4294967295"];
 }
 
 message MysqlConfigSet5_7 {

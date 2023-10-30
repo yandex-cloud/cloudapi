@@ -530,6 +530,16 @@ message MysqlConfig8_0 {
   //
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html)
   google.protobuf.Int64Value optimizer_search_depth = 81 [(value) = "0-62"];
+
+  // Enables or disables collection of statistics
+  //
+  // For details, see [Percona documentation for the variable](https://docs.percona.com/percona-server/8.0/diagnostics/user_stats.html#userstat).
+  google.protobuf.BoolValue userstat = 82;
+
+  // The execution timeout for SELECT statements, in milliseconds. If the value is 0, timeouts are not enabled.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_max_execution_time)
+  google.protobuf.Int64Value max_execution_time = 83 [(value) = "0-4294967295"];
 }
 
 message MysqlConfigSet8_0 {

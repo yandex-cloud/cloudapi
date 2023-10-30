@@ -23,6 +23,9 @@ message ChartWidget {
 
             // Checks that target is visible or invisible.
             bool hidden = 3;
+
+            // Name of the query.
+            string name = 4;
         }
 
         // Required. List of targets.

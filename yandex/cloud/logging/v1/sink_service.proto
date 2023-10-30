@@ -147,7 +147,7 @@ message CreateSinkRequest {
   map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Logs will be written to the sink on behalf of this service account
-  string service_account_id = 5 [(pattern) = "[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string service_account_id = 5 [(length) = "<=64"];
 
   // Logs destination
   oneof sink {
@@ -184,7 +184,7 @@ message UpdateSinkRequest {
   map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
   
   // new service account to use for logs writing to the sink.
-  string service_account_id = 6 [(pattern) = "[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string service_account_id = 6 [(length) = "<=64"];
   
   // New logs destination
   oneof sink {
