@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.datasphere.v2.jobs;
 
+import "google/protobuf/duration.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/api/operation.proto";
@@ -77,6 +78,9 @@ message CreateProjectJobRequest {
 
   // Description of the job.
   string desc = 5;
+
+  // Job data TTL.
+  google.protobuf.Duration data_ttl = 6;
 }
 
 message CreateProjectJobMetadata {

@@ -109,6 +109,12 @@ message Job {
   // ID of the project.
   string project_id = 9;
   JobParameters job_parameters = 10;
+  // Job data expiration timestamp.
+  google.protobuf.Timestamp data_expires_at = 11;
+  // Marks if the job data has been cleared.
+  bool data_cleared = 12;
+  // Output files of the job.
+  repeated File output_files = 13;
 }
 
 enum JobStatus {

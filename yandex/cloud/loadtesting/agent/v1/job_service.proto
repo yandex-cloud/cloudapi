@@ -87,7 +87,7 @@ message ClaimJobStatusRequest {
     POST_PROCESS = 1;
     INITIATED = 2;
     PREPARING = 3;
-    NOT_FOUND = 4;
+    NOT_FOUND = 4 [deprecated = true];
     RUNNING = 5;
     FINISHING = 6;
     FINISHED = 7;

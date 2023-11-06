@@ -24,6 +24,7 @@ message Test {
     AUTOSTOPPED = 11;
     WAITING = 12;
     DELETING = 13;
+    LOST = 14;
   }
 
   enum Generator {

@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.datasphere.v2;
 
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 
@@ -36,6 +37,15 @@ message Project {
       NO_TIMEOUT = 3;
     }
 
+    enum IdeExecutionMode {
+      IDE_EXECUTION_MODE_UNSPECIFIED = 0;
+      // VM is allocated for specific execution and deallocated after the execution ends.
+      SERVERLESS = 1;
+      // VM is allocated at the first execution and stays allocated until manually deallocated.
+      // Or until timeout exceeded.
+      DEDICATED = 2;
+    }
+
     // ID of the service account, on whose behalf all operations with clusters will be performed.
     string service_account_id = 1;
 
@@ -63,6 +73,15 @@ message Project {
 
     // Timeout to automatically stop stale executions.
     StaleExecutionTimeoutMode stale_exec_timeout_mode = 9;
+
+    // VM allocation mode.
+    IdeExecutionMode ide_execution_mode = 10;
+
+    // Timeout for VM deallocation.
+    google.protobuf.Duration vm_inactivity_timeout = 11;
+
+    // Default VM configuration for DEDICATED mode.
+    string default_dedicated_spec = 12;
   }
 
   message Limits {

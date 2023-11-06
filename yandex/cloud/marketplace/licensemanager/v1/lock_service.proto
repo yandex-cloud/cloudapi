@@ -23,6 +23,7 @@ service LockService {
         option (google.api.http) = { get: "/marketplace/license-manager/v1/locks:getByInstanceAndResource" };
     }
 
+    // Returns subscriptions locks for specified resource and folder.
     rpc List(ListLocksRequest) returns (ListLocksResponse) {
        option (google.api.http) = { get: "/marketplace/license-manager/v1/locks" };
     }
