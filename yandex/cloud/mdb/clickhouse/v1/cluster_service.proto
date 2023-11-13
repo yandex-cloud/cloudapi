@@ -181,7 +181,7 @@ service ClusterService {
   rpc RestartHosts (RestartClusterHostsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-clickhouse/v1/clusters/{cluster_id}/hosts:restartHosts" body: "*" };
     option (yandex.cloud.api.operation) = {
-      metadata: "RestartHostsMetadata"
+      metadata: "RestartClusterHostsMetadata"
       response: "google.protobuf.Empty"
     };
   }
@@ -844,7 +844,7 @@ message RestartClusterHostsRequest {
   repeated string host_names = 2 [(size) = ">0", (length) = "<=353"];
 }
 
-message RestartHostsMetadata {
+message RestartClusterHostsMetadata {
   // Required. ID of the ClickHouse cluster.
   string cluster_id = 1;
 

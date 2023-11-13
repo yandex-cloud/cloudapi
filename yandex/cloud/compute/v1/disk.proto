@@ -87,3 +87,10 @@ message DiskPlacementPolicy {
   string placement_group_id = 1;
   int64 placement_group_partition = 2;
 }
+
+message DiskPlacementPolicyChange {
+  // Disk ID.
+  string disk_id = 1;
+  // Placement policy configuration for given disk.
+  DiskPlacementPolicy disk_placement_policy = 2;
+}
