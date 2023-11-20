@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package yandex.cloud.video.v1;
+
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/video/v1/channel.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
+option java_package = "yandex.cloud.api.video.v1";
+
+service ChannelService {
+    rpc Get(GetChannelRequest) returns (Channel) {}
+
+    rpc List(ListChannelsRequest) returns (ListChannelsResponse) {}
+
+    rpc Create(CreateChannelRequest) returns (operation.Operation) {
+        option (yandex.cloud.api.operation) = {
+            metadata: "CreateChannelMetadata"
+            response: "Channel"
+        };
+    }
+
+    rpc Update(UpdateChannelRequest) returns (operation.Operation) {
+        option (yandex.cloud.api.operation) = {
+            metadata: "UpdateChannelMetadata"
+            response: "Channel"
+        };
+    }
+
+    rpc Delete(DeleteChannelRequest) returns (operation.Operation) {
+        option (yandex.cloud.api.operation) = {
+            metadata: "DeleteChannelMetadata"
+            response: "google.protobuf.Empty"
+        };
+    }
+}
+
+message GetChannelRequest {
+    string channel_id = 1;
+}
+
+message ListChannelsRequest {
+    string organization_id = 1;
+
+    int64 page_size = 100;
+    string page_token = 101;
+
+    // By which column the listing should be ordered and in which direction,
+    // format is "createdAt desc". "id asc" if omitted.
+    // Possible fields: ["id", "createdAt", "updatedAt"]
+    // Both snake_case and camelCase are supported for fields.
+    string order_by = 102;
+
+    // Filter expression that filters resources listed in the response.
+    // Expressions are composed of terms connected by logic operators.
+    // Value in quotes: `'` or `"`
+    // Example: "key1='value' AND key2='value'"
+    // Supported operators: ["AND"].
+    // Supported fields: ["title"]
+    // Both snake_case and camelCase are supported for fields.
+    string filter = 103;
+}
+
+message ListChannelsResponse {
+    repeated Channel channels = 1;
+
+    string next_page_token = 100;
+}
+
+message CreateChannelRequest {
+    string organization_id = 1;
+
+    string title = 2;
+    string description = 3;
+}
+
+message CreateChannelMetadata {
+    string channel_id = 1;
+}
+
+message UpdateChannelRequest {
+    string channel_id = 1;
+    google.protobuf.FieldMask field_mask = 2;
+
+    string title = 3;
+    string description = 4;
+}
+
+message UpdateChannelMetadata {
+    string channel_id = 1;
+}
+
+message DeleteChannelRequest {
+    string channel_id = 1;
+}
+
+message DeleteChannelMetadata {
+    string channel_id = 1;
+}

@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.serverless.functions.v1;
 
+import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/validation.proto";
 
@@ -11,18 +12,26 @@ option java_package = "yandex.cloud.api.serverless.functions.v1";
 // A set of methods for managing VPC networks connected to serverless resources.
 service NetworkService {
   // Returns the specified network used in serverless resources.
-  rpc GetUsed (GetUsedNetworkRequest) returns (UsedNetwork);
+  rpc GetUsed (GetUsedNetworkRequest) returns (UsedNetwork) {
+    option (google.api.http) = { get: "/functions/v1/networks/used/{network_id}" };
+  }
 
   // Retrieves the list of networks in the specified scope that are used in serverless resources.
-  rpc ListUsed (ListUsedNetworksRequest) returns (ListUsedNetworksResponse);
+  rpc ListUsed (ListUsedNetworksRequest) returns (ListUsedNetworksResponse) {
+    option (google.api.http) = { get: "/functions/v1/networks/used" };
+  }
 
   // Retrieves the list of serverless resources connected to any network from the specified scope.
-  rpc ListConnectedResources (ListConnectedResourcesRequest) returns (ListConnectedResourcesResponse);
+  rpc ListConnectedResources (ListConnectedResourcesRequest) returns (ListConnectedResourcesResponse) {
+    option (google.api.http) = { get: "/functions/v1/networks/connections" };
+  }
 
   // Forces obsolete used network to start cleanup process as soon as possible.
   // Invocation does not wait for start or end of the cleanup process.
   // Second invocation with the same network does nothing until network is completely cleaned-up.
-  rpc TriggerUsedCleanup(TriggerUsedNetworkCleanupRequest) returns (TriggerUsedNetworkCleanupResponse);
+  rpc TriggerUsedCleanup(TriggerUsedNetworkCleanupRequest) returns (TriggerUsedNetworkCleanupResponse) {
+    option (google.api.http) = { post: "/functions/v1/networks/used/{network_id}:triggerCleanup" body: "*" };
+  }
 }
 
 // A VPC network used in serverless resources.

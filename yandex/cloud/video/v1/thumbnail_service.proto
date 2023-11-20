@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package yandex.cloud.video.v1;
+
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/video/v1/thumbnail.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
+option java_package = "yandex.cloud.api.video.v1";
+
+service ThumbnailService {
+    rpc List(ListThumbnailRequest) returns (ListThumbnailResponse) {}
+
+    rpc Create(CreateThumbnailRequest) returns (operation.Operation) {
+        option (yandex.cloud.api.operation) = {
+            metadata: "CreateThumbnailMetadata"
+            response: "Thumbnail"
+        };
+    }
+
+    rpc BatchGenerateDownloadURLs(BatchGenerateDownloadURLsRequest) returns (BatchGenerateDownloadURLsResponse) {}
+
+    rpc GenerateUploadURL(GenerateThumbnailUploadURLRequest) returns (GenerateThumbnailUploadURLResponse) {}
+}
+
+message ListThumbnailRequest {
+    string channel_id = 1;
+
+    int64 page_size = 100;
+    string page_token = 101;
+}
+
+message ListThumbnailResponse {
+    repeated Thumbnail thumbnails = 1;
+
+    string next_page_token = 100;
+}
+
+message CreateThumbnailRequest {
+    string channel_id = 1;
+}
+
+message CreateThumbnailMetadata {
+    string thumbnail_id = 1;
+}
+
+message BatchGenerateDownloadURLsRequest {
+    string channel_id = 1;
+    repeated string thumbnail_ids = 2;
+}
+
+message BatchGenerateDownloadURLsResponse {
+    repeated ThumbnailDownloadURL download_urls = 1;
+}
+
+message ThumbnailDownloadURL {
+    string thumbnail_id = 1;
+    string download_url = 2;
+}
+
+message GenerateThumbnailUploadURLRequest {
+    string thumbnail_id = 1;
+}
+
+message GenerateThumbnailUploadURLResponse {
+    string upload_url = 1;
+}

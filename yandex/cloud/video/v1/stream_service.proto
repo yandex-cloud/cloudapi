@@ -1,0 +1,148 @@
+syntax = "proto3";
+
+package yandex.cloud.video.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/video/v1/stream.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
+option java_package = "yandex.cloud.api.video.v1";
+
+service StreamService {
+    rpc Get(GetStreamRequest) returns (Stream) {}
+
+    rpc List(ListStreamsRequest) returns (ListStreamsResponse) {}
+
+    rpc Create(CreateStreamRequest) returns (operation.Operation) {
+        option (yandex.cloud.api.operation) = {
+            metadata: "CreateStreamMetadata"
+            response: "Stream"
+        };
+    }
+
+    rpc Update(UpdateStreamRequest) returns (operation.Operation) {
+        option (yandex.cloud.api.operation) = {
+            metadata: "UpdateStreamMetadata"
+            response: "Stream"
+        };
+    }
+
+    rpc Delete(DeleteStreamRequest) returns (operation.Operation) {
+        option (yandex.cloud.api.operation) = {
+            metadata: "DeleteStreamMetadata"
+            response: "google.protobuf.Empty"
+        };
+    }
+
+    rpc PerformAction(PerformStreamActionRequest) returns (operation.Operation) {
+        option (yandex.cloud.api.operation) = {
+            metadata: "PerformStreamActionMetadata"
+            response: "Stream"
+        };
+    }
+}
+
+message GetStreamRequest {
+    string stream_id = 1;
+}
+
+message ListStreamsRequest {
+    string channel_id = 1;
+
+    int64 page_size = 100;
+    string page_token = 101;
+
+    // By which column the listing should be ordered and in which direction,
+    // format is "createdAt desc". "id asc" if omitted.
+    // Possible fields: ["id", "title", "startTime", "finishTime", "createdAt", "updatedAt"]
+    // Both snake_case and camelCase are supported for fields.
+    string order_by = 102;
+
+    // Filter expression that filters resources listed in the response.
+    // Expressions are composed of terms connected by logic operators.
+    // Value in quotes: `'` or `"`
+    // Example: "key1='value' AND key2='value'"
+    // Supported operators: ["AND"].
+    // Supported fields: ["title", "lineId", "status"]
+    // Both snake_case and camelCase are supported for fields.
+    string filter = 103;
+}
+
+message ListStreamsResponse {
+    repeated Stream streams = 1;
+
+    string next_page_token = 100;
+}
+
+message CreateStreamRequest {
+    string channel_id = 1;
+
+    string line_id = 2;
+    string title = 3;
+    string description = 4;
+    string thumbnail_id = 5;
+
+    oneof stream_type {
+        OnDemandParams on_demand = 1000;
+        ScheduleParams schedule = 1001;
+    }
+}
+
+message OnDemandParams {}
+
+message ScheduleParams {
+    google.protobuf.Timestamp start_time = 1;
+    google.protobuf.Timestamp finish_time = 2;
+}
+
+message CreateStreamMetadata {
+    string stream_id = 1;
+}
+
+message UpdateStreamRequest {
+    string stream_id = 1;
+    google.protobuf.FieldMask field_mask = 2;
+
+    string line_id = 3;
+    string title = 4;
+    string description = 5;
+    string thumbnail_id = 6;
+
+    oneof stream_type {
+        OnDemandParams on_demand = 1000;
+        ScheduleParams schedule = 1001;
+    }
+}
+
+message UpdateStreamMetadata {
+    string stream_id = 1;
+}
+
+message DeleteStreamRequest {
+    string stream_id = 1;
+}
+
+message DeleteStreamMetadata {
+    string stream_id = 1;
+}
+
+message PerformStreamActionRequest {
+    reserved 1001;
+
+    string stream_id = 1;
+    oneof action {
+        PublishAction publish = 1000;
+        StopAction stop = 1002;
+    }
+}
+
+message PublishAction {}
+
+message StopAction {}
+
+message PerformStreamActionMetadata {
+    string stream_id = 1;
+}

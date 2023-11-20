@@ -652,7 +652,7 @@ message RemoveInstanceOneToOneNatMetadata {
 }
 
 message UpdateInstanceNetworkInterfaceRequest {
-  // ID of the network interface that is being updated.
+  // ID of the instance that is being updated.
   string instance_id = 1 [(required) = true];
 
   // The index of the network interface to be updated.

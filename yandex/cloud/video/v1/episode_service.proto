@@ -1,0 +1,167 @@
+syntax = "proto3";
+
+package yandex.cloud.video.v1;
+
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/video/v1/episode.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
+option java_package = "yandex.cloud.api.video.v1";
+
+service EpisodeService {
+    rpc Get(GetEpisodeRequest) returns (Episode) {}
+
+    rpc List(ListEpisodesRequest) returns (ListEpisodesResponse) {}
+
+    rpc Create(CreateEpisodeRequest) returns (operation.Operation) {
+        option (yandex.cloud.api.operation) = {
+            metadata: "CreateEpisodeMetadata"
+            response: "Episode"
+        };
+    }
+
+    rpc Update(UpdateEpisodeRequest) returns (operation.Operation) {
+        option (yandex.cloud.api.operation) = {
+            metadata: "UpdateEpisodeMetadata"
+            response: "Episode"
+        };
+    }
+
+    rpc Delete(DeleteEpisodeRequest) returns (operation.Operation) {
+        option (yandex.cloud.api.operation) = {
+            metadata: "DeleteEpisodeMetadata"
+            response: "google.protobuf.Empty"
+        };
+    }
+
+    rpc PerformAction(PerformEpisodeActionRequest) returns (yandex.cloud.operation.Operation) {
+        option (yandex.cloud.api.operation) = {
+            metadata: "PerformEpisodeActionMetadata"
+            response: "Episode"
+        };
+    }
+
+    rpc GetPlayerURL(GetEpisodePlayerURLRequest) returns (GetEpisodePlayerURLResponse) {}
+}
+
+message GetEpisodeRequest {
+    string episode_id = 1;
+}
+
+message ListEpisodesRequest {
+    oneof parent_id {
+        string stream_id = 1;
+        string line_id = 2;
+    }
+
+    int64 page_size = 100;
+    string page_token = 101;
+
+    // By which column the listing should be ordered and in which direction,
+    // format is "createdAt desc". "id asc" if omitted.
+    // Possible fields: ["id", "createdAt", "updatedAt"]
+    // Both snake_case and camelCase are supported for fields.
+    string order_by = 102;
+
+    // Filter expression that filters resources listed in the response.
+    // Expressions are composed of terms connected by logic operators.
+    // Value in quotes: `'` or `"`
+    // Example: "key1='value' AND key2='value'"
+    // Supported operators: ["AND"].
+    // Supported fields: ["title"]
+    // Both snake_case and camelCase are supported for fields.
+    string filter = 103;
+}
+
+message ListEpisodesResponse {
+    repeated Episode episodes = 1;
+
+    string next_page_token = 100;
+}
+
+message CreateEpisodeRequest {
+    oneof parent_id {
+        string stream_id = 100;
+        string line_id = 101;
+    }
+
+    string title = 2;
+    string description = 3;
+    string thumbnail_id = 4;
+    google.protobuf.Timestamp start_time = 5;
+    google.protobuf.Timestamp finish_time = 6;
+    int64 dvr_seconds = 7;
+
+    oneof access_rights {
+        EpisodePublicAccessParams public_access = 1000;
+    }
+}
+
+message EpisodePublicAccessParams {}
+
+message CreateEpisodeMetadata {
+    string episode_id = 1;
+}
+
+message UpdateEpisodeRequest {
+    string episode_id = 1;
+    google.protobuf.FieldMask field_mask = 2;
+
+    string title = 3;
+    string description = 4;
+    string thumbnail_id = 5;
+    google.protobuf.Timestamp start_time = 6;
+    google.protobuf.Timestamp finish_time = 7;
+    int64 dvr_seconds = 8;
+
+    oneof access_rights {
+        EpisodePublicAccessParams public_access = 1000;
+    }
+}
+
+message UpdateEpisodeMetadata {
+    string episode_id = 1;
+}
+
+message DeleteEpisodeRequest {
+    string episode_id = 1;
+}
+
+message DeleteEpisodeMetadata {
+    string episode_id = 1;
+}
+
+message PerformEpisodeActionRequest {
+    string episode_id = 1;
+    oneof action {
+        BanAction ban = 1000;
+        UnbanAction unban = 1001;
+    }
+}
+
+message BanAction {}
+
+message UnbanAction {}
+
+message PerformEpisodeActionMetadata {
+    string episode_id = 1;
+}
+
+message GetEpisodePlayerURLRequest {
+    string episode_id = 1;
+    EpisodePlayerParams params = 2;
+}
+
+message EpisodePlayerParams {
+    bool mute = 1;
+    bool autoplay = 2;
+    bool hidden = 3;
+}
+
+message GetEpisodePlayerURLResponse {
+    string player_url = 1;
+    string html = 2;
+}

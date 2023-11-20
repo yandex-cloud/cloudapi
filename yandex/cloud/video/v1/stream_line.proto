@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package yandex.cloud.video.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
+option java_package = "yandex.cloud.api.video.v1";
+
+message StreamLine {
+    string id = 1;
+    string channel_id = 2;
+
+    string title = 3;
+    string thumbnail_id = 4;
+
+    oneof input_type {
+        RTMPPushInput rtmp_push = 1000;
+        SRTPushInput srt_push = 1001;
+        RTMPPullInput rtmp_pull = 1002;
+        SRTPullInput srt_pull = 1003;
+        TCPPullInput tcp_pull = 1004;
+    }
+
+    oneof line_type {
+        ManualLine manual_line = 2000;
+        AutoLine auto_line = 2001;
+    }
+
+    google.protobuf.Timestamp created_at = 100;
+    google.protobuf.Timestamp updated_at = 101;
+}
+
+message PushStreamKey {
+    string key = 1;
+}
+
+message RTMPPushInput {
+    string url = 1;
+}
+
+message SRTPushInput {
+    string url = 1;
+}
+
+message RTMPPullInput {
+    string url = 1;
+}
+
+message SRTPullInput {
+    string url = 1;
+}
+
+message TCPPullInput {
+    string url = 1;
+}
+
+message ManualLine {}
+
+message AutoLine {
+    AutoLineStatus status = 1;
+
+    enum AutoLineStatus {
+        AUTO_LINE_STATUS_UNSPECIFIED = 0;
+        DEACTIVATED = 1;
+        ACTIVE = 2;
+    }
+}
