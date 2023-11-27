@@ -121,6 +121,7 @@ message UpdateStreamLineRequest {
         RTMPPullParams rtmp_pull = 1002;
         SRTPullParams srt_pull = 1003;
         TCPPullParams tcp_pull = 1004;
+        RTSPPullParams rtsp_pull = 1006;
     }
 }
 
@@ -162,6 +163,10 @@ message SRTPullParams {
 
 message TCPPullParams {
     string url = 2;
+}
+
+message RTSPPullParams {
+    string url = 1;
 }
 
 message ManualLineParams {}

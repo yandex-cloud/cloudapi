@@ -20,6 +20,7 @@ message StreamLine {
         RTMPPullInput rtmp_pull = 1002;
         SRTPullInput srt_pull = 1003;
         TCPPullInput tcp_pull = 1004;
+        RTSPPullInput rtsp_pull = 1006;
     }
 
     oneof line_type {
@@ -52,6 +53,10 @@ message SRTPullInput {
 }
 
 message TCPPullInput {
+    string url = 1;
+}
+
+message RTSPPullInput {
     string url = 1;
 }
 

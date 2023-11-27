@@ -104,6 +104,27 @@ message TextTemplate {
     repeated TextVariable variables = 2;
 }
 
+message DurationHint {
+    enum DurationHintPolicy {
+        DURATION_HINT_POLICY_UNSPECIFIED = 0;
+
+        // Limit audio duration to exact value.
+        EXACT_DURATION = 1;
+
+        // Limit the minimum audio duration.
+        MIN_DURATION = 2;
+
+        // Limit the maximum audio duration.
+        MAX_DURATION = 3;
+    }
+
+    // Type of duration constraint.
+    DurationHintPolicy policy = 1;
+
+    // Constraint on audio duration in milliseconds.
+    int64 duration_ms = 2;
+  }
+
 
 message Hints {
     // The hint for TTS engine to specify synthesised audio characteristics. 
@@ -128,6 +149,9 @@ message Hints {
 
         // Hint to increase (or decrease) speaker's pitch, measured in Hz. Valid values are in range [-1000;1000], default value is 0.
         double pitch_shift = 6;
+
+        // Hint to limit both minimum and maximum audio duration.
+        DurationHint duration = 7;
     }
 }
 

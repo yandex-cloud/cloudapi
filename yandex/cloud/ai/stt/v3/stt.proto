@@ -59,10 +59,15 @@ message EouClassifierOptions {
 }
 
 message RecognitionClassifier {
+  // Type of recognition classifier trigger.
   enum TriggerType {
-    TRIGGER_TYPE_UNSPECIFIED = 0; // Do not use
-    ON_UTTERANCE = 1; // Apply classifier to utterance responses
-    ON_FINAL = 2; // Apply classifier to final responses
+    TRIGGER_TYPE_UNSPECIFIED = 0 [deprecated = true];
+    // Apply classifier to utterance responses
+    ON_UTTERANCE = 1;
+    // Apply classifier to final responses
+    ON_FINAL = 2;
+    // Apply classifier to partial responses
+    ON_PARTIAL = 3;
   }
 
   // Classifier name
@@ -346,10 +351,13 @@ message AudioCursors {
 }
 
 enum CodeType {
-  CODE_TYPE_UNSPECIFIED = 0;
-  WORKING = 1; //all good
-  WARNING = 2; //for example, if speech is sent not in real time. or unknown context (and we've made fallback).
-  CLOSED = 3; //after session was closed.
+  CODE_TYPE_UNSPECIFIED = 0 [deprecated = true];
+  // All good.
+  WORKING = 1;
+  // For example, if speech is sent not in real time or context is unknown and we've made fallback.
+  WARNING = 2;
+  // After session was closed.
+  CLOSED = 3;
 }
 
 // Refinement for final hypo. For example, text normalization is refinement.
@@ -418,9 +426,13 @@ message RecognitionClassifierResult {
 
 message RecognitionClassifierUpdate {
   enum WindowType {
-    WINDOW_TYPE_UNSPECIFIED = 0; // Never used
-    LAST_UTTERANCE = 1; // The result of applying the classifier to the last utterance response
-    LAST_FINAL = 2; // The result of applying the classifier to the last final response
+    WINDOW_TYPE_UNSPECIFIED = 0 [deprecated = true];
+    // The result of applying the classifier to the last utterance response
+    LAST_UTTERANCE = 1;
+    // The result of applying the classifier to the last final response
+    LAST_FINAL = 2;
+    // The result of applying the classifier to the last partial response
+    LAST_PARTIAL = 3;
   }
 
   // Response window type
@@ -471,9 +483,11 @@ message AudioSegmentBoundaries {
 
 message SpeakerAnalysis {
   enum WindowType {
-    WINDOW_TYPE_UNSPECIFIED = 0;
-    TOTAL = 1; // Stats for all received audio
-    LAST_UTTERANCE = 2; // Stats for last utterance
+    WINDOW_TYPE_UNSPECIFIED = 0 [deprecated = true];
+    // Stats for all received audio.
+    TOTAL = 1;
+    // Stats for last utterance.
+    LAST_UTTERANCE = 2;
   }
 
   // Speaker tag
@@ -560,6 +574,12 @@ message ConversationAnalysis {
 
   // Interrupts description for every speaker
   repeated InterruptsEvaluation speaker_interrupts = 8;
+
+  // Total speech duration, including both simultaneous and separate speech
+  int64 total_speech_duration_ms = 9;
+
+  // Total speech ratio within audio segment
+  double total_speech_ratio = 10;
 }
 
 // Responses from server.
