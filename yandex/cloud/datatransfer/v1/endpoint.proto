@@ -21,7 +21,6 @@ message Endpoint {
     map<string,string> labels = 6;
     EndpointSettings settings = 52;
 }
-
 message EndpointSettings {
     oneof settings {
         endpoint.MysqlSource mysql_source = 1;

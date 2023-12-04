@@ -83,7 +83,7 @@ message GetUserRequest {
   // Name of the user to return information about.
   //
   // To get this name, make a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message ListUsersRequest {
@@ -147,7 +147,7 @@ message UpdateUserRequest {
   // Name of the user to update.
   //
   // To get this name, make a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
   // Field mask that specifies which settings of the user should be updated.
   google.protobuf.FieldMask update_mask = 3;
@@ -187,7 +187,7 @@ message DeleteUserRequest {
   // Name of the user to delete.
   //
   // To get this name, make a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message DeleteUserMetadata {
@@ -209,7 +209,7 @@ message GrantUserPermissionRequest {
   // Name of the user to grant permission to.
   //
   // To get this name, make a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
   // Permission that should be granted to the specified user.
   Permission permission = 3 [(required) = true];
@@ -234,7 +234,7 @@ message RevokeUserPermissionRequest {
   // Name of the user to revoke permission from.
   //
   // To get this name, make a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
   // Permission that should be revoked from the user.
   Permission permission = 3 [(required) = true];

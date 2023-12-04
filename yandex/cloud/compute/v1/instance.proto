@@ -2,7 +2,9 @@ syntax = "proto3";
 
 package yandex.cloud.compute.v1;
 
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/compute/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1;compute";
 option java_package = "yandex.cloud.api.compute.v1";
@@ -122,6 +124,12 @@ message Instance {
 
   // ID of the dedicated host that the instance belongs to.
   string host_id = 28;
+
+  // Behaviour on maintenance events
+  MaintenancePolicy maintenance_policy = 29;
+
+  // Time between notification via metadata service and maintenance
+  google.protobuf.Duration maintenance_grace_period = 30;
 }
 
 message Resources {

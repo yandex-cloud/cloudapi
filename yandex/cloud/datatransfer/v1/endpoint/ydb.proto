@@ -11,7 +11,6 @@ enum YdbCleanupPolicy {
     YDB_CLEANUP_POLICY_DISABLED = 1;
     YDB_CLEANUP_POLICY_DROP = 2;
 }
-
 message YdbSource {
     // Path in YDB where to store tables
     string database = 1;
@@ -26,7 +25,6 @@ message YdbSource {
     // Authorization Key
     string sa_key_content = 33;
 }
-
 message YdbTarget {
     // Path in YDB where to store tables
     string database = 1;
@@ -43,4 +41,7 @@ message YdbTarget {
     string sa_key_content = 32;
     // Cleanup policy
     YdbCleanupPolicy cleanup_policy = 21;
+    // Should create column-oriented table (OLAP). By default it creates row-oriented
+    // (OLTP)
+    bool is_table_column_oriented = 34;
 }

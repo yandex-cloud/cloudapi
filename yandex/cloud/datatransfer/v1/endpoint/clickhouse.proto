@@ -56,6 +56,7 @@ message ClickhouseSharding {
         ColumnValueHash column_value_hash = 1;
         ColumnValueMapping custom_mapping = 2;
         google.protobuf.Empty transfer_id = 3;
+        google.protobuf.Empty round_robin = 4;
     }
 }
 message ClickhouseSource {

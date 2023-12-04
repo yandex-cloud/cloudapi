@@ -166,7 +166,7 @@ enum AuthPlugin {
 message UserSpec {
 
   // Name of the user.
-  string name = 1 [(required) = true, (length) = "<=32", (pattern) = "[a-zA-Z0-9_]*"];
+  string name = 1 [(required) = true, (length) = "<=32", (pattern) = "[a-zA-Z0-9_-]*"];
 
   // Password of the user.
   string password = 2 [(required) = true, (length) = "8-128"];

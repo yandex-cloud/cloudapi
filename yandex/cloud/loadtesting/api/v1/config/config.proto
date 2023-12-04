@@ -5,6 +5,14 @@ option java_package = "yandex.cloud.api.loadtesting.api.v1.config";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/loadtesting/api/v1/config;config";
 
+// Test config.
 message Config {
+  // ID of the test config. Generated at creation time.
   string id = 1;
+
+  // ID of the folder that the config belongs to.
+  string folder_id = 2;
+
+  // Config content in YAML format.
+  string yaml_string = 3;
 }

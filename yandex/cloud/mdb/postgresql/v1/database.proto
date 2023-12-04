@@ -55,7 +55,7 @@ message DatabaseSpec {
 
   // Name of the user to be assigned as the owner of the database.
   // To get the list of available PostgreSQL users, make a [UserService.List] request.
-  string owner = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+  string owner = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 
   // POSIX locale for string sorting order.
   // Can only be set at creation time.

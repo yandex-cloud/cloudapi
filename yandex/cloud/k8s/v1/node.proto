@@ -301,7 +301,7 @@ message ResourcesSpec {
 
 message DiskSpec {
   // ID of the disk type.
-  string disk_type_id = 1 [(pattern) = "|network-ssd|network-hdd|network-ssd-nonreplicated"];
+  string disk_type_id = 1 [(pattern) = "|network-ssd|network-hdd|network-ssd-nonreplicated|network-ssd-io-m3"];
 
   // Size of the disk, specified in bytes.
   int64 disk_size = 2 [(value) = "0-4398046511104"];

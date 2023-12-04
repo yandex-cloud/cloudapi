@@ -55,11 +55,14 @@ message KafkaSource {
     // Security groups
     repeated string security_groups = 3;
     // Full source topic name
-    string topic_name = 4;
+    // Deprecated in favor of topic names
+    string topic_name = 4 [deprecated=true];
     // Data transformation rules
     DataTransformationOptions transformer = 5;
     // Data parsing rules
     Parser parser = 7;
+    // List of topic names to read
+    repeated string topic_names = 8;
 }
 message KafkaTarget {
     // Connection settings

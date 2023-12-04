@@ -77,6 +77,12 @@ message AudioVariable {
 message UtteranceSynthesisResponse {
     // Part of synthesized audio.
     AudioChunk audio_chunk = 1;
+    // Part of synthesized text.
+    TextChunk text_chunk = 2;
+    // Start time of the audio chunk in milliseconds.
+    int64 start_ms = 3;
+    // Length of the audio chunk in milliseconds.
+    int64 length_ms = 4;
 }
 
 message AudioTemplate {
@@ -91,6 +97,11 @@ message AudioTemplate {
 message AudioChunk {
     // Sequence of bytes of the synthesized audio in format specified in output_audio_spec.
     bytes data = 1;
+}
+
+message TextChunk {
+    // Synthesized text.
+    string text = 1;
 }
 
 message TextTemplate {

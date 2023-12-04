@@ -8,11 +8,17 @@ option java_package = "yandex.cloud.api.loadtesting.api.v1.test";
 import "yandex/cloud/loadtesting/api/v1/common/tag.proto";
 import "yandex/cloud/validation.proto";
 
-// Details specific for Cloud, without progress and results.
-// These details will be used for retry also.
+// Test meta information.
 message Details {
+  // Name of the test.
   string name = 1 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+
+  // Description of the test.
   string description = 2 [(length) = "<=256"];
+
+  // Tags assigned to the test.
   repeated common.Tag tags = 3;
+
+  // ID of the logging group to which test artifacts are uploaded.
   string logging_log_group_id = 4;
 }

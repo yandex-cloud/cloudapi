@@ -10,6 +10,7 @@ import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/compute/v1/instance.proto";
 import "yandex/cloud/compute/v1/host_group.proto";
+import "yandex/cloud/compute/v1/maintenance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 

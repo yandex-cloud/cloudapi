@@ -14,7 +14,8 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datasphere
 option java_outer_classname = "DSPJS";
 option java_package = "yandex.cloud.api.datasphere.v2.jobs";
 
-// A set of methods for managing Project Jobs.
+// A set of methods for managing Project Jobs. Do not use these methods manually.
+// For working with DataSphere Jobs, install DataSphere CLI via `pip install datasphere`.
 service ProjectJobService {
   // Creates job.
   rpc Create (CreateProjectJobRequest) returns (operation.Operation) {

@@ -7,7 +7,11 @@ option java_package = "yandex.cloud.api.loadtesting.api.v1.test";
 
 import "google/protobuf/timestamp.proto";
 
+// Test imbalance point.
 message ImbalancePoint {
+  // Imbalance moment timestamp.
   google.protobuf.Timestamp at = 1;
+
+  // Imbalance moment RPS.
   int64 rps = 2;
 }
