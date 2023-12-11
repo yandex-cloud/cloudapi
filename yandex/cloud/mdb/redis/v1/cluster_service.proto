@@ -215,6 +215,23 @@ service ClusterService {
       response: "Cluster"
     };
   }
+  // Enable Sharding on non sharded cluster
+  rpc EnableSharding (EnableShardingClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-redis/v1/clusters/{cluster_id}:enable_sharding" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "EnableShardingClusterMetadata"
+      response: "Cluster"
+    };
+  }
+}
+
+message EnableShardingClusterMetadata{
+  string cluster_id = 1;
+}
+
+message EnableShardingClusterRequest{
+  // Required. ID of the Redis cluster to return.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message GetClusterRequest {

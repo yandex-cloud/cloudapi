@@ -194,7 +194,7 @@ message GreenplumConfig {
   google.type.TimeOfDay backup_window_start = 2;
 
   // Retention policy of automated backups.
-  google.protobuf.Int64Value backup_retain_period_days = 9 [(value) = "1-7"];
+  google.protobuf.Int64Value backup_retain_period_days = 9 [(value) = "1-60"];
 
   // Access policy for external services.
   Access access = 3;

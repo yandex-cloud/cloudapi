@@ -102,6 +102,14 @@ message PostgresqlConfig10_1C {
     LOG_STATEMENT_ALL = 4;
   }
 
+  enum PasswordEncryption {
+    PASSWORD_ENCRYPTION_UNSPECIFIED = 0;
+
+    PASSWORD_ENCRYPTION_MD5 = 1;
+
+    PASSWORD_ENCRYPTION_SCRAM_SHA_256 = 2;
+  }
+
   enum TransactionIsolation {
     TRANSACTION_ISOLATION_UNSPECIFIED = 0;
 
@@ -441,6 +449,8 @@ message PostgresqlConfig10_1C {
   google.protobuf.BoolValue log_replication_commands = 164;
 
   google.protobuf.Int64Value log_autovacuum_min_duration = 165 [(value) = "-1-2147483647"]; // in milliseconds. The default is 1000 (1 sec).
+
+  PasswordEncryption password_encryption = 167;  // A default value for `` user_password_encryption `` user-level setting, if it not specified for new users. Possible values are `` PASSWORD_ENCRYPTION_MD5 `` or `` PASSWORD_ENCRYPTION_SCRAM_SHA_256 ``. The default is `` PASSWORD_ENCRYPTION_MD5 ``.
 }
 
 message PostgresqlConfigSet10_1C {

@@ -169,6 +169,10 @@ message UpdateUserRequest {
   //
   // Default value: `unspecified` (inherits cluster's deletion_protection)
   google.protobuf.BoolValue deletion_protection = 10;
+
+  // New password-based authentication method for user.
+  // Possible values are `` USER_PASSWORD_ENCRYPTION_MD5 `` or `` USER_PASSWORD_ENCRYPTION_SCRAM_SHA_256 ``.
+  UserPasswordEncryption user_password_encryption = 11;
 }
 
 message UpdateUserMetadata {

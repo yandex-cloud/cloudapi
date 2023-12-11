@@ -45,6 +45,11 @@ message User {
   //
   // Default value: `unspecified` (inherits cluster's deletion_protection)
   google.protobuf.BoolValue deletion_protection = 8;
+
+  // Password-based authentication method for user.
+  // Possible values are `` USER_PASSWORD_ENCRYPTION_MD5 `` or `` USER_PASSWORD_ENCRYPTION_SCRAM_SHA_256 ``.
+  // The default is `` password_encryption `` setting for cluster.
+  UserPasswordEncryption user_password_encryption = 9;
 }
 
 message Permission {
@@ -88,6 +93,19 @@ message UserSpec {
   //
   // Default value: `unspecified` (inherits cluster's deletion_protection)
   google.protobuf.BoolValue deletion_protection = 8;
+
+  // Password-based authentication method for user.
+  // Possible values are `` USER_PASSWORD_ENCRYPTION_MD5 `` or `` USER_PASSWORD_ENCRYPTION_SCRAM_SHA_256 ``.
+  // The default is `` password_encryption `` setting for cluster.
+  UserPasswordEncryption user_password_encryption = 9;
+}
+
+enum UserPasswordEncryption {
+  USER_PASSWORD_ENCRYPTION_UNSPECIFIED   = 0;
+
+  USER_PASSWORD_ENCRYPTION_MD5           = 1;
+ 
+  USER_PASSWORD_ENCRYPTION_SCRAM_SHA_256 = 2;
 }
 
 // PostgreSQL user settings.

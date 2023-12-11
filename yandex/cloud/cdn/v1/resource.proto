@@ -107,6 +107,17 @@ enum SecureKeyURLType {
     DISABLE_IP_SIGNING = 2;
 }
 
+// PolicyType defines type of the policy in IP address acl rules.
+enum PolicyType {
+    POLICY_TYPE_UNSPECIFIED = 0;
+
+    // Allow access to all IP addresses except the ones specified in the excepted_values field.
+    POLICY_TYPE_ALLOW = 1;
+
+    // Block access to all IP addresses except the ones specified in the excepted_values field.
+    POLICY_TYPE_DENY = 2;
+}
+
 // A major set of various resource options.
 message ResourceOptions {
     // Set up bool values.
@@ -305,6 +316,18 @@ message ResourceOptions {
         SecureKeyURLType type = 3;
     }
 
+    message IPAddresACL {
+        // True - the option is enabled and its [flag] is applied to the resource.
+        // False - the option is disabled and its default value of the [flag] is used for the resource.
+        bool enabled = 1;
+
+        // The policy type. One of allow or deny value.
+        PolicyType policy_type = 2;
+
+        // The list of IP addresses to be allowed or denied.
+        StringsListOption excepted_values = 3;
+    }
+
     // Set up a cache status.
     BoolOption disable_cache = 1;
 
@@ -383,8 +406,12 @@ message ResourceOptions {
     // Changing or redirecting query paths.
     RewriteOption rewrite = 19;
 
-    // Secure token to protect contect and limit access by IP addresses and time limits
+    // Secure token to protect contect and limit access by IP addresses and time limits.
     SecureKeyOption secure_key = 20;
+
+    // Manage the state of the IP access policy option. 
+    // The option controls access to content from the specified IP addresses.
+    IPAddresACL ip_address_acl = 21;
 }
 
 // A set of the personal SSL certificate parameters.

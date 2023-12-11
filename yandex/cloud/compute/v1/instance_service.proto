@@ -201,10 +201,20 @@ service InstanceService {
   // Running instance will be restarted during this operation.
   rpc Relocate(RelocateInstanceRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:relocate" body: "*" };
-      option (yandex.cloud.api.operation) = {
-          metadata: "RelocateInstanceMetadata"
-          response: "Instance"
-      };
+    option (yandex.cloud.api.operation) = {
+      metadata: "RelocateInstanceMetadata"
+      response: "Instance"
+    };
+  }
+
+  // maintenance
+
+  rpc SimulateMaintenanceEvent (SimulateInstanceMaintenanceEventRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:simulateMaintenanceEvent" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "SimulateInstanceMaintenanceEventMetadata"
+      response: "google.protobuf.Empty"
+    };
   }
 
   // access
@@ -694,6 +704,14 @@ message UpdateInstanceNetworkInterfaceMetadata {
 
   // The index of the network interface.
   string network_interface_index = 2;
+}
+
+message SimulateInstanceMaintenanceEventRequest{
+  string instance_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message SimulateInstanceMaintenanceEventMetadata {
+  string instance_id = 1;
 }
 
 message ListInstanceOperationsRequest {

@@ -110,11 +110,8 @@ message Table {
     // Number of columns in table.
     int64 column_count = 3;
 
-    // Table position from full_text string.
-    TextSegments text_segments = 4;
-
     // Table cells.
-    repeated TableCell cells = 5;
+    repeated TableCell cells = 4;
 }
 
 message TableCell {
@@ -137,5 +134,5 @@ message TableCell {
     string text = 6;
 
     // Table cell position from full_text string.
-    TextSegments text_segments = 7;
+    repeated TextSegments text_segments = 7;
 }

@@ -40,11 +40,19 @@ message MongodConfig4_4 {
         Compressor block_compressor = 1;
       }
 
+      message IndexConfig {
+        // Enables or disables [prefix compression](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-prefix-compression)
+        google.protobuf.BoolValue prefix_compression = 1;
+      }
+
       // Engine configuration for WiredTiger.
       EngineConfig engine_config = 1;
 
       // Collection configuration for WiredTiger.
       CollectionConfig collection_config = 2;
+
+      //Index configuration for WiredTiger
+      IndexConfig index_config = 3;
     }
 
     message Journal {
@@ -81,11 +89,46 @@ message MongodConfig4_4 {
     // for longer than this threshold are considered slow, and are processed by the profiler
     // running in the SLOW_OP mode.
     google.protobuf.Int64Value slow_op_threshold = 2 [(value) = ">0"];
+
+    // The fraction of slow operations that should be profiled or logged.
+    // operationProfiling.slowOpSampleRate accepts values between 0 and 1, inclusive.
+    google.protobuf.DoubleValue slow_op_sample_rate = 3 [(value) = "0-1"];
   }
 
   message Network {
+    message Compression {
+      enum Compressor {
+        COMPRESSOR_UNSPECIFIED = 0;
+
+        // The [Snappy](https://docs.mongodb.com/v4.2/reference/glossary/#term-snappy) compression.
+        SNAPPY = 1;
+
+        // The [zlib](https://docs.mongodb.com/v4.2/reference/glossary/#term-zlib) compression.
+        ZLIB = 2;
+
+        // The [zstd](https://docs.mongodb.com/v4.2/reference/glossary/#term-zstd) compression.
+        ZSTD = 3;
+      }
+      // Specifies the default compressor(s) to use for communication between this mongod or mongos instance and:
+      // - other members of the deployment if the instance is part of a replica set or a sharded cluster
+      // - mongosh
+      // - drivers that support the OP_COMPRESSED message format.
+      // MongoDB supports the following compressors:
+      repeated Compressor compressors = 1 [(size) = "0-3"];
+    }
+
     // The maximum number of simultaneous connections that mongod will accept.
     google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-16384"];
+
+    // Compression settings
+    Compression compression = 2;
+  }
+
+  message SetParameter {
+    // Enables or disables the mechanism that controls the rate at which the primary applies its writes with the
+    // goal of keeping the secondary members [majority committed](https://www.mongodb.com/docs/v4.2/reference/command/replSetGetStatus/#replSetGetStatus.optimes.lastCommittedOpTime)
+    // lag under a configurable maximum value.
+    google.protobuf.BoolValue enable_flow_control = 1;
   }
 
   // `storage` section of mongod configuration.
@@ -96,6 +139,9 @@ message MongodConfig4_4 {
 
   // `net` section of mongod configuration.
   Network net = 3;
+
+  // `replication` section of mongod configuration.
+  SetParameter set_parameter = 4;
 }
 
 message MongoCfgConfig4_4 {
@@ -155,8 +201,31 @@ message MongoCfgConfig4_4 {
 
 message MongosConfig4_4 {
   message Network {
+    message Compression {
+      enum Compressor {
+        COMPRESSOR_UNSPECIFIED = 0;
+
+        // The [Snappy](https://docs.mongodb.com/v4.2/reference/glossary/#term-snappy) compression.
+        SNAPPY = 1;
+
+        // The [zlib](https://docs.mongodb.com/v4.2/reference/glossary/#term-zlib) compression.
+        ZLIB = 2;
+
+        // The [zstd](https://docs.mongodb.com/v4.2/reference/glossary/#term-zstd) compression.
+        ZSTD = 3;
+      }
+      // Specifies the default compressor(s) to use for communication between this mongod or mongos instance and:
+      // - other members of the deployment if the instance is part of a replica set or a sharded cluster
+      // - mongosh
+      // - drivers that support the OP_COMPRESSED message format.
+      // MongoDB supports the following compressors:
+      repeated Compressor compressors = 1 [(size) = "0-3"];
+    }
     // The maximum number of simultaneous connections that mongos will accept.
     google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-16384"];
+
+    // Compression settings
+    Compression compression = 2;
   }
 
   // Network settings for mongos.
