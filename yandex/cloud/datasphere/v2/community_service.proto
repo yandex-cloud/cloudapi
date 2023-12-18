@@ -9,6 +9,7 @@ import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/datasphere/v2/community.proto";
+import "yandex/cloud/datasphere/v2/resource_types.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datasphere/v2;datasphere";
 option java_package = "yandex.cloud.api.datasphere.v2";
@@ -71,6 +72,22 @@ service CommunityService {
     option (google.api.http) = {patch: "/datasphere/v2/communities/{resource_id}:updateAccessBindings" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateCommunityAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Adds shared resource to community
+  rpc AddResource (AddCommunityResourceRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/datasphere/v2/communities/{resource_id}:addResource" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Removes shared resource from community
+  rpc RemoveResource (RemoveCommunityResourceRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/datasphere/v2/communities/{resource_id}:removeResource" body: "*"};
+    option (yandex.cloud.api.operation) = {
       response: "google.protobuf.Empty"
     };
   }
@@ -181,4 +198,16 @@ message SetCommunityAccessBindingsMetadata {
 message UpdateCommunityAccessBindingsMetadata {
   // ID of the community which access bindings are updated.
   string community_id = 1;
+}
+
+message AddCommunityResourceRequest {
+  string community_id = 1 [(required) = true, (length) = "<=50"];
+  ResourceType resource_type = 2 [(required) = true];
+  string resource_id = 3  [(required) = true];
+}
+
+message RemoveCommunityResourceRequest {
+  string community_id = 1 [(required) = true, (length) = "<=50"];
+  ResourceType resource_type = 2 [(required) = true];
+  string resource_id = 3 [(required) = true];
 }

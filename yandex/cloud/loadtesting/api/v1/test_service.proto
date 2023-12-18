@@ -13,6 +13,7 @@ import "yandex/cloud/loadtesting/api/v1/test/details.proto";
 import "yandex/cloud/loadtesting/api/v1/test/test.proto";
 import "yandex/cloud/validation.proto";
 
+// A set of methods for managing tests.
 service TestService {
   // Creates (runs) a test in the specified folder.
   rpc Create(CreateTestRequest) returns (operation.Operation) {

@@ -164,6 +164,9 @@ message CreateBrokerRequest {
   // The password must contain at least three character categories among the following: upper case latin, lower case latin, numbers and special symbols.
   string password = 6;
 
+  // Options for logging broker events
+  LogOptions log_options = 7;
+
   // Specification of a broker certificate.
   message Certificate {
     // Public part of the broker certificate.
@@ -195,6 +198,9 @@ message UpdateBrokerRequest {
   //
   // Existing set of `labels` is completely replaced by the provided set.
   map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+
+  // Options for logging broker events
+  LogOptions log_options = 6;
 }
 
 message UpdateBrokerMetadata {

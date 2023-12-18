@@ -119,6 +119,15 @@ service ClusterService {
       option (google.api.http) = {get: "/managed-greenplum/v1/clusters/{cluster_id}/backups"};
   }
 
+  // Creates a backup for the specified Greenplum cluster.
+  rpc Backup (BackupClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-greenplum/v1/clusters/{cluster_id}:backup" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "BackupClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
   // Creates a new Greenplum® cluster using the specified backup.
   rpc Restore (RestoreClusterRequest) returns (operation.Operation) {
       option (google.api.http) = { post: "/managed-greenplum/v1/clusters:restore" body: "*" };
@@ -628,6 +637,18 @@ message ListClusterBackupsResponse {
     //
     // Each subsequent list request has its own [next_page_token] to continue paging through the results.
     string next_page_token = 2;
+}
+
+message BackupClusterRequest {
+  // ID of the Greenplum cluster to back up.
+  // To get the Greenplum cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message BackupClusterMetadata {
+  // ID of the Greenplum cluster to back up.
+  string cluster_id = 1;
+  string backup_id = 2;
 }
 
 message RestoreClusterRequest {

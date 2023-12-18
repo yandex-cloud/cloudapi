@@ -316,7 +316,7 @@ message ResourceOptions {
         SecureKeyURLType type = 3;
     }
 
-    message IPAddresACL {
+    message IPAddressACLOption {
         // True - the option is enabled and its [flag] is applied to the resource.
         // False - the option is disabled and its default value of the [flag] is used for the resource.
         bool enabled = 1;
@@ -325,7 +325,7 @@ message ResourceOptions {
         PolicyType policy_type = 2;
 
         // The list of IP addresses to be allowed or denied.
-        StringsListOption excepted_values = 3;
+        repeated string excepted_values = 3;
     }
 
     // Set up a cache status.
@@ -411,7 +411,7 @@ message ResourceOptions {
 
     // Manage the state of the IP access policy option. 
     // The option controls access to content from the specified IP addresses.
-    IPAddresACL ip_address_acl = 21;
+    IPAddressACLOption ip_address_acl = 21;
 }
 
 // A set of the personal SSL certificate parameters.

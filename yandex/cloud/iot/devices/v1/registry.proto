@@ -3,6 +3,8 @@ syntax = "proto3";
 package yandex.cloud.iot.devices.v1;
 
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/logging/v1/log_entry.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/iot/devices/v1;devices";
 option java_package = "yandex.cloud.api.iot.devices.v1";
@@ -45,6 +47,9 @@ message Registry {
 
   // ID of the logs group for the specified registry.
   string log_group_id = 8;
+
+  // Options for logging registry events
+  LogOptions log_options = 9;
 }
 
 // A registry certificate. For more information, see [Managing registry certificates](/docs/iot-core/operations/certificates/registry-certificates).
@@ -113,4 +118,24 @@ message DataStreamExport {
 
   // Creation timestamp.
   google.protobuf.Timestamp created_at = 8;
+}
+
+message LogOptions {
+
+  // Is logging from registry disabled.
+  bool disabled = 1;
+
+  // Log entries destination.
+  oneof destination {
+    // Entry should be written to log group resolved by ID.
+    string log_group_id = 2 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
+
+    // Entry should be written to default log group for specified folder.
+    string folder_id = 3 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
+  }
+
+  // Minimum log entry level.
+  //
+  // See [LogLevel.Level] for details.
+  yandex.cloud.logging.v1.LogLevel.Level min_level = 4;
 }

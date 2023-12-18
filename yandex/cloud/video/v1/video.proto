@@ -9,6 +9,8 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;v
 option java_package = "yandex.cloud.api.video.v1";
 
 message Video {
+    reserved 2001;
+
     string id = 1;
     string channel_id = 2;
 
@@ -28,6 +30,7 @@ message Video {
 
     oneof access_rights {
         VideoPublicAccessRights public_access = 2000;
+        VideoAuthSystemAccessRights auth_system_access = 2002;
     }
 
     google.protobuf.Timestamp created_at = 100;
@@ -53,3 +56,5 @@ message VideoTUSDSource {
 }
 
 message VideoPublicAccessRights {}
+
+message VideoAuthSystemAccessRights {}

@@ -79,6 +79,8 @@ message ListVideoResponse {
 }
 
 message CreateVideoRequest {
+    reserved 2001;
+
     string channel_id = 1;
 
     string title = 2;
@@ -91,6 +93,7 @@ message CreateVideoRequest {
 
     oneof access_rights {
         VideoPublicAccessParams public_access = 2000;
+        VideoAuthSystemAccessParams auth_system_access = 2002;
     }
 }
 
@@ -100,11 +103,15 @@ message VideoTUSDParams {
 
 message VideoPublicAccessParams {}
 
+message VideoAuthSystemAccessParams {}
+
 message CreateVideoMetadata {
     string video_id = 1;
 }
 
 message UpdateVideoRequest {
+    reserved 2001;
+
     string video_id = 1;
     google.protobuf.FieldMask field_mask = 2;
 
@@ -114,6 +121,7 @@ message UpdateVideoRequest {
 
     oneof access_rights {
         VideoPublicAccessParams public_access = 2000;
+        VideoAuthSystemAccessParams auth_system_access = 2002;
     }
 }
 

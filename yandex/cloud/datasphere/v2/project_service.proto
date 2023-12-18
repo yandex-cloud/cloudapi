@@ -10,6 +10,7 @@ import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/datasphere/v2/project.proto";
+import "yandex/cloud/datasphere/v2/resource_types.proto";
 
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -117,6 +118,22 @@ service ProjectService {
     option (google.api.http) = {patch: "/datasphere/v2/projects/{resource_id}:updateAccessBindings" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateProjectAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Adds shared resource to project
+  rpc AddResource (AddResourceToProjectRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/datasphere/v2/projects/{resource_id}:addResource" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Removes shared resource from project
+  rpc RemoveResource (RemoveResourceFromProjectRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/datasphere/v2/projects/{resource_id}:removeResource" body: "*"};
+    option (yandex.cloud.api.operation) = {
       response: "google.protobuf.Empty"
     };
   }
@@ -404,4 +421,16 @@ message SetProjectAccessBindingsMetadata {
 message UpdateProjectAccessBindingsMetadata {
   // ID of the project which access bindings are updated.
   string project_id = 1;
+}
+
+message AddResourceToProjectRequest {
+  string project_id = 1 [(required) = true, (length) = "<=50"];
+  ResourceType resource_type = 2;
+  string resource_id = 3 [(required) = true];
+}
+
+message RemoveResourceFromProjectRequest {
+  string project_id = 1 [(required) = true, (length) = "<=50"];
+  ResourceType resource_type = 2;
+  string resource_id = 3 [(required) = true];
 }

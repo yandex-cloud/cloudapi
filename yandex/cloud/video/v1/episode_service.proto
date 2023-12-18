@@ -83,6 +83,8 @@ message ListEpisodesResponse {
 }
 
 message CreateEpisodeRequest {
+    reserved 1001;
+
     oneof parent_id {
         string stream_id = 100;
         string line_id = 101;
@@ -97,16 +99,21 @@ message CreateEpisodeRequest {
 
     oneof access_rights {
         EpisodePublicAccessParams public_access = 1000;
+        EpisodeAuthSystemAccessParams auth_system_access = 1002;
     }
 }
 
 message EpisodePublicAccessParams {}
+
+message EpisodeAuthSystemAccessParams {}
 
 message CreateEpisodeMetadata {
     string episode_id = 1;
 }
 
 message UpdateEpisodeRequest {
+    reserved 1001;
+
     string episode_id = 1;
     google.protobuf.FieldMask field_mask = 2;
 
@@ -119,6 +126,7 @@ message UpdateEpisodeRequest {
 
     oneof access_rights {
         EpisodePublicAccessParams public_access = 1000;
+        EpisodeAuthSystemAccessParams auth_system_access = 1002;
     }
 }
 

@@ -64,5 +64,5 @@ message DeleteBackupMetadata {
   // Required. ID of the Greenplum backup that is currently being deleted.
   string backup_id = 1;
   // ID of the Greenplum backup that is being created.
-  string cluster_id = 2;
+  string cluster_id = 2 [(length) = "<=50"];
 }

@@ -10,7 +10,7 @@ import "yandex/cloud/loadtesting/api/v1/report/table/report.proto";
 import "yandex/cloud/loadtesting/api/v1/report/status.proto";
 import "yandex/cloud/validation.proto";
 
-
+// A set of methods for managing test reports.
 service ReportService {
   // Returns a report table for the specified test.
   rpc GetTable(GetTableReportRequest) returns (GetTableReportResponse) {

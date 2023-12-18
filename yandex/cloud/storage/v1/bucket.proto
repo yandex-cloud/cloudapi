@@ -408,12 +408,22 @@ message LifecycleRule {
   }
 
   message RuleFilter {
+    message And {
+      string prefix = 1;
+      google.protobuf.Int64Value object_size_greater_than = 2;
+      google.protobuf.Int64Value object_size_less_than = 3;
+      repeated Tag tag = 4;
+    }
     // Key prefix that the object must have in order for the rule to apply.
     string prefix = 1;
     // Size that the object must be greater.
     google.protobuf.Int64Value object_size_greater_than = 2;
     // Size that the object must be less t.
     google.protobuf.Int64Value object_size_less_than = 3;
+    // Tags that the object's tag set must have for the rule to apply.
+    Tag tag = 4;
+    // Apply a logical AND to all of the predicates configured inside the And operator.
+    And and_operator = 5;
   }
 
   // ID of the rule. Provided by the client or generated at creation time.
