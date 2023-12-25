@@ -185,3 +185,44 @@ message HiveJob {
     QueryList query_list = 6;
   }
 }
+
+// Data Proc support job.
+message SupportJob {
+  // Required. Unique ID of the Data Proc job.
+  // This ID is assigned by MDB in the process of creating Data Proc job.
+  string id = 1;
+
+  // Required. Unique ID of the Data Proc cluster.
+  string cluster_id = 2;
+
+  // The time when the Data Proc job was created.
+  google.protobuf.Timestamp created_at = 3;
+
+  // The time when the Data Proc job was started.
+  google.protobuf.Timestamp started_at = 4;
+
+  // The time when the Data Proc job was finished.
+  google.protobuf.Timestamp finished_at = 5;
+
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+    PROVISIONING = 1; // Job created in metadb and is waiting agent to acquire.
+    PENDING = 2; // Job acquired by agent and is waiting for execution.
+    RUNNING = 3; // Job is running.
+    ERROR = 4; // Job failed.
+    DONE = 5; // Job finished.
+    CANCELLED = 6; // Job cancelled.
+    CANCELLING = 7; // Job is waiting for cancellation.
+  }
+  // Status.
+  Status status = 6;
+
+  // Command.
+  string cmd = 7;
+
+  // Execution timeout in seconds.
+  int64 timeout = 8;
+
+  // The id of the user who created the job
+  string created_by = 9;
+}

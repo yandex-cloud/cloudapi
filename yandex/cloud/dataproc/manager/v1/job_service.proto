@@ -13,6 +13,15 @@ service JobService {
 
     // Currently used to update Job status.
     rpc UpdateStatus (UpdateJobStatusRequest) returns (UpdateJobStatusResponse) {}
+
+    // Retrieves a list of support jobs for Data Proc cluster.
+    rpc ListSupportActive (ListJobsRequest) returns (ListSupportJobsResponse) {}
+
+    // Currently used to update support job status.
+    rpc UpdateSupportStatus (UpdateSupportJobStatusRequest) returns (UpdateJobStatusResponse) {}
+
+    // Save support job output.
+    rpc SaveSupportLog (SaveSupportJobLogRequest) returns (SaveSupportJobLogResponse) {}
 }
 
 message ListJobsRequest {
@@ -60,4 +69,41 @@ message UpdateJobStatusRequest {
 }
 
 message UpdateJobStatusResponse {
+}
+
+message ListSupportJobsResponse {
+    // Requested list of Data Proc jobs.
+    repeated SupportJob jobs = 1;
+
+    // This token allows you to get the next page of results for ListJobs requests,
+    // if the number of results is larger than `page_size` specified in the request.
+    // To get the next page, specify the value of `next_page_token` as a value for
+    // the `page_token` parameter in the next ListClusters request. Subsequent ListClusters
+    // requests will have their own `next_page_token` to continue paging through the results.
+    string next_page_token = 2;
+}
+
+message UpdateSupportJobStatusRequest {
+    // Required. ID of the Data Proc cluster.
+    string cluster_id = 1 [(length) = "<=50"];
+
+    // Required. ID of the Data Proc job to update.
+    string job_id = 2 [(length) = "<=50"];
+
+    // Required. New status of the job.
+    SupportJob.Status status = 3;
+}
+
+message SaveSupportJobLogRequest {
+    // ID of the cluster.
+    string cluster_id = 1 [(length) = "<=50"];
+
+    // ID of the support job.
+    string job_id = 2 [(length) = "<=50"];
+
+    // Job output.
+    string output = 3;
+}
+
+message SaveSupportJobLogResponse {
 }
