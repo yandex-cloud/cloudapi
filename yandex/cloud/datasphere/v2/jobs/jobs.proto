@@ -26,11 +26,24 @@ message JobParameters {
   bool attach_project_disk = 7;
   // VM specification.
   CloudInstanceType cloud_instance_type = 8;
+  // Extended working storage configuration.
+  ExtendedWorkingStorage extended_working_storage = 9;
 }
 
 message CloudInstanceType {
   // Name of DataSphere VM configuration.
   string name = 1;
+}
+
+// Extended working storage configuration.
+message ExtendedWorkingStorage {
+  enum StorageType {
+    STORAGE_TYPE_UNSPECIFIED = 0;
+    SSD = 1;
+  }
+
+  StorageType type = 1;
+  int64 size_gb = 2;
 }
 
 message File {
@@ -115,6 +128,12 @@ message Job {
   bool data_cleared = 12;
   // Output files of the job.
   repeated File output_files = 13;
+  // Job log files.
+  repeated File log_files = 14;
+  // Job diagnostics files.
+  repeated File diagnostic_files = 15;
+  // Job total data size.
+  int64 data_size_bytes = 16;
 }
 
 enum JobStatus {

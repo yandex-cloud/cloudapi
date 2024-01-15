@@ -24,6 +24,7 @@ service ProjectJobService {
       response: "CreateProjectJobResponse"
     };
   }
+
   // Runs job execution.
   rpc Execute (ExecuteProjectJobRequest) returns (operation.Operation) {
     option (yandex.cloud.api.operation) = {
@@ -34,9 +35,6 @@ service ProjectJobService {
 
   // Cancels running job.
   rpc Cancel (CancelProjectJobRequest) returns (google.protobuf.Empty);
-
-  // Triggers cleanup after downloading job results.
-  rpc Finalize (FinalizeProjectJobRequest) returns (FinalizeProjectJobResponse);
 
   // Returns stream of job logs.
   rpc ReadStdLogs (ReadProjectJobStdLogsRequest) returns (stream ReadProjectJobStdLogsResponse) {
@@ -60,6 +58,22 @@ service ProjectJobService {
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteProjectJobMetadata"
       response: "google.protobuf.Empty"
+    };
+  }
+
+  // Delete job data.
+  rpc DeleteData (DeleteProjectJobDataRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteProjectJobDataMetadata"
+      response: "DeleteProjectJobDataResponse"
+    };
+  }
+
+  // Delete all jobs data.
+  rpc DeleteAllData (DeleteAllDataRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteAllDataMetadata"
+      response: "DeleteAllDataResponse"
     };
   }
 }
@@ -87,6 +101,8 @@ message CreateProjectJobRequest {
 message CreateProjectJobMetadata {
   // ID of the project.
   string project_id = 1;
+  // Job ID.
+  string job_id = 2;
 }
 
 message CreateProjectJobResponse {
@@ -121,16 +137,6 @@ message CancelProjectJobRequest {
 
   // Optional cancellation reason.
   string reason = 2;
-}
-
-message FinalizeProjectJobRequest {
-  // ID of the job.
-  string job_id = 1;
-}
-
-message FinalizeProjectJobResponse {
-  // ID of the job.
-  string job_id = 1;
 }
 
 message ReadProjectJobStdLogsRequest {
@@ -213,6 +219,30 @@ message DeleteProjectJobRequest {
 message DeleteProjectJobMetadata {
   // ID of the job.
   string job_id = 1;
+}
+
+message DeleteProjectJobDataRequest {
+  // ID of the job.
+  string job_id = 1;
+}
+
+message DeleteProjectJobDataMetadata {
+  // ID of the job.
+  string job_id = 1;
+}
+
+message DeleteProjectJobDataResponse {
+}
+
+message DeleteAllDataRequest {
+  string project_id = 1;
+}
+
+message DeleteAllDataMetadata {
+  string project_id = 1;
+}
+
+message DeleteAllDataResponse {
 }
 
 message StdLog {
