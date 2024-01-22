@@ -712,6 +712,9 @@ message RestoreClusterRequest {
 
     // Number of segments on each host
     int64 segment_in_host = 18;
+
+    // List of databases and tables to restore
+    repeated string restore_only = 19 [(size) = "<=50", (length) = "<=256", (pattern) = "[a-zA-Z0-9\\*_]*(\\/[a-zA-Z0-9\\*_]*){0,2}"]; 
 }
 
 message RestoreClusterMetadata {
