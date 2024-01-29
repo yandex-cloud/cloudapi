@@ -143,16 +143,19 @@ message DeleteEpisodeMetadata {
 }
 
 message PerformEpisodeActionRequest {
+    reserved 1000, 1001;
+
+    // ID of the episode.
     string episode_id = 1;
     oneof action {
-        BanAction ban = 1000;
-        UnbanAction unban = 1001;
+        PublishEpisodeAction publish = 1002;
+        UnpublishEpisodeAction unpublish = 1003;
     }
 }
 
-message BanAction {}
+message PublishEpisodeAction {}
 
-message UnbanAction {}
+message UnpublishEpisodeAction {}
 
 message PerformEpisodeActionMetadata {
     string episode_id = 1;

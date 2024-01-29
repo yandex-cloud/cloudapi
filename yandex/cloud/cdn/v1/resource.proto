@@ -443,10 +443,10 @@ enum SSLCertificateType {
     // No SSL certificate is added, the requests are sent via HTTP.
     DONT_USE = 1;
 
-    // Works only if you have already pointed your domain name to the protected IP address in your DNS
-    LETS_ENCRYPT_GCORE = 2;
+    // The option is deprecated. Works only if you have already pointed your domain name to the protected IP address in your DNS.
+    LETS_ENCRYPT_GCORE = 2 [deprecated = true];
 
-    // Add your SSL certificate by uploading the certificate in PEM format and your private key
+    // Add your SSL certificate by uploading the certificate in PEM format and your private key.
     CM = 3;
 }
 
@@ -458,8 +458,8 @@ enum SSLCertificateStatus {
     // SSL certificate is ready to use.
     READY = 1;
 
-    // SSL certificate is creating.
-    CREATING = 2;
+    // The option is deprecated. SSL certificate is creating.
+    CREATING = 2 [deprecated = true];
 }
 
 // A certificate data parameters.

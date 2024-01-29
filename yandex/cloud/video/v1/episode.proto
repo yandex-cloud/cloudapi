@@ -25,7 +25,7 @@ message Episode {
     //  * `>0`: size of dvr window in seconds, the minimum value is 30s
     int64 dvr_seconds = 9;
 
-    EpisodeStatus status = 10;
+    VisibilityStatus visibility_status = 10;
 
     oneof access_rights {
         EpisodePublicAccessRights public_access = 1000;
@@ -35,10 +35,10 @@ message Episode {
     google.protobuf.Timestamp created_at = 100;
     google.protobuf.Timestamp updated_at = 101;
 
-    enum EpisodeStatus {
-        EPISODE_STATUS_UNSPECIFIED = 0;
+    enum VisibilityStatus {
+        VISIBILITY_STATUS_UNSPECIFIED = 0;
         PUBLISHED = 1;
-        BANNED = 2;
+        UNPUBLISHED = 2;
     }
 }
 

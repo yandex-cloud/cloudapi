@@ -483,6 +483,9 @@ message InstanceTemplate {
   // To use the instance with an attached filesystem, the latter must be mounted.
   // For details, see [documentation](/docs/compute/operations/filesystem/attach-to-vm).
   repeated AttachedFilesystemSpec filesystem_specs = 15;
+
+  // Metadata options for the instance
+  MetadataOptions metadata_options = 16;
 }
 
 message AttachedFilesystemSpec {
@@ -931,4 +934,23 @@ message AutoHealingPolicy {
 
   // Instance Groups performs [auto_healing_action] when instance becomes unhealthy.
   AutoHealingAction auto_healing_action = 1;
+}
+
+message MetadataOptions {
+  // Enabled access to GCE flavored metadata
+  MetadataOption gce_http_endpoint = 1;
+  // Enabled access to AWS flavored metadata (IMDSv1)
+  MetadataOption aws_v1_http_endpoint = 2;
+  // Enabled access to IAM credentials with GCE flavored metadata
+  MetadataOption gce_http_token = 3;
+  // Enabled access to IAM credentials with AWS flavored metadata (IMDSv1)
+  MetadataOption aws_v1_http_token = 4;
+}
+
+enum MetadataOption {
+  METADATA_OPTION_UNSPECIFIED = 0;
+  // Option is enabled
+  ENABLED = 1;
+  // Option is disabled
+  DISABLED = 2;
 }

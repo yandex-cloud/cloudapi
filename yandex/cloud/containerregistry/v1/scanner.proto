@@ -122,4 +122,10 @@ message PackageVulnerability {
 
     // The version of the package where vulnerability has been fixed.
     string fixed_by = 6;
+
+    // The place where vulnerability is originated (OS, lang package, etc.)
+    string origin = 7;
+
+    // The type of vulnerability origin - name of OS if origin="os" or package type (jar, gobinary, etc.) if origin="lang"
+    string type = 8;
 }

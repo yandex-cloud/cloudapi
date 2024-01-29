@@ -3,6 +3,8 @@ syntax = "proto3";
 package yandex.cloud.mdb.greenplum.v1;
 
 import "google/api/annotations.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/mdb/greenplum/v1/backup.proto";
 
@@ -19,6 +21,14 @@ service BackupService {
   // Returns the list of available backups for the specified Greenplum® cluster.
   rpc List (ListBackupsRequest) returns (ListBackupsResponse) {
     option (google.api.http) = { get: "/managed-greenplum/v1/backups" };
+  }
+
+  rpc Delete (DeleteBackupRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/managed-greenplum/v1/backups/{backup_id}" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteBackupMetadata"
+      response: "google.protobuf.Empty"
+    };
   }
 }
 
@@ -63,6 +73,6 @@ message DeleteBackupRequest {
 message DeleteBackupMetadata {
   // Required. ID of the Greenplum backup that is currently being deleted.
   string backup_id = 1;
-  // ID of the Greenplum backup that is being created.
+  // ID of the Greenplum backup that is being deleted.
   string cluster_id = 2 [(length) = "<=50"];
 }

@@ -149,6 +149,8 @@ message PolicySettings {
         repeated RetentionRule rules = 1;
         // If true, retention rules will be applied after backup is finished.
         bool after_backup = 2;
+        // If true, retention rules will be applied before backup is finished.
+        bool before_backup = 3;
     }
 
     message Scheduling {
