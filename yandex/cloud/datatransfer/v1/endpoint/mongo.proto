@@ -9,10 +9,11 @@ option csharp_namespace = "Yandex.Cloud.Datatransfer.V1.EndPoint"; // there is a
 import "yandex/cloud/datatransfer/v1/endpoint/common.proto";
 
 message OnPremiseMongo {
+    reserved 3 to 4;
     repeated string hosts = 1;
     int64 port = 2;
-    TLSMode tls_mode = 6;
     string replica_set = 5;
+    TLSMode tls_mode = 6;
 }
 message MongoConnectionOptions {
     oneof address {
@@ -27,6 +28,7 @@ message MongoConnectionOptions {
     string auth_source = 5;
 }
 message MongoConnection {
+    reserved 1 to 2;
     oneof connection {
         MongoConnectionOptions connection_options = 3;
     }
@@ -36,10 +38,9 @@ message MongoCollection {
     string collection_name = 2;
 }
 message MongoSource {
+    reserved 3 to 5, 9 to 10;
     MongoConnection connection = 1;
     string subnet_id = 2;
-    // Security groups
-    repeated string security_groups = 11;
     // List of collections for replication. Empty list implies replication of all
     // tables on the deployment. Allowed to use * as collection name.
     repeated MongoCollection collections = 6;
@@ -48,13 +49,16 @@ message MongoSource {
     repeated MongoCollection excluded_collections = 7;
     // Read mode for mongo client
     bool secondary_preferred_mode = 8;
+    // Security groups
+    repeated string security_groups = 11;
 }
 message MongoTarget {
+    reserved 3 to 5;
     MongoConnection connection = 1;
-    string subnet_id = 7;
-    // Security groups
-    repeated string security_groups = 8;
     // Database name
     string database = 2;
     CleanupPolicy cleanup_policy = 6;
+    string subnet_id = 7;
+    // Security groups
+    repeated string security_groups = 8;
 }

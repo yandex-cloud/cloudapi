@@ -24,12 +24,13 @@ message KafkaConnectionOptions {
     }
 }
 message OnPremiseKafka {
+    reserved 2 to 3;
     // Kafka broker URLs
     repeated string broker_urls = 1;
-    // TLS settings for broker connection. Disabled by default.
-    TLSMode tls_mode = 5;
     // Network interface for endpoint. If none will assume public ipv4
     string subnet_id = 4;
+    // TLS settings for broker connection. Disabled by default.
+    TLSMode tls_mode = 5;
 }
 message KafkaAuth {
     oneof security {
@@ -40,14 +41,16 @@ message KafkaAuth {
     }
 }
 message KafkaSaslSecurity {
+    reserved 2;
     // User name
     string user = 1;
-    // Password for user
-    Secret password = 4;
     // SASL mechanism for authentication
     KafkaMechanism mechanism = 3;
+    // Password for user
+    Secret password = 4;
 }
 message KafkaSource {
+    reserved 6;
     // Connection settings
     KafkaConnectionOptions connection = 1;
     // Authentication settings
@@ -56,7 +59,7 @@ message KafkaSource {
     repeated string security_groups = 3;
     // Full source topic name
     // Deprecated in favor of topic names
-    string topic_name = 4 [deprecated=true];
+    string topic_name = 4 [deprecated = true];
     // Data transformation rules
     DataTransformationOptions transformer = 5;
     // Data parsing rules
@@ -65,6 +68,7 @@ message KafkaSource {
     repeated string topic_names = 8;
 }
 message KafkaTarget {
+    reserved 4 to 6;
     // Connection settings
     KafkaConnectionOptions connection = 1;
     // Authentication settings

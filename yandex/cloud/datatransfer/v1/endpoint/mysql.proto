@@ -9,13 +9,14 @@ option csharp_namespace = "Yandex.Cloud.Datatransfer.V1.EndPoint"; // there is a
 import "yandex/cloud/datatransfer/v1/endpoint/common.proto";
 
 message OnPremiseMysql {
-    repeated string hosts = 5;
+    reserved 1, 3;
     // Database port
     int64 port = 2;
-    // TLS settings for server connection. Disabled by default.
-    TLSMode tls_mode = 6;
     // Network interface for endpoint. If none will assume public ipv4
     string subnet_id = 4;
+    repeated string hosts = 5;
+    // TLS settings for server connection. Disabled by default.
+    TLSMode tls_mode = 6;
 }
 message MysqlConnection {
     oneof connection {
@@ -41,26 +42,18 @@ message MysqlObjectTransferSettings {
     ObjectTransferStage tables = 4;
 }
 message MysqlSource {
+    reserved 5 to 7, 9 to 10;
     // Database connection settings
     MysqlConnection connection = 1;
-    // Security groups
-    repeated string security_groups = 14;
     // Database name
     // 
     // You can leave it empty, then it will be possible to transfer tables from several
     // databases at the same time from this source.
     string database = 2;
-    // Database for service tables
-    // 
-    // Default: data source database. Here created technical tables (__tm_keeper,
-    // __tm_gtid_keeper).
-    string service_database = 15;
     // User for database access.
     string user = 3;
     // Password for database access.
     Secret password = 4;
-    repeated string include_tables_regex = 12;
-    repeated string exclude_tables_regex = 13;
     // Database timezone
     // 
     // Is used for parsing timestamps for saving source timezones. Accepts values from
@@ -70,12 +63,20 @@ message MysqlSource {
     // 
     // Select database objects to be transferred during activation or deactivation.
     MysqlObjectTransferSettings object_transfer_settings = 11;
+    repeated string include_tables_regex = 12;
+    repeated string exclude_tables_regex = 13;
+    // Security groups
+    repeated string security_groups = 14;
+    // Database for service tables
+    // 
+    // Default: data source database. Here created technical tables (__tm_keeper,
+    // __tm_gtid_keeper).
+    string service_database = 15;
 }
 message MysqlTarget {
+    reserved 9 to 14;
     // Database connection settings
     MysqlConnection connection = 1;
-    // Security groups
-    repeated string security_groups = 16;
     // Database name
     // 
     // Allowed to leave it empty, then the tables will be created in databases with the
@@ -108,4 +109,6 @@ message MysqlTarget {
     // 
     // Default: db name. Here created technical tables (__tm_keeper, __tm_gtid_keeper).
     string service_database = 15;
+    // Security groups
+    repeated string security_groups = 16;
 }

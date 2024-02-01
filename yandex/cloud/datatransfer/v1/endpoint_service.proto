@@ -72,6 +72,7 @@ message ListEndpointsResponse {
     string next_page_token = 2;
 }
 message CreateEndpointRequest {
+    reserved 5 to 51;
     string folder_id = 1;
     string name = 2;
     string description = 3;
@@ -82,6 +83,7 @@ message CreateEndpointMetadata {
     string endpoint_id = 1;
 }
 message UpdateEndpointRequest {
+    reserved 1 to 9, 14 to 51, 53 to 59;
     // Identifier of the endpoint to be updated.
     string endpoint_id = 10;
     // The new endpoint name. Must be unique within the folder.

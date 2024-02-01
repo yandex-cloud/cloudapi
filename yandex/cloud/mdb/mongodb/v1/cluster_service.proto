@@ -731,6 +731,43 @@ message DeleteClusterHostsMetadata {
   repeated string host_names = 2;
 }
 
+message UpdateClusterHostsRequest {
+  // ID of the MongoDB cluster to update hosts from.
+  // To get the MongoDB cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  // New configurations to apply to hosts.
+  repeated UpdateHostSpec update_host_specs = 2 [(size) = ">0"];
+}
+
+message UpdateClusterHostsMetadata {
+  // ID of the MongoDB cluster to update host from.
+  string cluster_id = 1;
+
+  // Name of host that are being updated.
+  repeated string host_names = 2;
+}
+
+message UpdateHostSpec {
+  // Names of hosts to update.
+  string host_name = 1 [(required) = true, (length) = "<=253"];
+
+  // Is host hidden in replSet
+  google.protobuf.BoolValue hidden = 2;
+
+  // The number of seconds "behind" the primary that this replica set member should "lag"
+  google.protobuf.Int64Value secondary_delay_secs = 3;
+
+  // Priority of host for the election in replSet
+  google.protobuf.DoubleValue priority = 4;
+
+  // Whether the host should get a public IP address on update.
+  bool assign_public_ip = 5;
+
+  // Field mask that specifies which fields of the MongoDB host should be updated.
+  google.protobuf.FieldMask update_mask = 6;
+}
+
 message EnableClusterShardingRequest {
   message MongoCfg {
     // Resources for mongocfg hosts.

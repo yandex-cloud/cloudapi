@@ -28,7 +28,6 @@ enum CleanupPolicy {
 }
 enum ColumnType {
     COLUMN_TYPE_UNSPECIFIED = 0;
-    INT64 = 14;
     INT32 = 1;
     INT16 = 2;
     INT8 = 3;
@@ -42,6 +41,7 @@ enum ColumnType {
     UTF8 = 11;
     ANY = 12;
     DATETIME = 13;
+    INT64 = 14;
 }
 message AltName {
     // Source table name
@@ -82,10 +82,9 @@ message ColumnValue {
     }
 }
 message DataTransformationOptions {
+    reserved 6 to 7;
     // Cloud function
     string cloud_function = 1;
-    // Service account
-    string service_account_id = 8;
     // Number of retries
     int64 number_of_retries = 2;
     // Buffer size for function
@@ -94,8 +93,11 @@ message DataTransformationOptions {
     string buffer_flush_interval = 4;
     // Invocation timeout
     string invocation_timeout = 5;
+    // Service account
+    string service_account_id = 8;
 }
 message FieldList {
+    reserved 1;
     // Column schema
     repeated ColSchema fields = 2;
 }
