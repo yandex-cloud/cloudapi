@@ -18,6 +18,13 @@ message Vertex {
     int64 y = 2;
 }
 
+enum Angle {
+    ANGLE_UNSPECIFIED = 0;
+    ANGLE_0 = 1;
+    ANGLE_90 = 2;
+    ANGLE_180 = 3;
+    ANGLE_270 = 4;
+}
 
 message TextAnnotation {
     // Page width in pixels.
@@ -44,6 +51,9 @@ message Entity {
 
     // Recognized entity text.
     string text = 2;
+
+    // Angle of rotate image
+    Angle rotate = 3;
 }
 
 message Block {
@@ -76,6 +86,9 @@ message Line {
 
     // Line position from full_text string.
     repeated TextSegments text_segments = 4;
+
+    // Angle of rotate line
+    Angle orientation = 5;
 }
 
 message Word {

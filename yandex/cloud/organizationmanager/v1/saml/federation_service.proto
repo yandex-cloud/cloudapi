@@ -64,6 +64,15 @@ service FederationService {
     };
   }
 
+  // Deletes users from the specified federation.
+  rpc DeleteUserAccounts (DeleteFederatedUserAccountsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/organization-manager/v1/saml/federations/{federation_id}:deleteUserAccounts" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteFederatedUserAccountsMetadata"
+      response: "DeleteFederatedUserAccountsResponse"
+    };
+  }
+
   // Lists users for the specified federation.
   rpc ListUserAccounts (ListFederatedUserAccountsRequest) returns (ListFederatedUserAccountsResponse) {
     option (google.api.http) = { get: "/organization-manager/v1/saml/federations/{federation_id}:listUserAccounts" };
@@ -260,6 +269,25 @@ message AddFederatedUserAccountsMetadata {
 message AddFederatedUserAccountsResponse {
   // List of users created by [FederationService.AddUserAccounts] request.
   repeated UserAccount user_accounts = 1;
+}
+
+message DeleteFederatedUserAccountsRequest {
+  // ID of the federation to delete users from.
+  string federation_id = 1 [(required) = true, (length) = "<=50"];
+  // List of subjects to delete.
+  repeated string subject_ids = 2 [(size) = "1-1000", (length) = "1-50"];
+}
+
+message DeleteFederatedUserAccountsMetadata {
+  // ID of the federation that is being altered.
+  string federation_id = 1;
+}
+
+message DeleteFederatedUserAccountsResponse {
+  // List of subjects deleted by [FederationService.DeleteUserAccounts] request.
+  repeated string deleted_subjects = 1;
+  // List of subjects found in [FederationService.DeleteUserAccounts] request that do not exist.
+  repeated string non_existing_subjects = 2;
 }
 
 message ListFederatedUserAccountsRequest {
