@@ -43,6 +43,9 @@ message TextAnnotation {
 
     // Full text recognized from image.
     string full_text = 6;
+
+    // Angle of rotate image
+    Angle rotate = 7;
 }
 
 message Entity {
@@ -51,9 +54,6 @@ message Entity {
 
     // Recognized entity text.
     string text = 2;
-
-    // Angle of rotate image
-    Angle rotate = 3;
 }
 
 message Block {

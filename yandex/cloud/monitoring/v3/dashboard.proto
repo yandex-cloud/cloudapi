@@ -52,4 +52,14 @@ message Dashboard {
 
     // Dashboard etag.
     string etag = 30;
+
+    reserved 31;
+
+    // Entity that controls dashboard
+    // Must match the regular expression "[a-zA-Z0-9_\-\W]{1,100}"
+    string managed_by = 32;
+
+    // Information about entity that controls dashboard
+    // Must be valid URI
+    string managed_link = 33;
 }

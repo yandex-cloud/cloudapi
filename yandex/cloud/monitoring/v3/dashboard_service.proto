@@ -120,6 +120,16 @@ message CreateDashboardRequest {
 
     // Dashboard parametrization.
     Parametrization parametrization = 24;
+
+    reserved 25;
+
+    // Entity that controls dashboard
+    // Must match the regular expression "[a-zA-Z0-9_\-\W]{1,100}"
+    string managed_by = 26;
+
+    // Information about entity that controls dashboard
+    // Must be valid URI
+    string managed_link = 27;
 }
 
 message CreateDashboardMetadata {
@@ -153,6 +163,16 @@ message UpdateDashboardRequest {
 
     // The current etag of the dashboard.
     string etag = 8;
+
+    reserved 9 to 25;
+
+    // Entity that controls dashboard
+    // Must match the regular expression "[a-zA-Z0-9_\-\W]{1,100}"
+    string managed_by = 26;
+
+    // Information about entity that controls dashboard
+    // Must be valid URI
+    string managed_link = 27;
 }
 
 message UpdateDashboardMetadata {
