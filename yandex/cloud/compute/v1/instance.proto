@@ -11,6 +11,9 @@ option java_package = "yandex.cloud.api.compute.v1";
 
 // An Instance resource. For more information, see [Instances](/docs/compute/concepts/vm).
 message Instance {
+
+  reserved 15, 25;
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -97,6 +100,9 @@ message Instance {
 
   // Array of network interfaces that are attached to the instance.
   repeated NetworkInterface network_interfaces = 14;
+
+  // Serial port settings
+  SerialPortSettings serial_port_settings = 24;
 
   // GPU settings
   GpuSettings gpu_settings = 26;
@@ -354,4 +360,19 @@ enum MetadataOption {
 
   // Option is disabled
   DISABLED = 2;
+}
+
+message SerialPortSettings {
+  enum SSHAuthorization {
+    SSH_AUTHORIZATION_UNSPECIFIED = 0;
+
+    // Authentication and authorization using SSH keys in instance metadata
+    INSTANCE_METADATA = 1;
+
+    // Authentication and authorization using Oslogin service
+    OS_LOGIN = 2;
+  }
+
+  // Authentication and authorization in serial console when using SSH protocol
+  SSHAuthorization ssh_authorization = 1;
 }

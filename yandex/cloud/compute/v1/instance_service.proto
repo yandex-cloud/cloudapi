@@ -400,6 +400,9 @@ message CreateInstanceRequest {
 
   // Time between notification via metadata service and maintenance
   google.protobuf.Duration maintenance_grace_period = 22 [(value) = "1s-24h"];
+
+  // Serial port settings
+  SerialPortSettings serial_port_settings = 23;
 }
 
 message CreateInstanceMetadata {
@@ -471,6 +474,9 @@ message UpdateInstanceRequest {
 
   // Time between notification via metadata service and maintenance
   google.protobuf.Duration maintenance_grace_period = 15 [(value) = "1s-24h"];
+
+  // Serial port settings
+  SerialPortSettings serial_port_settings = 16;
 }
 
 message UpdateInstanceMetadata {
