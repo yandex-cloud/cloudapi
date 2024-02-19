@@ -149,6 +149,9 @@ message CreateAddressRequest {
   }
   // Specifies if address protected from deletion.
   bool deletion_protection = 10;
+
+  // Optional DNS record specifications
+  repeated DnsRecordSpec dns_record_specs = 11;
 }
 
 message ExternalIpv4AddressSpec {
@@ -160,6 +163,13 @@ message ExternalIpv4AddressSpec {
 
   // Parameters of the allocated address, for example DDoS Protection.
   AddressRequirements requirements = 3;
+}
+
+message DnsRecordSpec {
+  string fqdn = 1 [(required) = true]; // required: DNS record name (absolute, or relative to the DNS zone used)
+  string dns_zone_id = 2 [(length) = "20"]; // optional, if not set, private zone used
+  int64 ttl = 3 [(value) = "0-86400"]; // optional, 0-86400
+  bool ptr = 4; // optional, set if PTR record required
 }
 
 message CreateAddressMetadata {
@@ -197,6 +207,9 @@ message UpdateAddressRequest {
 
   // Specifies if address protected from deletion.
   bool deletion_protection = 7;
+
+  // Optional DNS record specifications
+  repeated DnsRecordSpec dns_record_specs = 8;
 }
 
 message UpdateAddressMetadata {

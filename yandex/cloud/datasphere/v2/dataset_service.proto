@@ -14,7 +14,7 @@ option java_package = "yandex.cloud.api.datasphere.v2";
 service DatasetService {
   // Activates shared dataset for project
   rpc Activate (ActivateDatasetRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/datasphere/v2/docker/activate" body: "*"};
+    option (google.api.http) = {post: "/datasphere/v2/dataset/activate" body: "*"};
     option (yandex.cloud.api.operation) = {
       response: "google.protobuf.Empty"
     };

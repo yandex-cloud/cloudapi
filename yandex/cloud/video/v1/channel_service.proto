@@ -10,11 +10,15 @@ import "yandex/cloud/video/v1/channel.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
 option java_package = "yandex.cloud.api.video.v1";
 
+// Channel management service.
 service ChannelService {
+    // Returns the specific channel.
     rpc Get(GetChannelRequest) returns (Channel) {}
 
+    // List channels for organization.
     rpc List(ListChannelsRequest) returns (ListChannelsResponse) {}
 
+    // Create channel.
     rpc Create(CreateChannelRequest) returns (operation.Operation) {
         option (yandex.cloud.api.operation) = {
             metadata: "CreateChannelMetadata"
@@ -22,6 +26,7 @@ service ChannelService {
         };
     }
 
+    // Update channel.
     rpc Update(UpdateChannelRequest) returns (operation.Operation) {
         option (yandex.cloud.api.operation) = {
             metadata: "UpdateChannelMetadata"
@@ -29,6 +34,7 @@ service ChannelService {
         };
     }
 
+    // Delete channel.
     rpc Delete(DeleteChannelRequest) returns (operation.Operation) {
         option (yandex.cloud.api.operation) = {
             metadata: "DeleteChannelMetadata"
@@ -38,13 +44,17 @@ service ChannelService {
 }
 
 message GetChannelRequest {
+    // ID of the channel.
     string channel_id = 1;
 }
 
 message ListChannelsRequest {
+    // ID of the organization.
     string organization_id = 1;
 
+    // The maximum number of the results per page to return. Default value: 100.
     int64 page_size = 100;
+    // Page token for getting the next page of the result.
     string page_token = 101;
 
     // By which column the listing should be ordered and in which direction,
@@ -64,38 +74,57 @@ message ListChannelsRequest {
 }
 
 message ListChannelsResponse {
+    // List of channels for specific organization.
     repeated Channel channels = 1;
 
+    // Token for getting the next page.
     string next_page_token = 100;
 }
 
 message CreateChannelRequest {
+    // ID of the organization.
     string organization_id = 1;
 
+    // Channel title.
     string title = 2;
+    // Channel description.
     string description = 3;
+
+    // Custom labels as `` key:value `` pairs. Maximum 64 per resource.
+    map<string, string> labels = 200;
 }
 
 message CreateChannelMetadata {
+    // ID of the channel.
     string channel_id = 1;
 }
 
 message UpdateChannelRequest {
+    // ID of the channel.
     string channel_id = 1;
+    // Field mask that specifies which fields of the channel are going to be updated.
     google.protobuf.FieldMask field_mask = 2;
 
+    // Channel title.
     string title = 3;
+    // Channel description.
     string description = 4;
+
+    // Custom labels as `` key:value `` pairs. Maximum 64 per resource.
+    map<string, string> labels = 200;
 }
 
 message UpdateChannelMetadata {
+    // ID of the channel.
     string channel_id = 1;
 }
 
 message DeleteChannelRequest {
+    // ID of the channel.
     string channel_id = 1;
 }
 
 message DeleteChannelMetadata {
+    // ID of the channel.
     string channel_id = 1;
 }
