@@ -156,6 +156,14 @@ message PolicySettings {
 
     message Scheduling {
         message BackupSet {
+            enum Type {
+                TYPE_UNSPECIFIED = 0;
+                TYPE_AUTO = 1;
+                TYPE_FULL = 2;
+                TYPE_INCREMENTAL = 3;
+                TYPE_DIFFERENTIAL = 4;
+            }
+
             message Time {
                 // Days in a week to perform a backup.
                 repeated Day weekdays = 1 [(unique) = true];
@@ -189,6 +197,9 @@ message PolicySettings {
                 Time time = 1;
                 SinceLastExecTime since_last_exec_time = 2;
             }
+            // BackupSet type -- one of incr, full, differential or auto.
+            // if custom scheme is used the BackupSet type should be specified
+            Type type = 3;
         }
 
         // Scheme of backups.

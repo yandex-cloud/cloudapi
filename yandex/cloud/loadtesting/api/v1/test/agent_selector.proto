@@ -12,5 +12,11 @@ message AgentSelector {
   oneof agent {
     // Selection by agent ID.
     string agent_id = 1;
+    
+    // Selection by filter string.
+    string match_by_filter = 2;
+
+    // Select anonymoud (i.e. not registered) agents.
+    bool anonymous_agent = 3;
   }
 }

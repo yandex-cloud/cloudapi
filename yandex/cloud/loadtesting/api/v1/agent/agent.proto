@@ -25,6 +25,8 @@ message Agent {
   //
   // Empty if there is no such instance (i.e. the case of external agent).
   string compute_instance_id = 5;
+  
+  reserved 6;
 
   // Status of the agent.
   Status status = 7;
@@ -37,4 +39,9 @@ message Agent {
 
   // Version of the agent.
   string agent_version_id = 10;
+  
+  reserved 11;
+  
+  // Agent labels as `key:value` pairs.
+  map<string, string> labels = 12;
 }

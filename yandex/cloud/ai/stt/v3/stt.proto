@@ -258,6 +258,9 @@ message RecognizeFileRequest {
 
   // Configuration for speech analysis over speech recognition.
   SpeechAnalysisOptions speech_analysis = 5;
+
+  // Configuration for speaker labeling
+  SpeakerLabelingOptions speaker_labeling = 6;
 }
 
 // Now response

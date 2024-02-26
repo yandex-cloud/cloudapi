@@ -33,6 +33,15 @@ service ConfigService {
   rpc List(ListConfigsRequest) returns (ListConfigsResponse) {
     option (google.api.http) = { get: "/loadtesting/api/v1/configs" };
   }
+  
+  // Deletes the specified config.
+  rpc Delete(DeleteConfigRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/loadtesting/api/v1/configs/{config_id}"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteConfigMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
 }
 
 message CreateConfigRequest {
@@ -44,6 +53,11 @@ message CreateConfigRequest {
     // Config content provided as a string in YAML format.
     string yaml_string = 2;
   }
+  
+  reserved 3 to 9;
+  
+  // Name of the config.
+  string name = 10;
 }
 
 message CreateConfigMetadata {
@@ -69,6 +83,9 @@ message ListConfigsRequest {
   // Page token. To get the next page of results, set `page_token` to the 
   // [ListConfigsResponse.next_page_token] returned by a previous list request.
   string page_token = 3;
+  
+  // A filter expression that filters tests listed in the response.
+  string filter = 4 [(length) = "<=1000"];
 }
 
 message ListConfigsResponse {
@@ -81,4 +98,14 @@ message ListConfigsResponse {
   //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
+}
+
+message DeleteConfigRequest {
+  // ID of the config to deleted.
+  string config_id = 1;
+}
+
+message DeleteConfigMetadata {
+  // ID of the config that is being deleted.
+  string config_id = 1;
 }

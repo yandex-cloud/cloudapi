@@ -43,4 +43,7 @@ message Summary {
   //
   // Empty if no auto-stop occured.
   ImbalancePoint imbalance_point = 8;
+  
+  // ID of the agent that executed the test.
+  string assigned_agent_id = 9;
 }

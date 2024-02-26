@@ -6,6 +6,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/loadtestin
 option java_package = "yandex.cloud.api.loadtesting.api.v1";
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/loadtesting/api/v1/agent/create_compute_instance.proto";
@@ -47,6 +48,15 @@ service AgentService {
       response: "google.protobuf.Empty"
     };
   };
+  
+  // Updates the specified agent.
+  rpc Update(UpdateAgentRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/loadtesting/api/v1/agent/{agent_id}" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateAgentMetadata"
+      response: "agent.Agent"
+    };
+  };
 }
 
 message CreateAgentRequest {
@@ -70,6 +80,11 @@ message CreateAgentRequest {
   //
   // If not provided, the most recent agent version will be used.
   string agent_version = 5;
+  
+  // Agent labels as `key:value` pairs.
+  map<string, string> labels = 6 [(size) = "<=64", (length) = "<=63",
+    (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 
 message CreateAgentMetadata {
@@ -138,4 +153,31 @@ message ListAgentsResponse {
   //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2 [(length) = "<=100"];
+}
+
+message UpdateAgentRequest {
+  // ID of the agent to update.
+  string agent_id = 1 [(required) = true];
+  
+  // Field mask that specifies which attributes of the agent are going to be updated.
+  google.protobuf.FieldMask update_mask = 2 [(required) = true];
+  
+  // New name of the agent.
+  string name = 3 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  
+  // New description of the agent.
+  string description = 4 [(length) = "<=256"];
+  
+  // New parameters of compute instance managed by the agent.
+  agent.CreateComputeInstance compute_instance_params = 5;
+  
+  // New labels of the agent.
+  map<string, string> labels = 6 [(size) = "<=64", (length) = "<=63",
+    (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_0-9a-z]*"];
+}
+
+message UpdateAgentMetadata {
+  // ID of the agent that is being updated.
+  string agent_id = 1;
 }
