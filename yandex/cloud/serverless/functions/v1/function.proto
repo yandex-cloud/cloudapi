@@ -134,6 +134,9 @@ message Version {
 
   // Config for asynchronous invocations of the version
   AsyncInvocationConfig async_invocation_config = 22;
+
+  // Optional size of in-memory mounted /tmp directory in bytes.
+  int64 tmpfs_size = 23;
 }
 
 // Resources allocated to a version.

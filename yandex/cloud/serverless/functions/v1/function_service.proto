@@ -479,6 +479,12 @@ message CreateFunctionVersionRequest {
 
   // Config for asynchronous invocations of the version
   AsyncInvocationConfig async_invocation_config = 22;
+
+  // Optional size of in-memory mounted /tmp directory in bytes.
+  // Available for versions with resources.memory greater or equal to 1024 MiB.
+  //
+  // 0 or in range from 512 MiB to 3/4 of resources.memory.
+  int64 tmpfs_size = 23;
 }
 
 message CreateFunctionVersionMetadata {

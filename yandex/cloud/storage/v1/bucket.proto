@@ -333,6 +333,12 @@ message LifecycleRule {
     google.protobuf.Int64Value days_after_expiration = 1;
   }
 
+  message NoncurrentDeleteMarkers {
+    // Time period, in number of days since the version of a delete marker was classified as non-current, after which
+    // the delete marker expires.
+    google.protobuf.Int64Value noncurrent_days = 1;
+  }
+
   message NoncurrentExpiration {
     // Time period, in number of days since the version of an object was classified as non-current, after which the
     // version expires.
@@ -478,6 +484,13 @@ message LifecycleRule {
   //
   // At transition, the non-current version of the object is transitioned to the specified storage class.
   repeated NoncurrentTransition noncurrent_transitions = 8;
+
+  // Expiration rule for non-current delete markers of an objects in a bucket with versioning
+  // enabled ([Bucket.versioning] is `VERSIONING_ENABLED`) or suspended (`VERSIONING_SUSPENDED`).
+  // Works in the same way as noncurrent_expiration rule, but only for delete markers.
+  //
+  // At expiration, the non-current delete marker of the object is deleted and cannot be recovered.
+  NoncurrentDeleteMarkers noncurrent_delete_markers = 9;
 }
 
 enum Versioning {
