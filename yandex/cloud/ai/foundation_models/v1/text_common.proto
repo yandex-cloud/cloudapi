@@ -64,6 +64,10 @@ message Alternative {
 
     // Final alternative generated without running into any limits.
     ALTERNATIVE_STATUS_FINAL = 3;
+
+    // Generation was stopped due to the discovery of potentially sensitive content in the prompt or generated response.
+    // To fix, modify the prompt and restart generation.
+    ALTERNATIVE_STATUS_CONTENT_FILTER = 4;
   }
 
   // A message containing the content of the alternative.

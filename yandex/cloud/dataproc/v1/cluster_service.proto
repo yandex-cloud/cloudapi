@@ -148,7 +148,7 @@ message CreateSubclusterConfigSpec {
   string subnet_id = 4 [(required) = true, (length) = "<=50"];
 
   // Number of hosts in the subcluster.
-  int64 hosts_count = 5 [(required) = true, (value) = ">=1"];
+  int64 hosts_count = 5 [(value) = ">=1"];
 
   // Assign public ip addresses for all hosts in subcluter.
   bool assign_public_ip = 6;

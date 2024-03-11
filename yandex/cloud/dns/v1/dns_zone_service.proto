@@ -214,6 +214,9 @@ message CreateDnsZoneRequest {
   // Publicly visible zone settings.
   // At least one of two visibility fields must be set.
   PublicVisibility public_visibility = 7;
+
+  //Prevents accidental zone removal.
+  bool deletion_protection = 8;
 }
 
 message CreateDnsZoneMetadata {
@@ -252,6 +255,9 @@ message UpdateDnsZoneRequest {
 
   // Public visibility configuration.
   PublicVisibility public_visibility = 7;
+
+  //Prevents accidental zone removal.
+  bool deletion_protection = 8;
 }
 
 message UpdateDnsZoneMetadata {

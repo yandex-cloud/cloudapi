@@ -39,6 +39,9 @@ message DnsZone {
   // Publicly visible zone settings. 
   // Indicates whether records within the zone are publicly visible.
   PublicVisibility public_visibility = 9;
+
+  //Prevents accidental zone removal.
+  bool deletion_protection = 10;
 }
 
 // A record set. For details about the concept, see [Resource record](/docs/dns/concepts/resource-record).
