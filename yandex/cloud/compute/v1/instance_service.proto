@@ -123,10 +123,6 @@ service InstanceService {
   //
   // The instance and the filesystem must reside in the same availability zone.
   //
-  // To attach a filesystem, the instance must have a `STOPPED` status ([Instance.status]).
-  // To check the instance status, make a [InstanceService.Get] request.
-  // To stop the running instance, make a [InstanceService.Stop] request.
-  //
   // To use the instance with an attached filesystem, the latter must be mounted.
   // For details, see [documentation](/docs/compute/operations/filesystem/attach-to-vm).
   rpc AttachFilesystem (AttachInstanceFilesystemRequest) returns (operation.Operation) {
@@ -138,14 +134,36 @@ service InstanceService {
   }
 
   // Detaches the filesystem from the instance.
-  //
-  // To detach a filesystem, the instance must have a `STOPPED` status ([Instance.status]).
-  // To check the instance status, make a [InstanceService.Get] request.
-  // To stop the running instance, make a [InstanceService.Stop] request.
   rpc DetachFilesystem (DetachInstanceFilesystemRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:detachFilesystem" body: "*"};
     option (yandex.cloud.api.operation) = {
       metadata: "DetachInstanceFilesystemMetadata"
+      response: "Instance"
+    };
+  }
+
+  // Attaches the network-interface to the instance.
+  //
+  // To attach a network-interface, the instance must have a `STOPPED` status ([Instance.status]).
+  // To check the instance status, make a [InstanceService.Get] request.
+  // To stop the running instance, make a [InstanceService.Stop] request.
+  rpc AttachNetworkInterface (AttachInstanceNetworkInterfaceRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:attachNetworkInterface" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "AttachInstanceNetworkInterfaceMetadata"
+      response: "Instance"
+    };
+  }
+
+  // Detaches the network-interface to the instance.
+  //
+  // To Detach a network-interface, the instance must have a `STOPPED` status ([Instance.status]).
+  // To check the instance status, make a [InstanceService.Get] request.
+  // To stop the running instance, make a [InstanceService.Stop] request.
+  rpc DetachNetworkInterface (DetachInstanceNetworkInterfaceRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/compute/v1/instances/{instance_id}:detachNetworkInterface" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "DetachInstanceNetworkInterfaceMetadata"
       response: "Instance"
     };
   }
@@ -643,6 +661,50 @@ message DetachInstanceFilesystemMetadata {
   // ID of the filesystem that is being detached from the instance.
   string filesystem_id = 2;
 }
+
+
+message AttachInstanceNetworkInterfaceRequest {
+  // ID of the instance that in which network interface is being attached to.
+  string instance_id = 1 [(required) = true];
+
+  // The index of the network interface
+  string network_interface_index = 2 [(required) = true];
+
+  // ID of the subnet.
+  string subnet_id = 3 [(required) = true];
+
+  // Primary IPv4 address that will be assigned to the instance for this network interface.
+  PrimaryAddressSpec primary_v4_address_spec = 4;
+
+  reserved 5;
+
+  // ID's of security groups attached to the interface.
+  repeated string security_group_ids = 6 [(required) = true];
+}
+
+message AttachInstanceNetworkInterfaceMetadata {
+  // ID of the instant network interface that is being updated.
+  string instance_id = 1;
+  string network_interface_index = 2;
+}
+
+message DetachInstanceNetworkInterfaceRequest {
+  // ID of the instance that in which network interface is being attached to.
+  string instance_id = 1 [(required) = true];
+
+  // The index of the network interface.
+  string network_interface_index = 2 [(required) = true];
+}
+
+message DetachInstanceNetworkInterfaceMetadata {
+  // ID of the instant network interface that is being updated.
+  string instance_id = 1;
+
+  // The index of the network interface.
+  string network_interface_index = 2;
+}
+
+
 
 // Enables One-to-one NAT on the network interface.
 message AddInstanceOneToOneNatRequest {

@@ -5,6 +5,7 @@ package yandex.cloud.loadtesting.api.v1.test;
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/loadtesting/api/v1/test;test";
 option java_package = "yandex.cloud.api.loadtesting.api.v1.test";
 
+import "yandex/cloud/loadtesting/api/v1/test/file_pointer.proto";
 import "yandex/cloud/loadtesting/api/v1/test/imbalance_point.proto";
 import "yandex/cloud/loadtesting/api/v1/test/status.proto";
 import "google/protobuf/timestamp.proto";
@@ -46,4 +47,10 @@ message Summary {
   
   // ID of the agent that executed the test.
   string assigned_agent_id = 9;
+  
+  // Test output artifacts.
+  //
+  // Link to the artifacts output target containing `.log` and other files collected
+  // during test execution.
+  FilePointer artifacts = 10;
 }

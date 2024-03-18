@@ -378,7 +378,7 @@ message PutQueueMessage {
 message BatchSettings {
   // Batch size. Trigger will send the batch of messages to the function
   // when the number of messages in the queue reaches [size], or the [cutoff] time has passed.
-  int64 size = 1 [(value) = "0-10"];
+  int64 size = 1 [(value) = "0-1000"];
 
   // Maximum wait time. Trigger will send the batch of messages to the function when
   // the number of messages in the queue reaches [size], or the [cutoff] time has passed.
@@ -398,7 +398,7 @@ message CloudLogsBatchSettings {
 message LoggingBatchSettings {
   // Batch size. Trigger will send the batch of messages to the associated function
   // when the number of log events reaches this value, or the [cutoff] time has passed.
-  int64 size = 1 [(value) = "1-100"];
+  int64 size = 1 [(value) = "1-1000"];
 
   // Maximum wait time. Trigger will send the batch of messages the time since the last batch
   // exceeds the `cutoff` value, regardless of the amount of log events.
