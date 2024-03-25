@@ -17,8 +17,12 @@ service TalkService {
 
   // rpc for uploading talk document as single message
   rpc Upload(UploadTalkRequest) returns (UploadTalkResponse);
+
+  // rpc for uploading text talk document
+  rpc UploadText(UploadTextRequest) returns (UploadTextResponse);
 }
 
+// streaming request to create audio dialog
 message StreamTalkRequest {
   oneof Event {
 
@@ -30,29 +34,36 @@ message StreamTalkRequest {
   }
 }
 
-// request to create dialog
+// request to create audio dialog
 message UploadTalkRequest {
   TalkMetadata metadata = 1;
 
-  // audio or text payload
-  oneof payload {
-    AudioRequest audio = 2;
-    TextRequest text = 3;
-  }
-
-}
-
-message TalkMetadata {
-
-  // id of connection this talk belongs too
-  string connection_id = 1;
-
-  // channel defined fields
-  map<string, string> fields = 2;
+  // audio payload
+  AudioRequest audio = 2;
 }
 
 message UploadTalkResponse {
 
   // id of created talk document
   string talk_id = 1;
+}
+
+// request to create text based dialog
+message UploadTextRequest {
+  TalkMetadata metadata = 1;
+
+  repeated TextContent text_content = 2;
+}
+
+message UploadTextResponse {
+  // id of created talk document
+  string talk_id = 1;
+}
+
+message TalkMetadata {
+  // id of connection this talk belongs too
+  string connection_id = 1;
+
+  // channel defined fields
+  map<string, string> fields = 2;
 }

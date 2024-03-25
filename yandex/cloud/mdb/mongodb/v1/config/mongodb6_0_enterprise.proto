@@ -158,6 +158,9 @@ message MongodConfig6_0_enterprise {
     // goal of keeping the secondary members [majority committed](https://www.mongodb.com/docs/v4.2/reference/command/replSetGetStatus/#replSetGetStatus.optimes.lastCommittedOpTime)
     // lag under a configurable maximum value.
     google.protobuf.BoolValue enable_flow_control = 2;
+
+    // The minimum time window in seconds for which the storage engine keeps the snapshot history.
+    google.protobuf.Int64Value min_snapshot_history_window_in_seconds = 3 [(value) = ">0"];
   }
 
   // `storage` section of mongod configuration.

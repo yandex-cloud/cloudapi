@@ -26,4 +26,9 @@ message AccessKey {
   // ID of the access key.
   // The key is AWS compatible.
   string key_id = 5;
+
+  reserved 6;
+
+  // Timestamp for the last authentication using this Access key.
+  google.protobuf.Timestamp last_used_at = 7;
 }

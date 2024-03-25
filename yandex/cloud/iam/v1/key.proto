@@ -41,4 +41,9 @@ message Key {
 
   // A public key of the Key resource.
   string public_key = 7;
+
+  reserved 8;
+
+  // Timestamp for the last use of this key.
+  google.protobuf.Timestamp last_used_at = 9;
 }

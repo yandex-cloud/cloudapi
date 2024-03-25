@@ -168,6 +168,15 @@ service ClusterService {
     };
   }
 
+  // Updates the specified parameters for the host.
+  rpc UpdateHosts (UpdateClusterHostsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/managed-mongodb/v1/clusters/{cluster_id}/hosts:batchUpdate" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateClusterHostsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
   // Enables sharding for the cluster:
   // creates 3 mongoinfra (or 3 mongocfg and 2 mongos) hosts
   // that would support adding and using shards in the cluster.
@@ -766,6 +775,9 @@ message UpdateHostSpec {
 
   // Field mask that specifies which fields of the MongoDB host should be updated.
   google.protobuf.FieldMask update_mask = 6;
+
+  // Host tags
+  map<string, string> tags = 7;
 }
 
 message EnableClusterShardingRequest {
@@ -952,6 +964,18 @@ message HostSpec {
 
   // Name of the shard that the host belongs to.
   string shard_name = 5 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  // Is host hidden in replSet
+  google.protobuf.BoolValue hidden = 6;
+
+  // The number of seconds "behind" the primary that this replica set member should "lag"
+  google.protobuf.Int64Value secondary_delay_secs = 7;
+
+  // Priority of host for the election in replSet
+  google.protobuf.DoubleValue priority = 8;
+
+  // Host tags
+  map<string, string> tags = 9;
 }
 
 message MongodbSpec3_6 {

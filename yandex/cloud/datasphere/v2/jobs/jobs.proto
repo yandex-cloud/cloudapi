@@ -109,9 +109,11 @@ message Job {
   string name = 2;
   // Description of the job.
   string desc = 3;
-  // Creation timestamp of the job.
+  // Create job timestamp.
   google.protobuf.Timestamp created_at = 4;
-  // Finish timestamp of the job.
+  // Start job timestamp.
+  google.protobuf.Timestamp started_at = 17;
+  // Finish job timestamp.
   google.protobuf.Timestamp finished_at = 5;
   // Status of the job.
   JobStatus status = 6;
