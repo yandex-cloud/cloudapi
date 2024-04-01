@@ -68,9 +68,9 @@ message TableSizes {
 
 message AnalyzeAndVacuum {
     BackgroundActivityStartAt start = 1;
-    // in seconds 24*60*60-1 = 86399
+    // Maximum duration of the `ANALYZE` operation, in seconds. The default value is `36000`. As soon as this period expires, the `ANALYZE` operation will be forced to terminate.
     google.protobuf.Int64Value analyze_timeout = 2[(value) = "7200-86399"];
-    // in seconds 24*60*60-1 = 86399
+    // Maximum duration of the `VACUUM` operation, in seconds. The default value is `36000`. As soon as this period expires, the `VACUUM` operation will be forced to terminate.
     google.protobuf.Int64Value vacuum_timeout = 3[(value) = "7200-86399"];
 }
 

@@ -113,6 +113,9 @@ message Trigger {
 
       // Instructions for invoking a container with retry.
       InvokeContainerWithRetry invoke_container_with_retry = 104;
+
+      // Instructions for broadcasting to API gateway websocket once.
+      GatewayWebsocketBroadcast gateway_websocket_broadcast = 105;
     }
   }
 
@@ -139,6 +142,9 @@ message Trigger {
 
       // Instructions for invoking a container once.
       InvokeContainerOnce invoke_container = 102;
+
+      // Instructions for broadcasting to API gateway websocket once.
+      GatewayWebsocketBroadcast gateway_websocket_broadcast = 103;
     }
   }
 
@@ -165,6 +171,9 @@ message Trigger {
 
       // Instructions for invoking a container with retries as needed.
       InvokeContainerWithRetry invoke_container = 102;
+
+      // Instructions for broadcasting to API gateway websocket once.
+      GatewayWebsocketBroadcast gateway_websocket_broadcast = 103;
     }
   }
 
@@ -188,6 +197,9 @@ message Trigger {
 
       // Instructions for invoking a container with retries as needed.
       InvokeContainerWithRetry invoke_container = 102;
+
+      // Instructions for broadcasting to API gateway websocket once.
+      GatewayWebsocketBroadcast gateway_websocket_broadcast = 103;
     }
   }
 
@@ -221,6 +233,9 @@ message Trigger {
 
       // Instructions for invoking a container with retries as needed.
       InvokeContainerWithRetry invoke_container = 102;
+
+      // Instructions for broadcasting to API gateway websocket once.
+      GatewayWebsocketBroadcast gateway_websocket_broadcast = 103;
     }
   }
 
@@ -255,6 +270,9 @@ message Trigger {
 
       // Instructions for invoking a container with retries as needed.
       InvokeContainerWithRetry invoke_container = 102;
+
+      // Instructions for broadcasting to API gateway websocket once.
+      GatewayWebsocketBroadcast gateway_websocket_broadcast = 103;
     }
   }
 
@@ -296,6 +314,9 @@ message Trigger {
 
       // Instructions for invoking a container with retries as needed.
       InvokeContainerWithRetry invoke_container = 103;
+
+      // Instructions for broadcasting to API gateway websocket once.
+      GatewayWebsocketBroadcast gateway_websocket_broadcast = 104;
     }
   }
 
@@ -366,6 +387,14 @@ message InvokeContainerWithRetry {
   PutQueueMessage dead_letter_queue = 6;
 }
 
+message GatewayWebsocketBroadcast {
+  string gateway_id = 1 [(required) = true, (length) = "<=50"];
+  string path = 2 [(required) = true];
+
+  // sa which has permission for writing to websockets
+  string service_account_id = 3 [(required) = true, (length) = "<=50"];
+}
+
 message PutQueueMessage {
   // ID of the queue.
   string queue_id = 11;
@@ -422,6 +451,7 @@ message BillingBudget {
     option (exactly_one) = true;
     InvokeFunctionWithRetry invoke_function = 101;
     InvokeContainerWithRetry invoke_container = 103;
+    GatewayWebsocketBroadcast gateway_websocket_broadcast = 104;
   }
 }
 
@@ -453,6 +483,7 @@ message DataStream {
     option (exactly_one) = true;
     InvokeFunctionWithRetry invoke_function = 13;
     InvokeContainerWithRetry invoke_container = 15;
+    GatewayWebsocketBroadcast gateway_websocket_broadcast = 16;
   }
 }
 
@@ -480,5 +511,6 @@ message Mail {
     option (exactly_one) = true;
     InvokeFunctionWithRetry invoke_function = 101;
     InvokeContainerWithRetry invoke_container = 103;
+    GatewayWebsocketBroadcast gateway_websocket_broadcast = 104;
   }
 }

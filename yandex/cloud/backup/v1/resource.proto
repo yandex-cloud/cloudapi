@@ -77,6 +77,17 @@ message Task {
         COMPLETED = 5;
     }
 
+    // Result code of task
+    enum Code {
+        CODE_UNSPECIFIED = 0;
+        OK = 1;
+        ERROR = 2;
+        WARNING = 3;
+        CANCELLED = 4;
+        ABANDONED = 5;
+        TIMEDOUT = 6;
+    }
+
     // Task ID.
     int64 id = 1;
     // Shows whether the task is cancellable.
@@ -98,4 +109,7 @@ message Task {
 
     // Compute Cloud instance ID.
     string compute_instance_id = 11;
+
+    // Task result code.
+    Code result_code = 12;
 }

@@ -108,6 +108,21 @@ enum UserPasswordEncryption {
   USER_PASSWORD_ENCRYPTION_SCRAM_SHA_256 = 2;
 }
 
+message PGAuditSettings {
+
+  enum PGAuditSettingsLog {
+    PG_AUDIT_SETTINGS_LOG_UNSPECIFIED = 0;
+    PG_AUDIT_SETTINGS_LOG_READ = 1;
+    PG_AUDIT_SETTINGS_LOG_WRITE = 2;
+    PG_AUDIT_SETTINGS_LOG_FUNCTION = 3;
+    PG_AUDIT_SETTINGS_LOG_ROLE = 4;
+    PG_AUDIT_SETTINGS_LOG_DDL = 5;
+    PG_AUDIT_SETTINGS_LOG_MISC = 6;
+    PG_AUDIT_SETTINGS_LOG_MISC_SET = 7;
+  }
+  repeated PGAuditSettingsLog log = 1;
+}
+
 // PostgreSQL user settings.
 message UserSettings {
 
@@ -269,4 +284,6 @@ message UserSettings {
   //
   // See in-depth description in [PostgreSQL documentation](https://www.postgresql.org/docs/current/runtime-config-client.html)
   google.protobuf.Int64Value statement_timeout = 12;
+
+  PGAuditSettings pgaudit = 13;
 }
