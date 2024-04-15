@@ -46,12 +46,20 @@ message ExtendedWorkingStorage {
   int64 size_gb = 2;
 }
 
+enum FileCompressionType {
+  FILE_COMPRESSION_TYPE_UNSPECIFIED = 0;
+  NONE = 1;
+  ZIP = 2;
+}
+
 message File {
   FileDesc desc = 1;
   // SHA256 of the file.
   string sha256 = 2;
   // File size in bytes.
   int64 size_bytes = 3;
+  // File compression info
+  FileCompressionType compression_type = 4;
 }
 
 message StorageFile {

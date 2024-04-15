@@ -8,6 +8,7 @@ option java_package = "yandex.cloud.api.datatransfer.v1";
 import "yandex/cloud/datatransfer/v1/endpoint/clickhouse.proto";
 import "yandex/cloud/datatransfer/v1/endpoint/common.proto";
 import "yandex/cloud/datatransfer/v1/endpoint/kafka.proto";
+import "yandex/cloud/datatransfer/v1/endpoint/metrika.proto";
 import "yandex/cloud/datatransfer/v1/endpoint/mongo.proto";
 import "yandex/cloud/datatransfer/v1/endpoint/mysql.proto";
 import "yandex/cloud/datatransfer/v1/endpoint/postgres.proto";
@@ -24,7 +25,7 @@ message Endpoint {
     EndpointSettings settings = 52;
 }
 message EndpointSettings {
-    reserved 4 to 6, 10 to 15, 17 to 100, 103, 106 to 109, 112 to 149;
+    reserved 4 to 6, 10 to 15, 17 to 100, 103, 106 to 109, 112 to 145, 147 to 149;
     oneof settings {
         endpoint.MysqlSource mysql_source = 1;
         endpoint.PostgresSource postgres_source = 2;
@@ -39,6 +40,7 @@ message EndpointSettings {
         endpoint.YdbTarget ydb_target = 105;
         endpoint.KafkaTarget kafka_target = 110;
         endpoint.MongoTarget mongo_target = 111;
+        endpoint.MetrikaSource metrika_source = 146;
         endpoint.YDSTarget yds_target = 150;
     }
 }

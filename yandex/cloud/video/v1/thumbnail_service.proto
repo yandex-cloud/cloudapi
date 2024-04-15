@@ -9,6 +9,7 @@ import "yandex/cloud/video/v1/thumbnail.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
 option java_package = "yandex.cloud.api.video.v1";
 
+// Thumbnail management service.
 service ThumbnailService {
     // List thumbnails for channel.
     rpc List(ListThumbnailRequest) returns (ListThumbnailResponse) {}

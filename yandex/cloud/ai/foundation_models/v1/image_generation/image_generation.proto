@@ -7,17 +7,17 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/foundat
 option java_package = "yandex.cloud.api.ai.foundation_models.v1.image_generation";
 
 
-// Text message to control generation
+// The text descriptions and weights that the model uses to generate an image.
 message Message {
-  //  text
+  // Text describing the image.
   string text = 1;
-  // Message weight. Negative values for negative messages
+  // Message weight. Negative values indicate negative messages.
   double weight = 2;
 }
 
 message ImageGenerationOptions {
-  // generated image format
+  // MIME type of generated image format.
   string mime_type = 1;
-  // Seed for image generation
+  // Seed for image generation.
   int64 seed = 2;
 }

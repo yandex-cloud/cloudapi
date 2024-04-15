@@ -188,7 +188,7 @@ message PostgresqlHostConfig13 {
 
   google.protobuf.Int64Value lock_timeout = 30; // in milliseconds.
 
-  google.protobuf.Int64Value idle_in_transaction_session_timeout = 31; // in milliseconds.
+  google.protobuf.Int64Value idle_in_transaction_session_timeout = 31 [(value) = "0-2147483647"]; // in milliseconds.
 
   ByteaOutput bytea_output = 32;
 

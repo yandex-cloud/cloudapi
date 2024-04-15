@@ -134,7 +134,7 @@ message MongodConfig5_0 {
     google.protobuf.BoolValue enable_flow_control = 1;
 
     // The minimum time window in seconds for which the storage engine keeps the snapshot history.
-    google.protobuf.Int64Value min_snapshot_history_window_in_seconds = 2 [(value) = ">0"];
+    google.protobuf.Int64Value min_snapshot_history_window_in_seconds = 2 [(value) = ">=0"];
   }
 
   // `storage` section of mongod configuration.

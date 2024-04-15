@@ -217,12 +217,17 @@ message GetEpisodePlayerURLRequest {
 }
 
 message EpisodePlayerParams {
+    // If true, a player will be muted by default.
     bool mute = 1;
+    // If true, playback will start automatically.
     bool autoplay = 2;
+    // If true, a player interface will be hidden by default.
     bool hidden = 3;
 }
 
 message GetEpisodePlayerURLResponse {
+    // Direct link to the video.
     string player_url = 1;
+    // HTML embed code in Iframe format.
     string html = 2;
 }

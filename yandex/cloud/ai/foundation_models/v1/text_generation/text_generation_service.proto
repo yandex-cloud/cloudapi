@@ -13,7 +13,7 @@ option java_package = "yandex.cloud.api.ai.foundation_models.v1";
 
 // Request for the service to generate text completion.
 message CompletionRequest {
-  // The identifier of the model to be used for completion generation.
+  // The [ID of the model](/docs/foundation-models/concepts/yandexgpt/models) to be used for completion generation.
   string model_uri = 1;
 
   // Configuration options for completion generation.
@@ -23,7 +23,7 @@ message CompletionRequest {
   repeated Message messages = 3;
 }
 
-// Response containing generated text completions
+// Response containing generated text completions.
 message CompletionResponse {
   // A list of generated completion alternatives.
   repeated Alternative alternatives = 1;
@@ -31,14 +31,13 @@ message CompletionResponse {
   // A set of statistics describing the number of content tokens used by the completion model.
   ContentUsage usage = 2;
 
-  // Model version (changes with model releases).
+  // The model version changes with each new releases.
   string model_version = 3;
 }
 
-
 // Service for text generation.
 service TextGenerationService {
-  // RPC method for generating text completions.
+  // A method for generating text completions in [synchronous mode](/docs/foundation-models/concepts/#working-mode).
   rpc Completion (CompletionRequest) returns (stream CompletionResponse) {
     option (google.api.http) = {post: "/foundationModels/v1/completion" body: "*"};
   }
@@ -46,7 +45,7 @@ service TextGenerationService {
 
 // Service for asynchronous text generation.
 service TextGenerationAsyncService {
-  // RPC method for generating text completions in asynchronous mode.
+  // A method for generating text completions in [asynchronous mode](/docs/foundation-models/concepts/#working-mode).
   rpc Completion (CompletionRequest) returns (operation.Operation) {
     option (yandex.cloud.api.operation) = {
       response: "CompletionResponse"

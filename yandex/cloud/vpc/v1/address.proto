@@ -96,7 +96,7 @@ message AddressRequirements {
 
 message DnsRecord {
   string fqdn = 1; // DNS record name (absolute, or relative to the DNS zone used)
-  string dns_zone_id = 2; // if not set, private zone used
+  string dns_zone_id = 2; // id of public zone
   int64 ttl = 3; // TTL of record
   bool ptr = 4; // set if PTR record required
 }

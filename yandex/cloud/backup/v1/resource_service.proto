@@ -50,6 +50,9 @@ service ResourceService {
           response: "google.protobuf.Empty"
         };
     };
+
+    // ListOperations return all operations in backup service for given instance
+    rpc ListOperations (ListResourceOperationsRequest) returns (ListResourceOperationsResponse);
 }
 
 message ListResourcesRequest {
@@ -150,4 +153,22 @@ message CreateDirectoryMetadata {
     string compute_instance_id = 1;
     // Path to create directory metadata in.
     string path = 2;
+}
+
+message ListResourceOperationsRequest {
+     // Compute Cloud instance ID.
+    string compute_instance_id = 1 [ (required) = true, (length) = "<=50" ];
+
+    // Number of results per page. 
+    int64 page_size = 2 [ (value) = "<=1000" ];
+    // Token for the results page.
+    string page_token = 3 [ (length) = "<=100" ];
+}
+  
+message ListResourceOperationsResponse {
+    // List of operations for the specified instance.
+    repeated operation.Operation operations = 1;
+
+     // Token for the next results page.
+    string next_page_token = 2;
 }

@@ -52,7 +52,7 @@ message UploadTalkResponse {
 message UploadTextRequest {
   TalkMetadata metadata = 1;
 
-  repeated TextContent text_content = 2;
+  TextContent text_content = 2;
 }
 
 message UploadTextResponse {

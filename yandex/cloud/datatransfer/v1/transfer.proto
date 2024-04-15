@@ -37,7 +37,7 @@ enum TransferStatus {
 }
 // Transfer core entity
 message Transfer {
-    reserved 3, 11, 13 to 14, 16;
+    reserved 3, 11, 13 to 14, 16, 18 to 21;
     string id = 1;
     string folder_id = 2;
     string name = 4;
@@ -50,6 +50,7 @@ message Transfer {
     TransferType type = 12;
     string warning = 15;
     Transformation transformation = 17;
+    bool prestable = 22;
 }
 message Runtime {
     reserved 1 to 3;

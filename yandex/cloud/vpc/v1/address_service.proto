@@ -167,7 +167,7 @@ message ExternalIpv4AddressSpec {
 
 message DnsRecordSpec {
   string fqdn = 1 [(required) = true]; // required: DNS record name (absolute, or relative to the DNS zone used)
-  string dns_zone_id = 2 [(length) = "20"]; // optional, if not set, private zone used
+  string dns_zone_id = 2 [(required) = true, (length) = "20"]; // required: id of public zone
   int64 ttl = 3 [(value) = "0-86400"]; // optional, 0-86400
   bool ptr = 4; // optional, set if PTR record required
 }

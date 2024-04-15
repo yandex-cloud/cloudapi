@@ -13,21 +13,21 @@ message CompletionOptions {
   bool stream = 1;
 
   // Affects creativity and randomness of responses. Should be a double number between 0 (inclusive) and 1 (inclusive).
-  // Lower values produce more straightforward responses, while higher values lead to increased creativity and randomness.
-  // Default temperature: 0.6
+  // Lower values produce more straightforward responses while higher values lead to increased creativity and randomness.
+  // Default temperature: 0.3
   google.protobuf.DoubleValue temperature = 2;
 
   // The limit on the number of tokens used for single completion generation.
-  // Must be greater than zero. The maximum allowed parameter value may depend on the model used.
+  // Must be greater than zero. This maximum allowed parameter value may depend on the model being used.
   google.protobuf.Int64Value max_tokens = 3;
 }
 
 // A message object representing a wrapper over the inputs and outputs of the completion model.
 message Message {
-  // Identifier of the message sender. Supported roles:
-  // * `system` - special role used to define the behaviour of the completion model
-  // * `assistant` - a role used by the model to generate responses
-  // * `user` - a role used by the user to describe requests to the model
+  // The ID of the message sender. Supported roles:
+  // * `system`: Special role used to define the behaviour of the completion model.
+  // * `assistant`: A role used by the model to generate responses.
+  // * `user`: A role used by the user to describe requests to the model.
   string role = 1;
 
   // Message content.
@@ -37,9 +37,9 @@ message Message {
   }
 }
 
-// An object representing the number of content tokens used by the completion model.
+// An object representing the number of content [tokens](/docs/foundation-models/concepts/yandexgpt/tokens) used by the completion model.
 message ContentUsage {
-  // The number of tokens in the text parts of the model input.
+  // The number of tokens in the textual part of the model input.
   int64 input_text_tokens = 1;
 
   // The total number of tokens in the generated completions.

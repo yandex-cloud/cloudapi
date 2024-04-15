@@ -300,7 +300,7 @@ message PostgresqlConfig14_1C {
 
   google.protobuf.Int64Value lock_timeout = 50; // in milliseconds.
 
-  google.protobuf.Int64Value idle_in_transaction_session_timeout = 51; // in milliseconds.
+  google.protobuf.Int64Value idle_in_transaction_session_timeout = 51 [(value) = "0-2147483647"]; // in milliseconds.
 
   ByteaOutput bytea_output = 52;
 

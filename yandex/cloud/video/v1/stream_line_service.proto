@@ -10,6 +10,7 @@ import "yandex/cloud/video/v1/stream_line.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
 option java_package = "yandex.cloud.api.video.v1";
 
+// Stream line management service.
 service StreamLineService {
     // Returns the specific stream line.
     rpc Get(GetStreamLineRequest) returns (StreamLine) {}
@@ -205,18 +206,22 @@ message RTMPPushParams {}
 message SRTPushParams {}
 
 message RTMPPullParams {
+    // URL of a RTMP streaming server.
     string url = 1;
 }
 
 message SRTPullParams {
+    // URL of a SRT streaming server.
     string url = 1;
 }
 
 message TCPPullParams {
+    // URL of a TCP streaming server.
     string url = 2;
 }
 
 message RTSPPullParams {
+    // URL of a RTSP streaming server.
     string url = 1;
 }
 

@@ -292,7 +292,7 @@ message PostgresqlConfig10 {
 
   google.protobuf.Int64Value lock_timeout = 51; // in milliseconds.
 
-  google.protobuf.Int64Value idle_in_transaction_session_timeout = 52; // in milliseconds.
+  google.protobuf.Int64Value idle_in_transaction_session_timeout = 52 [(value) = "0-2147483647"]; // in milliseconds.
 
   ByteaOutput bytea_output = 53;
 
