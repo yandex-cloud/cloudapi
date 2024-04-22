@@ -14,7 +14,7 @@ option java_package = "yandex.cloud.api.mdb.greenplum.v1";
 message Host {
   enum Type {
 
-    // The type is not specified.
+    // Host type is not specified. Default value.
     TYPE_UNSPECIFIED = 0;
 
     // A Greenplum® master host.
@@ -29,7 +29,7 @@ message Host {
 
   enum Health {
 
-    // Health of the host is unknown.
+    // Health of the host is unknown. Default value.
     UNKNOWN = 0;
 
     // The host is performing all its functions normally.
@@ -58,13 +58,13 @@ message Host {
   // ID of the availability zone the Greenplum® host belongs to.
   string zone_id = 3;
 
-  // Type of the host.
+  // Type of the host. If the field has default value, it is not returned in the response.
   Type type = 4;
 
   // Resources allocated to the Greenplum® host.
   Resources resources = 5;
 
-  // Status code of the aggregated health of the host.
+  // Aggregated health of the host. If the field has default value, it is not returned in the response.
   Health health = 6;
 
   // ID of the subnet that the host belongs to.

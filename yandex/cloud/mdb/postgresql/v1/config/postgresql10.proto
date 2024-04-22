@@ -224,9 +224,9 @@ message PostgresqlConfig10 {
 
   google.protobuf.DoubleValue bgwriter_lru_multiplier = 17;
 
-  google.protobuf.Int64Value bgwriter_flush_after = 18 [(value) = "0-2048"];
+  google.protobuf.Int64Value bgwriter_flush_after = 18 [(value) = "0-2097152"]; // in bytes
 
-  google.protobuf.Int64Value backend_flush_after = 19 [(value) = "0-2048"];
+  google.protobuf.Int64Value backend_flush_after = 19 [(value) = "0-2097152"]; // in bytes
 
   google.protobuf.Int64Value old_snapshot_threshold = 20 [(value) = "-1-86400000"];
 
@@ -238,7 +238,7 @@ message PostgresqlConfig10 {
 
   google.protobuf.DoubleValue checkpoint_completion_target = 24;
 
-  google.protobuf.Int64Value checkpoint_flush_after = 25 [(value) = "0-2048"];
+  google.protobuf.Int64Value checkpoint_flush_after = 25 [(value) = "0-2097152"]; // in bytes
 
   google.protobuf.Int64Value max_wal_size = 26; // in bytes.
 

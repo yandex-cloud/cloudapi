@@ -15,52 +15,52 @@ message Cluster {
   enum Environment {
     ENVIRONMENT_UNSPECIFIED = 0;
 
-    // stable environment with a conservative update policy when only hotfixes are applied during regular maintenance.
+    // Stable environment with a conservative update policy when only hotfixes are applied during regular maintenance.
     PRODUCTION = 1;
 
-    // environment with a more aggressive update policy when new versions are rolled out irrespective of backward compatibility.
+    // Environment with a more aggressive update policy when new versions are rolled out irrespective of backward compatibility.
     PRESTABLE = 2;
   }
 
   enum Health {
 
-    // state of the cluster is unknown ([Host.health] of all hosts in the cluster is `UNKNOWN`).
+    // State of the cluster is unknown ([Host.health] of all hosts in the cluster is `UNKNOWN`).
     HEALTH_UNKNOWN = 0;
 
-    // cluster is alive and well ([Host.health] of all hosts in the cluster is `ALIVE`).
+    // Cluster is alive and well ([Host.health] of all hosts in the cluster is `ALIVE`).
     ALIVE = 1;
 
-    // cluster is inoperable ([Host.health] of all hosts in the cluster is `DEAD`).
+    // Cluster is inoperable ([Host.health] of all hosts in the cluster is `DEAD`).
     DEAD = 2;
 
-    // cluster is in degraded state ([Host.health] of at least one of the hosts in the cluster is not `ALIVE`).
+    // Cluster is in degraded state ([Host.health] of at least one of the hosts in the cluster is not `ALIVE`).
     DEGRADED = 3;
   }
 
   enum Status {
 
-    // cluster state is unknown.
+    // Cluster state is unknown.
     STATUS_UNKNOWN = 0;
 
-    // cluster is being created.
+    // Cluster is being created.
     CREATING = 1;
 
-    // cluster is running normally.
+    // Cluster is running normally.
     RUNNING = 2;
 
-    // cluster encountered a problem and cannot operate.
+    // Cluster encountered a problem and cannot operate.
     ERROR = 3;
 
-    // cluster is being updated.
+    // Cluster is being updated.
     UPDATING = 4;
 
-    // cluster is stopping.
+    // Cluster is stopping.
     STOPPING = 5;
 
-    // cluster stopped.
+    // Cluster stopped.
     STOPPED = 6;
 
-    // cluster is starting.
+    // Cluster is starting.
     STARTING = 7;
   }
 
@@ -185,27 +185,28 @@ message Resources {
 // Cluster host metadata.
 message Host {
   enum Type {
+    // Host type is unspecified. Default value.
     TYPE_UNSPECIFIED = 0;
 
-    // the host is an Elasticsearch data node.
+    // The host is an Elasticsearch data node.
     DATA_NODE = 1;
 
-    // the host is an Elasticsearch master node.
+    // The host is an Elasticsearch master node.
     MASTER_NODE = 2;
   }
 
   enum Health {
 
-    // health of the host is unknown.
+    // Health of the host is unknown.
     UNKNOWN = 0;
 
-    // the host is performing all its functions normally.
+    // The host is performing all its functions normally.
     ALIVE = 1;
 
-    // the host is inoperable and cannot perform any of its essential functions.
+    // The host is inoperable and cannot perform any of its essential functions.
     DEAD = 2;
 
-    // the host is degraded and can perform only some of its essential functions.
+    // The host is degraded and can perform only some of its essential functions.
     DEGRADED = 3;
   }
 
@@ -223,7 +224,7 @@ message Host {
 
   Resources resources = 5;
 
-  // Aggregated host health data.
+  // Aggregated host health data. If the field has default value, it is not returned in the response.
   Health health = 6;
 
   // Services provided by the host.
@@ -243,25 +244,25 @@ message Service {
   enum Type {
     TYPE_UNSPECIFIED = 0;
 
-    // the Elasticsearch service.
+    // The Elasticsearch service.
     ELASTICSEARCH = 1;
   }
 
   enum Health {
 
-    // health of the service is unknown.
+    // Health of the service is unknown.
     UNKNOWN = 0;
 
-    // the service is working normally.
+    // The service is working normally.
     ALIVE = 1;
 
-    // the service is dead or unresponsive.
+    // The service is dead or unresponsive.
     DEAD = 2;
   }
 
   // Type of the service provided by the host.
   Type type = 1;
 
-  // Service health data.
+  // Service health data. If the field has default value, it is not returned in the response.
   Health health = 2;
 }

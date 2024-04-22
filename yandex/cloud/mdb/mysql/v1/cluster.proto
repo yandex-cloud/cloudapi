@@ -92,7 +92,7 @@ message Cluster {
   // Custom labels for the cluster as `key:value` pairs.
   map<string, string> labels = 6;
 
-  // Deployment environment of the cluster.
+  // Deployment environment of the MySQL cluster.
   Environment environment = 7;
 
   // Monitoring systems data that is relevant to the cluster.
@@ -174,7 +174,7 @@ message Host {
 
   enum Role {
 
-    // Role of the host is unknown.
+    // Role of the host is unknown. Default value.
     ROLE_UNKNOWN = 0;
 
     // Host is the master.
@@ -186,7 +186,7 @@ message Host {
 
   enum Health {
 
-    // Health of the host is unknown.
+    // Health of the host is unknown. Default value.
     HEALTH_UNKNOWN = 0;
 
     // Host is performing all its functions normally.
@@ -217,10 +217,10 @@ message Host {
   // Resources allocated to the host.
   Resources resources = 4;
 
-  // Role of the host in the cluster.
+  // Role of the host in the cluster. If the field has default value, it is not returned in the response.
   Role role = 5;
 
-  // Aggregated health of the host.
+  // Aggregated health of the host. If the field has default value, it is not returned in the response.
   Health health = 6;
 
   // List of services provided by the host.
@@ -246,6 +246,7 @@ message Host {
 message Service {
 
   enum Type {
+    // Service type of the host is unspecified. Default value.
     TYPE_UNSPECIFIED = 0;
 
     // The host is a MySQL server.
@@ -254,7 +255,7 @@ message Service {
 
   enum Health {
 
-    // Health of the service is unknown.
+    // Health of the service is unknown. Default value.
     HEALTH_UNKNOWN = 0;
 
     // The service is working normally.
@@ -267,10 +268,10 @@ message Service {
     READONLY = 3;
   }
 
-  // Type of the service provided by the host.
+  // Type of the service provided by the host. If the field has default value, it is not returned in the response.
   Type type = 1;
 
-  // Aggregated health of the service.
+  // Aggregated health of the service. If the field has default value, it is not returned in the response.
   Health health = 2;
 }
 

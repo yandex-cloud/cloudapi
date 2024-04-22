@@ -73,7 +73,7 @@ message RedisConfig {
   // Max slow requests number to log.
   google.protobuf.Int64Value slowlog_max_len = 6 [(value) = ">=0"];
 
-  // String setting for pub\sub functionality; subset of KEg$lshzxeAtm.
+  // String setting for pub\sub functionality.
   string notify_keyspace_events = 7 [(pattern) = "[KEg$lshzxeAtm]{0,13}"];
 
   // Redis connection output buffers limits for pubsub operations.

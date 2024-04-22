@@ -193,7 +193,7 @@ message Host {
 
   enum Role {
 
-    // Role of the host in the cluster is unknown.
+    // Role of the host in the cluster is unknown. Default value.
     ROLE_UNKNOWN = 0;
 
     // Host is the master Redis server in the cluster.
@@ -205,7 +205,7 @@ message Host {
 
   enum Health {
 
-    // Health of the host is unknown.
+    // Health of the host is unknown. Default value.
     HEALTH_UNKNOWN = 0;
 
     // The host is performing all its functions normally.
@@ -236,10 +236,10 @@ message Host {
   // Resources allocated to the Redis host.
   Resources resources = 5;
 
-  // Role of the host in the cluster.
+  // Role of the host in the cluster. If the field has default value, it is not returned in the response.
   Role role = 6;
 
-  // Status code of the aggregated health of the host.
+  // Aggregated health of the host. If the field has default value, it is not returned in the response.
   Health health = 7;
 
   // Services provided by the host.
@@ -259,6 +259,7 @@ message Host {
 message Service {
 
   enum Type {
+    // Service type of the host is unspecified. Default value.
     TYPE_UNSPECIFIED = 0;
 
     // The host is a Redis server.
@@ -273,7 +274,7 @@ message Service {
 
   enum Health {
 
-    // Health of the server is unknown.
+    // Health of the server is unknown. Default value.
     HEALTH_UNKNOWN = 0;
 
     // The server is working normally.
@@ -283,10 +284,10 @@ message Service {
     DEAD = 2;
   }
 
-  // Type of the service provided by the host.
+  // Type of the service provided by the host. If the field has default value, it is not returned in the response.
   Type type = 1;
 
-  // Status code of server availability.
+  // Aggregated health of the service. If the field has default value, it is not returned in the response.
   Health health = 2;
 }
 

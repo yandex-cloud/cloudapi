@@ -56,13 +56,13 @@ message TopicConfig2_8 {
   enum CleanupPolicy{
     CLEANUP_POLICY_UNSPECIFIED = 0;
 
-    // this policy discards log segments when either their retention time or log size limit is reached. See also: [KafkaConfig2_8.log_retention_ms] and other similar parameters.
+    // This policy discards log segments when either their retention time or log size limit is reached. See also: [KafkaConfig2_8.log_retention_ms] and other similar parameters.
     CLEANUP_POLICY_DELETE = 1;
 
-    // this policy compacts messages in log.
+    // This policy compacts messages in log.
     CLEANUP_POLICY_COMPACT = 2;
 
-    // this policy use both compaction and deletion for messages and log segments.
+    // This policy use both compaction and deletion for messages and log segments.
     CLEANUP_POLICY_COMPACT_AND_DELETE = 3;
   }
 
@@ -126,13 +126,13 @@ message TopicConfig3 {
   enum CleanupPolicy{
     CLEANUP_POLICY_UNSPECIFIED = 0;
 
-    // this policy discards log segments when either their retention time or log size limit is reached. See also: [KafkaConfig3.log_retention_ms] and other similar parameters.
+    // This policy discards log segments when either their retention time or log size limit is reached. See also: [KafkaConfig3.log_retention_ms] and other similar parameters.
     CLEANUP_POLICY_DELETE = 1;
 
-    // this policy compacts messages in log.
+    // This policy compacts messages in log.
     CLEANUP_POLICY_COMPACT = 2;
 
-    // this policy use both compaction and deletion for messages and log segments.
+    // This policy use both compaction and deletion for messages and log segments.
     CLEANUP_POLICY_COMPACT_AND_DELETE = 3;
   }
 

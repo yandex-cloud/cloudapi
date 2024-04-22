@@ -38,13 +38,13 @@ message Permission {
   enum AccessRole {
     ACCESS_ROLE_UNSPECIFIED = 0;
 
-    // producer role for the user.
+    // Producer role for the user.
     ACCESS_ROLE_PRODUCER = 1;
 
-    // consumer role for the user.
+    // Consumer role for the user.
     ACCESS_ROLE_CONSUMER = 2;
 
-    // admin role for the user.
+    // Admin role for the user.
     ACCESS_ROLE_ADMIN = 3;
   }
 

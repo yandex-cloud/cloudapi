@@ -240,7 +240,7 @@ message Resources {
 message Host {
     enum Health {
 
-        // Health of the host is unknown.
+        // Health of the host is unknown. Default value.
         UNKNOWN = 0;
 
         // The host is performing all its functions normally.
@@ -255,7 +255,7 @@ message Host {
 
     enum Type {
 
-        // The type is not specified.
+        // Type of the host is unspecified. Default value.
         TYPE_UNSPECIFIED = 0;
 
         // An OpenSearch type host.
@@ -330,10 +330,10 @@ message Host {
     // Resources allocated to the OpenSearch host.
     Resources resources = 4;
 
-    // Type of the host.
+    // Type of the host. If the field has default value, it is not returned in the response.
     Type type = 5;
 
-    // Status code of the aggregated health of the host.
+    // Aggregated health of the host. If the field has default value, it is not returned in the response.
     Health health = 6;
 
     // ID of the subnet that the host belongs to.

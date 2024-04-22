@@ -267,7 +267,7 @@ message ConnectionPoolerConfig {
 message Host {
   enum Role {
 
-    // Role of the host in the cluster is unknown.
+    // Role of the host in the cluster is unknown. Default value.
     ROLE_UNKNOWN = 0;
 
     // Host is the master PostgreSQL server in the cluster.
@@ -286,7 +286,7 @@ message Host {
 
   enum Health {
 
-    // Health of the host is unknown.
+    // Health of the host is unknown. Default value.
     HEALTH_UNKNOWN = 0;
 
     // The host is performing all its functions normally.
@@ -317,10 +317,10 @@ message Host {
   // Resources allocated to the PostgreSQL host.
   Resources resources = 4;
 
-  // Role of the host in the cluster.
+  // Role of the host in the cluster. If the field has default value, it is not returned in the response.
   Role role = 5;
 
-  // Status code of the aggregated health of the host.
+  // Aggregated health of the host. If the field has default value, it is not returned in the response.
   Health health = 6;
 
   // Services provided by the host.
@@ -401,6 +401,7 @@ message HostConfig {
 
 message Service {
   enum Type {
+    // Service type of the host is unspecified. Default value.
     TYPE_UNSPECIFIED = 0;
 
     // The host is a PostgreSQL server.
@@ -412,7 +413,7 @@ message Service {
 
   enum Health {
 
-    // Health of the server is unknown.
+    // Health of the server is unknown. Default value.
     HEALTH_UNKNOWN = 0;
 
     // The server is working normally.
@@ -425,10 +426,10 @@ message Service {
     READONLY = 3;
   }
 
-  // Type of the service provided by the host.
+  // Type of the service provided by the host. If the field has default value, it is not returned in the response.
   Type type = 1;
 
-  // Status code of server availability.
+  // Aggregated health of the service. If the field has default value, it is not returned in the response.
   Health health = 2;
 }
 
