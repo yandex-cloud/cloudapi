@@ -28,8 +28,10 @@ message ClaimAgentStatusRequest {
     TANK_FAILED = 4;
     STOPPED = 5;
     UPLOADING_ARTIFACTS = 6;
+    ERROR = 7;
   }
   Status status = 2;
+  string status_message = 3;
 }
 
 message ClaimAgentStatusResponse {

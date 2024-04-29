@@ -665,6 +665,13 @@ message Host {
     DEGRADED = 3;
   }
 
+  message HostParameters {
+    bool hidden = 1;
+    int64 secondary_delay_secs = 2;
+    double priority = 3;
+    map<string,string> tags = 4;
+  }
+
   // Name of the MongoDB host. The host name is assigned by MDB at creation time, and cannot be changed.
   // 1-63 characters long.
   //
@@ -700,6 +707,9 @@ message Host {
 
   // Host type. If the field has default value, it is not returned in the response.
   Type type = 11;
+
+  // Host parameters
+  HostParameters host_parameters = 12;
 }
 
 message Service {

@@ -25,10 +25,37 @@ message TextClassificationResponse {
   string model_version = 2;
 }
 
+// Request for the service to classify text.
+message FewShotTextClassificationRequest {
+  // The identifier of the classification model.
+  string model_uri = 1;
+  // Text description of the classification task.
+  string task_description = 2;
+  // List of available labels for the classification result.
+  repeated string labels = 3;
+  // Text for classification.
+  string text = 4;
+  // Optional set of text samples with expected labels that may be used as an additional hint for the classifier.
+  repeated ClassificationSample samples = 5;
+}
+
+// Response containing classifier predictions.
+message FewShotTextClassificationResponse {
+  // Result of classification - a list of label-confidence pairs.
+  repeated ClassificationLabel predictions = 1;
+  // Model version (changes with model releases).
+  string model_version = 2;
+}
+
 // Service for classifying text from input text.
 service TextClassificationService {
-  // RPC method for classifying text.
+  // RPC method for text classification.
   rpc Classify (TextClassificationRequest) returns (TextClassificationResponse) {
     option (google.api.http) = {post: "/foundationModels/v1/textClassification" body: "*"};
+  }
+
+  // RPC method for few-shot text classification.
+  rpc FewShotClassify (FewShotTextClassificationRequest) returns (FewShotTextClassificationResponse) {
+    option (google.api.http) = {post: "/foundationModels/v1/fewShotTextClassification" body: "*"};
   }
 }

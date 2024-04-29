@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.datasphere.v2;
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
@@ -11,6 +12,7 @@ import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/datasphere/v2/project.proto";
 import "yandex/cloud/datasphere/v2/resource_types.proto";
+import "yandex/cloud/datasphere/v2/restrictions.proto";
 
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -137,6 +139,24 @@ service ProjectService {
     option (google.api.http) = {post: "/datasphere/v2/projects/{resource_id}:removeResource" body: "*"};
     option (yandex.cloud.api.operation) = {
       response: "google.protobuf.Empty"
+    };
+  }
+
+  // Get meta information about available restrictions.
+  rpc GetRestrictionsMeta (google.protobuf.Empty) returns (GetRestrictionsMetaResponse) {
+    option (google.api.http) = {get: "/datasphere/v2/projects/restrictionsMeta"};
+  }
+
+  // Get current project restrictions.
+  rpc GetRestrictions (GetProjectRestrictionsRequest) returns (RestrictionsResponse) {
+    option (google.api.http) = {get: "/datasphere/v2/projects/{project_id}:restrictions"};
+  }
+
+  // Set project restrictions.
+  rpc SetRestrictions (SetProjectRestrictionsRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/datasphere/v2/projects/{project_id}:setRestrictions" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      response: "RestrictionsResponse"
     };
   }
 }
@@ -438,4 +458,16 @@ message RemoveResourceFromProjectRequest {
   string project_id = 1 [(required) = true, (length) = "<=50"];
   ResourceType resource_type = 2;
   string resource_id = 3 [(required) = true];
+}
+
+message GetProjectRestrictionsRequest {
+  // ID of the project.
+  string project_id = 1 [(required) = true];
+}
+
+message SetProjectRestrictionsRequest {
+  // ID of the project.
+  string project_id = 1 [(required) = true];
+  // List of restrictions to set.
+  repeated Restriction restrictions = 2;
 }

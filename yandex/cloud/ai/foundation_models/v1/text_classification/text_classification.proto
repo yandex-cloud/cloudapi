@@ -10,7 +10,14 @@ option java_package = "yandex.cloud.api.ai.foundation_models.v1.text_classificat
 message ClassificationLabel {
   // A label with a class name.
   string label = 1;
-
   // Confidence of item's belonging to a class.
   double confidence = 2;
+}
+
+// Description of a sample for the classification task.
+message ClassificationSample {
+  // Text sample.
+  string text = 1;
+  // Expected label for a given text.
+  string label = 2;
 }

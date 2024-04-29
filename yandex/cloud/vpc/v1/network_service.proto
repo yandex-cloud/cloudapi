@@ -137,7 +137,7 @@ message CreateNetworkRequest {
 
   // Name of the network.
   // The name must be unique within the folder.
-  string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 2 [(pattern) = "|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?"];
 
   // Description of the network.
   string description = 3 [(length) = "<=256"];
@@ -161,7 +161,7 @@ message UpdateNetworkRequest {
 
   // Name of the network.
   // The name must be unique within the folder.
-  string name = 3 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 3 [(pattern) = "|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?"];
 
   // Description of the network.
   string description = 4 [(length) = "<=256"];

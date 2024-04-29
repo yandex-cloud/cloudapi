@@ -28,6 +28,8 @@ message JobParameters {
   CloudInstanceType cloud_instance_type = 8;
   // Extended working storage configuration.
   ExtendedWorkingStorage extended_working_storage = 9;
+  // List of literal arguments.
+  repeated Argument arguments = 10;
 }
 
 message CloudInstanceType {
@@ -44,6 +46,11 @@ message ExtendedWorkingStorage {
 
   StorageType type = 1;
   int64 size_gb = 2;
+}
+
+message Argument {
+  string name = 1;
+  string value = 2;
 }
 
 enum FileCompressionType {

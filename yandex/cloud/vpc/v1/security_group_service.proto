@@ -93,18 +93,18 @@ message ListSecurityGroupsResponse {
 }
 
 message CreateSecurityGroupRequest {
-    string folder_id = 1 [(required) = true];
-    string name = 2;
-    string description = 3;
-    map<string, string> labels = 4;
+    string folder_id = 1 [(required) = true, (length) = "<=50"];
+    string name = 2 [(pattern) = "|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?"];
+    string description = 3 [(length) = "<=256"];
+    map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
 
     string network_id = 5 [(required) = true];
     repeated SecurityGroupRuleSpec rule_specs = 6;
 }
 
 message SecurityGroupRuleSpec {
-    string description = 1;
-    map<string, string> labels = 2;
+    string description = 1 [(length) = "<=256"];
+    map<string, string> labels = 2 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
 
     SecurityGroupRule.Direction direction = 3 [(required) = true];
     PortRange ports = 4; // null value means any port
@@ -131,13 +131,13 @@ message CreateSecurityGroupMetadata {
 }
 
 message UpdateSecurityGroupRequest {
-    string security_group_id = 1 [(required) = true];
+    string security_group_id = 1 [(required) = true, (length) = "<=50"];
 
     google.protobuf.FieldMask update_mask = 2;
 
-    string name = 3;
-    string description = 4;
-    map<string, string> labels = 5;
+    string name = 3 [(pattern) = "|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?"];
+    string description = 4 [(length) = "<=256"];
+    map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
 
     // all existing rules will be replaced with given list
     repeated SecurityGroupRuleSpec rule_specs = 6;

@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.datasphere.v2;
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
@@ -10,6 +11,7 @@ import "yandex/cloud/validation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/datasphere/v2/community.proto";
 import "yandex/cloud/datasphere/v2/resource_types.proto";
+import "yandex/cloud/datasphere/v2/restrictions.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datasphere/v2;datasphere";
 option java_package = "yandex.cloud.api.datasphere.v2";
@@ -89,6 +91,24 @@ service CommunityService {
     option (google.api.http) = {post: "/datasphere/v2/communities/{resource_id}:removeResource" body: "*"};
     option (yandex.cloud.api.operation) = {
       response: "google.protobuf.Empty"
+    };
+  }
+
+  // Get meta information about available restrictions.
+  rpc GetRestrictionsMeta (google.protobuf.Empty) returns (GetRestrictionsMetaResponse) {
+    option (google.api.http) = {get: "/datasphere/v2/communities/restrictionsMeta"};
+  }
+
+  // Get current community restrictions.
+  rpc GetRestrictions (GetCommunityRestrictionsRequest) returns (RestrictionsResponse) {
+    option (google.api.http) = {get: "/datasphere/v2/communities/{community_id}:restrictions"};
+  }
+
+  // Set community restrictions.
+  rpc SetRestrictions (SetCommunityRestrictionsRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/datasphere/v2/communities/{community_id}:setRestrictions" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      response: "RestrictionsResponse"
     };
   }
 }
@@ -210,4 +230,16 @@ message RemoveCommunityResourceRequest {
   string community_id = 1 [(required) = true, (length) = "<=50"];
   ResourceType resource_type = 2 [(required) = true];
   string resource_id = 3 [(required) = true];
+}
+
+message GetCommunityRestrictionsRequest {
+  // ID of the community.
+  string community_id = 1 [(required) = true];
+}
+
+message SetCommunityRestrictionsRequest {
+  // ID of the community.
+  string community_id = 1 [(required) = true];
+  // List of restrictions to set.
+  repeated Restriction restrictions = 2;
 }
