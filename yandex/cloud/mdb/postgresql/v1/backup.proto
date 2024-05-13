@@ -28,6 +28,15 @@ message Backup {
     // Backup created by user request
     MANUAL = 2;
   }
+  enum BackupStatus {
+    BACKUP_STATUS_UNSPECIFIED = 0;
+
+    // Backup is done
+    DONE = 1;
+
+    // Backup is creating    
+    CREATING = 2;
+  }
   // Required. ID of the backup.
   string id = 1;
 
@@ -55,4 +64,7 @@ message Backup {
 
   // Size of the journal associated with backup, in bytes
   int64 journal_size = 9;
+
+  // Status of backup
+  BackupStatus status = 10;
 }

@@ -4,6 +4,7 @@ package yandex.cloud.iam.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/iam/v1/api_key.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -101,6 +102,12 @@ message CreateApiKeyRequest {
 
   // Description of the API key.
   string description = 2 [(length) = "<=256"];
+
+  // Scope of the API key.
+  string scope = 3 [(length) = "<=256"];
+
+  // API key expiration timestamp, if not specified, then the API key doesn't expire
+  google.protobuf.Timestamp expires_at = 4;
 }
 
 message CreateApiKeyResponse {

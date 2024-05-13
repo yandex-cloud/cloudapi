@@ -21,7 +21,15 @@ message Backup {
     // Backup created by user request
     MANUAL = 2;
   }
+  enum BackupStatus {
+    BACKUP_STATUS_UNSPECIFIED = 0;
 
+    // Backup is done
+    DONE = 1;
+
+    // Backup is creating    
+    CREATING = 2;
+  }
   // ID of the backup.
   string id = 1 [(required) = true];
 
@@ -42,4 +50,7 @@ message Backup {
 
   // How this backup was created (manual/automatic/etc...)
   BackupCreationType type = 7;
+
+  // Status of backup
+  BackupStatus status = 8;
 }
