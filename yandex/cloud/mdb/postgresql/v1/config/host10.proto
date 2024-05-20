@@ -12,6 +12,7 @@ option java_package = "yandex.cloud.api.mdb.postgresql.v1.config";
 // parameters whose detailed description is available in
 // [PostgreSQL documentation](https://www.postgresql.org/docs/10/runtime-config.html).
 message PostgresqlHostConfig10 {
+  reserved 53;
 
   enum ConstraintExclusion {
     CONSTRAINT_EXCLUSION_UNSPECIFIED = 0;
@@ -153,7 +154,7 @@ message PostgresqlHostConfig10 {
 
   google.protobuf.Int64Value from_collapse_limit = 12 [(value) = "1-2147483647"];
 
-  google.protobuf.Int64Value  join_collapse_limit = 13 [(value) = "1-2147483647"];
+  google.protobuf.Int64Value join_collapse_limit = 13 [(value) = "1-2147483647"];
 
   ForceParallelMode force_parallel_mode = 14;
 

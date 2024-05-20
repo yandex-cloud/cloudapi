@@ -8,6 +8,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless
 option java_package = "yandex.cloud.api.serverless.triggers.v1";
 
 message Predicate {
+  reserved 3;
   oneof predicate {
     option (exactly_one) = true;
     AndPredicate and_predicate = 2;
@@ -20,12 +21,14 @@ message AndPredicate {
 }
 
 message FieldValuePredicate {
+  reserved 4 to 7;
+  reserved 2;
   string field_path = 1 [(required) = true];
   oneof value {
     option (exactly_one) = true;
 
-    string exact = 3;           // string representation of the value matches exactly to the given string
-    string prefix = 8;          // value has given prefix
-    string suffix = 9;          // value has given suffix
+    string exact = 3; // string representation of the value matches exactly to the given string
+    string prefix = 8; // value has given prefix
+    string suffix = 9; // value has given suffix
   }
 }

@@ -10,6 +10,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless
 option java_package = "yandex.cloud.api.serverless.apigateway.v1";
 
 message ApiGateway {
+  reserved 6;
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -73,6 +74,7 @@ message ApiGateway {
 }
 
 message AttachedDomain {
+  reserved 4;
   // ID of the domain.
   string domain_id = 1;
   // ID of the domain certificate.
@@ -85,7 +87,6 @@ message AttachedDomain {
 
 // Gateway connectivity specification.
 message Connectivity {
-
   // Network the gateway will have access to.
   // It's essential to specify network with subnets in all availability zones.
   string network_id = 1;
@@ -96,7 +97,6 @@ message Connectivity {
 }
 
 message LogOptions {
-
   // Is logging from API gateway disabled.
   bool disabled = 1;
 

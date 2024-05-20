@@ -3,14 +3,13 @@ syntax = "proto3";
 package yandex.cloud.k8s.v1;
 
 import "google/protobuf/timestamp.proto";
-
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/k8s/v1;k8s";
 option java_package = "yandex.cloud.api.k8s.v1";
 
 message Node {
-  // Kubernetes node info 
+  // Kubernetes node info
   message KubernetesStatus {
     // Node id (and instance name)
     string id = 1;
@@ -55,9 +54,9 @@ message Node {
     // is deleted (this is our bug).
     MISSING = 5;
     // Node is stopped
-    STOPPED            = 6;
+    STOPPED = 6;
     // Backend request to kubernetes api was unsuccessful.
-    UNKNOWN            = 7;
+    UNKNOWN = 7;
   }
 
   // Node specification.
@@ -104,17 +103,17 @@ message Taint {
   enum Effect {
     EFFECT_UNSPECIFIED = 0;
 
-	// Do not allow new pods to schedule onto the node unless they tolerate the taint,
-	// but allow all pods submitted to Kubelet without going through the scheduler
-	// to start, and allow all already-running pods to continue running.
+    // Do not allow new pods to schedule onto the node unless they tolerate the taint,
+    // but allow all pods submitted to Kubelet without going through the scheduler
+    // to start, and allow all already-running pods to continue running.
     NO_SCHEDULE = 1;
 
-	// Like NO_SCHEDULE, but the scheduler tries not to schedule
-	// new pods onto the node, rather than prohibiting new pods from scheduling
-	// onto the node entirely. Enforced by the scheduler.
+    // Like NO_SCHEDULE, but the scheduler tries not to schedule
+    // new pods onto the node, rather than prohibiting new pods from scheduling
+    // onto the node entirely. Enforced by the scheduler.
     PREFER_NO_SCHEDULE = 2;
 
-	// Evict any already-running pods that do not tolerate the taint.
+    // Evict any already-running pods that do not tolerate the taint.
     NO_EXECUTE = 3;
   }
 
@@ -138,6 +137,9 @@ message AttachedVolume {
 }
 
 message NodeTemplate {
+  reserved 14;
+  reserved 17;
+  reserved 8 to 9;
   // Name of the instance.
   // In order to be unique it must contain at least on of instance unique placeholders:
   //   {instance.short_id}
@@ -149,7 +151,12 @@ message NodeTemplate {
   string name = 13 [(length) = "<=128"];
 
   // these labels will be assigned to compute nodes (instances), created by the nodegroup
-  map<string, string> labels = 15 [(size) = "<=32", (length) = "<=128", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+  map<string, string> labels = 15 [
+    (size) = "<=32",
+    (length) = "<=128",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+  ];
 
   // ID of the hardware platform configuration for the node.
   string platform_id = 1;
@@ -163,11 +170,16 @@ message NodeTemplate {
   // The metadata as `key:value` pairs assigned to this instance template. Only SSH keys are supported as metadata.
   //
   // For more information, see [Connecting to a node over SSH](/docs/managed-kubernetes/operations/node-connect-ssh).
-  map<string, string> metadata = 4 [(size) = "<=64", (length) = "<=131072", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> metadata = 4 [
+    (size) = "<=64",
+    (length) = "<=131072",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_0-9a-z]*"
+  ];
 
   // Specification for the create network interfaces for the node group compute instances.
   // Deprecated, please use network_interface_specs.
-  NodeAddressSpec v4_address_spec = 5 [deprecated=true];
+  NodeAddressSpec v4_address_spec = 5 [deprecated = true];
 
   // Scheduling policy configuration.
   SchedulingPolicy scheduling_policy = 6;
@@ -192,7 +204,7 @@ message NodeTemplate {
 
   // this parameter allows to specify type of network acceleration used on nodes (instances)
   NetworkSettings network_settings = 11;
-  
+
   message ContainerRuntimeSettings {
     enum Type {
       TYPE_UNSPECIFIED = 0;
@@ -296,7 +308,7 @@ message ResourcesSpec {
   int64 core_fraction = 3 [(value) = "0-100"];
 
   // Number of GPUs available to the node.
-  int64 gpus          = 4 [(value) = ">=0"];
+  int64 gpus = 4 [(value) = ">=0"];
 }
 
 message DiskSpec {

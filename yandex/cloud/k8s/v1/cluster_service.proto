@@ -4,11 +4,10 @@ package yandex.cloud.k8s.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/k8s/v1/cluster.proto";
-import "yandex/cloud/k8s/v1/node_group.proto";
 import "yandex/cloud/k8s/v1/node.proto";
+import "yandex/cloud/k8s/v1/node_group.proto";
 import "yandex/cloud/k8s/v1/version.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -21,18 +20,21 @@ service ClusterService {
   // Returns the specified Kubernetes cluster.
   //
   // To get the list of available Kubernetes cluster, make a [List] request.
-  rpc Get (GetClusterRequest) returns (Cluster) {
-    option (google.api.http) = { get: "/managed-kubernetes/v1/clusters/{cluster_id}" };
+  rpc Get(GetClusterRequest) returns (Cluster) {
+    option (google.api.http) = {get: "/managed-kubernetes/v1/clusters/{cluster_id}"};
   }
 
   // Retrieves the list of Kubernetes cluster in the specified folder.
-  rpc List (ListClustersRequest) returns (ListClustersResponse) {
-    option (google.api.http) = { get: "/managed-kubernetes/v1/clusters" };
+  rpc List(ListClustersRequest) returns (ListClustersResponse) {
+    option (google.api.http) = {get: "/managed-kubernetes/v1/clusters"};
   }
 
   // Creates a Kubernetes cluster in the specified folder.
-  rpc Create (CreateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/managed-kubernetes/v1/clusters" body: "*" };
+  rpc Create(CreateClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/managed-kubernetes/v1/clusters"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateClusterMetadata"
       response: "Cluster"
@@ -40,8 +42,11 @@ service ClusterService {
   }
 
   // Updates the specified Kubernetes cluster.
-  rpc Update (UpdateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/managed-kubernetes/v1/clusters/{cluster_id}" body: "*" };
+  rpc Update(UpdateClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/managed-kubernetes/v1/clusters/{cluster_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateClusterMetadata"
       response: "Cluster"
@@ -49,8 +54,8 @@ service ClusterService {
   }
 
   // Deletes the specified Kubernetes cluster.
-  rpc Delete (DeleteClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/managed-kubernetes/v1/clusters/{cluster_id}" };
+  rpc Delete(DeleteClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = {delete: "/managed-kubernetes/v1/clusters/{cluster_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteClusterMetadata"
       response: "google.protobuf.Empty"
@@ -59,7 +64,10 @@ service ClusterService {
 
   // Stops the specified Kubernetes cluster.
   rpc Stop(StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/managed-kubernetes/v1/clusters/{cluster_id}:stop" body: "*" };
+    option (google.api.http) = {
+      post: "/managed-kubernetes/v1/clusters/{cluster_id}:stop"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
@@ -68,7 +76,10 @@ service ClusterService {
 
   // Starts the specified Kubernetes cluster.
   rpc Start(StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/managed-kubernetes/v1/clusters/{cluster_id}:start" body: "*"};
+    option (google.api.http) = {
+      post: "/managed-kubernetes/v1/clusters/{cluster_id}:start"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
@@ -76,18 +87,18 @@ service ClusterService {
   }
 
   // Lists nodegroup for the specified Kubernetes cluster.
-  rpc ListNodeGroups (ListClusterNodeGroupsRequest) returns (ListClusterNodeGroupsResponse) {
-    option (google.api.http) = { get: "/managed-kubernetes/v1/clusters/{cluster_id}/nodeGroups" };
+  rpc ListNodeGroups(ListClusterNodeGroupsRequest) returns (ListClusterNodeGroupsResponse) {
+    option (google.api.http) = {get: "/managed-kubernetes/v1/clusters/{cluster_id}/nodeGroups"};
   }
 
   // Lists operations for the specified Kubernetes cluster.
-  rpc ListOperations (ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
-    option (google.api.http) = { get: "/managed-kubernetes/v1/clusters/{cluster_id}/operations" };
+  rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
+    option (google.api.http) = {get: "/managed-kubernetes/v1/clusters/{cluster_id}/operations"};
   }
 
   // Lists cluster's nodes.
   rpc ListNodes(ListClusterNodesRequest) returns (ListClusterNodesResponse) {
-    option (google.api.http) = { get: "/managed-kubernetes/v1/clusters/{cluster_id}/nodes" };
+    option (google.api.http) = {get: "/managed-kubernetes/v1/clusters/{cluster_id}/nodes"};
   }
 }
 
@@ -182,7 +193,13 @@ message UpdateClusterRequest {
   // Resource labels as `key:value` pairs.
   //
   // Existing set of `labels` is completely replaced by the provided set.
-  map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+  map<string, string> labels = 5 [
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_./\\@0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+  ];
 
   oneof internet_gateway {
     // Gateway IPv4 address.
@@ -241,7 +258,13 @@ message CreateClusterRequest {
   string description = 3 [(length) = "<=256"];
 
   // Resource labels as `key:value` pairs.
-  map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+  map<string, string> labels = 4 [
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_./\\@0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+  ];
 
   // ID of the network.
   string network_id = 5 [(required) = true];
@@ -383,6 +406,7 @@ message ListClusterNodesResponse {
 }
 
 message MasterSpec {
+  reserved 5;
   oneof master_type {
     // Specification of the zonal master.
     ZonalMasterSpec zonal_master_spec = 1;
@@ -449,7 +473,6 @@ message RegionalMasterSpec {
 }
 
 message InternalAddressSpec {
-
   // ID of the subnet. If no ID is specified, and there only one subnet in specified zone, an address in this subnet will be allocated.
   string subnet_id = 2;
 }

@@ -8,6 +8,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datasphere
 option java_package = "yandex.cloud.api.datasphere.v2";
 
 message Community {
+  reserved 7 to 9;
   // ID of the community.
   string id = 1;
 

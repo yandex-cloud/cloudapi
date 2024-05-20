@@ -9,6 +9,7 @@ option java_package = "yandex.cloud.api.vpc.v1";
 
 // A Subnet resource. For more information, see [Subnets](/docs/vpc/concepts/network#subnet).
 message Subnet {
+  reserved 9;
   // ID of the subnet.
   string id = 1;
 

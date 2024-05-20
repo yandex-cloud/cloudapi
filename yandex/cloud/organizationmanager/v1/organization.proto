@@ -9,21 +9,22 @@ option java_package = "yandex.cloud.api.organizationmanager.v1";
 
 // An Organization resource. For more information, see [Organization](/docs/organization/enable-org).
 message Organization {
-    // ID of the organization.
-    string id = 1;
+  reserved 5;
+  // ID of the organization.
+  string id = 1;
 
-    // Creation timestamp.
-    google.protobuf.Timestamp created_at = 2;
+  // Creation timestamp.
+  google.protobuf.Timestamp created_at = 2;
 
-    // Name of the organization. 3-63 characters long.
-    string name = 3;
+  // Name of the organization. 3-63 characters long.
+  string name = 3;
 
-    // Description of the organization. 0-256 characters long.
-    string description = 4;
+  // Description of the organization. 0-256 characters long.
+  string description = 4;
 
-    // Display name of the organization. 0-256 characters long.
-    string title = 6;
+  // Display name of the organization. 0-256 characters long.
+  string title = 6;
 
-    // Resource labels as `` key:value `` pairs. Maximum of 64 per resource.
-    map<string, string> labels = 7;
+  // Resource labels as `` key:value `` pairs. Maximum of 64 per resource.
+  map<string, string> labels = 7;
 }

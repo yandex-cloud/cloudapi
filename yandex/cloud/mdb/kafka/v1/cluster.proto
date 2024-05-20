@@ -3,14 +3,13 @@ syntax = "proto3";
 package yandex.cloud.mdb.kafka.v1;
 
 import "google/protobuf/descriptor.proto";
-import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/mdb/kafka/v1/common.proto";
 import "yandex/cloud/mdb/kafka/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/kafka/v1;kafka";
 option java_package = "yandex.cloud.api.mdb.kafka.v1";
-
 
 // An Apache Kafka® cluster resource.
 // For more information, see the [Concepts](/docs/managed-kafka/concepts) section of the documentation.
@@ -136,19 +135,19 @@ message Monitoring {
 
 message ConfigSpec {
   message Kafka {
+    reserved 2 to 3;
 
     // Resources allocated to Kafka brokers.
     Resources resources = 1;
 
     // Kafka broker configuration.
     oneof kafka_config {
-      KafkaConfig2_8 kafka_config_2_8 = 4 [json_name="kafkaConfig_2_8"];
-      KafkaConfig3   kafka_config_3   = 5 [json_name="kafkaConfig_3"];
+      KafkaConfig2_8 kafka_config_2_8 = 4 [json_name = "kafkaConfig_2_8"];
+      KafkaConfig3 kafka_config_3 = 5 [json_name = "kafkaConfig_3"];
     }
   }
 
   message Zookeeper {
-
     // Resources allocated to ZooKeeper hosts.
     Resources resources = 1;
   }
@@ -174,7 +173,7 @@ message ConfigSpec {
 
   // Allows to manage topics via AdminAPI
   // Deprecated. Feature enabled permanently.
-  bool unmanaged_topics = 7 [deprecated=true];
+  bool unmanaged_topics = 7 [deprecated = true];
 
   // Enables managed schema registry on cluster
   bool schema_registry = 8;
@@ -369,6 +368,7 @@ message KafkaConfig3 {
 
 // Cluster host metadata.
 message Host {
+  reserved 7;
   enum Role {
     // Role of the host is unspecified. Default value.
     ROLE_UNSPECIFIED = 0;

@@ -42,6 +42,8 @@ message RedisConfig7_0 {
   }
 
   message ClientOutputBufferLimit {
+    reserved 4;
+    reserved 2;
     // Total limit in bytes.
     google.protobuf.Int64Value hard_limit = 1 [(value) = ">=0"];
     // Limit in bytes during certain time period.

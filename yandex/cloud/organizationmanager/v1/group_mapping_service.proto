@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package yandex.cloud.organizationmanager.v1;
 
-import "yandex/cloud/organizationmanager/v1/group_mapping.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/organizationmanager/v1/group_mapping.proto";
 import "yandex/cloud/validation.proto";
-import "google/protobuf/field_mask.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/organizationmanager/v1;organizationmanager";
 option java_package = "yandex.cloud.api.organizationmanager.v1";
@@ -18,10 +18,10 @@ service GroupMappingService {
   //    NOT_FOUND will be returned
   // If a federation exist, but has not ever been configured for group mapping
   //   the call FAILED_PRECONDITION will be returned.
-  rpc Get (GetGroupMappingRequest) returns (GetGroupMappingResponse);
+  rpc Get(GetGroupMappingRequest) returns (GetGroupMappingResponse);
   // Adds a group mapping for a federation
   // If mapping already exist, ALREADY_EXISTS will be returned
-  rpc Create (CreateGroupMappingRequest) returns (operation.Operation) {
+  rpc Create(CreateGroupMappingRequest) returns (operation.Operation) {
     option (yandex.cloud.api.operation) = {
       metadata: "CreateGroupMappingMetadata"
       response: "GroupMapping"
@@ -36,7 +36,7 @@ service GroupMappingService {
   // - enabling when already enabled
   // - disabling when disabled
   // Such parts of request will be ignored. Others will be applied.
-  rpc Update (UpdateGroupMappingRequest) returns (operation.Operation) {
+  rpc Update(UpdateGroupMappingRequest) returns (operation.Operation) {
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateGroupMappingMetadata"
       response: "GroupMapping"
@@ -44,7 +44,7 @@ service GroupMappingService {
   }
   // Deletes a group mapping. This will remove all the mapping items
   // cascade.
-  rpc Delete (DeleteGroupMappingRequest) returns (operation.Operation) {
+  rpc Delete(DeleteGroupMappingRequest) returns (operation.Operation) {
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteGroupMappingMetadata"
       response: "google.protobuf.Empty"
@@ -73,7 +73,10 @@ service GroupMappingService {
 }
 
 message GetGroupMappingRequest {
-  string federation_id = 1 [(required) = true, (length) = "<=50"];
+  string federation_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 }
 
 message GetGroupMappingResponse {
@@ -81,8 +84,12 @@ message GetGroupMappingResponse {
 }
 
 message CreateGroupMappingRequest {
+  reserved 2;
   // Federation the group mapping will be created for
-  string federation_id = 1 [(required) = true, (length) = "<=50"];
+  string federation_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
   // Synchronization status.
   bool enabled = 3;
 }
@@ -94,7 +101,10 @@ message CreateGroupMappingMetadata {
 // Request for updating group mapping configuration
 message UpdateGroupMappingRequest {
   // Federation the group mapping update is requested
-  string federation_id = 1 [(required) = true, (length) = "<=50"];
+  string federation_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
   // A set of fields that should be updated
   google.protobuf.FieldMask update_mask = 2;
   // A new state of synchronization to update (if mentioned in update_mask).
@@ -107,7 +117,10 @@ message UpdateGroupMappingMetadata {
 
 message DeleteGroupMappingRequest {
   // Federation the group mapping deletion is requested
-  string federation_id = 1 [(required) = true, (length) = "<=50"];
+  string federation_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 }
 
 message DeleteGroupMappingMetadata {
@@ -116,8 +129,12 @@ message DeleteGroupMappingMetadata {
 
 // Request for updating group mapping configuration
 message UpdateGroupMappingItemsRequest {
+  reserved 2 to 3;
   // Federation the group mapping update is requested
-  string federation_id = 1 [(required) = true, (length) = "<=50"];
+  string federation_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
   // A collection of mapping items to add or remove (ignores update_fields).
   repeated GroupMappingItemDelta group_mapping_item_deltas = 4 [(size) = "1-1000"];
 }
@@ -145,7 +162,10 @@ message UpdateGroupMappingItemsResponse {
 }
 
 message ListGroupMappingItemsRequest {
-  string federation_id = 1 [(required) = true, (length) = "<=50"];
+  string federation_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
   int64 page_size = 2 [(value) = "0-1000"];
   string page_token = 3 [(length) = "<=2000"];
   string filter = 4 [(length) = "<=1000"];

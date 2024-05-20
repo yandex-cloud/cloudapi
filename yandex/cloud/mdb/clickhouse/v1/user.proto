@@ -8,7 +8,7 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickhouse/v1;clickhouse";
 option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
 
-// A ClickHouse User resource. For more information, see 
+// A ClickHouse User resource. For more information, see
 // the [Developer's guide](/docs/managed-clickhouse/concepts).
 message User {
   // Name of the ClickHouse user.
@@ -35,10 +35,17 @@ message Permission {
 
 message UserSpec {
   // Name of the ClickHouse user.
-  string name = 1 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_][a-zA-Z0-9_-]*"];
+  string name = 1 [
+    (required) = true,
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_][a-zA-Z0-9_-]*"
+  ];
 
   // Password of the ClickHouse user.
-  string password = 2 [(required) = true, (length) = "8-128"];
+  string password = 2 [
+    (required) = true,
+    (length) = "8-128"
+  ];
 
   // Set of permissions to grant to the user. If not set, it's granted permissions to access all databases.
   repeated Permission permissions = 3;
@@ -52,6 +59,7 @@ message UserSpec {
 // ClickHouse user settings. Supported settings are a limited subset of all settings
 // described in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/).
 message UserSettings {
+  reserved 82 to 83;
   enum OverflowMode {
     OVERFLOW_MODE_UNSPECIFIED = 0;
 
@@ -734,8 +742,7 @@ message UserSettings {
   // Otherwise, such integers will not be quoted.
   //
   // Default value: **false** (quoting 64-bit integers is disabled).
-  google.protobuf.BoolValue output_format_json_quote_64bit_integers = 63
-  [json_name="outputFormatJsonQuote_64bitIntegers"];
+  google.protobuf.BoolValue output_format_json_quote_64bit_integers = 63 [json_name = "outputFormatJsonQuote_64bitIntegers"];
 
   // Enables special floating-point values (**+nan**, **-nan**, **+inf** and **-inf**) in JSON output format.
   //
@@ -910,7 +917,7 @@ message UserSettings {
   // Possible values: from **0** to **1**. Default: **0**.
   google.protobuf.DoubleValue memory_profiler_sample_probability = 125;
 
-  // Sets the maximum number of parallel threads for the SELECT query data read phase with the FINAL modifier. 
+  // Sets the maximum number of parallel threads for the SELECT query data read phase with the FINAL modifier.
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#max-final-threads).
   google.protobuf.Int64Value max_final_threads = 126 [(value) = ">=0"];
 
@@ -934,7 +941,7 @@ message UserSettings {
   // Min_version: 22.11
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#insert_keeper_max_retries)
   google.protobuf.Int64Value insert_keeper_max_retries = 131 [(value) = ">=0"];
-  
+
   // The maximum amount of data consumed by temporary files on disk in bytes for all concurrently running user queries. Zero means unlimited.
   // Default: 0 - unlimited
   // Min_version: 22.10
@@ -959,19 +966,19 @@ message UserSettings {
   // See in-depth description in [ClickHouse GitHub](https://github.com/ClickHouse/ClickHouse/blob/f9558345e886876b9132d9c018e357f7fa9b22a3/src/Core/Settings.h#L660)
   RemoteFilesystemReadMethod remote_filesystem_read_method = 135;
 
-  // It represents soft memory limit in case when hard limit is reached on user level. This value is used to compute overcommit ratio for the query. Zero means skip the query. 
+  // It represents soft memory limit in case when hard limit is reached on user level. This value is used to compute overcommit ratio for the query. Zero means skip the query.
   // Default: 1GiB
   // Min_version: 22.5
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#memory_overcommit_ratio_denominator)
   google.protobuf.Int64Value memory_overcommit_ratio_denominator = 136 [(value) = ">=0"];
 
-  // It represents soft memory limit in case when hard limit is reached on global level. This value is used to compute overcommit ratio for the query. Zero means skip the query. 
+  // It represents soft memory limit in case when hard limit is reached on global level. This value is used to compute overcommit ratio for the query. Zero means skip the query.
   // Default: 1GiB
   // Min_version: 22.5
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#memory_overcommit_ratio_denominator_for_user)
   google.protobuf.Int64Value memory_overcommit_ratio_denominator_for_user = 137 [(value) = ">=0"];
 
-  // Maximum time thread will wait for memory to be freed in the case of memory overcommit on a user level. If the timeout is reached and memory is not freed, an exception is thrown. 
+  // Maximum time thread will wait for memory to be freed in the case of memory overcommit on a user level. If the timeout is reached and memory is not freed, an exception is thrown.
   // Default: 5000000
   // Min_version: 22.5
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#memory_usage_overcommit_max_wait_microseconds)

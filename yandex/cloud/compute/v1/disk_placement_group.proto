@@ -8,6 +8,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1
 option java_package = "yandex.cloud.api.compute.v1";
 
 message DiskPlacementGroup {
+  reserved 10;
   enum Status {
     STATUS_UNSPECIFIED = 0;
     CREATING = 1;
@@ -50,8 +51,7 @@ message DiskPlacementGroup {
   }
 }
 
-message DiskSpreadPlacementStrategy {
-}
+message DiskSpreadPlacementStrategy {}
 
 message DiskPartitionPlacementStrategy {
   int64 partitions = 1;

@@ -9,13 +9,14 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/opense
 option java_package = "yandex.cloud.api.mdb.opensearch.v1";
 
 message OpenSearchConfig2 {
+  reserved 5;
   // the maximum number of allowed boolean clauses in a query
   google.protobuf.Int64Value max_clause_count = 3;
 
   // the percentage or absolute value (10%, 512mb) of heap space that is allocated to fielddata
   string fielddata_cache_size = 4;
 
-  string reindex_remote_whitelist = 6; 
+  string reindex_remote_whitelist = 6;
 }
 
 message OpenSearchConfigSet2 {

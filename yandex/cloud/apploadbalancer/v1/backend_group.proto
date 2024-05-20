@@ -15,6 +15,7 @@ option java_package = "yandex.cloud.api.apploadbalancer.v1";
 // A backend group resource.
 // For details about the concept, see [documentation](/docs/application-load-balancer/concepts/backend-group).
 message BackendGroup {
+  reserved 8;
   // ID of the backend group. Generated at creation time.
   string id = 1;
 
@@ -279,7 +280,10 @@ message StreamBackend {
 // An HTTP backend resource.
 message HttpBackend {
   // Name of the backend.
-  string name = 1 [(required) = true, (pattern) = "[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 1 [
+    (required) = true,
+    (pattern) = "[a-z][-a-z0-9]{1,61}[a-z0-9]"
+  ];
 
   // Backend weight. Traffic is distributed between backends of a backend group according to their weights.
   //
@@ -335,8 +339,12 @@ message HttpBackend {
 
 // A gRPC backend resource.
 message GrpcBackend {
+  reserved 6;
   // Name of the backend.
-  string name = 1 [(required) = true, (pattern) = "[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 1 [
+    (required) = true,
+    (pattern) = "[a-z][-a-z0-9]{1,61}[a-z0-9]"
+  ];
 
   // Backend weight. Traffic is distributed between backends of a backend group according to their weights.
   //
@@ -379,15 +387,15 @@ message TargetGroupsBackend {
   // List of ID's of target groups that belong to the backend.
   //
   // To get the ID's of all available target groups, make a [TargetGroupService.List] request.
-  repeated string target_group_ids = 1 [(size)=">0"];
+  repeated string target_group_ids = 1 [(size) = ">0"];
 }
 
 // Transport settings to be used instead of the settings configured per-cluster
-message PlaintextTransportSettings {
-}
+message PlaintextTransportSettings {}
 
 // Transport settings to be used instead of the settings configured per-cluster
 message SecureTransportSettings {
+  reserved 2;
   // SNI string for TLS connections.
   string sni = 1;
 
@@ -397,6 +405,7 @@ message SecureTransportSettings {
 
 // A resource for backend TLS settings.
 message BackendTls {
+  reserved 2;
   // Server Name Indication (SNI) string for TLS connections.
   string sni = 1;
 
@@ -501,9 +510,9 @@ message HealthCheck {
     GrpcHealthCheck grpc = 9;
   }
 
-// Optional transport protocol for health checks.
-// When not set, health checks use the same protocol as the proxied traffic.
-// Use this when health checks' protocol settings differ from their backend, e.g. plaintext health checks for a TLS backend.
+  // Optional transport protocol for health checks.
+  // When not set, health checks use the same protocol as the proxied traffic.
+  // Use this when health checks' protocol settings differ from their backend, e.g. plaintext health checks for a TLS backend.
   oneof transport_settings {
     PlaintextTransportSettings plaintext = 10;
     SecureTransportSettings tls = 11;

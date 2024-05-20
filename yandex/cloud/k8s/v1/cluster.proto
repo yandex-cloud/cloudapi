@@ -3,7 +3,6 @@ syntax = "proto3";
 package yandex.cloud.k8s.v1;
 
 import "google/protobuf/timestamp.proto";
-
 import "yandex/cloud/k8s/v1/maintenance.proto";
 import "yandex/cloud/k8s/v1/version.proto";
 import "yandex/cloud/validation.proto";
@@ -213,6 +212,7 @@ message MasterEndpoints {
 }
 
 message IPAllocationPolicy {
+  reserved 3 to 4;
   // CIDR block. IP range for allocating pod addresses.
   //
   // It should not overlap with any subnet in the network the Kubernetes cluster located in. Static routes will be

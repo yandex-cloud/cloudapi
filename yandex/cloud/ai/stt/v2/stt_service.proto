@@ -69,6 +69,8 @@ message RecognitionSpec {
     MP3 = 3;
   }
 
+  reserved 6;
+
   AudioEncoding audio_encoding = 1;
 
   // 8000, 16000, 48000 only for pcm

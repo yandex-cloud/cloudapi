@@ -9,21 +9,23 @@ option java_package = "yandex.cloud.api.video.v1";
 
 // Root entity for content separation.
 message Channel {
-    // ID of the channel.
-    string id = 1;
-    // ID of the organization where channel should be created.
-    string organization_id = 2;
+  reserved 102 to 199;
+  reserved 5 to 99;
+  // ID of the channel.
+  string id = 1;
+  // ID of the organization where channel should be created.
+  string organization_id = 2;
 
-    // Channel title.
-    string title = 3;
-    // Channel description.
-    string description = 4;
+  // Channel title.
+  string title = 3;
+  // Channel description.
+  string description = 4;
 
-    // Time when channel was created.
-    google.protobuf.Timestamp created_at = 100;
-    // Time of last channel update.
-    google.protobuf.Timestamp updated_at = 101;
+  // Time when channel was created.
+  google.protobuf.Timestamp created_at = 100;
+  // Time of last channel update.
+  google.protobuf.Timestamp updated_at = 101;
 
-    // Custom labels as `` key:value `` pairs. Maximum 64 per resource.
-    map<string, string> labels = 200;
+  // Custom labels as `` key:value `` pairs. Maximum 64 per resource.
+  map<string, string> labels = 200;
 }

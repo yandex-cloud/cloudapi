@@ -4,10 +4,10 @@ package yandex.cloud.iot.devices.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/cloud/validation.proto";
 import "yandex/cloud/api/operation.proto";
-import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/iot/devices/v1/device.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/iot/devices/v1;devices";
 option java_package = "yandex.cloud.api.iot.devices.v1";
@@ -17,22 +17,25 @@ service DeviceService {
   // Returns the specified device.
   //
   // To get the list of available devices, make a [List] request.
-  rpc Get (GetDeviceRequest) returns (Device) {
-    option (google.api.http) = { get: "/iot-devices/v1/devices/{device_id}" };
+  rpc Get(GetDeviceRequest) returns (Device) {
+    option (google.api.http) = {get: "/iot-devices/v1/devices/{device_id}"};
   }
 
-  rpc GetByName (GetByNameDeviceRequest) returns (Device) {
-    option (google.api.http) = { get: "/iot-devices/v1/devices:getByName" };
+  rpc GetByName(GetByNameDeviceRequest) returns (Device) {
+    option (google.api.http) = {get: "/iot-devices/v1/devices:getByName"};
   }
 
   // Retrieves the list of devices in the specified registry.
-  rpc List (ListDevicesRequest) returns (ListDevicesResponse) {
-    option (google.api.http) = { get: "/iot-devices/v1/devices" };
+  rpc List(ListDevicesRequest) returns (ListDevicesResponse) {
+    option (google.api.http) = {get: "/iot-devices/v1/devices"};
   }
 
   // Creates a device in the specified registry.
-  rpc Create (CreateDeviceRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/iot-devices/v1/devices" body: "*" };
+  rpc Create(CreateDeviceRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/iot-devices/v1/devices"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateDeviceMetadata"
       response: "Device"
@@ -40,8 +43,11 @@ service DeviceService {
   }
 
   // Updates the specified device.
-  rpc Update (UpdateDeviceRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/iot-devices/v1/devices/{device_id}" body: "*" };
+  rpc Update(UpdateDeviceRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/iot-devices/v1/devices/{device_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateDeviceMetadata"
       response: "Device"
@@ -49,8 +55,8 @@ service DeviceService {
   }
 
   // Deletes the specified device.
-  rpc Delete (DeleteDeviceRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/iot-devices/v1/devices/{device_id}" };
+  rpc Delete(DeleteDeviceRequest) returns (operation.Operation) {
+    option (google.api.http) = {delete: "/iot-devices/v1/devices/{device_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteDeviceMetadata"
       response: "google.protobuf.Empty"
@@ -58,13 +64,16 @@ service DeviceService {
   }
 
   // Retrieves the list of device certificates for the specified device.
-  rpc ListCertificates (ListDeviceCertificatesRequest) returns (ListDeviceCertificatesResponse) {
-    option (google.api.http) = { get: "/iot-devices/v1/devices/{device_id}/certificates" };
+  rpc ListCertificates(ListDeviceCertificatesRequest) returns (ListDeviceCertificatesResponse) {
+    option (google.api.http) = {get: "/iot-devices/v1/devices/{device_id}/certificates"};
   }
 
   // Adds a certificate.
-  rpc AddCertificate (AddDeviceCertificateRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/iot-devices/v1/devices/{device_id}/certificates" body: "*" };
+  rpc AddCertificate(AddDeviceCertificateRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/iot-devices/v1/devices/{device_id}/certificates"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "AddDeviceCertificateMetadata"
       response: "DeviceCertificate"
@@ -72,8 +81,8 @@ service DeviceService {
   }
 
   // Deletes the specified device certificate.
-  rpc DeleteCertificate (DeleteDeviceCertificateRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/iot-devices/v1/devices/{device_id}/certificates/{fingerprint}" };
+  rpc DeleteCertificate(DeleteDeviceCertificateRequest) returns (operation.Operation) {
+    option (google.api.http) = {delete: "/iot-devices/v1/devices/{device_id}/certificates/{fingerprint}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteDeviceCertificateMetadata"
       response: "google.protobuf.Empty"
@@ -81,13 +90,16 @@ service DeviceService {
   }
 
   // Retrieves the list of passwords for the specified device.
-  rpc ListPasswords (ListDevicePasswordsRequest) returns (ListDevicePasswordsResponse){
-    option (google.api.http) = { get: "/iot-devices/v1/devices/{device_id}/passwords" };
+  rpc ListPasswords(ListDevicePasswordsRequest) returns (ListDevicePasswordsResponse) {
+    option (google.api.http) = {get: "/iot-devices/v1/devices/{device_id}/passwords"};
   }
 
   // Adds password for the specified device.
-  rpc AddPassword (AddDevicePasswordRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/iot-devices/v1/devices/{device_id}/passwords" body: "*" };
+  rpc AddPassword(AddDevicePasswordRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/iot-devices/v1/devices/{device_id}/passwords"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "AddDevicePasswordMetadata"
       response: "DevicePassword"
@@ -95,8 +107,8 @@ service DeviceService {
   }
 
   // Deletes the specified password.
-  rpc DeletePassword (DeleteDevicePasswordRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/iot-devices/v1/devices/{device_id}/passwords/{password_id}" };
+  rpc DeletePassword(DeleteDevicePasswordRequest) returns (operation.Operation) {
+    option (google.api.http) = {delete: "/iot-devices/v1/devices/{device_id}/passwords/{password_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteDevicePasswordMetadata"
       response: "google.protobuf.Empty"
@@ -104,8 +116,8 @@ service DeviceService {
   }
 
   // Lists operations for the specified device.
-  rpc ListOperations (ListDeviceOperationsRequest) returns (ListDeviceOperationsResponse) {
-    option (google.api.http) = { get: "/iot-devices/v1/devices/{device_id}/operations" };
+  rpc ListOperations(ListDeviceOperationsRequest) returns (ListDeviceOperationsResponse) {
+    option (google.api.http) = {get: "/iot-devices/v1/devices/{device_id}/operations"};
   }
 }
 
@@ -113,7 +125,10 @@ message GetDeviceRequest {
   // ID of the device to return.
   //
   // To get a device ID make a [DeviceService.List] request.
-  string device_id = 1 [(required) = true, (length) = "<=50"];
+  string device_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Specifies which parts of the device resource should be returned
   // in the response.
@@ -124,12 +139,19 @@ message GetByNameDeviceRequest {
   // ID of the registry to get device.
   //
   // To get a registry ID make a [yandex.cloud.iot.devices.v1.RegistryService.List] request.
-  string registry_id = 1 [(required) = true, (length) = "<=50"];
+  string registry_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Name of the device to return.
   //
   // To get a device name make a [DeviceService.List] request.
-  string device_name = 2 [(required) = true, (length) = "<=50", (pattern) = "[a-zA-Z0-9_-]*"];
+  string device_name = 2 [
+    (required) = true,
+    (length) = "<=50",
+    (pattern) = "[a-zA-Z0-9_-]*"
+  ];
 
   // Specifies which parts of the device resource should be returned
   // in the response.
@@ -181,10 +203,17 @@ message CreateDeviceRequest {
   // ID of the registry to create a device in.
   //
   // To get a registry ID, make a [yandex.cloud.iot.devices.v1.RegistryService.List] request.
-  string registry_id = 1 [(required) = true, (length) = "<=50"];
+  string registry_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Name of the device. The name must be unique within the registry.
-  string name = 2 [(required) = true, (length) = "<=50", (pattern) = "[a-zA-Z0-9_-]*"];
+  string name = 2 [
+    (required) = true,
+    (length) = "<=50",
+    (pattern) = "[a-zA-Z0-9_-]*"
+  ];
 
   // Description of the device.
   string description = 3 [(length) = "<=256"];
@@ -218,13 +247,19 @@ message UpdateDeviceRequest {
   // ID of the device to update.
   //
   // To get a device ID make a [DeviceService.List] request.
-  string device_id = 1 [(required) = true, (length) = "<=50"];
+  string device_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Field mask that specifies which fields of the device are going to be updated.
   google.protobuf.FieldMask update_mask = 2;
 
   // Name of the device. The name must be unique within the registry.
-  string name = 3 [(length) = "<=50", (pattern) = "[a-zA-Z0-9_-]*"];
+  string name = 3 [
+    (length) = "<=50",
+    (pattern) = "[a-zA-Z0-9_-]*"
+  ];
 
   // Description of the device.
   string description = 4 [(length) = "<=256"];
@@ -244,7 +279,10 @@ message DeleteDeviceRequest {
   // ID of the device to delete.
   //
   // To get a device ID make a [DeviceService.List] request.
-  string device_id = 1 [(required) = true, (length) = "<=50"];
+  string device_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 }
 
 message DeleteDeviceMetadata {
@@ -254,7 +292,10 @@ message DeleteDeviceMetadata {
 
 message ListDeviceCertificatesRequest {
   // ID of the device to list certificates for.
-  string device_id = 1 [(required) = true, (length) = "<=50"];
+  string device_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 }
 
 message ListDeviceCertificatesResponse {
@@ -263,10 +304,14 @@ message ListDeviceCertificatesResponse {
 }
 
 message AddDeviceCertificateRequest {
+  reserved 2;
   // ID of the device for which the certificate is being added.
   //
   // To get a device ID make a [DeviceService.List] request.
-  string device_id = 1 [(required) = true, (length) = "<=50"];
+  string device_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Public part of the certificate.
   string certificate_data = 3;
@@ -284,25 +329,40 @@ message DeleteDeviceCertificateRequest {
   // ID of the device to delete a certificate for.
   //
   // To get a device ID make a [DeviceService.List] request.
-  string device_id = 1 [(required) = true, (length) = "<=50"];
+  string device_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Fingerprint of the certificate to delete.
-  string fingerprint = 2 [(required) = true, (length) = "<=50"];
+  string fingerprint = 2 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 }
 
 message DeleteDeviceCertificateMetadata {
   // ID of the device certificate that is being deleted.
-  string device_id = 1 [(required) = true, (length) = "<=50"];
+  string device_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Fingerprint of the certificate that is being deleted.
-  string fingerprint = 2 [(required) = true, (length) = "<=50"];
+  string fingerprint = 2 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 }
 
 message ListDevicePasswordsRequest {
   // ID of the registry to list passwords in.
   //
   // To get a registry ID make a [RegistryService.List] request.
-  string device_id = 1 [(required) = true, (length) = "<=50"];
+  string device_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 }
 
 message ListDevicePasswordsResponse {
@@ -311,11 +371,13 @@ message ListDevicePasswordsResponse {
 }
 
 message AddDevicePasswordRequest {
-
   // ID of the device to add a password for.
   //
   // To get a device ID make a [DeviceService.List] request.
-  string device_id = 1 [(required) = true, (length) = "<=50"];
+  string device_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Passwords for the device.
   //
@@ -335,20 +397,32 @@ message DeleteDevicePasswordRequest {
   // ID of the device to delete a password for.
   //
   // To get a device ID make a [DeviceService.List] request.
-  string device_id = 1 [(required) = true, (length) = "<=50"];
+  string device_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // ID of the password to delete.
   //
   // To get a password ID make a [DeviceService.ListPasswords] request.
-  string password_id = 2 [(required) = true, (length) = "<=50"];
+  string password_id = 2 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 }
 
 message DeleteDevicePasswordMetadata {
   // ID of the device for which the password is being deleted.
-  string device_id = 1 [(required) = true, (length) = "<=50"];
+  string device_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // ID of the password that is being deleted.
-  string password_id = 2 [(required) = true, (length) = "<=50"];
+  string password_id = 2 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 }
 
 message ListDeviceOperationsRequest {

@@ -42,6 +42,8 @@ message RedisConfig6_2 {
   }
 
   message ClientOutputBufferLimit {
+    reserved 4;
+    reserved 2;
     // Total limit in bytes.
     google.protobuf.Int64Value hard_limit = 1 [(value) = ">=0"];
     // Limit in bytes during certain time period.
@@ -85,7 +87,6 @@ message RedisConfig6_2 {
   // Redis maxmemory percent
   google.protobuf.Int64Value maxmemory_percent = 10 [(value) = "1-75"];
 }
-
 
 message RedisConfigSet6_2 {
   // Effective settings for a Redis 6.2 cluster (a combination of settings

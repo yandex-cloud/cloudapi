@@ -11,6 +11,7 @@ option java_package = "yandex.cloud.api.ydb.v1";
 
 // YDB database.
 message Database {
+  reserved 7;
   enum Status {
     STATUS_UNSPECIFIED = 0;
     PROVISIONING = 1;
@@ -61,14 +62,13 @@ message Database {
   string document_api_endpoint = 22;
 
   string kinesis_api_endpoint = 23;
-  
+
   string kafka_api_endpoint = 26;
 
   MonitoringConfig monitoring_config = 24;
 
   bool deletion_protection = 25;
 }
-
 
 message AlertParameter {
   message DoubleParameterValue {
@@ -115,7 +115,6 @@ message AlertParameter {
   }
 }
 
-
 enum AlertEvaluationStatus {
   ALERT_EVALUATION_STATUS_UNSPECIFIED = 0;
   ALERT_EVALUATION_STATUS_OK = 1;
@@ -154,11 +153,10 @@ message Alert {
 
   // alert paratemers to override.
   repeated AlertParameter alert_thresholds = 7;
-
 }
 
 message MonitoringConfig {
-   repeated Alert alerts = 1;
+  repeated Alert alerts = 1;
 }
 
 message DedicatedDatabase {
@@ -209,9 +207,9 @@ message ScalePolicy {
 }
 
 message StorageConfig {
-   repeated StorageOption storage_options = 1 [(size) = ">=1"];
-   // output only field: storage size limit of dedicated database.
-   int64 storage_size_limit = 2;
+  repeated StorageOption storage_options = 1 [(size) = ">=1"];
+  // output only field: storage size limit of dedicated database.
+  int64 storage_size_limit = 2;
 }
 
 message StorageOption {

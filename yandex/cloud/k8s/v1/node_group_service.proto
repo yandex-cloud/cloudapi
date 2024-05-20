@@ -4,10 +4,9 @@ package yandex.cloud.k8s.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-
 import "yandex/cloud/api/operation.proto";
-import "yandex/cloud/k8s/v1/node_group.proto";
 import "yandex/cloud/k8s/v1/node.proto";
+import "yandex/cloud/k8s/v1/node_group.proto";
 import "yandex/cloud/k8s/v1/version.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -20,18 +19,21 @@ service NodeGroupService {
   // Returns the specified node group.
   //
   // To get the list of available node group, make a [List] request.
-  rpc Get (GetNodeGroupRequest) returns (NodeGroup) {
-    option (google.api.http) = { get: "/managed-kubernetes/v1/nodeGroups/{node_group_id}" };
+  rpc Get(GetNodeGroupRequest) returns (NodeGroup) {
+    option (google.api.http) = {get: "/managed-kubernetes/v1/nodeGroups/{node_group_id}"};
   }
 
   // Retrieves the list of node group in the specified Kubernetes cluster.
-  rpc List (ListNodeGroupsRequest) returns (ListNodeGroupsResponse) {
-    option (google.api.http) = { get: "/managed-kubernetes/v1/nodeGroups" };
+  rpc List(ListNodeGroupsRequest) returns (ListNodeGroupsResponse) {
+    option (google.api.http) = {get: "/managed-kubernetes/v1/nodeGroups"};
   }
 
   // Creates a node group in the specified Kubernetes cluster.
-  rpc Create (CreateNodeGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/managed-kubernetes/v1/nodeGroups" body: "*" };
+  rpc Create(CreateNodeGroupRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/managed-kubernetes/v1/nodeGroups"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateNodeGroupMetadata"
       response: "NodeGroup"
@@ -39,8 +41,11 @@ service NodeGroupService {
   }
 
   // Updates the specified node group.
-  rpc Update (UpdateNodeGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/managed-kubernetes/v1/nodeGroups/{node_group_id}" body: "*" };
+  rpc Update(UpdateNodeGroupRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/managed-kubernetes/v1/nodeGroups/{node_group_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateNodeGroupMetadata"
       response: "NodeGroup"
@@ -48,8 +53,8 @@ service NodeGroupService {
   }
 
   // Deletes the specified node group.
-  rpc Delete (DeleteNodeGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/managed-kubernetes/v1/nodeGroups/{node_group_id}" };
+  rpc Delete(DeleteNodeGroupRequest) returns (operation.Operation) {
+    option (google.api.http) = {delete: "/managed-kubernetes/v1/nodeGroups/{node_group_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteNodeGroupMetadata"
       response: "google.protobuf.Empty"
@@ -57,16 +62,15 @@ service NodeGroupService {
   }
 
   // Lists operations for the specified node group.
-  rpc ListOperations (ListNodeGroupOperationsRequest) returns (ListNodeGroupOperationsResponse) {
-    option (google.api.http) = { get: "/managed-kubernetes/v1/nodeGroups/{node_group_id}/operations" };
+  rpc ListOperations(ListNodeGroupOperationsRequest) returns (ListNodeGroupOperationsResponse) {
+    option (google.api.http) = {get: "/managed-kubernetes/v1/nodeGroups/{node_group_id}/operations"};
   }
 
   // Retrieves the list of nodes in the specified Kubernetes cluster.
   rpc ListNodes(ListNodeGroupNodesRequest) returns (ListNodeGroupNodesResponse) {
-    option (google.api.http) = { get: "/managed-kubernetes/v1/nodes" };
+    option (google.api.http) = {get: "/managed-kubernetes/v1/nodes"};
   }
 }
-
 
 message GetNodeGroupRequest {
   // ID of the node group to return.
@@ -153,6 +157,7 @@ message DeleteNodeGroupMetadata {
 }
 
 message UpdateNodeGroupRequest {
+  reserved 7;
   // ID of the node group to update.
   // To get the node group ID use a [NodeGroupService.List] request.
   string node_group_id = 1 [(required) = true];
@@ -170,7 +175,13 @@ message UpdateNodeGroupRequest {
   // Resource labels as `key:value` pairs.
   //
   // Existing set of `labels` is completely replaced by the provided set.
-  map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+  map<string, string> labels = 5 [
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_./\\@0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+  ];
 
   // Node template for the node group.
   // Change may trigger nodes rolling reboot or recreate.
@@ -193,7 +204,10 @@ message UpdateNodeGroupRequest {
   NodeGroupMaintenancePolicy maintenance_policy = 11;
 
   // Support for unsafe sysctl parameters. For more details see [documentation](https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/).
-  repeated string allowed_unsafe_sysctls = 12 [(length) = "<=253", (pattern) = "([a-z0-9]([-_a-z0-9]*[a-z0-9])?\\.)*([a-z0-9][-_a-z0-9]*)?[a-z0-9*]"];
+  repeated string allowed_unsafe_sysctls = 12 [
+    (length) = "<=253",
+    (pattern) = "([a-z0-9]([-_a-z0-9]*[a-z0-9])?\\.)*([a-z0-9][-_a-z0-9]*)?[a-z0-9*]"
+  ];
 
   // Taints that are applied to the nodes of the node group at creation time.
   repeated Taint node_taints = 13;
@@ -220,7 +234,13 @@ message CreateNodeGroupRequest {
   string description = 3 [(length) = "<=256"];
 
   // Resource labels as `key:value` pairs.
-  map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+  map<string, string> labels = 4 [
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_./\\@0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+  ];
 
   // Node template for creating the node group.
   NodeTemplate node_template = 5 [(required) = true];
@@ -242,7 +262,10 @@ message CreateNodeGroupRequest {
   NodeGroupMaintenancePolicy maintenance_policy = 9;
 
   // Support for unsafe sysctl parameters. For more details see [documentation](https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/).
-  repeated string allowed_unsafe_sysctls = 10 [(length) = "<=253", (pattern) = "([a-z0-9]([-_a-z0-9]*[a-z0-9])?\\.)*([a-z0-9][-_a-z0-9]*)?[a-z0-9*]"];
+  repeated string allowed_unsafe_sysctls = 10 [
+    (length) = "<=253",
+    (pattern) = "([a-z0-9]([-_a-z0-9]*[a-z0-9])?\\.)*([a-z0-9][-_a-z0-9]*)?[a-z0-9*]"
+  ];
 
   // Taints that are applied to the nodes of the node group at creation time.
   repeated Taint node_taints = 11;

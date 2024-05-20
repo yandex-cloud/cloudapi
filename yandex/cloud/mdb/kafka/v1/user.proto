@@ -7,7 +7,6 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/kafka/v1;kafka";
 option java_package = "yandex.cloud.api.mdb.kafka.v1";
 
-
 // A Kafka user.
 // For more information, see the [Operations -> Accounts](/docs/managed-kafka/operations/cluster-accounts) section of the documentation.
 message User {
@@ -25,16 +24,24 @@ message User {
 
 message UserSpec {
   // Name of the Kafka user.
-  string name = 1 [(required) = true, (length) = "1-256", (pattern) = "[a-zA-Z0-9_]*"];
+  string name = 1 [
+    (required) = true,
+    (length) = "1-256",
+    (pattern) = "[a-zA-Z0-9_]*"
+  ];
 
   // Password of the Kafka user.
-  string password = 2 [(required) = true, (length) = "8-128"];
+  string password = 2 [
+    (required) = true,
+    (length) = "8-128"
+  ];
 
   // Set of permissions granted to the user.
   repeated Permission permissions = 3;
 }
 
 message Permission {
+  reserved 3;
   enum AccessRole {
     ACCESS_ROLE_UNSPECIFIED = 0;
 

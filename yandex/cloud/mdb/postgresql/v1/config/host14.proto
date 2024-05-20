@@ -12,6 +12,8 @@ option java_package = "yandex.cloud.api.mdb.postgresql.v1.config";
 // parameters which detailed description is available in
 // [PostgreSQL documentation](https://www.postgresql.org/docs/11/runtime-config.html).
 message PostgresqlHostConfig14 {
+  reserved 52 to 53;
+  reserved 44;
   enum BackslashQuote {
     BACKSLASH_QUOTE_UNSPECIFIED = 0;
 

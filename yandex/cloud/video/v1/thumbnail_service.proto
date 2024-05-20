@@ -11,77 +11,79 @@ option java_package = "yandex.cloud.api.video.v1";
 
 // Thumbnail management service.
 service ThumbnailService {
-    // List thumbnails for channel.
-    rpc List(ListThumbnailRequest) returns (ListThumbnailResponse) {}
+  // List thumbnails for channel.
+  rpc List(ListThumbnailRequest) returns (ListThumbnailResponse) {}
 
-    // Create thumbnail.
-    rpc Create(CreateThumbnailRequest) returns (operation.Operation) {
-        option (yandex.cloud.api.operation) = {
-            metadata: "CreateThumbnailMetadata"
-            response: "Thumbnail"
-        };
-    }
+  // Create thumbnail.
+  rpc Create(CreateThumbnailRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "CreateThumbnailMetadata"
+      response: "Thumbnail"
+    };
+  }
 
-    // Generate urls for download images.
-    rpc BatchGenerateDownloadURLs(BatchGenerateDownloadURLsRequest) returns (BatchGenerateDownloadURLsResponse) {}
+  // Generate urls for download images.
+  rpc BatchGenerateDownloadURLs(BatchGenerateDownloadURLsRequest) returns (BatchGenerateDownloadURLsResponse) {}
 
-    // Generate url for upload image.
-    rpc GenerateUploadURL(GenerateThumbnailUploadURLRequest) returns (GenerateThumbnailUploadURLResponse) {}
+  // Generate url for upload image.
+  rpc GenerateUploadURL(GenerateThumbnailUploadURLRequest) returns (GenerateThumbnailUploadURLResponse) {}
 }
 
 message ListThumbnailRequest {
-    // ID of the channel.
-    string channel_id = 1;
+  reserved 2 to 99;
+  // ID of the channel.
+  string channel_id = 1;
 
-    // The maximum number of the results per page to return. Default value: 100.
-    int64 page_size = 100;
-    // Page token for getting the next page of the result.
-    string page_token = 101;
+  // The maximum number of the results per page to return. Default value: 100.
+  int64 page_size = 100;
+  // Page token for getting the next page of the result.
+  string page_token = 101;
 }
 
 message ListThumbnailResponse {
-    // List of thumbnails.
-    repeated Thumbnail thumbnails = 1;
+  reserved 2 to 99;
+  // List of thumbnails.
+  repeated Thumbnail thumbnails = 1;
 
-    // Token for getting the next page.
-    string next_page_token = 100;
+  // Token for getting the next page.
+  string next_page_token = 100;
 }
 
 message CreateThumbnailRequest {
-    // ID of the channel.
-    string channel_id = 1;
+  // ID of the channel.
+  string channel_id = 1;
 }
 
 message CreateThumbnailMetadata {
-    // ID of the thumbnail.
-    string thumbnail_id = 1;
+  // ID of the thumbnail.
+  string thumbnail_id = 1;
 }
 
 message BatchGenerateDownloadURLsRequest {
-    // ID of the channel.
-    string channel_id = 1;
-    // List of thumbnails IDs.
-    repeated string thumbnail_ids = 2;
+  // ID of the channel.
+  string channel_id = 1;
+  // List of thumbnails IDs.
+  repeated string thumbnail_ids = 2;
 }
 
 message BatchGenerateDownloadURLsResponse {
-    // List of download urls.
-    repeated ThumbnailDownloadURL download_urls = 1;
+  // List of download urls.
+  repeated ThumbnailDownloadURL download_urls = 1;
 }
 
 message ThumbnailDownloadURL {
-    // ID of the thumbnail.
-    string thumbnail_id = 1;
-    // Download url.
-    string download_url = 2;
+  // ID of the thumbnail.
+  string thumbnail_id = 1;
+  // Download url.
+  string download_url = 2;
 }
 
 message GenerateThumbnailUploadURLRequest {
-    // ID of the thumbnail.
-    string thumbnail_id = 1;
+  // ID of the thumbnail.
+  string thumbnail_id = 1;
 }
 
 message GenerateThumbnailUploadURLResponse {
-    // Upload url.
-    string upload_url = 1;
+  // Upload url.
+  string upload_url = 1;
 }

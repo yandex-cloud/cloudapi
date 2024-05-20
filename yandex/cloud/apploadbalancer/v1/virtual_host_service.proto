@@ -4,10 +4,9 @@ package yandex.cloud.apploadbalancer.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-
 import "yandex/cloud/api/operation.proto";
-import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/apploadbalancer/v1/virtual_host.proto";
+import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/apploadbalancer/v1;apploadbalancer";
@@ -18,18 +17,21 @@ service VirtualHostService {
   // Returns the specified virtual host.
   //
   // To get the list of all virtual hosts of an HTTP router, make a [List] request.
-  rpc Get (GetVirtualHostRequest) returns (VirtualHost) {
+  rpc Get(GetVirtualHostRequest) returns (VirtualHost) {
     option (google.api.http) = {get: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}"};
   }
 
   // Lists virtual hosts of the specified HTTP router.
-  rpc List (ListVirtualHostsRequest) returns (ListVirtualHostsResponse) {
+  rpc List(ListVirtualHostsRequest) returns (ListVirtualHostsResponse) {
     option (google.api.http) = {get: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts"};
   }
 
   // Creates a virtual host in the specified HTTP router.
-  rpc Create (CreateVirtualHostRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts" body: "*"};
+  rpc Create(CreateVirtualHostRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateVirtualHostMetadata"
       response: "VirtualHost"
@@ -38,7 +40,10 @@ service VirtualHostService {
 
   // Updates the specified virtual host of the specified HTTP router.
   rpc Update(UpdateVirtualHostRequest) returns (operation.Operation) {
-    option (google.api.http) = {patch: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}" body: "*"};
+    option (google.api.http) = {
+      patch: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateVirtualHostMetadata"
       response: "VirtualHost"
@@ -46,7 +51,7 @@ service VirtualHostService {
   }
 
   // Deletes the specified virtual host.
-  rpc Delete (DeleteVirtualHostRequest) returns (operation.Operation) {
+  rpc Delete(DeleteVirtualHostRequest) returns (operation.Operation) {
     option (google.api.http) = {delete: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteVirtualHostMetadata"
@@ -56,7 +61,10 @@ service VirtualHostService {
 
   // Deletes the specified route from the specified virtual host.
   rpc RemoveRoute(RemoveRouteRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}:removeRoute" body: "*"};
+    option (google.api.http) = {
+      post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}:removeRoute"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "RemoveRouteMetadata"
       response: "VirtualHost"
@@ -65,7 +73,10 @@ service VirtualHostService {
 
   // Updates the specified route of the specified virtual host.
   rpc UpdateRoute(UpdateRouteRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}:updateRoute" body: "*"};
+    option (google.api.http) = {
+      post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}:updateRoute"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateRouteMetadata"
       response: "VirtualHost"
@@ -82,7 +93,10 @@ message GetVirtualHostRequest {
   // Name of the virtual host to return.
   //
   // To get the virtual host name, make a [VirtualHostService.List] request.
-  string virtual_host_name = 2 [(required) = true, (pattern) = "([a-z]([-a-z0-9]{0,61}[a-z0-9])?)?"];
+  string virtual_host_name = 2 [
+    (required) = true,
+    (pattern) = "([a-z]([-a-z0-9]{0,61}[a-z0-9])?)?"
+  ];
 }
 
 message ListVirtualHostsRequest {
@@ -115,6 +129,7 @@ message ListVirtualHostsResponse {
 }
 
 message CreateVirtualHostRequest {
+  reserved 4;
   // ID of the HTTP router to create a virtual host in.
   //
   // To get the HTTP router ID, make a [HttpRouterService.List] request.
@@ -167,6 +182,7 @@ message CreateVirtualHostMetadata {
 }
 
 message UpdateVirtualHostRequest {
+  reserved 5;
   // ID of the HTTP router to update a virtual host in.
   //
   // To get the HTTP router ID, make a [HttpRouterService.List] request.
@@ -244,7 +260,10 @@ message DeleteVirtualHostRequest {
   // Name of the virtual host to delete.
   //
   // To get the virtual host name, make a [VirtualHostService.List] request.
-  string virtual_host_name = 2 [(required) = true, (pattern) = "([a-z]([-a-z0-9]{0,61}[a-z0-9])?)?"];
+  string virtual_host_name = 2 [
+    (required) = true,
+    (pattern) = "([a-z]([-a-z0-9]{0,61}[a-z0-9])?)?"
+  ];
 }
 
 message DeleteVirtualHostMetadata {

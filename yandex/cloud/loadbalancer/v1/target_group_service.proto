@@ -5,9 +5,9 @@ package yandex.cloud.loadbalancer.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
-import "yandex/cloud/validation.proto";
-import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/loadbalancer/v1/target_group.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/loadbalancer/v1;loadbalancer";
 option java_package = "yandex.cloud.api.loadbalancer.v1";
@@ -15,18 +15,21 @@ option java_package = "yandex.cloud.api.loadbalancer.v1";
 // A set of methods for managing TargetGroup resources.
 service TargetGroupService {
   // Returns the specified TargetGroup resource.
-  rpc Get (GetTargetGroupRequest) returns (TargetGroup) {
-    option (google.api.http) = { get: "/load-balancer/v1/targetGroups/{target_group_id}" };
+  rpc Get(GetTargetGroupRequest) returns (TargetGroup) {
+    option (google.api.http) = {get: "/load-balancer/v1/targetGroups/{target_group_id}"};
   }
 
   // Retrieves the list of TargetGroup resources in the specified folder.
-  rpc List (ListTargetGroupsRequest) returns (ListTargetGroupsResponse) {
-    option (google.api.http) = { get: "/load-balancer/v1/targetGroups" };
+  rpc List(ListTargetGroupsRequest) returns (ListTargetGroupsResponse) {
+    option (google.api.http) = {get: "/load-balancer/v1/targetGroups"};
   }
 
   // Creates a target group in the specified folder and adds the specified targets to it.
-  rpc Create (CreateTargetGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/load-balancer/v1/targetGroups" body: "*" };
+  rpc Create(CreateTargetGroupRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/load-balancer/v1/targetGroups"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateTargetGroupMetadata"
       response: "TargetGroup"
@@ -34,8 +37,11 @@ service TargetGroupService {
   }
 
   // Updates the specified target group.
-  rpc Update (UpdateTargetGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/load-balancer/v1/targetGroups/{target_group_id}" body: "*" };
+  rpc Update(UpdateTargetGroupRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/load-balancer/v1/targetGroups/{target_group_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateTargetGroupMetadata"
       response: "TargetGroup"
@@ -43,8 +49,8 @@ service TargetGroupService {
   }
 
   // Deletes the specified target group.
-  rpc Delete (DeleteTargetGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/load-balancer/v1/targetGroups/{target_group_id}" };
+  rpc Delete(DeleteTargetGroupRequest) returns (operation.Operation) {
+    option (google.api.http) = {delete: "/load-balancer/v1/targetGroups/{target_group_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteTargetGroupMetadata"
       response: "google.protobuf.Empty"
@@ -52,8 +58,11 @@ service TargetGroupService {
   }
 
   // Adds targets to the target group.
-  rpc AddTargets (AddTargetsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/load-balancer/v1/targetGroups/{target_group_id}:addTargets" body: "*" };
+  rpc AddTargets(AddTargetsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/load-balancer/v1/targetGroups/{target_group_id}:addTargets"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "AddTargetsMetadata"
       response: "TargetGroup"
@@ -61,8 +70,11 @@ service TargetGroupService {
   }
 
   // Removes targets from the target group.
-  rpc RemoveTargets (RemoveTargetsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/load-balancer/v1/targetGroups/{target_group_id}:removeTargets" body: "*" };
+  rpc RemoveTargets(RemoveTargetsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/load-balancer/v1/targetGroups/{target_group_id}:removeTargets"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "RemoveTargetsMetadata"
       response: "TargetGroup"
@@ -70,21 +82,27 @@ service TargetGroupService {
   }
 
   // Lists operations for the specified target group.
-  rpc ListOperations (ListTargetGroupOperationsRequest) returns (ListTargetGroupOperationsResponse) {
-    option (google.api.http) = { get: "/load-balancer/v1/targetGroups/{target_group_id}/operations" };
+  rpc ListOperations(ListTargetGroupOperationsRequest) returns (ListTargetGroupOperationsResponse) {
+    option (google.api.http) = {get: "/load-balancer/v1/targetGroups/{target_group_id}/operations"};
   }
 }
 
 message GetTargetGroupRequest {
   // ID of the TargetGroup resource to return.
   // To get the target group ID, use a [TargetGroupService.List] request.
-  string target_group_id = 1 [(required) = true, (length) = "<=50"];
+  string target_group_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 }
 
 message ListTargetGroupsRequest {
-  // ID of the folder to list target groups in. 
+  // ID of the folder to list target groups in.
   // To get the folder ID, use a [TargetGroupService.List] request.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size],
@@ -93,12 +111,12 @@ message ListTargetGroupsRequest {
   // Default value: 100.
   int64 page_size = 2 [(value) = "<=1000"];
 
-  // Page token. To get the next page of results, set [page_token] to the 
+  // Page token. To get the next page of results, set [page_token] to the
   // [ListTargetGroupsResponse.next_page_token] returned by a previous list request.
   string page_token = 3 [(length) = "<=100"];
 
   // A filter expression that filters resources listed in the response.
-  // The expression must specify: 
+  // The expression must specify:
   // 1. The field name. Currently you can only filter by the [TargetGroup.name] field.
   // 2. An `=` operator.
   // 3. The value in double quotes (`"`). Must be 3-63 characters long and match the regular expression `[a-z][-a-z0-9]{1,61}[a-z0-9]`.
@@ -119,11 +137,15 @@ message ListTargetGroupsResponse {
 }
 
 message CreateTargetGroupRequest {
-  // ID of the folder to list target groups in. 
+  reserved 6;
+  // ID of the folder to list target groups in.
   // To get the folder ID, use a [TargetGroupService.List] request.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
-  // Name of the target group. 
+  // Name of the target group.
   // The name must be unique within the folder.
   string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
@@ -131,8 +153,14 @@ message CreateTargetGroupRequest {
   string description = 3 [(length) = "<=256"];
 
   // Resource labels as `` key:value `` pairs.
-  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
-  
+  map<string, string> labels = 4 [
+    (yandex.cloud.size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_0-9a-z]*"
+  ];
+
   // ID of the availability zone where the target group resides.
   string region_id = 5 [(length) = "<=50"];
 
@@ -148,12 +176,15 @@ message CreateTargetGroupMetadata {
 message UpdateTargetGroupRequest {
   // ID of the TargetGroup resource to update.
   // To get the target group ID, use a [TargetGroupService.List] request.
-  string target_group_id = 1 [(required) = true, (length) = "<=50"];
+  string target_group_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Field mask that specifies which fields of the TargetGroup resource are going to be updated.
   google.protobuf.FieldMask update_mask = 2;
 
-  // Name of the target group. 
+  // Name of the target group.
   // The name must be unique within the folder.
   string name = 3 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
@@ -163,7 +194,13 @@ message UpdateTargetGroupRequest {
   // Resource labels as `` key:value `` pairs.
   //
   // The existing set of `` labels `` is completely replaced with the provided set.
-  map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 5 [
+    (yandex.cloud.size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_0-9a-z]*"
+  ];
 
   // A new list of targets for this target group.
   repeated Target targets = 6;
@@ -177,7 +214,10 @@ message UpdateTargetGroupMetadata {
 message DeleteTargetGroupRequest {
   // ID of the target group to delete.
   // To get the target group ID, use a [TargetGroupService.List] request.
-  string target_group_id = 1 [(required) = true, (length) = "<=50"];
+  string target_group_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 }
 
 message DeleteTargetGroupMetadata {
@@ -188,7 +228,10 @@ message DeleteTargetGroupMetadata {
 message AddTargetsRequest {
   // ID of the TargetGroup resource to add targets to.
   // To get the target group ID, use a [TargetGroupService.List] request.
-  string target_group_id = 1 [(required) = true, (length) = "<=50"];
+  string target_group_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // List of targets to add to the target group.
   repeated Target targets = 2 [(size) = ">=1"];
@@ -202,7 +245,10 @@ message AddTargetsMetadata {
 message RemoveTargetsRequest {
   // ID of the target group to remove targets from.
   // To get the target group ID, use a [TargetGroupService.List] request.
-  string target_group_id = 1 [(required) = true, (length) = "<=50"];
+  string target_group_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // List of targets to remove from the target group.
   repeated Target targets = 2 [(size) = ">=1"];
@@ -216,7 +262,10 @@ message RemoveTargetsMetadata {
 message ListTargetGroupOperationsRequest {
   // ID of the TargetGroup resource to update.
   // To get the target group ID, use a [TargetGroupService.List] request.
-  string target_group_id = 1 [(required) = true, (length) = "<=50"];
+  string target_group_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // The maximum number of results per page that should be returned. If the number of available
   // results is larger than [page_size], the service returns a [ListTargetGroupOperationsResponse.next_page_token]
@@ -224,7 +273,7 @@ message ListTargetGroupOperationsRequest {
   // Default value: 100.
   int64 page_size = 2 [(value) = "<=1000"];
 
-  // Page token. To get the next page of results, set [page_token] to the 
+  // Page token. To get the next page of results, set [page_token] to the
   // [ListTargetGroupOperationsResponse.next_page_token] returned by a previous list request.
   string page_token = 3 [(length) = "<=100"];
 }

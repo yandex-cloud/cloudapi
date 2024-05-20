@@ -3,12 +3,12 @@ syntax = "proto3";
 package yandex.cloud.serverless.containers.v1;
 
 import "google/api/annotations.proto";
-import "google/protobuf/field_mask.proto";
 import "google/protobuf/duration.proto";
-import "yandex/cloud/api/operation.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
-import "yandex/cloud/serverless/containers/v1/container.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/serverless/containers/v1/container.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/containers/v1;containers";
@@ -19,45 +19,54 @@ service ContainerService {
   // Returns the specified container.
   //
   // To get the list of all available containers, make a [List] request.
-  rpc Get (GetContainerRequest) returns (Container) {
-    option (google.api.http) = { get: "/containers/v1/containers/{container_id}" };
-  };
+  rpc Get(GetContainerRequest) returns (Container) {
+    option (google.api.http) = {get: "/containers/v1/containers/{container_id}"};
+  }
 
   // Retrieves the list of containers in the specified folder.
-  rpc List (ListContainersRequest) returns (ListContainersResponse) {
-    option (google.api.http) = { get: "/containers/v1/containers" };
-  };
+  rpc List(ListContainersRequest) returns (ListContainersResponse) {
+    option (google.api.http) = {get: "/containers/v1/containers"};
+  }
 
   // Creates a container in the specified folder.
-  rpc Create (CreateContainerRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/containers/v1/containers" body: "*" };
+  rpc Create(CreateContainerRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/containers/v1/containers"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateContainerMetadata"
       response: "Container"
     };
-  };
+  }
 
   // Updates the specified container.
-  rpc Update (UpdateContainerRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/containers/v1/containers/{container_id}" body: "*" };
+  rpc Update(UpdateContainerRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/containers/v1/containers/{container_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateContainerMetadata"
       response: "Container"
     };
-  };
+  }
 
   // Deletes the specified container.
-  rpc Delete (DeleteContainerRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/containers/v1/containers/{container_id}" };
+  rpc Delete(DeleteContainerRequest) returns (operation.Operation) {
+    option (google.api.http) = {delete: "/containers/v1/containers/{container_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteContainerMetadata"
       response: "google.protobuf.Empty"
     };
-  };
+  }
 
   // Deploys a revision for the specified container.
-  rpc DeployRevision (DeployContainerRevisionRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/containers/v1/revisions:deploy" body: "*" };
+  rpc DeployRevision(DeployContainerRevisionRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/containers/v1/revisions:deploy"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "DeployContainerRevisionMetadata"
       response: "Revision"
@@ -65,8 +74,11 @@ service ContainerService {
   }
 
   // Rollback the specified container to an old revision.
-  rpc Rollback (RollbackContainerRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/containers/v1/containers/{container_id}:rollback" body: "*" };
+  rpc Rollback(RollbackContainerRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/containers/v1/containers/{container_id}:rollback"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "RollbackContainerMetadata"
       response: "Container"
@@ -76,29 +88,32 @@ service ContainerService {
   // Returns the specified revision of a container.
   //
   // To get the list of available revision, make a [ListRevisions] request.
-  rpc GetRevision (GetContainerRevisionRequest) returns (Revision) {
-    option (google.api.http) = { get: "/containers/v1/revisions/{container_revision_id}" };
+  rpc GetRevision(GetContainerRevisionRequest) returns (Revision) {
+    option (google.api.http) = {get: "/containers/v1/revisions/{container_revision_id}"};
   }
 
   // Retrieves the list of revisions for the specified container, or of all container revisions
   // in the specified folder.
-  rpc ListRevisions (ListContainersRevisionsRequest) returns (ListContainersRevisionsResponse) {
-    option (google.api.http) = { get: "/containers/v1/revisions" };
+  rpc ListRevisions(ListContainersRevisionsRequest) returns (ListContainersRevisionsResponse) {
+    option (google.api.http) = {get: "/containers/v1/revisions"};
   }
 
   // Lists operations for the specified container.
-  rpc ListOperations (ListContainerOperationsRequest) returns (ListContainerOperationsResponse) {
-    option (google.api.http) = { get: "/containers/v1/containers/{container_id}/operations" };
+  rpc ListOperations(ListContainerOperationsRequest) returns (ListContainerOperationsResponse) {
+    option (google.api.http) = {get: "/containers/v1/containers/{container_id}/operations"};
   }
 
   // Lists existing access bindings for the specified container.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = { get: "/containers/v1/containers/{resource_id}:listAccessBindings" };
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {get: "/containers/v1/containers/{resource_id}:listAccessBindings"};
   }
 
   // Sets access bindings for the container.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/containers/v1/containers/{resource_id}:setAccessBindings" body: "*" };
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/containers/v1/containers/{resource_id}:setAccessBindings"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
@@ -106,8 +121,11 @@ service ContainerService {
   }
 
   // Updates access bindings for the specified container.
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/containers/v1/containers/{resource_id}:updateAccessBindings" body: "*" };
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/containers/v1/containers/{resource_id}:updateAccessBindings"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
@@ -175,7 +193,13 @@ message CreateContainerRequest {
   string description = 3 [(length) = "<=256"];
 
   // Resource labels as `key:value` pairs.
-  map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_0-9a-z]*"
+  ];
 }
 
 message CreateContainerMetadata {
@@ -203,7 +227,13 @@ message UpdateContainerRequest {
   //
   // Existing set of labels is completely replaced by the provided set, so if you just want
   // to add or remove a label, request the current set of labels with a [ContainerService.Get] request.
-  map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 5 [
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_0-9a-z]*"
+  ];
 }
 
 message UpdateContainerMetadata {
@@ -239,7 +269,7 @@ message ListContainersRevisionsRequest {
     // ID of the container to list revisions for.
     // To get a container ID use a [ContainerService.List] request.
     string container_id = 2;
-  };
+  }
 
   // The maximum number of results per page to return. If the number of available results
   // is larger than `pageSize`, the service returns a [ListContainersRevisionsResponse.next_page_token]
@@ -274,8 +304,9 @@ message ListContainersRevisionsResponse {
   string next_page_token = 2;
 }
 
-
 message DeployContainerRevisionRequest {
+  reserved 4;
+  reserved 2;
   // ID of the container to create a revision for.
   //
   // To get a container ID, make a [ContainerService.List] request.
@@ -336,12 +367,14 @@ message ImageSpec {
   Args args = 3;
 
   // Additional environment for the container.
-  map<string, string> environment = 4 [(length) = "<=4096", (map_key).pattern = "[a-zA-Z][a-zA-Z0-9_]*"];
+  map<string, string> environment = 4 [
+    (length) = "<=4096",
+    (map_key).pattern = "[a-zA-Z][a-zA-Z0-9_]*"
+  ];
 
   // Override for the image's WORKDIR.
   string working_dir = 5;
 }
-
 
 message DeployContainerRevisionMetadata {
   // ID of the revision that is being created.

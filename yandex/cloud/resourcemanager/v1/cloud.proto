@@ -9,6 +9,7 @@ option java_package = "yandex.cloud.api.resourcemanager.v1";
 
 // A Cloud resource. For more information, see [Cloud](/docs/resource-manager/concepts/resources-hierarchy#cloud).
 message Cloud {
+  reserved 5;
   // ID of the cloud.
   string id = 1;
 

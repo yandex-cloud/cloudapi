@@ -4,10 +4,10 @@ package yandex.cloud.serverless.apigateway.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/access/access.proto";
-import "yandex/cloud/serverless/apigateway/v1/apigateway.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/serverless/apigateway/v1/apigateway.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/apigateway/v1;apigateway";
@@ -15,83 +15,97 @@ option java_package = "yandex.cloud.api.serverless.apigateway.v1";
 
 // A set of methods for managing API gateways.
 service ApiGatewayService {
-
   // Returns the specified API gateway. Note that only API gateway basic attributes are returned.
   // To get associated openapi specification, make a [GetOpenapiSpec](#GetOpenapiSpec) request.
   //
   // To get the list of all available API gateways, make a [List] request.
-  rpc Get (GetApiGatewayRequest) returns (ApiGateway) {
+  rpc Get(GetApiGatewayRequest) returns (ApiGateway) {
     option (google.api.http) = {get: "/apigateways/v1/apigateways/{api_gateway_id}"};
   }
 
   // Retrieves the list of API gateways in the specified folder.
-  rpc List (ListApiGatewayRequest) returns (ListApiGatewayResponse) {
+  rpc List(ListApiGatewayRequest) returns (ListApiGatewayResponse) {
     option (google.api.http) = {get: "/apigateways/v1/apigateways"};
   }
 
   // Creates an API gateway in the specified folder.
-  rpc Create (CreateApiGatewayRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/apigateways/v1/apigateways" body: "*"};
+  rpc Create(CreateApiGatewayRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/apigateways/v1/apigateways"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateApiGatewayMetadata"
       response: "ApiGateway"
     };
-  };
+  }
 
   // Updates the specified API gateway.
-  rpc Update (UpdateApiGatewayRequest) returns (operation.Operation) {
-    option (google.api.http) = {patch: "/apigateways/v1/apigateways/{api_gateway_id}" body: "*"};
+  rpc Update(UpdateApiGatewayRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/apigateways/v1/apigateways/{api_gateway_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateApiGatewayMetadata"
       response: "ApiGateway"
     };
-  };
+  }
 
   // Deletes the specified API gateway.
-  rpc Delete (DeleteApiGatewayRequest) returns (operation.Operation) {
+  rpc Delete(DeleteApiGatewayRequest) returns (operation.Operation) {
     option (google.api.http) = {delete: "/apigateways/v1/apigateways/{api_gateway_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteApiGatewayMetadata"
       response: "google.protobuf.Empty"
     };
-  };
+  }
 
   // Attaches domain to the specified API gateway.
-  rpc AddDomain (AddDomainRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/apigateways/v1/apigateways/{api_gateway_id}:addDomain" body: "*"};
+  rpc AddDomain(AddDomainRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/apigateways/v1/apigateways/{api_gateway_id}:addDomain"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "AddDomainMetadata"
       response: "google.protobuf.Empty"
     };
-  };
+  }
 
   // Detaches domain from the specified API gateway.
-  rpc RemoveDomain (RemoveDomainRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/apigateways/v1/apigateways/{api_gateway_id}:removeDomain" body: "*"};
+  rpc RemoveDomain(RemoveDomainRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/apigateways/v1/apigateways/{api_gateway_id}:removeDomain"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "RemoveDomainMetadata"
       response: "google.protobuf.Empty"
     };
-  };
+  }
 
   // Returns the OpenAPI specification of specified API gateway.
-  rpc GetOpenapiSpec (GetOpenapiSpecRequest) returns (GetOpenapiSpecResponse) {
+  rpc GetOpenapiSpec(GetOpenapiSpecRequest) returns (GetOpenapiSpecResponse) {
     option (google.api.http) = {get: "/apigateways/v1/apigateways/{api_gateway_id}:spec"};
   }
 
   // Lists operations for the specified API gateway.
-  rpc ListOperations (ListOperationsRequest) returns (ListOperationsResponse) {
+  rpc ListOperations(ListOperationsRequest) returns (ListOperationsResponse) {
     option (google.api.http) = {get: "/apigateways/v1/apigateways/{api_gateway_id}/operations"};
   }
 
   // Lists existing access bindings for the specified API gateway.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
     option (google.api.http) = {get: "/apigateways/v1/apigateways/{resource_id}:listAccessBindings"};
   }
 
   // Sets access bindings for the specified API gateway.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/apigateways/v1/apigateways/{resource_id}:setAccessBindings" body: "*"};
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/apigateways/v1/apigateways/{resource_id}:setAccessBindings"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
@@ -99,8 +113,11 @@ service ApiGatewayService {
   }
 
   // Updates access bindings for the specified API gateway.
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {patch: "/apigateways/v1/apigateways/{resource_id}:updateAccessBindings" body: "*"};
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/apigateways/v1/apigateways/{resource_id}:updateAccessBindings"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
@@ -168,7 +185,13 @@ message CreateApiGatewayRequest {
   string description = 3 [(length) = "<=256"];
 
   // Resource labels as `key:value` pairs.
-  map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+  map<string, string> labels = 4 [
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_./\\@0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+  ];
 
   // OpenAPI specification of API gateway.
   oneof spec {
@@ -211,7 +234,13 @@ message UpdateApiGatewayRequest {
   //
   // Existing set of labels is completely replaced by the provided set, so if you just want
   // to add or remove a label, request the current set of labels with a [yandex.cloud.serverless.apigateway.v1.ApiGatewayService.Get] request.
-  map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+  map<string, string> labels = 5 [
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_./\\@0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+  ];
 
   // New OpenAPI specification of API gateway.
   oneof spec {
@@ -242,6 +271,7 @@ message DeleteApiGatewayRequest {
 }
 
 message AddDomainRequest {
+  reserved 2;
   // ID of the API gateway that the domain is attached to.
   string api_gateway_id = 1 [(required) = true];
   // Name of the attaching domain.

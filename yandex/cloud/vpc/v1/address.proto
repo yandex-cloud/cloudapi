@@ -10,6 +10,7 @@ option java_package = "yandex.cloud.api.vpc.v1";
 
 // An Address resource. For more information, see [Address](/docs/vpc/concepts/address).
 message Address {
+  reserved 8 to 14;
   enum Type {
     TYPE_UNSPECIFIED = 0;
 

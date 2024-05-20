@@ -37,6 +37,7 @@ message TargetGroup {
 // A target resource.
 // For details about the concept, see [documentation](/docs/application-load-balancer/concepts/target-group).
 message Target {
+  reserved 2;
   // Reference to the target. As of now, targets must only be referred to by their IP addresses.
   oneof address_type {
     option (exactly_one) = true;

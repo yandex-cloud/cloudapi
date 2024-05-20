@@ -68,6 +68,7 @@ message IncomingLogEntry {
 }
 
 message LogEntryDefaults {
+  reserved 3;
   // Default entry severity.
   // Will be applied if entry level is unspecified.
   //

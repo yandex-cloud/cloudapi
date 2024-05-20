@@ -9,10 +9,10 @@ import "yandex/cloud/mdb/kafka/v1/common.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/kafka/v1;kafka";
 option java_package = "yandex.cloud.api.mdb.kafka.v1";
 
-
 // An Kafka topic.
 // For more information, see the [Concepts -> Topics and partitions](/docs/managed-kafka/concepts/topics) section of the documentation.
 message Topic {
+  reserved 5 to 6;
   // Name of the topic.
   string name = 1;
 
@@ -30,11 +30,12 @@ message Topic {
   // User-defined settings for the topic.
   oneof topic_config {
     TopicConfig2_8 topic_config_2_8 = 7 [json_name = "topicConfig_2_8"];
-    TopicConfig3   topic_config_3   = 8 [json_name = "topicConfig_3"];
+    TopicConfig3 topic_config_3 = 8 [json_name = "topicConfig_3"];
   }
 }
 
 message TopicSpec {
+  reserved 4 to 5;
   // Name of the topic.
   string name = 1;
 
@@ -47,13 +48,13 @@ message TopicSpec {
   // User-defined settings for the topic.
   oneof topic_config {
     TopicConfig2_8 topic_config_2_8 = 6 [json_name = "topicConfig_2_8"];
-    TopicConfig3   topic_config_3   = 7 [json_name = "topicConfig_3"];
+    TopicConfig3 topic_config_3 = 7 [json_name = "topicConfig_3"];
   }
 }
 
 // A topic settings for 2.8
 message TopicConfig2_8 {
-  enum CleanupPolicy{
+  enum CleanupPolicy {
     CLEANUP_POLICY_UNSPECIFIED = 0;
 
     // This policy discards log segments when either their retention time or log size limit is reached. See also: [KafkaConfig2_8.log_retention_ms] and other similar parameters.
@@ -123,7 +124,7 @@ message TopicConfig2_8 {
 
 // A topic settings for 3.x
 message TopicConfig3 {
-  enum CleanupPolicy{
+  enum CleanupPolicy {
     CLEANUP_POLICY_UNSPECIFIED = 0;
 
     // This policy discards log segments when either their retention time or log size limit is reached. See also: [KafkaConfig3.log_retention_ms] and other similar parameters.

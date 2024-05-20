@@ -12,6 +12,11 @@ option java_package = "yandex.cloud.api.mdb.postgresql.v1.config";
 // parameters which detailed description is available in
 // [PostgreSQL documentation](https://www.postgresql.org/docs/11/runtime-config.html).
 message PostgresqlConfig15_1C {
+  reserved 78;
+  reserved 106;
+  reserved 125;
+  reserved 166;
+  reserved 64;
   enum BackslashQuote {
     BACKSLASH_QUOTE_UNSPECIFIED = 0;
 
@@ -494,19 +499,19 @@ message PostgresqlConfig15_1C {
 
   google.protobuf.BoolValue enable_group_by_reordering = 151;
 
-  google.protobuf.BoolValue geqo = 152;                                           // enable Genetic Query Optimizer, by default is on
+  google.protobuf.BoolValue geqo = 152; // enable Genetic Query Optimizer, by default is on
 
-  google.protobuf.Int64Value geqo_threshold = 153 [(value) = "2-2147483647"];     // The number of tables to use geqo, default is 12
+  google.protobuf.Int64Value geqo_threshold = 153 [(value) = "2-2147483647"]; // The number of tables to use geqo, default is 12
 
-  google.protobuf.Int64Value geqo_effort = 154 [(value) = "1-10"];                // tradeoff between planning time and query plan quality, default is 5
+  google.protobuf.Int64Value geqo_effort = 154 [(value) = "1-10"]; // tradeoff between planning time and query plan quality, default is 5
 
-  google.protobuf.Int64Value geqo_pool_size = 155;                                // number of individuals in the genetic population, useful values are typically 100 to 1000; default - 0 - choose based on based on geqo_effort
+  google.protobuf.Int64Value geqo_pool_size = 155; // number of individuals in the genetic population, useful values are typically 100 to 1000; default - 0 - choose based on based on geqo_effort
 
-  google.protobuf.Int64Value geqo_generations = 156;                              // the number of generations used by GEQO, useful values are in the same range as the pool size
+  google.protobuf.Int64Value geqo_generations = 156; // the number of generations used by GEQO, useful values are in the same range as the pool size
 
-  google.protobuf.DoubleValue geqo_selection_bias = 157 [(value) = "1.5-2.0"];    // selective pressure within the population
+  google.protobuf.DoubleValue geqo_selection_bias = 157 [(value) = "1.5-2.0"]; // selective pressure within the population
 
-  google.protobuf.DoubleValue geqo_seed = 158 [(value) = "0.0-1.0"];              // initial value of the random number generator used by GEQO
+  google.protobuf.DoubleValue geqo_seed = 158 [(value) = "0.0-1.0"]; // initial value of the random number generator used by GEQO
 
   google.protobuf.DoubleValue pg_trgm_similarity_threshold = 159 [(value) = "0.0-1.0"];
 
@@ -522,7 +527,7 @@ message PostgresqlConfig15_1C {
 
   google.protobuf.Int64Value log_autovacuum_min_duration = 165 [(value) = "-1-2147483647"]; // in milliseconds. The default is 1000 (1 sec).
 
-  PasswordEncryption password_encryption = 167;  // A default value for `` user_password_encryption `` user-level setting, if it not specified for new users. Possible values are `` PASSWORD_ENCRYPTION_MD5 `` or `` PASSWORD_ENCRYPTION_SCRAM_SHA_256 ``. The default is `` PASSWORD_ENCRYPTION_MD5 ``.
+  PasswordEncryption password_encryption = 167; // A default value for `` user_password_encryption `` user-level setting, if it not specified for new users. Possible values are `` PASSWORD_ENCRYPTION_MD5 `` or `` PASSWORD_ENCRYPTION_SCRAM_SHA_256 ``. The default is `` PASSWORD_ENCRYPTION_MD5 ``.
 }
 
 message PostgresqlConfigSet15_1C {

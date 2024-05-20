@@ -5,9 +5,9 @@ package yandex.cloud.mdb.sqlserver.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/mdb/sqlserver/v1/database.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
-import "yandex/cloud/mdb/sqlserver/v1/database.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/sqlserver/v1;sqlserver";
 option java_outer_classname = "PSDS";
@@ -18,18 +18,21 @@ service DatabaseService {
   // Returns the specified SQL Server database.
   //
   // To get the list of available SQL Server databases, make a [List] request.
-  rpc Get (GetDatabaseRequest) returns (Database) {
-    option (google.api.http) = { get: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases/{database_name}" };
+  rpc Get(GetDatabaseRequest) returns (Database) {
+    option (google.api.http) = {get: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases/{database_name}"};
   }
 
   // Retrieves the list of SQL Server databases in the specified cluster.
-  rpc List (ListDatabasesRequest) returns (ListDatabasesResponse) {
-    option (google.api.http) = { get: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases" };
+  rpc List(ListDatabasesRequest) returns (ListDatabasesResponse) {
+    option (google.api.http) = {get: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases"};
   }
 
   // Creates a new SQL Server database in the specified cluster.
-  rpc Create (CreateDatabaseRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases" body: "*" };
+  rpc Create(CreateDatabaseRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateDatabaseMetadata"
       response: "Database"
@@ -37,17 +40,23 @@ service DatabaseService {
   }
 
   // Creates a new SQL Server database in the specified cluster from a backup.
-  rpc Restore (RestoreDatabaseRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases:restore" body: "*" };
+  rpc Restore(RestoreDatabaseRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases:restore"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "RestoreDatabaseMetadata"
       response: "Database"
-      };
+    };
   }
 
   //Imports a new SQL Server database from an external backup.
-  rpc ImportBackup (ImportDatabaseBackupRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases:import" body: "*" };
+  rpc ImportBackup(ImportDatabaseBackupRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases:import"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "ImportDatabaseBackupMetadata"
       response: "Database"
@@ -55,18 +64,20 @@ service DatabaseService {
   }
 
   //Exports the last database backup to an external backup.
-  rpc ExportBackup (ExportDatabaseBackupRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases/{database_name}:export" body: "*" };
+  rpc ExportBackup(ExportDatabaseBackupRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases/{database_name}:export"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "ExportDatabaseBackupMetadata"
       response: "Database"
     };
   }
 
-
   // Deletes the specified SQL Server database.
-  rpc Delete (DeleteDatabaseRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases/{database_name}" };
+  rpc Delete(DeleteDatabaseRequest) returns (operation.Operation) {
+    option (google.api.http) = {delete: "/mdb/sqlserver/v1/clusters/{cluster_id}/databases/{database_name}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteDatabaseMetadata"
       response: "google.protobuf.Empty"
@@ -78,19 +89,29 @@ message GetDatabaseRequest {
   // ID of the SQL Server cluster the database belongs to.
   //
   // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Name of the SQL Server database to return.
   //
   // To get the name of the database use a [DatabaseService.List] request.
-  string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+  string database_name = 2 [
+    (required) = true,
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_-]*"
+  ];
 }
 
 message ListDatabasesRequest {
   // ID of the SQL Server cluster to list databases in.
   //
   // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // The maximum number of results per page to return.
   //
@@ -117,7 +138,10 @@ message CreateDatabaseRequest {
   // ID of the SQL Server cluster to create a database in.
   //
   // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Configuration of the database to create.
   DatabaseSpec database_spec = 2 [(required) = true];
@@ -135,12 +159,19 @@ message DeleteDatabaseRequest {
   // ID of the SQL Server cluster to delete a database in.
   //
   // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Name of the database to delete.
   //
   // To get the name of the database, use a [DatabaseService.List] request.
-  string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+  string database_name = 2 [
+    (required) = true,
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_-]*"
+  ];
 }
 
 message DeleteDatabaseMetadata {
@@ -152,10 +183,14 @@ message DeleteDatabaseMetadata {
 }
 
 message RestoreDatabaseRequest {
+  reserved 5;
   // ID of the SQL Server cluster to restore a database in.
   //
   // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Name of the SQL Server database that is being restored.
   string database_name = 2 [(required) = true];
@@ -168,7 +203,6 @@ message RestoreDatabaseRequest {
 
   // Timestamp which is used for Point-in-Time recovery.
   google.protobuf.Timestamp time = 6 [(required) = true];
-
 }
 
 message RestoreDatabaseMetadata {
@@ -185,12 +219,14 @@ message RestoreDatabaseMetadata {
   string backup_id = 4 [(required) = true];
 }
 
-
 message ImportDatabaseBackupRequest {
   // ID of the SQL Server cluster to import a database in.
   //
   // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Name of the SQL Server database that is being imported.
   string database_name = 2 [(required) = true];
@@ -223,7 +259,10 @@ message ExportDatabaseBackupRequest {
   // ID of the SQL Server cluster to export a database from.
   //
   // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Name of the SQL Server database that is being exported.
   string database_name = 2 [(required) = true];

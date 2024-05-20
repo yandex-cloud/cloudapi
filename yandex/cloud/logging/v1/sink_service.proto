@@ -4,8 +4,8 @@ package yandex.cloud.logging.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/access/access.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/logging/v1/sink.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -18,18 +18,21 @@ service SinkService {
   // Returns the specified sink.
   //
   // To get the list of all available sinks, make a [List] request.
-  rpc Get (GetSinkRequest) returns (Sink) {
-    option (google.api.http) = { get: "/logging/v1/sinks/{sink_id}" };
+  rpc Get(GetSinkRequest) returns (Sink) {
+    option (google.api.http) = {get: "/logging/v1/sinks/{sink_id}"};
   }
 
   // Retrieves the list of sinks in the specified folder.
-  rpc List (ListSinksRequest) returns (ListSinksResponse) {
-    option (google.api.http) = { get: "/logging/v1/sinks" };
+  rpc List(ListSinksRequest) returns (ListSinksResponse) {
+    option (google.api.http) = {get: "/logging/v1/sinks"};
   }
 
   // Creates a sink in the specified folder.
-  rpc Create (CreateSinkRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/logging/v1/sinks" body: "*" };
+  rpc Create(CreateSinkRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/logging/v1/sinks"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateSinkMetadata"
       response: "Sink"
@@ -37,8 +40,11 @@ service SinkService {
   }
 
   // Updates the specified sink.
-  rpc Update (UpdateSinkRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/logging/v1/sinks/{sink_id}" body: "*" };
+  rpc Update(UpdateSinkRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/logging/v1/sinks/{sink_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateSinkMetadata"
       response: "Sink"
@@ -46,8 +52,8 @@ service SinkService {
   }
 
   // Deletes the specified sink.
-  rpc Delete (DeleteSinkRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/logging/v1/sinks/{sink_id}" };
+  rpc Delete(DeleteSinkRequest) returns (operation.Operation) {
+    option (google.api.http) = {delete: "/logging/v1/sinks/{sink_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteSinkMetadata"
       response: "google.protobuf.Empty"
@@ -55,18 +61,21 @@ service SinkService {
   }
 
   // Lists operations for the specified sink.
-  rpc ListOperations (ListSinkOperationsRequest) returns (ListSinkOperationsResponse) {
-    option (google.api.http) = { get: "/logging/v1/sinks/{sink_id}/operations" };
+  rpc ListOperations(ListSinkOperationsRequest) returns (ListSinkOperationsResponse) {
+    option (google.api.http) = {get: "/logging/v1/sinks/{sink_id}/operations"};
   }
 
   // Lists existing access bindings for the specified sink.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = { get: "/logging/v1/sinks/{resource_id}:listAccessBindings" };
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {get: "/logging/v1/sinks/{resource_id}:listAccessBindings"};
   }
 
   // Sets access bindings for the specified sink.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/logging/v1/sinks/{resource_id}:setAccessBindings" body: "*" };
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/logging/v1/sinks/{resource_id}:setAccessBindings"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
@@ -74,28 +83,37 @@ service SinkService {
   }
 
   // Updates access bindings for the specified sink.
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/logging/v1/sinks/{resource_id}:updateAccessBindings" body: "*" };
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/logging/v1/sinks/{resource_id}:updateAccessBindings"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
   }
-
 }
 
 message GetSinkRequest {
   // ID of the sink to return.
   //
   // To get a sink ID make a [SinkService.List] request.
-  string sink_id = 1  [(required) = true, (length) = "<=64"];
+  string sink_id = 1 [
+    (required) = true,
+    (length) = "<=64"
+  ];
 }
 
 message ListSinksRequest {
+  reserved 2;
   // Folder ID of the sinks to return.
   //
   // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
-  string folder_id = 1 [(required) = true, (length) = "<=64"];
+  string folder_id = 1 [
+    (required) = true,
+    (length) = "<=64"
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than `page_size`, the service returns a [ListSinkssResponse.next_page_token]
@@ -134,7 +152,10 @@ message CreateSinkRequest {
   // ID of the folder to create a sink in.
   //
   // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
-  string folder_id = 1 [(required) = true, (length) = "<=64"];
+  string folder_id = 1 [
+    (required) = true,
+    (length) = "<=64"
+  ];
 
   // Name of the sink.
   // The name must be unique within the folder.
@@ -144,7 +165,13 @@ message CreateSinkRequest {
   string description = 3 [(length) = "<=256"];
 
   // Sink labels as `key:value` pairs.
-  map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_0-9a-z]*"
+  ];
 
   // Logs will be written to the sink on behalf of this service account
   string service_account_id = 5 [(length) = "<=64"];
@@ -155,7 +182,7 @@ message CreateSinkRequest {
     // Yandex data stream
     Sink.Yds yds = 6;
     // Object storage
-    Sink.S3  s3  = 7;
+    Sink.S3 s3 = 7;
   }
 }
 
@@ -168,7 +195,10 @@ message UpdateSinkRequest {
   // ID of the sink to update.
   //
   // To get a sink ID make a [SinkService.List] request.
-  string sink_id = 1 [(required) = true, (length) = "<=64"];
+  string sink_id = 1 [
+    (required) = true,
+    (length) = "<=64"
+  ];
 
   // Field mask that specifies which attributes of the function should be updated.
   google.protobuf.FieldMask update_mask = 2;
@@ -181,18 +211,24 @@ message UpdateSinkRequest {
   string description = 4 [(length) = "<=256"];
 
   // New sink labels as `key:value` pairs.
-  map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
-  
+  map<string, string> labels = 5 [
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_0-9a-z]*"
+  ];
+
   // new service account to use for logs writing to the sink.
   string service_account_id = 6 [(length) = "<=64"];
-  
+
   // New logs destination
   oneof sink {
     option (exactly_one) = true;
     // Yandex data stream
     Sink.Yds yds = 7;
     // Object storage
-    Sink.S3  s3  = 8;
+    Sink.S3 s3 = 8;
   }
 }
 
@@ -205,7 +241,10 @@ message DeleteSinkRequest {
   // ID of the sink to delete.
   //
   // To get a sink ID make a [SinkService.List] request.
-  string sink_id = 1  [(required) = true, (length) = "<=64"];
+  string sink_id = 1 [
+    (required) = true,
+    (length) = "<=64"
+  ];
 }
 
 message DeleteSinkMetadata {
@@ -217,7 +256,10 @@ message ListSinkOperationsRequest {
   // ID of the sink to list operations for.
   //
   // To get a sink ID make a [SinkService.List] request.
-  string sink_id = 1 [(required) = true, (length) = "<=64"];
+  string sink_id = 1 [
+    (required) = true,
+    (length) = "<=64"
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than `page_size`, the service returns a [ListSinkOperationsResponse.next_page_token]

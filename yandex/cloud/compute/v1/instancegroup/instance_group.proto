@@ -2,14 +2,15 @@ syntax = "proto3";
 
 package yandex.cloud.compute.v1.instancegroup;
 
-import "yandex/cloud/validation.proto";
-import "google/protobuf/timestamp.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1/instancegroup;instancegroup";
 option java_package = "yandex.cloud.api.compute.v1.instancegroup";
 
 message InstanceGroup {
+  reserved 13;
   // ID of the instance group.
   string id = 1;
 
@@ -133,7 +134,10 @@ message ApplicationLoadBalancerState {
 }
 
 message Variable {
-  string key = 1 [(length) = "1-128", (pattern) = "[a-zA-Z0-9._-]*"];
+  string key = 1 [
+    (length) = "1-128",
+    (pattern) = "[a-zA-Z0-9._-]*"
+  ];
   string value = 2 [(length) = "<=128"];
 }
 
@@ -146,6 +150,7 @@ message LoadBalancerState {
 }
 
 message ManagedInstancesState {
+  reserved 2 to 3;
   // Target number of instances for this instance group.
   int64 target_size = 1;
 
@@ -302,10 +307,16 @@ message ScalePolicy {
     MetricType metric_type = 2 [(required) = true];
 
     // Name of custom metric in Monitoring that should be used for scaling.
-    string metric_name = 3 [(required) = true, (pattern) = "[a-zA-Z0-9./@_][ 0-9a-zA-Z./@_,:;()\\[\\]<>-]{0,198}"];
+    string metric_name = 3 [
+      (required) = true,
+      (pattern) = "[a-zA-Z0-9./@_][ 0-9a-zA-Z./@_,:;()\\[\\]<>-]{0,198}"
+    ];
 
     // Labels of custom metric in Monitoring that should be used for scaling.
-    map<string, string> labels = 5 [(pattern) = "[a-zA-Z0-9./@_][ 0-9a-zA-Z./@_,:;()\\[\\]<>-]{0,198}", (map_key).pattern = "^[a-zA-Z][0-9a-zA-Z_]{0,31}$"];
+    map<string, string> labels = 5 [
+      (pattern) = "[a-zA-Z0-9./@_][ 0-9a-zA-Z./@_,:;()\\[\\]<>-]{0,198}",
+      (map_key).pattern = "^[a-zA-Z][0-9a-zA-Z_]{0,31}$"
+    ];
 
     // Target value for the custom metric. Instance Groups maintains this level for each availability zone.
     double target = 4 [(value) = ">0"];
@@ -317,7 +328,6 @@ message ScalePolicy {
     string service = 7 [(length) = "<=200"];
   }
 
-
   message FixedScale {
     // Number of instances in the instance group.
     int64 size = 1 [(value) = "1-100"];
@@ -325,6 +335,8 @@ message ScalePolicy {
 }
 
 message DeployPolicy {
+  reserved 9 to 13;
+  reserved 4 to 5;
   // The maximum number of running instances that can be taken offline (i.e., stopped or deleted) at the same time
   // during the update process.
   // If [max_expansion] is not specified or set to zero, [max_unavailable] must be set to a non-zero value.
@@ -391,7 +403,10 @@ message AllocationPolicy {
     // All specified tags must be unique across the whole group not only the zone.
     // It is guaranteed that during whole deploy only tags from prefix of the specified list will be used.
     // It is possible to use tag associated with instance in templating via {instance.tag}.
-    repeated string instance_tags_pool = 2 [(unique) = true, (length) = "3-50"];
+    repeated string instance_tags_pool = 2 [
+      (unique) = true,
+      (length) = "3-50"
+    ];
   }
 }
 
@@ -400,7 +415,12 @@ message InstanceTemplate {
   string description = 1 [(length) = "<=256"];
 
   // Resource labels as `key:value` pairs.
-  map<string, string> labels = 2 [(size) = "<=64", (length) = "<=128", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+  map<string, string> labels = 2 [
+    (size) = "<=64",
+    (length) = "<=128",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+  ];
 
   // ID of the hardware platform configuration for the instance.
   // Platforms allows you to create various types of instances: with a large amount of memory,
@@ -428,7 +448,12 @@ message InstanceTemplate {
   //
   // For example, you may use the metadata in order to provide your public SSH key to the instance.
   // For more information, see [Metadata](/docs/compute/concepts/vm-metadata).
-  map<string, string> metadata = 5 [(size) = "<=128", (length) = "<=262144", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> metadata = 5 [
+    (size) = "<=128",
+    (length) = "<=262144",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_0-9a-z]*"
+  ];
 
   // Boot disk specification that will be attached to the instance.
   AttachedDiskSpec boot_disk_spec = 6 [(required) = true];
@@ -511,7 +536,10 @@ message AttachedFilesystemSpec {
   string device_name = 2 [(pattern) = "|[a-z][-_0-9a-z]{0,19}"];
 
   // ID of the filesystem that should be attached.
-  string filesystem_id = 3 [(length) = "<=128", (pattern) = "[-a-zA-Z0-9._{}]*"];
+  string filesystem_id = 3 [
+    (length) = "<=128",
+    (pattern) = "[-a-zA-Z0-9._{}]*"
+  ];
 }
 
 message PlacementPolicy {
@@ -554,6 +582,7 @@ message ResourcesSpec {
 }
 
 message AttachedDiskSpec {
+  reserved 5 to 6;
   enum Mode {
     MODE_UNSPECIFIED = 0;
 
@@ -578,7 +607,10 @@ message AttachedDiskSpec {
   DiskSpec disk_spec = 3 [(required) = true];
 
   // Set to use an existing disk. To set use variables.
-  string disk_id = 4 [(length) = "<=128", (pattern) = "[-a-zA-Z0-9._{}]*"];
+  string disk_id = 4 [
+    (length) = "<=128",
+    (pattern) = "[-a-zA-Z0-9._{}]*"
+  ];
 
   message DiskSpec {
     // Description of the disk.
@@ -686,6 +718,7 @@ message NetworkSettings {
 }
 
 message LoadBalancerSpec {
+  reserved 3;
   // Specification of the target group that the instance group will be added to. For more information, see [Target groups and resources](/docs/network-load-balancer/concepts/target-resources).
   TargetGroupSpec target_group_spec = 1;
 
@@ -705,7 +738,13 @@ message TargetGroupSpec {
   string description = 2 [(length) = "<=256"];
 
   // Resource labels as `key:value` pairs.
-  map<string, string> labels = 3 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+  map<string, string> labels = 3 [
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_./\\@0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+  ];
 }
 
 message ApplicationLoadBalancerSpec {
@@ -738,7 +777,6 @@ message HealthChecksSpec {
 }
 
 message HealthCheckSpec {
-
   message TcpOptions {
     // Port to use for TCP health checks.
     int64 port = 1 [(value) = "1-65535"];
@@ -778,6 +816,7 @@ message HealthCheckSpec {
 
 // A ManagedInstance resource. For more information, see [Instance Groups Concepts](/docs/compute/concepts/instance-groups/).
 message ManagedInstance {
+  reserved 10 to 13;
 
   enum Status {
     STATUS_UNSPECIFIED = 0;

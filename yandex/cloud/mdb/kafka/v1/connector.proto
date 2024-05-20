@@ -11,6 +11,7 @@ option java_package = "yandex.cloud.api.mdb.kafka.v1";
 //
 // See [the documentation](/docs/managed-kafka/concepts/connectors) for details.
 message ConnectorSpec {
+  reserved 4 to 9;
   // Name of the connector.
   string name = 1;
 
@@ -32,6 +33,7 @@ message ConnectorSpec {
 }
 
 message UpdateConnectorSpec {
+  reserved 3 to 9;
   // Maximum number of connector tasks to update.
   google.protobuf.Int64Value tasks_max = 1;
 
@@ -78,8 +80,7 @@ message ClusterConnectionSpec {
   }
 }
 
-message ThisClusterSpec {
-}
+message ThisClusterSpec {}
 
 message ExternalClusterConnectionSpec {
   // List of bootstrap servers of the cluster, separated by `,`.
@@ -151,6 +152,7 @@ message ExternalS3StorageSpec {
 }
 
 message Connector {
+  reserved 7 to 9;
   enum Health {
 
     // Health of the connector is unknown.
@@ -236,10 +238,10 @@ message ClusterConnection {
   }
 }
 
-message ThisCluster {
-}
+message ThisCluster {}
 
 message ExternalClusterConnection {
+  reserved 3;
   // List of bootstrap servers of the cluster, separated by `,`.
   string bootstrap_servers = 1;
 

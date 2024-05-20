@@ -11,6 +11,7 @@ option java_package = "yandex.cloud.api.datasphere.v2";
 
 // A Project resource.
 message Project {
+  reserved 10;
   message Settings {
     enum CommitMode {
       COMMIT_MODE_UNSPECIFIED = 0;

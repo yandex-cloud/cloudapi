@@ -39,6 +39,8 @@ message BatchAnalyzeRequest {
 }
 
 message AnalyzeSpec {
+  reserved 2;
+
   oneof source {
     option (exactly_one) = true;
 

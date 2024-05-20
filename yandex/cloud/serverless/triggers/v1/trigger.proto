@@ -46,11 +46,15 @@ enum TriggerType {
 
 // A trigger to invoke a serverless function. For more information, see [Triggers](/docs/functions/concepts/trigger).
 message Trigger {
+  reserved 7;
   // ID of the trigger. Generated at creation time.
   string id = 1;
 
   // ID of the folder that the trigger belongs to.
-  string folder_id = 2 [(required) = true, (length) = "<=50"];
+  string folder_id = 2 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Creation timestamp for the trigger.
   google.protobuf.Timestamp created_at = 3;
@@ -72,6 +76,7 @@ message Trigger {
 
   // Description of a rule for trigger activation.
   message Rule {
+    reserved 7 to 8;
     oneof rule {
       option (exactly_one) = true;
       // Rule for a timed trigger.
@@ -95,8 +100,13 @@ message Trigger {
 
   // Rule for activating a timed trigger.
   message Timer {
+    reserved 102;
+    reserved 3 to 100;
     // Description of a schedule as a [cron expression](/docs/functions/concepts/trigger/timer).
-    string cron_expression = 1 [(required) = true, (length) = "<=100"];
+    string cron_expression = 1 [
+      (required) = true,
+      (length) = "<=100"
+    ];
 
     // Payload to be passed to function.
     string payload = 2 [(length) = "<=4096"];
@@ -121,11 +131,16 @@ message Trigger {
 
   // Rule for activating a message queue trigger.
   message MessageQueue {
+    reserved 12 to 100;
+    reserved 6 to 10;
     // ID of the message queue in Message Queue.
     string queue_id = 11 [(required) = true];
 
     // ID of the service account which has read access to the message queue.
-    string service_account_id = 3 [(required) = true, (length) = "<=50"];
+    string service_account_id = 3 [
+      (required) = true,
+      (length) = "<=50"
+    ];
 
     // Batch settings for processing messages in the queue.
     BatchSettings batch_settings = 4 [(required) = true];
@@ -150,6 +165,7 @@ message Trigger {
 
   // Rule for activating a IoT Core trigger.
   message IoTMessage {
+    reserved 5 to 100;
     // ID of the IoT Core registry.
     string registry_id = 1 [(required) = true];
 
@@ -179,6 +195,7 @@ message Trigger {
 
   // Rule for activating a IoT Core Broker trigger.
   message IoTBrokerMessage {
+    reserved 4 to 100;
     // ID of the IoT Core broker.
     string broker_id = 1 [(required) = true];
 
@@ -211,6 +228,8 @@ message Trigger {
   }
 
   message ObjectStorage {
+    reserved 9 to 100;
+    reserved 5;
     // Type (name) of events, at least one value is required.
     repeated ObjectStorageEventType event_type = 3 [(size) = ">0"];
 
@@ -248,6 +267,7 @@ message Trigger {
   }
 
   message ContainerRegistry {
+    reserved 8 to 100;
     // Type (name) of events, at least one value is required.
     repeated ContainerRegistryEventType event_type = 3 [(size) = ">0"];
 
@@ -277,6 +297,7 @@ message Trigger {
   }
 
   message CloudLogs {
+    reserved 3 to 100;
     // Log group identifiers, at least one value is required.
     repeated string log_group_id = 1;
 
@@ -295,12 +316,24 @@ message Trigger {
   }
 
   message Logging {
+    reserved 8 to 100;
+    reserved 102;
+    reserved 2;
     // Log events filter settings.
     string log_group_id = 1 [(length) = "<=50"];
 
-    repeated string resource_type = 3 [(pattern) = "[a-zA-Z][-a-zA-Z0-9_.]{1,62}", (size) = "<=100"];
-    repeated string resource_id = 4 [(pattern) = "[a-zA-Z][-a-zA-Z0-9_.]{1,62}", (size) = "<=100"];
-    repeated string stream_name = 7 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]", (size) = "<=100"];
+    repeated string resource_type = 3 [
+      (pattern) = "[a-zA-Z][-a-zA-Z0-9_.]{1,62}",
+      (size) = "<=100"
+    ];
+    repeated string resource_id = 4 [
+      (pattern) = "[a-zA-Z][-a-zA-Z0-9_.]{1,62}",
+      (size) = "<=100"
+    ];
+    repeated string stream_name = 7 [
+      (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]",
+      (size) = "<=100"
+    ];
     repeated yandex.cloud.logging.v1.LogLevel.Level levels = 5 [(size) = "<=10"];
 
     // Batch settings for processing log events.
@@ -330,7 +363,10 @@ message Trigger {
 // A single function invocation.
 message InvokeFunctionOnce {
   // ID of the function to invoke.
-  string function_id = 1 [(required) = true, (length) = "<=50"];
+  string function_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Version tag of the function to execute.
   string function_tag = 2;
@@ -342,7 +378,10 @@ message InvokeFunctionOnce {
 // A function invocation with retries.
 message InvokeFunctionWithRetry {
   // ID of the function to invoke.
-  string function_id = 1 [(required) = true, (length) = "<=50"];
+  string function_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Version tag of the function to execute.
   string function_tag = 2;
@@ -359,8 +398,12 @@ message InvokeFunctionWithRetry {
 
 // A single container invocation.
 message InvokeContainerOnce {
+  reserved 2;
   // ID of the container to invoke.
-  string container_id = 1  [(required) = true, (length) = "<=50"];
+  string container_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Endpoint HTTP path to invoke.
   string path = 3;
@@ -371,8 +414,12 @@ message InvokeContainerOnce {
 
 // A container invocation with retries.
 message InvokeContainerWithRetry {
+  reserved 2;
   // ID of the container to invoke.
-  string container_id = 1  [(required) = true, (length) = "<=50"];
+  string container_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Endpoint HTTP path to invoke.
   string path = 3;
@@ -388,19 +435,29 @@ message InvokeContainerWithRetry {
 }
 
 message GatewayWebsocketBroadcast {
-  string gateway_id = 1 [(required) = true, (length) = "<=50"];
+  string gateway_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
   string path = 2 [(required) = true];
 
   // sa which has permission for writing to websockets
-  string service_account_id = 3 [(required) = true, (length) = "<=50"];
+  string service_account_id = 3 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 }
 
 message PutQueueMessage {
+  reserved 3 to 10;
   // ID of the queue.
   string queue_id = 11;
 
   // Service account which has write permission on the queue.
-  string service_account_id = 2 [(required) = true, (length) = "<=50"];
+  string service_account_id = 2 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 }
 
 // Settings for batch processing of messages in a queue.
@@ -440,11 +497,19 @@ message RetrySettings {
   int64 retry_attempts = 1 [(value) = "1-5"];
 
   // Time in seconds to wait between individual retries.
-  google.protobuf.Duration interval = 2 [(value) = "10s-1m", (required) = true];
+  google.protobuf.Duration interval = 2 [
+    (value) = "10s-1m",
+    (required) = true
+  ];
 }
 
 message BillingBudget {
-  string billing_account_id = 1 [(required) = true, (length) = "<=50"];
+  reserved 102;
+  reserved 3 to 100;
+  string billing_account_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
   string budget_id = 2 [(length) = "<=50"];
 
   oneof action {
@@ -456,7 +521,6 @@ message BillingBudget {
 }
 
 message DataStreamBatchSettings {
-
   // Batch size in bytes. Trigger will send the batch of messages to the associated function
   // when size of log events reaches this value, or the [cutoff] time has passed.
   int64 size = 1 [(value) = "1-65536"];
@@ -467,6 +531,8 @@ message DataStreamBatchSettings {
 }
 
 message DataStream {
+  reserved 14;
+  reserved 6 to 12;
   // Data stream endpoint.
   string endpoint = 1;
   // Data stream database.
@@ -489,13 +555,21 @@ message DataStream {
 
 message ObjectStorageBucketSettings {
   // Bucket for saving.
-  string bucket_id = 1 [(length) = "3-63", (pattern) = "[-.0-9a-zA-Z]*"];
+  string bucket_id = 1 [
+    (length) = "3-63",
+    (pattern) = "[-.0-9a-zA-Z]*"
+  ];
 
   // SA which has write permission on storage.
-  string service_account_id = 2 [(required) = true, (length) = "<=50"];
+  string service_account_id = 2 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 }
 
 message Mail {
+  reserved 102;
+  reserved 5 to 100;
 
   // Address to receive emails for trigger activation.
   // Field is ignored for write requests and populated on trigger creation.

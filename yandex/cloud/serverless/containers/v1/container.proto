@@ -11,6 +11,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless
 option java_package = "yandex.cloud.api.serverless.containers.v1";
 
 message Container {
+  reserved 7;
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -134,7 +135,10 @@ message Image {
   Args args = 4;
 
   // Additional environment for the container.
-  map<string, string> environment = 5 [(length) = "<=4096", (map_key).pattern = "[a-zA-Z][a-zA-Z0-9_]*"];
+  map<string, string> environment = 5 [
+    (length) = "<=4096",
+    (map_key).pattern = "[a-zA-Z][a-zA-Z0-9_]*"
+  ];
 
   // Override for the image's WORKDIR.
   string working_dir = 6;
@@ -201,11 +205,13 @@ message Connectivity {
   // The list of subnets (from the same network) the revision can be attached to.
   //
   // Deprecated, it is sufficient to specify only network_id, without the list of subnet_ids.
-  repeated string subnet_ids = 2  [(length) = ">0", (unique) = true];
+  repeated string subnet_ids = 2 [
+    (length) = ">0",
+    (unique) = true
+  ];
 }
 
 message LogOptions {
-
   // Is logging from container disabled.
   bool disabled = 1;
 
@@ -236,7 +242,11 @@ message ScalingPolicy {
 
 message StorageMount {
   // S3 bucket name for mounting.
-  string bucket_id = 1 [(required) = true, (length) = "3-63", (pattern) = "[-.0-9a-zA-Z]*"];
+  string bucket_id = 1 [
+    (required) = true,
+    (length) = "3-63",
+    (pattern) = "[-.0-9a-zA-Z]*"
+  ];
 
   // S3 bucket prefix for mounting.
   string prefix = 2;
@@ -248,5 +258,9 @@ message StorageMount {
   bool read_only = 4;
 
   // Mount point path inside the container for mounting.
-  string mount_point_path = 5 [(required) = true, (length) = "1-300", (pattern) = "[-_0-9a-zA-Z/]*"];
+  string mount_point_path = 5 [
+    (required) = true,
+    (length) = "1-300",
+    (pattern) = "[-_0-9a-zA-Z/]*"
+  ];
 }
