@@ -717,7 +717,7 @@ message ClickhouseConfig {
 
   // The default database.
   //
-  // To get a list of cluster databases, see [Yandex Managed ClickHouse documentation](https://cloud.yandex.com/en/docs/managed-clickhouse/operations/databases#list-db).
+  // To get a list of cluster databases, see [Yandex Managed ClickHouse documentation](/docs/managed-clickhouse/operations/databases#list-db).
   google.protobuf.StringValue default_database = 43;
 
   // Sets the memory size (in bytes) for a stack trace at every peak allocation step. Default value: **4194304**.

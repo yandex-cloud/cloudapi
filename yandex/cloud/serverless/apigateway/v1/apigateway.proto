@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.serverless.apigateway.v1;
 
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/logging/v1/log_entry.proto";
 import "yandex/cloud/validation.proto";
@@ -71,6 +72,9 @@ message ApiGateway {
 
   // Canary release of the gateway.
   Canary canary = 15;
+
+  // Timeout for gateway call execution
+  google.protobuf.Duration execution_timeout = 16 [(value) = "<=600s"];
 }
 
 message AttachedDomain {

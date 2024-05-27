@@ -30,6 +30,7 @@ service AgentRegistrationService {
 
 message RegisterRequest {
   string compute_instance_id = 1;
+  string agent_version = 2;
 }
 
 message RegisterResponse {

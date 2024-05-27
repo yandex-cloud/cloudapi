@@ -24,8 +24,8 @@ message PXFConfig {
     google.protobuf.Int64Value pool_max_size = 7 [(value) = "1-1024"];
 
     // JVM
-    google.protobuf.Int64Value xmx = 8[(value) = "64-16384"];
-    google.protobuf.Int64Value xms = 9[(value) = "64-16384"];
+    google.protobuf.Int64Value xmx = 8[(value) = ">=64"];
+    google.protobuf.Int64Value xms = 9[(value) = ">=64"];
 }
 
 message PXFConfigSet {
@@ -44,14 +44,14 @@ message PXFDatasourceS3 {
     string                    access_key  = 1 [(length) = "<=200"];
     string                    secret_key  = 2 [(length) = "<=200"];
     google.protobuf.BoolValue fast_upload = 3;
-    string                    endpoint    = 4 [(length) = "<=200"];
+    string                    endpoint    = 4 [(length) = "<=200", (pattern) = "(((s3|https?)://)?([a-z0-9]([a-z0-9-]*[a-z0-9])?[.])+[a-z]{2,})?"];
 }
 
 message PXFDatasourceJDBC {
     // Matches jdbc.driver
     string driver = 1 [(length) = "<=50"];
     // Matches jdbc.url
-    string url    = 2 [(length) = "<=200"];
+    string url    = 2 [(length) = "<=1000"];
 
     // Matches jdbc.user
     string user     = 3 [(length) = "<=200"];
@@ -63,12 +63,12 @@ message PXFDatasourceJDBC {
     // Matches jdbc.statement.fetchsize
     google.protobuf.Int64Value statement_fetch_size = 6 [(value) = "50-10000"];
     // Matches jdbc.statement.querytimeout
-    google.protobuf.Int64Value statement_query_timeout = 7 [(value) = "5-600"];
+    google.protobuf.Int64Value statement_query_timeout = 7 [(value) = "5-43200"];
 
     // Matches jdbc.pool.enabled
     google.protobuf.BoolValue pool_enabled = 8;
     // Matches jdbc.pool.property.maximumpoolsize
-    google.protobuf.Int64Value pool_maximum_size = 9 [(value) = "10-200"];
+    google.protobuf.Int64Value pool_maximum_size = 9 [(value) = "1-200"];
     // Matches jdbc.pool.property.connectiontimeout
     google.protobuf.Int64Value pool_connection_timeout = 10 [(value) = "5000-600000"];
     // Matches jdbc.pool.property.idletimeout
@@ -105,6 +105,9 @@ message PXFDatasourceHDFSDfs {
     google.protobuf.BoolValue use_datanode_hostname         = 3;
 
     map<string, PXFDatasourceHDFSDfsNamenode> namenodes = 4 [(size) = "<=10000"];
+
+    // Corresponds well-known HDFS client setting "dfs.nameservices" for this datasource
+    string nameservices = 5;
 }
 
 message PXFDatasourceHDFSYarnHaRm {
@@ -154,7 +157,7 @@ message PXFDatasourceHive {
 }
 
 message PXFDatasource {
-    string name = 1 [(required) = true, (length) = "3-200"];
+    string name = 1 [(required) = true, (length) = "3-200", (pattern) = "^[^\\|/*?.,;\"'<>]+$"];
     oneof settings {
         PXFDatasourceS3   s3   = 2;
         PXFDatasourceJDBC jdbc = 3;

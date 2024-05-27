@@ -180,6 +180,8 @@ message ExecuteMetadata {
     string policy_id = 1;
     // Compute Cloud instance ID.
     string compute_instance_id = 2;
+    // Progress of the backup process.
+    double progress_percentage = 3;
 }
 
 message RevokeRequest {

@@ -591,6 +591,9 @@ message AddClusterZookeeperRequest {
 
   // Configuration of ZooKeeper hosts.
   repeated HostSpec host_specs = 3;
+
+  // Enable automatic convertation of non-replicated MergeTree tables to replicated ones.
+  google.protobuf.BoolValue convert_tables_to_replicated = 4;
 }
 
 message AddClusterZookeeperMetadata {
@@ -668,6 +671,9 @@ message RestoreClusterRequest {
 
   // User security groups
   repeated string security_group_ids = 11;
+
+  // Deletion Protection inhibits deletion of the cluster
+  bool deletion_protection = 14;
 }
 
 message RestoreClusterMetadata {

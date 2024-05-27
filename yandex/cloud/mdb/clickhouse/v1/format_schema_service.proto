@@ -100,7 +100,7 @@ message CreateFormatSchemaRequest {
   // * FORMAT_SCHEMA_TYPE_CAPNPROTO - [Cap'n Proto](https://capnproto.org/) data format.
   FormatSchemaType type = 3 [(required) = true];
 
-  // [Link to the file](https://cloud.yandex.com/en/docs/managed-clickhouse/operations/s3-access#get-link-to-object) of a format schema in Yandex Object Storage. Managed Service for ClickHouse works only with format schemas imported to Object Storage.
+  // [Link to the file](/docs/managed-clickhouse/operations/s3-access#get-link-to-object) of a format schema in Yandex Object Storage. Managed Service for ClickHouse works only with format schemas imported to Object Storage.
   string uri = 4 [(required) = true];
 }
 
@@ -125,7 +125,7 @@ message UpdateFormatSchemaRequest {
 
   google.protobuf.FieldMask update_mask = 3;
 
-  // [Link to the file](https://cloud.yandex.com/en/docs/managed-clickhouse/operations/s3-access#get-link-to-object) of a format schema in Yandex Object Storage. Managed Service for ClickHouse works only with format schemas imported to Object Storage.
+  // [Link to the file](/docs/managed-clickhouse/operations/s3-access#get-link-to-object) of a format schema in Yandex Object Storage. Managed Service for ClickHouse works only with format schemas imported to Object Storage.
   string uri = 4;
 }
 

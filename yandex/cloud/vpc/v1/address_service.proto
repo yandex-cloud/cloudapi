@@ -191,13 +191,20 @@ message ExternalIpv4AddressSpec {
 }
 
 message DnsRecordSpec {
-  string fqdn = 1 [(required) = true]; // required: DNS record name (absolute, or relative to the DNS zone used)
+  // Required. DNS record name (absolute or relative to the DNS zone in use).
+  string fqdn = 1 [(required) = true];
+
+  // Required. ID of the public DNS zone. The maximum string length in characters is 20.
   string dns_zone_id = 2 [
     (required) = true,
     (length) = "20"
-  ]; // required: id of public zone
-  int64 ttl = 3 [(value) = "0-86400"]; // optional, 0-86400
-  bool ptr = 4; // optional, set if PTR record required
+  ];
+
+  // TTL of record. Acceptable values are 0 to 86400, inclusive.
+  int64 ttl = 3 [(value) = "0-86400"];
+
+  // Optional. If the PTR record is required, this parameter must be set to "true".
+  bool ptr = 4;
 }
 
 message CreateAddressMetadata {

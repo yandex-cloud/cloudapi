@@ -4,8 +4,9 @@ package yandex.cloud.serverless.apigateway.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/cloud/access/access.proto";
+import "google/protobuf/duration.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/serverless/apigateway/v1/apigateway.proto";
 import "yandex/cloud/validation.proto";
@@ -212,6 +213,9 @@ message CreateApiGatewayRequest {
 
   // Canary release of the gateway.
   Canary canary = 9;
+
+  // Timeout for gateway call execution
+  google.protobuf.Duration execution_timeout = 10 [(value) = "<=600s"];
 }
 
 message UpdateApiGatewayRequest {
@@ -261,6 +265,9 @@ message UpdateApiGatewayRequest {
 
   // Canary release of the gateway.
   Canary canary = 10;
+
+  // Timeout for gateway call execution
+  google.protobuf.Duration execution_timeout = 11 [(value) = "<=600s"];
 }
 
 message DeleteApiGatewayRequest {

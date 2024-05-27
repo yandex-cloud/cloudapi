@@ -72,7 +72,7 @@ message Address {
   // Specifies if address protected from deletion.
   bool deletion_protection = 19;
 
-  // Optional dns record specifications
+  // Optional DNS record specifications
   repeated DnsRecord dns_records = 20;
 }
 
@@ -96,8 +96,15 @@ message AddressRequirements {
 }
 
 message DnsRecord {
-  string fqdn = 1; // DNS record name (absolute, or relative to the DNS zone used)
-  string dns_zone_id = 2; // id of public zone
-  int64 ttl = 3; // TTL of record
-  bool ptr = 4; // set if PTR record required
+  // DNS record name (absolute or relative to the DNS zone in use).
+  string fqdn = 1;
+
+  // ID of the public DNS zone.
+  string dns_zone_id = 2;
+
+  // TTL of record.
+  int64 ttl = 3;
+
+  // If the PTR record is required, this parameter must be set to "true".
+  bool ptr = 4;
 }
