@@ -143,6 +143,24 @@ service RegistryService {
   rpc ListOperations(ListRegistryOperationsRequest) returns (ListRegistryOperationsResponse) {
     option (google.api.http) = {get: "/iot-devices/v1/registries/{registry_id}/operations"};
   }
+
+  // Disables the specified registry.
+  rpc Disable (DisableRegistryRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/iot-devices/v1/registries/{registry_id}:disable"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "DisableRegistryMetadata"
+      response: "Registry"
+    };
+  }
+
+  // Enables the specified registry.
+  rpc Enable (EnableRegistryRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/iot-devices/v1/registries/{registry_id}:enable"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "EnableRegistryMetadata"
+      response: "Registry"
+    };
+  }
 }
 
 message GetRegistryRequest {
@@ -594,4 +612,24 @@ message ListDataStreamExportsRequest {
 message ListDataStreamExportsResponse {
   // List of YDS exports for the specified registry.
   repeated DataStreamExport data_stream_exports = 1;
+}
+
+message DisableRegistryRequest {
+  // ID of the registry to disable.
+  string registry_id = 1 [(required) = true];
+}
+
+message DisableRegistryMetadata {
+  // ID of the registry that was disabled.
+  string registry_id = 1 [(required) = true];
+}
+
+message EnableRegistryRequest {
+  // ID of the registry to enable.
+  string registry_id = 1 [(required) = true];
+}
+
+message EnableRegistryMetadata {
+  // ID of the registry that was enabled.
+  string registry_id = 1 [(required) = true];
 }

@@ -3,11 +3,15 @@ syntax = "proto3";
 package yandex.cloud.speechsense.v1;
 
 option java_package = "yandex.cloud.api.speechsense.v1";
-option java_outer_classname = "TalkProto";
+option java_outer_classname = "TalkServiceProto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/speechsense/v1;speechsense";
 
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/speechsense/v1/audio.proto";
 import "yandex/cloud/speechsense/v1/text.proto";
+import "yandex/cloud/speechsense/v1/search.proto";
+import "yandex/cloud/speechsense/v1/talk.proto";
 
 service TalkService {
 
@@ -20,6 +24,16 @@ service TalkService {
 
   // rpc for uploading text talk document
   rpc UploadText(UploadTextRequest) returns (UploadTextResponse);
+
+  // rpc for searching talks. will return ids only
+  rpc Search(SearchTalkRequest) returns (SearchTalkResponse) {
+    option (google.api.http) = { post: "/speechsense/v1/talks/search" body: "*" };
+  }
+
+  // rpc for bulk get
+  rpc Get(GetTalkRequest) returns (GetTalkResponse) {
+    option (google.api.http) = { post: "/speechsense/v1/talks/bulkGet" body: "*" };
+  }
 }
 
 // streaming request to create audio dialog
@@ -66,4 +80,72 @@ message TalkMetadata {
 
   // channel defined fields
   map<string, string> fields = 2;
+}
+
+
+message SearchTalkRequest {
+
+  // id of organization
+  string organization_id = 1;
+
+  // id of space
+  string space_id = 2;
+
+  // id of connection
+  string connection_id = 3;
+
+  // id of project
+  string project_id = 4;
+
+  // metadata keys filters (user and system)
+  repeated Filter filters = 5;
+
+  // Full-text search query
+  Query query = 6;
+
+  // page size, from 1 to 1000, default 100
+  int64 page_size = 7;
+
+  // next page token, if page is not first
+  string page_token = 8;
+
+  // talks sorting options
+  SortData sort_data = 9;
+
+}
+
+message SearchTalkResponse {
+  // page results entries
+  repeated string talk_ids = 1;
+
+  // total documents matched
+  int64 talks_count = 2;
+
+  // page token for next request
+  string next_page_token = 3;
+}
+
+message GetTalkRequest {
+  // id of organization
+  string organization_id = 1;
+
+  // id of space
+  string space_id = 2;
+
+  // id of connection to search data
+  string connection_id = 3;
+
+  // id of project to search data
+  string project_id = 4;
+
+  // ids of talks to return. Requesting too many talks may result in "message exceeds maximum size" error.
+  // Up to 100 of talks per request is recommended.
+  repeated string talk_ids = 5;
+
+  // All types of analysis will be returned if not set.
+  google.protobuf.FieldMask results_mask = 6;
+}
+
+message GetTalkResponse {
+  repeated Talk talk = 1;
 }

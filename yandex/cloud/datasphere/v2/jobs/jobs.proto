@@ -31,6 +31,8 @@ message JobParameters {
   ExtendedWorkingStorage extended_working_storage = 9;
   // List of literal arguments.
   repeated Argument arguments = 10;
+  // List of DataSets descriptions to create
+  repeated OutputDatasetDesc output_datasets = 11;
 }
 
 message CloudInstanceType {
@@ -115,6 +117,26 @@ message PythonEnv {
   string conda_yaml = 1;
   // List of local modules descriptions.
   repeated File local_modules = 2;
+}
+
+message OutputDatasetDesc {
+  // Name to create dataset with
+  string name = 1;
+  // Description to show in UI
+  string description = 2;
+  map<string, string> labels = 3;
+  // Size of dataset to create
+  int64 size_gb = 4;
+
+  // Var name to replace in cmd, like in FileDesc
+  string var = 5;
+}
+
+message OutputDataset {
+  // Dataset description
+  OutputDatasetDesc desc = 1;
+  // Id of created dataset
+  string id = 2;
 }
 
 // Instance of the job.

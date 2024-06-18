@@ -138,6 +138,9 @@ message Version {
 
   // Optional size of in-memory mounted /tmp directory in bytes.
   int64 tmpfs_size = 23;
+
+  // The maximum number of requests processed by a function instance at the same time
+  int64 concurrency = 24 [(value) = "0-16"];
 }
 
 // Resources allocated to a version.

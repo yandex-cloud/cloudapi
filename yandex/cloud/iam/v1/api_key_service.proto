@@ -54,6 +54,11 @@ service ApiKeyService {
   rpc ListOperations (ListApiKeyOperationsRequest) returns (ListApiKeyOperationsResponse) {
     option (google.api.http) = {get: "/iam/v1/apiKeys/{api_key_id}/operations"};
   }
+
+  // Retrieves the list of scopes.
+  rpc ListScopes (ListApiKeyScopesRequest) returns (ListApiKeyScopesResponse) {
+    option (google.api.http) = {get: "/iam/v1/apiKeys/scopes"};
+  }
 }
 
 message GetApiKeyRequest {
@@ -169,6 +174,30 @@ message ListApiKeyOperationsResponse {
   // This token allows you to get the next page of results for list requests. If the number of results
   // is larger than [ListApiKeyOperationsRequest.page_size], use the [next_page_token] as the value
   // for the [ListApiKeyOperationsRequest.page_token] query parameter in the next list request.
+  // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message ListApiKeyScopesRequest {
+  // The maximum number of results per page to return. If the number of available
+  // results is larger than [page_size],
+  // the service returns a [ListApiKeyScopesResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Default value: 100.
+  int64 page_size = 1 [(value) = "0-1000"];
+
+  // Page token. To get the next page of results, set [page_token] to the
+  // [ListApiKeyScopesResponse.next_page_token] returned by a previous list request.
+  string page_token = 2 [(length) = "<=2000"];
+}
+
+message ListApiKeyScopesResponse {
+  // List of scopes
+  repeated string scopes = 1;
+
+  // This token allows you to get the next page of results for list requests. If the number of results
+  // is larger than [ListApiKeyScopesRequest.page_size], use the [next_page_token] as the value
+  // for the [ListApiKeyScopesRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
 }

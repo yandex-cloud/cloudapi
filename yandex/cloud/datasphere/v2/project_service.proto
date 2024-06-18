@@ -358,11 +358,17 @@ message ProjectExecutionRequest {
     string cell_id = 3 [(length) = "<=200", deprecated=true];
   }
 
-  // Values of input variables.
+  // Values of input variables. Input variables will be available in the project as environment variables.
   google.protobuf.Struct input_variables = 4;
 
   // Names of output variables.
   repeated string output_variable_names = 5;
+
+  //Specification of the VM
+  string spec = 6;
+
+  //ID of the Spark Connector
+  string spark_connector_id = 7 [(length) = "<=200"];
 }
 
 message ProjectExecutionMetadata {
@@ -394,7 +400,8 @@ message ProjectExecutionResponse {
   string checkpoint_id = 1; // <project_id>/checkpoint/<uuid>
 
   // Values of output variables resulting from the execution.
-  google.protobuf.Struct output_variables = 2;
+  // Deprecated
+  google.protobuf.Struct output_variables = 2 [deprecated=true];
 
   // Execution final status.
   ExecutionStatus execution_status = 3;

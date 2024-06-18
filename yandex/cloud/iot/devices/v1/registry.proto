@@ -22,6 +22,9 @@ message Registry {
 
     // Registry is being deleted.
     DELETING = 3;
+
+    // Registry is disabled.
+    DISABLED = 4;
   }
 
   // ID of the registry.

@@ -528,6 +528,9 @@ message CreateFunctionVersionRequest {
   //
   // 0 or in range from 512 MiB to 3/4 of resources.memory.
   int64 tmpfs_size = 23;
+
+  // The maximum number of requests processed by a function instance at the same time
+  int64 concurrency = 24 [(value) = "0-16"];
 }
 
 message CreateFunctionVersionMetadata {

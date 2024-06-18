@@ -24,6 +24,18 @@ message Resource {
         OTHER = 5;
     }
 
+    enum InitStatus {
+        INIT_STATUS_UNSPECIFIED = 0;
+        // Registration of instance in cloud backups have started.
+        REGISTERING = 1;
+        // Instance is registered in cloud backups.
+        REGISTRED = 2;
+        // Instance registration failed.
+        FAILED_REGISTRATION = 3;
+        // Instance is deleted from cloud backup service.
+        DELETED = 4;
+    }
+
     // Compute Cloud instance ID.
     string compute_instance_id = 1;
 
@@ -52,6 +64,13 @@ message Resource {
     // If status `is_active` is false it means Compute Cloud instance is not able to manipulate
     // Cloud Backup resource.
     bool is_active = 12;
+
+    // Status of resource initialization in cloud backup service.
+    InitStatus init_status = 13;
+
+   // Metadata to provide details about instance registration process
+    // if status is FAILED_REGISTRATION or REGISTERING
+    string metadata = 14;
 }
 
 message Progress {

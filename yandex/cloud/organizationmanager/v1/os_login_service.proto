@@ -137,7 +137,7 @@ message OsLoginProfile {
 message UpdateOsLoginProfileRequest {
   string os_login_profile_id = 1 [(required) = true, (length) = "<=50"];
   string login = 2 [(required) = true, (length) = "<=32", (pattern)="^[^.]*?[^~.]$"]; // must not contain . or end in ~
-  int64 uid = 3 [(value) = "1-9223372036854775807"]; // 1 - 2^63 - 1
+  int64 uid = 3 [(value) = "1000-9223372036854775807"]; // 1000 - 2^63 - 1
   string home_directory = 4 [(length) = "<=255"];
   string shell = 5 [(length)="<=255"];
   google.protobuf.FieldMask update_mask = 6;
@@ -151,7 +151,7 @@ message CreateOsLoginProfileRequest {
   string organization_id = 1 [(required) = true, (length) = "<=50"];
   string subject_id = 2 [(length) = "<=50"];
   string login = 3 [(required) = true, (length) = "<=32", (pattern)="^[^.]*?[^~.]$"]; // must not contain . or end in ~
-  int64 uid = 4 [(value) = "1-9223372036854775807"]; // 1 - 2^63 - 1
+  int64 uid = 4 [(value) = "1000-9223372036854775807"]; // 1000 - 2^63 - 1
   string home_directory = 5 [(length) = "<=255"];
   string shell = 6 [(length)="<=255"];
 }

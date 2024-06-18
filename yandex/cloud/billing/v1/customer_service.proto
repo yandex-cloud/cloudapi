@@ -96,7 +96,7 @@ message ListCustomersResponse {
 }
 
 message InviteCustomerRequest {
-  // ID of the reseller that customer will be associated with.
+  // Billing account ID of the reseller that the customer will be associated with.
   string reseller_id = 1 [
     (required) = true,
     (length) = "<=50"

@@ -162,6 +162,8 @@ message ExecuteProjectJobRequest {
 message ExecuteProjectJobResponse {
   // Uploaded output files with URLs.
   repeated StorageFile output_files = 1;
+  // Created datasets
+  repeated OutputDataset output_datasets = 3;
 
   // Result of the job.
   JobResult result = 2;
@@ -232,6 +234,13 @@ message ListProjectJobRequest {
   // Page token. To get the next page of results, set [page_token] to the
   // [ListProjectJobResponse.page_token] returned by a previous list request.
   string page_token = 3;
+
+  // restrictions:
+  //   * only `status` field is supported
+  //   * only `IN` operator is supported
+  // example:
+  //   * only running jobs == "status IN (EXECUTING, UPLOADING_OUTPUT)"
+  string filter = 4 [(length) = "<=1000"];
 }
 
 message ListProjectJobResponse {
@@ -244,7 +253,7 @@ message ListProjectJobResponse {
   // for the [ListProjectJobRequest.page_token] query parameter
   // in the next list request. Each subsequent list request will have its own
   // [page_token] to continue paging through the results.
-  string page_token = 2;
+  string next_page_token = 2;
 }
 
 message GetProjectJobRequest {
