@@ -1175,6 +1175,9 @@ message MongodbSpec3_6 {
 
     // Resources allocated to each mongod host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -1183,6 +1186,9 @@ message MongodbSpec3_6 {
 
     // Resources allocated to each mongocfg host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -1191,6 +1197,9 @@ message MongodbSpec3_6 {
 
     // Resources allocated to each mongos host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -1200,6 +1209,9 @@ message MongodbSpec3_6 {
 
     // Resources allocated to each mongoinfra (mongos+mongocfg) host.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod 3.6 hosts.
@@ -1222,6 +1234,9 @@ message MongodbSpec4_0 {
 
     // Resources allocated to each mongod host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -1230,6 +1245,9 @@ message MongodbSpec4_0 {
 
     // Resources allocated to each mongocfg host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -1238,6 +1256,9 @@ message MongodbSpec4_0 {
 
     // Resources allocated to each mongos host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -1247,6 +1268,9 @@ message MongodbSpec4_0 {
 
     // Resources allocated to each mongoinfra (mongos+mongocfg) host.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod 4.0 hosts.
@@ -1269,6 +1293,9 @@ message MongodbSpec4_2 {
 
     // Resources allocated to each mongod host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -1277,6 +1304,9 @@ message MongodbSpec4_2 {
 
     // Resources allocated to each mongocfg host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -1285,6 +1315,9 @@ message MongodbSpec4_2 {
 
     // Resources allocated to each mongos host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -1294,6 +1327,9 @@ message MongodbSpec4_2 {
 
     // Resources allocated to each mongoinfra (mongos+mongocfg) host.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod 4.2 hosts.
@@ -1316,6 +1352,9 @@ message MongodbSpec4_4 {
 
     // Resources allocated to each mongod host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -1324,6 +1363,9 @@ message MongodbSpec4_4 {
 
     // Resources allocated to each mongocfg host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -1332,6 +1374,9 @@ message MongodbSpec4_4 {
 
     // Resources allocated to each mongos host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -1341,6 +1386,9 @@ message MongodbSpec4_4 {
 
     // Resources allocated to each mongoinfra (mongos+mongocfg) host.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod 4.4 hosts.
@@ -1363,6 +1411,9 @@ message MongodbSpec4_4_enterprise {
 
     // Resources allocated to each mongod host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -1371,6 +1422,9 @@ message MongodbSpec4_4_enterprise {
 
     // Resources allocated to each mongocfg host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -1379,6 +1433,9 @@ message MongodbSpec4_4_enterprise {
 
     // Resources allocated to each mongos host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -1388,6 +1445,9 @@ message MongodbSpec4_4_enterprise {
 
     // Resources allocated to each mongoinfra (mongos+mongocfg) host.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod 4.4 hosts.
@@ -1410,6 +1470,9 @@ message MongodbSpec5_0 {
 
     // Resources allocated to each mongod host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -1418,6 +1481,9 @@ message MongodbSpec5_0 {
 
     // Resources allocated to each mongocfg host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -1426,6 +1492,9 @@ message MongodbSpec5_0 {
 
     // Resources allocated to each mongos host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -1435,6 +1504,9 @@ message MongodbSpec5_0 {
 
     // Resources allocated to each mongoinfra (mongos+mongocfg) host.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod 5.0 hosts.
@@ -1457,6 +1529,9 @@ message MongodbSpec5_0_enterprise {
 
     // Resources allocated to each mongod host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -1465,6 +1540,9 @@ message MongodbSpec5_0_enterprise {
 
     // Resources allocated to each mongocfg host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -1473,6 +1551,9 @@ message MongodbSpec5_0_enterprise {
 
     // Resources allocated to each mongos host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -1482,6 +1563,9 @@ message MongodbSpec5_0_enterprise {
 
     // Resources allocated to each mongoinfra (mongos+mongocfg) host.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod 5.0 hosts.
@@ -1504,6 +1588,9 @@ message MongodbSpec6_0 {
 
     // Resources allocated to each mongod host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -1512,6 +1599,9 @@ message MongodbSpec6_0 {
 
     // Resources allocated to each mongocfg host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -1520,6 +1610,9 @@ message MongodbSpec6_0 {
 
     // Resources allocated to each mongos host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -1529,6 +1622,9 @@ message MongodbSpec6_0 {
 
     // Resources allocated to each mongoinfra (mongos+mongocfg) host.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod 6.0 hosts.
@@ -1551,6 +1647,9 @@ message MongodbSpec6_0_enterprise {
 
     // Resources allocated to each mongod host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -1559,6 +1658,9 @@ message MongodbSpec6_0_enterprise {
 
     // Resources allocated to each mongocfg host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -1567,6 +1669,9 @@ message MongodbSpec6_0_enterprise {
 
     // Resources allocated to each mongos host.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -1576,6 +1681,9 @@ message MongodbSpec6_0_enterprise {
 
     // Resources allocated to each mongoinfra (mongos+mongocfg) host.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod 6.0 hosts.

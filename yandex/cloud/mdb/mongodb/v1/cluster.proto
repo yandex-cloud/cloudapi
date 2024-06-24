@@ -5,6 +5,7 @@ package yandex.cloud.mdb.mongodb.v1;
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
+import "yandex/cloud/validation.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb3_6.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_0.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_2.proto";
@@ -206,6 +207,9 @@ message Mongodb3_6 {
 
     // Resources allocated to MongoDB hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -213,6 +217,9 @@ message Mongodb3_6 {
 
     // Resources allocated to mongocfg hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -220,6 +227,9 @@ message Mongodb3_6 {
 
     // Resources allocated to mongos hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -228,6 +238,9 @@ message Mongodb3_6 {
 
     // Resources allocated to mongoinfra (mongos+mongocfg) hosts.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod in a MongoDB 3.6 cluster.
@@ -250,6 +263,9 @@ message Mongodb4_0 {
 
     // Resources allocated to mongod hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -258,6 +274,9 @@ message Mongodb4_0 {
 
     // Resources allocated to mongocfg hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -266,6 +285,9 @@ message Mongodb4_0 {
 
     // Resources allocated to mongos hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -274,6 +296,9 @@ message Mongodb4_0 {
 
     // Resources allocated to mongoinfra (mongos+mongocfg) hosts.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod in a MongoDB 4.0 cluster.
@@ -296,6 +321,9 @@ message Mongodb4_2 {
 
     // Resources allocated to mongod hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -304,6 +332,9 @@ message Mongodb4_2 {
 
     // Resources allocated to mongocfg hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -312,6 +343,9 @@ message Mongodb4_2 {
 
     // Resources allocated to mongos hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -320,6 +354,9 @@ message Mongodb4_2 {
 
     // Resources allocated to mongoinfra (mongos+mongocfg) hosts.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod in a MongoDB 4.2 cluster.
@@ -342,6 +379,9 @@ message Mongodb4_4 {
 
     // Resources allocated to mongod hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -350,6 +390,9 @@ message Mongodb4_4 {
 
     // Resources allocated to mongocfg hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -358,6 +401,9 @@ message Mongodb4_4 {
 
     // Resources allocated to mongos hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -366,6 +412,9 @@ message Mongodb4_4 {
 
     // Resources allocated to mongoinfra (mongos+mongocfg) hosts.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod in a MongoDB 4.4 cluster.
@@ -388,6 +437,9 @@ message Mongodb4_4_enterprise {
 
     // Resources allocated to mongod hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -396,6 +448,9 @@ message Mongodb4_4_enterprise {
 
     // Resources allocated to mongocfg hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -404,6 +459,9 @@ message Mongodb4_4_enterprise {
 
     // Resources allocated to mongos hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -412,6 +470,9 @@ message Mongodb4_4_enterprise {
 
     // Resources allocated to mongoinfra (mongos+mongocfg) hosts.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod in a MongoDB 4.4 cluster.
@@ -434,6 +495,9 @@ message Mongodb5_0 {
 
     // Resources allocated to mongod hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -442,6 +506,9 @@ message Mongodb5_0 {
 
     // Resources allocated to mongocfg hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -450,6 +517,9 @@ message Mongodb5_0 {
 
     // Resources allocated to mongos hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -458,6 +528,9 @@ message Mongodb5_0 {
 
     // Resources allocated to mongoinfra (mongos+mongocfg) hosts.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod in a MongoDB 5.0 cluster.
@@ -480,6 +553,9 @@ message Mongodb5_0_enterprise {
 
     // Resources allocated to mongod hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -488,6 +564,9 @@ message Mongodb5_0_enterprise {
 
     // Resources allocated to mongocfg hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -496,6 +575,9 @@ message Mongodb5_0_enterprise {
 
     // Resources allocated to mongos hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -504,6 +586,9 @@ message Mongodb5_0_enterprise {
 
     // Resources allocated to mongoinfra (mongos+mongocfg) hosts.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod in a MongoDB 5.0 cluster.
@@ -526,6 +611,9 @@ message Mongodb6_0 {
 
     // Resources allocated to mongod hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -534,6 +622,9 @@ message Mongodb6_0 {
 
     // Resources allocated to mongocfg hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -542,6 +633,9 @@ message Mongodb6_0 {
 
     // Resources allocated to mongos hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -550,6 +644,9 @@ message Mongodb6_0 {
 
     // Resources allocated to mongoinfra (mongos+mongocfg) hosts.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod in a MongoDB 6.0 cluster.
@@ -572,6 +669,9 @@ message Mongodb6_0_enterprise {
 
     // Resources allocated to mongod hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoCfg {
@@ -580,6 +680,9 @@ message Mongodb6_0_enterprise {
 
     // Resources allocated to mongocfg hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Mongos {
@@ -588,6 +691,9 @@ message Mongodb6_0_enterprise {
 
     // Resources allocated to mongos hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message MongoInfra {
@@ -596,6 +702,9 @@ message Mongodb6_0_enterprise {
 
     // Resources allocated to mongoinfra (mongos+mongocfg) hosts.
     Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // Configuration and resource allocation for mongod in a MongoDB 6.0 cluster.
@@ -772,4 +881,15 @@ message Access {
 
 message PerformanceDiagnosticsConfig {
   bool profiling_enabled = 1;
+}
+
+message DiskSizeAutoscaling {
+  // Amount of used storage for automatic disk scaling in the maintenance window, 0 means disabled, in percent.
+  google.protobuf.Int64Value planned_usage_threshold = 1 [(required) = false, (value) = "0-100"];
+
+  // Amount of used storage for immediately  automatic disk scaling, 0 means disabled, in percent.
+  google.protobuf.Int64Value emergency_usage_threshold = 2 [(required) = false, (value) = "0-100"];
+
+  // Limit on how large the storage for database instances can automatically grow, in bytes.
+  google.protobuf.Int64Value disk_size_limit = 3;
 }

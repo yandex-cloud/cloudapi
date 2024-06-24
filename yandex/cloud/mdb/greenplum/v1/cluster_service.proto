@@ -399,6 +399,15 @@ message ExpandRequest {
 
   // Redistribute duration, in seconds
   int64 duration = 4;
+
+  // Redistribute process parallelilsm, 0 - for automatic detection
+  int64 parallel = 5;
+
+  // Deny all client connections during the expand operation
+  bool close_cluster = 6;
+
+  // Perfrom redistribution process by small chunks as background activity
+  bool delay_redistribution = 7;
 }
 
 message DeleteClusterRequest {

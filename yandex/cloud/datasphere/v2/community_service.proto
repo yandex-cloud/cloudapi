@@ -145,6 +145,9 @@ message CreateCommunityRequest {
 
   // Labels of the community.
   map<string, string> labels = 5;
+
+  // ID of the zone where community will be created (all projects and other resources will be in this zone)
+  string zone_id = 6 [(required) = true];
 }
 
 message CreateCommunityMetadata {

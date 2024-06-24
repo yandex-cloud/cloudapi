@@ -372,6 +372,9 @@ message CreateClusterRequest {
 
   // Enable FQDN instead of ip
   bool announce_hostnames = 16;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 17;
 }
 
 message CreateClusterMetadata {
@@ -594,6 +597,9 @@ message RestoreClusterRequest {
 
   // Enable FQDN instead of ip
   bool announce_hostnames = 14;
+  
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 15;
 }
 
 message RestoreClusterMetadata {
@@ -1082,4 +1088,7 @@ message ConfigSpec {
 
   // Unified configuration of a Redis cluster
   config.RedisConfig redis = 11;
+
+  // Disk size autoscaling settings
+  DiskSizeAutoscaling disk_size_autoscaling = 12;
 }

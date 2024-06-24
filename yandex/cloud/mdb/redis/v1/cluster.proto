@@ -5,6 +5,7 @@ package yandex.cloud.mdb.redis.v1;
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
+import "yandex/cloud/validation.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis5_0.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis6_0.proto";
@@ -178,6 +179,9 @@ message ClusterConfig {
 
   // Unified configuration of a Redis cluster.
   config.RedisConfigSet redis = 9;
+
+  // Disk size autoscaling settings
+  DiskSizeAutoscaling disk_size_autoscaling = 10;
 }
 
 message Shard {
@@ -309,4 +313,15 @@ message Resources {
 message Access {
   // Allow access for DataLens
   bool data_lens = 1;
+}
+
+message DiskSizeAutoscaling {
+  // Amount of used storage for automatic disk scaling in the maintenance window, 0 means disabled, in percent.
+  google.protobuf.Int64Value planned_usage_threshold = 1 [(required) = false, (value) = "0-100"];
+
+  // Amount of used storage for immediately  automatic disk scaling, 0 means disabled, in percent.
+  google.protobuf.Int64Value emergency_usage_threshold = 2 [(required) = false, (value) = "0-100"];
+
+  // Limit on how large the storage for database instances can automatically grow, in bytes.
+  google.protobuf.Int64Value disk_size_limit = 3;
 }
