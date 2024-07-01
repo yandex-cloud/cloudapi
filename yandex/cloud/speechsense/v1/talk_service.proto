@@ -80,8 +80,23 @@ message TalkMetadata {
 
   // channel defined fields
   map<string, string> fields = 2;
+
+  // per user specific metadata
+  repeated UserMetadata users = 3;
 }
 
+message UserMetadata {
+  string id = 1;
+  UserRole role = 2;
+  map<string, string> fields = 3;
+}
+
+enum UserRole {
+  USER_ROLE_UNSPECIFIED = 0;
+  USER_ROLE_OPERATOR = 1;
+  USER_ROLE_CLIENT = 2;
+  USER_ROLE_BOT = 3;
+}
 
 message SearchTalkRequest {
 
