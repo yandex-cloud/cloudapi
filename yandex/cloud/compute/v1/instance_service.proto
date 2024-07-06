@@ -42,6 +42,7 @@ service InstanceService {
       response: "Instance"
     };
   }
+  
 
   // Updates the specified instance.
   rpc Update(UpdateInstanceRequest) returns (operation.Operation) {
