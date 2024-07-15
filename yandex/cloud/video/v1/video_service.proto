@@ -5,6 +5,7 @@ package yandex.cloud.video.v1;
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/video/v1/manifest.proto";
 import "yandex/cloud/video/v1/video.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
@@ -52,6 +53,9 @@ service VideoService {
 
   // Returns url to the player.
   rpc GetPlayerURL(GetVideoPlayerURLRequest) returns (GetVideoPlayerURLResponse) {}
+
+  // Returns manifest urls.
+  rpc GetManifests(GetVideoManifestsRequest) returns (GetVideoManifestsResponse) {}
 }
 
 message GetVideoRequest {
@@ -222,4 +226,13 @@ message GetVideoPlayerURLResponse {
   string player_url = 1;
   // HTML embed code in Iframe format.
   string html = 2;
+}
+
+message GetVideoManifestsRequest {
+    // ID of the video.
+    string video_id = 1;
+}
+
+message GetVideoManifestsResponse {
+    repeated Manifest manifests = 1;
 }

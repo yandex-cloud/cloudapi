@@ -29,8 +29,8 @@ message OnPremiseClickhouse {
 message ClickhouseConnectionOptions {
     reserved 1, 3 to 4;
     oneof address {
-        string mdb_cluster_id = 5;
         OnPremiseClickhouse on_premise = 2;
+        string mdb_cluster_id = 5;
     }
     string user = 6;
     Secret password = 7;

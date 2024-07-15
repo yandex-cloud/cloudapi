@@ -292,4 +292,6 @@ message PolicyApplication {
     bool enabled = 3;
     Status status = 4;
     google.protobuf.Timestamp created_at = 5;
+    // If true, then the policy is in in the process of binding to the instance.
+    bool is_processing = 6;
 }

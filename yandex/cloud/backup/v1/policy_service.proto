@@ -162,6 +162,8 @@ message ListApplicationsRequest {
         // Compute Cloud instance ID.
         string compute_instance_id = 3;
     };
+    // If true, also returns applications that in the process of binding.
+    bool show_processing = 4;
 }
 
 message ListApplicationsResponse {

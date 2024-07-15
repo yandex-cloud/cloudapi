@@ -135,9 +135,10 @@ message ReplacePrimaryKeyTransformer {
     // List of columns to be used as primary keys
     repeated string keys = 2;
 }
-// Convert column values to strings.
-// The values will be converted depending on the source type.
-// Conversion rules are described in [documentation](/docs/data-transfer/concepts/data-transformation#convert-to-string).
+// Convert column values to strings
+// The values will be converted depending on the source type
+// Conversion rules are described here:
+// https://cloud.yandex.com/en/docs/data-transfer/concepts/data-transformation#convert-to-string
 message ToStringTransformer {
     // List of included and excluded tables
     TablesFilter tables = 1;
@@ -183,7 +184,8 @@ message FilterRowsTransformer {
     // Filtering criterion. This can be comparison operators for numeric, string, and
     // Boolean values,
     // comparison to NULL, and checking whether a substring is part of a string.
-    // For more details see [documentation](/docs/data-transfer/concepts/data-transformation#append-only-sources).
+    // Details here:
+    // https://yandex.cloud/en-ru/docs/data-transfer/concepts/data-transformation#append-only-sources
     string filter = 2;
 }
 // Some transformers may have limitations and only apply to some source-target

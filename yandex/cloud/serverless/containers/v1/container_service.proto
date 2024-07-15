@@ -196,9 +196,9 @@ message CreateContainerRequest {
   map<string, string> labels = 4 [
     (size) = "<=64",
     (length) = "<=63",
-    (pattern) = "[-_0-9a-z]*",
+    (pattern) = "[-_./\\@0-9a-z]*",
     (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
   ];
 }
 
@@ -230,9 +230,9 @@ message UpdateContainerRequest {
   map<string, string> labels = 5 [
     (size) = "<=64",
     (length) = "<=63",
-    (pattern) = "[-_0-9a-z]*",
+    (pattern) = "[-_./\\@0-9a-z]*",
     (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
   ];
 }
 

@@ -34,3 +34,36 @@ message Quantiles {
   // 100 percentile (maximum or minimum).
   double q100 = 9;
 }
+
+// Quantiles (percentiles).
+enum QuantileType {
+  // Unspecified percentile.
+  QUANTILE_TYPE_UNSPECIFIED = 0;
+
+  // 50 percentile (median).
+  QUANTILE_TYPE_50 = 1;
+
+  // 75 percentile.
+  QUANTILE_TYPE_75 = 2;
+
+  // 80 percentile.
+  QUANTILE_TYPE_80 = 3;
+
+  // 85 percentile.
+  QUANTILE_TYPE_85 = 4;
+
+  // 90 percentile.
+  QUANTILE_TYPE_90 = 5;
+
+  // 95 percentile.
+  QUANTILE_TYPE_95 = 6;
+
+  // 98 percentile.
+  QUANTILE_TYPE_98 = 7;
+
+  // 99 percentile.
+  QUANTILE_TYPE_99 = 8;
+
+  // 100 percentile (maximum or minimum).
+  QUANTILE_TYPE_100 = 9;
+}

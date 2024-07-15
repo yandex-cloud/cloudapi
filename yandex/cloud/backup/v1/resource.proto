@@ -7,6 +7,14 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/backup/v1;backup";
 option java_package = "yandex.cloud.api.backup.v1";
 
+enum ResourceType {
+    RESOURCE_TYPE_UNSPECIFIED = 0;
+    // Resource is Compute Cloud VM
+    COMPUTE = 1;
+    // Resource is baremetal server
+    BMS = 2;
+}
+
 message Resource {
     enum Status {
         STATUS_UNSPECIFIED = 0;
@@ -71,6 +79,9 @@ message Resource {
    // Metadata to provide details about instance registration process
     // if status is FAILED_REGISTRATION or REGISTERING
     string metadata = 14;
+
+    // Type of resource -- could be compute VM or baremetal server
+    ResourceType type = 15;
 }
 
 message Progress {

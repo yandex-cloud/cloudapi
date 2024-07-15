@@ -103,8 +103,8 @@ message FieldList {
 }
 message DataSchema {
     oneof schema {
-        FieldList fields = 2;
         string json_fields = 1;
+        FieldList fields = 2;
     }
 }
 // No authentication

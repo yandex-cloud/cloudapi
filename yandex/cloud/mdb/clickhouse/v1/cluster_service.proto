@@ -1458,6 +1458,9 @@ message ConfigSpec {
 
   // Whether cluster should use embedded Keeper instead of Zookeeper
   google.protobuf.BoolValue embedded_keeper = 10;
+
+  // Retain period of automatically created backup in days
+  google.protobuf.Int64Value backup_retain_period_days = 11;
 }
 
 message ShardConfigSpec {
