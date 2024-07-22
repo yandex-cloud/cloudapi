@@ -165,6 +165,9 @@ message CreateRegistryRequest {
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 3 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+
+  // If true, registry will be created with pre-setup scanning policy (on push and on schedule every 7 days)
+  bool secure = 4;
 }
 
 message CreateRegistryMetadata {

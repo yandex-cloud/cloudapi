@@ -12,6 +12,8 @@ option java_package = "yandex.cloud.api.serverless.functions.v1";
 
 // A serverless function. For details about the concept, see [Functions](/docs/functions/concepts/function).
 message Function {
+  reserved 7;
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -46,9 +48,6 @@ message Function {
   // Function labels as `key:value` pairs.
   map<string, string> labels = 6 [(size) = "<=64"];
 
-  // ID of the log group for the function.
-  string log_group_id = 7;
-
   // URL that needs to be requested to invoke the function.
   string http_invoke_url = 8;
 
@@ -58,8 +57,8 @@ message Function {
 
 // Version of a function. For details about the concept, see [Function versions](/docs/functions/concepts/function#version).
 message Version {
-  reserved 11;
-  reserved 4;
+  reserved 4, 11, 15;
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -111,9 +110,6 @@ message Version {
 
   // Version tags. For details, see [Version tag](/docs/functions/concepts/function#tag).
   repeated string tags = 14;
-
-  // ID of the log group for the version.
-  string log_group_id = 15;
 
   // Environment settings for the version.
   map<string, string> environment = 16;

@@ -11,9 +11,6 @@ option java_outer_classname = "AT";
 
 // Trail describes the filtering and destination configuration of the process of sending Audit events
 message Trail {
-  // Placeholder for data_plane_logs_enabled
-  reserved 13;
-
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
