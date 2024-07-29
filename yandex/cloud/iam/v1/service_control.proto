@@ -50,3 +50,14 @@ message Service {
   // Current status of the service.
   Status status = 4;
 }
+
+message ServiceAgent {
+  // ID of the agent service account.
+  string service_account_id = 1;
+
+  // ID of the service.
+  string service_id = 2;
+
+  // ID of the microservice.
+  string microservice_id = 3;
+}

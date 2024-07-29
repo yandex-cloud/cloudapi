@@ -95,6 +95,18 @@ service ClusterService {
     };
   }
 
+  // Moves the specified Greenplum® cluster to the specified folder.
+  rpc Move(MoveClusterRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/managed-greenplum/v1/clusters/{cluster_id}:move"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "MoveClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
   // Retrieves the list of Operation resources for the specified cluster.
   rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
     option (google.api.http) = {get: "/managed-greenplum/v1/clusters/{cluster_id}/operations"};
@@ -452,6 +464,29 @@ message StopClusterMetadata {
   // ID of the Greenplum® cluster being stopped.
   string cluster_id = 1;
 }
+
+message MoveClusterRequest {
+  // ID of the Greenplum® cluster to move.
+  string cluster_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
+  // ID of the destination folder.
+  string destination_folder_id = 2 [
+    (required) = true,
+    (length) = "<=50"
+  ];
+}
+
+message MoveClusterMetadata {
+  // ID of the Greenplum® cluster being moved.
+  string cluster_id = 1;
+  // ID of the source folder.
+  string source_folder_id = 2;
+  // ID of the destnation folder.
+  string destination_folder_id = 3;
+}
+
 
 message ListClusterOperationsRequest {
   // ID of the Greenplum® cluster resource to list operations for.

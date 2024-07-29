@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
 import "yandex/cloud/validation.proto";
+import "yandex/cloud/mdb/mongodb/v1/config/mongodb.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb3_6.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_0.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_2.proto";
@@ -143,7 +144,7 @@ message Monitoring {
 }
 
 message ClusterConfig {
-  // Version of MongoDB server software. Possible values: `3.6`, `4.0`, `4.2`, `4.4`, `4.4-enterprise`, `5.0`, `5.0-enterprise`, `6.0`, `6.0-enterprise`.
+  // Version of MongoDB server software. Possible values: `3.6`, `4.0`, `4.2`, `4.4`, `4.4-enterprise`, `5.0`, `5.0-enterprise`, `6.0`, `6.0-enterprise`, `7.0`, `7.0-enterprise`.
   string version = 1;
 
   // MongoDB feature compatibility version. See usage details in [MongoDB documentation](https://docs.mongodb.com/manual/reference/command/setFeatureCompatibilityVersion/).
@@ -198,6 +199,9 @@ message ClusterConfig {
 
   // Access policy to DB
   Access access = 6;
+
+  // Configuration and resource allocation for a MongoDB Enterprise cluster.
+  Mongodb mongodb_config = 19 ;
 }
 
 message Mongodb3_6 {
@@ -717,6 +721,64 @@ message Mongodb6_0_enterprise {
   Mongos mongos = 3;
 
   // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB 6.0 cluster.
+  MongoInfra mongoinfra = 4;
+}
+
+message Mongodb {
+  message Mongod {
+    // Configuration for mongod hosts.
+    config.MongodConfigSet config = 1;
+
+    // Resources allocated to mongod hosts.
+    Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
+  }
+
+  message MongoCfg {
+    // Configuration for mongocfg hosts.
+    config.MongoCfgConfigSet config = 1;
+
+    // Resources allocated to mongocfg hosts.
+    Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
+  }
+
+  message Mongos {
+    // Configuration for mongos hosts.
+    config.MongosConfigSet config = 1;
+
+    // Resources allocated to mongos hosts.
+    Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
+  }
+
+  message MongoInfra {
+    config.MongosConfigSet config_mongos = 1;
+    config.MongoCfgConfigSet config_mongocfg = 2;
+
+    // Resources allocated to mongoinfra (mongos+mongocfg) hosts.
+    Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
+  }
+
+  // Configuration and resource allocation for mongod in a MongoDB cluster.
+  Mongod mongod = 1;
+
+  // Configuration and resource allocation for mongocfg in a MongoDB cluster.
+  MongoCfg mongocfg = 2;
+
+  // Configuration and resource allocation for mongos in a MongoDB cluster.
+  Mongos mongos = 3;
+
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB cluster.
   MongoInfra mongoinfra = 4;
 }
 

@@ -61,6 +61,11 @@ service ServiceControlService {
       response: "Service"
     };
   }
+
+  // Resolve agent service account for the service in the specified resource container.
+  rpc ResolveAgent (ResolveServiceAgentRequest) returns (ServiceAgent) {
+    option (google.api.http) = { get: "/iam/v1/service/{service_id}/microservice/{microservice_id}" };
+  };
 }
 
 message GetServiceRequest {
@@ -180,4 +185,15 @@ message DisableServiceMetadata {
 
   // Resource container.
   Resource resource = 2;
+}
+
+message ResolveServiceAgentRequest {
+  // ID of the Service.
+  string service_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the Microservice.
+  string microservice_id = 2 [(length) = "<=50"];
+
+  // Resource container.
+  Resource resource = 3 [(required) = true];
 }

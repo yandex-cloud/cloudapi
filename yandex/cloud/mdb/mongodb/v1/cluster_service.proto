@@ -10,6 +10,7 @@ import "google/type/timeofday.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/mdb/mongodb/v1/backup.proto";
 import "yandex/cloud/mdb/mongodb/v1/cluster.proto";
+import "yandex/cloud/mdb/mongodb/v1/config/mongodb.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb3_6.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_0.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb4_2.proto";
@@ -382,6 +383,9 @@ message CreateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 12;
+
+  // Maintenance window settings for the cluster.
+  MaintenanceWindow maintenance_window = 13;
 }
 
 message CreateClusterMetadata {
@@ -574,6 +578,9 @@ message RestoreClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 12;
+
+  // Maintenance window settings for the cluster.
+  MaintenanceWindow maintenance_window = 13;
 }
 
 message RestoreClusterMetadata {
@@ -1699,6 +1706,64 @@ message MongodbSpec6_0_enterprise {
   MongoInfra mongoinfra = 4;
 }
 
+message MongodbSpec {
+  message Mongod {
+    config.MongodConfig config = 1;
+
+    // Resources allocated to each mongod host.
+    Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
+  }
+
+  message MongoCfg {
+    // Configuration for mongocfg hosts.
+    config.MongoCfgConfig config = 1;
+
+    // Resources allocated to each mongocfg host.
+    Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
+  }
+
+  message Mongos {
+    // Configuration for mongos hosts.
+    config.MongosConfig config = 1;
+
+    // Resources allocated to each mongos host.
+    Resources resources = 2;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
+  }
+
+  message MongoInfra {
+    // Configuration for mongoinfra hosts.
+    config.MongosConfig config_mongos = 1;
+    config.MongoCfgConfig config_mongocfg = 2;
+
+    // Resources allocated to each mongoinfra (mongos+mongocfg) host.
+    Resources resources = 3;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
+  }
+
+  // Configuration and resource allocation for mongod hosts.
+  Mongod mongod = 1;
+
+  // Configuration and resource allocation for mongocfg hosts.
+  MongoCfg mongocfg = 2;
+
+  // Configuration and resource allocation for mongos hosts.
+  Mongos mongos = 3;
+
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) hosts.
+  MongoInfra mongoinfra = 4;
+}
+
 message ConfigSpec {
   // Version of MongoDB used in the cluster. Possible values: `3.6`, `4.0`, `4.2`, `4.4`, `4.4-enterprise`, `5.0`, `5.0-enterprise`, `6.0`, `6.0-enterprise`.
   string version = 1;
@@ -1754,4 +1819,7 @@ message ConfigSpec {
 
   // Access policy to DB
   Access access = 6;
+
+  // Configuration and resource allocation for a MongoDB 7.0 Enterprise cluster.
+  MongodbSpec mongodb = 20 [json_name = "mongodb"];
 }
