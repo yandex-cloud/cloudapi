@@ -35,24 +35,6 @@ service ServiceControlService {
     };
   }
 
-  // Resume a service in the specified resource container.
-  rpc Resume (ResumeServiceRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/iam/v1/service/{service_id}:resume" body: "*" };
-    option (yandex.cloud.api.operation) = {
-      metadata: "ResumeServiceMetadata"
-      response: "Service"
-    };
-  }
-
-  // Pause a service in the specified resource container.
-  rpc Pause (PauseServiceRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/iam/v1/service/{service_id}:pause" body: "*" };
-    option (yandex.cloud.api.operation) = {
-      metadata: "PauseServiceMetadata"
-      response: "Service"
-    };
-  }
-
   // Disable a service in the specified resource container.
   rpc Disable (DisableServiceRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/iam/v1/service/{service_id}:disable" body: "*" };
@@ -121,47 +103,6 @@ message EnableServiceRequest {
 }
 
 message EnableServiceMetadata {
-  // ID of the Service.
-  string service_id = 1;
-
-  // Resource container.
-  Resource resource = 2;
-}
-
-message ResumeServiceRequest {
-  // ID of the Service.
-  string service_id = 1 [(required) = true, (length) = "<=50"];
-
-  // Resource container to resume a service in.
-  //
-  // It is supported only resource-manager.cloud resource container now.
-  Resource resource = 2 [(required) = true];
-}
-
-message ResumeServiceMetadata {
-  // ID of the Service.
-  string service_id = 1;
-
-  // Resource container.
-  Resource resource = 2;
-}
-
-message PauseServiceRequest {
-  // ID of the Service.
-  string service_id = 1 [(required) = true, (length) = "<=50"];
-
-  // Resource container to pause a service in.
-  //
-  // It is supported only resource-manager.cloud resource container now.
-  Resource resource = 2 [(required) = true];
-
-  // Force pause.
-  //
-  // It will pause service even if there is service resources that will be broke.
-  bool force = 3;
-}
-
-message PauseServiceMetadata {
   // ID of the Service.
   string service_id = 1;
 

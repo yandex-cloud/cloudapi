@@ -80,7 +80,7 @@ message Resource {
     // if status is FAILED_REGISTRATION or REGISTERING
     string metadata = 14;
 
-    // Type of resource -- could be compute VM or baremetal server
+    // Type of resource. Could be compute VM or baremetal server.
     ResourceType type = 15;
 }
 

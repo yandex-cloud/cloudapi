@@ -62,6 +62,9 @@ message ListResourcesRequest {
     int64 page_size = 2 [ (value) = "<=1000" ];
     // Token for the results page.
     string page_token = 3 [ (length) = "<=100" ];
+
+    // Type of resource. Could be compute VM or baremetal server.
+    ResourceType type = 4;
 }
 
 message ListResourcesResponse {

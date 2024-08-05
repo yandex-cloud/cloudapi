@@ -180,6 +180,9 @@ message CancelProjectJobRequest {
 
   // Optional cancellation reason.
   string reason = 2;
+
+  // If the job is launched with graceful shutdown support, the shutdown will be performed gracefully
+  bool graceful = 3;
 }
 
 message ReadProjectJobStdLogsRequest {
