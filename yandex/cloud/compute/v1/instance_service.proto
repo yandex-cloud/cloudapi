@@ -455,8 +455,7 @@ message CreateInstanceRequest {
 
   // Network configuration for the instance. Specifies how the network interface is configured
   // to interact with other services on the internal network and on the internet.
-  // Currently only one network interface is supported per instance.
-  repeated NetworkInterfaceSpec network_interface_specs = 11 [(size) = "1"];
+  repeated NetworkInterfaceSpec network_interface_specs = 11 [(required) = true];
 
   // Host name for the instance.
   // This field is used to generate the [yandex.cloud.compute.v1.Instance.fqdn] value.

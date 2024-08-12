@@ -7,7 +7,7 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/vpc/v1;vpc";
 option java_package = "yandex.cloud.api.vpc.v1";
 
-// A RouteTable resource. For more information, see [Static Routes](/docs/vpc/concepts/static-routes).
+// A RouteTable resource. For more information, see [Static Routes](/docs/vpc/concepts/routing).
 message RouteTable {
   // ID of the route table.
   string id = 1;
@@ -40,7 +40,7 @@ message RouteTable {
   repeated StaticRoute static_routes = 8;
 }
 
-// A StaticRoute resource. For more information, see [Static Routes](/docs/vpc/concepts/static-routes).
+// A StaticRoute resource. For more information, see [Static Routes](/docs/vpc/concepts/routing).
 message StaticRoute {
 
   oneof destination {
