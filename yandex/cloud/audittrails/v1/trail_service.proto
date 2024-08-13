@@ -155,7 +155,11 @@ message CreateTrailRequest {
   string service_account_id = 6 [(required) = true, (length) = "<=50"];
 
   // Event filtering configuration of the trail
-  Trail.Filter filter = 7 [(required) = true];
+  // deprecated: use filtering_policy instead
+  Trail.Filter filter = 7 [deprecated = true];
+
+  // Event filtering policy of the trail
+  Trail.FilteringPolicy filtering_policy = 8;
 }
 
 message UpdateTrailRequest {
@@ -180,8 +184,12 @@ message UpdateTrailRequest {
   // New service account ID of the trail
   string service_account_id = 7 [(length) = "<=50"];
 
-  // New filtering configuration of the trail
-  Trail.Filter filter = 8;
+  // Updated filtering configuration of the trail
+  // deprecated: use filtering_policy instead
+  Trail.Filter filter = 8 [deprecated = true];
+
+  // Updated event filtering policy
+  Trail.FilteringPolicy filtering_policy = 9;
 }
 
 message DeleteTrailRequest {

@@ -10,6 +10,8 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/transla
 option java_package = "yandex.cloud.api.ai.translate.v2";
 
 // A set of methods for the Translate service.
+//
+// Make sure you send your [authentication](/docs/translate/api-ref/authentication) credentials in the `Authorization` header of each request.
 service TranslationService {
   // Translates the text to the specified language.
   rpc Translate (TranslateRequest) returns (TranslateResponse) {

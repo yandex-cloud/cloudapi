@@ -55,13 +55,18 @@ message Trail {
   Status status = 10 [(required) = true];
 
   // Filtering configuration of the trail
-  Filter filter = 11 [(required) = true];
+  // deprecated: use filtering_policy instead
+  Filter filter = 11 [deprecated = true];
 
   // Current error message of the trail. Empty in case if the trail is active
   string status_error_message = 12;
 
   // ID of the cloud that the trail belongs to
   string cloud_id = 14 [(required) = true, (length) = "<=50"];
+
+  // Event filtering policy
+  // Describes which groups of events will be sent and which resources will be monitored
+  FilteringPolicy filtering_policy = 15;
 
   message Destination {
     reserved 2;
@@ -141,7 +146,7 @@ message Trail {
   }
 
   message PathFilterElementSome {
-    // Definition of the resource that contains
+    // Definition of the resource that contains nested resources
     Resource resource = 1 [(required) = true];
 
     // Filters for the resources contained in the parent resource
@@ -198,5 +203,45 @@ message Trail {
 
     // Events for operations that do not perform any modifications
     READ = 2;
+  }
+
+  // Policy for gathering data events
+  message DataEventsFiltering {
+    // Name of the service whose events will be delivered
+    string service = 1 [(required) = true];
+
+    oneof additional_rules {
+      // Explicitly included events of specified service
+      // New events of the service won't be delivered by default
+      EventTypes included_events = 2;
+
+      // Explicitly excluded events of specified service
+      // New events of the service will be delivered by default
+      EventTypes excluded_events = 3;
+    }
+
+    // A list of resources which will be monitored by the trail
+    repeated Resource resource_scopes = 4 [(size) = "1-1024"];
+  }
+
+  // Policy with explicitly specified event group
+  message EventTypes {
+    repeated string event_types = 1 [(size) = "1-1024"];
+  }
+
+  // Policy for gathering management events
+  message ManagementEventsFiltering {
+    // A list of resources which will be monitored by the trail
+    repeated Resource resource_scopes = 1 [(size) = "1-1024"];
+  }
+
+  // Combination of policies describing event filtering process of the trail
+  // At least one filed must be filled
+  message FilteringPolicy {
+    // Singular filter describing gathering management events
+    ManagementEventsFiltering management_events_filter = 1 [(required) = false];
+
+    // List of filters describing gathering data events
+    repeated DataEventsFiltering data_events_filters = 2 [(size) = "<128"];
   }
 }

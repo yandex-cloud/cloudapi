@@ -159,6 +159,15 @@ message UserSettings {
     REMOTE_FILESYSTEM_READ_METHOD_THREADPOOL = 2;
   }
 
+  enum LoadBalancing {
+    LOAD_BALANCING_UNSPECIFIED = 0;
+    LOAD_BALANCING_RANDOM = 1;
+    LOAD_BALANCING_NEAREST_HOSTNAME = 2;
+    LOAD_BALANCING_IN_ORDER = 3;
+    LOAD_BALANCING_FIRST_OR_RANDOM = 4;
+    LOAD_BALANCING_ROUND_ROBIN = 5;
+  }
+
   // Restricts permissions for non-DDL queries. To restrict permissions for DDL queries, use [allow_ddl] instead.
   // * **0** (default)-no restrictions.
   // * **1**-only read data queries are allowed.
@@ -983,6 +992,41 @@ message UserSettings {
   // Min_version: 22.5
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#memory_usage_overcommit_max_wait_microseconds)
   google.protobuf.Int64Value memory_usage_overcommit_max_wait_microseconds = 138 [(value) = ">=0"];
+
+  // Setting up query threads logging. Query threads log into the [system.query_thread_log](https://clickhouse.com/docs/en/operations/system-tables/query_thread_log) table. This setting has effect only when [log_queries](https://clickhouse.com/docs/en/operations/settings/settings#log-queries) is true. Queries threads run by ClickHouse with this setup are logged according to the rules in the [query_thread_log](https://clickhouse.com/docs/en/operations/server-configuration-parameters/settings#server_configuration_parameters-query_thread_log) server configuration parameter.
+  // Default: true
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#log_query_threads)
+  google.protobuf.BoolValue log_query_threads = 139;
+
+  // The maximum number of threads to execute the INSERT SELECT query.
+  // Default: 0
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#max_insert_threads)
+  google.protobuf.Int64Value max_insert_threads = 140 [(value) = ">=0"];
+
+  // Enables hedged requests logic for remote queries. It allows to establish many connections with different replicas for query. New connection is enabled in case existent connection(s) with replica(s) were not established within hedged_connection_timeout or no data was received within receive_data_timeout. Query uses the first connection which send non empty progress packet (or data packet, if allow_changing_replica_until_first_data_packet); other connections are cancelled. Queries with max_parallel_replicas > 1 are supported.
+  // Default: true
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#use_hedged_requests)
+  google.protobuf.BoolValue use_hedged_requests = 141;
+
+  // Timeout to close idle TCP connections after specified number of milliseconds.
+  // Default: 360000 (3600 seconds)
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#idle_connection_timeout)
+  google.protobuf.Int64Value idle_connection_timeout = 142 [(value) = ">=0"];
+
+  // Connection timeout for establishing connection with replica for Hedged requests.
+  // Default: 50
+  // See in-depth description in [ClickHouse GitHub](https://github.com/ClickHouse/ClickHouse/blob/f9558345e886876b9132d9c018e357f7fa9b22a3/src/Core/Settings.h#L64)
+  google.protobuf.Int64Value hedged_connection_timeout_ms = 143 [(value) = ">=0"];
+
+  // Specifies the algorithm of replicas selection that is used for distributed query processing, one of: random, nearest_hostname, in_order, first_or_random, round_robin.
+  // Default: random
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#load_balancing)
+  LoadBalancing load_balancing = 144;
+
+  // Enables/disables preferable using the localhost replica when processing distributed queries.
+  // Default: true
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#prefer_localhost_replica)
+  google.protobuf.BoolValue prefer_localhost_replica = 145;
 
   // The setting is deprecated and has no effect.
   google.protobuf.BoolValue compile = 44 [deprecated = true];
