@@ -531,6 +531,9 @@ message CreateFunctionVersionRequest {
 
   // The maximum number of requests processed by a function instance at the same time
   int64 concurrency = 24 [(value) = "0-16"];
+
+  // Mounts to be used by the version.
+  repeated Mount mounts = 25;
 }
 
 message CreateFunctionVersionMetadata {

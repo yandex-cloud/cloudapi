@@ -7,6 +7,7 @@ import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/compute/v1/disk.proto";
+import "yandex/cloud/compute/v1/hardware_generation.proto";
 import "yandex/cloud/compute/v1/snapshot_schedule.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -211,6 +212,10 @@ message CreateDiskRequest {
 
   // List of IDs of the snapshot schedules to attach the disk to.
   repeated string snapshot_schedule_ids = 12;
+
+  // Specify the overrides to hardware_generation of a source disk, image or snapshot,
+  // or to the default values if the source does not define it.
+  HardwareGeneration hardware_generation = 13;
 }
 
 message CreateDiskMetadata {

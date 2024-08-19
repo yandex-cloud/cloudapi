@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.compute.v1;
 
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/compute/v1/hardware_generation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1;compute";
 option java_package = "yandex.cloud.api.compute.v1";
@@ -64,4 +65,8 @@ message Snapshot {
 
   // ID of the source disk used to create this snapshot.
   string source_disk_id = 11;
+
+  // If specified, forces the same HardwareGeneration features to be applied to the instance
+  // created using this snapshot as source for the boot disk. Otherwise the current default will be used.
+  HardwareGeneration hardware_generation = 12;
 }

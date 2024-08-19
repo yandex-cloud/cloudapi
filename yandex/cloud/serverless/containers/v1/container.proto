@@ -116,8 +116,11 @@ message Revision {
   // Options for logging from the container.
   LogOptions log_options = 15;
 
-  // S3 mounts to be used by the version.
+  // S3 mounts to be used by the revision.
   repeated StorageMount storage_mounts = 16;
+
+  // Mounts to be used by the revision.
+  repeated Mount mounts = 17;
 }
 
 // Revision image specification.
@@ -241,6 +244,9 @@ message ScalingPolicy {
 }
 
 message StorageMount {
+  // Use container.proto:Mount.ObjectStorage instead
+  option deprecated = true;
+
   // S3 bucket name for mounting.
   string bucket_id = 1 [
     (required) = true,
@@ -263,4 +269,61 @@ message StorageMount {
     (length) = "1-300",
     (pattern) = "[-_0-9a-zA-Z/]*"
   ];
+}
+
+// Mount contains an information about version's external storage mount
+message Mount {
+  enum Mode {
+    MODE_UNSPECIFIED = 0;
+    READ_ONLY = 1;
+    READ_WRITE = 2;
+  }
+
+  /// Reserved for name (optional unique mount point name for synchronization)
+  reserved 1;
+
+  // The absolute mount point path inside the container for mounting.
+  string mount_point_path = 2 [
+    (required) = true,
+    (length) = "1-300",
+    (pattern) = "[-_0-9a-zA-Z/]*"
+  ];
+
+  // Mount's mode
+  Mode mode = 3;
+
+  // Target mount option
+  oneof target {
+    option (exactly_one) = true;
+
+    // Object storage mounts
+    ObjectStorage object_storage = 10;
+
+    // Working disk (worker-local non-shared read-write NBS disk templates)
+    DiskSpec ephemeral_disk_spec = 11;
+  }
+
+  // ObjectStorage as a mount
+  message ObjectStorage {
+
+    // ObjectStorage bucket name for mounting.
+    string bucket_id = 1 [
+      (required) = true,
+      (length) = "3-63",
+      (pattern) = "[-.0-9a-zA-Z]*"
+    ];
+
+    // ObjectStorage bucket prefix for mounting.
+    string prefix = 2;
+  }
+
+  // Disk as a mount
+  message DiskSpec {
+
+    // The size of disk for mount in bytes
+    int64 size = 1 [(value) = ">0"];
+
+    // Optional block size of disk for mount in bytes
+    int64 block_size = 2;
+  }
 }

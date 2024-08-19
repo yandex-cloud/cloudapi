@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/compute/v1/hardware_generation.proto";
 import "yandex/cloud/compute/v1/snapshot.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -187,6 +188,10 @@ message CreateSnapshotRequest {
     (map_key).length = "1-63",
     (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
   ];
+
+  // Specify the overrides to hardware_generation of a source disk, image or snapshot,
+  // or to the default values if the source does not define it.
+  HardwareGeneration hardware_generation = 7;
 }
 
 message CreateSnapshotMetadata {

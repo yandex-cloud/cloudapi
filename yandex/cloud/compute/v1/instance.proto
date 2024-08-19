@@ -4,6 +4,7 @@ package yandex.cloud.compute.v1;
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/compute/v1/hardware_generation.proto";
 import "yandex/cloud/compute/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1;compute";
@@ -136,6 +137,9 @@ message Instance {
 
   // Time between notification via metadata service and maintenance
   google.protobuf.Duration maintenance_grace_period = 30;
+
+  // This feature set is inherited from the image/disk used as a boot one at the creation of the instance.
+  HardwareGeneration hardware_generation = 31;
 }
 
 message Resources {

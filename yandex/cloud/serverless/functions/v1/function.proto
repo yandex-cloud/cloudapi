@@ -137,6 +137,9 @@ message Version {
 
   // The maximum number of requests processed by a function instance at the same time
   int64 concurrency = 24 [(value) = "0-16"];
+
+  // Mounts to be used by the version.
+  repeated Mount mounts = 25;
 }
 
 // Resources allocated to a version.
@@ -236,6 +239,9 @@ message LogOptions {
 }
 
 message StorageMount {
+  // Use function.proto:Mount.ObjectStorage instead
+  option deprecated = true;
+
   // S3 bucket name for mounting.
   string bucket_id = 1 [
     (required) = true,
@@ -255,6 +261,60 @@ message StorageMount {
 
   // Is mount read only.
   bool read_only = 4;
+}
+
+// Mount contains an information about version's external storage mount
+message Mount {
+  enum Mode {
+    MODE_UNSPECIFIED = 0;
+    READ_ONLY = 1;
+    READ_WRITE = 2;
+  }
+
+  // Unique mount point name. Device will be mounted into /function/storage/<name>
+  string name = 1 [
+    (required) = true,
+    (length) = "1-100",
+    (pattern) = "[-_0-9a-zA-Z]*"
+  ];
+
+  // Mount's mode
+  Mode mode = 3;
+
+  // Target mount option
+  oneof target {
+    option (exactly_one) = true;
+
+    // Object storage mounts
+    ObjectStorage object_storage = 10;
+
+    // Working disk (worker-local non-shared read-write NBS disk templates)
+    DiskSpec ephemeral_disk_spec = 11;
+  }
+
+  // ObjectStorage as a mount
+  message ObjectStorage {
+
+    // ObjectStorage bucket name for mounting.
+    string bucket_id = 1 [
+      (required) = true,
+      (length) = "3-63",
+      (pattern) = "[-.0-9a-zA-Z]*"
+    ];
+
+    // ObjectStorage bucket prefix for mounting.
+    string prefix = 2;
+  }
+
+  // Disk as a mount
+  message DiskSpec {
+
+    // The size of disk for mount in bytes
+    int64 size = 1 [(value) = ">0"];
+
+    // Optional block size of disk for mount in bytes
+    int64 block_size = 2;
+  }
 }
 
 message AsyncInvocationConfig {

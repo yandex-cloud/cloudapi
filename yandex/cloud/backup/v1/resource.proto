@@ -95,6 +95,8 @@ message Task {
         BACKUP = 1;
         RETENTION = 2;
         RECOVERY = 3;
+        APPLY_POLICY = 4;
+        REVOKE_POLICY = 5;
     }
 
     // Status of task.
