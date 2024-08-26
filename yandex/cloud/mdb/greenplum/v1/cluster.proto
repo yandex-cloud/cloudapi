@@ -152,6 +152,12 @@ message Cluster {
 
   // Cloud storage settings
   CloudStorage cloud_storage = 26;
+
+  // Host groups hosting VMs of the master subcluster.
+  repeated string master_host_group_ids = 27;
+
+  // Host groups hosting VMs of the segment subcluster.
+  repeated string segment_host_group_ids = 28;
 }
 
 message ClusterConfigSet {
@@ -167,6 +173,7 @@ message ClusterConfigSet {
   // Odyssey® pool settings.
   ConnectionPoolerConfigSet pool = 3;
 
+  // Managed Greenplum® background tasks configuration.
   BackgroundActivitiesConfig background_activities = 6;
 
   PXFConfigSet pxf_config = 8;
@@ -225,6 +232,11 @@ message Access {
 
   // Allows access for DataTransfer.
   bool data_transfer = 3;
+
+  reserved 4;
+
+  // Allow access for YandexQuery.
+  bool yandex_query = 5;
 }
 
 message GreenplumRestoreConfig {

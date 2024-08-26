@@ -437,6 +437,9 @@ message UpdateClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 9;
+
+  // ID of the network to move the cluster to.
+  string network_id = 10 [(length) = "<=50"];
 }
 
 message UpdateClusterMetadata {

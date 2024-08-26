@@ -102,6 +102,9 @@ message ChartWidget {
                 string violet_value = 5;
             }
 
+            message HashColorScheme {
+            }
+
             oneof scheme {
                 // Automatic color scheme.
                 AutomaticColorScheme automatic = 1;
@@ -111,6 +114,9 @@ message ChartWidget {
 
                 // Gradient color scheme.
                 GradientColorScheme gradient = 3;
+
+                // Hash color scheme. Based on line name or value.
+                HashColorScheme hash = 4;
             }
         }
 

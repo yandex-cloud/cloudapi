@@ -75,8 +75,29 @@ message AnalyzeAndVacuum {
 }
 
 message BackgroundActivitiesConfig {
+    // Enables scripts that collects tables sizes to `*_sizes` tables in `mdb_toolkit` schema.
     TableSizes table_sizes = 1;
+    // Configuration for `ANALYZE` and `VACUUM` operations.
     AnalyzeAndVacuum analyze_and_vacuum = 2;
+    // Configuration for long running queries killer.
+    QueryKillerScripts query_killer_scripts = 3;
+}
+
+message QueryKiller {
+  google.protobuf.BoolValue enable = 1;
+  // Maximum duration for this type of queries (in seconds).
+  google.protobuf.Int64Value max_age = 2[(value) = "1-86400"];
+  // Ignore these users when considering queries to terminate
+  repeated string ignore_users = 3;
+}
+
+message QueryKillerScripts {
+  // Configuration of script that kills long running queries that are in `idle` state.
+  QueryKiller idle = 1;
+  // Configuration of script that kills long running queries that are in `idle in transaction` state.
+  QueryKiller idle_in_transaction = 2;
+  // Configuration of script that kills long running queries (in any state).
+  QueryKiller long_running = 3;
 }
 
 // Configuration of the master subcluster.

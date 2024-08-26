@@ -44,4 +44,7 @@ message Backup {
 
   // How this backup was created (manual/automatic/etc...)
   BackupType type = 8;
+
+  // Size of the journal associated with backup, in bytes
+  int64 journal_size = 9;
 }

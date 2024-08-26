@@ -90,6 +90,9 @@ message CreateSecurityProfileRequest {
 
   // Captcha ID to use with this security profile. Set empty to use default.
   string captcha_id = 7;
+
+  // Advanced rate limiter profile ID to use with this security profile. Set empty to use default.
+  string advanced_rate_limiter_profile_id = 8;
 }
 
 message CreateSecurityProfileMetadata {
@@ -121,6 +124,9 @@ message UpdateSecurityProfileRequest {
 
   // Captcha ID to use with this security profile. Set empty to use default.
   string captcha_id = 8;
+
+  // Advanced rate limiter profile ID to use with this security profile. Set empty to use default.
+  string advanced_rate_limiter_profile_id = 9;
 }
 
 message UpdateSecurityProfileMetadata {

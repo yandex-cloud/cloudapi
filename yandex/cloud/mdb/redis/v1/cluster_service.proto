@@ -383,7 +383,6 @@ message CreateClusterMetadata {
 }
 
 message UpdateClusterRequest {
-  reserved 11;
   // ID of the Redis cluster to update.
   // To get the Redis cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
@@ -430,6 +429,9 @@ message UpdateClusterRequest {
 
   // Persistence mode
   Cluster.PersistenceMode persistence_mode = 10;
+
+  // ID of the network to move the cluster to.
+  string network_id = 11 [(length) = "<=50"];
 
   // Enable FQDN instead of ip
   bool announce_hostnames = 12;

@@ -395,6 +395,9 @@ message UpdateClusterRequest {
 
   // Cluster maintenance window. Should be defined by either one of the two options.
   MaintenanceWindow maintenance_window = 10;
+
+  // ID of the network to move the cluster to.
+  string network_id = 11 [(length) = "<=50"];
 }
 
 message UpdateClusterMetadata {

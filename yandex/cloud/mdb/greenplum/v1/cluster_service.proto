@@ -291,6 +291,12 @@ message CreateClusterRequest {
 
   // Cloud storage settings
   CloudStorage cloud_storage = 21;
+
+  // Host groups hosting VMs of the master subcluster.
+  repeated string master_host_group_ids = 22;
+
+  // Host groups hosting VMs of the segment subcluster.
+  repeated string segment_host_group_ids = 23;
 }
 
 // Configuration of Greenplum® and Odyssey®.
@@ -308,6 +314,7 @@ message ConfigSpec {
   // Odyssey® pool settings.
   ConnectionPoolerConfig pool = 3;
 
+  // Managed Greenplum® background tasks configuration.
   BackgroundActivitiesConfig background_activities = 6;
 
   PXFConfig pxf_config = 8;
@@ -319,7 +326,6 @@ message CreateClusterMetadata {
 }
 
 message UpdateClusterRequest {
-  reserved 14;
   reserved 16;
   reserved 9 to 12;
   // ID of the Greenplum® cluster resource to update.
@@ -369,6 +375,9 @@ message UpdateClusterRequest {
     (length) = "8-128"
   ];
 
+  // ID of the network to move the cluster to.
+  string network_id = 14 [(length) = "<=50"];
+
   // The Greenplum® cluster maintenance window. Should be defined by either one of the two options.
   MaintenanceWindow maintenance_window = 15;
 
@@ -412,13 +421,13 @@ message ExpandRequest {
   // Redistribute duration, in seconds
   int64 duration = 4;
 
-  // Redistribute process parallelilsm, 0 - for automatic detection
+  // Redistribute process parallelism, 0 - for automatic detection
   int64 parallel = 5;
 
   // Deny all client connections during the expand operation
   bool close_cluster = 6;
 
-  // Perfrom redistribution process by small chunks as background activity
+  // Perform redistribution process by small chunks as background activity
   bool delay_redistribution = 7;
 }
 
@@ -483,7 +492,7 @@ message MoveClusterMetadata {
   string cluster_id = 1;
   // ID of the source folder.
   string source_folder_id = 2;
-  // ID of the destnation folder.
+  // ID of the destination folder.
   string destination_folder_id = 3;
 }
 
@@ -861,6 +870,12 @@ message RestoreClusterRequest {
     (length) = "<=256",
     (pattern) = "[a-zA-Z0-9\\*_]*(\\/[a-zA-Z0-9\\*_]*){0,2}"
   ];
+
+  // Host groups hosting VMs of the master subcluster.
+  repeated string master_host_group_ids = 20;
+
+  // Host groups hosting VMs of the segment subcluster.
+  repeated string segment_host_group_ids = 21;
 }
 
 message RestoreClusterMetadata {

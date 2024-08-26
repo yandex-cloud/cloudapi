@@ -186,6 +186,7 @@ enum JobStatus {
   SUCCESS = 4;
   ERROR = 5;
   CANCELLED = 6;
+  CANCELLING = 7;
 }
 
 message JobResult {

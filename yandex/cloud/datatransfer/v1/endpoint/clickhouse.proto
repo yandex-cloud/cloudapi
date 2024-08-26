@@ -72,7 +72,8 @@ message ClickhouseSource {
     repeated string exclude_tables = 8;
     string subnet_id = 9;
     repeated string security_groups = 10;
-    // Also could be name of MDB's shard group.
+    // Name of the ClickHouse cluster. For Managed ClickHouse that is name of
+    // ShardGroup.
     string clickhouse_cluster_name = 11;
 }
 message ClickhouseTarget {
@@ -83,7 +84,8 @@ message ClickhouseTarget {
     repeated AltName alt_names = 17;
     ClickhouseCleanupPolicy cleanup_policy = 21;
     ClickhouseSharding sharding = 22;
-    // Also could be name of MDB's shard group.
+    // Name of the ClickHouse cluster. For Managed ClickHouse that is name of
+    // ShardGroup.
     string clickhouse_cluster_name = 50;
     repeated string security_groups = 51;
 }

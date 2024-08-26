@@ -27,9 +27,6 @@ message SecurityProfile {
   // ID of the folder that the security profile belongs to.
   string folder_id = 2;
 
-  // ID of the cloud that the security profile belongs to.
-  string cloud_id = 10;
-
   // Labels as `` key:value `` pairs. Maximum of 64 per resource.
   map<string, string> labels = 3 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
@@ -48,15 +45,21 @@ message SecurityProfile {
   // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
   google.protobuf.Timestamp created_at = 8;
 
+  reserved 9;
+
+  // ID of the cloud that the security profile belongs to.
+  string cloud_id = 10;
+
   // Captcha ID to use with this security profile. Set empty to use default.
   string captcha_id = 11;
 
-  reserved 9;
+  // Advanced rate limiter profile ID to use with this security profile. Set empty to use default.
+  string advanced_rate_limiter_profile_id = 12;
 }
 
 // A SecurityRule object, see [Rules](/docs/smartwebsecurity/concepts/rules).
 message SecurityRule {
-  // Name of the rule. The name is unique within the folder. 1-50 characters long.
+  // Name of the rule. The name is unique within the security profile. 1-50 characters long.
   string name = 1 [(required) = true, (length) = "1-50", (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*"];
 
   // Determines the priority for checking the incoming traffic.
@@ -77,8 +80,10 @@ message SecurityRule {
 
     // Smart Protection rule, see [Smart Protection rules](/docs/smartwebsecurity/concepts/rules#smart-protection-rules).
     SmartProtection smart_protection = 5;
+
+    // Web Application Firewall (WAF) rule, see [WAF rules](/docs/smartwebsecurity/concepts/rules#waf-rules).
+    Waf waf = 6;
   }
-  reserved 6;
 
   // Optional description of the rule. 0-512 characters long.
   string description = 7 [(length) = "<=512"];
@@ -123,6 +128,31 @@ message SecurityRule {
 
     // The condition for matching the rule.
     Condition condition = 2;
+  }
+
+  // Waf object.
+  message Waf {
+    // Mode of protection.
+    enum Mode {
+      MODE_UNSPECIFIED = 0;
+
+      // Full protection means that the traffic will be checked based on ML models and behavioral analysis,
+      // with suspicious requests being sent to SmartCaptcha.
+      FULL = 1;
+
+      // API protection means checking the traffic based on ML models and behavioral analysis without sending suspicious
+      // requests to SmartCaptcha. The suspicious requests will be blocked.
+      API = 2;
+    }
+
+    // Mode of protection.
+    Mode mode = 1;
+
+    // The condition for matching the rule.
+    Condition condition = 2;
+
+    // ID of WAF profile to use in this rule.
+    string waf_profile_id = 3 [(required) = true];
   }
 }
 
