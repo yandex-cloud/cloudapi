@@ -325,6 +325,7 @@ message CreateClusterMetadata {
 }
 
 message UpdateClusterRequest {
+  reserved 10;
   // ID of the cluster to update.
   //
   // To get this ID, make a [ClusterService.List] request.

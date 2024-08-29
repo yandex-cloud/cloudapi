@@ -343,6 +343,7 @@ message CreateClusterMetadata {
 }
 
 message UpdateClusterRequest {
+  reserved 10;
   // ID of the PostgreSQL Cluster resource to update.
   // To get the PostgreSQL cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [

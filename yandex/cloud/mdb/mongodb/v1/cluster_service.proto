@@ -1768,6 +1768,7 @@ message MongodbSpec {
 }
 
 message ConfigSpec {
+  reserved 16 to 19;
   // Version of MongoDB used in the cluster. Possible values: `3.6`, `4.0`, `4.2`, `4.4`, `4.4-enterprise`, `5.0`, `5.0-enterprise`, `6.0`, `6.0-enterprise`.
   string version = 1;
 

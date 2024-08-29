@@ -168,10 +168,10 @@ message Args {
 // Resources allocated to a revision.
 message Resources {
   // Amount of memory available to the revision, specified in bytes, multiple of 128MB.
-  int64 memory = 1 [(value) = "134217728-4294967296"];
+  int64 memory = 1 [(value) = "134217728-8589934592"];
 
   // Number of cores available to the revision.
-  int64 cores = 2 [(value) = "0-2"];
+  int64 cores = 2 [(value) = "0-4"];
 
   // Specifies baseline performance for a core in percent, multiple of 5%.
   // Should be 100% for cores > 1.
@@ -273,6 +273,7 @@ message StorageMount {
 
 // Mount contains an information about version's external storage mount
 message Mount {
+  reserved 4 to 9;
   enum Mode {
     MODE_UNSPECIFIED = 0;
     READ_ONLY = 1;
@@ -305,7 +306,6 @@ message Mount {
 
   // ObjectStorage as a mount
   message ObjectStorage {
-
     // ObjectStorage bucket name for mounting.
     string bucket_id = 1 [
       (required) = true,
@@ -319,7 +319,6 @@ message Mount {
 
   // Disk as a mount
   message DiskSpec {
-
     // The size of disk for mount in bytes
     int64 size = 1 [(value) = ">0"];
 

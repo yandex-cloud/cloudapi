@@ -6,11 +6,12 @@ import "google/protobuf/timestamp.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/audittrails/v1;audittrails";
-option java_package = "yandex.cloud.api.audittrails.v1";
 option java_outer_classname = "AT";
+option java_package = "yandex.cloud.api.audittrails.v1";
 
 // Trail describes the filtering and destination configuration of the process of sending Audit events
 message Trail {
+  reserved 13;
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -28,7 +29,10 @@ message Trail {
   string id = 1;
 
   // ID of the folder that the trail belongs to
-  string folder_id = 2 [(required) = true, (length) = "<=50"];
+  string folder_id = 2 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // The timestamp for the creation operation
   google.protobuf.Timestamp created_at = 3 [(required) = true];
@@ -43,7 +47,13 @@ message Trail {
   string description = 6 [(length) = "<=1024"];
 
   // Custom labels of the trail as `key:value` pairs. Maximum 64 per key
-  map<string, string> labels = 7 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 7 [
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_0-9a-z]*",
+    (map_key).length = "<=63",
+    (map_key).pattern = "[a-z][-_0-9a-z]*"
+  ];
 
   // Destination configuration of the trail
   Destination destination = 8 [(required) = true];
@@ -62,7 +72,10 @@ message Trail {
   string status_error_message = 12;
 
   // ID of the cloud that the trail belongs to
-  string cloud_id = 14 [(required) = true, (length) = "<=50"];
+  string cloud_id = 14 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Event filtering policy
   // Describes which groups of events will be sent and which resources will be monitored
@@ -155,10 +168,16 @@ message Trail {
 
   message Resource {
     // ID of the resource
-    string id = 1 [(required) = true, (length) = "<=64"];
+    string id = 1 [
+      (required) = true,
+      (length) = "<=64"
+    ];
 
     // Type of the resource
-    string type = 2 [(required) = true, (length) = "<=50"];
+    string type = 2 [
+      (required) = true,
+      (length) = "<=50"
+    ];
   }
 
   message EventFilter {
