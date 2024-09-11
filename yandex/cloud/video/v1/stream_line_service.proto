@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.video.v1;
 
+import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -13,13 +14,25 @@ option java_package = "yandex.cloud.api.video.v1";
 // Stream line management service.
 service StreamLineService {
   // Returns the specific stream line.
-  rpc Get(GetStreamLineRequest) returns (StreamLine) {}
+  rpc Get(GetStreamLineRequest) returns (StreamLine) {
+    option (google.api.http) = {
+      get: "/video/v1/streamLines/{stream_line_id}"
+    };
+  }
 
   // List lines for channel.
-  rpc List(ListStreamLinesRequest) returns (ListStreamLinesResponse) {}
+  rpc List(ListStreamLinesRequest) returns (ListStreamLinesResponse) {
+    option (google.api.http) = {
+      get: "/video/v1/streamLines"
+    };
+  }
 
   // Create stream line.
   rpc Create(CreateStreamLineRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/video/v1/streamLines"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateStreamLineMetadata"
       response: "StreamLine"
@@ -28,6 +41,10 @@ service StreamLineService {
 
   // Update stream line.
   rpc Update(UpdateStreamLineRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/video/v1/streamLines/{stream_line_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateStreamLineMetadata"
       response: "StreamLine"
@@ -36,6 +53,9 @@ service StreamLineService {
 
   // Delete stream line.
   rpc Delete(DeleteStreamLineRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      delete: "/video/v1/streamLines/{stream_line_id}"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteStreamLineMetadata"
       response: "google.protobuf.Empty"
@@ -44,6 +64,10 @@ service StreamLineService {
 
   // Perform an action on the line.
   rpc PerformAction(PerformLineActionRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/video/v1/streamLines/{stream_line_id}:performAction"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "PerformLineActionMetadata"
       response: "StreamLine"
@@ -51,10 +75,18 @@ service StreamLineService {
   }
 
   // Returns unique stream key.
-  rpc GetStreamKey(GetStreamKeyRequest) returns (PushStreamKey) {}
+  rpc GetStreamKey(GetStreamKeyRequest) returns (PushStreamKey) {
+    option (google.api.http) = {
+      get: "/video/v1/streamLines/{stream_line_id}:getStreamKey"
+    };
+  }
 
   // Change stream key.
   rpc UpdateStreamKey(UpdateStreamKeyRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/video/v1/streamLines/{stream_line_id}:updateStreamKey"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateStreamKeyMetadata"
       response: "PushStreamKey"

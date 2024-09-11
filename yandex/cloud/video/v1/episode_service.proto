@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.video.v1;
 
+import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/api/operation.proto";
@@ -15,13 +16,25 @@ option java_package = "yandex.cloud.api.video.v1";
 // Episode management service.
 service EpisodeService {
   // Returns the specific channel.
-  rpc Get(GetEpisodeRequest) returns (Episode) {}
+  rpc Get(GetEpisodeRequest) returns (Episode) {
+    option (google.api.http) = {
+      get: "/video/v1/episodes/{episode_id}"
+    };
+  }
 
   // List episodes for stream or line.
-  rpc List(ListEpisodesRequest) returns (ListEpisodesResponse) {}
+  rpc List(ListEpisodesRequest) returns (ListEpisodesResponse) {
+    option (google.api.http) = {
+      get: "/video/v1/episodes"
+    };
+  }
 
   // Create episode.
   rpc Create(CreateEpisodeRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/video/v1/episodes"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateEpisodeMetadata"
       response: "Episode"
@@ -30,6 +43,10 @@ service EpisodeService {
 
   // Update episode.
   rpc Update(UpdateEpisodeRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/video/v1/episodes/{episode_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateEpisodeMetadata"
       response: "Episode"
@@ -38,6 +55,9 @@ service EpisodeService {
 
   // Delete episode.
   rpc Delete(DeleteEpisodeRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      delete: "/video/v1/episodes/{episode_id}"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteEpisodeMetadata"
       response: "google.protobuf.Empty"
@@ -46,6 +66,10 @@ service EpisodeService {
 
   // Perform an action on the episode.
   rpc PerformAction(PerformEpisodeActionRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/video/v1/episodes/{episode_id}:performAction"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "PerformEpisodeActionMetadata"
       response: "Episode"
@@ -53,10 +77,18 @@ service EpisodeService {
   }
 
   // Returns url to the player.
-  rpc GetPlayerURL(GetEpisodePlayerURLRequest) returns (GetEpisodePlayerURLResponse) {}
+  rpc GetPlayerURL(GetEpisodePlayerURLRequest) returns (GetEpisodePlayerURLResponse) {
+    option (google.api.http) = {
+      get: "/video/v1/episodes/{episode_id}:getPlayerUrl"
+    };
+  }
 
   // Returns manifest urls.
-  rpc GetManifests(GetEpisodeManifestsRequest) returns (GetEpisodeManifestsResponse) {}
+  rpc GetManifests(GetEpisodeManifestsRequest) returns (GetEpisodeManifestsResponse) {
+    option (google.api.http) = {
+      get: "/video/v1/episodes/{episode_id}:getManifests"
+    };
+  }
 }
 
 message GetEpisodeRequest {

@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package yandex.cloud.serverless.workflows.v1;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/workflows/v1;workflows";
+option java_package = "yandex.cloud.api.serverless.workflows.v1";
+
+message HistoryEntry {
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+    // Step execution is being scheduled.
+    SCHEDULED = 1;
+    // Step execution is started.
+    STARTED = 2;
+    // Step execution is completed.
+    COMPLETED = 3;
+    // Step execution is failed.
+    FAILED = 4;
+    // Step execution is requested to be cancelled.
+    CANCEL_REQUESTED = 5;
+    // Step execution is canceled.
+    CANCELLED = 6;
+  }
+  // ID of the Workflow step.
+  string id = 1;
+  // Title of the Workflow step.
+  string title = 2;
+  // Description of the Workflow step.
+  string description = 3;
+  // Start timestamp for the Workflow step.
+  google.protobuf.Timestamp started_at = 4;
+  // Duration of the Workflow step.
+  google.protobuf.Duration duration = 5;
+  // Input data for the Workflow step.
+  HistoryEntryInput input = 6;
+  // Result of the Workflow step.
+  HistoryEntryOutput output = 7;
+  // Error details, in case Workflow step failed.
+  HistoryEntryError error = 8;
+  // Status of the Workflow step.
+  Status status = 9;
+  // Type of the Workflow step (for example, FunctionCall or HttpCall).
+  string type = 10;
+}
+
+message HistoryEntryInput {
+  oneof input {
+    option (exactly_one) = true;
+    // JSON input data for the Workflow step.
+    string input_json = 1;
+  }
+}
+
+message HistoryEntryOutput {
+  oneof output {
+    option (exactly_one) = true;
+    // JSON result for the Workflow step.
+    string output_json = 1;
+  }
+}
+
+message HistoryEntryError {
+  // Error message of the Workflow step.
+  string message = 1;
+  // Error code of the Workflow step.
+  string error_code = 2;
+}

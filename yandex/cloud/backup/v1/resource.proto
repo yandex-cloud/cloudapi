@@ -144,4 +144,7 @@ message Task {
 
     // Task result code.
     Code result_code = 12;
+
+    // Task error message if task finished with not OK code
+    string error = 13;
 }

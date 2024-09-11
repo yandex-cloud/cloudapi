@@ -11,10 +11,10 @@ import "yandex/cloud/speechsense/v1/analysis/conversation_statistics.proto";
 import "yandex/cloud/speechsense/v1/analysis/interrupts_statistics.proto";
 import "yandex/cloud/speechsense/v1/analysis/silence_statistics.proto";
 import "yandex/cloud/speechsense/v1/analysis/speech_statistics.proto";
+import "yandex/cloud/speechsense/v1/analysis/summarization.proto";
 import "yandex/cloud/speechsense/v1/analysis/transcription.proto";
 import "yandex/cloud/speechsense/v1/analysis/text_classifiers.proto";
 import "yandex/cloud/speechsense/v1/analysis/points.proto";
-
 
 message Talk {
   // talk id
@@ -40,6 +40,7 @@ message Talk {
   yandex.cloud.speechsense.v1.analysis.ConversationStatistics conversation_statistics = 15;
   yandex.cloud.speechsense.v1.analysis.Points points = 16;
   yandex.cloud.speechsense.v1.analysis.TextClassifiers text_classifiers = 17;
+  yandex.cloud.speechsense.v1.analysis.Summarization summarization = 18;
 }
 // connection field value
 message Field {

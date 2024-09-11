@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.video.v1;
 
+import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/api/operation.proto";
@@ -14,13 +15,25 @@ option java_package = "yandex.cloud.api.video.v1";
 // Stream management service.
 service StreamService {
   // Returns the specific stream.
-  rpc Get(GetStreamRequest) returns (Stream) {}
+  rpc Get(GetStreamRequest) returns (Stream) {
+    option (google.api.http) = {
+      get: "/video/v1/streams/{stream_id}"
+    };
+  }
 
   // List streams for channel.
-  rpc List(ListStreamsRequest) returns (ListStreamsResponse) {}
+  rpc List(ListStreamsRequest) returns (ListStreamsResponse) {
+    option (google.api.http) = {
+      get: "/video/v1/streams"
+    };
+  }
 
   // Create stream.
   rpc Create(CreateStreamRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/video/v1/streams"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateStreamMetadata"
       response: "Stream"
@@ -29,6 +42,10 @@ service StreamService {
 
   // Update stream.
   rpc Update(UpdateStreamRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/video/v1/streams/{stream_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateStreamMetadata"
       response: "Stream"
@@ -37,6 +54,9 @@ service StreamService {
 
   // Delete stream.
   rpc Delete(DeleteStreamRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      delete: "/video/v1/streams/{stream_id}"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteStreamMetadata"
       response: "google.protobuf.Empty"
@@ -45,6 +65,10 @@ service StreamService {
 
   // Perform an action on the episode.
   rpc PerformAction(PerformStreamActionRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/video/v1/streams/{stream_id}:performAction"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "PerformStreamActionMetadata"
       response: "Stream"

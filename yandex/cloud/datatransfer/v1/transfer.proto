@@ -179,14 +179,23 @@ message TableSplitterTransformer {
 // When running a transfer, only the strings meeting the specified criteria remain
 // in a changefeed.
 message FilterRowsTransformer {
-    // List of included and excluded tables
+    // List of included and excluded tables.
     TablesFilter tables = 1;
     // Filtering criterion. This can be comparison operators for numeric, string, and
     // Boolean values,
     // comparison to NULL, and checking whether a substring is part of a string.
     // Details here:
-    // https://yandex.cloud/en-ru/docs/data-transfer/concepts/data-transformation#append-only-sources
-    string filter = 2;
+    // https://yandex.cloud/en-ru/docs/data-transfer/concepts/data-transformation#append-only-sources.
+    // Deprecated: Use filters instead.
+    string filter = 2 [deprecated = true];
+    // Data is transported if it satisfies at least one of filters. Consider that there
+    // is OR statement between filters.
+    // Each filter can be comparison operators for numeric, string, and Boolean values,
+    // comparison to NULL, and
+    // checking whether a substring is part of a string.
+    // Details in docs:
+    // https://yandex.cloud/en-ru/docs/data-transfer/concepts/data-transformation#append-only-sources.
+    repeated string filters = 3;
 }
 // Some transformers may have limitations and only apply to some source-target
 // pairs.

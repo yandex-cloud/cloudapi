@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.video.v1;
 
+import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -14,13 +15,25 @@ option java_package = "yandex.cloud.api.video.v1";
 // Video management service.
 service VideoService {
   // Returns the specific video.
-  rpc Get(GetVideoRequest) returns (Video) {}
+  rpc Get(GetVideoRequest) returns (Video) {
+    option (google.api.http) = {
+      get: "/video/v1/videos/{video_id}"
+    };
+  }
 
   // List videos for channel.
-  rpc List(ListVideoRequest) returns (ListVideoResponse) {}
+  rpc List(ListVideoRequest) returns (ListVideoResponse) {
+    option (google.api.http) = {
+      get: "/video/v1/videos"
+    };
+  }
 
   // Create video.
   rpc Create(CreateVideoRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/video/v1/videos"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateVideoMetadata"
       response: "Video"
@@ -29,6 +42,10 @@ service VideoService {
 
   // Update video.
   rpc Update(UpdateVideoRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/video/v1/videos/{video_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateVideoMetadata"
       response: "Video"
@@ -37,6 +54,9 @@ service VideoService {
 
   // Delete video.
   rpc Delete(DeleteVideoRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      delete: "/video/v1/videos/{video_id}"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteVideoMetadata"
       response: "google.protobuf.Empty"
@@ -45,6 +65,10 @@ service VideoService {
 
   // Perform an action on the episode.
   rpc PerformAction(PerformVideoActionRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/video/v1/videos/{video_id}:performAction"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "PerformVideoActionMetadata"
       response: "Video"
@@ -52,10 +76,18 @@ service VideoService {
   }
 
   // Returns url to the player.
-  rpc GetPlayerURL(GetVideoPlayerURLRequest) returns (GetVideoPlayerURLResponse) {}
+  rpc GetPlayerURL(GetVideoPlayerURLRequest) returns (GetVideoPlayerURLResponse) {
+    option (google.api.http) = {
+      get: "/video/v1/videos/{video_id}:getPlayerURL"
+    };
+  }
 
   // Returns manifest urls.
-  rpc GetManifests(GetVideoManifestsRequest) returns (GetVideoManifestsResponse) {}
+  rpc GetManifests(GetVideoManifestsRequest) returns (GetVideoManifestsResponse) {
+    option (google.api.http) = {
+      get: "/video/v1/videos/{video_id}:getManifests"
+    };
+  }
 }
 
 message GetVideoRequest {

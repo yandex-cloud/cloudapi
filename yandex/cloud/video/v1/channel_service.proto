@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.video.v1;
 
+import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -13,13 +14,25 @@ option java_package = "yandex.cloud.api.video.v1";
 // Channel management service.
 service ChannelService {
   // Returns the specific channel.
-  rpc Get(GetChannelRequest) returns (Channel) {}
+  rpc Get(GetChannelRequest) returns (Channel) {
+    option (google.api.http) = {
+      get: "/video/v1/channels/{channel_id}"
+    };
+  }
 
   // List channels for organization.
-  rpc List(ListChannelsRequest) returns (ListChannelsResponse) {}
+  rpc List(ListChannelsRequest) returns (ListChannelsResponse) {
+    option (google.api.http) = {
+      get: "/video/v1/channels"
+    };
+  }
 
   // Create channel.
   rpc Create(CreateChannelRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/video/v1/channels"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateChannelMetadata"
       response: "Channel"
@@ -28,6 +41,10 @@ service ChannelService {
 
   // Update channel.
   rpc Update(UpdateChannelRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/video/v1/channels/{channel_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateChannelMetadata"
       response: "Channel"
@@ -36,6 +53,9 @@ service ChannelService {
 
   // Delete channel.
   rpc Delete(DeleteChannelRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      delete: "/video/v1/channels/{channel_id}"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteChannelMetadata"
       response: "google.protobuf.Empty"

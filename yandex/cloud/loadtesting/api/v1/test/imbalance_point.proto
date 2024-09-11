@@ -14,4 +14,7 @@ message ImbalancePoint {
 
   // Imbalance moment RPS.
   int64 rps = 2;
+
+  // Imbalance reason comment.
+  string comment = 3;
 }

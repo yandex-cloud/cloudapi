@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.video.v1;
 
+import "google/api/annotations.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/video/v1/thumbnail.proto";
@@ -12,10 +13,18 @@ option java_package = "yandex.cloud.api.video.v1";
 // Thumbnail management service.
 service ThumbnailService {
   // List thumbnails for channel.
-  rpc List(ListThumbnailRequest) returns (ListThumbnailResponse) {}
+  rpc List(ListThumbnailRequest) returns (ListThumbnailResponse) {
+    option (google.api.http) = {
+      get: "/video/v1/thumbnails"
+    };
+  }
 
   // Create thumbnail.
   rpc Create(CreateThumbnailRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/video/v1/thumbnails"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateThumbnailMetadata"
       response: "Thumbnail"
@@ -23,10 +32,20 @@ service ThumbnailService {
   }
 
   // Generate urls for download images.
-  rpc BatchGenerateDownloadURLs(BatchGenerateDownloadURLsRequest) returns (BatchGenerateDownloadURLsResponse) {}
+  rpc BatchGenerateDownloadURLs(BatchGenerateDownloadURLsRequest) returns (BatchGenerateDownloadURLsResponse) {
+    option (google.api.http) = {
+      post: "/video/v1/thumbnails:batchGenerateDownloadURLs"
+      body: "*"
+    };
+  }
 
   // Generate url for upload image.
-  rpc GenerateUploadURL(GenerateThumbnailUploadURLRequest) returns (GenerateThumbnailUploadURLResponse) {}
+  rpc GenerateUploadURL(GenerateThumbnailUploadURLRequest) returns (GenerateThumbnailUploadURLResponse) {
+    option (google.api.http) = {
+      post: "/video/v1/thumbnails/{thumbnail_id}:generateUploadURL"
+      body: "*"
+    };
+  }
 }
 
 message ListThumbnailRequest {

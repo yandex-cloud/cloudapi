@@ -311,6 +311,13 @@ message ChartWidget {
         FREEZE_DURATION_MONTH = 4;
     }
 
+    message RepeatSettings {
+        // Parameters to repeat by.
+        repeated string repeat_by = 1;
+        // Max number of chart in one row.
+        int64 max_charts_in_row = 2;
+    }
+
     // Required. Chart ID.
     string id = 1;
 
@@ -337,4 +344,7 @@ message ChartWidget {
 
     // Fixed time interval for chart.
     FreezeDuration freeze = 9;
+
+    // Setting for repeat panel / repeat row
+    RepeatSettings repeat = 10;
 }
