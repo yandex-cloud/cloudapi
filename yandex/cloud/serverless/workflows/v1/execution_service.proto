@@ -10,6 +10,7 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/workflows/v1;workflows";
 option java_package = "yandex.cloud.api.serverless.workflows.v1";
 
+// Set of methods for managing Workflows Executions.
 service ExecutionService {
   // Starts new Workflow execution.
   rpc Start (StartExecutionRequest) returns (StartExecutionResponse) {
@@ -66,6 +67,7 @@ message GetExecutionRequest {
 }
 
 message GetExecutionResponse {
+  // Workflow execution details.
   Execution execution = 1;
 }
 
@@ -75,6 +77,7 @@ message GetExecutionHistoryRequest {
 }
 
 message GetExecutionHistoryResponse {
+  // Workflow execution details.
   ExecutionPreview execution = 1;
   // Workflow execution detailed history items.
   repeated HistoryEntry entries = 2 [(size) = ">0"];

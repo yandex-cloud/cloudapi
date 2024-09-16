@@ -114,6 +114,7 @@ message GetWorkflowRequest {
 }
 
 message GetWorkflowResponse {
+  // Workflow properties.
   Workflow workflow = 1;
 }
 
@@ -150,6 +151,7 @@ message ListWorkflowsRequest {
 }
 
 message ListWorkflowsResponse {
+  // List of Workflows.
   repeated WorkflowPreview workflows = 1;
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListWorkflowsRequest.page_size], use `next_page_token` as the value

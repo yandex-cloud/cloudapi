@@ -67,6 +67,12 @@ message Version {
 
     // Version is ready to use.
     ACTIVE = 2;
+
+    // Version will be deleted soon.
+    OBSOLETE = 3;
+
+    // Version is being deleted.
+    DELETING = 4;
   }
 
   // ID of the version.

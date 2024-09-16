@@ -6,6 +6,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/loadtestin
 option java_package = "yandex.cloud.api.loadtesting.api.v1.agent";
 
 import "yandex/cloud/loadtesting/api/v1/agent/status.proto";
+import "yandex/cloud/loadtesting/api/v1/agent/log_settings.proto";
 
 // Load testing agent on which tests are executed.
 message Agent {
@@ -44,4 +45,7 @@ message Agent {
   
   // Agent labels as `key:value` pairs.
   map<string, string> labels = 12;
+
+  // Agent log settings
+  agent.LogSettings log_settings = 13;
 }

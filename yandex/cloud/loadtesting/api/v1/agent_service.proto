@@ -9,8 +9,9 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/api/operation.proto";
-import "yandex/cloud/loadtesting/api/v1/agent/create_compute_instance.proto";
 import "yandex/cloud/loadtesting/api/v1/agent/agent.proto";
+import "yandex/cloud/loadtesting/api/v1/agent/create_compute_instance.proto";
+import "yandex/cloud/loadtesting/api/v1/agent/log_settings.proto";
 import "yandex/cloud/validation.proto";
 
 // A set of methods for managing Load Testing agents.
@@ -85,6 +86,9 @@ message CreateAgentRequest {
   map<string, string> labels = 6 [(size) = "<=64", (length) = "<=63",
     (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63",
     (map_key).pattern = "[a-z][-_0-9a-z]*"];
+
+  // Agent log settings
+  agent.LogSettings log_settings = 7;
 }
 
 message CreateAgentMetadata {

@@ -748,6 +748,9 @@ message OpenSearchCreateSpec {
 
     // Roles of the hosts in the group.
     repeated OpenSearch.GroupRole roles = 7;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 8;
   }
 
   // Names of the cluster plugins.
@@ -791,6 +794,9 @@ message DashboardsCreateSpec {
 
     // Determines whether a public IP is assigned to the hosts in the group.
     bool assign_public_ip = 6;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling = 7;
   }
 
   // Dashboards type host groups of the cluster.
@@ -1041,6 +1047,9 @@ message OpenSearchNodeGroupUpdateSpec {
 
   // Whether the hosts should get a public IP address.
   bool assign_public_ip = 6;
+
+  // Disk size autoscaling settings
+  DiskSizeAutoscaling disk_size_autoscaling = 7;
 }
 
 message AddOpenSearchNodeGroupRequest {
@@ -1109,6 +1118,9 @@ message DashboardsNodeGroupUpdateSpec {
 
   // Whether the hosts should get a public IP address.
   bool assign_public_ip = 5;
+
+  // Disk size autoscaling settings
+  DiskSizeAutoscaling disk_size_autoscaling = 6;
 }
 
 message AddDashboardsNodeGroupRequest {

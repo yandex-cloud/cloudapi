@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.mdb.opensearch.v1;
 
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
 import "yandex/cloud/mdb/opensearch/v1/config/opensearch.proto";
 import "yandex/cloud/mdb/opensearch/v1/maintenance.proto";
 
@@ -158,6 +159,8 @@ message OpenSearch {
 
   // Configuration of the host group.
   message NodeGroup {
+    reserved 8;
+
     // Name of the group. Must be 1-63 characters long.
     string name = 1;
 
@@ -178,6 +181,9 @@ message OpenSearch {
 
     // Roles of the host group.
     repeated GroupRole roles = 7;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling =  9;
   }
 
   // Names of the cluster plugins.
@@ -197,6 +203,8 @@ message OpenSearch {
 // The Dashboards host group type configuration.
 message Dashboards {
   message NodeGroup {
+    reserved 7 to 8;
+
     // Name of the group. 1-63 characters long.
     string name = 1;
 
@@ -214,6 +222,9 @@ message Dashboards {
 
     // Determines whether a public IP is assigned to the hosts in the group.
     bool assign_public_ip = 6;
+
+    // Disk size autoscaling settings
+    DiskSizeAutoscaling disk_size_autoscaling =  9;
   }
 
   // Host groups of the Dashboards type.
@@ -352,4 +363,15 @@ message Access {
 
   // Determines whether the access to Serverless is allowed.
   bool serverless = 2;
+}
+
+message DiskSizeAutoscaling {
+    // Amount of used storage for automatic disk scaling in the maintenance window, 0 means disabled, in percent.
+    int64 planned_usage_threshold = 1 [(required) = false, (value) = "0-100"];
+
+    // Amount of used storage for immediately  automatic disk scaling, 0 means disabled, in percent.
+    int64 emergency_usage_threshold = 2 [(required) = false, (value) = "0-100"];
+
+    // Limit on how large the storage for database instances can automatically grow, in bytes.
+    int64 disk_size_limit = 3;
 }
