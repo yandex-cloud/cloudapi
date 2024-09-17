@@ -36,6 +36,8 @@ message ActivateProviderRequest {
     //
     // For more information, please see [activate-provider](/docs/backup/quickstart#activate-provider)
     string name = 3 [ (required) = true ];
+    // Don't create default policies while activating the provider.
+    bool skip_default_policy = 4 [ (required) = false ];
 }
 
 message ActivateProviderMetadata {

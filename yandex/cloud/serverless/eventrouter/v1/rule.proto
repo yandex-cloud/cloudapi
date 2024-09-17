@@ -188,6 +188,8 @@ message GatewayWebsocketBroadcastTarget {
 
   // Service account which has permission for writing to websockets.
   string service_account_id = 3 [(required) = true, (length) = "<=50"];
+
+  // Batch settings.
   BatchSettings batch_settings = 4;
 }
 

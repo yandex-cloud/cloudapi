@@ -36,6 +36,9 @@ message Service {
 
     // The service is in error state.
     ERROR = 8;
+
+    // The service could be auto enabled.
+    DEFAULT = 9;
   }
 
   // ID of the service.

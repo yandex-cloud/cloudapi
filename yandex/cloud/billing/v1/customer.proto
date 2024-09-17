@@ -18,27 +18,43 @@ message Customer {
 // Person of the customer. Contains legal information.
 message CustomerPerson {
 
-    // Name of the person.
+    // Optional. Name of the person.
+    //
+    // String length is not limited.
     string name = 1;
 
-    // Long name of the person.
+    // Optional. Long name of the person.
+    //
+    // String length is not limited.
     string longname = 2;
 
-    // Phone of the person.
+    // Optional. Phone of the person.
+    //
+    // Must be a valid telephone number or a valid [phoneword](https://en.m.wikipedia.org/wiki/Phoneword). 
     string phone = 3;
 
-    // Email of the person.
+    // Optional. Email of the person.
+    //
+    // Must be a valid [email address](https://en.wikipedia.org/wiki/Email_address).
     string email = 4;
 
-    // Post code of the person.
+    // Optional. Post code of the person.
+    //
+    // String length is not limited.
     string post_code = 5;
 
-    // Post address of the person.
+    // Optional. Post address of the person.
+    //
+    // String length is not limited.
     string post_address = 6;
 
-    // Legal address of the person.
+    // Optional. Legal address of the person.
+    //
+    // String length is not limited.
     string legal_address = 7;
 
-    // Tax identification number of the person.
+    // Optional. Tax identification number of the person.
+    //
+    // String length is not limited.
     string tin = 8;
 }
