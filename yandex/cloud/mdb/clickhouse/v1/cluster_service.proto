@@ -237,6 +237,18 @@ service ClusterService {
     };
   }
 
+  // Creates one or more shards in the specified cluster.
+  rpc AddShards(AddClusterShardsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/managed-clickhouse/v1/clusters/{cluster_id}/shards:batchCreate"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "AddClusterShardsMetadata"
+      response: "Shards"
+    };
+  }
+
   // Modifies the specified shard.
   rpc UpdateShard(UpdateClusterShardRequest) returns (operation.Operation) {
     option (google.api.http) = {
@@ -254,6 +266,18 @@ service ClusterService {
     option (google.api.http) = {delete: "/managed-clickhouse/v1/clusters/{cluster_id}/shards/{shard_name}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteClusterShardMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Deletes the specified shards (one or more).
+  rpc DeleteShards(DeleteClusterShardsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/managed-clickhouse/v1/clusters/{cluster_id}/shards:batchDelete"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteClusterShardsMetadata"
       response: "google.protobuf.Empty"
     };
   }
@@ -1100,6 +1124,38 @@ message AddClusterShardMetadata {
   string shard_name = 2;
 }
 
+message AddClusterShardsRequest {
+  // ID of the ClickHouse cluster to add shards to.
+  // To get the ClickHouse cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
+
+  // Properties of each shard to be created.
+  // If [ShardSpec.config_spec] is not specified for some shard, for this shard
+  // it defaults to the configuration of the first shard in the cluster.
+  repeated ShardSpec shard_specs = 2 [(size) = ">0"];
+
+  // Individual configurations for hosts that should be created for the shards.
+  // Two options are available:
+  // 1. If `host_specs` is empty, each shard's number and configurations of hosts will
+  //    be copied from those of the first shard in the cluster;
+  // 2. Otherwise `host_specs` should contain at least one host per created shard.
+  repeated HostSpec host_specs = 3;
+
+  // Whether to copy schema to hosts of the new shards. The schema is copied from hosts of an existing shard.
+  google.protobuf.BoolValue copy_schema = 4;
+}
+
+message AddClusterShardsMetadata {
+  // ID of the cluster that the shards are being added to.
+  string cluster_id = 1;
+
+  // Names of the shards being created.
+  repeated string shard_names = 2;
+}
+
 message UpdateClusterShardRequest {
   // ID of the ClickHouse cluster the shard belongs to.
   // To get the cluster ID, use a [ClusterService.List] request.
@@ -1154,6 +1210,31 @@ message DeleteClusterShardMetadata {
 
   // Name of the shard being deleted.
   string shard_name = 2;
+}
+
+message DeleteClusterShardsRequest {
+  // ID of the ClickHouse cluster the shards belong to.
+  // To get the cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
+
+  // Names of the shards to be deleted.
+  // To get the name of a shard, use a [ClusterService.ListShards] request.
+  repeated string shard_names = 2 [
+    (size) = ">0",
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_-]*"
+  ];
+}
+
+message DeleteClusterShardsMetadata {
+  // ID of the cluster that contains the shards being deleted.
+  string cluster_id = 1;
+
+  // Names of the shards being deleted.
+  repeated string shard_names = 2;
 }
 
 message GetClusterShardGroupRequest {
@@ -1481,4 +1562,19 @@ message ShardConfigSpec {
 
   // ClickHouse configuration for a shard.
   Clickhouse clickhouse = 1;
+}
+
+message ShardSpec {
+  // Name of the shard to be created.
+  string name = 1 [
+    (required) = true,
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_-]*"
+  ];
+
+  // Configuration of the shard to be created.
+  ShardConfigSpec config_spec = 2;
+
+  // Shard groups that contain the shard.
+  repeated string shard_group_names = 3;
 }

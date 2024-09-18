@@ -190,6 +190,10 @@ message Shard {
   ShardConfig config = 3;
 }
 
+message Shards {
+  repeated Shard shards = 1;
+}
+
 message ShardGroup {
   // Name of the shard group.
   string name = 1;
