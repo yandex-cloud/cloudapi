@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package yandex.cloud.ai.assistants.v1.searchindex;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1/searchindex;searchindex";
+option java_package = "yandex.cloud.api.ai.assistants.v1.searchindex";
+
+message StaticChunkingStrategy {
+  int64 max_chunk_size_tokens = 1;
+
+  int64 chunk_overlap_tokens = 2;
+}
+
+message ChunkingStrategy {
+  oneof Strategy {
+    StaticChunkingStrategy static_strategy = 1;
+  }
+}

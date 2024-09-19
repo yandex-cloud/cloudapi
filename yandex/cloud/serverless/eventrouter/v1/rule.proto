@@ -111,7 +111,7 @@ message Target {
     LoggingTarget logging = 6;
     WorkflowTarget workflow = 7;
   }
-  
+
   // Transformer of the target.
   Transformer transformer = 50;
 

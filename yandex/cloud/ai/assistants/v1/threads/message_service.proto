@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package yandex.cloud.ai.assistants.v1.threads;
+
+import "yandex/cloud/ai/assistants/v1/threads/message.proto";
+import "yandex/cloud/validation.proto";
+import "google/api/annotations.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1/threads;threads";
+option java_package = "yandex.cloud.api.ai.assistants.v1.threads";
+
+service MessageService {
+  rpc Create(CreateMessageRequest) returns (Message) {
+    option (google.api.http) = {post: "/assistants/v1/messages" body: "*"};
+  }
+
+  rpc Get(GetMessageRequest) returns (Message) {
+    option (google.api.http) = {get: "/assistants/v1/messages/{message_id}"};
+  }
+
+  rpc List(ListMessagesRequest) returns (stream Message) {
+    option (google.api.http) = {get: "/assistants/v1/messages"};
+  }
+}
+
+message CreateMessageRequest {
+  string thread_id = 1 [(required) = true];
+
+  Author author = 2;
+
+  map<string, string> labels = 3;
+
+  MessageContent content = 4 [(required) = true];
+}
+
+message GetMessageRequest {
+  string thread_id = 1 [(required) = true];
+
+  string message_id = 2 [(required) = true];
+}
+
+message ListMessagesRequest {
+  string thread_id = 1 [(required) = true];
+}

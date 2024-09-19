@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package yandex.cloud.ai.assistants.v1.users;
+
+import "yandex/cloud/ai/common/common.proto";
+import "yandex/cloud/ai/assistants/v1/users/user.proto";
+import "yandex/cloud/validation.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1/users;users";
+option java_package = "yandex.cloud.api.ai.assistants.v1.users";
+
+service UserService {
+  rpc Create(CreateUserRequest) returns (User) {
+    option (google.api.http) = {post: "/users/v1/users" body: "*"};
+  }
+
+  rpc Get(GetUserRequest) returns (User) {
+    option (google.api.http) = {get: "/users/v1/users/{user_id}"};
+  }
+
+  rpc Update(UpdateUserRequest) returns (User) {
+    option (google.api.http) = {patch: "/users/v1/users/{user_id}" body: "*"};
+  }
+
+  rpc Delete(DeleteUserRequest) returns (DeleteUserResponse) {
+    option (google.api.http) = {delete: "/users/v1/users/{user_id}"};
+  }
+
+  rpc List(ListUsersRequest) returns (ListUsersResponse) {
+    option (google.api.http) = {get: "/users/v1/users"};
+  }
+}
+
+message CreateUserRequest {
+  string folder_id = 1 [(required) = true];
+
+  string name = 2;
+
+  string description = 3;
+
+  string source = 4;
+
+  yandex.cloud.ai.common.ExpirationConfig expiration_config = 5;
+
+  map<string, string> labels = 6;
+}
+
+message GetUserRequest {
+  string user_id = 1 [(required) = true];
+}
+
+message UpdateUserRequest {
+  string user_id = 1 [(required) = true];
+
+  google.protobuf.FieldMask update_mask = 2 [(required) = true];
+
+  string name = 3;
+
+  string description = 4;
+
+  yandex.cloud.ai.common.ExpirationConfig expiration_config = 5;
+
+  map<string, string> labels = 6;
+}
+
+message DeleteUserRequest {
+  string user_id = 1 [(required) = true];
+}
+
+message DeleteUserResponse {
+}
+
+message ListUsersRequest {
+  string folder_id = 1 [(required) = true];
+
+  int64 page_size = 2;
+
+  string page_token = 3;
+}
+
+message ListUsersResponse {
+  repeated User users = 1;
+
+  string next_page_token = 2;
+}

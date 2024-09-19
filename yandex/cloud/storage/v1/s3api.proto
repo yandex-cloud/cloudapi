@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package yandex.cloud.storage.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/storage/v1;storage";
+option java_package = "yandex.cloud.api.storage.v1";
+
+// Represents a response of the get object request to S3.
+message S3APIGetObjectResponse {
+  // MD5 hash of the object.
+  string etag = 1;
+
+  // Unique request ID.
+  string request_id = 2;
+
+  // Indicates that a range of bytes was specified in the request.
+  string accept_ranges = 3;
+
+  // Specifies caching behavior along the request/reply chain.
+  string cache_control = 4;
+
+  // Specifies presentational information for the object.
+  string content_disposition = 5;
+
+  // Indicates what content encodings have been applied to the object.
+  string content_encoding = 6;
+
+  // The language the content is in.
+  string content_language = 7;
+
+  // Size of the body in bytes.
+  int64 content_length = 8;
+
+  // The portion of the object returned in the response.
+  string content_range = 9;
+
+  // A standard MIME type describing the format of the object data.
+  string content_type = 10;
+
+  // Version ID of the object.
+  string version_id = 11;
+
+  // The date and time at which the object is no longer cacheable.
+  google.protobuf.Timestamp expires_at = 12;
+
+  // Date and time when the object was last modified.
+  google.protobuf.Timestamp last_modified_at = 13;
+
+  // Object user-defined metadata.
+  map<string, string> metadata = 14;
+
+  // Provides storage class information of the object.
+  string storage_class = 15;
+
+  // Encryption algorithm used to encrypt the object.
+  string server_side_encryption = 16;
+
+  // ID of the key KMS.
+  string sse_kms_key_id = 17;
+
+  // Type of retention put on the object.
+  string object_lock_mode = 18;
+
+  // Date and time until which the object is retained
+  google.protobuf.Timestamp object_lock_retain_until_date = 19;
+
+  // Type of legal hold put on the object
+  string object_lock_legal_hold_status = 20;
+}
+
+// Represents a response of the put object request to S3.
+message S3APIPutObjectResponse {
+  // MD5 hash of the object.
+  string etag = 1;
+
+  // Unique request ID.
+  string request_id = 2;
+
+  // Version ID of the object.
+  string version_id = 3;
+}
+
+// Represents a response of the delete object request to S3.
+message S3APIDeleteObjectResponse {
+  // Unique request ID.
+  string request_id = 1;
+
+  // Version ID of the object.
+  string version_id = 2;
+}

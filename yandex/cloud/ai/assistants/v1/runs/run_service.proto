@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package yandex.cloud.ai.assistants.v1.runs;
+
+import "yandex/cloud/ai/common/common.proto";
+import "yandex/cloud/ai/assistants/v1/common.proto";
+import "yandex/cloud/ai/assistants/v1/threads/message.proto";
+import "yandex/cloud/ai/assistants/v1/runs/run.proto";
+import "yandex/cloud/validation.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1/runs;runs";
+option java_package = "yandex.cloud.api.ai.assistants.v1.runs";
+
+service RunService {
+  rpc Create(CreateRunRequest) returns (Run) {
+    option (google.api.http) = {post: "/assistants/v1/runs" body: "*"};
+  }
+
+  rpc Listen(ListenRunRequest) returns (stream StreamEvent) {
+    option (google.api.http) = {get: "/assistants/v1/runs/listen"};
+  }
+
+  rpc Get(GetRunRequest) returns (Run) {
+    option (google.api.http) = {get: "/assistants/v1/runs/{run_id}"};
+  }
+
+  rpc GetLastByThread(GetLastRunByThreadRequest) returns (Run) {
+    option (google.api.http) = {get: "/assistants/v1/runs:getByThread"};
+  }
+
+  rpc List(ListRunsRequest) returns (ListRunsResponse) {
+    option (google.api.http) = {get: "/assistants/v1/runs"};
+  }
+}
+
+message CreateRunRequest {
+  string assistant_id = 1 [(required) = true];
+
+  string thread_id = 2 [(required) = true];
+
+  map<string, string> labels = 3;
+
+  repeated yandex.cloud.ai.assistants.v1.threads.MessageData additional_messages = 4;
+
+  yandex.cloud.ai.assistants.v1.PromptTruncationOptions custom_prompt_truncation_options = 5;
+
+  yandex.cloud.ai.assistants.v1.CompletionOptions custom_completion_options = 6;
+
+  bool stream = 7;
+}
+
+message ListenRunRequest {
+  string run_id = 1 [(required) = true];
+
+  google.protobuf.Int64Value events_start_idx = 2;
+}
+
+message GetRunRequest {
+  string run_id = 1 [(required) = true];
+}
+
+message GetLastRunByThreadRequest {
+  string thread_id = 1 [(required) = true];
+}
+
+message ListRunsRequest {
+  string folder_id = 1 [(required) = true];
+
+  int64 page_size = 2;
+
+  string page_token = 3;
+}
+
+message ListRunsResponse {
+  repeated Run runs = 1;
+
+  string next_page_token = 2;
+}
+
+message StreamCursor {
+  int64 current_event_idx = 1;
+
+  int64 num_user_events_received = 2;
+}
+
+message StreamEvent {
+  enum EventType {
+    EVENT_TYPE_UNSPECIFIED = 0;
+
+    PARTIAL_MESSAGE = 1;
+
+    ERROR = 2;
+
+    DONE = 3;
+  }
+
+  EventType event_type = 1;
+
+  StreamCursor stream_cursor = 2;
+
+  oneof EventData {
+    yandex.cloud.ai.common.Error error = 3;
+
+    yandex.cloud.ai.assistants.v1.threads.MessageContent partial_message = 4;
+
+    yandex.cloud.ai.assistants.v1.threads.Message completed_message = 5;
+  }
+}

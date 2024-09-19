@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package yandex.cloud.ai.assistants.v1.threads;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1/threads;threads";
+option java_package = "yandex.cloud.api.ai.assistants.v1.threads";
+
+message Message {
+  string id = 1;
+
+  string thread_id = 2;
+
+  string created_by = 3;
+
+  google.protobuf.Timestamp created_at = 4;
+
+  Author author = 5;
+
+  map<string, string> labels = 6;
+
+  MessageContent content = 7;
+}
+
+message MessageContent {
+  repeated ContentPart content = 1;
+}
+
+message MessageData {
+  Author author = 1;
+
+  map<string, string> labels = 2;
+
+  MessageContent content = 3;
+}
+
+message Text {
+  string content = 1;
+}
+
+message ContentPart {
+  oneof PartType {
+    Text text = 1;
+  }
+}
+
+message Author {
+  string id = 1;
+
+  string role = 2;
+}

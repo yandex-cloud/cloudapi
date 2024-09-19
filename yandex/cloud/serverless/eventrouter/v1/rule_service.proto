@@ -116,7 +116,11 @@ message ListRulesRequest {
   // ID of the folder on bus to list rules in.
   oneof container_id {
     option (exactly_one) = true;
+
+    // ID of the bus to list rules in.
     string bus_id = 1;
+
+    // ID of the folder to list rules in.
     string folder_id = 2;
   }
 
