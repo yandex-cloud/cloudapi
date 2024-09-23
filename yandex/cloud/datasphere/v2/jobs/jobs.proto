@@ -32,8 +32,9 @@ message JobParameters {
   ExtendedWorkingStorage extended_working_storage = 9;
   // List of literal arguments.
   repeated Argument arguments = 10;
-  // List of DataSets descriptions to create
+  // List of DataSets descriptions to create.
   repeated OutputDatasetDesc output_datasets = 11;
+  // Graceful shutdown settings.
   GracefulShutdownParameters graceful_shutdown_parameters = 12;
 }
 
@@ -85,6 +86,15 @@ message FileDesc {
   string path = 1;
   // Variable to use in cmd substitution.
   string var = 2;
+}
+
+message FileUploadError {
+  oneof file_type {
+    FileDesc output_file_desc = 1;
+    string log_file_name = 2;
+  }
+
+  string description = 3;
 }
 
 message Environment {
@@ -151,8 +161,6 @@ message Job {
   string desc = 3;
   // Create job timestamp.
   google.protobuf.Timestamp created_at = 4;
-  // Start job timestamp.
-  google.protobuf.Timestamp started_at = 17;
   // Finish job timestamp.
   google.protobuf.Timestamp finished_at = 5;
   // Status of the job.
@@ -176,6 +184,18 @@ message Job {
   repeated File diagnostic_files = 15;
   // Job total data size.
   int64 data_size_bytes = 16;
+  // Start job timestamp.
+  google.protobuf.Timestamp started_at = 17;
+  // Details.
+  string status_details = 18;
+  // Actual VM instance type, job is running on.
+  CloudInstanceType actual_cloud_instance_type = 19;
+  // Reference to the parent job.
+  string parent_job_id = 20;
+  // Failed uploads.
+  repeated FileUploadError file_errors = 21;
+  // Created datasets.
+  repeated OutputDataset output_datasets = 22;
 }
 
 enum JobStatus {

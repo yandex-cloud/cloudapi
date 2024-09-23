@@ -10,6 +10,8 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless
 option java_package = "yandex.cloud.api.serverless.workflows.v1";
 
 message HistoryEntry {
+  reserved 11;
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
     // Step execution is being scheduled.
@@ -24,6 +26,14 @@ message HistoryEntry {
     CANCEL_REQUESTED = 5;
     // Step execution is canceled.
     CANCELLED = 6;
+  }
+  message FailedAttempt {
+    // Start timestamp for the attempt.
+    google.protobuf.Timestamp started_at = 1 [(required) = true];
+    // Duration of the attempt.
+    google.protobuf.Duration duration = 2;
+    // Error details.
+    HistoryEntryError error = 3;
   }
   // ID of the Workflow step.
   string id = 1;
@@ -45,6 +55,10 @@ message HistoryEntry {
   Status status = 9;
   // Type of the Workflow step (for example, FunctionCall or HttpCall).
   string type = 10;
+  // Number of attempts (including all retries of unsuccessful attempts). Value "1" means there were no retries.
+  int64 attempts = 12;
+  // Last received error details in case of retries.
+  HistoryEntryError last_error = 13;
 }
 
 message HistoryEntryInput {
