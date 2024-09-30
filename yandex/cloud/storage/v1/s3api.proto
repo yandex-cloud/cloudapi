@@ -90,3 +90,147 @@ message S3APIDeleteObjectResponse {
   // Version ID of the object.
   string version_id = 2;
 }
+
+message CopyObjectResult {
+  // Returns the ETag of the new object.
+  string etag = 1;
+
+  // Creation date of the object.
+  google.protobuf.Timestamp last_modified_at = 2;
+}
+
+// Represents a response of the copy object request to S3.
+message S3APICopyObjectResponse {
+  // Container for all response elements.
+  CopyObjectResult copy_object_result = 1;
+
+  // Unique request ID.
+  string request_id = 2;
+
+  // Version ID of the source object that was copied.
+  string copy_source_version_id = 3;
+
+  // Version ID of the newly created copy.
+  string version_id = 4;
+}
+
+message SuccessfullyDeletedObject {
+  // The name of the deleted object.
+  string key = 1;
+
+  // The version ID of the deleted object.
+  string version_id = 2;
+
+  // Specifies whether the versioned object that was permanently deleted was (true) or was not (false) a delete marker.
+  bool delete_marker = 3;
+
+  // The version ID of the delete marker created as a result of the DELETE operation.
+  string delete_marker_version_id = 4;
+}
+
+message DeleteObjectError {
+  // The error key.
+  string key = 1;
+
+  // The version ID of the error.
+  string version_id = 2;
+
+  // The error code is a string that uniquely identifies an error condition.
+  string code = 3;
+
+  // The error message contains a generic description of the error condition in English.
+  string msg = 4;
+}
+
+// Represents a response of the delete objects request to S3.
+message S3APIDeleteObjectsResponse {
+  // List of successfully deleted objects
+  repeated SuccessfullyDeletedObject deleted = 1;
+
+  // List of objects that attempted to be deleted but encountered an error
+  repeated DeleteObjectError errors = 2;
+
+  // Unique request ID.
+  string request_id = 3;
+}
+
+// Represents a response of the put object retention request to S3.
+message S3APIPutObjectRetentionResponse {
+  // Unique request ID.
+  string request_id = 1;
+}
+
+message ObjectLockRetention {
+  // Indicates the Retention mode for the specified object.
+  string mode = 1;
+
+  // The date on which this object lock retention will expire.
+  google.protobuf.Timestamp retain_until_date = 2;
+}
+
+// Represents a response of the get object retention request to S3.
+message S3APIGetObjectRetentionResponse {
+  // Unique request ID.
+  string request_id = 1;
+
+  // An object retention settings.
+  ObjectLockRetention retention = 2;
+}
+
+// Represents a response of the put object retention request to S3.
+message S3APIPutObjectLegalHoldResponse {
+  // Unique request ID.
+  string request_id = 1;
+}
+
+message ObjectLockLegalHold {
+  // Indicates whether the specified object has a legal hold in place.
+  string status = 1;
+}
+
+// Represents a response of the get object legal hold request to S3.
+message S3APIGetObjectLegalHoldResponse {
+  // Unique request ID.
+  string request_id = 1;
+
+  // The current legal hold status for the specified object.
+  ObjectLockLegalHold legal_hold = 2;
+}
+
+// Represents a response of put object tagging request to S3.
+message S3APIPutObjectTaggingResponse {
+  // Unique request ID.
+  string request_id = 1;
+
+  // The versionId of the object the tag-set was added to.
+  string version_id = 2;
+}
+
+message ObjectTag {
+  // Key of the object tag.
+  string key = 1;
+
+  // Value of the object tag.
+  string value = 2;
+}
+
+// Represents a response of get object tagging request to S3.
+message S3APIGetObjectTaggingResponse {
+  // Unique request ID.
+  string request_id = 1;
+
+  // The versionId of the object for which you got the tagging information.
+  string version_id = 2;
+
+  // Contains the tag set.
+  repeated ObjectTag tag_set = 3;
+}
+
+// Represents a response of delete object tagging request to S3.
+message S3APIDeleteObjectTaggingResponse {
+  // Unique request ID.
+  string request_id = 1;
+
+  // The versionId of the object the tag-set was removed from.
+  string version_id = 2;
+}

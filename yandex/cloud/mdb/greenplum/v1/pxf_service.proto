@@ -88,5 +88,5 @@ message UpdatePXFDatasourceRequest {
 
 message DeletePXFDatasourceRequest {
     string cluster_id      = 1 [(required) = true, (length) = "<=50"];
-    string datasource_name = 2 [(required) = true, (length) = "3-200", (pattern) = "^[^\\|/*?.,;\"'<>]+$"];;
+    string datasource_name = 2 [(required) = true, (length) = "3-200", (pattern) = "^[^\\|/*?.,;\"'<>]+$"];
 }
