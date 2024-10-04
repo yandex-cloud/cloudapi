@@ -44,7 +44,7 @@ message TextAnnotation {
     // Full text recognized from image.
     string full_text = 6;
 
-    // Angle of rotate image
+    // Angle of image rotation.
     Angle rotate = 7;
 }
 
@@ -87,7 +87,7 @@ message Line {
     // Line position from full_text string.
     repeated TextSegments text_segments = 4;
 
-    // Angle of rotate line
+    // Angle of line rotation.
     Angle orientation = 5;
 }
 
