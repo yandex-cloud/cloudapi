@@ -126,7 +126,7 @@ message PXFDatasourceJDBC {
     // The default value is `5`.
     google.protobuf.Int64Value pool_maximum_size = 9 [(value) = "1-200"];
 
-    // Maximum amount of time, in milliseconds, after which an inactive connection is considered idle.
+    // Maximum time, in milliseconds, to wait for a connection from the pool.
     //
     // The default value is `30000`.
     google.protobuf.Int64Value pool_connection_timeout = 10 [(value) = "5000-600000"];

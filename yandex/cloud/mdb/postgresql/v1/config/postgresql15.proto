@@ -154,6 +154,8 @@ message PostgresqlConfig15 {
     SHARED_PRELOAD_LIBRARIES_PG_PREWARM = 7;
 
     SHARED_PRELOAD_LIBRARIES_PGAUDIT = 8;
+
+    SHARED_PRELOAD_LIBRARIES_ANON = 9;
   }
 
   enum SynchronousCommit {

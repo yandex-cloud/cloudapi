@@ -104,7 +104,7 @@ message PostgresSource {
     PostgresConnection connection = 1;
     // Database name
     string database = 2;
-    // User for database access.
+    // User for database access. not required as may be in connection
     string user = 3;
     // Password for database access.
     Secret password = 4;
@@ -135,7 +135,7 @@ message PostgresTarget {
     PostgresConnection connection = 1;
     // Database name
     string database = 2;
-    // User for database access.
+    // User for database access. not required as may be in connection
     string user = 3;
     // Password for database access.
     Secret password = 4;
