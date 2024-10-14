@@ -5,6 +5,7 @@ package yandex.cloud.apploadbalancer.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/apploadbalancer/v1/rate_limit.proto";
 import "yandex/cloud/apploadbalancer/v1/virtual_host.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -171,6 +172,9 @@ message CreateVirtualHostRequest {
 
   // Route options for the virtual host.
   RouteOptions route_options = 8;
+
+  // RateLimit is a rate limit configuration applied for a whole virtual host.
+  RateLimit rate_limit = 9;  
 }
 
 message CreateVirtualHostMetadata {
@@ -241,6 +245,9 @@ message UpdateVirtualHostRequest {
 
   // New route options for the virtual host.
   RouteOptions route_options = 9;
+
+  // RateLimit is a rate limit configuration applied for a whole virtual host.
+  RateLimit rate_limit = 10;
 }
 
 message UpdateVirtualHostMetadata {

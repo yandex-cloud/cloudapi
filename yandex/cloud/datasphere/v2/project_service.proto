@@ -142,6 +142,14 @@ service ProjectService {
     };
   }
 
+  // Resizes project disk
+  rpc ResizeDisk (ResizeProjectDiskRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "ResizeProjectDiskMetadata"
+      response: "DiskInfo"
+    };
+  }
+
   // Get meta information about available restrictions.
   rpc GetRestrictionsMeta (google.protobuf.Empty) returns (GetRestrictionsMetaResponse) {
     option (google.api.http) = {get: "/datasphere/v2/projects/restrictionsMeta"};
@@ -477,4 +485,41 @@ message SetProjectRestrictionsRequest {
   string project_id = 1 [(required) = true];
   // List of restrictions to set.
   repeated Restriction restrictions = 2;
+}
+
+message ResizeProjectDiskRequest {
+  // ID of the project.
+  string project_id = 1 [(required) = true, (length) = "<=50"];
+  // Set new size project disk in gigabytes.
+  int64 new_disk_size_gb = 2;
+}
+
+message ResizeProjectDiskMetadata {
+  // ID of the project which resized project disk.
+  string project_id = 1;
+  // Old size project disk in gigabytes.
+  int64 old_disk_size_gb = 2;
+  // New size project disk in gigabytes.
+  int64 new_disk_size_gb = 3;
+}
+
+message DiskInfo {
+  message DetailedDiskInfo {
+    // Used project disk for user data in gigabytes.
+    double user_data_gb = 1;
+    // Used project disk for packages in gigabytes.
+    double packages_gb = 2;
+    // Used project disk for system data in gigabytes.
+    double system_data_gb = 3;
+    // Free space project disk in gigabytes.
+    double free_space_gb = 4;
+  }
+  // ID of the project.
+  string project_id = 1;
+  // Project disk size in gigabytes.
+  double disk_size_gb = 2;
+  // Used project disk in gigabytes.
+  double disk_used_gb = 3;
+  // Detailed information about the project disk.
+  DetailedDiskInfo detailed_usage = 4;
 }

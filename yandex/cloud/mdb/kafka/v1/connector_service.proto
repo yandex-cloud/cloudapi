@@ -79,7 +79,7 @@ message GetConnectorRequest {
   // Name of the Apache Kafka® connector to return information about.
   //
   // To get this name, make a [ConnectorService.List] request.
-  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[a-zA-Z0-9_-]*"];
+  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[-_.a-zA-Z0-9]*"];
 }
 
 message ListConnectorsRequest {
@@ -124,7 +124,7 @@ message CreateConnectorMetadata {
   string cluster_id = 1;
 
   // Name of the Apache Kafka® connector that is being created.
-  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[a-zA-Z0-9_-]*"];
+  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[-_.a-zA-Z0-9]*"];
 }
 
 message UpdateConnectorRequest {
@@ -136,7 +136,7 @@ message UpdateConnectorRequest {
   // Name of the connector to update.
   //
   // To get this name, make a [ConnectorService.List] request.
-  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[a-zA-Z0-9_-]*"];
+  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[-_.a-zA-Z0-9]*"];
 
   // Field mask that specifies which settings of the connector should be updated.
   google.protobuf.FieldMask update_mask = 3;
@@ -150,7 +150,7 @@ message UpdateConnectorMetadata {
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the Apache Kafka® connector that is being updated.
-  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[a-zA-Z0-9_-]*"];
+  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[-_.a-zA-Z0-9]*"];
 }
 
 message DeleteConnectorRequest {
@@ -162,7 +162,7 @@ message DeleteConnectorRequest {
   // Name of the connector to delete.
   //
   // To get this name, make a [ConnectorService.List] request.
-  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[a-zA-Z0-9_-]*"];
+  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[-_.a-zA-Z0-9]*"];
 }
 
 message DeleteConnectorMetadata {
@@ -182,7 +182,7 @@ message ResumeConnectorRequest {
   // Name of the Apache Kafka® connector to resume.
   //
   // To get this name, make a [ConnectorService.List] request.
-  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[a-zA-Z0-9_-]*"];
+  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[-_.a-zA-Z0-9]*"];
 }
 
 message ResumeConnectorMetadata {
@@ -190,7 +190,7 @@ message ResumeConnectorMetadata {
   string cluster_id = 1;
 
   // Name of the Apache Kafka® connector that is beign resumed.
-  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[a-zA-Z0-9_-]*"];
+  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[-_.a-zA-Z0-9]*"];
 }
 
 message PauseConnectorRequest {
@@ -202,7 +202,7 @@ message PauseConnectorRequest {
   // Name of the Apache Kafka® connector to pause.
   //
   // To get this name, make a [ConnectorService.List] request.
-  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[a-zA-Z0-9_-]*"];
+  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[-_.a-zA-Z0-9]*"];
 }
 
 message PauseConnectorMetadata {
@@ -210,5 +210,5 @@ message PauseConnectorMetadata {
   string cluster_id = 1;
 
   // Name of the Apache Kafka® connector that is being paused.
-  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[a-zA-Z0-9_-]*"];
+  string connector_name = 2 [(required) = true, (length) = "<=256", (pattern) = "[-_.a-zA-Z0-9]*"];
 }

@@ -92,9 +92,11 @@ message Cluster {
   Environment environment = 7;
 
   // Description of monitoring systems relevant to the Apache Kafka® cluster.
+  // * The field is ignored for response of List method.
   repeated Monitoring monitoring = 8;
 
   // Configuration of the Apache Kafka® cluster.
+  // * The field is ignored for response of List method.
   ConfigSpec config = 9;
 
   // ID of the network that the cluster belongs to.
@@ -153,7 +155,12 @@ message ConfigSpec {
     Resources resources = 1;
   }
 
-  // Version of Apache Kafka® used in the cluster. Possible values: `2.1`, `2.6`.
+  message KRaft {
+    // Resources allocated to KRaft controller hosts.
+    Resources resources = 1;
+  }
+
+  // Version of Apache Kafka® used in the cluster. Possible values: `2.8`, `3.0`, `3.1`, `3.2`, `3.3`, `3.4`, `3.5`, `3.6`.
   string version = 1;
 
   // Configuration and resource allocation for Kafka brokers.
@@ -192,6 +199,9 @@ message ConfigSpec {
 
   // DiskSizeAutoscaling settings
   DiskSizeAutoscaling disk_size_autoscaling = 11;
+
+  // Configuration and resource allocation for KRaft-controller hosts.
+  KRaft kraft = 12;
 }
 
 message Resources {

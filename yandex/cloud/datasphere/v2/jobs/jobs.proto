@@ -129,6 +129,23 @@ message PythonEnv {
   string conda_yaml = 1;
   // List of local modules descriptions.
   repeated File local_modules = 2;
+  // Python version reduced to major.minor
+  string python_version = 3;
+  // List of pip requirements
+  repeated string requirements = 4;
+  // Pip install options
+  PipOptions pip_options = 5;
+}
+
+message PipOptions {
+  // --index-url option
+  string index_url = 1;
+  // --extra-index-urls option
+  repeated string extra_index_urls = 2;
+  // --trusted-hosts option
+  repeated string trusted_hosts = 3;
+  // --no-deps option
+  bool no_deps = 4;
 }
 
 message OutputDatasetDesc {

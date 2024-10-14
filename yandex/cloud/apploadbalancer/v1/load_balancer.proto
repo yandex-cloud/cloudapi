@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.apploadbalancer.v1;
 
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/apploadbalancer/v1/logging.proto";
@@ -250,6 +251,10 @@ message StreamHandler {
   //
   // To get the list of all available backend groups, make a [BackendGroupService.List] request.
   string backend_group_id = 1 [(required) = true];
+
+  // The idle timeout is duration during which no data is transmitted or received on either the upstream or downstream connection. 
+  // If not configured, the default idle timeout is 1 hour. Setting it to 0 disables the timeout.
+  google.protobuf.Duration idle_timeout = 2;
 }
 
 // An HTTP handler resource.
