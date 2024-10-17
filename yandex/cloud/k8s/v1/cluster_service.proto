@@ -238,6 +238,9 @@ message MasterUpdateSpec {
 
   // Update master instance locations.
   repeated LocationSpec locations = 5;
+
+  // Specification of parameters for external IPv6 networking.
+  ExternalAddressSpec external_v6_address_spec = 6;
 }
 
 message UpdateClusterMetadata {

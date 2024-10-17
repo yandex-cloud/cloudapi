@@ -987,12 +987,6 @@ message AttachedDiskSpec {
       (value) = "4194304-4398046511104"
     ];
 
-    // Block size of the disk, specified in bytes. The default is 4096.
-    int64 block_size = 8;
-
-    // Placement policy configuration.
-    DiskPlacementPolicy disk_placement_policy = 7;
-
     oneof source {
       // ID of the image to create the disk from.
       string image_id = 5 [(length) = "<=50"];
@@ -1000,6 +994,15 @@ message AttachedDiskSpec {
       // ID of the snapshot to restore the disk from.
       string snapshot_id = 6 [(length) = "<=50"];
     }
+
+    // Placement policy configuration.
+    DiskPlacementPolicy disk_placement_policy = 7;
+
+    // Block size of the disk, specified in bytes. The default is 4096.
+    int64 block_size = 8;
+
+    // ID of KMS key for disk encryption
+    string kms_key_id = 9 [(length) = "<=50"];
   }
 }
 

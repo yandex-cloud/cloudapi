@@ -216,6 +216,9 @@ message CreateDiskRequest {
   // Specify the overrides to hardware_generation of a source disk, image or snapshot,
   // or to the default values if the source does not define it.
   HardwareGeneration hardware_generation = 13;
+
+  // ID of KMS key for disk encryption.
+  string kms_key_id = 14 [(length) = "<=50"];
 }
 
 message CreateDiskMetadata {

@@ -11,14 +11,6 @@ option java_package = "yandex.cloud.api.datasphere.v1";
 // A Project resource.
 message Project {
     message Settings {
-        enum CommitMode {
-            COMMIT_MODE_UNSPECIFIED = 0;
-            // Commit happens after the execution of a cell or group of cells or after completion with an error.
-            STANDARD = 1;
-            // Commit happens periodically.
-            // Also, automatic saving of state occurs when switching to another type of computing resource.
-            AUTO = 2;
-        }
 
         // ID of the service account, on whose behalf all operations with clusters will be performed.
         string service_account_id = 1;
@@ -30,11 +22,10 @@ message Project {
         // ID of the DataProc cluster.
         string data_proc_cluster_id = 3;
 
-        // Commit mode that is assigned to the project.
-        CommitMode commit_mode = 4;
-
         // Network interfaces security groups.
         repeated string security_group_ids = 5;
+
+        reserved 4;
     }
 
     message Limits {

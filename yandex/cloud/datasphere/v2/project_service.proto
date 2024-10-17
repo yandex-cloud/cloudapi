@@ -6,7 +6,6 @@ import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/struct.proto";
-import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/access/access.proto";
@@ -89,18 +88,6 @@ service ProjectService {
       metadata: "ProjectExecutionMetadata"
       response: "ProjectExecutionResponse"
     };
-  }
-
-  // Returns outputs of the specified cell.
-  // Deprecated
-  rpc GetCellOutputs (CellOutputsRequest) returns (CellOutputsResponse) {
-    option (google.api.http) = {get: "/datasphere/v2/projects/{project_id}:cellOutputs"};
-  }
-
-  // Returns state variables of the specified notebook.
-  // Deprecated
-  rpc GetStateVariables (GetStateVariablesRequest) returns (GetStateVariablesResponse) {
-    option (google.api.http) = {get: "/datasphere/v2/projects/{project_id}:stateVariables"};
   }
 
   // Lists access bindings for the project.
@@ -261,11 +248,10 @@ message OpenProjectMetadata {
     // Starting IDE.
     OPEN_PROJECT_STATUS_STARTING_IDE = 5;
 
-    // Applying checkpoint to project.
-    OPEN_PROJECT_STATUS_APPLYING_CHECKPOINT = 6;
-
     // Unknown open project status.
     OPEN_PROJECT_STATUS_UNKNOWN = 7;
+
+    reserved 6;
   }
 
   // ID of the project that is being opened.
@@ -404,53 +390,10 @@ enum ExecutionStatus {
 }
 
 message ProjectExecutionResponse {
-  // ID of the checkpoint resulting from the execution.
-  string checkpoint_id = 1; // <project_id>/checkpoint/<uuid>
-
-  // Values of output variables resulting from the execution.
-  // Deprecated
-  google.protobuf.Struct output_variables = 2 [deprecated=true];
-
   // Execution final status.
   ExecutionStatus execution_status = 3;
-}
 
-message CellOutputsRequest {
-  // ID of the project to return cell outputs for.
-  string project_id = 1 [(required) = true, (length) = "<=50"];
-
-  // ID of the cell to return outputs for.
-  string cell_id = 2 [(required) = true, (length) = "<=200"];
-
-  // ID of the checkpoint to return cell outputs for.
-  string checkpoint_id = 3;
-
-  // Timestamp from which to return outputs.
-  google.protobuf.Timestamp start_at = 4;
-}
-
-message CellOutputsResponse {
-  // List of outputs.
-  repeated string outputs = 1;
-}
-
-message GetStateVariablesRequest {
-  // ID of the project, for which to return state variables.
-  string project_id = 1 [(required) = true, (length) = "<=50"];
-
-  // ID of the notebook, for which to return state variables.
-  string notebook_id = 2 [(required) = true, (length) = "<=200"];
-
-  // Names of variables to return.
-  repeated string variable_names = 3;
-
-  // ID of the checkpoint, for which to return state variables.
-  string checkpoint_id = 4;
-}
-
-message GetStateVariablesResponse {
-  // Values of the specified variables.
-  google.protobuf.Struct variables = 1;
+  reserved 1, 2;
 }
 
 message SetProjectAccessBindingsMetadata {

@@ -13,14 +13,6 @@ option java_package = "yandex.cloud.api.datasphere.v2";
 message Project {
   reserved 10;
   message Settings {
-    enum CommitMode {
-      COMMIT_MODE_UNSPECIFIED = 0;
-      // Commit happens after the execution of a cell or group of cells or after completion with an error.
-      STANDARD = 1;
-      // Commit happens periodically.
-      // Also, automatic saving of state occurs when switching to another type of computing resource.
-      AUTO = 2;
-    }
 
     enum Ide {
       IDE_UNSPECIFIED = 0;
@@ -38,15 +30,6 @@ message Project {
       NO_TIMEOUT = 3;
     }
 
-    enum IdeExecutionMode {
-      IDE_EXECUTION_MODE_UNSPECIFIED = 0;
-      // VM is allocated for specific execution and deallocated after the execution ends.
-      SERVERLESS = 1;
-      // VM is allocated at the first execution and stays allocated until manually deallocated.
-      // Or until timeout exceeded.
-      DEDICATED = 2;
-    }
-
     // ID of the service account, on whose behalf all operations with clusters will be performed.
     string service_account_id = 1;
 
@@ -56,9 +39,6 @@ message Project {
 
     // ID of the DataProc cluster.
     string data_proc_cluster_id = 3;
-
-    // Commit mode that is assigned to the project.
-    CommitMode commit_mode = 4;
 
     // Network interfaces security groups.
     repeated string security_group_ids = 5;
@@ -75,14 +55,13 @@ message Project {
     // Timeout to automatically stop stale executions.
     StaleExecutionTimeoutMode stale_exec_timeout_mode = 9;
 
-    // VM allocation mode.
-    IdeExecutionMode ide_execution_mode = 10;
-
     // Timeout for VM deallocation.
     google.protobuf.Duration vm_inactivity_timeout = 11;
 
     // Default VM configuration for DEDICATED mode.
     string default_dedicated_spec = 12;
+
+    reserved 4, 10;
   }
 
   message Limits {

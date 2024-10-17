@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.compute.v1;
 
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/compute/v1/kek.proto";
 import "yandex/cloud/compute/v1/hardware_generation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1;compute";
@@ -79,6 +80,9 @@ message Image {
   // If specified, forces the same HardwareGeneration features to be applied to the instance
   // created using this image as a source for the boot disk. Otherwise the current default will be used.
   HardwareGeneration hardware_generation = 14;
+
+  // Key encryption key info.
+  KMSKey kms_key = 15;
 }
 
 message Os {

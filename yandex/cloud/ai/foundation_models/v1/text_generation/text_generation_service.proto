@@ -21,6 +21,10 @@ message CompletionRequest {
 
   // A list of messages representing the context for the completion model.
   repeated Message messages = 3;
+
+  // List of tools that are available for the model to invoke during the completion generation.
+  // Note: This parameter is not yet supported and will be ignored if provided.
+  repeated Tool tools = 4;
 }
 
 // Response containing generated text completions.

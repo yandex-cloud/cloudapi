@@ -86,6 +86,33 @@ message RedisConfig {
 
   // Redis maxmemory percent
   google.protobuf.Int64Value maxmemory_percent = 10 [(value) = "1-75"];
+
+  // Maximum time in milliseconds for Lua scripts, 0 - disabled mechanism
+  google.protobuf.Int64Value lua_time_limit = 11 [(value) = ">=0"];
+
+  // Replication backlog size as a percentage of flavor maxmemory
+  google.protobuf.Int64Value repl_backlog_size_percent = 12 [(value) = ">0"];
+
+  // Controls whether all hash slots must be covered by nodes
+  google.protobuf.BoolValue cluster_require_full_coverage = 13;
+
+  // Allows read operations when cluster is down
+  google.protobuf.BoolValue cluster_allow_reads_when_down = 14;
+
+  // Permits Pub/Sub shard operations when cluster is down
+  google.protobuf.BoolValue cluster_allow_pubsubshard_when_down = 15;
+
+  // The time, in minutes, that must elapse in order for the key counter to be divided by two (or decremented if it has a value less <= 10)
+  google.protobuf.Int64Value lfu_decay_time = 16 [(value) = ">=0"];
+
+  // Determines how the frequency counter represents key hits.
+  google.protobuf.Int64Value lfu_log_factor = 17 [(value) = ">=0"];
+
+  // Allows to turn before switchover in RDSync
+  google.protobuf.BoolValue turn_before_switchover = 18;
+
+  // Allows some data to be lost in favor of faster switchover/restart
+  google.protobuf.BoolValue allow_data_loss = 19;
 }
 
 message RedisConfigSet {

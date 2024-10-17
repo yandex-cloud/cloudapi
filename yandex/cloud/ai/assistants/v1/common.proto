@@ -7,24 +7,41 @@ import "google/protobuf/wrappers.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1;assistants";
 option java_package = "yandex.cloud.api.ai.assistants.v1";
 
+// Defines the options for truncating thread messages within a prompt.
 message PromptTruncationOptions {
+  // The maximum number of tokens allowed in the prompt.
+  // If the prompt exceeds this limit, the thread messages will be truncated.
+  // Default max_prompt_tokens: 7000
   google.protobuf.Int64Value max_prompt_tokens = 1;
 }
 
+// Defines the options for completion generation.
 message CompletionOptions {
+  // The limit on the number of tokens used for single completion generation.
+  // Must be greater than zero. This maximum allowed parameter value may depend on the model being used.
   google.protobuf.Int64Value max_tokens = 2;
 
+  // Affects creativity and randomness of responses. Should be a double number between 0 (inclusive) and 1 (inclusive).
+  // Lower values produce more straightforward responses while higher values lead to increased creativity and randomness.
+  // Default temperature: 0.3
   google.protobuf.DoubleValue temperature = 3;
 }
 
+// Configures a tool that enables Retrieval-Augmented Generation (RAG) by allowing the assistant to search across a specified search index.
 message SearchIndexTool {
+  // A list of search index IDs that this tool will query. Currently, only a single index ID is supported.
   repeated string search_index_ids = 1;
 
+  // The maximum number of results to return from the search.
+  // Fewer results may be returned if necessary to fit within the prompt's token limit.
+  // This ensures that the combined prompt and search results do not exceed the token constraints.
   google.protobuf.Int64Value max_num_results = 2;
 }
 
+// Represents a general tool that can be one of several types.
 message Tool {
   oneof ToolType {
+    // SearchIndexTool tool that performs search across specified indexes.
     SearchIndexTool search_index = 1;
   }
 }
