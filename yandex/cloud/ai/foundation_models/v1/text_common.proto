@@ -97,12 +97,12 @@ message Token {
 message Tool {
   oneof ToolType {
     // Represents a function that can be called.
-    Function function = 1;
+    FunctionTool function = 1;
   }
 }
 
 // Represents a function tool that can be invoked during completion generation.
-message Function {
+message FunctionTool {
   // The name of the function.
   string name = 1;
   // A description of the function's purpose or behavior.

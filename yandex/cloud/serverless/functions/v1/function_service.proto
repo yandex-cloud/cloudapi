@@ -476,7 +476,7 @@ message CreateFunctionVersionRequest {
   // Timeout for the execution of the version.
   //
   // If the timeout is exceeded, Cloud Functions responds with a 504 HTTP code.
-  google.protobuf.Duration execution_timeout = 6 [(required) = true];
+  google.protobuf.Duration execution_timeout = 6 [(required) = true, (value) = "0s-3600s"];
 
   // ID of the service account to associate with the version.
   string service_account_id = 7;

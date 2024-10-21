@@ -321,7 +321,7 @@ message DeployContainerRevisionRequest {
   // Timeout for the execution of the revision.
   //
   // If the timeout is exceeded, Serverless Containers responds with a 504 HTTP code.
-  google.protobuf.Duration execution_timeout = 6 [(value) = "<=600s"];
+  google.protobuf.Duration execution_timeout = 6 [(value) = "0s-3600s"];
 
   // ID of the service account to associate with the revision.
   string service_account_id = 7;
