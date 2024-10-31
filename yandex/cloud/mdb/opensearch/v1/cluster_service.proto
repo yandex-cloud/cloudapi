@@ -73,6 +73,17 @@ service ClusterService {
     };
   }
 
+// Delete backup for the specified OpenSearch cluster.
+  rpc DeleteBackup(DeleteBackupRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      delete: "/managed-opensearch/v1/clusters/{cluster_id}/backups/{backup_id}"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteBackupMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
   // Creates a new OpenSearch cluster using the specified backup.
   rpc Restore(RestoreClusterRequest) returns (operation.Operation) {
     option (google.api.http) = {
@@ -851,6 +862,22 @@ message BackupClusterRequest {
 message BackupClusterMetadata {
   // ID of the OpenSearch cluster being backed up.
   string cluster_id = 1;
+}
+
+message DeleteBackupRequest {
+    // Required. ID of the OpenSearch cluster.
+    string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+    // Required. ID of the backup to delete.
+    string backup_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message DeleteBackupMetadata {
+    // ID of the OpenSearch cluster.
+    string cluster_id = 1;
+
+    // ID of the backup to delete.
+    string backup_id = 2;
 }
 
 message RestoreClusterRequest {

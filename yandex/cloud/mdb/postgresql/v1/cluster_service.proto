@@ -24,6 +24,8 @@ import "yandex/cloud/mdb/postgresql/v1/config/host15.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host15_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host16.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host16_1c.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host17.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host17_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql10.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql10_1c.proto";
@@ -39,6 +41,8 @@ import "yandex/cloud/mdb/postgresql/v1/config/postgresql15.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql15_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql16.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql16_1c.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql17.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql17_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/database.proto";
 import "yandex/cloud/mdb/postgresql/v1/maintenance.proto";
@@ -935,8 +939,9 @@ message HostSpec {
 
 message ConfigSpec {
   reserved 20;
+  reserved 26;
   // Version of PostgreSQL used in the cluster.
-  // Possible values: `9.6`, `10`, `10_1c`, `11`, `12`, `13`, `14`, `15`
+  // Possible values: `9.6`, `10`, `10_1c`, `11`, `12`, `13`, `14`, `15`, `16`, `17`
   string version = 1;
 
   // Configuration of a PostgreSQL cluster.
@@ -985,6 +990,12 @@ message ConfigSpec {
 
     // Configuration for a PostgreSQL 16 1C cluster.
     config.PostgresqlConfig16_1C postgresql_config_16_1c = 25 [json_name = "postgresqlConfig_16_1c"];
+
+    // Configuration for a PostgreSQL 17 cluster.
+    config.PostgresqlConfig17 postgresql_config_17 = 27 [json_name = "postgresqlConfig_17"];
+
+    // Configuration for a PostgreSQL 17 1C cluster.
+    config.PostgresqlConfig17_1C postgresql_config_17_1c = 28 [json_name = "postgresqlConfig_17_1c"];
   }
 
   // Configuration of the connection pooler.
@@ -1058,5 +1069,11 @@ message ConfigHostSpec {
 
     // Configuration for a host with PostgreSQL 16 1C server deployed.
     config.PostgresqlHostConfig16_1C postgresql_config_16_1c = 15 [json_name = "postgresqlHostConfig_16_1c"];
+
+    // Configuration for a host with PostgreSQL 17 1C server deployed.
+    config.PostgresqlHostConfig17 postgresql_config_17 = 16 [json_name = "postgresqlHostConfig_17"];
+
+    // Configuration for a host with PostgreSQL 17 1C server deployed.
+    config.PostgresqlHostConfig17_1C postgresql_config_17_1c = 17 [json_name = "postgresqlHostConfig_17_1c"];
   }
 }

@@ -35,6 +35,10 @@ message Message {
   oneof Content {
     // Textual content of the message.
     string text = 2;
+    // List of tool calls made by the model as part of the response generation.
+    ToolCallList tool_call_list = 3;
+    // List of tool results returned from external tools that were invoked by the model.
+    ToolResultList tool_result_list = 4;
   }
 }
 

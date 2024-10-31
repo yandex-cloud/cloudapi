@@ -64,7 +64,7 @@ service InstanceService {
     };
   }
 
-  // Updates the metadata of the specified instance.
+  // Updates the metadata of the specified instance. For more information on metadata, see [VM metadata](/docs/compute/concepts/vm-metadata).
   rpc UpdateMetadata(UpdateInstanceMetadataRequest) returns (operation.Operation) {
     option (google.api.http) = {
       post: "/compute/v1/instances/{instance_id}/updateMetadata"

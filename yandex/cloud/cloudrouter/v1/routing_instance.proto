@@ -62,9 +62,6 @@ message RoutingInstance {
 
         // VpcInfo which is set by user
         VpcManualInfo manual_info = 2;
-
-        // VpcInfo which is get from vpc service by attached networks
-        VpcAutomaticInfo automatic_info = 3;
     }
 
     message VpcManualInfo {
@@ -75,14 +72,6 @@ message RoutingInstance {
 
         // List of prefixes to announce
         repeated string prefixes = 5;
-    }
-
-    message VpcAutomaticInfo {
-        // ID of the AZ
-        string az_id = 1;
-
-        // List of prefixes from attached VpcNetwork
-        repeated string prefixes = 2;
     }
 
     enum Status {
