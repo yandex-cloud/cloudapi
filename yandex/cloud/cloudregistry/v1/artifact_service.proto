@@ -12,15 +12,16 @@ import "google/api/annotations.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cloudregistry/v1;cloudregistry";
 option java_package = "yandex.cloud.api.cloudregistry.v1";
 
+// A set of methods for managing Artifacts.
 service ArtifactService {
-  // Returns the specified Registry artifact resource.
+  // Returns the specified artifact resource.
   //
-  // To get the list of available Registry artifact resources, make RegistryService.ListArtifacts method call.
+  // To get the list of available artifact resources, make [RegistryService.ListArtifacts] method call.
   rpc Get (GetArtifactRequest) returns (Artifact){
     option (google.api.http) = { get: "/cloud-registry/v1/artifacts/{artifact_id}" };
   };
 
-  // Deletes the specified registry artifact.
+  // Deletes the specified artifact.
   rpc Delete (DeleteArtifactRequest) returns (operation.Operation) {
     option (google.api.http) = { delete: "/cloud-registry/v1/artifacts/{artifact_id}" };
     option (yandex.cloud.api.operation) = {
@@ -31,16 +32,16 @@ service ArtifactService {
 }
 
 message GetArtifactRequest {
-  // ID of the Registry artifact resource to return.
+  // ID of the artifact resource to return.
   string artifact_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message DeleteArtifactRequest {
-  // ID of the Registry artifact to delete.
+  // ID of the artifact to delete.
   string artifact_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message DeleteArtifactMetadata {
-  // ID of the registry artifact to delete.
+  // ID of the artifact to delete.
   string artifact_id = 1;
 }

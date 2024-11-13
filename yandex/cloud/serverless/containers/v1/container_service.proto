@@ -356,6 +356,9 @@ message DeployContainerRevisionRequest {
 
   // Mounts to be used by the revision.
   repeated Mount mounts = 16;
+
+  // The container's execution mode
+  Runtime runtime = 17;
 }
 
 // Revision image specification.

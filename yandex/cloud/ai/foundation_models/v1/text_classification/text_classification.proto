@@ -6,11 +6,12 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/foundat
 option java_package = "yandex.cloud.api.ai.foundation_models.v1.text_classification";
 
 
-// A pair of text label and corresponding confidence used in classification problems.
+// A pair of text labels and their corresponding confidence values.
 message ClassificationLabel {
-  // A label with a class name.
+
+  // A class name label.
   string label = 1;
-  // Confidence of item's belonging to a class.
+  // The probability of classifying text into a specific class.
   double confidence = 2;
 }
 

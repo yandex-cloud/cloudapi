@@ -121,6 +121,9 @@ message Revision {
 
   // Mounts to be used by the revision.
   repeated Mount mounts = 17;
+
+  // The container's execution mode
+  Runtime runtime = 18;
 }
 
 // Revision image specification.
@@ -325,4 +328,20 @@ message Mount {
     // Optional block size of disk for mount in bytes
     int64 block_size = 2;
   }
+}
+
+// The container's execution mode
+message Runtime {
+  oneof type {
+    option (exactly_one) = true;
+
+    // The classic one. You need to run an HTTP server inside the container.
+    Http http = 1;
+
+    // We run a process from ENTRYPOINT inside the container for each user request.
+    Task task = 2;
+  }
+
+  message Http {}
+  message Task {}
 }

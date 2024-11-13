@@ -9,8 +9,10 @@ option java_package = "yandex.cloud.api.video.v1";
 
 // Root entity for content separation.
 message Channel {
-  reserved 102 to 199;
-  reserved 5 to 99;
+
+  // Reserved for future use.
+  reserved 5 to 99, 102 to 199;
+
   // ID of the channel.
   string id = 1;
   // ID of the organization where channel should be created.

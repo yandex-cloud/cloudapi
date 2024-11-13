@@ -8,10 +8,8 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;v
 option java_package = "yandex.cloud.api.video.v1";
 
 message Stream {
-  reserved 102 to 199;
-  reserved 201 to 999;
-  reserved 12 to 99;
-  reserved 7;
+  // Reserved for future use.
+  reserved 7, 12 to 99, 102 to 199, 201 to 999;
 
   // ID of the stream.
   string id = 1;

@@ -275,6 +275,10 @@ message StreamBackend {
 
   // If set, proxy protocol will be enabled for this backend.
   bool enable_proxy_protocol = 8;
+
+  // If a backend host becomes unhealthy (as determined by the configured health checks),
+  // keep connections to the failed host.
+  bool keep_connections_on_host_health_failure = 9;
 }
 
 // An HTTP backend resource.

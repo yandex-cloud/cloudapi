@@ -10,8 +10,7 @@ message Manifest {
     ManifestType type = 2;
 
     enum ManifestType {
-        // TODO: CLOUDAPI-336
-        // TODO: reserved 3;
+        reserved 3;
 
         MANIFEST_TYPE_UNSPECIFIED = 0;
         DASH = 1;

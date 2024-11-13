@@ -21,6 +21,25 @@ message SecurityProfile {
     DENY = 2;
   }
 
+  message AnalyzeRequestBody {
+    // Action to perform if maximum size of body exceeded.
+    enum Action {
+      ACTION_UNSPECIFIED = 0;
+
+      // Ignore body.
+      IGNORE = 1;
+
+      // Deny request.
+      DENY = 2;
+    }
+
+    // Maximum size of body to pass to analyzer. In kilobytes.
+    int64 size_limit = 1 [(value) = "0,8,16,32,64,128,256,512"];
+
+    // Action to perform if maximum size of body exceeded.
+    Action size_limit_action = 2;
+  }
+
   // ID of the security profile.
   string id = 1;
 
@@ -55,6 +74,9 @@ message SecurityProfile {
 
   // Advanced rate limiter profile ID to use with this security profile. Set empty to use default.
   string advanced_rate_limiter_profile_id = 12;
+
+  // Parameters for request body analyzer.
+  AnalyzeRequestBody analyze_request_body = 13;
 }
 
 // A SecurityRule object, see [Rules](/docs/smartwebsecurity/concepts/rules).

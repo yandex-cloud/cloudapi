@@ -63,6 +63,7 @@ service TextGenerationAsyncService {
 message TokenizeRequest {
   // The identifier of the model to be used for tokenization.
   string model_uri = 1;
+  
   // Text to be tokenized.
   string text = 2;
 }

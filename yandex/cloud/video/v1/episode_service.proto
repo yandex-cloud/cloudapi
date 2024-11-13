@@ -7,6 +7,7 @@ import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
 import "yandex/cloud/video/v1/episode.proto";
 import "yandex/cloud/video/v1/manifest.proto";
 
@@ -26,6 +27,14 @@ service EpisodeService {
   rpc List(ListEpisodesRequest) returns (ListEpisodesResponse) {
     option (google.api.http) = {
       get: "/video/v1/episodes"
+    };
+  }
+
+  // Batch get episodes for channel.
+  rpc BatchGet(BatchGetEpisodesRequest) returns (BatchGetEpisodesResponse) {
+    option (google.api.http) = {
+      post: "/video/v1/episodes:batchGet"
+      body: "*"
     };
   }
 
@@ -93,22 +102,25 @@ service EpisodeService {
 
 message GetEpisodeRequest {
   // ID of the episode.
-  string episode_id = 1;
+  string episode_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message ListEpisodesRequest {
+  // Reserved for future use.
   reserved 3 to 99;
+
   oneof parent_id {
+    option (exactly_one) = true;
     // ID of the stream.
-    string stream_id = 1;
+    string stream_id = 1 [(length) = "<=50"];
     // ID of the line.
-    string line_id = 2;
+    string line_id = 2 [(length) = "<=50"];
   }
 
   // The maximum number of the results per page to return. Default value: 100.
-  int64 page_size = 100;
+  int64 page_size = 100 [(value) = "<=1000"];
   // Page token for getting the next page of the result.
-  string page_token = 101;
+  string page_token = 101 [(length) = "<=200"];
 
   // By which column the listing should be ordered and in which direction,
   // format is "createdAt desc". "id asc" if omitted.
@@ -123,11 +135,13 @@ message ListEpisodesRequest {
   // Supported operators: ["AND"].
   // Supported fields: ["title"]
   // Both snake_case and camelCase are supported for fields.
-  string filter = 103;
+  string filter = 103 [(length) = "<=1000"];
 }
 
 message ListEpisodesResponse {
+  // Reserved for future use.
   reserved 2 to 99;
+
   // List of episodes for specific parent_id.
   repeated Episode episodes = 1;
 
@@ -135,24 +149,39 @@ message ListEpisodesResponse {
   string next_page_token = 100;
 }
 
+message BatchGetEpisodesRequest {
+  // ID of the channel.
+  string channel_id = 1 [(required) = true, (length) = "<=50"];
+
+  // List of requested episode IDs.
+  repeated string episode_ids = 2 [(size) = "1-50", (length) = "<=50"];
+}
+
+message BatchGetEpisodesResponse {
+  // List of episodes for specific channel.
+  repeated Episode episodes = 1;
+}
+
 message CreateEpisodeRequest {
-  reserved 102 to 999;
-  reserved 8 to 99;
-  reserved 1, 1001;
+  reserved 1001;
+
+  // Reserved for future use.
+  reserved 1, 8 to 99, 102 to 999;
 
   oneof parent_id {
+    option (exactly_one) = true;
     // ID of the stream.
-    string stream_id = 100;
+    string stream_id = 100 [(length) = "<=50"];
     // ID of the line.
-    string line_id = 101;
+    string line_id = 101 [(length) = "<=50"];
   }
 
   // Episode title.
-  string title = 2;
+  string title = 2 [(required) = true];
   // Episode description.
   string description = 3;
   // ID of the thumbnail.
-  string thumbnail_id = 4;
+  string thumbnail_id = 4 [(length) = "<=50"];
   // Episode start time.
   google.protobuf.Timestamp start_time = 5;
   // Episode finish time.
@@ -166,10 +195,13 @@ message CreateEpisodeRequest {
 
   // Episode access rights.
   oneof access_rights {
+    option (exactly_one) = true;
     // Episode is available to everyone.
     EpisodePublicAccessParams public_access = 1000;
     // Checking access rights using the authorization system.
     EpisodeAuthSystemAccessParams auth_system_access = 1002;
+    // Checking access rights using url's signature.
+    EpisodeSignURLAccessParams sign_url_access = 1003;
   }
 }
 
@@ -177,17 +209,21 @@ message EpisodePublicAccessParams {}
 
 message EpisodeAuthSystemAccessParams {}
 
+message EpisodeSignURLAccessParams {}
+
 message CreateEpisodeMetadata {
   // ID of the episode.
   string episode_id = 1;
 }
 
 message UpdateEpisodeRequest {
-  reserved 9 to 999;
   reserved 1001;
 
+  // Reserved for future use.
+  reserved 9 to 999;
+
   // ID of the episode.
-  string episode_id = 1;
+  string episode_id = 1 [(required) = true, (length) = "<=50"];
   // Field mask that specifies which fields of the episode are going to be updated.
   google.protobuf.FieldMask field_mask = 2;
 
@@ -196,7 +232,7 @@ message UpdateEpisodeRequest {
   // Episode description.
   string description = 4;
   // ID of the thumbnail.
-  string thumbnail_id = 5;
+  string thumbnail_id = 5 [(length) = "<=50"];
   google.protobuf.Timestamp start_time = 6;
   // Episode finish time.
   google.protobuf.Timestamp finish_time = 7;
@@ -213,6 +249,8 @@ message UpdateEpisodeRequest {
     EpisodePublicAccessParams public_access = 1000;
     // Checking access rights using the authorization system.
     EpisodeAuthSystemAccessParams auth_system_access = 1002;
+    // Checking access rights using url's signature.
+    EpisodeSignURLAccessParams sign_url_access = 1003;
   }
 }
 
@@ -223,7 +261,7 @@ message UpdateEpisodeMetadata {
 
 message DeleteEpisodeRequest {
   // ID of the episode.
-  string episode_id = 1;
+  string episode_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message DeleteEpisodeMetadata {
@@ -232,12 +270,15 @@ message DeleteEpisodeMetadata {
 }
 
 message PerformEpisodeActionRequest {
-  reserved 2 to 999;
   reserved 1000, 1001;
 
+  // Reserved for future use.
+  reserved 2 to 999;
+
   // ID of the episode.
-  string episode_id = 1;
+  string episode_id = 1 [(required) = true, (length) = "<=50"];
   oneof action {
+    option (exactly_one) = true;
     PublishEpisodeAction publish = 1002;
     UnpublishEpisodeAction unpublish = 1003;
   }
@@ -254,7 +295,7 @@ message PerformEpisodeActionMetadata {
 
 message GetEpisodePlayerURLRequest {
   // ID of the episode.
-  string episode_id = 1;
+  string episode_id = 1 [(required) = true, (length) = "<=50"];
   EpisodePlayerParams params = 2;
 }
 
@@ -276,7 +317,7 @@ message GetEpisodePlayerURLResponse {
 
 message GetEpisodeManifestsRequest {
     // ID of the episode.
-    string episode_id = 1;
+    string episode_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message GetEpisodeManifestsResponse {

@@ -22,6 +22,11 @@ service ExecutionService {
     option (google.api.http) = {post: "/workflows/v1/execution/{execution_id}/stop"};
   };
 
+  // Terminates specified Workflow execution.
+  rpc Terminate (TerminateExecutionRequest) returns (TerminateExecutionResponse) {
+    option (google.api.http) = {post: "/workflows/v1/execution/{execution_id}/terminate"};
+  }
+
   // Retrieves specified Workflow execution.
   rpc Get (GetExecutionRequest) returns (GetExecutionResponse) {
     option (google.api.http) = {get: "/workflows/v1/execution/{execution_id}"};
@@ -57,6 +62,16 @@ message StopExecutionRequest {
 }
 
 message StopExecutionResponse {
+  // ID of the Workflow execution.
+  string execution_id = 1;
+}
+
+message TerminateExecutionRequest {
+  // ID of the Workflow execution.
+  string execution_id = 1 [(required) = true];
+}
+
+message TerminateExecutionResponse {
   // ID of the Workflow execution.
   string execution_id = 1;
 }

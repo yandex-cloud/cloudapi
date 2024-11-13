@@ -93,6 +93,9 @@ message CreateSecurityProfileRequest {
 
   // Advanced rate limiter profile ID to use with this security profile. Set empty to use default.
   string advanced_rate_limiter_profile_id = 8;
+
+  // Parameters for request body analyzer.
+  SecurityProfile.AnalyzeRequestBody analyze_request_body = 9;
 }
 
 message CreateSecurityProfileMetadata {
@@ -127,6 +130,9 @@ message UpdateSecurityProfileRequest {
 
   // Advanced rate limiter profile ID to use with this security profile. Set empty to use default.
   string advanced_rate_limiter_profile_id = 9;
+
+  // Parameters for request body analyzer.
+  SecurityProfile.AnalyzeRequestBody analyze_request_body = 10;
 }
 
 message UpdateSecurityProfileMetadata {

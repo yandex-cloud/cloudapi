@@ -9,11 +9,9 @@ option java_package = "yandex.cloud.api.video.v1";
 
 // Entity that is responsible for the incoming video signal settings.
 message StreamLine {
-  reserved 102 to 199;
-  reserved 201 to 999;
-  reserved 1005;
-  reserved 1007 to 1999;
-  reserved 5 to 99;
+  // Reserved for future use.
+  reserved 5 to 99, 102 to 199, 201 to 999, 1005, 1007 to 1999;
+
   // ID of the line.
   string id = 1;
   // ID of the channel where the line was created.

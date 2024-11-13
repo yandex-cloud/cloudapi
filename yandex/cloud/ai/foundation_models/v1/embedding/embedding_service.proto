@@ -9,18 +9,18 @@ option java_package = "yandex.cloud.api.ai.foundation_models.v1";
 
 // Request for the service to obtain text embeddings.
 message TextEmbeddingRequest {
-  // The [ID of the model](/docs/foundation-models/concepts/embeddings) to be used for obtaining text embeddings.
+  
+  // The [model URI](/docs/foundation-models/concepts/embeddings) to be used for obtaining text embeddings.
   string model_uri = 1;
-
   // The input text for which the embedding is requested.
   string text = 2;
 }
 
 // Response containing generated text embedding.
 message TextEmbeddingResponse {
+
   // A repeated list of double values representing the embedding.
   repeated double embedding = 1;
-
   // The number of tokens in the input text.
   int64 num_tokens = 2;
 

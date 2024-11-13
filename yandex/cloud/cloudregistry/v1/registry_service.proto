@@ -20,7 +20,7 @@ option java_package = "yandex.cloud.api.cloudregistry.v1";
 service RegistryService {
   // Returns the specified Registry resource.
   //
-  // To get the list of available Registry resources, make a [List] request.
+  // To get the list of available Registry resources, make a [RegistryService.List] request.
   rpc Get (GetRegistryRequest) returns (Registry) {
     option (google.api.http) = {get: "/cloud-registry/v1/registries/{registry_id}"};
   };
@@ -106,7 +106,7 @@ service RegistryService {
     };
   }
 
-  // Retrieves the list of Registry artifact resources in the specified registry.
+  // Retrieves the list of registry artifact resources in the specified registry.
   rpc ListArtifacts (ListArtifactsRequest) returns (ListArtifactsResponse){
     option (google.api.http) = { get: "/cloud-registry/v1/registries/{registry_id}:listArtifacts" };
   };
@@ -165,10 +165,10 @@ message CreateRegistryRequest {
   map<string, string> labels = 3 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Kind of the registry.
-  Registry.Kind kind = 4;
+  Registry.Kind kind = 4 [(required) = true];
 
   // Type of the registry.
-  Registry.Type type = 5;
+  Registry.Type type = 5 [(required) = true];
 
   // Description of the registry. 0-1024 characters long.
   string description = 6 [(required) = true, (length) = "<=1024"];

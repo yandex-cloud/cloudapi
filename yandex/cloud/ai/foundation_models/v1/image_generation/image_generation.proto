@@ -23,9 +23,11 @@ message AspectRatio {
 }
 
 message ImageGenerationOptions {
-  // MIME type of generated image format.
+  
+  // The [MIME type](https://en.wikipedia.org/wiki/Media_type) of generated image format.
+  // For possible specifications, see [documentation](/docs/foundation-models/concepts).
   string mime_type = 1;
-  // Seed for image generation.
+  // Seed for image generation. It serves as a starting point for image generation from noise.
   int64 seed = 2;
   // Aspect ratio of generated image.
   AspectRatio aspect_ratio = 3;

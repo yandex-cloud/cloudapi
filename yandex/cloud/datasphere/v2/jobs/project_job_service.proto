@@ -171,7 +171,11 @@ message ExecuteProjectJobResponse {
 
 message ExecuteProjectJobMetadata {
   // Instance of the job.
-  Job job = 1;
+  Job job = 1 [deprecated = true];
+  // Job progress info
+  JobProgress progress = 2;
+  // Job metadata with main job info
+  JobMetadata metadata = 3;
 }
 
 message CancelProjectJobRequest {

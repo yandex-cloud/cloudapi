@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package yandex.cloud.video.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
+option java_package = "yandex.cloud.api.video.v1";
+
+// Entity representing an ordered list of videos or episodes.
+message Playlist {
+  // Reserved for future use.
+  reserved 6 to 99;
+
+  // ID of the playlist.
+  string id = 1;
+  // ID of the channel to create the playlist in.
+  string channel_id = 2;
+
+  // Playlist title.
+  string title = 3;
+  // Playlist description.
+  string description = 4;
+
+  // List of playlist items.
+  repeated PlaylistItem items = 5;
+
+  // Time when playlist was created.
+  google.protobuf.Timestamp created_at = 100;
+  // Time of last playlist update.
+  google.protobuf.Timestamp updated_at = 101;
+}
+
+message PlaylistItem {
+  // Reserved for future use.
+  reserved 2 to 99;
+
+  oneof id {
+    // ID of the video.
+    string video_id = 100;
+    // ID of the episode.
+    string episode_id = 101;
+  }
+
+  // Item position (zero-indexed).
+  int64 position = 1;
+}

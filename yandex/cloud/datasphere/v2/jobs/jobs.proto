@@ -236,3 +236,39 @@ message GracefulShutdownParameters {
   // default 15 (SIGTERM)
   int64 signal = 2;
 }
+
+message JobMetadata {
+  // ID of the job.
+  string id = 1;
+  // Name of the job.
+  string name = 2;
+  // Description of the job.
+  string description = 3;
+  // Create job timestamp.
+  google.protobuf.Timestamp created_at = 4;
+  // Start job timestamp.
+  google.protobuf.Timestamp started_at = 5;
+  // Finish job timestamp.
+  google.protobuf.Timestamp finished_at = 6;
+  // Job data expiration timestamp.
+  google.protobuf.Timestamp data_expires_at = 7;
+  // Status of the job.
+  JobStatus status = 8;
+  // Details.
+  string status_details = 9;
+  // ID of the user who created the job.
+  string created_by_id = 10;
+  // ID of the project.
+  string project_id = 11;
+  // Reference to the parent job.
+  string parent_job_id = 12;
+}
+
+message JobProgress {
+  // Progress message
+  string message = 1;
+  // Progress of the job from 0 to 100
+  int64 progress = 2;
+  // Progress create time
+  google.protobuf.Timestamp create_time = 3;
+}

@@ -21,6 +21,8 @@ message Rule {
     UPDATING = 3;
     // Rule is explicitly disabled by the user
     DISABLED = 4;
+    // Rule deletion in progress
+    DELETING = 5;
   }
 
   reserved 9, 10;

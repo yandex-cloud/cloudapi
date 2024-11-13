@@ -47,7 +47,7 @@ message ContentUsage {
   // The number of tokens in the textual part of the model input.
   int64 input_text_tokens = 1;
 
-  // The total number of tokens in the generated completions.
+  // The number of tokens in the generated completion.
   int64 completion_tokens = 2;
 
   // The total number of tokens, including all input tokens and all generated tokens.
@@ -78,10 +78,10 @@ message Alternative {
     ALTERNATIVE_STATUS_TOOL_CALLS = 5;
   }
 
-  // A message containing the content of the alternative.
+  // A message with the content of the alternative.
   Message message = 1;
 
-  // The generation status of the alternative
+  // The generation status of the alternative.
   AlternativeStatus status = 2;
 }
 

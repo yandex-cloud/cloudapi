@@ -23,6 +23,10 @@ message Connector {
     PERMISSION_DENIED = 4;
     // service account not found
     SUBJECT_NOT_FOUND = 5;
+    // deletion in progress
+    DELETING = 7;
+    // creation in progress
+    CREATING = 8;
   }
 
   // ID of the connector.

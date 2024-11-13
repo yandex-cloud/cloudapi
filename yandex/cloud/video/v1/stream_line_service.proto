@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
 import "yandex/cloud/video/v1/stream_line.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
@@ -24,6 +25,14 @@ service StreamLineService {
   rpc List(ListStreamLinesRequest) returns (ListStreamLinesResponse) {
     option (google.api.http) = {
       get: "/video/v1/streamLines"
+    };
+  }
+
+  // Batch get lines for channel.
+  rpc BatchGet(BatchGetStreamLinesRequest) returns (BatchGetStreamLinesResponse) {
+    option (google.api.http) = {
+      post: "/video/v1/streamLines:batchGet"
+      body: "*"
     };
   }
 
@@ -62,6 +71,18 @@ service StreamLineService {
     };
   }
 
+  // Batch delete stream lines.
+  rpc BatchDelete(BatchDeleteStreamLinesRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/video/v1/streamLines:batchDelete"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "BatchDeleteStreamLinesMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
   // Perform an action on the line.
   rpc PerformAction(PerformLineActionRequest) returns (operation.Operation) {
     option (google.api.http) = {
@@ -96,18 +117,20 @@ service StreamLineService {
 
 message GetStreamLineRequest {
   // ID of the line.
-  string stream_line_id = 1;
+  string stream_line_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message ListStreamLinesRequest {
+  // Reserved for future use.
   reserved 2 to 99;
+
   // ID of the channel.
-  string channel_id = 1;
+  string channel_id = 1 [(required) = true, (length) = "<=50"];
 
   // The maximum number of the results per page to return. Default value: 100.
-  int64 page_size = 100;
+  int64 page_size = 100 [(value) = "<=1000"];
   // Page token for getting the next page of the result.
-  string page_token = 101;
+  string page_token = 101 [(length) = "<=200"];
 
   // By which column the listing should be ordered and in which direction,
   // format is "createdAt desc". "id asc" if omitted.
@@ -122,11 +145,13 @@ message ListStreamLinesRequest {
   // Supported operators: ["AND"].
   // Supported fields: ["title"]
   // Both snake_case and camelCase are supported for fields.
-  string filter = 103;
+  string filter = 103 [(length) = "<=1000"];
 }
 
 message ListStreamLinesResponse {
+  // Reserved for future use.
   reserved 2 to 99;
+
   // List of lines for channel.
   repeated StreamLine stream_lines = 1;
 
@@ -134,23 +159,36 @@ message ListStreamLinesResponse {
   string next_page_token = 100;
 }
 
-message CreateStreamLineRequest {
-  reserved 201 to 999;
-  reserved 1005;
-  reserved 1007 to 1999;
-  reserved 4 to 199;
+message BatchGetStreamLinesRequest {
   // ID of the channel.
-  string channel_id = 1;
+  string channel_id = 1 [(required) = true, (length) = "<=50"];
+
+  // List of requested stream line IDs.
+  repeated string stream_line_ids = 2 [(size) = "1-50", (length) = "<=50"];
+}
+
+message BatchGetStreamLinesResponse {
+  // List of lines for specific channel.
+  repeated StreamLine stream_lines = 1;
+}
+
+message CreateStreamLineRequest {
+  // Reserved for future use.
+  reserved 4 to 199, 201 to 999, 1005, 1007 to 1999;
+
+  // ID of the channel.
+  string channel_id = 1 [(required) = true, (length) = "<=50"];
   // Line title.
-  string title = 2;
+  string title = 2 [(required) = true];
   // ID of the thumbnail.
-  string thumbnail_id = 3;
+  string thumbnail_id = 3 [(length) = "<=50"];
 
   // Custom labels as `` key:value `` pairs. Maximum 64 per resource.
-  map<string, string> labels = 200;
+  map<string, string> labels = 200 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_.@:/0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Video signal settings.
   oneof input_params {
+    option (exactly_one) = true;
     // RTMP push input type.
     RTMPPushParams rtmp_push = 1000;
     // SRT push input type.
@@ -167,6 +205,7 @@ message CreateStreamLineRequest {
 
   // Line type.
   oneof line_type_params {
+    option (exactly_one) = true;
     // Manual control of stream.
     ManualLineParams manual_line = 2000;
     // Automatic control of stream.
@@ -180,21 +219,21 @@ message CreateStreamLineMetadata {
 }
 
 message UpdateStreamLineRequest {
-  reserved 201 to 999;
-  reserved 1005;
-  reserved 5 to 199;
+  // Reserved for future use.
+  reserved 5 to 199, 201 to 999, 1005;
+
   // ID of the line.
-  string stream_line_id = 1;
+  string stream_line_id = 1 [(required) = true, (length) = "<=50"];
   // Field mask that specifies which fields of the line are going to be updated.
   google.protobuf.FieldMask field_mask = 2;
 
   // Line title.
   string title = 3;
   // ID of the thumbnail.
-  string thumbnail_id = 4;
+  string thumbnail_id = 4 [(length) = "<=50"];
 
   // Custom labels as `` key:value `` pairs. Maximum 64 per resource.
-  map<string, string> labels = 200;
+  map<string, string> labels = 200 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_.@:/0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Video signal settings.
   oneof input_params {
@@ -220,7 +259,7 @@ message UpdateStreamLineMetadata {
 
 message DeleteStreamLineRequest {
   // ID of the line.
-  string stream_line_id = 1;
+  string stream_line_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message DeleteStreamLineMetadata {
@@ -228,11 +267,26 @@ message DeleteStreamLineMetadata {
   string stream_line_id = 1;
 }
 
+message BatchDeleteStreamLinesRequest {
+  // ID of the channel.
+  string channel_id = 1 [(required) = true, (length) = "<=50"];
+  // List of line IDs.
+  repeated string stream_line_ids = 2 [(size) = "1-50", (length) = "<=50"];
+}
+
+message BatchDeleteStreamLinesMetadata {
+  // List of line IDs.
+  repeated string stream_line_ids = 1;
+}
+
 message PerformLineActionRequest {
+  // Reserved for future use.
   reserved 2 to 999;
+
   // ID of the line.
-  string stream_line_id = 1;
+  string stream_line_id = 1 [(required) = true, (length) = "<=50"];
   oneof action {
+    option (exactly_one) = true;
     ActivateAction activate = 1000;
     DeactivateAction deactivate = 1001;
   }
@@ -249,22 +303,24 @@ message SRTPushParams {}
 
 message RTMPPullParams {
   // URL of a RTMP streaming server.
-  string url = 1;
+  string url = 1 [(required) = true, (pattern) = "rtmp://.*"];
 }
 
 message SRTPullParams {
   // URL of a SRT streaming server.
-  string url = 1;
+  string url = 1 [(required) = true, (pattern) = "srt://.*"];
 }
 
 message TCPPullParams {
+  reserved 1;
+
   // URL of a TCP streaming server.
-  string url = 2;
+  string url = 2 [(required) = true, (pattern) = "tcp://.*"];
 }
 
 message RTSPPullParams {
   // URL of a RTSP streaming server.
-  string url = 1;
+  string url = 1 [(required) = true, (pattern) = "rtsp://.*"];
 }
 
 message ManualLineParams {}
@@ -277,12 +333,12 @@ message DeactivateAction {}
 
 message GetStreamKeyRequest {
   // ID of the line.
-  string stream_line_id = 1;
+  string stream_line_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message UpdateStreamKeyRequest {
   // ID of the line.
-  string stream_line_id = 1;
+  string stream_line_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message UpdateStreamKeyMetadata {

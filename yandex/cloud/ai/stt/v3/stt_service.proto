@@ -4,6 +4,7 @@ package speechkit.stt.v3;
 
 import "yandex/cloud/ai/stt/v3/stt.proto";
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -37,6 +38,11 @@ service AsyncRecognizer {
 
     rpc GetRecognition(GetRecognitionRequest) returns (stream StreamingResponse) {
         option (google.api.http) = { get: "/stt/v3/getRecognition"};
+    }
+
+
+    rpc DeleteRecognition(DeleteRecognitionRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = { delete: "/stt/v3/deleteRecognition"};
     }
 
 }

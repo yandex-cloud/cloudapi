@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
 import "yandex/cloud/video/v1/channel.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
@@ -61,22 +62,36 @@ service ChannelService {
       response: "google.protobuf.Empty"
     };
   }
+
+  // Batch delete channels.
+  rpc BatchDelete(BatchDeleteChannelsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/video/v1/channels:batchDelete"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "BatchDeleteChannelsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
 }
 
 message GetChannelRequest {
   // ID of the channel.
-  string channel_id = 1;
+  string channel_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message ListChannelsRequest {
+  // Reserved for future use.
   reserved 2 to 99;
+
   // ID of the organization.
-  string organization_id = 1;
+  string organization_id = 1 [(required) = true, (length) = "<=50"];
 
   // The maximum number of the results per page to return. Default value: 100.
-  int64 page_size = 100;
+  int64 page_size = 100 [(value) = "<=1000"];
   // Page token for getting the next page of the result.
-  string page_token = 101;
+  string page_token = 101 [(length) = "<=200"];
 
   // By which column the listing should be ordered and in which direction,
   // format is "createdAt desc". "id asc" if omitted.
@@ -91,11 +106,13 @@ message ListChannelsRequest {
   // Supported operators: ["AND"].
   // Supported fields: ["title"]
   // Both snake_case and camelCase are supported for fields.
-  string filter = 103;
+  string filter = 103 [(length) = "<=1000"];
 }
 
 message ListChannelsResponse {
+  // Reserved for future use.
   reserved 2 to 99;
+
   // List of channels for specific organization.
   repeated Channel channels = 1;
 
@@ -104,17 +121,19 @@ message ListChannelsResponse {
 }
 
 message CreateChannelRequest {
+  // Reserved for future use.
   reserved 4 to 199;
+
   // ID of the organization.
-  string organization_id = 1;
+  string organization_id = 1 [(required) = true, (length) = "<=50"];
 
   // Channel title.
-  string title = 2;
+  string title = 2 [(required) = true];
   // Channel description.
   string description = 3;
 
   // Custom labels as `` key:value `` pairs. Maximum 64 per resource.
-  map<string, string> labels = 200;
+  map<string, string> labels = 200 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_.@:/0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 
 message CreateChannelMetadata {
@@ -123,9 +142,11 @@ message CreateChannelMetadata {
 }
 
 message UpdateChannelRequest {
+  // Reserved for future use.
   reserved 5 to 199;
+
   // ID of the channel.
-  string channel_id = 1;
+  string channel_id = 1 [(required) = true, (length) = "<=50"];
   // Field mask that specifies which fields of the channel are going to be updated.
   google.protobuf.FieldMask field_mask = 2;
 
@@ -135,7 +156,7 @@ message UpdateChannelRequest {
   string description = 4;
 
   // Custom labels as `` key:value `` pairs. Maximum 64 per resource.
-  map<string, string> labels = 200;
+  map<string, string> labels = 200 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_.@:/0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 
 message UpdateChannelMetadata {
@@ -145,10 +166,22 @@ message UpdateChannelMetadata {
 
 message DeleteChannelRequest {
   // ID of the channel.
-  string channel_id = 1;
+  string channel_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message DeleteChannelMetadata {
   // ID of the channel.
   string channel_id = 1;
+}
+
+message BatchDeleteChannelsRequest {
+  // ID of the organization.
+  string organization_id = 1 [(required) = true, (length) = "<=50"];
+  // List of channel IDs.
+  repeated string channel_ids = 2 [(size) = "1-50", (length) = "<=50"];
+}
+
+message BatchDeleteChannelsMetadata {
+  // List of channel IDs.
+  repeated string channel_ids = 1;
 }

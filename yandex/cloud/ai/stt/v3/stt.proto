@@ -633,3 +633,7 @@ message StreamingResponse {
   // Tag for distinguish audio channels.
   string channel_tag = 9;
 }
+
+message DeleteRecognitionRequest {
+  string operation_id = 1;
+}

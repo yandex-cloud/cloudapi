@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package yandex.cloud.video.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
+option java_package = "yandex.cloud.api.video.v1";
+
+message Subtitle {
+  // Reserved for future use.
+  reserved 6 to 99, 102 to 999;
+
+  // ID of the subtitle.
+  string id = 1;
+
+  // Subtitle language represented as a three-letter ISO 639-3 code.
+  string language = 2;
+
+  // Subtitle caption to be displayed on screen during video playback.
+  string label = 3;
+
+  // Subtitle status.
+  SubtitleStatus status = 4;
+
+  // Subtitle filename.
+  string filename = 5;
+
+  // Time when subtitle was created.
+  google.protobuf.Timestamp created_at = 100;
+  // Time of last subtitle update.
+  google.protobuf.Timestamp updated_at = 101;
+
+  oneof parent_id {
+    // ID of the video.
+    string video_id = 1000;
+  }
+
+  enum SubtitleStatus {
+    // Subtitle status unspecified.
+    SUBTITLE_STATUS_UNSPECIFIED = 0;
+    // Waiting for all the bytes to be loaded.
+    WAIT_UPLOADING = 1;
+    // Uploading is complete.
+    UPLOADED = 2;
+  }
+}

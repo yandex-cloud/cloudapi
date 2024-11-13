@@ -186,6 +186,9 @@ message UpdateResourceRequest {
     
     // Resource labels. At some point will be needed for granular detailing.
     map<string, string> labels = 8;
+
+    // If flag is set to true resource labels will be deleted.
+    bool remove_labels = 9;
 }
 
 message UpdateResourceMetadata {
