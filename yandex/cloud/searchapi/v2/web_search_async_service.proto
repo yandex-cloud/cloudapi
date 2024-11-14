@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package yandex.cloud.searchapi.v2;
+
+import "yandex/cloud/searchapi/v2/search_query.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/api/operation.proto";
+import "google/api/annotations.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/searchapi/v2;searchapi";
+option java_package = "yandex.cloud.api.searchapi.v2";
+
+// A set of methods for managing search API.
+service WebSearchAsyncService {
+
+  // Makes web search request.
+  rpc Search (WebSearchRequest) returns (operation.Operation){
+    option (.google.api.http) = {
+      post: "/v2/web/searchAsync"
+      body: "*"
+    };
+      option (.yandex.cloud.api.operation) = {
+      response: "WebSearchResponse"
+    };
+  };
+}
+
+message WebSearchRequest {
+
+  enum Localization {
+    // Russian (default).
+    LOCALIZATION_RU = 0;
+
+    // Unspecified.
+    LOCALIZATION_UNSPECIFIED = 1;
+
+    // Ukrainian.
+    LOCALIZATION_UK = 2;
+
+    // Belarusian.
+    LOCALIZATION_BE = 3;
+
+    // Kazakh.
+    LOCALIZATION_KK = 4;
+
+    // Turkish.
+    LOCALIZATION_TR = 5;
+
+    // English.
+    LOCALIZATION_EN = 6;
+  }
+
+  // Query for web search.
+  SearchQuery query = 1;
+
+  // Rules of sorting search results.
+  SortSpec sortSpec = 2;
+
+  // Grouping documents of single domain settings.
+  GroupSpec groupSpec = 3;
+
+  // Maximum number of passages in document snippet.
+  int64 maxPassages = 4;
+
+  // ID of the search country or region.
+  string region = 5;
+
+  // Language of search response.
+  Localization l10n = 6;
+
+  // ID of the folder.
+  string folderId = 7;
+}
+
+message WebSearchResponse {
+  // Search results. Usually in XML.
+  bytes rawData = 1;
+}
