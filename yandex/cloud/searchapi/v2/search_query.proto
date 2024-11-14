@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package yandex.cloud.searchapi.v2;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/searchapi/v2;searchapi";
+option java_package = "yandex.cloud.api.searchapi.v2";
+
+// Web search query
+message SearchQuery {
+
+  enum SearchType {
+    // Russian domain yandex.ru will be used (default).
+    SEARCH_TYPE_RU = 0;
+
+    // Unspecified.
+    SEARCH_TYPE_UNSPECIFIED = 1;
+
+    // Turkish domain yandex.tr will be used.
+    SEARCH_TYPE_TR = 2;
+
+    // International domain yandex.com will be used.
+    SEARCH_TYPE_COM = 3;
+  }
+
+  enum FamilyMode {
+    // Adult category is excluded unless a query is explicitly made for searching resources of this category.
+    FAMILY_MODE_MODERATE = 0;
+
+    // Unspecified.
+    FAMILY_MODE_UNSPECIFIED = 1;
+
+    // Filtering is disabled.
+    FAMILY_MODE_NONE = 2;
+
+    // Regardless of search query the Adult category is excluded from search results.
+    FAMILY_MODE_STRICT = 3;
+  }
+
+  // Domain name used in search queries.
+  SearchType searchType = 1;
+
+  // Text of search query.
+  string queryText = 2;
+
+  // Rule for filtering search results.
+  FamilyMode familyMode = 3;
+
+  // Number of a requested page with search results.
+  int64 page = 4;
+}
+
+// Sorting rules for search documents in search result
+message SortSpec {
+
+  enum SortMode {
+    // Sort results by relevance.
+    SORT_MODE_BY_RELEVANCE = 0;
+
+    // Unspecified.
+    SORT_MODE_UNSPECIFIED = 1;
+
+    // Sort results by update time.
+    SORT_MODE_BY_TIME = 2;
+  }
+
+  enum SortOrder {
+    // Direct order from recent to oldest.
+    SORT_ORDER_ASC = 0;
+
+    // Unspecified.
+    SORT_ORDER_UNSPECIFIED = 1;
+
+    // Reverse order from oldest to recent.
+    SORT_ORDER_DESC = 2;
+  }
+
+  // Documents sorting mode.
+  SortMode sortMode = 1;
+
+  // Documents sorting order.
+  SortOrder sortOrder = 2;
+}
+
+
+// Grouping rules for documents in search results
+message GroupSpec {
+
+  enum GroupMode {
+    // Unspecified.
+    GROUP_MODE_UNSPECIFIED = 0;
+
+    // Each group contains a single document.
+    GROUP_MODE_FLAT = 1;
+
+    // Each group contains document from one domain.
+    GROUP_MODE_DEEP = 2;
+  }
+
+  // Document grouping mode.
+  GroupMode groupMode = 1;
+
+  // Maximum number of groups per page in search result.
+  int64 groupsOnPage = 2;
+
+  // Maximum number of documents per group.
+  int64 docsInGroup = 3;
+}
