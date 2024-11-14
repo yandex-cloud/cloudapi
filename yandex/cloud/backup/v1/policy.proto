@@ -239,7 +239,7 @@ message PolicySettings {
 
     // Archive compression level.
     Compression compression = 1 [ (required) = true ];
-    // Format of the Acronis backup archive.
+    // Format of the Cyberprotect backup archive.
     Format format = 2 [ (required) = true ];
     // If true, snapshots of multiple volumes will be taken simultaneously.
     bool multi_volume_snapshotting_enabled = 3;

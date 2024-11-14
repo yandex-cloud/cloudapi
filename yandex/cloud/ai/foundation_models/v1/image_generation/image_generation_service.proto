@@ -13,7 +13,7 @@ option java_package = "yandex.cloud.api.ai.foundation_models.v1.image_generation
 
 // Request for the service to generate an image.
 //
-// For examples of usage, see [step-by-step guide](/docs/operations/yandexart/request).
+// For examples of usage, see [step-by-step guide](/docs/foundation-models/operations/yandexart/request).
 message ImageGenerationRequest {
 
   // The [model URI](/docs/foundation-models/concepts/yandexart/models) to be used for image generation.
