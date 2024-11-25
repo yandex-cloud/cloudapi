@@ -41,7 +41,15 @@ message Talk {
   yandex.cloud.speechsense.v1.analysis.Points points = 16;
   yandex.cloud.speechsense.v1.analysis.TextClassifiers text_classifiers = 17;
   yandex.cloud.speechsense.v1.analysis.Summarization summarization = 18;
+
+  TalkState talk_state = 19;
 }
+
+message TalkState {
+  ProcessingState processing_state = 1;
+  repeated AlgorithmProcessingInfo algorithm_processing_infos = 2;
+}
+
 // connection field value
 message Field {
   // name of the field
@@ -52,6 +60,11 @@ message Field {
   FieldType type = 3;
 }
 
+message AlgorithmProcessingInfo {
+  Algorithm algorithm = 1;
+  ProcessingState processing_state = 2;
+}
+
 // connection field type
 enum FieldType {
   FIELD_TYPE_UNSPECIFIED = 0;
@@ -60,5 +73,23 @@ enum FieldType {
   FIELD_TYPE_DECIMAL = 3;
   FIELD_TYPE_BOOLEAN = 4;
   FIELD_TYPE_DATE = 5;
-  FIELD_TYPE_JSON= 6;
+  FIELD_TYPE_JSON = 6;
+}
+
+enum ProcessingState {
+  PROCESSING_STATE_UNSPECIFIED = 0;
+  PROCESSING_STATE_NOT_STARTED = 1;
+  PROCESSING_STATE_PROCESSING = 2;
+  PROCESSING_STATE_SUCCESS = 3;
+  PROCESSING_STATE_FAILED = 4;
+}
+
+enum Algorithm {
+  ALGORITHM_UNSPECIFIED = 0;
+  ALGORITHM_SPEECHKIT = 1;
+  ALGORITHM_YGPT = 2;
+  ALGORITHM_CLASSIFIER = 3;
+  ALGORITHM_SUMMARIZATION = 4;
+  ALGORITHM_EMBEDDING = 5;
+  ALGORITHM_STATISTICS = 6;
 }

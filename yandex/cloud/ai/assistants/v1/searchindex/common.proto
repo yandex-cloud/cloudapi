@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package yandex.cloud.ai.assistants.v1.searchindex;
 
+import "google/protobuf/wrappers.proto";
+
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1/searchindex;searchindex";
 option java_package = "yandex.cloud.api.ai.assistants.v1.searchindex";
 
@@ -25,4 +27,60 @@ message ChunkingStrategy {
   oneof Strategy {
     StaticChunkingStrategy static_strategy = 1;
   }
+}
+
+// Normalization strategy for relevance scores from different indices
+enum NormalizationStrategy {
+    NORMALIZATION_STRATEGY_UNSPECIFIED = 0;
+
+    // https://en.wikipedia.org/wiki/Feature_scaling#Rescaling_(min-max_normalization)
+    MIN_MAX = 1;
+
+    // https://en.wikipedia.org/wiki/Cosine_similarity#L2-normalized_Euclidean_distance
+    L2 = 2;
+}
+
+message MeanCombinationStrategy {
+  enum MeanEvaluationTechnique {
+      MEAN_EVALUATION_TECHNIQUE_UNSPECIFIED = 0;
+
+      // https://en.wikipedia.org/wiki/Arithmetic_mean
+      ARITHMETIC = 1;
+
+      // https://en.wikipedia.org/wiki/Geometric_mean
+      GEOMETRIC = 2;
+
+      // https://en.wikipedia.org/wiki/Harmonic_mean
+      HARMONIC = 3;
+  }
+
+    // Technique for averaging relevance scores from different indices. Default is ARITHMETIC
+    MeanEvaluationTechnique mean_evaluation_technique = 1;
+
+    // Weights used for evaluating the weighted mean of relevance scores. The sum of the values must equal 1.0
+    // If not provided, all scores are given equal weight
+    repeated double weights = 2;
+}
+
+
+// https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf
+message ReciprocalRankFusionCombinationStrategy {
+  // The parameter k for RRFscore. Default is 60
+  google.protobuf.Int64Value k = 1;
+}
+
+// Combination strategy for merging rankings from different indices
+message CombinationStrategy {
+  oneof Strategy {
+      MeanCombinationStrategy mean_combination = 1;
+      ReciprocalRankFusionCombinationStrategy rrf_combination = 2;
+  }
+}
+
+message NgramTokenizer {
+  // Minimum length of characters in a gram. Defaults to 3
+  google.protobuf.Int64Value min_gram = 1;
+
+  // Maximum length of characters in a gram. Defaults to 4
+  google.protobuf.Int64Value max_gram = 2;
 }

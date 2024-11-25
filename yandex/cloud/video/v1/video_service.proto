@@ -153,7 +153,7 @@ message ListVideoRequest {
   // Supported operators: ["AND"].
   // Supported fields: ["title", "status", "visibility_status"]
   // Both snake_case and camelCase are supported for fields.
-  string filter = 103 [(length) = "<=1000"];;
+  string filter = 103 [(length) = "<=1000"];
 }
 
 message ListVideoResponse {

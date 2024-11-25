@@ -21,12 +21,10 @@ service TalkService {
 
   // rpc for uploading talk document as single message
   rpc Upload(UploadTalkRequest) returns (UploadTalkResponse) {
-    option (google.api.http) = { post: "/speechsense/v1/talks/upload" body: "*" };
   }
 
   // rpc for uploading text talk document
   rpc UploadText(UploadTextRequest) returns (UploadTextResponse) {
-    option (google.api.http) = { post: "/speechsense/v1/talks/uploadText" body: "*" };
   }
 
   // rpc for searching talks. will return ids only

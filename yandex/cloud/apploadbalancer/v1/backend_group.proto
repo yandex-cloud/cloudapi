@@ -488,6 +488,10 @@ message HealthCheck {
     //
     // Default value: `false`, HTTP/1.1 is used.
     bool use_http2 = 3;
+
+    // A list of HTTP response statuses considered healthy.
+    // By default only 200 HTTP status code considered healthy.
+    repeated int64 expected_statuses = 4 [(value)="100-599", (unique) = true];
   }
 
   // A resource for gRPC health check settings.

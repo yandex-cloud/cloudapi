@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.iam.v1;
 
+import "google/protobuf/timestamp.proto";
 import "yandex/cloud/validation.proto";
 
 
@@ -20,6 +21,7 @@ message UserAccount {
     // A SAML federated user.
     SamlUserAccount saml_user_account = 3;
   }
+  google.protobuf.Timestamp last_authenticated_at = 4;
 }
 
 // A YandexPassportUserAccount resource.

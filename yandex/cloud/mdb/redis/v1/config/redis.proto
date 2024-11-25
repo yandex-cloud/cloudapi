@@ -113,6 +113,12 @@ message RedisConfig {
 
   // Allows some data to be lost in favor of faster switchover/restart
   google.protobuf.BoolValue allow_data_loss = 19;
+
+    // Use JIT for lua scripts and functions
+  google.protobuf.BoolValue use_luajit = 20;
+
+  // Allow redis to use io-threads
+  google.protobuf.BoolValue io_threads_allowed = 21;
 }
 
 message RedisConfigSet {

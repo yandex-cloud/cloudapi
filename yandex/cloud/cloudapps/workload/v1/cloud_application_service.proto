@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.cloudapps.workload.v1;
 
+import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/cloudapps/workload/v1/cloud_application.proto";
@@ -13,11 +14,19 @@ option java_package = "yandex.cloud.api.cloudapps.workload.v1";
 service CloudApplicationService {
 
   // Get Current Application
-  rpc Get(google.protobuf.Empty) returns (CloudApplication) {}
+  rpc Get(google.protobuf.Empty) returns (CloudApplication) {
+    option (google.api.http) = {
+      get: "/cloudapps/workload/v1/cloud-applications"
+    };
+  }
 
   // Resolve Cloud Application by workload
-  rpc ResolveByWorkload(ResolveByWorkloadRequest) returns (ResolveByWorkloadResponse) {}
-
+  rpc ResolveByWorkload(ResolveByWorkloadRequest) returns (ResolveByWorkloadResponse) {
+    option (google.api.http) = {
+      post: "/cloudapps/workload/v1/cloud-applications:resolve-by-workload"
+      body: "*"
+    };
+  }
 }
 
 message ResolveByWorkloadRequest {

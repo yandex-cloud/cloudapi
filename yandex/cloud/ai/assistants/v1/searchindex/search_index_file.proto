@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package yandex.cloud.ai.assistants.v1.searchindex;
 
-import "yandex/cloud/ai/assistants/v1/searchindex/common.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1/searchindex;searchindex";
@@ -21,6 +20,4 @@ message SearchIndexFile {
 
   // Timestamp representing when the file was created.
   google.protobuf.Timestamp created_at = 4;
-
-  ChunkingStrategy chunking_strategy = 5;
 }

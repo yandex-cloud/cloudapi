@@ -53,12 +53,17 @@ message SearchIndex {
     // Vector-based search index configuration.
     // This type is used for vector search, where documents are indexed using vector embeddings.
     VectorSearchIndex vector_search_index = 13;
+
+    // Hybrid (vector-based + keyword-based) search index configuration
+    // This type is used for hybrid search, where documents are indexed using both keyword-based and vector-based search mechanisms.
+    HybridSearchIndex hybrid_search_index = 14;
   }
 }
 
 // Defines the configuration for a traditional keyword-based text search index.
 message TextSearchIndex {
   // Chunking strategy used to split text into smaller chunks before indexing.
+  // In the case of text search, tokens are individual text characters.
   ChunkingStrategy chunking_strategy = 1;
 }
 
@@ -71,5 +76,26 @@ message VectorSearchIndex {
   string query_embedder_uri = 2;
 
   // Chunking strategy used to split text into smaller chunks before indexing.
+  // In the case of vector search, tokens are produced by the tokenizer from the embedding model.
   ChunkingStrategy chunking_strategy = 3;
+}
+
+// Defines the configuration for a hybrid (vector-based + keyword-based) search index. This type uses both embeddings and keyword-based search to represent documents and queries.
+message HybridSearchIndex {
+  // Configuration for a traditional keyword-based text search index.
+  TextSearchIndex text_search_index = 1;
+
+  // Configuration for a vector-based search index.
+  VectorSearchIndex vector_search_index = 2;
+
+  // Common chunking strategy that applies to both text and vector search indexes.
+  // If provided, it overrides the individual chunking strategies in both `text_search_index` and `vector_search_index`.
+  // In this case, both text and vector search will use token-based chunking, where tokens are produced by the tokenizer of the embedding model.
+  ChunkingStrategy chunking_strategy = 3;
+
+  // Normalization strategy for relevance scores from different indices. Default is MIN_MAX_STRATEGY
+  NormalizationStrategy normalization_strategy = 4;
+
+  // Combination strategy for merging rankings from different indices. Default is arithmetic mean
+  CombinationStrategy combination_strategy = 5;
 }

@@ -69,6 +69,9 @@ message CreateSearchIndexRequest {
 
     // Configuration for a vector-based search index using embeddings.
     VectorSearchIndex vector_search_index = 8;
+
+    // Configuration for a hybrid (vector-based + keyword-based) search index.
+    HybridSearchIndex hybrid_search_index = 9;
   }
 }
 
