@@ -21,12 +21,17 @@ service WebSearchAsyncService {
   }
 }
 
+// A set of methods for searching the Yandex search database.
+service WebSearchService {
+  rpc Search (WebSearchRequest) returns (WebSearchResponse) {}
+}
+
 message SortSpec {
   enum SortOrder {
     SORT_ORDER_UNSPECIFIED = 0;
-    // Direct order from most recent to oldest (default)..
-    SORT_ORDER_ASC = 1;
     // Reverse order from oldest to most recent.
+    SORT_ORDER_ASC = 1;
+    // Direct order from most recent to oldest (default).
     SORT_ORDER_DESC = 2;
   }
 
@@ -78,6 +83,14 @@ message WebSearchRequest {
     LOCALIZATION_EN = 6;
   }
 
+  enum Format {
+    FORMAT_UNSPECIFIED = 0;
+    // XML format (default value)
+    FORMAT_XML = 1;
+    // HTML format
+    FORMAT_HTML = 2;
+  }
+
   // Search query.
   SearchQuery query = 1 [(required) = true];
   // The rules for sorting search results that define the sequence of the returned search results.
@@ -92,9 +105,13 @@ message WebSearchRequest {
   Localization l10n = 6;
   // ID of the folder.
   string folder_id = 7 [(length) = "<=50"];
+  // Search results format.
+  Format response_format = 8;
+  // User-Agent request header value.
+  string user_agent = 9 [(length) = "<=200"];
 }
 
 message WebSearchResponse {
-  // Search results, usually in XML format.
+  // Search results, either in XML or HTML format depending on the request settings.
   bytes raw_data = 1 [(required) = true];
 }

@@ -30,6 +30,13 @@ message SearchQuery {
     FAMILY_MODE_STRICT = 3;
   }
 
+  enum FixTypoMode {
+    FIX_TYPO_MODE_UNSPECIFIED = 0;
+    // Automatically correct typos (default value).
+    FIX_TYPO_MODE_ON = 1;
+    // Autocorrection is off.
+    FIX_TYPO_MODE_OFF = 2;
+  }
 
   // Search type that determines the domain name that will be used for the search queries.
   SearchType search_type = 1 [(required) = true];
@@ -39,4 +46,6 @@ message SearchQuery {
   FamilyMode family_mode = 3;
   // The number of a requested page with search results
   int64 page = 4 [(value) = ">=0"];
+  // Typos autocorrections mode
+  FixTypoMode fix_typo_mode = 5;
 }

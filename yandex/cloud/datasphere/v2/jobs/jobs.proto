@@ -93,8 +93,14 @@ message FileUploadError {
     FileDesc output_file_desc = 1;
     string log_file_name = 2;
   }
+  enum ErrorType {
+    ERROR_TYPE_UNSPECIFIED = 0;
+    UPLOAD_FAILED = 1;
+    NOT_FOUND = 2;
+  }
 
   string description = 3;
+  ErrorType type = 4;
 }
 
 message Environment {
@@ -224,6 +230,7 @@ enum JobStatus {
   ERROR = 5;
   CANCELLED = 6;
   CANCELLING = 7;
+  PREPARING = 8;
 }
 
 message JobResult {

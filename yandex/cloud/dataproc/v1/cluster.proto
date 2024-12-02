@@ -35,6 +35,12 @@ message Cluster {
     STARTING = 6;
   }
 
+  enum Environment {
+    ENVIRONMENT_UNSPECIFIED = 0;
+    PRODUCTION = 1;
+    PRESTABLE = 2;
+  }
+
   // ID of the cluster. Generated at creation time.
   string id = 1;
 
@@ -89,6 +95,9 @@ message Cluster {
   // ID of the cloud logging log group to write logs. If not set, default log group for the folder will be used.
   // To prevent logs from being sent to the cloud set cluster property dataproc:disable_cloud_logging = true
   string log_group_id = 18;
+
+  // Environment of the cluster
+  Environment environment = 19;
 }
 
 // Metadata of a monitoring system for a Data Proc cluster.

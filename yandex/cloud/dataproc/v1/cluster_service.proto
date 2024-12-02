@@ -272,6 +272,9 @@ message CreateClusterRequest {
 
   // ID of the cloud logging log group to write logs. If not set, logs will not be sent to logging service
   string log_group_id = 14;
+
+  // Environment of the cluster
+  Cluster.Environment environment = 15;
 }
 
 message CreateClusterMetadata {

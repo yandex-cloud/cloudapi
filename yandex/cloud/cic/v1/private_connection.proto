@@ -63,6 +63,7 @@ message PrivateConnection {
 
     // PeerIp.
     // It's an ip with just an ipAddress format without mask.
-    repeated string next_hop = 2;
+    // Will be removed in some next release
+    repeated string next_hop = 2  [deprecated = true];
   }
 }

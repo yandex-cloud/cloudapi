@@ -162,6 +162,8 @@ message ExecuteProjectJobRequest {
 message ExecuteProjectJobResponse {
   // Uploaded output files with URLs.
   repeated StorageFile output_files = 1;
+  // Output file errors
+  repeated FileUploadError output_files_errors = 4;
   // Created datasets
   repeated OutputDataset output_datasets = 3;
 
