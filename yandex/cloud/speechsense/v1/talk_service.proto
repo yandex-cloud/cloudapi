@@ -52,6 +52,9 @@ message StreamTalkRequest {
 
 // request to create audio dialog
 message UploadTalkRequest {
+  // talk_id, blank if initial upload request and present on metadata update
+  string talk_id = 3;
+
   TalkMetadata metadata = 1;
 
   // audio payload
@@ -66,6 +69,9 @@ message UploadTalkResponse {
 
 // request to create text based dialog
 message UploadTextRequest {
+  // talk_id, blank if initial upload request and present on metadata update
+  string talk_id = 3;
+
   TalkMetadata metadata = 1;
 
   TextContent text_content = 2;

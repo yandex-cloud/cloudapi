@@ -41,7 +41,7 @@ message YDSSource {
     string consumer = 35;
 }
 message YDSTarget {
-    reserved 5 to 7, 9 to 19, 21 to 29, 31 to 33;
+    reserved 6 to 7, 9 to 19, 21 to 29, 31 to 33;
     // Database
     string database = 1;
     // Stream
@@ -52,6 +52,7 @@ message YDSTarget {
     // Not to split events queue into separate per-table queues.
     // Incompatible with setting Topic prefix, only with Topic full name.
     bool save_tx_order = 4;
+    YdsCompressionCodec compression_codec = 5;
     // Data serialization format
     Serializer serializer = 8;
     // for dedicated db

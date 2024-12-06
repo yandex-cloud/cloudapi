@@ -359,6 +359,9 @@ message DeployContainerRevisionRequest {
 
   // The container's execution mode
   Runtime runtime = 17;
+
+  // Metadata options for the revision.
+  MetadataOptions metadata_options = 18;
 }
 
 // Revision image specification.

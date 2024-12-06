@@ -534,6 +534,9 @@ message CreateFunctionVersionRequest {
 
   // Mounts to be used by the version.
   repeated Mount mounts = 25;
+
+  // Metadata options for the version.
+  MetadataOptions metadata_options = 26;
 }
 
 message CreateFunctionVersionMetadata {

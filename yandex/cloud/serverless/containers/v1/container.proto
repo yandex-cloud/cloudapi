@@ -124,6 +124,9 @@ message Revision {
 
   // The container's execution mode
   Runtime runtime = 18;
+
+  // Metadata options for the revision.
+  MetadataOptions metadata_options = 19;
 }
 
 // Revision image specification.
@@ -344,4 +347,22 @@ message Runtime {
 
   message Http {}
   message Task {}
+}
+
+message MetadataOptions {
+  // Enabled access to GCE flavored metadata
+  MetadataOption gce_http_endpoint = 1;
+  // Enabled access to AWS flavored metadata (IMDSv1)
+  MetadataOption aws_v1_http_endpoint = 2;
+}
+
+enum MetadataOption {
+  // Option is default
+  METADATA_OPTION_UNSPECIFIED = 0;
+
+  // Option is enabled
+  ENABLED = 1;
+
+  // Option is disabled
+  DISABLED = 2;
 }

@@ -64,7 +64,7 @@ message ClickhouseSharding {
 message ClickhouseSource {
     reserved 2 to 6;
     ClickhouseConnection connection = 1;
-    // While list of tables for replication. If none or empty list is presented - will
+    // White list of tables for replication. If none or empty list is presented - will
     // replicate all tables. Can contain * patterns.
     repeated string include_tables = 7;
     // Exclude list of tables for replication. If none or empty list is presented -

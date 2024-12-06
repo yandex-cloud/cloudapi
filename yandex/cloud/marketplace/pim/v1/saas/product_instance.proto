@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package yandex.cloud.marketplace.pim.v1.saas;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/marketplace/pim/v1/saas;saas";
+option java_package = "yandex.cloud.api.marketplace.pim.v1.saas";
+
+
+message ProductInstance {
+  string id = 1;
+  string resource_id = 2;
+  ResourceType resource_type = 3;
+  map<string, string> resource_metadata = 4;
+  State state = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+  oneof resource_info {
+    SaasInfo saas_info = 8;
+  }
+};
+
+enum State {
+  STATE_UNSPECIFIED = 0;
+  ACTIVATED = 1;
+  DEACTIVATED = 2;
+  PENDING_ACTIVATION = 3;
+  DEPRECATED = 4;
+  DELETED = 5;
+};
+
+enum ResourceType {
+  RESOURCE_TYPE_UNSPECIFIED = 0;
+  SAAS = 1;
+  K8S = 2;
+  COMPUTE = 3;
+  CLOUD_APPS = 4;
+}
+
+message SaasInfo {
+  string id = 1;
+  map<string, string> data = 2;
+}

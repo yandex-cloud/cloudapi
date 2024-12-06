@@ -234,3 +234,200 @@ message S3APIDeleteObjectTaggingResponse {
   // The versionId of the object the tag-set was removed from.
   string version_id = 2;
 }
+
+// Represents a response of start multipart upload request to S3.
+message S3APIStartMultipartUploadResponse {
+  // Unique request ID.
+  string request_id = 1;
+
+  // The name of the bucket in which the initiated multipart upload was initiated.
+  string bucket = 2;
+
+  // Object key for which the multipart upload was initiated.
+  string key = 3;
+
+  // The ID of the initiated multipart upload.
+  string upload_id = 4;
+}
+
+// Represents a response of upload part request to S3.
+message S3APIUploadPartResponse {
+  // Unique request ID.
+  string request_id = 1;
+
+  // MD5 hash of the object.
+  string etag = 2;
+}
+
+// Represents a response of list parts request to S3.
+message S3APIListPartsResponse {
+  // The name of the bucket to which the multipart upload was initiated.
+  string bucket = 1;
+
+  // Object key for which the multipart upload was initiated.
+  string key = 2;
+
+  // Upload ID identifying the multipart upload whose parts are being listed.
+  string upload_id = 3;
+
+  // When a list is truncated, this element specifies the last part in the list, as
+  // well as the value to use for the part-number-marker request parameter in a
+  // subsequent request.
+  string part_number_marker = 4;
+
+  // When a list is truncated, this element specifies the last part in the list, as
+  // well as the value to use for the part-number-marker request parameter in a
+  // subsequent request.
+  string next_part_number_marker = 5;
+
+  // Maximum number of parts that were allowed in the response.
+  int64 max_parts = 6;
+
+  // Indicates whether the returned list of parts is truncated.
+  bool is_truncated = 7;
+
+  // Container for elements related to a particular part.
+  repeated S3APIPart parts = 8;
+
+  // Container element that identifies who initiated the multipart upload.
+  S3APIOwner initiator = 9;
+
+  // Container element that identifies who initiated the multipart upload.
+  S3APIOwner owner = 10;
+
+  // Class of storage used to store the uploaded object.
+  string storage_class = 11;
+
+  // Unique request ID.
+  string request_id = 12;
+}
+
+// Container for elements related to a part.
+message S3APIPart {
+  // Part number identifying the part. This is a positive integer between 1 and
+  // 10,000.
+  int64 part_number = 1;
+
+  // Date and time at which the part was uploaded.
+  google.protobuf.Timestamp last_modified_at = 2;
+
+  // Size in bytes of the uploaded part data.
+  int64 size = 3;
+
+  // Entity tag returned when the part was uploaded.
+  string etag = 4;
+}
+
+// Represents a response of abort multipart upload request to S3.
+message S3APIAbortMultipartUploadResponse {
+  // Unique request ID.
+  string request_id = 1;
+}
+
+// Represents a response of complete multipart upload request to S3.
+message S3APICompleteMultipartUploadResponse {
+  // Unique request ID.
+  string request_id = 1;
+
+  // The name of the bucket that contains the newly created object.
+  string bucket = 2;
+
+  // The object key of the newly created object.
+  string key = 3;
+
+  // Entity tag that identifies the newly created object's data.
+  string etag = 4;
+
+  // The URI that identifies the newly created object.
+  string location = 5;
+
+  // Version ID of the newly created object, in case the bucket has versioning
+  // turned on.
+  string version_id = 6;
+}
+
+// Represents a response of list multipart uploads request to S3.
+message S3APIListMultipartUploadsResponse {
+  // The name of the bucket to which the multipart upload was initiated.
+  string bucket = 1;
+
+  // The key at or after which the listing began.
+  string key_marker = 2;
+
+  // Upload ID after which listing began.
+  string upload_id_marker = 3;
+
+  // When a list is truncated, this element specifies the value that should be used
+  // for the key-marker request parameter in a subsequent request.
+  string next_key_marker = 4;
+
+  // When a list is truncated, this element specifies the value that should be used
+  // for the upload-id-marker request parameter in a subsequent request.
+  string next_upload_id_marker = 5;
+
+  // Contains the delimiter you specified in the request.
+  string delimiter = 6;
+
+  // When a prefix is provided in the request, this field contains the specified
+  // prefix.
+  string prefix = 7;
+
+  // Maximum number of multipart uploads that could have been included in the
+  // response.
+  int64 max_uploads = 8;
+
+  // Indicates whether the returned list of multipart uploads is truncated.
+  bool is_truncated = 9;
+
+  // Container for elements related to a particular multipart upload.
+  repeated S3APIMultipartUpload uploads = 10;
+
+  // If you specify a delimiter in the request, then the result returns each
+  // distinct key prefix containing the delimiter in a CommonPrefixes element.
+  repeated string common_prefixes = 11;
+
+  // Unique request ID.
+  string request_id = 12;
+}
+
+// Container for the MultipartUpload for the Amazon S3 object.
+message S3APIMultipartUpload {
+  // Key of the object for which the multipart upload was initiated.
+  string key = 1;
+
+  // Upload ID that identifies the multipart upload.
+  string upload_id = 2;
+
+  // Identifies who initiated the multipart upload.
+  S3APIOwner initiator = 3;
+
+  // Specifies the owner of the object that is part of the multipart upload.
+  S3APIOwner owner = 4;
+
+  // The class of storage used to store the object.
+  string storage_class = 5;
+
+  // Date and time at which the multipart upload was initiated.
+  google.protobuf.Timestamp initiated_at = 6;
+}
+
+// Container for the owner/initiator display name and ID.
+message S3APIOwner {
+  // Container for the ID of the owner/initiator.
+  string id = 1;
+
+  // Container for the display name of the owner/initiator.
+  string display_name = 2;
+}
+
+// Response message for UploadPartCopy operation
+message S3APIUploadPartCopyResponse {
+  // Entity tag of the object.
+  string etag = 1;
+
+  // Date and time at which the object was uploaded.
+  google.protobuf.Timestamp last_modified_at = 2;
+
+  // Unique request ID.
+  string request_id = 3;
+}

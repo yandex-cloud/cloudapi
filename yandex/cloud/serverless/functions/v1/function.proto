@@ -146,6 +146,9 @@ message Version {
 
   // Mounts to be used by the version.
   repeated Mount mounts = 25;
+
+  // Metadata options for the version.
+  MetadataOptions metadata_options = 26;
 }
 
 // Resources allocated to a version.
@@ -360,3 +363,21 @@ message YMQTarget {
 }
 
 message EmptyTarget {}
+
+message MetadataOptions {
+  // Enabled access to GCE flavored metadata
+  MetadataOption gce_http_endpoint = 1;
+  // Enabled access to AWS flavored metadata (IMDSv1)
+  MetadataOption aws_v1_http_endpoint = 2;
+}
+
+enum MetadataOption {
+  // Option is default
+  METADATA_OPTION_UNSPECIFIED = 0;
+
+  // Option is enabled
+  ENABLED = 1;
+
+  // Option is disabled
+  DISABLED = 2;
+}

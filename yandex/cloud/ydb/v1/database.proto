@@ -199,10 +199,36 @@ message ScalePolicy {
   oneof scale_type {
     option (exactly_one) = true;
     FixedScale fixed_scale = 1;
+    AutoScale auto_scale = 2;
   }
 
   message FixedScale {
     int64 size = 1 [(yandex.cloud.value) = ">=1"];
+  }
+
+  // Scale policy that dynamically changes the number of database nodes within a user-defined range.
+  message AutoScale {
+    // Minimum number of nodes to which autoscaling can scale the database.
+    int64 min_size = 1 [(yandex.cloud.value) = ">=1"];
+    // Maximum number of nodes to which autoscaling can scale the database.
+    int64 max_size = 2 [(yandex.cloud.value) = ">=1"];
+
+    // Type of autoscaling algorithm.
+    oneof auto_scale_type {
+      option (exactly_one) = true;
+      TargetTracking target_tracking = 3;
+    }
+
+    // Autoscaling algorithm that tracks metric and reactively scale database nodes to keep metric
+    // close to the specified target value.
+    message TargetTracking {
+      oneof target {
+        option (exactly_one) = true;
+
+        // A percentage of database nodes average CPU utilization.
+        int64 cpu_utilization_percent = 1 [(yandex.cloud.value) = "10-90"]; 
+      }
+    }
   }
 }
 

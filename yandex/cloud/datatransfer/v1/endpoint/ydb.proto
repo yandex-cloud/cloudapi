@@ -32,6 +32,7 @@ message YdbSource {
     repeated string security_groups = 34;
     // Pre-created change feed
     string changefeed_custom_name = 35;
+    string changefeed_custom_consumer_name = 36;
 }
 message YdbTarget {
     reserved 3 to 9, 12 to 20, 22 to 29, 31;

@@ -221,6 +221,8 @@ message GetOptionsResponse {
 
   oneof tuning_params {
     TextToTextCompletionTuningParams text_to_text_completion = 100;
+    TextClassificationMultilabelParams text_classification_multilabel = 101;
+    TextClassificationMulticlassParams text_classification_multiclass = 102;
   }
 
   reserved 5 to 99;

@@ -36,6 +36,8 @@ message JobParameters {
   repeated OutputDatasetDesc output_datasets = 11;
   // Graceful shutdown settings.
   GracefulShutdownParameters graceful_shutdown_parameters = 12;
+  // Spark connector settings.
+  SparkParameters spark_parameters = 13;
 }
 
 message CloudInstanceType {
@@ -278,4 +280,9 @@ message JobProgress {
   int64 progress = 2;
   // Progress create time
   google.protobuf.Timestamp create_time = 3;
+}
+
+message SparkParameters {
+  // ID of the Spark connector.
+  string connector_id = 1;
 }
