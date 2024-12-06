@@ -54,6 +54,10 @@ message DatasetInfo {
     string created_by = 14;
     // User ID of the dataset's last updater.
     string updated_by = 15;
+
+    repeated ValidationError validation_error = 21;
+
+    reserved 16 to 20;
 }
 
 // Information about dataset validation error.
