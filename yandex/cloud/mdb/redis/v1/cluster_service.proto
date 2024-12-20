@@ -1093,4 +1093,7 @@ message ConfigSpec {
 
   // Disk size autoscaling settings
   DiskSizeAutoscaling disk_size_autoscaling = 12;
+
+  // Retain period of automatically created backup in days
+  google.protobuf.Int64Value backup_retain_period_days = 13;
 }

@@ -25,7 +25,10 @@ message ApiKey {
   google.protobuf.Timestamp last_used_at = 5;
 
   // Scope of the API key. 0-256 characters long.
-  string scope = 6;
+  string scope = 6 [deprecated = true];
+
+  // Scopes of the API key. 0-256 characters long.
+  repeated string scopes = 8;
 
   // API key expiration timestamp.
   google.protobuf.Timestamp expires_at = 7;

@@ -934,9 +934,11 @@ message Resources {
 }
 
 message Access {
-  reserved 2;
   // Allow access for DataLens.
   bool data_lens = 1;
+
+  // Allow access for Web SQL.
+  bool web_sql = 2;
 
   // Allow access for DataTransfer.
   bool data_transfer = 3;

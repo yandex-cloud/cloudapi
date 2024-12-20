@@ -207,6 +207,12 @@ message UpdateClusterConfigSpec {
 
   // Configuration of Lockbox Secret Backend.
   LockboxConfig lockbox = 8;
+
+  // Apache Airflow version. Format: "Major.Minor"
+  string airflow_version = 9;
+
+  // Python version. Format: "Major.Minor"
+  string python_version = 10;
 }
 
 message UpdateNetworkConfigSpec {

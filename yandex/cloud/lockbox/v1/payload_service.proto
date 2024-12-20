@@ -17,8 +17,13 @@ service PayloadService {
   rpc Get (GetPayloadRequest) returns (Payload) {
     option (google.api.http) = {get: "/lockbox/v1/secrets/{secret_id}/payload"};
   }
-}
 
+  rpc GetEx (GetExRequest) returns (GetExResponse) {
+    option (google.api.http) = {
+      get: "/lockbox/v1/secrets:getEx"
+    };
+  }
+}
 
 message GetPayloadRequest {
   // ID of the secret.
@@ -26,4 +31,24 @@ message GetPayloadRequest {
 
   // Optional ID of the version.
   string version_id = 2 [(length) = "<=50"];
+}
+
+message GetExRequest {
+  oneof identifier {
+    option (exactly_one) = true;
+    string secret_id = 1 [(length) = "<=50"];
+    FolderAndName folder_and_name = 2;
+  }
+  reserved 3 to 20;
+  string version_id = 21 [(length) = "<=50"];
+}
+
+message FolderAndName {
+  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string secret_name = 2 [(required) = true, (length) = "<=100"];
+}
+
+message GetExResponse {
+  string version_id = 1;
+  map<string, bytes> entries = 2;
 }

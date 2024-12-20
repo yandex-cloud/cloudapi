@@ -17,6 +17,8 @@ message TuningTask {
     IN_PROGRESS = 3;
     COMPLETED = 4;
     FAILED = 5;
+
+    CANCELED = 6;
   }
 
   string task_id = 1;

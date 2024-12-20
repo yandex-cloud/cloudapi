@@ -69,3 +69,9 @@ message ValidationError {
     // Row numbers in which the error occurred.
     repeated int64 row_numbers = 3;
 }
+
+message DatasetUploadSchema {
+    string task_type = 1;
+    string upload_format = 2;
+    string schema = 3;
+}

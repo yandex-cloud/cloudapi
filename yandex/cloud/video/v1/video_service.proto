@@ -136,7 +136,7 @@ message ListVideoRequest {
   string channel_id = 1 [(required) = true, (length) = "<=50"];
 
   // The maximum number of the results per page to return. Default value: 100.
-  int64 page_size = 100 [(value) = "<=1000"];
+  int64 page_size = 100 [(value) = "<=100"];
   // Page token for getting the next page of the result.
   string page_token = 101 [(length) = "<=200"];
 
@@ -170,7 +170,7 @@ message BatchGetVideosRequest {
   // ID of the channel.
   string channel_id = 1 [(required) = true, (length) = "<=50"];
   // List of requested video IDs.
-  repeated string video_ids = 2 [(size) = "1-50", (length) = "<=50"];
+  repeated string video_ids = 2 [(size) = "1-100", (length) = "<=50"];
 }
 
 message BatchGetVideosResponse {
@@ -302,7 +302,7 @@ message BatchDeleteVideosRequest {
   // ID of the channel.
   string channel_id = 1 [(required) = true, (length) = "<=50"];
   // List of video IDs.
-  repeated string video_ids = 2 [(size) = "1-50", (length) = "<=50"];
+  repeated string video_ids = 2 [(size) = "1-100", (length) = "<=50"];
 }
 
 message BatchDeleteVideosMetadata {

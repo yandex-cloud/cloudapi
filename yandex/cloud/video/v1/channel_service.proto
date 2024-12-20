@@ -89,7 +89,7 @@ message ListChannelsRequest {
   string organization_id = 1 [(required) = true, (length) = "<=50"];
 
   // The maximum number of the results per page to return. Default value: 100.
-  int64 page_size = 100 [(value) = "<=1000"];
+  int64 page_size = 100 [(value) = "<=100"];
   // Page token for getting the next page of the result.
   string page_token = 101 [(length) = "<=200"];
 
@@ -178,7 +178,7 @@ message BatchDeleteChannelsRequest {
   // ID of the organization.
   string organization_id = 1 [(required) = true, (length) = "<=50"];
   // List of channel IDs.
-  repeated string channel_ids = 2 [(size) = "1-50", (length) = "<=50"];
+  repeated string channel_ids = 2 [(size) = "1-100", (length) = "<=50"];
 }
 
 message BatchDeleteChannelsMetadata {

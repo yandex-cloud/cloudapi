@@ -118,7 +118,7 @@ message ListEpisodesRequest {
   }
 
   // The maximum number of the results per page to return. Default value: 100.
-  int64 page_size = 100 [(value) = "<=1000"];
+  int64 page_size = 100 [(value) = "<=100"];
   // Page token for getting the next page of the result.
   string page_token = 101 [(length) = "<=200"];
 
@@ -154,7 +154,7 @@ message BatchGetEpisodesRequest {
   string channel_id = 1 [(required) = true, (length) = "<=50"];
 
   // List of requested episode IDs.
-  repeated string episode_ids = 2 [(size) = "1-50", (length) = "<=50"];
+  repeated string episode_ids = 2 [(size) = "1-100", (length) = "<=50"];
 }
 
 message BatchGetEpisodesResponse {

@@ -68,7 +68,7 @@ message ListSubtitlesRequest {
   reserved 1 to 99, 102 to 999;
 
   // The maximum number of the results per page to return.
-  int64 page_size = 100 [(value) = "<=1000"];
+  int64 page_size = 100 [(value) = "<=100"];
   // Page token for getting the next page of the result.
   string page_token = 101 [(length) = "<=200"];
 
@@ -96,7 +96,7 @@ message CreateSubtitleRequest {
   // The language of the subtitles, represented as a three-letter ISO 639 code.
   // Supports ISO 639-2/T (terminological), ISO 639-2/B (bibliographical) variants and ISO 639-3.
   // Valid ISO language code corresponding to the subtitle text must be provided.
-  string language = 1;
+  string language = 1 [(length) = "2-3"];
 
   // Contains the subtitle label (or title) that will be displayed on screen during video playback.
   // Should provide a concise and accurate representation of the spoken content.

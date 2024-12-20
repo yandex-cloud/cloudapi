@@ -250,6 +250,9 @@ message UpdateBucketRequest {
   // Configuration for bucket's encryption
   // For detauls, see [documentation](/docs/storage/concepts/encryption)
   Encryption encryption = 14;
+
+  // requires permission s3:PutBucketAllowedPrivateEndpoints
+  BucketAllowedPrivateEndpoints allowed_private_endpoints = 15;
 }
 
 message UpdateBucketMetadata {

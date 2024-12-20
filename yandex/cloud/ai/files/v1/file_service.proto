@@ -30,7 +30,7 @@ service FileService {
 
   // Update an existing file.
   rpc Update(UpdateFileRequest) returns (File) {
-    option (google.api.http) = {patch: "/files/v1/update/{file_id}" body: "*"};
+    option (google.api.http) = {patch: "/files/v1/files/{file_id}" body: "*"};
   }
 
   // Delete a file by its ID.

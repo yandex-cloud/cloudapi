@@ -34,8 +34,12 @@ service DatasetService {
   // Lists datasets in specified folder.
   rpc List(ListDatasetsRequest) returns (ListDatasetsResponse);
 
-  // Lists supported upload formats for the specified dataset task type.
-  rpc ListUploadFormats (ListUploadFormatsRequest) returns (ListUploadFormatsResponse);
+  // Deprecated. Use ListUploadSchemas.
+  rpc ListUploadFormats (ListUploadFormatsRequest) returns (ListUploadFormatsResponse) {
+    option deprecated = true;
+  };
+  // Lists supported dataset upload formats types and schemas for the specified dataset task type.
+  rpc ListUploadSchemas (ListUploadSchemasRequest) returns (ListUploadSchemasResponse);
 
   // Returns an S3 presigned URL for dataset upload.
   // This method only applicable if the dataset size does not exceed 5GB.
@@ -47,6 +51,9 @@ service DatasetService {
   rpc FinishMultipartUploadDraft (FinishMultipartUploadDraftRequest) returns (FinishMultipartUploadDraftResponse);
   // Returns a list of dataset types
   rpc ListTypes (ListTypesRequest) returns (ListTypesResponse);
+
+  // Returns a preview of dataset types
+  rpc GetPreview(GetDatasetPreviewRequest) returns (GetDatasetPreviewResponse);
 }
 
 message DescribeDatasetRequest {
@@ -230,10 +237,32 @@ message ListUploadFormatsResponse {
   repeated string formats = 1;
 }
 
+message ListUploadSchemasRequest {
+  // Dataset task type to list schemas.
+  string task_type = 1 [(required) = true];
+}
+
+message ListUploadSchemasResponse {
+  // List of dataset schemas for the specified dataset task type.
+  repeated DatasetUploadSchema schemas = 1;
+}
+
 message ListTypesRequest {
 }
 
 message ListTypesResponse {
   // List of dataset type
   repeated string types = 1;
+}
+
+message GetDatasetPreviewRequest {
+  // ID of the dataset.
+  string dataset_id = 1 [(required) = true];
+}
+
+message GetDatasetPreviewResponse {
+  // ID of the dataset.
+  string dataset_id = 1;
+  // List of dataset preview lines
+  repeated string preview_lines = 2;
 }

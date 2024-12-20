@@ -13,6 +13,7 @@ option java_package = "yandex.cloud.api.monitoring.v3";
 // Widget.
 message Widget {
   reserved 4;
+  reserved 6 to 9;
   // Layout item for widget item positioning.
   message LayoutPosition {
     // Required. X-axis top-left corner coordinate.
@@ -43,6 +44,6 @@ message Widget {
     ChartWidget chart = 5;
 
     // Multi-source chart widget.
-    MultiSourceChartWidget multi_source_chart = 6;
+    MultiSourceChartWidget multi_source_chart = 10;
   }
 }

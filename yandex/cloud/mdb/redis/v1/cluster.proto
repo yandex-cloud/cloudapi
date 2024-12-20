@@ -153,6 +153,7 @@ message Monitoring {
 }
 
 message ClusterConfig {
+  reserved 11,12;
   // Version of Redis server software.
   string version = 1;
 
@@ -182,6 +183,9 @@ message ClusterConfig {
 
   // Disk size autoscaling settings
   DiskSizeAutoscaling disk_size_autoscaling = 10;
+
+  // Retain period of automatically created backup in days
+  google.protobuf.Int64Value backup_retain_period_days = 13;
 }
 
 message Shard {

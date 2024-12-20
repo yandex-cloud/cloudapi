@@ -13,7 +13,7 @@ import "google/protobuf/field_mask.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1/searchindex;searchindex";
 option java_package = "yandex.cloud.api.ai.assistants.v1.searchindex";
 
-// ThreadService provides operations for managing search indexes.
+// SearchIndexService provides operations for managing search indexes.
 service SearchIndexService {
   // Create a new search index in [asynchronous mode](/docs/foundation-models/concepts/#working-mode).
   rpc Create(CreateSearchIndexRequest) returns (operation.Operation) {

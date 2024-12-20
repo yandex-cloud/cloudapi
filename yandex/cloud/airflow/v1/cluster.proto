@@ -106,8 +106,9 @@ message Monitoring {
 }
 
 message ClusterConfig {
-  // Version of Apache that runs on the cluster.
-  string version_id = 1;
+  // Version of Apache Airflow that runs on the cluster.
+  // Use `airlow_version` instead.
+  string version_id = 1 [deprecated = true];
 
   // Configuration of the Apache Airflow application itself.
   AirflowConfig airflow = 2;
@@ -129,6 +130,12 @@ message ClusterConfig {
 
   // Configuration of Lockbox Secret Backend.
   LockboxConfig lockbox = 8;
+
+  // Apache Airflow version. Format: "Major.Minor"
+  string airflow_version = 9;
+
+  // Python version. Format: "Major.Minor"
+  string python_version = 10;
 }
 
 message AirflowConfig {

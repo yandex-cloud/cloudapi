@@ -109,7 +109,10 @@ message CreateApiKeyRequest {
   string description = 2 [(length) = "<=256"];
 
   // Scope of the API key.
-  string scope = 3 [(length) = "<=256"];
+  string scope = 3 [(length) = "<=256", deprecated = true];
+
+  // Scopes of the API key.
+  repeated string scopes = 5 [(size) = "<=100", (length) = "<=256"];
 
   // API key expiration timestamp, if not specified, then the API key doesn't expire
   google.protobuf.Timestamp expires_at = 4;
@@ -133,6 +136,12 @@ message UpdateApiKeyRequest {
 
   // Description of the API key.
   string description = 3 [(length) = "<=256"];
+
+  // Scopes of the API key.
+  repeated string scopes = 4 [(size) = "1-100", (length) = "<=256"];
+
+  // API key expiration timestamp, if not specified, then the API key doesn't expire
+  google.protobuf.Timestamp expires_at = 5;
 }
 
 message UpdateApiKeyMetadata {

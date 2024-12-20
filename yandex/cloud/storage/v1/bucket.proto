@@ -74,8 +74,11 @@ message Bucket {
   ObjectLock object_lock = 15;
 
   // Configuration for bucket's encryption
-  // For detauls, see [documentation](/docs/storage/concepts/encryption)
+  // For details, see [documentation](/docs/storage/concepts/encryption)
   Encryption encryption = 16;
+
+  // Bucket allowed private endpoints.
+  BucketAllowedPrivateEndpoints allowed_private_endpoints = 17;
 }
 
 message Tag {
@@ -696,4 +699,12 @@ message Encryption {
   }
 
   repeated EncryptionRule rules = 1;
+}
+
+message BucketAllowedPrivateEndpoints {
+  // if true, private endpoints white list check is enabled
+  // even if private_endpoints list is empty
+  bool enabled = 1;
+  // white list of private endpoints bucket accessible from
+  repeated string private_endpoints = 2;
 }

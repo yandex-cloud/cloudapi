@@ -38,6 +38,8 @@ message ListTuningsRequest {
 
   // Token to retrieve the next page of results.
   string page_token = 3;
+
+  TuningTask.Status status = 4;
 }
 
 message ListTuningsResponse {
@@ -77,6 +79,8 @@ message TuningResponse {
 message TuningMetadata {
   string tuning_task_id = 1;
   TuningTask.Status status = 2;
+  int64 total_steps = 3;
+  int64 current_step = 4;
 }
 
 message TuningRequest {
