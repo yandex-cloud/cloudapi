@@ -87,7 +87,7 @@ service ContainerService {
 
   // Returns the specified revision of a container.
   //
-  // To get the list of available revision, make a [ListRevisions] request.
+  // To get the list of available revisions, make a [ListRevisions] request.
   rpc GetRevision(GetContainerRevisionRequest) returns (Revision) {
     option (google.api.http) = {get: "/containers/v1/revisions/{container_revision_id}"};
   }

@@ -56,7 +56,7 @@ service RegressionDashboardService {
 
 message CreateRegressionDashboardRequest {
   // ID of the folder to create a regression dashboard in.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [(required) = true, (length) = "<=54"];
 
   // Name of the dashboard.
   string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
@@ -95,7 +95,7 @@ message DeleteRegressionDashboardMetadata {
 
 message ListRegressionDashboardsRequest {
   // ID of the folder to list dashboards in.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [(required) = true, (length) = "<=54"];
 
   reserved 2; // mask in private_v1
 

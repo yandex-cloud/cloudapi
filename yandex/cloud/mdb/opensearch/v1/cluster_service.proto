@@ -144,7 +144,6 @@ service ClusterService {
   }
 
   // Retrieves logs for the specified OpenSearch cluster.
-  // For detailed description, see the [Logs](/yandex-mdb-guide/concepts/logs.html) section in the developer's guide.
   rpc ListLogs(ListClusterLogsRequest) returns (ListClusterLogsResponse) {
     option (google.api.http) = {get: "/managed-opensearch/v1/clusters/{cluster_id}:logs"};
   }

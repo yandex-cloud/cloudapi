@@ -41,16 +41,16 @@ message TranslateRequest {
   }
 
   // The text language to translate from.
-  // Specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` ru ``).
+  // Most languages are specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` ru ``), but the field are not limited to it.
   //
-  // Required for translating with glossary.
+  // Required for translating with [glossary](/docs/translate/concepts/glossary).
   string source_language_code = 1 [(length) = "<=3"];
 
   // The target language to translate the text.
-  // Specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` en ``).
+  // Most languages are specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` ru ``), but the field are not limited to it.
   string target_language_code = 2 [(required) = true, (length) = "<=3"];
 
-  // Format of the text.
+  // Format of the text to be translated.
   Format format = 3;
 
   // Array of the strings to translate.
@@ -58,23 +58,23 @@ message TranslateRequest {
   repeated string texts = 4 [(size) = ">0"];
 
   // ID of the folder to which you have access.
-  // Required for authorization with a user account (see [yandex.cloud.iam.v1.UserAccount] resource).
-  // Don't specify this field if you make the request on behalf of a service account.
+  // Required for authorization with a [user account](/docs/iam/concepts/users/accounts).
+  // Do not specify this field if you make the request on behalf of a [service account](/docs/iam/concepts/users/accounts#sa).
   string folder_id = 5 [(length) = "<=50"];
 
-  // Do not specify this field, custom models are not supported yet.
+  // Model ID if you use custom model.
   string model = 6 [(length) = "<=50"];
 
   // Glossary to be applied for the translation. For more information, see [Glossaries](/docs/translate/concepts/glossary).
   TranslateGlossaryConfig glossary_config = 7;
-  // use speller
+  // Enable spell checking.
   bool speller = 8;
 }
 
 message TranslateGlossaryConfig {
   oneof glossary_source {
     option (exactly_one) = true;
-    // Pass glossary data in the request. Currently, only this way to pass glossary is supported.
+    // Pass glossary data in the request. Currently, the only way to pass glossary.
     GlossaryData glossary_data = 1;
   }
 }
@@ -94,6 +94,7 @@ message GlossaryPair {
   // Text in the target language.
   string translated_text = 2 [(required) = true];
 
+  // Allows to add translations for specific terms to [neuroglossaries](/docs/translate/concepts/glossary#word-forms).
   bool exact = 3;
 }
 
@@ -107,7 +108,7 @@ message DetectLanguageRequest {
   string text = 1 [(required) = true, (length) = "<=1000"];
 
   // List of the most likely languages. These languages will be given preference when detecting the text language.
-  // Specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` ru ``).
+  // Most languages are specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` ru ``), but the field are not limited to it.
   //
   // To get the list of supported languages, use a [TranslationService.ListLanguages] request.
   repeated string language_code_hints = 2 [(size) = "<=10", (length) = "<=3"];
@@ -119,7 +120,7 @@ message DetectLanguageRequest {
 }
 
 message DetectLanguageResponse {
-  // The text language in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` ru ``).
+  // Most languages are specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` ru ``), but the field are not limited to it.
   //
   // To get the language name, use a [TranslationService.ListLanguages] request.
   string language_code = 1;
@@ -127,8 +128,8 @@ message DetectLanguageResponse {
 
 message ListLanguagesRequest {
   // ID of the folder to which you have access.
-  // Required for authorization with a user account (see [yandex.cloud.iam.v1.UserAccount] resource).
-  // Don't specify this field if you make the request on behalf of a service account.
+  // Required for authorization with a [user account](/docs/iam/concepts/users/accounts).
+  // Do not specify this field if you make the request on behalf of a [service account](/docs/iam/concepts/users/accounts#sa).
   string folder_id = 1 [(length) = "<=50"];
 }
 

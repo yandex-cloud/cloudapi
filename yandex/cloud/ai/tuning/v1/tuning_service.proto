@@ -9,6 +9,7 @@ import "yandex/cloud/ai/tuning/v1/tuning_task.proto";
 import "yandex/cloud/ai/tuning/v1/tuning_types.proto";
 import "yandex/cloud/ai/tuning/v1/tuning_optimizers.proto";
 import "yandex/cloud/ai/tuning/v1/tuning_schedulers.proto";
+import "yandex/cloud/ai/tuning/v1/tuning_error.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/tuning/v1;fomo";
 option java_package = "yandex.cloud.api.ai.tuning.v1";
@@ -26,6 +27,7 @@ service TuningService {
   rpc Cancel(CancelTuningRequest) returns (CancelTuningResponse);
   rpc GetMetricsUrl(GetMetricsUrlRequest) returns (GetMetricsUrlResponse);
   rpc GetOptions(GetOptionsRequest) returns (GetOptionsResponse);
+  rpc ListErrors(ListErrorsRequest) returns (ListErrorsResponse);
 }
 
 message ListTuningsRequest {
@@ -84,7 +86,7 @@ message TuningMetadata {
 }
 
 message TuningRequest {
-  // Format like a gpt://{folder_id}/yandex-gpt/latest
+  // Format like a `gpt://{folder_id}/yandex-gpt/latest`
   string base_model_uri = 1 [(required) = true];
 
   repeated WeightedDataset train_datasets = 2 [(size)=">0"];
@@ -96,7 +98,6 @@ message TuningRequest {
     TextClassificationMulticlassParams text_classification_multiclass = 102;
   }
 
-  // common params
   string name = 200;
   string description = 201;
   map<string, string> labels = 202;
@@ -230,4 +231,12 @@ message GetOptionsResponse {
   }
 
   reserved 5 to 99;
+}
+
+message ListErrorsRequest {
+  string tuning_task_id = 1;
+}
+
+message ListErrorsResponse {
+  repeated TuningError tuning_error = 1;
 }

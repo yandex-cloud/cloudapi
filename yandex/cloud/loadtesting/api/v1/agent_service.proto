@@ -62,7 +62,7 @@ service AgentService {
 
 message CreateAgentRequest {
   // ID of the folder to create an agent in.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [(required) = true, (length) = "<=54"];
 
   // Name of the agent.
   //
@@ -113,7 +113,7 @@ message DeleteAgentMetadata {
 
 message ListAgentsRequest {
   // ID of the folder to list agents in.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [(required) = true, (length) = "<=54"];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than `page_size`, the service returns a [ListAgentsResponse.next_page_token]

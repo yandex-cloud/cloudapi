@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.ai.assistants.v1.threads;
 
 import "yandex/cloud/ai/common/common.proto";
+import "yandex/cloud/ai/assistants/v1/common.proto";
 import "yandex/cloud/ai/assistants/v1/threads/message.proto";
 import "yandex/cloud/ai/assistants/v1/threads/thread.proto";
 import "yandex/cloud/validation.proto";
@@ -61,6 +62,9 @@ message CreateThreadRequest {
 
   // Set of key-value pairs to label the thread.
   map<string, string> labels = 7;
+
+  // List of tools that are available for assistants to use in this thread.
+  repeated yandex.cloud.ai.assistants.v1.Tool tools = 8;
 }
 
 // Request message for retrieving a thread by ID.
@@ -88,6 +92,9 @@ message UpdateThreadRequest {
 
   // New set of labels for the thread.
   map<string, string> labels = 6;
+
+  // A new list of tools that are available for assistants to use in this thread.
+  repeated yandex.cloud.ai.assistants.v1.Tool tools = 7;
 }
 
 // Request message for deleting a thread by ID.

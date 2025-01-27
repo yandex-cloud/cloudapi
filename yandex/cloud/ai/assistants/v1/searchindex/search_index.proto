@@ -65,6 +65,14 @@ message TextSearchIndex {
   // Chunking strategy used to split text into smaller chunks before indexing.
   // In the case of text search, tokens are individual text characters.
   ChunkingStrategy chunking_strategy = 1;
+
+  // Tokenizer type used for text search. The tokenizer determines how the
+  // input text is broken down into tokens before indexing.
+  // If not specified, the default tokenizer configuration is applied.
+  oneof TextTokenizer {
+    // Tokenizer that generates n-grams.
+    NgramTokenizer ngram_tokenizer = 2;
+  }
 }
 
 // Defines the configuration for a vector-based search index. This type uses embeddings to represent documents and queries.

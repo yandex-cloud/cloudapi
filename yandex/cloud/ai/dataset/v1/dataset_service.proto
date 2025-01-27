@@ -45,6 +45,9 @@ service DatasetService {
   // This method only applicable if the dataset size does not exceed 5GB.
   rpc GetUploadDraftUrl (GetUploadDraftUrlRequest) returns (GetUploadDraftUrlResponse);
 
+  // Get urls to download dataset
+  rpc GetDownloadUrls (GetDownloadUrlsRequest) returns (GetDownloadUrlsResponse);
+
   // Returns a list of S3 presigned URLs for multipart upload of dataset.
   rpc StartMultipartUploadDraft (StartMultipartUploadDraftRequest) returns (StartMultipartUploadDraftResponse);
   // Finishes multipart upload of the dataset.
@@ -54,6 +57,8 @@ service DatasetService {
 
   // Returns a preview of dataset types
   rpc GetPreview(GetDatasetPreviewRequest) returns (GetDatasetPreviewResponse);
+
+  rpc ListOperationsIds(ListOperationsIdsRequest) returns (ListOperationsIdsResponse);
 }
 
 message DescribeDatasetRequest {
@@ -116,6 +121,9 @@ message CreateDatasetRequest {
   // Upload format of the dataset.
   // The list of supported upload formats can be retrieved via ListUploadFormats method.
   string upload_format = 7 [(required) = true, (length) = "<=50"];
+
+  // Allow to use the dataset to improve the models quality. Default false.
+  bool allow_data_log = 8;
 }
 
 message CreateDatasetResponse {
@@ -265,4 +273,23 @@ message GetDatasetPreviewResponse {
   string dataset_id = 1;
   // List of dataset preview lines
   repeated string preview_lines = 2;
+}
+
+message GetDownloadUrlsRequest {
+  // ID of the dataset.
+  string dataset_id = 1 [(required) = true];
+}
+
+message GetDownloadUrlsResponse {
+  // ID of the dataset.
+  string dataset_id = 1;
+  repeated DatasetFileDownloadUrl download_urls = 2;
+}
+
+message ListOperationsIdsRequest {
+  repeated string dataset_id = 1;
+}
+
+message ListOperationsIdsResponse {
+  map<string, string> dataset_id_to_operation_id = 1;
 }

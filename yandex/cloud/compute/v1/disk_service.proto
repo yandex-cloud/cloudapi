@@ -175,7 +175,7 @@ message CreateDiskRequest {
   string folder_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the disk.
-  string name = 2 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 2 [(pattern) = "|[a-z]([-_a-z0-9]{0,61}[a-z0-9])?"];
 
   // Description of the disk.
   string description = 3 [(length) = "<=256"];
@@ -235,7 +235,7 @@ message UpdateDiskRequest {
   google.protobuf.FieldMask update_mask = 2;
 
   // Name of the disk.
-  string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 3 [(pattern) = "|[a-z]([-_a-z0-9]{0,61}[a-z0-9])?"];
 
   // Description of the disk.
   string description = 4 [(length) = "<=256"];

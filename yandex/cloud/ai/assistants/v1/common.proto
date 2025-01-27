@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.ai.assistants.v1;
 
+import "google/protobuf/struct.proto";
 import "google/protobuf/wrappers.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1;assistants";
@@ -9,10 +10,32 @@ option java_package = "yandex.cloud.api.ai.assistants.v1";
 
 // Defines the options for truncating thread messages within a prompt.
 message PromptTruncationOptions {
+  // Auto truncation strategy.
+  message AutoStrategy {
+    // No specific parameters are required for this strategy.
+    // The system will handle truncation in a way that aims to preserve the most relevant context.
+  }
+
+  // Truncates the prompt by retaining only the last `num_messages` messages in the thread.
+  message LastMessagesStrategy {
+    // The number of most recent messages to retain in the prompt.
+    // If these messages exceed `max_prompt_tokens`, older messages will be further truncated to fit the limit.
+    int64 num_messages = 1;
+  }
+
   // The maximum number of tokens allowed in the prompt.
   // If the prompt exceeds this limit, the thread messages will be truncated.
   // Default max_prompt_tokens: 7000
   google.protobuf.Int64Value max_prompt_tokens = 1;
+
+  // Specifies the truncation strategy to use when the prompt exceeds the token limit.
+  oneof TruncationStrategy {
+    AutoStrategy auto_strategy = 2;
+
+    // Retains only the last `num_messages` messages in the thread.
+    // If these messages exceed `max_prompt_tokens`, older messages will be further truncated to fit the limit.
+    LastMessagesStrategy last_messages_strategy = 3;
+  }
 }
 
 // Defines the options for completion generation.
@@ -27,6 +50,45 @@ message CompletionOptions {
   google.protobuf.DoubleValue temperature = 3;
 }
 
+// Represents a general tool that can be one of several types.
+message Tool {
+  oneof ToolType {
+    // SearchIndexTool tool that performs search across specified indexes.
+    SearchIndexTool search_index = 1;
+
+    // Function tool that can be invoked by the assistant.
+    FunctionTool function = 2;
+  }
+}
+
+// Represents a call to a tool.
+message ToolCall {
+  oneof ToolCallType {
+    // Represents a call to a function.
+    FunctionCall function_call = 1;
+  }
+}
+
+// Represents a list of tool calls.
+message ToolCallList {
+  // A list of tool calls to be executed.
+  repeated ToolCall tool_calls = 1;
+}
+
+// Represents the result of a tool call.
+message ToolResult {
+  oneof ToolResultType {
+    // Represents the result of a function call.
+    FunctionResult function_result = 1;
+  }
+}
+
+// Represents a list of tool results.
+message ToolResultList {
+  // A list of tool results.
+  repeated ToolResult tool_results = 1;
+}
+
 // Configures a tool that enables Retrieval-Augmented Generation (RAG) by allowing the assistant to search across a specified search index.
 message SearchIndexTool {
   // A list of search index IDs that this tool will query. Currently, only a single index ID is supported.
@@ -38,10 +100,33 @@ message SearchIndexTool {
   google.protobuf.Int64Value max_num_results = 2;
 }
 
-// Represents a general tool that can be one of several types.
-message Tool {
-  oneof ToolType {
-    // SearchIndexTool tool that performs search across specified indexes.
-    SearchIndexTool search_index = 1;
+// Represents a function tool that can be invoked by the assistant.
+message FunctionTool {
+  // The name of the function.
+  string name = 1;
+  // A description of the function's purpose or behavior.
+  string description = 2;
+  // A JSON Schema that defines the expected parameters for the function.
+  // The schema should describe the required fields, their types, and any constraints or default values.
+  google.protobuf.Struct parameters = 3;
+}
+
+// Represents the invocation of a function with specific arguments.
+message FunctionCall {
+  // The name of the function being called.
+  string name = 1;
+  // The structured arguments passed to the function.
+  // These arguments must adhere to the JSON Schema defined in the corresponding function's parameters.
+  google.protobuf.Struct arguments = 2;
+}
+
+// Represents the result of a function call.
+message FunctionResult {
+  // The name of the function that was executed.
+  string name = 1;
+  oneof ContentType {
+    // The result of the function call, represented as a string.
+    // This field can be used to store the output of the function.
+    string content = 2;
   }
 }

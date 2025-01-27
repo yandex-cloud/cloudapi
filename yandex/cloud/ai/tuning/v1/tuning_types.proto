@@ -7,6 +7,7 @@ option java_package = "yandex.cloud.api.ai.tuning.v1";
 
 message TuningTypeLora {
     int64 rank = 1;
+    // Integer value
     double alpha = 2;
     string initialization = 3;
     string type = 4;

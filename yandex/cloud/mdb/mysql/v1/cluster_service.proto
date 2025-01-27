@@ -317,6 +317,9 @@ message CreateClusterRequest {
 
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 13;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 14;
 }
 
 message CreateClusterMetadata {

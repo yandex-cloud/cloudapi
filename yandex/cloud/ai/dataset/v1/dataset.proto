@@ -57,6 +57,9 @@ message DatasetInfo {
 
     repeated ValidationError validation_error = 21;
 
+    // Allow to use the dataset to improve the models quality. Default false.
+    bool allow_data_log = 22;
+
     reserved 16 to 20;
 }
 
@@ -74,4 +77,9 @@ message DatasetUploadSchema {
     string task_type = 1;
     string upload_format = 2;
     string schema = 3;
+}
+
+message DatasetFileDownloadUrl {
+    string key = 1;
+    string url = 2;
 }

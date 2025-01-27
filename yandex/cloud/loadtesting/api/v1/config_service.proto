@@ -46,7 +46,7 @@ service ConfigService {
 
 message CreateConfigRequest {
   // ID of the folder to create a config in.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [(required) = true, (length) = "<=54"];
 
   // Config content.
   oneof config {

@@ -49,6 +49,7 @@ message FolderAndName {
 }
 
 message GetExResponse {
-  string version_id = 1;
-  map<string, bytes> entries = 2;
+  string secret_id = 1;
+  string version_id = 2;
+  map<string, bytes> entries = 3;
 }

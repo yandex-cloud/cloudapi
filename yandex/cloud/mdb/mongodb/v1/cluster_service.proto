@@ -141,7 +141,6 @@ service ClusterService {
   }
 
   // Retrieves logs for the specified MongoDB cluster.
-  // See the [Logs](/yandex-mdb-guide/concepts/logs.html) section in the developers guide for detailed logs description.
   rpc ListLogs(ListClusterLogsRequest) returns (ListClusterLogsResponse) {
     option (google.api.http) = {get: "/managed-mongodb/v1/clusters/{cluster_id}:logs"};
   }

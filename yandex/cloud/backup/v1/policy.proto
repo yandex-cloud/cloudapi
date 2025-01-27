@@ -228,6 +228,8 @@ message PolicySettings {
         Scheme scheme = 5 [ (required) = true ];
         // A day of week to start weekly backups.
         Day weekly_backup_day = 6 [ (required) = true ];
+        // Task failure settings in case of failure of scheduled task, not applicable to  manually launched tasks
+        RetriesConfiguration task_failure = 7;
     }
 
     enum ChangedBlockTracking {

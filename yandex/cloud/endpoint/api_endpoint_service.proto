@@ -22,8 +22,8 @@ message GetApiEndpointRequest {
 }
 
 message ListApiEndpointsRequest {
-  int64 page_size = 1;
-  string page_token = 2;
+  int64 page_size = 1 [deprecated = true];
+  string page_token = 2 [deprecated = true];
 }
 
 message ListApiEndpointsResponse {

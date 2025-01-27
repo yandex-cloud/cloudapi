@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.ai.assistants.v1.threads;
 
+import "yandex/cloud/ai/assistants/v1/common.proto";
 import "yandex/cloud/ai/common/common.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -44,4 +45,7 @@ message Thread {
 
   // Set of key-value pairs that can be used to organize and categorize the thread.
   map<string, string> labels = 12;
+
+  // List of tools that are available for assistants to use in this thread.
+  repeated yandex.cloud.ai.assistants.v1.Tool tools = 13;
 }

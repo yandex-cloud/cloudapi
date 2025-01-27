@@ -10,13 +10,13 @@ message TranslatedText {
   string text = 1;
 
   // The language code of the source text.
-  // Specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` en ``).
+  // Most languages are specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` ru ``), but the field are not limited to it.
   string detected_language_code = 2;
 }
 
 message Language {
   // The language code.
-  // Specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` en ``).
+  // Most languages are specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` ru ``), but the field are not limited to it.
   string code = 1;
 
   // The name of the language (for example, `` English ``).

@@ -43,7 +43,7 @@ message GetTableReportResponse {
 
 message CalculateReportKpiValuesRequest {
   // ID of the folder containing tests.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [(required) = true, (length) = "<=54"];
 
   // Test filter selector to calculate KPI values for.
   string test_filter = 2 [(required) = true, (length) = "<=1000"];

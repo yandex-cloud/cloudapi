@@ -239,6 +239,11 @@ message Trail {
       EventTypes excluded_events = 3;
     }
 
+    oneof service_specific_rules {
+      // Filter is allowed only if service = dns
+      DnsDataEventsFilter dns_filter = 5;
+    }
+
     // A list of resources which will be monitored by the trail
     repeated Resource resource_scopes = 4 [(size) = "1-1024"];
   }
@@ -262,5 +267,10 @@ message Trail {
 
     // List of filters describing gathering data events
     repeated DataEventsFiltering data_events_filters = 2 [(size) = "<128"];
+  }
+
+  message DnsDataEventsFilter {
+    // Only recursive queries will be delivered
+    bool only_recursive_queries = 1;
   }
 }

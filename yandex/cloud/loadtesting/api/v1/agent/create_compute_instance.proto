@@ -54,7 +54,7 @@ message CreateComputeInstance {
   // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
   string service_account_id = 14;
 
-  // ID of the [Compute VM platform](docs/compute/concepts/vm-platforms) on which the agent will be created.
+  // ID of the [Compute VM platform](/docs/compute/concepts/vm-platforms) on which the agent will be created.
   // Default value: "standard-v2"
   string platform_id = 15;
 }

@@ -175,7 +175,7 @@ message CreateSnapshotRequest {
   ];
 
   // Name of the snapshot.
-  string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 3 [(pattern) = "|[a-z]([-_a-z0-9]{0,61}[a-z0-9])?"];
 
   // Description of the snapshot.
   string description = 4 [(length) = "<=256"];
@@ -214,7 +214,7 @@ message UpdateSnapshotRequest {
   google.protobuf.FieldMask update_mask = 2;
 
   // Name of the snapshot.
-  string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 3 [(pattern) = "|[a-z]([-_a-z0-9]{0,61}[a-z0-9])?"];
 
   // Description of the snapshot.
   string description = 4 [(length) = "<=256"];

@@ -57,7 +57,7 @@ service TestService {
 
 message CreateTestRequest {
   // ID of the folder to create a test in.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [(required) = true, (length) = "<=54"];
 
   // Test configuration associated with agents on which they will be executed.
   // In case of multiple configurations, a multitest will be created.

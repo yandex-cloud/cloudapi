@@ -17,7 +17,7 @@ option java_package = "yandex.cloud.api.serverless.apigateway.v1";
 // A set of methods for managing API gateways.
 service ApiGatewayService {
   // Returns the specified API gateway. Note that only API gateway basic attributes are returned.
-  // To get associated openapi specification, make a [GetOpenapiSpec](#GetOpenapiSpec) request.
+  // To get associated openapi specification, make a [GetOpenapiSpec] request.
   //
   // To get the list of all available API gateways, make a [List] request.
   rpc Get(GetApiGatewayRequest) returns (ApiGateway) {

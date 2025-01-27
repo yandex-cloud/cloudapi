@@ -21,6 +21,27 @@ message CompletionOptions {
   // The limit on the number of tokens used for single completion generation.
   // Must be greater than zero. This maximum allowed parameter value may depend on the model being used.
   google.protobuf.Int64Value max_tokens = 3;
+
+  // Configures reasoning capabilities for the model, allowing it to perform internal reasoning before responding.
+  ReasoningOptions reasoning_options = 4;
+}
+
+// Represents reasoning options that enable the model's ability to perform internal reasoning before generating a response.
+message ReasoningOptions {
+  // Enum representing the reasoning mode.
+  enum ReasoningMode {
+    // Unspecified reasoning mode.
+    REASONING_MODE_UNSPECIFIED = 0;
+
+    // Disables reasoning. The model will generate a response without performing any internal reasoning.
+    DISABLED = 1;
+
+    // Enables reasoning in a hidden manner without exposing the reasoning steps to the user.
+    ENABLED_HIDDEN = 2;
+  }
+
+  // Specifies the reasoning mode to be used.
+  ReasoningMode mode = 1;
 }
 
 // A message object representing a wrapper over the inputs and outputs of the completion model.
@@ -44,6 +65,12 @@ message Message {
 
 // An object representing the number of content [tokens](/docs/foundation-models/concepts/yandexgpt/tokens) used by the completion model.
 message ContentUsage {
+  // Provides additional information about how the completion tokens were utilized.
+  message CompletionTokensDetails {
+    // The number of tokens used specifically for internal reasoning performed by the model.
+    int64 reasoning_tokens = 1;
+  }
+
   // The number of tokens in the textual part of the model input.
   int64 input_text_tokens = 1;
 
@@ -52,6 +79,9 @@ message ContentUsage {
 
   // The total number of tokens, including all input tokens and all generated tokens.
   int64 total_tokens = 3;
+
+  // Provides additional information about how the completion tokens were utilized.
+  CompletionTokensDetails completion_tokens_details = 4;
 }
 
 // Represents a generated completion alternative, including its content and generation status.
