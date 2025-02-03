@@ -37,7 +37,7 @@ enum TransferStatus {
 }
 // Transfer core entity
 message Transfer {
-    reserved 3, 11, 13 to 14, 16, 18 to 21;
+    reserved 3, 11, 13 to 14, 16, 18, 20 to 21;
     string id = 1;
     string folder_id = 2;
     string name = 4;
@@ -50,6 +50,7 @@ message Transfer {
     TransferType type = 12;
     string warning = 15;
     Transformation transformation = 17;
+    DataObjects data_objects = 19;
     bool prestable = 22;
 }
 message Runtime {
@@ -223,4 +224,7 @@ message Transformation {
     // match the specified criteria.
     // Transformers are applied to the tables in the sequence specified in the list.
     repeated Transformer transformers = 1;
+}
+message DataObjects {
+    repeated string include_objects = 1;
 }

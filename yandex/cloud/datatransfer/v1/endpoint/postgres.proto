@@ -77,7 +77,9 @@ message PostgresObjectTransferSettings {
     // 
     // CREATE MATERIALIZED VIEW ...
     ObjectTransferStage materialized_view = 17;
-    // 
+    // Sequence sets
+    //
+    // CREATE SEQUENCE ...
     ObjectTransferStage sequence_set = 18;
 }
 message OnPremisePostgres {
@@ -96,6 +98,7 @@ message PostgresConnection {
         string mdb_cluster_id = 1;
         // Connection options for on-premise PostgreSQL
         OnPremisePostgres on_premise = 2;
+        ConnectionManagerConnection connection_manager_connection = 3;
     }
 }
 message PostgresSource {

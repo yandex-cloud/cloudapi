@@ -50,11 +50,19 @@ message User {
   // Possible values are `` USER_PASSWORD_ENCRYPTION_MD5 `` or `` USER_PASSWORD_ENCRYPTION_SCRAM_SHA_256 ``.
   // The default is `` password_encryption `` setting for cluster.
   UserPasswordEncryption user_password_encryption = 9;
+
+  // Connection Manager Connection and settings associated with user. Read only field.
+  ConnectionManager connection_manager = 10;
 }
 
 message Permission {
   // Name of the database that the permission grants access to.
   string database_name = 1;
+}
+
+message ConnectionManager {
+  // ID of Connection Manager Connection
+  string connection_id = 1;
 }
 
 message UserSpec {
@@ -98,6 +106,9 @@ message UserSpec {
   // Possible values are `` USER_PASSWORD_ENCRYPTION_MD5 `` or `` USER_PASSWORD_ENCRYPTION_SCRAM_SHA_256 ``.
   // The default is `` password_encryption `` setting for cluster.
   UserPasswordEncryption user_password_encryption = 9;
+
+  // Generate password using Connection Manager.
+  google.protobuf.BoolValue generate_password = 10;
 }
 
 enum UserPasswordEncryption {

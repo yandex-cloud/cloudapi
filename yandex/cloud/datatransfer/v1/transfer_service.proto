@@ -12,6 +12,7 @@ import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 
 service TransferService {
+    // Creates a transfer in the specified folder.
     rpc Create(CreateTransferRequest) returns (operation.Operation) {
         option (google.api.http) = { post: "/v1/transfer" body: "*" };
         option (api.operation) = {
@@ -19,6 +20,7 @@ service TransferService {
             response: "Transfer"
         };
     }
+    // Updates the specified transfer.
     rpc Update(UpdateTransferRequest) returns (operation.Operation) {
         option (google.api.http) = { patch: "/v1/transfer/{transfer_id}" body: "*" };
         option (api.operation) = {
@@ -26,6 +28,7 @@ service TransferService {
             response: "Transfer"
         };
     }
+    // Deletes the specified transfer.
     rpc Delete(DeleteTransferRequest) returns (operation.Operation) {
         option (google.api.http) = { delete: "/v1/transfer/{transfer_id}" };
         option (api.operation) = {
@@ -33,12 +36,19 @@ service TransferService {
             response: "google.protobuf.Empty"
         };
     }
+    // Lists transfers in the specified folder.
     rpc List(ListTransfersRequest) returns (ListTransfersResponse) {
         option (google.api.http) = { get: "/v1/transfers/list/{folder_id}" };
     }
+    // Returns the specified transfer.
+    // 
+    // To get the list of all available transfers, make a [List] request.
     rpc Get(GetTransferRequest) returns (Transfer) {
         option (google.api.http) = { get: "/v1/transfer/{transfer_id}" };
     }
+    // Deactivates the specified transfer.
+    // 
+    // To get the list of all available transfers, make a [List] request.
     rpc Deactivate(DeactivateTransferRequest) returns (operation.Operation) {
         option (google.api.http) = { post: "/v1/transfer/{transfer_id}:deactivate" body: "*" };
         option (api.operation) = {
@@ -46,6 +56,9 @@ service TransferService {
             response: "google.protobuf.Empty"
         };
     }
+    // Activates the specified transfer.
+    // 
+    // To get the list of all available transfers, make a [List] request.
     rpc Activate(ActivateTransferRequest) returns (operation.Operation) {
         option (google.api.http) = { post: "/v1/transfer/{transfer_id}:activate" body: "*" };
         option (api.operation) = {
@@ -55,22 +68,35 @@ service TransferService {
     }
 }
 message CreateTransferRequest {
-    reserved 9;
+    reserved 9, 11;
+    // Identifier of the source endpoint.
     string source_id = 1;
+    // Identifier of the target endpoint.
     string target_id = 2;
+    // Description of the transfer.
     string description = 3;
+    // ID of the folder to create the transfer in.
+    // 
+    // To get the folder ID, make a
+    // [yandex.cloud.resourcemanager.v1.FolderService.List] request.
     string folder_id = 4;
     Runtime runtime = 5;
     TransferType type = 6;
+    // The transfer name. Must be unique within the folder.
     string name = 7;
+    // Transfer labels as `key:value` pairs.
+    // 
+    // For details about the concept, see [documentation]({{ api-url-prefix
+    // }}/resource-manager/concepts/labels).
     map<string,string> labels = 8;
     Transformation transformation = 10;
+    DataObjects data_objects = 12;
 }
 message CreateTransferMetadata {
     string transfer_id = 1;
 }
 message UpdateTransferRequest {
-    reserved 7;
+    reserved 7, 9;
     // Identifier of the transfer to be updated.
     string transfer_id = 1;
     // The new description for the transfer.
@@ -84,13 +110,19 @@ message UpdateTransferRequest {
     // The only exception: if the repeated field is specified in the mask, then
     // the new value replaces the old one instead of being appended to the old one.
     google.protobuf.FieldMask update_mask = 5;
+    // Transfer labels as `key:value` pairs.
+    // 
+    // For details about the concept, see [documentation]({{ api-url-prefix
+    // }}/resource-manager/concepts/labels).
     map<string,string> labels = 6;
     Transformation transformation = 8;
+    DataObjects data_objects = 10;
 }
 message UpdateTransferMetadata {
     string transfer_id = 1;
 }
 message DeleteTransferRequest {
+    // Identifier of the transfer to be deleted.
     string transfer_id = 1;
 }
 message DeleteTransferMetadata {
@@ -99,6 +131,9 @@ message DeleteTransferMetadata {
 message ListTransfersRequest {
     reserved 1;
     // Identifier of the folder containing the transfers to be listed.
+    // 
+    // To get the folder ID, make a
+    // [yandex.cloud.resourcemanager.v1.FolderService.List] request.
     string folder_id = 2;
     // The maximum number of transfers to be sent in the response message. If the
     // folder contains more transfers than `page_size`, `next_page_token` will be
@@ -127,15 +162,24 @@ message ListTransfersResponse {
     string next_page_token = 2;
 }
 message GetTransferRequest {
+    // Identifier of the transfer to be returned.
+    // 
+    // To get the list of all available transfers, make a [List] request.
     string transfer_id = 1;
 }
 message DeactivateTransferRequest {
+    // Identifier of the transfer to be deactivated.
+    // 
+    // To get the list of all available transfers, make a [List] request.
     string transfer_id = 1;
 }
 message DeactivateTransferMetadata {
     string transfer_id = 1;
 }
 message ActivateTransferRequest {
+    // Identifier of the transfer to be activated.
+    // 
+    // To get the list of all available transfers, make a [List] request.
     string transfer_id = 1;
 }
 message ActivateTransferMetadata {

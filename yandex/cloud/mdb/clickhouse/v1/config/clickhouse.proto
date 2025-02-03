@@ -631,6 +631,15 @@ message ClickhouseConfig {
     google.protobuf.Int64Value max_entry_size_in_rows = 4 [(value) = ">=0"];
   }
 
+  // JDBC bridge for queries to external databases.
+  message JdbcBridge {
+    // Host of jdbc bridge.
+    string host = 1 [(required) = true];
+
+    // Port of jdbc bridge.
+    google.protobuf.Int64Value port = 2;
+  }
+
   // Logging level for the ClickHouse cluster. Possible values: TRACE, DEBUG, INFORMATION, WARNING, ERROR.
   LogLevel log_level = 1;
 
@@ -872,6 +881,10 @@ message ClickhouseConfig {
   // Min version: 23.5
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/server-configuration-parameters/settings#query_cache)
   QueryCache query_cache = 69;
+
+  // JDBC bridge for queries to external databases.
+  // https://clickhouse.com/docs/en/integrations/jdbc/jdbc-with-clickhouse
+  JdbcBridge jdbc_bridge = 70;
 }
 
 message ClickhouseConfigSet {

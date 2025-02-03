@@ -4,6 +4,7 @@ package yandex.cloud.mdb.clickhouse.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/mdb/clickhouse/v1/user.proto";
 import "yandex/cloud/api/operation.proto";
@@ -147,6 +148,9 @@ message UpdateUserRequest {
   UserSettings settings = 6;
 
   repeated UserQuota quotas = 7;
+
+  // Generate password using Connection Manager.
+  google.protobuf.BoolValue generate_password = 8;
 }
 
 message UpdateUserMetadata {

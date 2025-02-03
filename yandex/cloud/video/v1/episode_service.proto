@@ -73,6 +73,14 @@ service EpisodeService {
     };
   }
 
+  // Batch delete episode.
+  rpc BatchDelete(BatchDeleteEpisodesRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "BatchDeleteEpisodesMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+  
   // Perform an action on the episode.
   rpc PerformAction(PerformEpisodeActionRequest) returns (operation.Operation) {
     option (google.api.http) = {
@@ -267,6 +275,24 @@ message DeleteEpisodeRequest {
 message DeleteEpisodeMetadata {
   // ID of the episode.
   string episode_id = 1;
+}
+
+message BatchDeleteEpisodesRequest {
+  // Reserved for future use.
+  reserved 2 to 99;
+
+  oneof id {
+    option (exactly_one) = true;
+    // ID of the stream.
+    string stream_id = 100 [(length) = "<=50"];
+    // ID of the line.
+    string line_id = 101 [(length) = "<=50"];
+  }
+  repeated string episode_ids = 1 [(size) = "1-100", (length) = "<=50"];
+}
+
+message BatchDeleteEpisodesMetadata {
+  repeated string episode_ids = 1;
 }
 
 message PerformEpisodeActionRequest {

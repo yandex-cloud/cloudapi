@@ -88,8 +88,8 @@ message WafProfile {
     Action size_limit_action = 3;
   }
 
-  // Parameters for request body analyzer.
-  AnalyzeRequestBody analyze_request_body = 12;
+  // The parameter is deprecated. Parameters for request body analyzer.
+  AnalyzeRequestBody analyze_request_body = 12 [deprecated = true];
 }
 
 // WafProfileRule object. Determines settings for each rule_id in rule set.

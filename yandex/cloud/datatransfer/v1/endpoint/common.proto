@@ -110,3 +110,8 @@ message DataSchema {
 // No authentication
 message NoAuth {
 }
+message ConnectionManagerConnection {
+    string connection_id = 1;
+    // Network interface for endpoint. If none will assume public ipv4
+    string subnet_id = 2;
+}

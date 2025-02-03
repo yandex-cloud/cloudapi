@@ -11,13 +11,20 @@ import "yandex/cloud/datatransfer/v1/endpoint.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 
+// A set of methods for managing [endpoints]({{ api-url-prefix
+// }}/data-transfer/concepts/#endpoint).
 service EndpointService {
+    // Returns the specified endpoint.
+    // 
+    // To get the list of all available endpoints, make a [List] request.
     rpc Get(GetEndpointRequest) returns (Endpoint) {
         option (google.api.http) = { get: "/v1/endpoint/{endpoint_id}" };
     }
+    // Lists endpoints in the specified folder.
     rpc List(ListEndpointsRequest) returns (ListEndpointsResponse) {
         option (google.api.http) = { get: "/v1/endpoints/list/{folder_id}" };
     }
+    // Creates an endpoint in the specified folder.
     rpc Create(CreateEndpointRequest) returns (operation.Operation) {
         option (google.api.http) = { post: "/v1/endpoint" body: "*" };
         option (api.operation) = {
@@ -25,6 +32,7 @@ service EndpointService {
             response: "Endpoint"
         };
     }
+    // Updates the specified endpoint.
     rpc Update(UpdateEndpointRequest) returns (operation.Operation) {
         option (google.api.http) = { patch: "/v1/endpoint/{endpoint_id}" body: "*" };
         option (api.operation) = {
@@ -32,6 +40,7 @@ service EndpointService {
             response: "Endpoint"
         };
     }
+    // Deletes the specified endpoint.
     rpc Delete(DeleteEndpointRequest) returns (operation.Operation) {
         option (google.api.http) = { delete: "/v1/endpoint/{endpoint_id}" };
         option (api.operation) = {
@@ -41,6 +50,9 @@ service EndpointService {
     }
 }
 message GetEndpointRequest {
+    // Identifier of the endpoint to return.
+    // 
+    // To get the endpoint ID, make an [EndpointService.List] request.
     string endpoint_id = 1;
 }
 message ListEndpointsRequest {
@@ -73,9 +85,21 @@ message ListEndpointsResponse {
 }
 message CreateEndpointRequest {
     reserved 5 to 51;
+    // ID of the folder to create the endpoint in.
+    // 
+    // To get the folder ID, make a
+    // [yandex.cloud.resourcemanager.v1.FolderService.List] request.
     string folder_id = 1;
+    // Name of the endpoint.
+    // 
+    // The name must be unique within the folder.
     string name = 2;
+    // Description of the endpoint.
     string description = 3;
+    // Endpoint labels as `key:value` pairs.
+    // 
+    // For details about the concept, see [documentation]({{ api-url-prefix
+    // }}/resource-manager/concepts/labels).
     map<string,string> labels = 4;
     EndpointSettings settings = 52;
 }
@@ -90,8 +114,12 @@ message UpdateEndpointRequest {
     string name = 11;
     // The new description for the endpoint.
     string description = 12;
+    // Endpoint labels as `key:value` pairs.
+    // 
+    // For details about the concept, see [documentation]({{ api-url-prefix
+    // }}/resource-manager/concepts/labels).
     map<string,string> labels = 13;
-    // The new endpoint name. Must be unique within the folder.
+    // The new endpoint settings.
     EndpointSettings settings = 52;
     // Field mask specifying endpoint fields to be updated. Semantics for this field is
     // described here:
@@ -104,6 +132,9 @@ message UpdateEndpointMetadata {
     string endpoint_id = 1;
 }
 message DeleteEndpointRequest {
+    // Identifier of the endpoint to delete.
+    // 
+    // To get the list of all available endpoints, make a [List] request.
     string endpoint_id = 1;
 }
 message DeleteEndpointMetadata {

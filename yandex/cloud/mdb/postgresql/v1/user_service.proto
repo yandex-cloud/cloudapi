@@ -173,6 +173,9 @@ message UpdateUserRequest {
   // New password-based authentication method for user.
   // Possible values are `` USER_PASSWORD_ENCRYPTION_MD5 `` or `` USER_PASSWORD_ENCRYPTION_SCRAM_SHA_256 ``.
   UserPasswordEncryption user_password_encryption = 11;
+
+  // Generate password using Connection Manager.
+  google.protobuf.BoolValue generate_password = 12;
 }
 
 message UpdateUserMetadata {

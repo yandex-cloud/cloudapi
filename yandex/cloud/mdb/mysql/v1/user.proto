@@ -30,6 +30,9 @@ message User {
 
   // User authentication plugin.
   AuthPlugin authentication_plugin = 6;
+
+  // Connection Manager Connection and settings associated with user. Read only field.
+  ConnectionManager connection_manager = 7;
 }
 
 message Permission {
@@ -163,6 +166,11 @@ enum AuthPlugin {
   SHA256_PASSWORD = 3;
 }
 
+message ConnectionManager {
+    // ID of Connection Manager Connection
+    string connection_id = 1;
+}
+
 message UserSpec {
 
   // Name of the user.
@@ -185,4 +193,7 @@ message UserSpec {
 
   // User authentication plugin.
   AuthPlugin authentication_plugin = 6;
+
+  // Generate password using Connection Manager.
+  google.protobuf.BoolValue generate_password = 7;
 }

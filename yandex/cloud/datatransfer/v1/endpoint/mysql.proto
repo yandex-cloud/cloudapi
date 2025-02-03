@@ -24,6 +24,7 @@ message MysqlConnection {
         string mdb_cluster_id = 1;
         // Connection options for on-premise MySQL
         OnPremiseMysql on_premise = 2;
+        ConnectionManagerConnection connection_manager_connection = 3;
     }
 }
 message MysqlObjectTransferSettings {
