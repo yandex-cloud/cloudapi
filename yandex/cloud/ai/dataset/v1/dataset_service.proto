@@ -83,6 +83,8 @@ message ValidateDatasetMetadata {
   int64 valid_rows = 2;
   // Count of currently processed rows in the dataset.
   int64 processed_rows = 3;
+  // Total count of rows in the dataset
+  int64 total_rows = 4;
 }
 
 message ValidateDatasetResponse {

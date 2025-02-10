@@ -16,6 +16,7 @@ import "yandex/cloud/mdb/redis/v1/config/redis6_0.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis6_2.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis7_0.proto";
 import "yandex/cloud/mdb/redis/v1/maintenance.proto";
+import "yandex/cloud/mdb/redis/v1/user.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -375,6 +376,12 @@ message CreateClusterRequest {
 
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 17;
+
+  // Descriptions of users to be created in the Redis cluster.
+  repeated UserSpec user_specs = 18 [(size) = ">=0"];
+
+  // Allows to use ACL users to auth in sentinel
+  bool auth_sentinel = 19;
 }
 
 message CreateClusterMetadata {
@@ -435,6 +442,9 @@ message UpdateClusterRequest {
 
   // Enable FQDN instead of ip
   bool announce_hostnames = 12;
+
+  // Allows to use ACL users to auth in sentinel
+  bool auth_sentinel = 13;
 }
 
 message UpdateClusterMetadata {
@@ -602,6 +612,9 @@ message RestoreClusterRequest {
   
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 15;
+
+  // Allows to use ACL users to auth in sentinel
+  bool auth_sentinel = 16;
 }
 
 message RestoreClusterMetadata {

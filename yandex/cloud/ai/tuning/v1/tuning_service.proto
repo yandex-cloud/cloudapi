@@ -96,6 +96,10 @@ message TuningRequest {
     TextToTextCompletionTuningParams text_to_text_completion = 100;
     TextClassificationMultilabelParams text_classification_multilabel = 101;
     TextClassificationMulticlassParams text_classification_multiclass = 102;
+    // TextEmbeddingPairParams  is unimplemented
+    TextEmbeddingPairParams text_embedding_pair_params = 103;
+    // TextEmbeddingTripletParams  is unimplemented
+    TextEmbeddingTripletParams text_embedding_triplet_params = 104;
   }
 
   string name = 200;
@@ -106,7 +110,7 @@ message TuningRequest {
     string dataset_id = 1 [(required) = true];
     double weight = 2;
   }
-  reserved 4 to 99, 103 to 199;
+  reserved 4 to 99, 105 to 199;
 }
 
 message TextToTextCompletionTuningParams {
@@ -203,6 +207,76 @@ message TextClassificationMulticlassParams {
     }
   }
   reserved 4 to 6, 8 to 99, 102 to 199;
+}
+
+message TextEmbeddingPairParams {
+  int64 seed = 1;
+  double lr = 2;
+  int64 n_samples = 3;
+  string additional_arguments = 7;
+  repeated int64 embedding_dims = 8;
+
+  oneof tuning_type {
+    TuningTypeLora lora = 100;
+    TuningTypePromptTune prompt_tune = 101;
+  }
+
+  Scheduler scheduler = 200;
+  Optimizer optimizer = 201;
+
+  message Scheduler {
+    oneof type {
+      SchedulerLinear linear = 1;
+      SchedulerConstant constant = 2;
+      SchedulerCosine cosine = 3;
+    }
+    oneof optional_warmup_ratio {
+      double warmup_ratio = 101;
+    }
+    reserved 4 to 100;
+  }
+
+  message Optimizer {
+    oneof type {
+      OptimizerAdamw adamw = 1;
+    }
+  }
+  reserved 4 to 6, 9 to 99, 102 to 199;
+}
+
+message TextEmbeddingTripletParams {
+  int64 seed = 1;
+  double lr = 2;
+  int64 n_samples = 3;
+  string additional_arguments = 7;
+  repeated int64 embedding_dims = 8;
+
+  oneof tuning_type {
+    TuningTypeLora lora = 100;
+    TuningTypePromptTune prompt_tune = 101;
+  }
+
+  Scheduler scheduler = 200;
+  Optimizer optimizer = 201;
+
+  message Scheduler {
+    oneof type {
+      SchedulerLinear linear = 1;
+      SchedulerConstant constant = 2;
+      SchedulerCosine cosine = 3;
+    }
+    oneof optional_warmup_ratio {
+      double warmup_ratio = 101;
+    }
+    reserved 4 to 100;
+  }
+
+  message Optimizer {
+    oneof type {
+      OptimizerAdamw adamw = 1;
+    }
+  }
+  reserved 4 to 6, 9 to 99, 102 to 199;
 }
 
 message GetMetricsUrlRequest {

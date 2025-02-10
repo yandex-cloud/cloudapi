@@ -65,6 +65,14 @@ service BackupService {
       response: "google.protobuf.Empty"
     };
   }
+
+  // Delete specific archive.
+  rpc DeleteArchive(DeleteArchiveRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+        metadata: "DeleteArchiveMetadata"
+        response: "google.protobuf.Empty"
+    };
+  }
 }
 
 message ListArchivesRequest {
@@ -240,4 +248,37 @@ message DeleteBackupMetadata {
   string compute_instance_id = 1;
   // Backup ID that should be deleted.
   string backup_id = 2;
+}
+
+message DeleteArchiveRequest {
+  // must be specified archive_id and folder/instance_id 
+  // or pair of policy id and instance_id
+
+  // Archive ID that should be deleted.
+  string archive_id = 1 [(required) = false];
+
+  // Folder ID of the archive to delete.
+  string folder_id = 2 [
+    (required) = false,
+    (length) = "<=50"
+  ];
+
+  // Instance ID of the Archive.
+  string instance_id = 3 [
+    (required) = false,
+    (length) = "<=50"
+  ];
+
+  // Policy ID of the Archive.
+  string policy_id = 4 [
+    (required) = false,
+    (length) = "<=50"
+  ];
+}
+
+message DeleteArchiveMetadata {
+  // Archive ID that should be deleted.
+  string archive_id = 1;
+  // Folder ID of the archive.
+  string folder_id = 2;
 }

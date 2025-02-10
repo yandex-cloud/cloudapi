@@ -5,6 +5,7 @@ package yandex.cloud.k8s.v1;
 import "google/type/dayofweek.proto";
 import "google/type/timeofday.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
 
 import "yandex/cloud/validation.proto";
 
@@ -50,4 +51,15 @@ message DaysOfWeekMaintenanceWindow {
 message WeeklyMaintenanceWindow {
   // Days of the week and the maintenance window for these days when automatic updates are allowed.
   repeated DaysOfWeekMaintenanceWindow days_of_week = 1 [(size) = "1-7"];
+}
+
+message ScheduledMaintenance {
+  // Time until which the update should be postponed.
+  google.protobuf.Timestamp delayed_until = 1;
+  // Time when the update became available.
+  google.protobuf.Timestamp available_from = 2;
+  // The latest possible date by which a mandatory update must be applied.
+  google.protobuf.Timestamp no_later_than = 3;
+  // Description of the planned operation, for example, "Infrastructure planned update".
+  string description = 4;
 }

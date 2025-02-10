@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package yandex.cloud.k8s.v1;
 
+import "google/protobuf/timestamp.proto";
+
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
@@ -83,6 +85,18 @@ service ClusterService {
     option (yandex.cloud.api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
+    };
+  }
+
+  // Reschedules mandatory maintenance for the specified cluster.
+  rpc RescheduleMaintenance(RescheduleMaintenanceRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/managed-kubernetes/v1/clusters/{cluster_id}:reschedule-maintenance"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "RescheduleMaintenanceMetadata"
+      response: "google.protobuf.Empty"
     };
   }
 
@@ -501,4 +515,15 @@ message LocationSpec {
   // ID of the VPC network's subnet where the master resides.
   // If not specified and there is a single subnet in specified zone, address in this subnet will be allocated.
   string subnet_id = 2;
+}
+
+message RescheduleMaintenanceRequest {
+  // ID of the Kubernetes cluster to reschedule maintenance.
+  string cluster_id = 1 [(required) = true];
+  // Time until which the update should be postponed.
+  google.protobuf.Timestamp delayed_until = 2 [(required) = true];
+}
+
+message RescheduleMaintenanceMetadata {
+  string cluster_id = 1;
 }

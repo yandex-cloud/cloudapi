@@ -3,6 +3,8 @@ syntax = "proto3";
 package yandex.cloud.ai.assistants.v1.threads;
 
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/ai/assistants/v1/searchindex/search_index.proto";
+import "yandex/cloud/ai/files/v1/file.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1/threads;threads";
 option java_package = "yandex.cloud.api.ai.assistants.v1.threads";
@@ -46,6 +48,9 @@ message Message {
 
   // Status of the message.
   MessageStatus status = 8;
+
+  // List of citations used to generate the message.
+  repeated Citation citations = 9;
 }
 
 // Represents the content of a message, which can consist of multiple parts.
@@ -89,4 +94,37 @@ message Author {
 
   // Role of the author, indicating whether the message was created by a "user" or an "assistant".
   string role = 2;
+}
+
+// Represents a citation used for generating a message.
+message Citation {
+  // List of sources for citation.
+  repeated Source sources = 4;
+}
+
+// Represents a source used for generating a message citation.
+message Source {
+  // Specifies the type of source type.
+  oneof SourceType {
+    // File chunk source.
+    FileChunk chunk = 1;
+  }
+}
+
+// FileChunk represents a chunk of a file used as a source.
+message FileChunk {
+  // Search index associated with the file chunk.
+  yandex.cloud.ai.assistants.v1.searchindex.SearchIndex search_index = 1;
+
+  // The original file from which the chunk is derived.
+  yandex.cloud.ai.files.v1.File source_file = 2;
+
+  // Content of the file chunk.
+  ChunkContent content = 3;
+}
+
+// Represents the content of a file chunk.
+message ChunkContent {
+  // A list of content parts that make up the chunk.
+  repeated ContentPart content = 1;
 }

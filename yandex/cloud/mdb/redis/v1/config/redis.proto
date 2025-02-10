@@ -119,6 +119,9 @@ message RedisConfig {
 
   // Allow redis to use io-threads
   google.protobuf.BoolValue io_threads_allowed = 21;
+
+  // Controls max number of entries in zset before conversion from memory-efficient listpack to CPU-efficient hash table and skiplist
+  google.protobuf.Int64Value zset_max_listpack_entries = 22 [(value) = "32-2048"];
 }
 
 message RedisConfigSet {

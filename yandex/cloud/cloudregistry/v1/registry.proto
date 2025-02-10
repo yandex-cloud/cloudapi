@@ -30,6 +30,8 @@ message Registry {
     NPM = 2;
     // Registry kind is docker.
     DOCKER = 3;
+    // Registry kind is nuget.
+    NUGET = 4;
   }
   enum Type {
     TYPE_UNSPECIFIED = 0;

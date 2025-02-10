@@ -108,6 +108,8 @@ message Cluster {
   oneof network_implementation {
     Cilium cilium = 19;
   }
+
+  ScheduledMaintenance scheduled_maintenance = 20;
 }
 
 enum ReleaseChannel {
