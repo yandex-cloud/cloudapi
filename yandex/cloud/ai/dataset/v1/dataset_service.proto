@@ -208,12 +208,12 @@ message ListDatasetsRequest {
   // Folder ID of the datasets to list.
   string folder_id = 1 [(required) = true];
 
-  // Status of the datasets to list. Optional.
-  DatasetInfo.Status status = 2;
+  // Statuses of the datasets to list. Optional.
+  repeated DatasetInfo.Status status = 2;
   // Name substring of the datasets to list. Optional.
   string dataset_name_pattern = 3;
-  // Task type of the datasets to list. Optional.
-  string task_type_filter = 4;
+  // Task types of the datasets to list. Optional.
+  repeated string task_type_filter = 4;
 
  // The maximum number of results per page to return. If the number of available
  // results is larger than [page_size],

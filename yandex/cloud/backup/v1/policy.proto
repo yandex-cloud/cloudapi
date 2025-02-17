@@ -239,6 +239,22 @@ message PolicySettings {
         DO_NOT_USE = 3;
     }
 
+    message FileFilters {
+        // Do not backup files that match the following criteria
+        repeated string exclusion_masks = 1;
+
+        // Backup only files that match the following criteria
+        repeated string inclusion_masks = 2;
+
+        // Files masks examples:
+        // F???.log
+        // *.log
+        // C:\Data\Finance\F.log
+        // C:\Data\Finance (C:/Data/Finance)
+        // /home/user/Finance
+        // /home/user/Finance/F.log
+    }
+
     // Archive compression level.
     Compression compression = 1 [ (required) = true ];
     // Format of the Cyberprotect backup archive.
@@ -274,6 +290,8 @@ message PolicySettings {
     bool fast_backup_enabled = 17;
     // If true, a quiesced snapshot of the virtual machine will be taken.
     bool quiesce_snapshotting_enabled = 18;
+    // File filters to specify masks of files to backup or to exclude of backuping
+    FileFilters file_filters = 19;
 }
 
 message PolicyApplication {

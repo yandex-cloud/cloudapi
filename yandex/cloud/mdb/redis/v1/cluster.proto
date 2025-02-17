@@ -139,6 +139,9 @@ message Cluster {
 
   // Enable FQDN instead of ip
   bool announce_hostnames = 20;
+
+  // Allows to use ACL users to auth in sentinel
+  bool auth_sentinel = 21;
 }
 
 message Monitoring {

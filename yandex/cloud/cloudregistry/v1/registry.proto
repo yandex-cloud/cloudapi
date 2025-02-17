@@ -38,6 +38,8 @@ message Registry {
 
     // Registry type is local.
     LOCAL = 1;
+    REMOTE = 2;
+    VIRTUAL = 3;
   }
 
   // Output only. ID of the registry.

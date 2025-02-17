@@ -193,3 +193,9 @@ message ToolResultList {
   // A list of tool results.
   repeated ToolResult tool_results = 1;
 }
+
+// Represents the expected structure of the model's response using a JSON Schema.
+message JsonSchema {
+  // The JSON Schema that the model's output must conform to.
+  google.protobuf.Struct schema = 1;
+}
