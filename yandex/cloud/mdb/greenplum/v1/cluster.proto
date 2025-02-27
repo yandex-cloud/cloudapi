@@ -158,6 +158,12 @@ message Cluster {
 
   // Host groups hosting VMs of the segment subcluster.
   repeated string segment_host_group_ids = 28;
+
+  // Service account that will be used to access a Yandex Cloud resources
+  string service_account_id = 29;
+
+  // Cloud logging configuration
+  LoggingConfig logging = 30;
 }
 
 message ClusterConfigSet {
@@ -279,4 +285,22 @@ message RestoreResources {
 message CloudStorage {
   // enable Cloud Storage for cluster
   bool enable = 1;
+}
+
+message LoggingConfig {
+  bool enabled = 1;
+
+  oneof destination {
+    string folder_id = 2 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
+    string log_group_id = 3 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
+  }
+
+  reserved 4;
+
+  // send Yandex Command Center logs
+  bool command_center_enabled = 5;
+  // send Greenplum logs
+  bool greenplum_enabled = 6;
+  // send Pooler logs
+  bool pooler_enabled = 7;
 }

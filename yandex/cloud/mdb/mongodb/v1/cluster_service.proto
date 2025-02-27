@@ -660,7 +660,6 @@ message ListClusterLogsRequest {
     MONGOD = 1;
     MONGOS = 2;
     MONGOCFG = 3;
-    // MongoDB Enterprise audit logs
     AUDIT = 4;
   }
 

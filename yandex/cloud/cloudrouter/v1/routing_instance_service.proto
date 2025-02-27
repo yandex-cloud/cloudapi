@@ -3,7 +3,11 @@ syntax = "proto3";
 package yandex.cloud.cloudrouter.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+
 import "yandex/cloud/validation.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
 
 import "yandex/cloud/cloudrouter/v1/routing_instance.proto";
 
@@ -17,7 +21,7 @@ service RoutingInstanceService {
   //
   // To get the list of available RoutingInstance resources, make a [List] request.
   rpc Get (GetRoutingInstanceRequest) returns (RoutingInstance) {
-    option (google.api.http) = {get: "/vpc/v1/cloudrouter/{routing_instance_id}"};
+    option (google.api.http) = {get: "/cloudrouter/v1/routingInstances/{routing_instance_id}"};
   }
 
   // Returns the RoutingInstance resource by vpcNetworkId
@@ -32,7 +36,82 @@ service RoutingInstanceService {
 
   // Retrieves the list of RoutingInstance resources in the specified folder.
   rpc List (ListRoutingInstancesRequest) returns (ListRoutingInstancesResponse) {
-    option (google.api.http) = {get: "/vpc/v1/cloudrouters"};
+    option (google.api.http) = {get: "/cloudrouter/v1/routingInstances"};
+  }
+
+  // Creates a RoutingInstance resource in the specified folder using the data specified in the request.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
+  rpc Create (CreateRoutingInstanceRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "CreateRoutingInstanceMetadata"
+      response: "RoutingInstance"
+    };
+    option (google.api.http) = { post: "/cloudrouter/v1/routingInstances" body: "*" };
+  }
+
+  // Updates a RoutingInstance resource using the data specified in the request.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
+  rpc Update (UpdateRoutingInstanceRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateRoutingInstanceMetadata"
+      response: "RoutingInstance"
+    };
+    option (google.api.http) = { patch: "/cloudrouter/v1/routingInstances" body: "*" };
+  }
+ 
+  // Upserts specified prefixes to a RoutingInstance resource.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
+  rpc UpsertPrefixes (UpsertPrefixesRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateRoutingInstanceMetadata"
+      response: "RoutingInstance"
+    };
+    option (google.api.http) = { post: "/cloudrouter/v1/routingInstances/{routing_instance_id}:upsertPrefixes" body: "*" };
+  }
+
+  // Removes specified prefixes from a RoutingInstance resource.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
+  rpc RemovePrefixes (RemovePrefixesRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateRoutingInstanceMetadata"
+      response: "RoutingInstance"
+    };
+    option (google.api.http) = { post: "/cloudrouter/v1/routingInstances/{routing_instance_id}:removePrefixes" body: "*" };
+  }
+
+  // Adds specified PrivateConnection to a RoutingInstance resource.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
+  rpc AddPrivateConnection (AddPrivateConnectionRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateRoutingInstanceMetadata"
+      response: "RoutingInstance"
+    };
+    option (google.api.http) = { post: "/cloudrouter/v1/routingInstances/{routing_instance_id}:addPrivateConnection" body: "*" };
+  }
+
+  // Removes specified PrivateConnection from a RoutingInstance resource.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
+  rpc RemovePrivateConnection (RemovePrivateConnectionRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateRoutingInstanceMetadata"
+      response: "RoutingInstance"
+    };
+    option (google.api.http) = { post: "/cloudrouter/v1/routingInstances/{routing_instance_id}:removePrivateConnection" body: "*" };
+  }
+
+  // Deletes a RoutingInstance resource.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
+  rpc Delete (DeleteRoutingInstanceRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteRoutingInstanceMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = { delete: "/cloudrouter/v1/routingInstances/{routing_instance_id}" };
+  }
+
+  // Lists operations for the specified RoutingInstance.
+  rpc ListOperations (ListRoutingInstanceOperationsRequest) returns (ListRoutingInstanceOperationsResponse) {
+    option (google.api.http) = { get: "/cloudrouter/v1/routingInstances/{routing_instance_id}/operations" };
   }
 }
 
@@ -55,7 +134,7 @@ message GetRoutingInstanceByVpcNetworkIdRequest {
 }
 
 message ListRoutingInstancesRequest {
-  // ID of the folder to list routingInstance in.
+  // ID of the folder to list RoutingInstance resources.
   // To get the folder ID use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [(required) = true, (length) = "<=50"];
 
@@ -85,6 +164,177 @@ message ListRoutingInstancesResponse {
   // is larger than [ListRoutingInstancesResponse.page_size], use
   // the [next_page_token] as the value
   // for the [ListRoutingInstanceResponses.page_token] query parameter
+  // in the next list request. Subsequent list requests will have their own
+  // [next_page_token] to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message CreateRoutingInstanceRequest {
+  // Name of the RoutingInstance.
+  // The name must be unique within the folder.
+  // Value must match the regular expression ``\|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?``.
+  string name = 1;
+
+  // Optional description of the RoutingInstance. 0-256 characters long.
+  string description = 2;
+
+  reserved 3;
+
+  // ID of the folder that the RoutingInstance belongs to.
+  string folder_id = 4;
+
+  // ID of the region that the routingInstance belongs to.
+  string region_id = 5;
+
+  // List of the info about vpcNetworks which are attached to the RoutingInstance.
+  repeated RoutingInstance.VpcInfo vpc_info = 6;
+
+  // List of the info about privateConnections which are attached to the RoutingInstance.
+  repeated RoutingInstance.CicPrivateConnectionInfo cic_private_connection_info = 7;
+
+  reserved 8 to 11;
+
+  // Resource labels, `key:value` pairs.
+  // No more than 64 per resource.
+  // The maximum string length in characters for each value is 63.
+  // Each value must match the regular expression `[-_0-9a-z]*`.
+  // The string length in characters for each key must be 1-63.
+  // Each key must match the regular expression `[a-z][-_0-9a-z]*`.
+  map<string, string> labels = 12 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+}
+
+message CreateRoutingInstanceMetadata {
+  // ID of the RoutingInstance resource.
+  string routing_instance_id = 1;
+}
+
+message UpdateRoutingInstanceRequest {
+  // ID of the RoutingInstance resource to return.
+  string routing_instance_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Field mask that specifies which fields of the RoutingInstance resource are going to be updated.
+  google.protobuf.FieldMask update_mask = 2;
+
+  // Name of the RoutingInstance.
+  // The name must be unique within the folder.
+  // Value must match the regular expression ``\|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?``.
+  string name = 3;
+  
+  // Optional description of the RoutingInstance. 0-256 characters long.
+  string description = 4;
+
+  reserved 5 to 6;
+  
+  // ID of the region that the routingInstance belongs to.
+  string region_id = 7;
+
+  // List of the info about vpcNetworks which are attached to the RoutingInstance.
+  repeated RoutingInstance.VpcInfo vpc_info = 8;
+  
+  // List of the info about privateConnections which are attached to the RoutingInstance.
+  repeated RoutingInstance.CicPrivateConnectionInfo cic_private_connection_info = 9;
+
+  reserved 10 to 13;
+
+  // Resource labels, `key:value` pairs.
+  // No more than 64 per resource.
+  // The maximum string length in characters for each value is 63.
+  // Each value must match the regular expression `[-_0-9a-z]*`.
+  // The string length in characters for each key must be 1-63.
+  // Each key must match the regular expression `[a-z][-_0-9a-z]*`.
+  map<string, string> labels = 14 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+}
+
+message UpdateRoutingInstanceMetadata {
+  // ID of the RoutingInstance resource.
+  string routing_instance_id = 1;
+}
+
+message UpsertPrefixesRequest {
+  // ID of the RoutingInstance resource.
+  string routing_instance_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the VpcNetwork to update.
+  string vpc_network_id = 2;
+
+  // List of VpcAzInfoPrefixes to upsert.
+  repeated VpcAzInfoPrefixes vpc_az_info_prefixes = 3;
+
+  reserved 4 to 6;
+}
+
+message RemovePrefixesRequest {
+  // ID of the RoutingInstance resource.
+  string routing_instance_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the VpcNetwork to update.
+  string vpc_network_id = 2;
+
+  // List of VpcAzInfoPrefixes to remove.
+  repeated VpcAzInfoPrefixes vpc_az_info_prefixes = 3;
+}
+
+message VpcAzInfoPrefixes {
+  // ID of the AZ.
+  string az_id = 1;
+
+  // List of prefixes.
+  repeated string prefixes = 2;
+
+  reserved 3;
+}
+
+message AddPrivateConnectionRequest {
+  // ID of the RoutingInstance resource.
+  string routing_instance_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the PrivateConnection to add to the RoutingInstance.
+  string cic_private_connection_id = 2;
+
+  reserved 3 to 8;
+}
+
+message RemovePrivateConnectionRequest {
+  // ID of the RoutingInstance resource.
+  string routing_instance_id = 1 [(required) = true, (length) = "<=50"];
+  
+  // ID of the PrivateConnection to remove from the RoutingInstance.
+  string cic_private_connection_id = 2;
+}
+
+message DeleteRoutingInstanceRequest {
+  // ID of the RoutingInstance resource.
+  string routing_instance_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message DeleteRoutingInstanceMetadata {
+  // ID of the RoutingInstance resource.
+  string routing_instance_id = 1;
+}
+
+message ListRoutingInstanceOperationsRequest {
+  // ID of the RoutingInstance resource.
+  string routing_instance_id = 1 [(required) = true, (length) = "<=50"];
+
+  // The maximum number of results per page to return. If the number of available
+  // results is larger than [page_size],
+  // the service returns a [ListRoutingInstanceOperationsResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests. Default value: 100.  
+  int64 page_size = 2;
+  
+  // Page token. To get the next page of results, set [page_token] to the
+  // [ListRoutingInstanceOperationsResponse.next_page_token] returned by a previous list request.
+  string page_token = 3;
+}
+
+message ListRoutingInstanceOperationsResponse {
+  // List of RoutingInstance operations.
+  repeated operation.Operation operations = 1;
+
+  // This token allows you to get the next page of results for list requests. If the number of results
+  // is larger than [ListRoutingInstanceOperationsRequest.page_size], use
+  // the [next_page_token] as the value
+  // for the [ListRoutingInstanceOperationsRequest.page_token] query parameter
   // in the next list request. Subsequent list requests will have their own
   // [next_page_token] to continue paging through the results.
   string next_page_token = 2;

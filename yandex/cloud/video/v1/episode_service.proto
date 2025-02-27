@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.video.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/api/operation.proto";
@@ -323,6 +324,9 @@ message GetEpisodePlayerURLRequest {
   // ID of the episode.
   string episode_id = 1 [(required) = true, (length) = "<=50"];
   EpisodePlayerParams params = 2;
+
+  // Optional field, used to set custom url expiration duration for episodes with sign_url_access
+  google.protobuf.Duration signed_url_expiration_duration = 3;
 }
 
 message EpisodePlayerParams {

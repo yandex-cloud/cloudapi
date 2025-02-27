@@ -162,7 +162,7 @@ message ACL {
     GrantType grant_type = 2 [(required) = true];
 
     // ID of the account who is a grantee. Required when the [grant_type] is `GRANT_TYPE_ACCOUNT`.
-    string grantee_id = 3;
+    string grantee_id = 3 [(length) = "<=50"];
   }
 
   // List of permissions granted and the grantees.

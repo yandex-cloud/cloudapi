@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package yandex.cloud.cloudrouter.v1;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cloudrouter/v1;cloudrouter";
 option java_package = "yandex.cloud.api.cloudrouter.v1";
 
@@ -25,16 +27,21 @@ message RoutingInstance {
     // ID of the region that the routingInstance belongs to.
     string region_id = 6;
 
-    // List of the info about vpcNetworks which are attached to routingInstance
+    // List of the info about vpcNetworks which are attached to routingInstance.
     repeated VpcInfo vpc_info = 7;
 
-    // List of the info about privateConnections which are attached to routingInstance
+    // List of the info about privateConnections which are attached to routingInstance.
     repeated CicPrivateConnectionInfo cic_private_connection_info = 8;
 
     // Status of the routingInstance.
     Status status = 9;
 
-    reserved 10 to 23;
+    reserved 10;
+
+    // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+    google.protobuf.Timestamp created_at = 11;
+  
+    reserved 12 to 23;
 
     // Resource labels, `key:value` pairs.
     // No more than 64 per resource.

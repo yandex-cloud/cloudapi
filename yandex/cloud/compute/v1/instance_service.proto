@@ -488,6 +488,11 @@ message CreateInstanceRequest {
 
   // Serial port settings
   SerialPortSettings serial_port_settings = 23;
+
+  // ID of the reserved instance pool that the instance should belong to.
+  // Instance will be created using resources from the reserved instance pool.
+  // Reserved instance pool resource configuration must match the resource configuration of the instance.
+  string reserved_instance_pool_id = 24 [(length) = "<=50"];
 }
 
 message CreateInstanceMetadata {
@@ -571,6 +576,12 @@ message UpdateInstanceRequest {
 
   // Serial port settings
   SerialPortSettings serial_port_settings = 16;
+
+  // ID of the reserved instance pool that the instance should belong to.
+  // Attaching/detaching running instance will increase/decrease the size of the reserved instance pool.
+  // Attaching/detaching stopped instance will leave the size of the reserved instance pool unchanged. Starting such attached instance will use resources from the reserved instance pool.
+  // Reserved instance pool resource configuration must match the resource configuration of the instance.
+  string reserved_instance_pool_id = 17 [(length) = "<=50"];
 }
 
 message UpdateInstanceMetadata {

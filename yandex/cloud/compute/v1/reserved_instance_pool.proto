@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package yandex.cloud.compute.v1;
+
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/compute/v1/instance.proto";
+import "yandex/cloud/compute/v1/instance_service.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1;compute";
+option java_package = "yandex.cloud.api.compute.v1";
+
+message ProductIDs {
+  // License IDs that indicate which licenses are attached to resource.
+  // License IDs are used to calculate additional charges for the use of the virtual machine.
+  repeated string product_ids = 1 [(length) = "<=50"];
+}
+
+// Specification used to determine required product_ids
+// You can specify product ids explicitly or use disk_id|image_id|snapshot_id to infer products ids from them.
+message BootDiskSpec {
+  oneof boot_source {
+    option (exactly_one) = true;
+
+    // Disk ID.
+    string disk_id = 1 [(length) = "<=50"];
+
+    // Image ID.
+    string image_id = 2 [(length) = "<=50"];
+
+    // Snapshot ID.
+    string snapshot_id = 3 [(length) = "<=50"];
+
+    // Product IDs.
+    ProductIDs product_ids = 4;
+  }
+}
+
+// A Reserved Instance Pool resource. 
+message ReservedInstancePool {
+  // ID of the pool.
+  string id = 1;
+
+  // ID of the availability zone where the pool resides.
+  string zone_id = 2;
+
+  // ID of the cloud that the pool belongs to.
+  string cloud_id = 3;
+
+  // ID of the folder that the pool belongs to.
+  string folder_id = 4;
+
+  // Name of the pool. 1-63 characters long.
+  string name = 5;
+
+  // Description of the pool. 0-256 characters long.
+  string description = 6;
+
+  // Resource labels as `key:value` pairs. Maximum of 64 per resource.
+  map<string, string> labels = 7;
+
+  google.protobuf.Timestamp created_at = 8;
+
+  // ID of the hardware platform configuration for pool instances.
+  string platform_id = 9;
+
+  // Computing resources of pool instances, such as the amount of memory and number of cores.
+  ResourcesSpec resources_spec = 10;
+
+  // GPU settings.
+  GpuSettings gpu_settings = 11;
+  
+  // License IDs that indicate which licenses are attached to resource.
+  // License IDs are used to calculate additional charges for the use of the virtual machine.
+  repeated string product_ids = 12;
+
+  // Network Settings.
+  NetworkSettings network_settings = 13;
+
+  // Desired size of the pool (number of slots for instances in this pool).
+  int64 size = 14;
+}

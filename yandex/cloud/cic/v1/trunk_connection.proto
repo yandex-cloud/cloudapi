@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.cic.v1;
 
 import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
 import "yandex/cloud/cic/v1/common/transceiver_type.proto";
 import "yandex/cloud/cic/v1/common/lag_allocation_settings.proto";
 
@@ -31,7 +32,10 @@ message TrunkConnection {
   // ID of the region that the trunkConnection belongs to.
   string region_id = 6;
 
-  reserved 7 to 8;
+  // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  google.protobuf.Timestamp created_at = 7;
+  
+  reserved 8;
 
   // Special trunkConnection config
   oneof joint {
@@ -57,6 +61,13 @@ message TrunkConnection {
   // The string length in characters for each key must be 1-63.
   // Each key must match the regular expression `[a-z][-_0-9a-z]*`.
   map<string, string> labels = 23;
+
+  // Status of the trunkConnection.
+  Status status = 24;
+
+  // Optional deletion protection flag.
+  // If set prohibits deletion of the trunkConnection.
+  bool deletion_protection = 25;
 
   // Config of trunkConnection that is deployed on partner joint.
   message PartnerJointInfo {
@@ -121,5 +132,13 @@ message TrunkConnection {
     CAPACITY_40_GBPS = 15;
     CAPACITY_50_GBPS = 16;
     CAPACITY_100_GBPS = 17;
+  }
+
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+    CREATING = 1;
+    UPDATING = 2;
+    DELETING = 3;
+    ACTIVE = 4;
   }
 }

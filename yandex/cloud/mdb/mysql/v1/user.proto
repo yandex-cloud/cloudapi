@@ -164,6 +164,12 @@ enum AuthPlugin {
 
   // Use [SHA-256 Pluggable Authentication](https://dev.mysql.com/doc/refman/8.0/en/sha256-pluggable-authentication.html).
   SHA256_PASSWORD = 3;
+
+  // Use [MYSQL_NO_LOGIN Pluggable Authentication](https://dev.mysql.com/doc/refman/8.0/en/no-login-pluggable-authentication.html).
+  MYSQL_NO_LOGIN = 4;
+
+  // Use [IAM Pluggable Authentication](https://yandex.cloud/en/docs/iam/concepts/authorization/).
+  MDB_IAMPROXY_AUTH = 5;
 }
 
 message ConnectionManager {

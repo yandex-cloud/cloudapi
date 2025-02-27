@@ -7,7 +7,7 @@ option java_package = "yandex.cloud.api.cic.v1";
 
 // A Partner resource.
 message Partner {
-  // ID of the routingInstance.
+  // ID of the partner.
   string id = 1;
 
   reserved 2 to 5;

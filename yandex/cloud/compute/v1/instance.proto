@@ -140,6 +140,9 @@ message Instance {
 
   // This feature set is inherited from the image/disk used as a boot one at the creation of the instance.
   HardwareGeneration hardware_generation = 31;
+
+  // ID of the reserved instance pool that the instance belongs to.
+  string reserved_instance_pool_id = 32;
 }
 
 message Resources {

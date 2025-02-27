@@ -302,6 +302,8 @@ message GetOptionsResponse {
     TextToTextCompletionTuningParams text_to_text_completion = 100;
     TextClassificationMultilabelParams text_classification_multilabel = 101;
     TextClassificationMulticlassParams text_classification_multiclass = 102;
+    TextEmbeddingPairParams text_embedding_pair_params = 103;
+    TextEmbeddingTripletParams text_embedding_triplet_params = 104;
   }
 
   reserved 5 to 99;

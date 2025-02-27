@@ -297,6 +297,12 @@ message CreateClusterRequest {
 
   // Host groups hosting VMs of the segment subcluster.
   repeated string segment_host_group_ids = 23;
+
+  // ID of the service account used for access Yandex Cloud resources.
+  string service_account_id = 24;
+
+  // Cloud logging configuration
+  LoggingConfig logging = 25;
 }
 
 // Configuration of Greenplum® and Odyssey®.
@@ -392,6 +398,12 @@ message UpdateClusterRequest {
 
   // Cloud storage settings
   CloudStorage cloud_storage = 20;
+
+  // ID of the service account used for access YC resources.
+  string service_account_id = 21;
+
+  // Cloud logging configuration
+  LoggingConfig logging = 22;
 }
 
 message UpdateClusterMetadata {
@@ -876,6 +888,11 @@ message RestoreClusterRequest {
 
   // Host groups hosting VMs of the segment subcluster.
   repeated string segment_host_group_ids = 21;
+
+  reserved 22, 23;
+
+  // Service account that will be used to access a Yandex Cloud resources
+  string service_account_id = 24;
 }
 
 message RestoreClusterMetadata {
