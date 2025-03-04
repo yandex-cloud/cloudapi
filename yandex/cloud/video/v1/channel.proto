@@ -9,7 +9,6 @@ option java_package = "yandex.cloud.api.video.v1";
 
 // Root entity for content separation.
 message Channel {
-
   // Reserved for future use.
   reserved 5 to 99, 102 to 199;
 
@@ -30,4 +29,33 @@ message Channel {
 
   // Custom labels as `` key:value `` pairs. Maximum 64 per resource.
   map<string, string> labels = 200;
+  // Channel settings.
+  ChannelSettings settings = 201;
+}
+
+// Channel settings.
+message ChannelSettings {
+  // Advertisement settings.
+  AdvertisementSettings advertisement = 1;
+}
+
+// Advertisement settings.
+message AdvertisementSettings {
+  // Reserved for future use.
+  reserved 1 to 99;
+
+  // Advertisement provider.
+  oneof provider {
+    YandexDirect yandex_direct = 100;
+  }
+
+  // YandexDirect provider settings.
+  message YandexDirect {
+    // Enable Partner Ad for Live and VOD content.
+    bool enable = 1;
+    // Advertisement page ID.
+    int64 page_id = 2;
+    // Advertisement category.
+    int64 category = 3;
+  }
 }

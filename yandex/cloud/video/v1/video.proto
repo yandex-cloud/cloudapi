@@ -4,6 +4,7 @@ package yandex.cloud.video.v1;
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
 option java_package = "yandex.cloud.api.video.v1";
@@ -12,7 +13,7 @@ message Video {
   reserved 2001;
 
   // Reserved for future use.
-  reserved 7, 10, 13 to 99, 102 to 199, 201 to 999, 1001 to 1999;
+  reserved 7, 10, 13 to 16, 18 to 99, 102 to 199, 201 to 999, 1001 to 1999;
 
   // ID of the video.
   string id = 1;
@@ -39,6 +40,10 @@ message Video {
   // If set to ENABLE, transcoding process is initiated automatically after video upload.
   // If set to DISABLE, manual "Transcode()" call is required instead.
   AutoTranscode auto_transcode = 11;
+  // Enable advertisement for this video.
+  // Default: true.
+  // Use this to disable advertisement for a specific video.
+  google.protobuf.BoolValue enable_ad = 17;
 
   // IDs of active video subtitles.
   repeated string subtitle_ids = 12;

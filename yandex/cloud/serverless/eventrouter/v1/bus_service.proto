@@ -134,6 +134,12 @@ message CreateBusRequest {
   
   // Flag that disallow deletion of the bus.
   bool deletion_protection = 5;
+
+  // Is logging from the bus enabled.
+  bool logging_enabled = 6;
+
+  // Options for logging from the bus.
+  LogOptions log_options = 7;
 }
 
 message CreateBusMetadata {
@@ -162,6 +168,12 @@ message UpdateBusRequest {
   
   // New flag that disallow deletion of the bus.
   bool deletion_protection = 6;
+
+  // Is logging from the bus enabled.
+  bool logging_enabled = 7;
+
+  // New options for logging from the bus.
+  LogOptions log_options = 8;
 }
 
 message UpdateBusMetadata {

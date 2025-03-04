@@ -180,6 +180,18 @@ message UserSettings {
     LOAD_BALANCING_ROUND_ROBIN = 5;
   }
 
+  // Controls how the query cache handles SELECT queries with non-deterministic functions like rand() or now().
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#query_cache_nondeterministic_function_handling).
+  enum QueryCacheNondeterministicFunctionHandling {
+    QUERY_CACHE_NONDETERMINISTIC_FUNCTION_HANDLING_UNSPECIFIED = 0;
+    // Throw an exception and don't cache the query result.
+    QUERY_CACHE_NONDETERMINISTIC_FUNCTION_HANDLING_THROW = 1;
+    // Cache the query result.
+    QUERY_CACHE_NONDETERMINISTIC_FUNCTION_HANDLING_SAVE = 2;
+    // Don't cache the query result and don't throw an exception.
+    QUERY_CACHE_NONDETERMINISTIC_FUNCTION_HANDLING_IGNORE = 3;
+  }
+
   // Restricts permissions for non-DDL queries. To restrict permissions for DDL queries, use [allow_ddl] instead.
   // * **0** (default)-no restrictions.
   // * **1**-only read data queries are allowed.
@@ -858,6 +870,14 @@ message UserSettings {
   // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#setting-max_http_get_redirects).
   google.protobuf.Int64Value max_http_get_redirects = 112;
 
+  // Maximum length of field name in HTTP header.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#http_max_field_name_size).
+  google.protobuf.Int64Value http_max_field_name_size = 150;
+
+  // Maximum length of field value in HTTP header.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#http_max_field_value_size).
+  google.protobuf.Int64Value http_max_field_value_size = 151;
+
   google.protobuf.BoolValue joined_subquery_requires_alias = 93;
 
   google.protobuf.BoolValue join_use_nulls = 94;
@@ -921,10 +941,9 @@ message UserSettings {
   // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#async-insert-busy-timeout-ms).
   google.protobuf.Int64Value async_insert_busy_timeout = 122;
 
-  // The maximum timeout in milliseconds since the last INSERT query before dumping collected data. If enabled, the settings prolongs the [async_insert_busy_timeout] with every INSERT query as long as [async_insert_max_data_size] is not exceeded.
-  //
-  // More info see in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings/#async-insert-stale-timeout-ms).
-  google.protobuf.Int64Value async_insert_stale_timeout = 123;
+  // If it is set to true, use adaptive busy timeout for asynchronous inserts.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#async_insert_use_adaptive_busy_timeout).
+  google.protobuf.BoolValue async_insert_use_adaptive_busy_timeout = 152;
 
   // Memory profiler step (in bytes).
   //
@@ -949,6 +968,14 @@ message UserSettings {
   // Enables or disables the insertion of JSON data with nested objects.
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#input-format-parallel-parsing)
   google.protobuf.BoolValue input_format_import_nested_json = 128;
+
+  // Avro schema registry URL.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/formats#format_avro_schema_registry_url).
+  string format_avro_schema_registry_url = 148;
+
+  // Allows data types without explicit modifiers NULL or NOT NULL in column definition will be Nullable.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#data_type_default_nullable).
+  google.protobuf.BoolValue data_type_default_nullable = 149;
 
   // Method of reading data from local filesystem, one of: read, pread, mmap, io_uring, pread_threadpool. The 'io_uring' method is experimental and does not work for Log, TinyLog, StripeLog, File, Set and Join, and other tables with append-able files in presence of concurrent reads and writes.
   LocalFilesystemReadMethod local_filesystem_read_method = 129;
@@ -1006,9 +1033,66 @@ message UserSettings {
   google.protobuf.Int64Value memory_usage_overcommit_max_wait_microseconds = 138 [(value) = ">=0"];
 
   // Setting up query threads logging. Query threads log into the [system.query_thread_log](https://clickhouse.com/docs/en/operations/system-tables/query_thread_log) table. This setting has effect only when [log_queries](https://clickhouse.com/docs/en/operations/settings/settings#log-queries) is true. Queries threads run by ClickHouse with this setup are logged according to the rules in the [query_thread_log](https://clickhouse.com/docs/en/operations/server-configuration-parameters/settings#server_configuration_parameters-query_thread_log) server configuration parameter.
-  // Default: true
+  // Default: false
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#log_query_threads)
   google.protobuf.BoolValue log_query_threads = 139;
+
+  // Enables or disables query views logging to the the system.query_view_log table.
+  // Default: true
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#log_query_views)
+  google.protobuf.BoolValue log_query_views = 146;
+
+  // Log queries with the specified probability.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#log_queries_probability).
+  google.protobuf.DoubleValue log_queries_probability = 153;
+
+  // Enabled or disable logging of processors level profiling data to the the system.log_processors_profiles table.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#log_processors_profiles).
+  google.protobuf.BoolValue log_processors_profiles = 154;
+
+  // If turned on, SELECT queries may utilize the query cache.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#use_query_cache).
+  google.protobuf.BoolValue use_query_cache = 155;
+
+  // If turned on, results of SELECT queries are retrieved from the query cache.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#enable_reads_from_query_cache).
+  google.protobuf.BoolValue enable_reads_from_query_cache = 156;
+
+  // If turned on, results of SELECT queries are stored in the query cache.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#enable_writes_to_query_cache).
+  google.protobuf.BoolValue enable_writes_to_query_cache = 157;
+
+  // Minimum number of times a SELECT query must run before its result is stored in the query cache.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#query_cache_min_query_runs).
+  google.protobuf.Int64Value query_cache_min_query_runs = 158;
+
+  // Minimum duration in milliseconds a query needs to run for its result to be stored in the query cache.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#query_cache_min_query_duration).
+  google.protobuf.Int64Value query_cache_min_query_duration = 159;
+
+  // After this time in seconds entries in the query cache become stale.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#query_cache_ttl).
+  google.protobuf.Int64Value query_cache_ttl = 160;
+
+  // The maximum number of query results the current user may store in the query cache. 0 means unlimited.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#query_cache_max_entries).
+  google.protobuf.Int64Value query_cache_max_entries = 161;
+
+  // The maximum amount of memory (in bytes) the current user may allocate in the query cache. 0 means unlimited.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#query_cache_max_size_in_bytes).
+  google.protobuf.Int64Value query_cache_max_size_in_bytes = 162;
+
+  // A string which acts as a label for query cache entries. The same queries with different tags are considered different by the query cache.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#query_cache_tag).
+  string query_cache_tag = 163;
+
+  // If turned on, the result of SELECT queries cached in the query cache can be read by other users. It is not recommended to enable this setting due to security reasons.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#query_cache_share_between_users).
+  google.protobuf.BoolValue query_cache_share_between_users = 164;
+
+  // Controls how the query cache handles SELECT queries with non-deterministic functions like rand() or now().
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#query_cache_nondeterministic_function_handling).
+  QueryCacheNondeterministicFunctionHandling query_cache_nondeterministic_function_handling = 165;
 
   // The maximum number of threads to execute the INSERT SELECT query.
   // Default: 0
@@ -1035,16 +1119,28 @@ message UserSettings {
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#load_balancing)
   LoadBalancing load_balancing = 144;
 
-  // Enables/disables preferable using the localhost replica when processing distributed queries.
+  // Enables or disables preferable using the localhost replica when processing distributed queries.
   // Default: true
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#prefer_localhost_replica)
   google.protobuf.BoolValue prefer_localhost_replica = 145;
+
+  // Enables or disable independent processing of partitions for SELECT queries with FINAL.
+  // Default: false
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/guides/replacing-merge-tree#exploiting-partitions-with-replacingmergetree)
+  google.protobuf.BoolValue do_not_merge_across_partitions_select_final = 147;
+
+  // Ignore materialized views with dropped target table during pushing to views.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#ignore_materialized_views_with_dropped_target_table).
+  google.protobuf.BoolValue ignore_materialized_views_with_dropped_target_table = 166;
 
   // The setting is deprecated and has no effect.
   google.protobuf.BoolValue compile = 44 [deprecated = true];
 
   // The setting is deprecated and has no effect.
   google.protobuf.Int64Value min_count_to_compile = 45 [deprecated = true];
+
+  // The setting is deprecated and has no effect.
+  google.protobuf.Int64Value async_insert_stale_timeout = 123 [deprecated = true];
 }
 
 // ClickHouse quota representation. Each quota associated with an user and limits it resource usage for an interval.

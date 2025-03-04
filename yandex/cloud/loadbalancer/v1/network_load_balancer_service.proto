@@ -192,6 +192,9 @@ message CreateNetworkLoadBalancerRequest {
 
   // Specifies if network load balancer protected from deletion.
   bool deletion_protection = 9;
+
+  // Specifies if network load balancer available to zonal shift.
+  bool allow_zonal_shift = 10;
 }
 
 message CreateNetworkLoadBalancerMetadata {
@@ -227,6 +230,9 @@ message UpdateNetworkLoadBalancerRequest {
 
   // Specifies if network load balancer protected from deletion.
   bool deletion_protection = 8;
+  
+  // Specifies if network load balancer available to zonal shift.
+  bool allow_zonal_shift = 9;
 }
 
 message UpdateNetworkLoadBalancerMetadata {

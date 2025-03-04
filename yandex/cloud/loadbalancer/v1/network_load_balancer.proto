@@ -108,6 +108,9 @@ message NetworkLoadBalancer {
 
   // Specifies if network load balancer protected from deletion.
   bool deletion_protection = 14;
+
+  // Specifies if network load balancer available to zonal shift.
+  bool allow_zonal_shift = 15;
 }
 
 // An AttachedTargetGroup resource. For more information, see [Targets and groups](/docs/network-load-balancer/concepts/target-resources).

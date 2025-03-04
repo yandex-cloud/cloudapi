@@ -5,6 +5,7 @@ package yandex.cloud.video.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -183,7 +184,7 @@ message CreateVideoRequest {
   reserved 2001;
 
   // Reserved for future use.
-  reserved 6 to 199, 201 to 999, 1001 to 1999;
+  reserved 6 to 7, 9 to 199, 201 to 999, 1001 to 1999;
 
   // ID of the channel.
   string channel_id = 1 [(required) = true, (length) = "<=50"];
@@ -196,6 +197,11 @@ message CreateVideoRequest {
   string thumbnail_id = 4 [(length) = "<=50"];
   // Auto start transcoding.
   AutoTranscode auto_transcode = 5;
+
+  // Enable advertisement for this video.
+  // Default: true.
+  // Use this to disable advertisement for a specific video.
+  google.protobuf.BoolValue enable_ad = 8;
 
   // Custom labels as `` key:value `` pairs. Maximum 64 per resource.
   map<string, string> labels = 200 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_.@:/0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
@@ -241,7 +247,7 @@ message UpdateVideoRequest {
   reserved 2001;
 
   // Reserved for future use.
-  reserved 7 to 199, 201 to 1999;
+  reserved 7, 9 to 199, 201 to 1999;
 
   // ID of the video.
   string video_id = 1 [(required) = true, (length) = "<=50"];
@@ -256,6 +262,11 @@ message UpdateVideoRequest {
   string thumbnail_id = 5 [(length) = "<=50"];
   // Auto start transcoding.
   AutoTranscode auto_transcode = 6;
+
+  // Enable advertisement for this video.
+  // Default: true.
+  // Use this to disable advertisement for a specific video.
+  google.protobuf.BoolValue enable_ad = 8;
  
   // Custom labels as `` key:value `` pairs. Maximum 64 per resource.
   map<string, string> labels = 200 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_.@:/0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];

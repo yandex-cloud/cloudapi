@@ -29,6 +29,21 @@ message ClickhouseConfig {
 
   // Options specific to the MergeTree table engine.
   message MergeTree {
+    enum DeduplicateMergeProjectionMode {
+      DEDUPLICATE_MERGE_PROJECTION_MODE_UNSPECIFIED = 0;
+      DEDUPLICATE_MERGE_PROJECTION_MODE_IGNORE = 1;
+      DEDUPLICATE_MERGE_PROJECTION_MODE_THROW = 2;
+      DEDUPLICATE_MERGE_PROJECTION_MODE_DROP = 3;
+      DEDUPLICATE_MERGE_PROJECTION_MODE_REBUILD = 4;
+    }
+
+    enum LightweightMutationProjectionMode {
+      LIGHTWEIGHT_MUTATION_PROJECTION_MODE_UNSPECIFIED = 0;
+      LIGHTWEIGHT_MUTATION_PROJECTION_MODE_THROW = 1;
+      LIGHTWEIGHT_MUTATION_PROJECTION_MODE_DROP = 2;
+      LIGHTWEIGHT_MUTATION_PROJECTION_MODE_REBUILD = 3;
+    }
+
     // Number of blocks of hashes to keep in ZooKeeper.
     google.protobuf.Int64Value replicated_deduplication_window = 1;
 
@@ -87,7 +102,7 @@ message ClickhouseConfig {
 
     google.protobuf.Int64Value number_of_free_entries_in_pool_to_execute_mutation = 20;
 
-	// The 'too many parts' check according to 'parts_to_delay_insert' and 'parts_to_throw_insert' will be active only if the average part size (in the relevant partition) is not larger than the specified threshold. If it is larger than the specified threshold, the INSERTs will be neither delayed or rejected. This allows to have hundreds of terabytes in a single table on a single server if the parts are successfully merged to larger parts. This does not affect the thresholds on inactive parts or total parts.
+	  // The 'too many parts' check according to 'parts_to_delay_insert' and 'parts_to_throw_insert' will be active only if the average part size (in the relevant partition) is not larger than the specified threshold. If it is larger than the specified threshold, the INSERTs will be neither delayed or rejected. This allows to have hundreds of terabytes in a single table on a single server if the parts are successfully merged to larger parts. This does not affect the thresholds on inactive parts or total parts.
     // Default: 1 GiB
     // Min version: 22.10
     // See in-depth description in [ClickHouse GitHub](https://github.com/ClickHouse/ClickHouse/blob/f9558345e886876b9132d9c018e357f7fa9b22a3/src/Storages/MergeTree/MergeTreeSettings.h#L80)
@@ -132,6 +147,16 @@ message ClickhouseConfig {
     // Min_version: 23.6
     // See in-depth description in [ClickHouse GitHub](https://github.com/ClickHouse/ClickHouse/blob/4add9db84859bff7410cf934a3904b0414e36e51/src/Storages/MergeTree/MergeTreeSettings.h#L142)
     google.protobuf.Int64Value max_cleanup_delay_period = 28 [(value) = ">=0"];
+
+    // Determines the behavior of background merges for MergeTree tables with projections.
+    // https://clickhouse.com/docs/en/operations/settings/merge-tree-settings#deduplicate_merge_projection_mode
+    DeduplicateMergeProjectionMode deduplicate_merge_projection_mode = 29;
+
+    // Determines the behavior of lightweight deletes for MergeTree tables with projections.
+    LightweightMutationProjectionMode lightweight_mutation_projection_mode = 30;
+
+    // Only recalculate ttl info when MATERIALIZE TTL.
+    google.protobuf.BoolValue materialize_ttl_recalculate_only = 31;
   }
 
   message Kafka {
@@ -486,6 +511,24 @@ message ClickhouseConfig {
         // Similar to CACHE, to be used with composite keys.
         // Available for MySQL, ClickHouse and HTTP dictionary sources.
         COMPLEX_KEY_CACHE = 6;
+
+        // Similar to HASHED, but uses less memory in favor of more CPU usage.
+        SPARSE_HASHED = 7;
+
+        // Similar to SPARSE_HASHED, to be used with composite keys.
+        COMPLEX_KEY_SPARSE_HASHED = 8;
+
+        // Similar to RANGE_HASHED, to be used with composite keys.
+        COMPLEX_KEY_RANGE_HASHED = 9;
+
+        // The dictionary is not stored in memory and directly goes to the source during the processing of a request.
+        DIRECT = 10;
+
+        // Similar to DIRECT, to be used with composite keys.
+        COMPLEX_KEY_DIRECT = 11;
+
+        // The specialized layout type for mapping network prefixes (IP addresses) to metadata such as ASN.
+        IP_TRIE = 12;
       }
 
       // Layout type for an external dictionary.
@@ -495,9 +538,38 @@ message ClickhouseConfig {
       // Applicable only for CACHE and COMPLEX_KEY_CACHE layout types.
       int64 size_in_cells = 2;
 
+      // Allows to read expired keys.
+      // Applicable only for CACHE and COMPLEX_KEY_CACHE layout types.
+      google.protobuf.BoolValue allow_read_expired_keys = 5;
+
+      // Max size of update queue.
+      // Applicable only for CACHE and COMPLEX_KEY_CACHE layout types.
+      int64 max_update_queue_size = 6;
+
+      // Max timeout in milliseconds for push update task into queue.
+      // Applicable only for CACHE and COMPLEX_KEY_CACHE layout types.
+      int64 update_queue_push_timeout_milliseconds = 7;
+
+      // Max wait timeout in milliseconds for update task to complete.
+      // Applicable only for CACHE and COMPLEX_KEY_CACHE layout types.
+      int64 query_wait_timeout_milliseconds = 8;
+
+      // Max threads for cache dictionary update.
+      // Applicable only for CACHE and COMPLEX_KEY_CACHE layout types.
+      int64 max_threads_for_updates = 9;
+
+      // Initial dictionary key size.
+      // Applicable only for FLAT layout type.
+      int64 initial_array_size = 10;
+
       // Maximum dictionary key size.
       // Applicable only for FLAT layout type.
       int64 max_array_size = 3;
+
+      // Allows to retrieve key attribute using dictGetString function.
+      // Enabling this option increases memory usage.
+      // Applicable only for IP_TRIE layout type.
+      google.protobuf.BoolValue access_to_key_from_attributes = 4;
     }
 
     message Range {
@@ -827,6 +899,17 @@ message ClickhouseConfig {
   // The maximum time that asynchronous_insert_log records will be retained before removal. If set to 0,
   // automatic removal of asynchronous_insert_log data based on time is disabled.
   google.protobuf.Int64Value asynchronous_insert_log_retention_time = 65 [(value) = ">=0"];
+
+  // Enable or disable processors_profile_log system table.
+  google.protobuf.BoolValue processors_profile_log_enabled = 71;
+
+  // The maximum size that processors_profile_log can grow to before old data will be removed.
+  // If set to 0 (default), automatic removal of processors_profile_log data based on size is disabled.
+  google.protobuf.Int64Value processors_profile_log_retention_size = 72;
+
+  // The maximum time that processors_profile_log records will be retained before removal.
+  // If set to 0, automatic removal of processors_profile_log data based on time is disabled.
+  google.protobuf.Int64Value processors_profile_log_retention_time = 73;
 
   google.protobuf.Int64Value background_pool_size = 33 [(value) = ">0"];
 

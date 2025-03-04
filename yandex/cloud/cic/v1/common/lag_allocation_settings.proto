@@ -9,14 +9,12 @@ option java_package = "yandex.cloud.api.cic.v1.common";
 
 // Structure for create and update requests that describes LAG allocation settings
 message LagAllocationSettingsRequest {
-  oneof lag {
+  reserved 14;
 
+  oneof lag {
     // Size of LAG.
     // Must be from 1 to 10 inclusively.
     int64 lag_size = 13;
-
-    // LagInfo
-    LagInfo lag_info = 14;
   }
 }
 

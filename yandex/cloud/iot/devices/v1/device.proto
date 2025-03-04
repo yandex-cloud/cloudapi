@@ -92,4 +92,5 @@ message DeviceMonitoringData {
   google.protobuf.Timestamp last_pub_activity_time = 3;
   google.protobuf.Timestamp last_sub_activity_time = 4;
   google.protobuf.Timestamp last_online_time = 5;
+  google.protobuf.Timestamp last_disconnect_time = 6;
 }

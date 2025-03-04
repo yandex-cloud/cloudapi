@@ -11,6 +11,7 @@ import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 
 import "yandex/cloud/cic/v1/common/transceiver_type.proto";
+import "yandex/cloud/cic/v1/common/lag_allocation_settings.proto";
 import "yandex/cloud/cic/v1/trunk_connection.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cic/v1;cic";
@@ -173,7 +174,10 @@ message CreateTrunkConnectionRequest {
     // Type of transceiver that the trunkConnection is deployed on.
     common.TransceiverType transceiver_type = 1;
 
-    reserved 2 to 4;
+    reserved 2;
+
+    // LAG allocation settings that the trunkConnection is deployed on.
+    common.LagAllocationSettingsRequest lag_allocation_settings = 3;
   }
 
   // Config of trunkConnection that is deployed on partner joint.

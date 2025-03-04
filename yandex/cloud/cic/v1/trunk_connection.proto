@@ -132,6 +132,7 @@ message TrunkConnection {
     CAPACITY_40_GBPS = 15;
     CAPACITY_50_GBPS = 16;
     CAPACITY_100_GBPS = 17;
+    CAPACITY_200_GBPS = 18;
   }
 
   enum Status {
