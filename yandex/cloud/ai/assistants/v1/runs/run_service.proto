@@ -46,6 +46,12 @@ service RunService {
   rpc List(ListRunsRequest) returns (ListRunsResponse) {
     option (google.api.http) = {get: "/assistants/v1/runs"};
   }
+
+  // Submit event to run
+  // For example, submit function call results when the run is waiting for user input.
+  rpc Submit(SubmitToRunRequest) returns (SubmitToRunResponse) {
+    option (google.api.http) = {patch: "/assistants/v1/runs/{run_id}" body: "*"};
+  };
 }
 
 // Request message for creating a new run.
@@ -182,4 +188,19 @@ message StreamEvent {
     // A list of tool calls requested by the assistant.
     yandex.cloud.ai.assistants.v1.ToolCallList tool_call_list = 6;
   }
+}
+
+message SubmitToRunRequest {
+  // ID of the run to submit to.
+  string run_id = 1 [(required) = true];
+
+  // Event to submit to the run.
+  oneof Event {
+    // A list of tool results to submit to the run, such as the output of a function call.
+    yandex.cloud.ai.assistants.v1.ToolResultList tool_result_list = 2;
+  }
+}
+
+message SubmitToRunResponse {
+
 }

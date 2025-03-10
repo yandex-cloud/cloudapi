@@ -53,6 +53,9 @@ message Permission {
 
     // Admin role for the user.
     ACCESS_ROLE_ADMIN = 3;
+
+    // Admin permissions on topics role for the user.
+    ACCESS_ROLE_TOPIC_ADMIN = 4;
   }
 
   // Name or prefix-pattern with wildcard for the topic that the permission grants access to.

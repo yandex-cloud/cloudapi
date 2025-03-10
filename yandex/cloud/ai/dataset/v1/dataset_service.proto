@@ -250,6 +250,8 @@ message ListUploadFormatsResponse {
 message ListUploadSchemasRequest {
   // Dataset task type to list schemas.
   string task_type = 1 [(required) = true];
+  // Folder to search task type (if empty only public types allowed)
+  string folder_id = 2;
 }
 
 message ListUploadSchemasResponse {
@@ -258,6 +260,8 @@ message ListUploadSchemasResponse {
 }
 
 message ListTypesRequest {
+    // Folder to search task types (if empty only public types will be returned)
+  string folder_id = 1;
 }
 
 message ListTypesResponse {

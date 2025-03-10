@@ -76,6 +76,7 @@ message Cluster {
   enum PersistenceMode {
     ON = 0; // cluster persistence mode on
     OFF = 1; // cluster persistence mode off
+    ON_REPLICAS = 2; // cluster persistence on replicas only
   }
 
   // ID of the Redis cluster.
