@@ -9,19 +9,22 @@ option java_package = "yandex.cloud.api.video.v1";
 
 message Subtitle {
   // Reserved for future use.
-  reserved 6 to 99, 102 to 999;
+  reserved 7 to 99, 102 to 999;
 
   // ID of the subtitle.
   string id = 1;
 
-  // Subtitle language represented as a three-letter ISO 639-3 code.
+  // Subtitle language in any of the following formats:
+  // * three-letter code according to ISO 639-2/T, ISO 639-2/B, or ISO 639-3
+  // * two-letter code according to ISO 639-1
   string language = 2;
-
   // Subtitle caption to be displayed on screen during video playback.
   string label = 3;
 
   // Subtitle status.
   SubtitleStatus status = 4;
+  // Source type.
+  SubtitleSourceType source_type = 6;
 
   // Subtitle filename.
   string filename = 5;
@@ -43,5 +46,14 @@ message Subtitle {
     WAIT_UPLOADING = 1;
     // Uploading is complete.
     UPLOADED = 2;
+  }
+
+  enum SubtitleSourceType {
+    // Subtitle source type unspecified.
+    SUBTITLE_SOURCE_TYPE_UNSPECIFIED = 0;
+    // Manually uploaded subtitle.
+    MANUAL = 1;
+    // Automatically generated subtitle.
+    GENERATED = 2;
   }
 }

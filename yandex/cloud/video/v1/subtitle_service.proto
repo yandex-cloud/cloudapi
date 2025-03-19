@@ -13,7 +13,7 @@ option java_package = "yandex.cloud.api.video.v1";
 
 // Subtitle management service.
 service SubtitleService {
-  // Return a specific subtitle.
+  // Get a specific subtitle.
   rpc Get(GetSubtitleRequest) returns (Subtitle) {
     option (google.api.http) = {
       get: "/video/v1/subtitles/{subtitle_id}"
@@ -68,9 +68,10 @@ message ListSubtitlesRequest {
   reserved 1 to 99, 102 to 999;
 
   // The maximum number of the results per page to return.
+  // Default value: 100.
   int64 page_size = 100 [(value) = "<=100"];
   // Page token for getting the next page of the result.
-  string page_token = 101 [(length) = "<=200"];
+  string page_token = 101 [(length) = "<=15000"];
 
   oneof parent_id {
     option (exactly_one) = true;
@@ -93,14 +94,14 @@ message CreateSubtitleRequest {
   // Reserved for future use.
   reserved 3 to 999, 1001 to 1099;
 
-  // The language of the subtitles, represented as a three-letter ISO 639 code.
-  // Supports ISO 639-2/T (terminological), ISO 639-2/B (bibliographical) variants and ISO 639-3.
-  // Valid ISO language code corresponding to the subtitle text must be provided.
+  // Subtitle language in any of the following formats:
+  // * three-letter code according to ISO 639-2/T, ISO 639-2/B, or ISO 639-3
+  // * two-letter code according to ISO 639-1
   string language = 1 [(length) = "2-3"];
 
   // Contains the subtitle label (or title) that will be displayed on screen during video playback.
   // Should provide a concise and accurate representation of the spoken content.
-  // If not provided, will be auto-generated based on the specified language.
+  // If not provided, it will be auto-generated based on the specified language.
   string label = 2;
 
   oneof parent_id {

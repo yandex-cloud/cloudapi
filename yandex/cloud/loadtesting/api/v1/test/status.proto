@@ -36,7 +36,7 @@ enum Status {
   // Test is being stopped.
   STOPPING = 9;
 
-  // Test has been stopped.
+  // Test has been stopped by user.
   STOPPED = 10;
 
   // Test has been stopped automatically by satisfying autostop condition.
@@ -53,4 +53,7 @@ enum Status {
   // Means that either an agent is too busy to send it, got offline, or failed without
   // reporting a final status.
   LOST = 14;
+
+  // Test has been cancelled.
+  CANCELLED = 15;
 }

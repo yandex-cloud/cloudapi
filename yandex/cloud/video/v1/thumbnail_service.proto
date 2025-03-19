@@ -13,7 +13,7 @@ option java_package = "yandex.cloud.api.video.v1";
 
 // Thumbnail management service.
 service ThumbnailService {
-  // Returns the specific thumbnail.
+  // Get the specific thumbnail.
   rpc Get(GetThumbnailRequest) returns (Thumbnail) {
     option (google.api.http) = {
       get: "/video/v1/thumbnails/{thumbnail_id}"
@@ -39,7 +39,7 @@ service ThumbnailService {
     };
   }
 
-  // Generate urls for download images.
+  // Generate urls for downloading images.
   rpc BatchGenerateDownloadURLs(BatchGenerateDownloadURLsRequest) returns (BatchGenerateDownloadURLsResponse) {
     option (google.api.http) = {
       post: "/video/v1/thumbnails:batchGenerateDownloadURLs"
@@ -47,7 +47,7 @@ service ThumbnailService {
     };
   }
 
-  // Generate url for upload image.
+  // Generate url for uploading an image.
   rpc GenerateUploadURL(GenerateThumbnailUploadURLRequest) returns (GenerateThumbnailUploadURLResponse) {
     option (google.api.http) = {
       post: "/video/v1/thumbnails/{thumbnail_id}:generateUploadURL"
@@ -79,10 +79,11 @@ message ListThumbnailRequest {
   // ID of the channel.
   string channel_id = 1 [(length) = "<=50"];
 
-  // The maximum number of the results per page to return. Default value: 100.
+  // The maximum number of the results per page to return.
+  // Default value: 100.
   int64 page_size = 100 [(value) = "<=100"];
   // Page token for getting the next page of the result.
-  string page_token = 101 [(length) = "<=200"];
+  string page_token = 101 [(length) = "<=15000"];
 }
 
 message ListThumbnailResponse {
@@ -121,8 +122,30 @@ message BatchGenerateDownloadURLsResponse {
 message ThumbnailDownloadURL {
   // ID of the thumbnail.
   string thumbnail_id = 1;
-  // Download url.
-  string download_url = 2;
+  // Original download url.
+  string original_url = 2;
+  // List of download urls, one per each available image size.
+  repeated ScaledURL scaled_urls = 3;
+
+  message ScaledURL {
+    // Download url.
+    string url = 1;
+    // Maximum width of the rectangle to inscribe the thumbnail into.
+    int64 max_width = 2;
+    // Maximum height of the rectangle to inscribe the thumbnail into.
+    int64 max_height = 3;
+    // Image format.
+    ImageFormat image_format = 4;
+  }
+
+  enum ImageFormat {
+    // Image format unspecified.
+    IMAGE_FORMAT_UNSPECIFIED = 0;
+    // JPEG image format.
+    JPEG = 1;
+    // WebP image format.
+    WEBP = 2;
+  }
 }
 
 message GenerateThumbnailUploadURLRequest {

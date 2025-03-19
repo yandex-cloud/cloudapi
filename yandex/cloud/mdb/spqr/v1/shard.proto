@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.spqr.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/spqr/v1;spqr";
+option java_package = "yandex.cloud.api.mdb.spqr.v1";
+
+
+message Shard {
+  // Name of the shard.
+  string name = 1;
+
+  // ID of the cluster that the shard belongs to.
+  string cluster_id = 2;
+}

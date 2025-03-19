@@ -390,7 +390,7 @@ message S3APIListMultipartUploadsResponse {
   string request_id = 12;
 }
 
-// Container for the MultipartUpload for the Amazon S3 object.
+// Container for the MultipartUpload for the S3 object.
 message S3APIMultipartUpload {
   // Key of the object for which the multipart upload was initiated.
   string key = 1;
@@ -430,4 +430,70 @@ message S3APIUploadPartCopyResponse {
 
   // Unique request ID.
   string request_id = 3;
+}
+
+// Represents a response of list objects v2 request to S3.
+message S3APIListObjectsV2Response {
+  // A flag that indicates whether S3 returned all of the results that satisfied the search criteria.
+  bool is_truncated = 1;
+
+  // Metadata about each object returned.
+  repeated S3APIObject contents = 2;
+
+  // The bucket name.
+  string name = 3;
+
+  // Keys that begin with the indicated prefix.
+  string prefix = 4;
+
+  // Causes keys that contain the same string between the prefix and the first occurrence of the delimiter to be rolled up into a single result element in the CommonPrefixes collection.
+  string delimiter = 5;
+
+  // The maximum number of keys returned in the response body.
+  int64 max_keys = 6;
+
+  // All of the keys rolled up into a common prefix count as a single return when calculating the number of returns.
+  repeated S3APICommonPrefix common_prefixes = 7;
+
+  // The number of keys returned with this request.
+  int64 key_count = 8;
+
+  // Indicates where in the bucket listing begins. This is only returned if a continuation token was used in the request.
+  string continuation_token = 9;
+
+  // If the response is truncated, S3 returns this continuation token, which you can use in the next request to fetch the next set of keys.
+  string next_continuation_token = 10;
+
+  // StartAfter is where you want S3 to start listing from. This is only returned if a start-after was used in the request.
+  string start_after = 11;
+
+  // Unique request ID.
+  string request_id = 12;
+}
+
+// Container for object metadata.
+message S3APIObject {
+  // The object key.
+  string key = 1;
+
+  // Date and time the object was last modified.
+  google.protobuf.Timestamp last_modified = 2;
+
+  // The entity tag is a hash of the object.
+  string etag = 3;
+
+  // Size in bytes of the object.
+  int64 size = 4;
+
+  // The owner of the object.
+  S3APIOwner owner = 5;
+
+  // The class of storage used to store the object.
+  string storage_class = 6;
+}
+
+// Container for common prefix information.
+message S3APICommonPrefix {
+  // Container for the specified common prefix.
+  string prefix = 1;
 }

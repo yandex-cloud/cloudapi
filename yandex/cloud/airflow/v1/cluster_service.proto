@@ -5,6 +5,7 @@ package yandex.cloud.airflow.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/airflow/v1/cluster.proto";
+import "yandex/cloud/airflow/v1/maintenance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/api/operation.proto";
@@ -177,6 +178,9 @@ message CreateClusterRequest {
     (required) = true,
     (length) = "8-128"
   ];
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 13;
 }
 
 message CreateClusterMetadata {
@@ -266,6 +270,9 @@ message UpdateClusterRequest {
 
   // Cloud Logging configuration.
   LoggingConfig logging = 11;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 12;
 }
 
 message UpdateClusterMetadata {

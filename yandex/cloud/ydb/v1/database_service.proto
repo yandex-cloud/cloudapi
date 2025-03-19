@@ -238,6 +238,8 @@ message CreateDatabaseRequest {
   MonitoringConfig monitoring_config = 17;
 
   bool deletion_protection = 18;
+
+  repeated string security_group_ids = 19;
 }
 
 message CreateDatabaseMetadata {
@@ -279,6 +281,8 @@ message UpdateDatabaseRequest {
   MonitoringConfig monitoring_config = 19;
 
   bool deletion_protection = 20;
+
+  repeated string security_group_ids = 21;
 }
 
 message UpdateDatabaseMetadata {

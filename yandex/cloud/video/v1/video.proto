@@ -10,56 +10,58 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;v
 option java_package = "yandex.cloud.api.video.v1";
 
 message Video {
-  reserved 2001;
+  reserved 2001, 2002;
 
   // Reserved for future use.
-  reserved 7, 10, 13 to 16, 18 to 99, 102 to 199, 201 to 999, 1001 to 1999;
+  reserved 7, 10, 14 to 16, 19 to 99, 102 to 199, 201 to 999, 1001 to 1999;
 
   // ID of the video.
   string id = 1;
   // ID of the channel where the video was created.
   string channel_id = 2;
 
-  // Video title.
+  // Video title displayed to users.
   string title = 3;
-  // Video description.
+  // Detailed description of the video.
   string description = 4;
-  // ID of the thumbnail.
+  // ID of the video's thumbnail image.
   string thumbnail_id = 5;
 
   // Video status.
   VideoStatus status = 6;
+  // Error message describing the reason for video processing failure, if any.
+  string error_message = 18;
+  // Visibility status of the video.
+  VisibilityStatus visibility_status = 9;
 
   // Video duration. Optional, may be empty until the transcoding result is ready.
   google.protobuf.Duration duration = 8;
 
-  // Video visibility status.
-  VisibilityStatus visibility_status = 9;
-
-  // Auto start transcoding.
-  // If set to ENABLE, transcoding process is initiated automatically after video upload.
-  // If set to DISABLE, manual "Transcode()" call is required instead.
+  // Auto-transcoding setting.
+  // Set ENABLE to automatically initiate transcoding after upload,
+  // or DISABLE for manual initiation via the Transcode() method.
   AutoTranscode auto_transcode = 11;
   // Enable advertisement for this video.
   // Default: true.
-  // Use this to disable advertisement for a specific video.
+  // Set explicitly to false to disable advertisements for a specific video.
   google.protobuf.BoolValue enable_ad = 17;
 
-  // IDs of active video subtitles.
+  // List of IDs defining the active subtitles for the video.
   repeated string subtitle_ids = 12;
+  // Additional video processing features and their results.
+  VideoFeatures features = 13;
 
-  // Source type.
+  // Video upload source definition (one source variant must be chosen).
   oneof source {
     // Upload video using the tus protocol.
     VideoTUSDSource tusd = 1000;
   }
 
-  // Video access rights.
+  // Video access permission settings.
   oneof access_rights {
-    // Video is available to everyone.
+    // Publicly accessible video available for viewing by anyone with the direct link.
+    // No additional authorization or access control is applied.
     VideoPublicAccessRights public_access = 2000;
-    // Checking access rights using the authorization system.
-    VideoAuthSystemAccessRights auth_system_access = 2002;    
     // Checking access rights using url's signature.
     VideoSignURLAccessRights sign_url_access = 2003;
   }
@@ -73,38 +75,41 @@ message Video {
   map<string, string> labels = 200;
 
   enum VideoStatus {
-    reserved 6;
+    reserved 3, 6;
 
     // Video status unspecified.
     VIDEO_STATUS_UNSPECIFIED = 0;
-    // Waiting for the whole number of bytes to be loaded.
+    // Waiting for all the bytes to be loaded.
     WAIT_UPLOADING = 1;
-    // Video processing.
+    // Fully uploaded, ready to be transcoded.
+    UPLOADED = 2;
+    // Video is being processed.
     PROCESSING = 4;
-    // Video is ready, processing is completed.
+    // Successfully processed and ready for use.
     READY = 5;
-    // An error occurred during video processing.
+    // Video processing has failed.
     ERROR = 7;
   }
 
   enum VisibilityStatus {
     // Visibility status unspecified.
     VISIBILITY_STATUS_UNSPECIFIED = 0;
-    // Video is published and available for viewing.
+    // Video published and available for public viewing.
     PUBLISHED = 1;
-    // Video is unpublished, only admin can watch.
+    // Video unpublished, available only to administrators.
     UNPUBLISHED = 2;
   }
 }
 
+// Video upload source via tus protocol.
 message VideoTUSDSource {
   // URL for uploading video via the tus protocol.
   string url = 1;
+  // Size of the uploaded file, in bytes.
+  int64 file_size = 2;
 }
 
 message VideoPublicAccessRights {}
-
-message VideoAuthSystemAccessRights {}
 
 message VideoSignURLAccessRights {}
 
@@ -115,4 +120,38 @@ enum AutoTranscode {
   ENABLE = 1;
   // Disable auto transcoding.
   DISABLE = 2;
+}
+
+message VideoFeatures {
+  // Summarization result.
+  Summary summary = 1;
+
+  message Summary {
+    reserved 2;
+
+    FeatureResult result = 1;
+    repeated SummaryURL urls = 3;
+
+    message SummaryURL {
+      string url = 1;
+
+      // Input audio track index (one-based).
+      int64 track_index = 2;
+      // Source track language (three-letter code according to ISO 639-2/T, ISO 639-2/B, or ISO 639-3).
+      // Either provided in transcoding settings earlier or automatically deduced.
+      string src_lang = 3;
+    }
+  }
+
+  enum FeatureResult {
+    FEATURE_RESULT_UNSPECIFIED = 0;
+    // Feature has not been requested.
+    NOT_REQUESTED = 1;
+    // Feature is being processed.
+    PROCESSING = 2;
+    // Feature processing completed successfully.
+    SUCCESS = 3;
+    // Feature processing has failed.
+    FAILED = 4;
+  }
 }

@@ -57,6 +57,10 @@ message Device {
 
   // Device monitoring data, returns if FULL view specified.
   DeviceMonitoringData monitoring_data = 8;
+
+  // Resource labels as `key:value` pairs. Maximum of 64 per resource.
+  map<string, string> labels = 9;
+
 }
 
 // A device certificate. For more information, see [Managing device certificates](/docs/iot-core/operations/certificates/device-certificates).

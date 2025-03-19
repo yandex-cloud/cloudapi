@@ -50,7 +50,7 @@ service RunService {
   // Submit event to run
   // For example, submit function call results when the run is waiting for user input.
   rpc Submit(SubmitToRunRequest) returns (SubmitToRunResponse) {
-    option (google.api.http) = {patch: "/assistants/v1/runs/{run_id}" body: "*"};
+    option (google.api.http) = {patch: "/assistants/v1/runs/submit" body: "*"};
   };
 }
 

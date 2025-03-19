@@ -20,9 +20,9 @@ message Episode {
   // ID of the line. Optional, empty if the episode is linked to the stream
   string line_id = 3;
 
-  // Channel title.
+  // Episode title.
   string title = 4;
-  // Channel description.
+  // Episode description.
   string description = 5;
   // ID of the thumbnail.
   string thumbnail_id = 6;
@@ -31,9 +31,10 @@ message Episode {
   google.protobuf.Timestamp start_time = 7;
   // Episode finish time.
   google.protobuf.Timestamp finish_time = 8;
-  // Enables episode DVR mode. DVR seconds determines how many last seconds of the stream are available.
+  // Enables episode DVR mode.
+  // Determines how many last seconds of the stream are available for watching.
   //
-  // possible values:
+  // Possible values:
   //  * `0`: infinite dvr size, the full length of the stream allowed to display
   //  * `>0`: size of dvr window in seconds, the minimum value is 30s
   int64 dvr_seconds = 9;

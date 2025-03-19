@@ -68,6 +68,8 @@ message Database {
   MonitoringConfig monitoring_config = 24;
 
   bool deletion_protection = 25;
+
+  repeated string security_group_ids = 27;
 }
 
 message AlertParameter {
@@ -166,6 +168,7 @@ message DedicatedDatabase {
   string network_id = 4;
   repeated string subnet_ids = 5;
   bool assign_public_ips = 6;
+  repeated string security_group_ids = 7;
 }
 
 message ServerlessDatabase {

@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.airflow.v1;
 
 import "yandex/cloud/airflow/v1/common.proto";
+import "yandex/cloud/airflow/v1/maintenance.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/logging/v1/log_entry.proto";
 import "google/protobuf/timestamp.proto";
@@ -91,6 +92,12 @@ message Cluster {
 
   // Cloud Logging configuration.
   LoggingConfig logging = 17;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 18;
+
+  // Maintenance operation planned at nearest maintenance_window.
+  MaintenanceOperation planned_operation = 19;
 }
 
 // Monitoring system.

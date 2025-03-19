@@ -25,6 +25,7 @@ message Test {
     WAITING = 12;
     DELETING = 13;
     LOST = 14;
+    CANCELLED = 15;
   }
 
   enum Generator {

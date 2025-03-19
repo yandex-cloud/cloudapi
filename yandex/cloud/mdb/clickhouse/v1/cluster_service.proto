@@ -477,6 +477,9 @@ message CreateClusterRequest {
 
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 15;
+
+  // Configuration(s) of the shard(s) to be created.
+  repeated ShardSpec shard_specs = 16;
 }
 
 message CreateClusterMetadata {
@@ -701,6 +704,9 @@ message RestoreClusterRequest {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 14;
+
+  // Configuration(s) of the shard(s) in the restored cluster.
+  repeated ShardSpec shard_specs = 15;
 }
 
 message RestoreClusterMetadata {

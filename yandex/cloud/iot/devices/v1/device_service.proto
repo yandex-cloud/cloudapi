@@ -176,7 +176,7 @@ message ListDevicesRequest {
   // results is larger than `page_size`, the service returns a [ListDevicesResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Default value: 100.
-  int64 page_size = 3 [(value) = "0-1000"];
+  int64 page_size = 3 [(value) = "0-20000"];
 
   // Page token. To get the next page of results, set `page_token` to the
   // [ListDevicesResponse.next_page_token] returned by a previous list request.
@@ -231,6 +231,16 @@ message CreateDeviceRequest {
   // The password must contain at least three character categories among the following: upper case latin, lower case latin, numbers and special symbols.
   string password = 6;
 
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 7 [
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_0-9a-z]*"
+  ];
+
+
   // Specification of a device certificate.
   message Certificate {
     // Public part of the device certificate.
@@ -268,6 +278,15 @@ message UpdateDeviceRequest {
   //
   // Alias is an alternate name of a device topic assigned by the user. Map alias to canonical topic name prefix, e.g. `my/custom/alias` match to `$device/{id}/events`.
   map<string, string> topic_aliases = 5;
+
+    // Resource labels as `key:value` pairs.
+  map<string, string> labels = 6 [
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_0-9a-z]*",
+    (map_key).length = "1-63",
+    (map_key).pattern = "[a-z][-_0-9a-z]*"
+  ];
 }
 
 message UpdateDeviceMetadata {

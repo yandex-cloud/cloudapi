@@ -23,7 +23,9 @@ service WebSearchAsyncService {
 
 // A set of methods for searching the Yandex search database.
 service WebSearchService {
-  rpc Search (WebSearchRequest) returns (WebSearchResponse) {}
+  rpc Search (WebSearchRequest) returns (WebSearchResponse) {
+    option (google.api.http) = {post: "/v2/web/search" body: "*"};
+  }
 }
 
 message SortSpec {
@@ -100,7 +102,7 @@ message WebSearchRequest {
   // The maximum number of passages that can be used when generating a document snippet.
   int64 max_passages = 4 [(value) = "1-5"];
   // ID of the search country or region that impacts the document ranking rules.
-  string region = 5;
+  string region = 5 [(length) = "<=100"];
   // The notification language for a search response.
   Localization l10n = 6;
   // ID of the folder.
