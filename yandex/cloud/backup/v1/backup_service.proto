@@ -134,10 +134,19 @@ message ListBackupsRequest {
 
   // Type of resource. Could be compute VM or baremetal server.
   ResourceType type = 9;
+
+  // Number of results per page. 
+  int64 page_size = 10 [ (value) = "<=1000" ];
+
+  // Token for the results page. Not allowed to use if listing is performed by specific policy ID.
+  string page_token = 11 [ (length) = "<=100" ];
 }
 
 message ListBackupsResponse {
   repeated Backup backups = 1;
+
+  // Token for the next results page.
+  string next_page_token = 2;
 }
 
 message ListFilesRequest {

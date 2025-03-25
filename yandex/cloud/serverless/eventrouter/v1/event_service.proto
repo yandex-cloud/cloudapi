@@ -16,6 +16,11 @@ service EventService {
   rpc Put (PutEventRequest) returns (google.protobuf.Empty) {
      option (google.api.http) = { post: "/eventrouter/v1/events/{bus_id}:put" body: "*" };
   }
+
+  // Send events to bus.
+  rpc Send (SendEventsRequest) returns (google.protobuf.Empty) {
+     option (google.api.http) = { post: "/eventrouter/v1/events/{connector_id}:send" body: "*" };
+  }
 }
 
 message PutEventRequest {
@@ -24,4 +29,12 @@ message PutEventRequest {
 
   // Event body.
   string body = 2 [(required) = true, (length) = "<=262144"];
+}
+
+message SendEventsRequest {
+  // ID of the connector to send events.
+  string connector_id = 1 [(required) = true];
+
+  // Batch of events bodies.
+  repeated string message = 2 [(size) = "1-100", (length) = "<=262144"];
 }

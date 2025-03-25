@@ -73,7 +73,7 @@ service ClusterService {
     };
   }
 
-// Delete backup for the specified OpenSearch cluster.
+  // Delete backup for the specified OpenSearch cluster.
   rpc DeleteBackup(DeleteBackupRequest) returns (operation.Operation) {
     option (google.api.http) = {
       delete: "/managed-opensearch/v1/clusters/{cluster_id}/backups/{backup_id}"
@@ -144,6 +144,7 @@ service ClusterService {
   }
 
   // Retrieves logs for the specified OpenSearch cluster.
+  // For detailed description, see the [Logs](/yandex-mdb-guide/concepts/logs.html) section in the developer's guide.
   rpc ListLogs(ListClusterLogsRequest) returns (ListClusterLogsResponse) {
     option (google.api.http) = {get: "/managed-opensearch/v1/clusters/{cluster_id}:logs"};
   }
@@ -243,6 +244,27 @@ service ClusterService {
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateAuthSettingsMetadata"
       response: "AuthSettings"
+    };
+  }
+
+  // Restarts OpenSearch on specified host.
+  rpc RestartOpenSearch(RestartOpenSearchRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/managed-opensearch/v1/clusters/{cluster_id}/host/{host}"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "RestartOpenSearchMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Switches current master or ensures that master not on specified hosts.
+  rpc SwitchMaster(SwitchMasterRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/managed-opensearch/v1/clusters/{cluster_id}:switch_master"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "SwitchMasterMetadata"
+      response: "google.protobuf.Empty"
     };
   }
 }
@@ -1208,4 +1230,43 @@ message UpdateAuthSettingsRequest {
 message UpdateAuthSettingsMetadata {
   // ID of the OpenSearch cluster.
   string cluster_id = 1;
+}
+
+message RestartOpenSearchRequest {
+  // Required. ID of the OpenSearch cluster.
+  string cluster_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
+
+  // Required. Host to restart OpenSearch service on.
+  string host = 2 [(required) = true];
+}
+
+message RestartOpenSearchMetadata {
+  // Required. ID of the OpenSearch cluster.
+  string cluster_id = 1;
+
+  // Required. Host where OpenSearch will be restarted.
+  string host = 2;
+}
+
+message SwitchMasterRequest {
+  // Required. ID of the OpenSearch cluster.
+  string cluster_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
+
+  // Hosts list which are forbidden to be masters after operation.
+  // If no hosts given, then current master will be switched.
+  repeated string from_hosts = 2;
+}
+
+message SwitchMasterMetadata {
+  // ID of the OpenSearch cluster.
+  string cluster_id = 1;
+
+  // Host where masters will be expelled.
+  repeated string from_hosts = 2;
 }

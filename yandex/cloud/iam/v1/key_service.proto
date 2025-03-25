@@ -71,7 +71,7 @@ message ListKeysRequest {
   // ID of the service account to list key pairs for.
   // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
   // If not specified, it defaults to the subject that made the request.
-  string service_account_id = 2 [(length) = "<=50"]; // use userAccount identity if this not set
+  string service_account_id = 2 [(length) = "<=50"];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size],
@@ -102,7 +102,7 @@ message CreateKeyRequest {
   // ID of the service account to create a key pair for.
   // To get the service account ID, use a [yandex.cloud.iam.v1.ServiceAccountService.List] request.
   // If not specified, it defaults to the subject that made the request.
-  string service_account_id = 1 [(length) = "<=50"]; // use userAccount identity if this not set
+  string service_account_id = 1 [(length) = "<=50"];
 
   // Description of the key pair.
   string description = 2 [(length) = "<=256"];
