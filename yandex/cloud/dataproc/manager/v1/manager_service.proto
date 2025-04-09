@@ -7,7 +7,7 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/manager/v1;dataproc_manager";
 option java_package = "yandex.cloud.api.dataproc.manager.v1";
 
-// Data Proc manager service definition.
+// Yandex Data Processing manager service definition.
 service DataprocManagerService {
     // Sends a status report from a host.
     rpc Report (ReportRequest) returns (ReportReply) {}
@@ -111,8 +111,8 @@ message Info {
     ZookeeperInfo zookeeper = 4;
     HbaseInfo hbase = 5;
     OozieInfo oozie = 6;
-    // Report count is incremented every time report is sent by Dataproc Agent.
-    // So Worker can use this property to make sure that Dataproc Agent got data sent by Worker through Dataproc Manager
+    // Report count is incremented every time report is sent by Yandex Data Processing Agent.
+    // So Worker can use this property to make sure that Yandex Data Processing Agent got data sent by Worker through Yandex Data Processing Manager
     // for synchronization purposes
     int64 report_count = 7;
     LivyInfo livy = 8;

@@ -78,9 +78,9 @@ message GenSearchRequest {
   string folder_id = 2 [(required) = true, (length) = "<=50"];
   // Restricts the search to the specific websites, hosts or pages.
   oneof  site_options {
-    SiteOption site = 3;
-    HostOption host = 4;
-    UrlOption  url   = 5;
+    SiteOption site = 3 [(required) = true];
+    HostOption host = 4 [(required) = true];
+    UrlOption  url  = 5 [(required) = true];
   }
   // Fix query misspells.
   bool   fix_misspell = 6;

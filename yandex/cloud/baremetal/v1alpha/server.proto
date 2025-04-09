@@ -1,0 +1,148 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v1alpha;
+
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/baremetal/v1alpha/disk.proto";
+import "yandex/cloud/baremetal/v1alpha/storage.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v1alpha;baremetal";
+option java_package = "yandex.cloud.api.baremetal.v1alpha";
+
+// A Server resource.
+message Server {
+  reserved 8, 11, 12, 15 to 17, 19, 22, 23;
+
+  // Reserved for future use.
+  reserved 13, 14, 24 to 99, 101 to 199;
+
+  // ID of the server.
+  string id = 1;
+
+  // ID of the cloud that the server belongs to.
+  string cloud_id = 2;
+
+  // ID of the folder that the server belongs to.
+  string folder_id = 3;
+
+  // Name of the server.
+  // The name is unique within the folder.
+  string name = 4;
+
+  // Description of the server.
+  string description = 5;
+
+  // ID of the availability zone where the server is resides.
+  string zone_id = 6;
+
+  // ID of the hardware pool that the server belongs to.
+  string hardware_pool_id = 7;
+
+  // Status of the server.
+  Status status = 9;
+
+  // Operating system specific settings of the server. Optional, will be empty if the server is
+  // provisioned without an operating system.
+  OsSettings os_settings = 10;
+
+  // Array of network interfaces that are attached to the instance.
+  repeated NetworkInterface network_interfaces = 18;
+
+  // ID of the configuration that was used to create the server.
+  string configuration_id = 20;
+
+  // Array of disks that are attached to the server.
+  repeated Disk disks = 21;
+
+  // Creation timestamp.
+  google.protobuf.Timestamp created_at = 100;
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 200;
+
+  // Server status.
+  enum Status {
+    reserved 2, 11, 13;
+
+    // Unspecified server status.
+    STATUS_UNSPECIFIED = 0;
+
+    // Server is waiting for to be allocated from the hardware pool.
+    PROVISIONING = 1;
+
+    // Server is being stopped.
+    STOPPING = 3;
+
+    // Server has been stopped.
+    STOPPED = 4;
+
+    // Server is being started.
+    STARTING = 5;
+
+    // Server is being restarted.
+    RESTARTING = 6;
+
+    // Server encountered a problem and cannot operate.
+    ERROR = 7;
+
+    // Server is being deleted.
+    DELETING = 8;
+
+    // Server operating system is being reinstalled.
+    REINSTALLING = 9;
+
+    // Server is being updated.
+    UPDATING = 10;
+
+    // Server has been quarantined
+    QUARANTINED = 12;
+
+    // Server is running normaly
+    RUNNING = 14;
+  }
+}
+
+message NetworkInterface {
+  reserved 4 to 6;
+
+  // ID of the network interface.
+  string id = 1;
+
+  // MAC address that is assigned to the network interface.
+  string mac_address = 2;
+
+  // IPv4 address that is assigned to the server for this network interface.
+  string ip_address = 3;
+
+  // Subnet that the network interface belongs to.
+  oneof subnet {
+    // Private subnet.
+    PrivateSubnetNetworkInterface private_subnet = 7;
+
+    // Public subnet.
+    PublicSubnetNetworkInterface public_subnet = 8;
+  }
+}
+
+message PrivateSubnetNetworkInterface {
+  // ID of the private subnet.
+  string private_subnet_id = 1;
+}
+
+message PublicSubnetNetworkInterface {
+  // ID of the public subnet.
+  //
+  // A new ephemeral public subnet will be created if not specified.
+  string public_subnet_id = 1;
+}
+
+message OsSettings {
+  // ID of the image that the server was created from.
+  string image_id = 1;
+
+  // Public SSH key of the server.
+  string ssh_public_key = 2;
+
+  // List of storages.
+  repeated Storage storages = 3;
+}

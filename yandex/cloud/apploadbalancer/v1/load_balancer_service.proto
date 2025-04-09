@@ -144,6 +144,24 @@ service LoadBalancerService {
   rpc ListOperations (ListLoadBalancerOperationsRequest) returns (ListLoadBalancerOperationsResponse) {
     option (google.api.http) = { get: "/apploadbalancer/v1/loadBalancers/{load_balancer_id}/operations" };
   }
+
+  // Start ZonalShift for the specified load balancer.
+  rpc StartZonalShift(StartZonalShiftRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/apploadbalancer/v1/loadBalancers/{load_balancer_id}:startZonalShift" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "StartZonalShiftMetadata"
+      response: "LoadBalancer"
+    };
+  }
+
+  // Cancel ZonalShift for the specified load balancer.
+  rpc CancelZonalShift(CancelZonalShiftRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/apploadbalancer/v1/loadBalancers/{load_balancer_id}:cancelZonalShift" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "CancelZonalShiftMetadata"
+      response: "LoadBalancer"
+    };
+  }
 }
 
 message GetLoadBalancerRequest {
@@ -275,6 +293,9 @@ message UpdateLoadBalancerRequest {
 
   // Cloud logging settings of the application load balancer.
   LogOptions log_options = 10;
+
+  // Specifies whether application load balancer is available to zonal shift.
+  bool allow_zonal_shift = 11;
 }
 
 message UpdateLoadBalancerMetadata {
@@ -337,6 +358,9 @@ message CreateLoadBalancerRequest {
 
   // Cloud logging settings of the application load balancer.
   LogOptions log_options = 11;
+
+  // Specifies whether application load balancer is available to zonal shift.
+  bool allow_zonal_shift = 12;
 }
 
 message CreateLoadBalancerMetadata {
@@ -625,4 +649,36 @@ message ListLoadBalancerOperationsResponse {
   //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
+}
+
+message StartZonalShiftRequest {
+  // ID of the application load balancer to start zonal shift.
+  string load_balancer_id = 1 [(required) = true];
+
+  // Zone IDs to start zonal shift.
+  repeated string zone_ids = 2 [(size)=">0"];
+}
+
+message StartZonalShiftMetadata {
+  // ID of the application load balancer that the zonal shift is being started to.
+  string load_balancer_id = 1;
+
+  // Zone IDs where zonal shift was started.
+  repeated string zone_ids = 2;
+}
+
+message CancelZonalShiftRequest {
+  // ID of the application load balancer to cancel zonal shift.
+  string load_balancer_id = 1 [(required) = true];
+
+  // Zone IDs to cancel zonal shift.
+  repeated string zone_ids = 2 [(size)=">0"];
+}
+
+message CancelZonalShiftMetadata {
+  // ID of the application load balancer that the zonal shift is being canceled to.
+  string load_balancer_id = 1;
+
+  // Zone IDs where zonal shift was cancelled.
+  repeated string zone_ids = 2;
 }

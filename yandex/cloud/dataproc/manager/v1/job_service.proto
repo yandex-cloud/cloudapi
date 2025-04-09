@@ -8,13 +8,13 @@ import "yandex/cloud/validation.proto";
 import "yandex/cloud/dataproc/manager/v1/job.proto";
 
 service JobService {
-    // Retrieves a list of jobs for Data Proc cluster.
+    // Retrieves a list of jobs for Yandex Data Processing cluster.
     rpc ListActive (ListJobsRequest) returns (ListJobsResponse) {}
 
     // Currently used to update Job status.
     rpc UpdateStatus (UpdateJobStatusRequest) returns (UpdateJobStatusResponse) {}
 
-    // Retrieves a list of support jobs for Data Proc cluster.
+    // Retrieves a list of support jobs for Yandex Data Processing cluster.
     rpc ListSupportActive (ListJobsRequest) returns (ListSupportJobsResponse) {}
 
     // Currently used to update support job status.
@@ -25,7 +25,7 @@ service JobService {
 }
 
 message ListJobsRequest {
-    // Required. ID of the cluster to list Data Proc jobs of.
+    // Required. ID of the cluster to list Yandex Data Processing jobs of.
     string cluster_id = 1 [(length) = "<=50"];
 
     // The maximum number of results per page that should be returned. If the number of available
@@ -43,7 +43,7 @@ message ListJobsRequest {
 }
 
 message ListJobsResponse {
-    // Requested list of Data Proc jobs.
+    // Requested list of Yandex Data Processing jobs.
     repeated Job jobs = 1;
 
     // This token allows you to get the next page of results for ListJobs requests,
@@ -55,10 +55,10 @@ message ListJobsResponse {
 }
 
 message UpdateJobStatusRequest {
-    // Required. ID of the Data Proc cluster.
+    // Required. ID of the Yandex Data Processing cluster.
     string cluster_id = 1 [(length) = "<=50"];
 
-    // Required. ID of the Data Proc job to update.
+    // Required. ID of the Yandex Data Processing job to update.
     string job_id = 2 [(length) = "<=50"];
 
     // Required. New status of the job.
@@ -72,7 +72,7 @@ message UpdateJobStatusResponse {
 }
 
 message ListSupportJobsResponse {
-    // Requested list of Data Proc jobs.
+    // Requested list of Yandex Data Processing jobs.
     repeated SupportJob jobs = 1;
 
     // This token allows you to get the next page of results for ListJobs requests,
@@ -84,10 +84,10 @@ message ListSupportJobsResponse {
 }
 
 message UpdateSupportJobStatusRequest {
-    // Required. ID of the Data Proc cluster.
+    // Required. ID of the Yandex Data Processing cluster.
     string cluster_id = 1 [(length) = "<=50"];
 
-    // Required. ID of the Data Proc job to update.
+    // Required. ID of the Yandex Data Processing job to update.
     string job_id = 2 [(length) = "<=50"];
 
     // Required. New status of the job.

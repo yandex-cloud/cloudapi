@@ -13,7 +13,7 @@ import "yandex/cloud/api/operation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/v1;dataproc";
 option java_package = "yandex.cloud.api.dataproc.v1";
 
-// A set of methods for managing Data Proc subclusters.
+// A set of methods for managing Yandex Data Processing subclusters.
 service SubclusterService {
   // Returns the specified subcluster.
   //
@@ -56,7 +56,7 @@ service SubclusterService {
 }
 
 message GetSubclusterRequest {
-  // ID of the Data Proc cluster that the subcluster belongs to.
+  // ID of the Yandex Data Processing cluster that the subcluster belongs to.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // ID of the subcluster to return.
@@ -66,7 +66,7 @@ message GetSubclusterRequest {
 }
 
 message ListSubclustersRequest {
-  // ID of the Data Proc cluster to list subclusters in.
+  // ID of the Yandex Data Processing cluster to list subclusters in.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
   // The maximum number of results per page to return. If the number of available
@@ -102,7 +102,7 @@ message ListSubclustersResponse {
 }
 
 message CreateSubclusterRequest {
-  // ID of the Data Proc cluster to create a subcluster in.
+  // ID of the Yandex Data Processing cluster to create a subcluster in.
   //
   // To get a cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];

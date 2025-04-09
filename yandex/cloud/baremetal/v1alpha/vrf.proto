@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v1alpha;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v1alpha;baremetal";
+option java_package = "yandex.cloud.api.baremetal.v1alpha";
+
+message Vrf {
+  // Reserved for future use.
+  reserved 6 to 99, 101 to 199;
+
+  // ID of the VRF.
+  string id = 1;
+
+  // ID of the cloud that the private subnet belongs to.
+  string cloud_id = 2;
+
+  // ID of the folder that the private subnet belongs to.
+  string folder_id = 3;
+
+  // Name of the VRF.
+  // The name is unique within the folder.
+  string name = 4;
+
+  // Optional description of the VRF.
+  string description = 5;
+
+  // Creation timestamp.
+  google.protobuf.Timestamp created_at = 100;
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 200;
+}

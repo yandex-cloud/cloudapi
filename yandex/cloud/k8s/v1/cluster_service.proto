@@ -255,6 +255,9 @@ message MasterUpdateSpec {
 
   // Specification of parameters for external IPv6 networking.
   ExternalAddressSpec external_v6_address_spec = 6;
+
+  // Scale policy of the master.
+  MasterScalePolicySpec scale_policy = 7;
 }
 
 message UpdateClusterMetadata {
@@ -462,6 +465,9 @@ message MasterSpec {
 
   // Cloud Logging for master components.
   MasterLogging master_logging = 7;
+
+  // Scale policy of the master.
+  MasterScalePolicySpec scale_policy = 12;
 }
 
 message ZonalMasterSpec {
@@ -526,4 +532,24 @@ message RescheduleMaintenanceRequest {
 
 message RescheduleMaintenanceMetadata {
   string cluster_id = 1;
+}
+
+message MasterScalePolicySpec {
+  oneof scale_type {
+    option (exactly_one) = true;
+    FixedScale fixed_scale = 1;
+    AutoScale auto_scale = 2;
+  }
+
+  // Fixed master instance resources.
+  message FixedScale {
+    // Preset of computing resources to be used by master.
+    string resource_preset_id = 1 [(required) = true];
+  }
+
+  // Scalable master instance resources.
+  message AutoScale {
+    // Preset of computing resources to be used as lower boundary for scaling.
+    string min_resource_preset_id = 1 [(required) = true];
+  }
 }

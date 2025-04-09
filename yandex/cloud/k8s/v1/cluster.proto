@@ -162,6 +162,12 @@ message Master {
 
   // Cloud Logging for master components.
   MasterLogging master_logging = 9;
+
+  // Computing resources of each master instance such as the amount of memory and number of cores.
+  MasterResources resources = 12;
+
+  // Scale policy of the master.
+  MasterScalePolicy scale_policy = 13;
 }
 
 message MasterAuth {
@@ -294,4 +300,36 @@ message Cilium {
   }
 
   RoutingMode routing_mode = 1;
+}
+
+message MasterResources {
+  // The number of cores available to each master instance.
+  int64 cores = 1;
+
+  // Baseline level of CPU performance with the ability to burst performance above that baseline level.
+  // This field sets baseline performance for each core.
+  int64 core_fraction = 2;
+
+  // The amount of memory available to each master instance, specified in bytes.
+  int64 memory = 3;
+}
+
+message MasterScalePolicy {
+  oneof scale_type {
+    option (exactly_one) = true;
+    FixedScale fixed_scale = 1;
+    AutoScale auto_scale = 2;
+  }
+
+  // Fixed master instance resources.
+  message FixedScale {
+    // ID of computing resources preset to be used by master.
+    string resource_preset_id = 1;
+  }
+
+  // Autoscaled master instance resources.
+  message AutoScale {
+    // ID of computing resources preset to be used as lower boundary for scaling.
+    string min_resource_preset_id = 1;
+  }
 }

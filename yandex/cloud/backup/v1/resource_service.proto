@@ -77,6 +77,9 @@ message ListResourcesResponse {
 message GetResourceRequest {
     // Compute Cloud instance ID.
     string compute_instance_id = 1 [ (required) = true, (length) = "<=50" ];
+
+    // If flag is set tenant informantion would be added to the response.
+    bool include_tenant_info = 2;
 }
 
 message GetResourceResponse {

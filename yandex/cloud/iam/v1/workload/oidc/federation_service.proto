@@ -4,6 +4,7 @@ package yandex.cloud.iam.v1.workload.oidc;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/iam/v1/workload/oidc/federation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -56,6 +57,29 @@ service FederationService {
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteFederationMetadata"
       response: "google.protobuf.Empty"
+    };
+  }
+
+  // Lists access bindings for the specified OIDC workload identity federation.
+  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = { get: "/iam/v1/workload/oidc/federations/{resource_id}:listAccessBindings" };
+  }
+
+  // Sets access bindings for the specified OIDC workload identity federation.
+  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/iam/v1/workload/oidc/federations/{resource_id}:setAccessBindings" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
+  }
+
+  // Updates access bindings for the specified OIDC workload identity federation.
+  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/iam/v1/workload/oidc/federations/{resource_id}:updateAccessBindings" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
     };
   }
 }

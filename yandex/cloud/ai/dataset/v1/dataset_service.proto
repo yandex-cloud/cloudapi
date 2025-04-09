@@ -223,6 +223,9 @@ message ListDatasetsRequest {
   // Page token. To get the next page of results, set [page_token] to the
   // [ListDatasetsResponse.next_page_token] returned by a previous list request.
   string page_token = 6;
+
+  //Dataset Id of the datasets to list. Optional.
+  repeated string dataset_ids = 7;
 }
 
 message ListDatasetsResponse {

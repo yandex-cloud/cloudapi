@@ -13,7 +13,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/v
 option java_package = "yandex.cloud.api.dataproc.v1";
 option java_outer_classname = "PHJS";
 
-// A set of methods for managing Data Proc jobs.
+// A set of methods for managing Yandex Data Processing jobs.
 service JobService {
   // Retrieves a list of jobs for a cluster.
   rpc List (ListJobsRequest) returns (ListJobsResponse) {
@@ -39,7 +39,7 @@ service JobService {
     option (google.api.http) = { get: "/dataproc/v1/clusters/{cluster_id}/jobs/{job_id}:logs" };
   }
 
-  // Cancels the specified Dataproc job.
+  // Cancels the specified Yandex Data Processing job.
   rpc Cancel (CancelJobRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/dataproc/v1/clusters/{cluster_id}/jobs/{job_id}:cancel" body: "*" };
     option (yandex.cloud.api.operation) = {
@@ -127,10 +127,10 @@ message CreateJobMetadata {
 }
 
 message CancelJobRequest {
-  // Required. ID of the Dataproc cluster.
+  // Required. ID of the Yandex Data Processing cluster.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Required. ID of the Dataproc job to cancel.
+  // Required. ID of the Yandex Data Processing job to cancel.
   string job_id = 2 [(required) = true, (length) = "<=50"];
 }
 
@@ -153,7 +153,7 @@ message ListJobLogRequest {
 }
 
 message ListJobLogResponse {
-  // Requested part of Data Proc Job log.
+  // Requested part of Yandex Data Processing Job log.
   string content = 1;
 
   // This token allows you to get the next page of results for ListLog requests,

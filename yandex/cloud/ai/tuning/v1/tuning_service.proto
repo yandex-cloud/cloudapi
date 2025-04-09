@@ -28,6 +28,16 @@ service TuningService {
   rpc GetMetricsUrl(GetMetricsUrlRequest) returns (GetMetricsUrlResponse);
   rpc GetOptions(GetOptionsRequest) returns (GetOptionsResponse);
   rpc ListErrors(ListErrorsRequest) returns (ListErrorsResponse);
+
+  rpc CreateDraft(CreateTuningDraftRequest) returns (CreateTuningDraftResponse);
+  rpc UpdateDraft(UpdateTuningDraftRequest) returns (UpdateTuningDraftResponse);
+  rpc DeleteDraft(DeleteTuningDraftRequest) returns (DeleteTuningDraftResponse);
+  rpc TuneDraft(TuneDraftRequest) returns (yandex.cloud.operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "TuningMetadata"
+      response: "TuningResponse"
+    };
+  }
 }
 
 message ListTuningsRequest {
@@ -315,4 +325,67 @@ message ListErrorsRequest {
 
 message ListErrorsResponse {
   repeated TuningError tuning_error = 1;
+}
+
+message CreateTuningDraftRequest {
+  string base_model_uri = 1 [(required) = true];
+
+  repeated TuningRequest.WeightedDataset train_datasets = 2 [(size)=">0"];
+  repeated TuningRequest.WeightedDataset validation_datasets = 3;
+
+  oneof tuning_params {
+    TextToTextCompletionTuningParams text_to_text_completion = 100;
+    TextClassificationMultilabelParams text_classification_multilabel = 101;
+    TextClassificationMulticlassParams text_classification_multiclass = 102;
+    TextEmbeddingPairParams text_embedding_pair_params = 103;
+    TextEmbeddingTripletParams text_embedding_triplet_params = 104;
+  }
+
+  string name = 200 [(pattern) = "^[A-Za-z0-9 _-]{3,100}$"];
+  string description = 201;
+  map<string, string> labels = 202;
+
+  reserved 4 to 99, 105 to 199;
+}
+
+message CreateTuningDraftResponse {
+  string tuning_task_id = 1;
+}
+
+message UpdateTuningDraftRequest {
+  string tuning_task_id = 1 [(required) = true];
+
+  string base_model_uri = 2;
+  repeated TuningRequest.WeightedDataset train_datasets = 3;
+  repeated TuningRequest.WeightedDataset validation_datasets = 4;
+
+  oneof tuning_params {
+    TextToTextCompletionTuningParams text_to_text_completion = 100;
+    TextClassificationMultilabelParams text_classification_multilabel = 101;
+    TextClassificationMulticlassParams text_classification_multiclass = 102;
+    TextEmbeddingPairParams text_embedding_pair_params = 103;
+    TextEmbeddingTripletParams text_embedding_triplet_params = 104;
+  }
+
+  string name = 200;
+  string description = 201;
+  map<string, string> labels = 202;
+
+  reserved 5 to 99, 105 to 199;
+}
+
+message UpdateTuningDraftResponse {
+  string tuning_task_id = 1;
+}
+
+message DeleteTuningDraftRequest {
+  string tuning_task_id = 1 [(required) = true];
+}
+
+message DeleteTuningDraftResponse {
+  string tuning_task_id = 1;
+}
+
+message TuneDraftRequest {
+  string tuning_task_id = 1 [(required) = true];
 }

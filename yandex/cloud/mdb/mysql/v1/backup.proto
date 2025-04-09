@@ -27,7 +27,7 @@ message Backup {
     // Backup is done
     DONE = 1;
 
-    // Backup is creating    
+    // Backup is creating
     CREATING = 2;
   }
   // ID of the backup.
@@ -53,4 +53,7 @@ message Backup {
 
   // Status of backup
   BackupStatus status = 8;
+
+  // Size of the journal associated with backup, in bytes.
+  int64 journal_size = 9;
 }

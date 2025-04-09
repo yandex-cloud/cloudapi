@@ -15,6 +15,15 @@ enum ResourceType {
     BMS = 2;
 }
 
+message TenantInfo {
+    // Folder ID
+    string folder_id = 1;
+    // Personal tenant id from backup provider
+    string personal_tenant_id = 2;
+    // User id from provider
+    string user_id = 3;
+}
+
 message Resource {
     enum Status {
         STATUS_UNSPECIFIED = 0;
@@ -82,6 +91,9 @@ message Resource {
 
     // Type of resource. Could be compute VM or baremetal server.
     ResourceType type = 15;
+
+    // Additional info abount tenant which resource belongs to
+    TenantInfo tenant_info = 16;
 }
 
 message Progress {

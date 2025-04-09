@@ -307,4 +307,16 @@ enum UnitFormat {
 
     // Messages per second (mps)
     UNIT_MESSAGES_PER_SECOND = 90;
+
+    // == UNIT_VIRTUAL_CPU
+    UNIT_NANOCORE_CPU = 91;
+
+    // == 1000 UNIT_NANOCORE_CPU
+    UNIT_MICROCORE_CPU = 92;
+
+    // == 1000 UNIT_MICROCORE_CPU
+    UNIT_MILLICORE_CPU = 93;
+
+    // == 1000 UNIT_MILLICORE_CPU
+    UNIT_CORE_CPU = 94;
 }

@@ -13,9 +13,9 @@ message ResourcePreset {
   // IDs of availability zones where the resource preset is available.
   repeated string zone_ids = 2;
 
-  // Number of CPU cores for a Data Proc host created with the preset.
+  // Number of CPU cores for a Yandex Data Processing host created with the preset.
   int64 cores = 3;
 
-  // RAM volume for a Data Proc host created with the preset, in bytes.
+  // RAM volume for a Yandex Data Processing host created with the preset, in bytes.
   int64 memory = 4;
 }

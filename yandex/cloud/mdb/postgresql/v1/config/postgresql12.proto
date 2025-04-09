@@ -418,7 +418,7 @@ message PostgresqlConfig12 {
 
   google.protobuf.Int64Value effective_io_concurrency = 109 [(value) = "0-1000"];
 
-  google.protobuf.Int64Value effective_cache_size = 110 [(value) = "0-549755813888"];
+  google.protobuf.Int64Value effective_cache_size = 110 [(value) = "1048576-549755813888"];
 
   repeated SharedPreloadLibraries shared_preload_libraries = 111;
 

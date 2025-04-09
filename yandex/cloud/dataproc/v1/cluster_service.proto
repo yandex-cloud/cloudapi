@@ -14,7 +14,7 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/v1;dataproc";
 option java_package = "yandex.cloud.api.dataproc.v1";
 
-// A set of methods for managing Data Proc clusters.
+// A set of methods for managing Yandex Data Processing clusters.
 service ClusterService {
   // Returns the specified cluster.
   //
@@ -92,14 +92,14 @@ service ClusterService {
     option (google.api.http) = {get: "/dataproc/v1/clusters/{cluster_id}/hosts"};
   }
 
-  // Retrieves a list of links to web interfaces being proxied by Data Proc UI Proxy.
+  // Retrieves a list of links to web interfaces being proxied by Yandex Data Processing UI Proxy.
   rpc ListUILinks(ListUILinksRequest) returns (ListUILinksResponse) {
     option (google.api.http) = {get: "/dataproc/v1/clusters/{cluster_id}/ui_links"};
   }
 }
 
 message GetClusterRequest {
-  // ID of the Data Proc cluster.
+  // ID of the Yandex Data Processing cluster.
   //
   // To get a cluster ID make a [ClusterService.List] request.
   string cluster_id = 1 [
@@ -153,7 +153,7 @@ message CreateSubclusterConfigSpec {
   // Name of the subcluster.
   string name = 1 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
-  // Role of the subcluster in the Data Proc cluster.
+  // Role of the subcluster in the Yandex Data Processing cluster.
   Role role = 2 [(required) = true];
 
   // Resource configuration for hosts in the subcluster.
@@ -200,7 +200,7 @@ message CreateClusterConfigSpec {
   // All available versions are listed in the [documentation](/docs/data-proc/concepts/environment).
   string version_id = 1;
 
-  // Data Proc specific options.
+  // Yandex Data Processing specific options.
   HadoopConfig hadoop = 2;
 
   // Specification for creating subclusters.
@@ -226,7 +226,7 @@ message CreateClusterRequest {
   ];
 
   // Name of the cluster. The name must be unique within the folder.
-  // The name can't be changed after the Data Proc cluster is created.
+  // The name can't be changed after the Yandex Data Processing cluster is created.
   string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
   // Description of the cluster.
@@ -252,10 +252,10 @@ message CreateClusterRequest {
     (length) = "<=50"
   ];
 
-  // ID of the service account to be used by the Data Proc manager agent.
+  // ID of the service account to be used by the Yandex Data Processing manager agent.
   string service_account_id = 8 [(required) = true];
 
-  // Name of the Object Storage bucket to use for Data Proc jobs.
+  // Name of the Object Storage bucket to use for Yandex Data Processing jobs.
   string bucket = 9;
 
   // Enable UI Proxy feature.
@@ -303,16 +303,16 @@ message UpdateClusterRequest {
     (map_key).pattern = "[a-z][-_0-9a-z]*"
   ];
 
-  // Configuration and resources for hosts that should be created with the Data Proc cluster.
+  // Configuration and resources for hosts that should be created with the Yandex Data Processing cluster.
   UpdateClusterConfigSpec config_spec = 5;
 
-  // New name for the Data Proc cluster. The name must be unique within the folder.
+  // New name for the Yandex Data Processing cluster. The name must be unique within the folder.
   string name = 6 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
-  // ID of the new service account to be used by the Data Proc manager agent.
+  // ID of the new service account to be used by the Yandex Data Processing manager agent.
   string service_account_id = 7;
 
-  // Name of the new Object Storage bucket to use for Data Proc jobs.
+  // Name of the new Object Storage bucket to use for Yandex Data Processing jobs.
   string bucket = 8;
 
   // Timeout to gracefully decommission nodes. In seconds. Default value: 0
@@ -350,7 +350,7 @@ message DeleteClusterRequest {
 }
 
 message DeleteClusterMetadata {
-  // ID of the Data Proc cluster that is being deleted.
+  // ID of the Yandex Data Processing cluster that is being deleted.
   string cluster_id = 1;
 }
 
@@ -365,7 +365,7 @@ message StartClusterRequest {
 }
 
 message StartClusterMetadata {
-  // ID of the Data Proc cluster that is being started.
+  // ID of the Yandex Data Processing cluster that is being started.
   string cluster_id = 1;
 }
 
@@ -383,7 +383,7 @@ message StopClusterRequest {
 }
 
 message StopClusterMetadata {
-  // ID of the Data Proc cluster that is being stopped.
+  // ID of the Yandex Data Processing cluster that is being stopped.
   string cluster_id = 1;
 }
 

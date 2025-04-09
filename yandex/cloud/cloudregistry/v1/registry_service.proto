@@ -174,7 +174,7 @@ message CreateRegistryRequest {
   string description = 6 [(length) = "<=1024"];
 
   // Property names and values.
-  map<string, string> properties = 7 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-zA-Z]+", (map_key).length = "1-63", (map_key).pattern = "[a-zA-Z]+"];
+  map<string, string> properties = 7 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_.~!*'();/?:@&=+$,%#0-9a-zA-Z]+", (map_key).length = "1-63", (map_key).pattern = "[a-zA-Z]+"];
 
 }
 
@@ -206,7 +206,7 @@ message UpdateRegistryRequest {
   string description = 5 [(length) = "<=1024"];
 
   // Property names and values.
-  map<string, string> properties = 6 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-zA-Z]+", (map_key).length = "1-63", (map_key).pattern = "[a-zA-Z]+"];
+  map<string, string> properties = 6 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_.~!*'();/?:@&=+$,%#0-9a-zA-Z]+", (map_key).length = "1-63", (map_key).pattern = "[a-zA-Z]+"];
 
 }
 

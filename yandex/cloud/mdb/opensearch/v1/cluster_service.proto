@@ -736,6 +736,9 @@ message ConfigCreateSpec {
 
   // Access policy for external services.
   Access access = 5;
+
+  // Snapshot management configuration
+  SnapshotManagement snapshot_management = 6;
 }
 
 // Single keystore entry.
@@ -850,6 +853,9 @@ message ConfigUpdateSpec {
 
   // Access policy for external services.
   Access access = 5;
+
+  // Snapshot management configuration
+  SnapshotManagement snapshot_management = 6;
 }
 
 message OpenSearchClusterUpdateSpec {

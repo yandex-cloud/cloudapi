@@ -97,6 +97,9 @@ message LoadBalancer {
 
   // Cloud logging settings of the application load balancer.
   LogOptions log_options = 15;
+
+  // Specifies whether application load balancer is available to zonal shift.
+  bool allow_zonal_shift = 16;
 }
 
 // An endpoint address resource.
@@ -157,6 +160,9 @@ message Location {
   // They still may receive traffic from the load balancer nodes in other availability zones,
   // subject to [LoadBalancingConfig.locality_aware_routing_percent] and [LoadBalancingConfig.strict_locality] settings.
   bool disable_traffic = 3;
+
+  // Show zonal shift status for the location.
+  bool zonal_shift_active = 4;
 }
 
 // A locality settings (allocation policy) resource.

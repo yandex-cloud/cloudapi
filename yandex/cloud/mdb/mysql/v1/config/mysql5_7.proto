@@ -156,6 +156,34 @@ message MysqlConfig5_7 {
     WRITESET_SESSION = 3;
   }
 
+  enum AuditLogPolicy {
+    AUDIT_LOG_POLICY_UNSPECIFIED = 0;
+
+    ALL = 1;
+
+    LOGINS = 2;
+
+    QUERIES = 3;
+
+    NONE = 4;
+  }
+
+  enum InnodbChangeBuffering {
+    INNODB_CHANGE_BUFFERING_UNSPECIFIED = 0;
+
+    INNODB_CHANGE_BUFFERING_NONE = 1;
+
+    INNODB_CHANGE_BUFFERING_INSERTS = 2;
+
+    INNODB_CHANGE_BUFFERING_DELETES = 3;
+
+    INNODB_CHANGE_BUFFERING_CHANGES = 4;
+
+    INNODB_CHANGE_BUFFERING_PURGES = 5;
+
+    INNODB_CHANGE_BUFFERING_ALL = 6;
+  }
+
   // Size of the InnoDB buffer pool used for caching table and index data.
   //
   // See [MySQL documentation](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_buffer_pool_size) for details.
@@ -585,6 +613,24 @@ message MysqlConfig5_7 {
   //
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_max_execution_time)
   google.protobuf.Int64Value max_execution_time = 87 [(value) = "0-4294967295"];
+
+  // The policy controlling how the audit log plugin writes events to its log file
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/audit-log-reference.html#sysvar_audit_log_policy)
+  AuditLogPolicy audit_log_policy = 88;
+
+  // A parameter that influences the algorithms and heuristics for the flush operation for the InnoDB buffer pool
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_lru_scan_depth)
+  google.protobuf.Int64Value innodb_lru_scan_depth = 89 [(value) = "100-4294967295"];
+
+  // Force ssl on all hosts (require_secure_transport)
+  google.protobuf.BoolValue mdb_force_ssl = 90;
+
+  // An optimization for change buffering
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_change_buffering).
+  InnodbChangeBuffering innodb_change_buffering = 91;
 }
 
 message MysqlConfigSet5_7 {

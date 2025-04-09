@@ -20,6 +20,8 @@ message TuningTask {
     FAILED = 5;
 
     CANCELED = 6;
+
+    DRAFT = 7;
   }
 
   string task_id = 1;

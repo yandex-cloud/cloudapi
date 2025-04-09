@@ -108,6 +108,7 @@ message CreateApiKeyRequest {
   // Description of the API key.
   string description = 2 [(length) = "<=256"];
 
+  // Draft
   // Scope of the API key.
   string scope = 3 [(length) = "<=256", deprecated = true];
 

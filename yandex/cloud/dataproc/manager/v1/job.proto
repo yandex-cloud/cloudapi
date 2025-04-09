@@ -7,25 +7,25 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/manager/v1;dataproc_manager";
 option java_package = "yandex.cloud.api.dataproc.manager.v1";
 
-// Data Proc job.
+// Yandex Data Processing job.
 message Job {
-  // Unique ID of the Data Proc job.
-  // This ID is assigned by MDB in the process of creating Data Proc job.
+  // Unique ID of the Yandex Data Processing job.
+  // This ID is assigned by MDB in the process of creating Yandex Data Processing job.
   string id = 1;
 
-  // ID of the Data Proc cluster.
+  // ID of the Yandex Data Processing cluster.
   string cluster_id = 2;
 
-  // The time when the Data Proc job was created.
+  // The time when the Yandex Data Processing job was created.
   google.protobuf.Timestamp created_at = 3;
 
-  // The time when the Data Proc job was started.
+  // The time when the Yandex Data Processing job was started.
   google.protobuf.Timestamp started_at = 4;
 
-  // The time when the Data Proc job was finished.
+  // The time when the Yandex Data Processing job was finished.
   google.protobuf.Timestamp finished_at = 5;
 
-  // Name of the Data Proc job.
+  // Name of the Yandex Data Processing job.
   string name = 6;
 
   // The id of the user who created the job
@@ -79,13 +79,13 @@ message MapreduceJob {
   // URIs of file to run.
   repeated string jar_file_uris = 2;
 
-  // URIs of files to be copied to the working directory of Data Proc drivers and distributed tasks.
+  // URIs of files to be copied to the working directory of Yandex Data Processing drivers and distributed tasks.
   repeated string file_uris = 3;
 
-  // URIs of archives to be extracted in the working directory of Data Proc drivers and tasks.
+  // URIs of archives to be extracted in the working directory of Yandex Data Processing drivers and tasks.
   repeated string archive_uris = 4;
 
-  // A mapping of property names to values, used to configure Data Proc.
+  // A mapping of property names to values, used to configure Yandex Data Processing.
   map<string, string> properties = 5;
 
   oneof driver {
@@ -101,16 +101,16 @@ message SparkJob {
   // Optional arguments to the driver.
   repeated string args = 1;
 
-  // Jar file URIs to add to the CLASSPATHs of the Data Proc driver and tasks.
+  // Jar file URIs to add to the CLASSPATHs of the Yandex Data Processing driver and tasks.
   repeated string jar_file_uris = 2;
 
-  // URIs of files to be copied to the working directory of Data Proc drivers and distributed tasks.
+  // URIs of files to be copied to the working directory of Yandex Data Processing drivers and distributed tasks.
   repeated string file_uris = 3;
 
-  // URIs of archives to be extracted in the working directory of Data Proc drivers and tasks.
+  // URIs of archives to be extracted in the working directory of Yandex Data Processing drivers and tasks.
   repeated string archive_uris = 4;
 
-  // A mapping of property names to values, used to configure Data Proc.
+  // A mapping of property names to values, used to configure Yandex Data Processing.
   map<string, string> properties = 5;
 
   // The HCFS URI of the jar file containing the main class.
@@ -133,16 +133,16 @@ message PysparkJob {
   // Optional arguments to the driver.
   repeated string args = 1;
 
-  // Jar file URIs to add to the CLASSPATHs of the Data Proc driver and tasks.
+  // Jar file URIs to add to the CLASSPATHs of the Yandex Data Processing driver and tasks.
   repeated string jar_file_uris = 2;
 
-  // URIs of files to be copied to the working directory of Data Proc drivers and distributed tasks.
+  // URIs of files to be copied to the working directory of Yandex Data Processing drivers and distributed tasks.
   repeated string file_uris = 3;
 
-  // URIs of archives to be extracted in the working directory of Data Proc drivers and tasks.
+  // URIs of archives to be extracted in the working directory of Yandex Data Processing drivers and tasks.
   repeated string archive_uris = 4;
 
-  // A mapping of property names to values, used to configure Data Proc.
+  // A mapping of property names to values, used to configure Yandex Data Processing.
   map<string, string> properties = 5;
 
   // URI of the main Python file to use as the driver. Must be a .py file.
@@ -186,22 +186,22 @@ message HiveJob {
   }
 }
 
-// Data Proc support job.
+// Yandex Data Processing support job.
 message SupportJob {
-  // Required. Unique ID of the Data Proc job.
-  // This ID is assigned by MDB in the process of creating Data Proc job.
+  // Required. Unique ID of the Yandex Data Processing job.
+  // This ID is assigned by MDB in the process of creating Yandex Data Processing job.
   string id = 1;
 
-  // Required. Unique ID of the Data Proc cluster.
+  // Required. Unique ID of the Yandex Data Processing cluster.
   string cluster_id = 2;
 
-  // The time when the Data Proc job was created.
+  // The time when the Yandex Data Processing job was created.
   google.protobuf.Timestamp created_at = 3;
 
-  // The time when the Data Proc job was started.
+  // The time when the Yandex Data Processing job was started.
   google.protobuf.Timestamp started_at = 4;
 
-  // The time when the Data Proc job was finished.
+  // The time when the Yandex Data Processing job was finished.
   google.protobuf.Timestamp finished_at = 5;
 
   enum Status {

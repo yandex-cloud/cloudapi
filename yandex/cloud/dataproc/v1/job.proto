@@ -8,12 +8,12 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/v
 option java_package = "yandex.cloud.api.dataproc.v1";
 option java_outer_classname = "PHJ";
 
-// A Data Proc job. For details about the concept, see [documentation](/docs/data-proc/concepts/jobs).
+// A Yandex Data Processing job. For details about the concept, see [documentation](/docs/data-proc/concepts/jobs).
 message Job {
   // ID of the job. Generated at creation time.
   string id = 1;
 
-  // ID of the Data Proc cluster that the job belongs to.
+  // ID of the Yandex Data Processing cluster that the job belongs to.
   string cluster_id = 2;
 
   // Creation timestamp.
@@ -97,17 +97,17 @@ message MapreduceJob {
   // Optional arguments to pass to the driver.
   repeated string args = 1;
 
-  // JAR file URIs to add to CLASSPATH of the Data Proc driver and each task.
+  // JAR file URIs to add to CLASSPATH of the Yandex Data Processing driver and each task.
   repeated string jar_file_uris = 2;
 
-  // URIs of resource files to be copied to the working directory of Data Proc drivers
+  // URIs of resource files to be copied to the working directory of Yandex Data Processing drivers
   // and distributed Hadoop tasks.
   repeated string file_uris = 3;
 
-  // URIs of archives to be extracted to the working directory of Data Proc drivers and tasks.
+  // URIs of archives to be extracted to the working directory of Yandex Data Processing drivers and tasks.
   repeated string archive_uris = 4;
 
-  // Property names and values, used to configure Data Proc and MapReduce.
+  // Property names and values, used to configure Yandex Data Processing and MapReduce.
   map<string, string> properties = 5;
 
   oneof driver {
@@ -123,17 +123,17 @@ message SparkJob {
   // Optional arguments to pass to the driver.
   repeated string args = 1;
 
-  // JAR file URIs to add to CLASSPATH of the Data Proc driver and each task.
+  // JAR file URIs to add to CLASSPATH of the Yandex Data Processing driver and each task.
   repeated string jar_file_uris = 2;
 
-  // URIs of resource files to be copied to the working directory of Data Proc drivers
+  // URIs of resource files to be copied to the working directory of Yandex Data Processing drivers
   // and distributed Hadoop tasks.
   repeated string file_uris = 3;
 
-  // URIs of archives to be extracted to the working directory of Data Proc drivers and tasks.
+  // URIs of archives to be extracted to the working directory of Yandex Data Processing drivers and tasks.
   repeated string archive_uris = 4;
 
-  // Property names and values, used to configure Data Proc and Spark.
+  // Property names and values, used to configure Yandex Data Processing and Spark.
   map<string, string> properties = 5;
 
   // The HCFS URI of the JAR file containing the `main` class for the job.
@@ -156,17 +156,17 @@ message PysparkJob {
   // Optional arguments to pass to the driver.
   repeated string args = 1;
 
-  // JAR file URIs to add to CLASSPATH of the Data Proc driver and each task.
+  // JAR file URIs to add to CLASSPATH of the Yandex Data Processing driver and each task.
   repeated string jar_file_uris = 2;
 
-  // URIs of resource files to be copied to the working directory of Data Proc drivers
+  // URIs of resource files to be copied to the working directory of Yandex Data Processing drivers
   // and distributed Hadoop tasks.
   repeated string file_uris = 3;
 
-  // URIs of archives to be extracted to the working directory of Data Proc drivers and tasks.
+  // URIs of archives to be extracted to the working directory of Yandex Data Processing drivers and tasks.
   repeated string archive_uris = 4;
 
-  // Property names and values, used to configure Data Proc and PySpark.
+  // Property names and values, used to configure Yandex Data Processing and PySpark.
   map<string, string> properties = 5;
 
   // URI of the file with the driver code. Must be a .py file.
@@ -191,7 +191,7 @@ message QueryList {
 }
 
 message HiveJob {
-  // Property names and values, used to configure Data Proc and Hive.
+  // Property names and values, used to configure Yandex Data Processing and Hive.
   map<string, string> properties = 1;
 
   // Flag indicating whether a job should continue to run if a query fails.
