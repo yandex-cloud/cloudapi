@@ -10,5 +10,5 @@ message Timeline {
     string period = 1;
 
     // default refresh interval
-    int64 refresh_interval = 2;
+    optional int64 refresh_interval = 2;
 }
