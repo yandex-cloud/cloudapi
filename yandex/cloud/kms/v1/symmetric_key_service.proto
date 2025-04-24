@@ -153,7 +153,7 @@ message CreateSymmetricKeyRequest {
   map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 
   // Encryption algorithm to be used with a new key version, generated with the next rotation.
-  SymmetricAlgorithm default_algorithm = 5;
+  SymmetricAlgorithm default_algorithm = 5 [(required) = true];
 
   // Interval between automatic rotations. To disable automatic rotation, don't include
   // this field in the creation request.

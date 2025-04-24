@@ -114,7 +114,7 @@ message DetectLanguageRequest {
   repeated string language_code_hints = 2 [(size) = "<=10", (length) = "<=3"];
 
   // ID of the folder to which you have access.
-  // Required for authorization with a user account (see [yandex.cloud.iam.v1.UserAccount] resource).
+  // Required for authorization with a user account.
   // Don't specify this field if you make the request on behalf of a service account.
   string folder_id = 3 [(length) = "<=50"];
 }

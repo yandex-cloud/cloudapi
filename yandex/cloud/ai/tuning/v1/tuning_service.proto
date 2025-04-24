@@ -29,9 +29,13 @@ service TuningService {
   rpc GetOptions(GetOptionsRequest) returns (GetOptionsResponse);
   rpc ListErrors(ListErrorsRequest) returns (ListErrorsResponse);
 
+  // Unimplemented
   rpc CreateDraft(CreateTuningDraftRequest) returns (CreateTuningDraftResponse);
+  // Unimplemented
   rpc UpdateDraft(UpdateTuningDraftRequest) returns (UpdateTuningDraftResponse);
+  // Unimplemented
   rpc DeleteDraft(DeleteTuningDraftRequest) returns (DeleteTuningDraftResponse);
+  // Unimplemented
   rpc TuneDraft(TuneDraftRequest) returns (yandex.cloud.operation.Operation) {
     option (yandex.cloud.api.operation) = {
       metadata: "TuningMetadata"

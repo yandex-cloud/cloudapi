@@ -139,6 +139,10 @@ service InstanceGroupService {
 
   // Delete instances from the instance group.
   rpc DeleteInstances(DeleteInstancesRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/compute/v1/instanceGroups/{instance_group_id}:deleteInstances"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteInstancesMetadata"
       response: "InstanceGroup"
@@ -147,6 +151,10 @@ service InstanceGroupService {
 
   // Stop instances from the instance group.
   rpc StopInstances(StopInstancesRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/compute/v1/instanceGroups/{instance_group_id}:stopInstances"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "StopInstancesMetadata"
       response: "InstanceGroup"

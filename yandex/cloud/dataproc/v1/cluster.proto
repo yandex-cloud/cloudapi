@@ -147,6 +147,9 @@ message HadoopConfig {
 
   // Set of init-actions
   repeated InitializationAction initialization_actions = 4;
+
+  // Oslogin enable on cluster nodes
+  bool oslogin_enabled = 5;
 }
 
 message ClusterConfig {

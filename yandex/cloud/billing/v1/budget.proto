@@ -63,7 +63,7 @@ message CostBudgetSpec {
     // Max cost threshold of the budget. Amount currency is the same as corresponding [yandex.cloud.billing.v1.BillingAccount.currency].
     string amount = 1 [(required) = true];
 
-    // IDs of the [yandex.cloud.iam.v1.UserAccount].
+    // User account IDs.
     // Specified users will be be notified if the budget exceeds.
     repeated string notification_user_account_ids = 2 [(size) = ">=1"];
 
@@ -98,7 +98,7 @@ message ExpenseBudgetSpec {
     // Max expense threshold of the budget. Amount currency is the same as corresponding [yandex.cloud.billing.v1.BillingAccount.currency].
     string amount = 1 [(required) = true];
 
-    // IDs of the [yandex.cloud.iam.v1.UserAccount].
+    // User account IDs.
     // Specified users will be be notified if the budget exceeds.
     repeated string notification_user_account_ids = 2 [(size) = ">=1"];
 
@@ -134,7 +134,7 @@ message BalanceBudgetSpec {
     // Max balance threshold of the budget. Amount currency is the same as corresponding [yandex.cloud.billing.v1.BillingAccount.currency].
     string amount = 1 [(required) = true];
 
-    // IDs of the [yandex.cloud.iam.v1.UserAccount].
+    // User account IDs.
     // Specified users will be be notified if the budget exceeds.
     repeated string notification_user_account_ids = 2 [(size) = ">=1"];
 
@@ -204,7 +204,7 @@ message ThresholdRule {
     //  * Must be less than budget's amount if type is AMOUNT.
     string amount = 2 [(required) = true];
 
-    // IDs of the [yandex.cloud.iam.v1.UserAccount].
+    // User account IDs.
     // Specified users will be be notified if the threshold exceeds.
     repeated string notification_user_account_ids = 3;
 }

@@ -95,3 +95,26 @@ message NgramTokenizer {
   // Maximum length of characters in a gram. Defaults to 4
   google.protobuf.Int64Value max_gram = 2;
 }
+
+// A standard tokenizer that splits text on word boundaries and removes punctuation.
+// It follows the Unicode Text Segmentation rules as specified in Unicode Standard Annex #29.
+//
+// Example:
+// Input text: `Hello, world! How are you?`
+// Output tokens: `[Hello, world, How, are, you]`
+message StandardTokenizer {
+
+}
+
+// A standard analyzer that uses StandardTokenizer.
+message StandardAnalyzer {
+
+}
+
+// A specialized analyzer that uses Yandex's lemmatization technology to reduce words to their base forms.
+// Particularly effective for Russian and other Slavic languages, handling their complex morphology.
+// For more information, see:
+// https://yandex.cloud/en/docs/tutorials/dataplatform/opensearch-yandex-lemmer
+message YandexLemmerAnalyzer {
+
+}

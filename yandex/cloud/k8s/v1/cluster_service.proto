@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/k8s/v1/cluster.proto";
 import "yandex/cloud/k8s/v1/node.proto";
@@ -113,6 +114,35 @@ service ClusterService {
   // Lists cluster's nodes.
   rpc ListNodes(ListClusterNodesRequest) returns (ListClusterNodesResponse) {
     option (google.api.http) = {get: "/managed-kubernetes/v1/clusters/{cluster_id}/nodes"};
+  }
+
+  // Lists cluster's access bindings
+  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {get: "/managed-kubernetes/v1/clusters/{resource_id}:listAccessBindings"};
+  }
+
+  // Sets cluster's access bindings
+  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/managed-kubernetes/v1/clusters/{resource_id}:setAccessBindings"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
+  }
+
+  // Updates cluster's access bindings
+  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/managed-kubernetes/v1/clusters/{resource_id}:updateAccessBindings"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
   }
 }
 

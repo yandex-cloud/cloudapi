@@ -31,7 +31,7 @@ message YandexPassportUserAccount {
 }
 
 // A SAML federated user.
-// For more information, see [federations](/docs/iam/concepts/users/saml-federations).
+// For more information, see [federations](/docs/iam/concepts/users/accounts#saml-federation).
 message SamlUserAccount {
     message Attribute {
         repeated string value = 1;

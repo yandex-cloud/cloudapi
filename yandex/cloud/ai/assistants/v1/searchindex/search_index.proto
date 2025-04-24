@@ -71,7 +71,21 @@ message TextSearchIndex {
   // If not specified, the default tokenizer configuration is applied.
   oneof TextTokenizer {
     // Tokenizer that generates n-grams.
-    NgramTokenizer ngram_tokenizer = 2;
+    NgramTokenizer ngram_tokenizer = 2 [deprecated = true];
+    // Tokenizer that generates words.
+    StandardTokenizer standard_tokenizer = 3;
+  }
+
+  // Analyzer type used for text search. The analyzer determines how the
+  // tokenized text is further processed before indexing.
+  // If not specified, the default analyzer configuration is applied.
+  oneof TextAnalyzer {
+    // Standard analyzer that performs common text processing operations to normalize text.
+    StandardAnalyzer standard_analyzer = 4;
+    
+    // Specialized analyzer that uses Yandex's lemmatization technology,
+    // particularly effective for Russian and other Slavic languages.
+    YandexLemmerAnalyzer yandex_lemmer_analyzer = 5;
   }
 }
 

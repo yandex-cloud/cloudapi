@@ -79,6 +79,24 @@ service RoutingInstanceService {
     option (google.api.http) = { post: "/cloudrouter/v1/routingInstances/{routing_instance_id}:removePrefixes" body: "*" };
   }
 
+  // Moves the specified prefix between availability zones of the RoutingInstance.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
+  rpc MovePrefix (MovePrefixRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateRoutingInstanceMetadata"
+      response: "RoutingInstance"
+    };
+  }
+
+  // Removes specified PrivateConnection from a RoutingInstance resource.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
+  rpc UpdatePrefixMask (UpdatePrefixMaskRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateRoutingInstanceMetadata"
+      response: "RoutingInstance"
+    };
+  }
+
   // Adds specified PrivateConnection to a RoutingInstance resource.
   // Method starts an asynchronous operation that can be cancelled while it is in progress.
   rpc AddPrivateConnection (AddPrivateConnectionRequest) returns (operation.Operation) {
@@ -229,10 +247,10 @@ message UpdateRoutingInstanceRequest {
   string region_id = 7;
 
   // List of the info about vpcNetworks which are attached to the RoutingInstance.
-  repeated RoutingInstance.VpcInfo vpc_info = 8;
+  repeated RoutingInstance.VpcInfo vpc_info = 8 [deprecated = true];
   
   // List of the info about privateConnections which are attached to the RoutingInstance.
-  repeated RoutingInstance.CicPrivateConnectionInfo cic_private_connection_info = 9;
+  repeated RoutingInstance.CicPrivateConnectionInfo cic_private_connection_info = 9 [deprecated = true];
 
   reserved 10 to 13;
 
@@ -282,6 +300,46 @@ message VpcAzInfoPrefixes {
   repeated string prefixes = 2;
 
   reserved 3;
+}
+
+message MovePrefixRequest {
+  // ID of the RoutingInstance resource.
+  string routing_instance_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the source VpcNetwork.
+  string src_vpc_network_id = 2;
+
+  // ID of the AZ in the source VpcNetwork.
+  string src_az_id = 3;
+
+  // ID of the destination VpcNetwork.
+  string dst_vpc_network_id = 4;
+
+  // ID of the AZ in the destination VpcNetwork.
+  string dst_az_id = 5;
+
+  // Prefix to move.
+  string prefix = 6;
+}
+
+message UpdatePrefixMaskRequest {
+  // ID of the RoutingInstance resource.
+  string routing_instance_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the VpcNetwork. 
+  string vpc_network_id = 2;
+
+  // ID of the AZ
+  string az_id = 3;
+
+  // Prefix to update mask
+  string prefix = 4;
+
+  // The new mask
+  int64 new_mask = 5;
+
+  // Specifies whether existing sub-prefixes covered by the mask should be removed.  
+  bool remove_sub_prefixes = 6;
 }
 
 message AddPrivateConnectionRequest {

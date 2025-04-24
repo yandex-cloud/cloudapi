@@ -136,6 +136,9 @@ enum GlobalPermission {
   // The `SHOW FUNCTION CODE` and `SHOW PROCEDURE CODE` statements.
   // The SHOW `FUNCTION STATUS` and `SHOW PROCEDURE STATUS` statements.
   SHOW_ROUTINE = 5;
+
+  // Enables use of the KILL command, creating and dropping databases and users, granting privileges to tables and databases.
+  MDB_ADMIN = 6;
 }
 
 message ConnectionLimits {

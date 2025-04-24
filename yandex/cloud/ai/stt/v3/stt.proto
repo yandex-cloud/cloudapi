@@ -637,3 +637,7 @@ message StreamingResponse {
 message DeleteRecognitionRequest {
   string operation_id = 1;
 }
+
+message StreamingResponseList {
+  repeated StreamingResponse streaming_responses = 1;
+}

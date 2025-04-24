@@ -36,7 +36,7 @@ message TextClassificationResponse {
 }
 
 // Request for the service to classify text.
-// For examples of usage, see [step-by-step guides](/docs/operations/classifier/readymade).
+// For examples of usage, see [step-by-step guides](/docs/foundation-models/operations/classifier/readymade).
 message FewShotTextClassificationRequest {
 
   // The [URI](/docs/foundation-models/concepts/classifier/models) of the classifier model.

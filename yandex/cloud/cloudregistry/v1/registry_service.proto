@@ -268,7 +268,7 @@ message ListArtifactsRequest {
   string registry_id = 1 [(length) = "<=50"];
 
   // The path to a specific node where the registry artifact is located.
-  string path = 2 [(pattern) = "|[a-zA-Z0-9]+(?:[._-][a-zA-Z0-9]+)*(/([a-zA-Z0-9]+(?:[._-][a-zA-Z0-9]+)*))*"];
+  string path = 2;
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size],
