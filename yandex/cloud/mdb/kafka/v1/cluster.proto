@@ -265,7 +265,8 @@ message KafkaConfig2_8 {
   // Should pre allocate file when create new segment?
   //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_8.preallocate] setting.
-  google.protobuf.BoolValue log_preallocate = 10;
+  // Deprecated. Feature useless for Yandex Cloud.
+  google.protobuf.BoolValue log_preallocate = 10 [deprecated = true];
 
   // The SO_SNDBUF buffer of the socket server sockets. If the value is -1, the OS default will be used.
   google.protobuf.Int64Value socket_send_buffer_bytes = 11;
@@ -347,7 +348,8 @@ message KafkaConfig3 {
   // Should pre allocate file when create new segment?
   //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig3.preallocate] setting.
-  google.protobuf.BoolValue log_preallocate = 10;
+  // Deprecated. Feature useless for Yandex Cloud.
+  google.protobuf.BoolValue log_preallocate = 10 [deprecated = true];
 
   // The SO_SNDBUF buffer of the socket server sockets. If the value is -1, the OS default will be used.
   google.protobuf.Int64Value socket_send_buffer_bytes = 11;

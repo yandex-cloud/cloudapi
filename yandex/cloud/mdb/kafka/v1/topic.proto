@@ -119,7 +119,8 @@ message TopicConfig2_8 {
   // True if we should preallocate the file on disk when creating a new log segment.
   //
   // This setting overrides the cluster-level [KafkaConfig2_8.log_preallocate] setting on the topic level.
-  google.protobuf.BoolValue preallocate = 13;
+  // Deprecated. Feature useless for Yandex Cloud.
+  google.protobuf.BoolValue preallocate = 13 [deprecated = true];
 }
 
 // A topic settings for 3.x
@@ -189,5 +190,6 @@ message TopicConfig3 {
   // True if we should preallocate the file on disk when creating a new log segment.
   //
   // This setting overrides the cluster-level [KafkaConfig3.log_preallocate] setting on the topic level.
-  google.protobuf.BoolValue preallocate = 13;
+  // Deprecated. Feature useless for Yandex Cloud.
+  google.protobuf.BoolValue preallocate = 13 [deprecated = true];
 }
