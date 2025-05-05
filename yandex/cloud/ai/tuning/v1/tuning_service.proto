@@ -104,7 +104,9 @@ message TuningRequest {
   string base_model_uri = 1 [(required) = true];
 
   repeated WeightedDataset train_datasets = 2 [(size)=">0"];
-  repeated WeightedDataset validation_datasets = 3;
+  repeated WeightedDataset validation_datasets = 3 [deprecated = true];
+  WeightedDataset validation_dataset = 4;
+  repeated WeightedDataset test_datasets = 5;
 
   oneof tuning_params {
     TextToTextCompletionTuningParams text_to_text_completion = 100;
@@ -124,7 +126,7 @@ message TuningRequest {
     string dataset_id = 1 [(required) = true];
     double weight = 2;
   }
-  reserved 4 to 99, 105 to 199;
+  reserved 6 to 99, 105 to 199;
 }
 
 message TextToTextCompletionTuningParams {

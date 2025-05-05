@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.marketplace.pim.v1.saas;
 
+import "google/api/annotations.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -12,9 +13,12 @@ option java_package = "yandex.cloud.api.marketplace.pim.v1.saas";
 
 
 service ProductInstanceService {
-  rpc Get(GetProductInstanceRequest) returns (ProductInstance);
+  rpc Get(GetProductInstanceRequest) returns (ProductInstance) {
+    option (google.api.http) = { get: "/marketplace/pim/saas/v1/instances/{product_instance_id}" };
+  };
 
   rpc Claim(ClaimProductInstanceRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/marketplace/pim/saas/v1/instances/claim" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "ClaimProductInstanceMetadata"
       response: "ProductInstance"

@@ -20,6 +20,8 @@ message SearchQuery {
     SEARCH_TYPE_KK = 4;
     // Belarusian search type, yandex.by search domain name will be used.
     SEARCH_TYPE_BE = 5;
+    // Uzbek search type, yandex.uz search domain name will be used.
+    SEARCH_TYPE_UZ = 6;
   }
 
   enum FamilyMode {

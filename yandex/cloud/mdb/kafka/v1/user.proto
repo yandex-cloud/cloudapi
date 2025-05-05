@@ -56,9 +56,18 @@ message Permission {
 
     // Admin permissions on topics role for the user.
     ACCESS_ROLE_TOPIC_ADMIN = 4;
+
+    ACCESS_ROLE_TOPIC_PRODUCER = 5;
+
+    ACCESS_ROLE_TOPIC_CONSUMER = 6;
+
+    ACCESS_ROLE_SCHEMA_READER = 7;
+
+    ACCESS_ROLE_SCHEMA_WRITER = 8;
   }
 
   // Name or prefix-pattern with wildcard for the topic that the permission grants access to.
+  // With roles SCHEMA_READER and SCHEMA_WRITER: string that contains set of schema registry subjects, separated by ';'.
   //
   // To get the topic name, make a [TopicService.List] request.
   string topic_name = 1;

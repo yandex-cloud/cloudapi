@@ -69,6 +69,7 @@ message Source {
     DataStream data_stream = 1;
     MessageQueue message_queue = 2;
     Timer timer = 3;
+    EventServiceSource event_service_source = 4;
   }
 }
 
@@ -104,6 +105,9 @@ message MessageQueue {
  
   // Queue polling timeout.
   google.protobuf.Duration polling_timeout = 5 [(value) = "<=20s"];
+}
+
+message EventServiceSource {
 }
 
 message Timer {

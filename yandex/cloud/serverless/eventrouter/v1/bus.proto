@@ -27,7 +27,7 @@ message LogOptions {
   yandex.cloud.logging.v1.LogLevel.Level min_level = 3;
 
   // Service account, which has permission to write to destination
-  string service_account_id = 4 [(required) = true, (length) = "<=50"];
+  string service_account_id = 4;
 }
 
 message Bus {

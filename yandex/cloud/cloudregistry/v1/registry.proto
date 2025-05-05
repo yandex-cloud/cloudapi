@@ -32,6 +32,8 @@ message Registry {
     DOCKER = 3;
     // Registry kind is nuget.
     NUGET = 4;
+    // Registry kind is debian.
+    DEBIAN = 5;
   }
   enum Type {
     TYPE_UNSPECIFIED = 0;
