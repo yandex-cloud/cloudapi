@@ -26,7 +26,7 @@ enum Role {
 
 message GenSearchMessage {
   // Text of user query or the model's response (depending on the role value).
-  string content = 1 [(required) = true, (length) = "<=1024"];
+  string content = 1 [(required) = true, (length) = "<=16384"];
   // Message sender's role
   Role role = 2 [(required) = true];
 }

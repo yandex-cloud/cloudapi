@@ -5,6 +5,7 @@ package yandex.cloud.monitoring.v3;
 import "google/protobuf/wrappers.proto";
 import "yandex/cloud/monitoring/v3/downsampling.proto";
 import "yandex/cloud/monitoring/v3/unit_format.proto";
+import "yandex/cloud/monitoring/v3/thresholds.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/monitoring/v3;monitoring";
 option java_package = "yandex.cloud.api.monitoring.v3";
@@ -156,6 +157,19 @@ message MultiSourceChartWidget {
             message HashColorScheme {
             }
 
+            message ThresholdsColorScheme {
+                enum Aggregation {
+                    AGGREGATION_UNSPECIFIED = 0;
+                    AGGREGATION_LAST = 1;
+                    AGGREGATION_MIN = 2;
+                    AGGREGATION_MAX = 3;
+                    AGGREGATION_AVG = 4;
+                    AGGREGATION_SUM = 5;
+                }
+
+                Aggregation aggregation = 1;
+            }
+
             oneof scheme {
                 // Automatic color scheme.
                 AutomaticColorScheme automatic = 1;
@@ -168,6 +182,9 @@ message MultiSourceChartWidget {
 
                 // Hash color scheme. Based on line name or value.
                 HashColorScheme hash = 4;
+
+                // Threshold settings color scheme.
+                ThresholdsColorScheme threshold = 5;
             }
         }
 
@@ -401,4 +418,7 @@ message MultiSourceChartWidget {
 
     // Setting for repeat panel / repeat row
     RepeatSettings repeat = 11;
+
+    // Threshold settings
+    Thresholds thresholds = 12;
 }

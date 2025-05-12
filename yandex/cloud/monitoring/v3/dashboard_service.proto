@@ -10,6 +10,7 @@ import "yandex/cloud/monitoring/v3/widget.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/monitoring/v3/timeline.proto";
+import "yandex/cloud/monitoring/v3/link_item.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/monitoring/v3;monitoring";
 option java_package = "yandex.cloud.api.monitoring.v3";
@@ -112,7 +113,8 @@ message ListDashboardsResponse {
 
 message CreateDashboardRequest {
   reserved 3 to 18;
-  reserved 28 to 33; 
+  reserved 28;
+  reserved 30 to 33;
   // Container id
   oneof container {
     // Required. Folder ID.
@@ -158,6 +160,9 @@ message CreateDashboardRequest {
 
   // Refresh and time window settings
   Timeline timeline = 34;
+
+  // Dashboard links
+  repeated LinkItem links = 29;
 }
 
 message CreateDashboardMetadata {
@@ -166,7 +171,8 @@ message CreateDashboardMetadata {
 }
 
 message UpdateDashboardRequest {
-  reserved 28 to 33;
+  reserved 28;
+  reserved 30 to 33;
   // Required. Dashboard ID.
   string dashboard_id = 1 [
     (required) = true,
@@ -214,6 +220,9 @@ message UpdateDashboardRequest {
 
   // Refresh and time window settings
   Timeline timeline = 34;
+
+  // Dashboard links
+  repeated LinkItem links = 29;
 }
 
 message UpdateDashboardMetadata {
