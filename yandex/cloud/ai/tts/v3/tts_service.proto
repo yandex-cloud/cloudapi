@@ -13,4 +13,6 @@ service Synthesizer {
     rpc UtteranceSynthesis (UtteranceSynthesisRequest) returns (stream UtteranceSynthesisResponse) {
         option (google.api.http) = {post: "/tts/v3/utteranceSynthesis" body: "*"};
     }
+    // Bidirectional streaming RPC for real-time synthesis.
+    rpc StreamSynthesis(stream StreamSynthesisRequest) returns (stream StreamSynthesisResponse) {}
 }

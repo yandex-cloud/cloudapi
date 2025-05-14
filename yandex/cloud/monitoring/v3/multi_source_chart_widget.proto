@@ -184,7 +184,7 @@ message MultiSourceChartWidget {
                 HashColorScheme hash = 4;
 
                 // Threshold settings color scheme.
-                ThresholdsColorScheme threshold = 5;
+                ThresholdsColorScheme thresholds = 5;
             }
         }
 

@@ -203,3 +203,67 @@ message UtteranceSynthesisRequest {
     // Optional. Automatically split long text to several utterances and bill accordingly. Some degradation in service quality is possible.
     bool unsafe_mode = 7;
 }
+
+// Specifies the loudness normalization algorithm to use when synthesizing audio.
+enum LoudnessNormalizationType {
+    // Unspecified loudness normalization. The default behavior will be used.
+    LOUDNESS_NORMALIZATION_TYPE_UNSPECIFIED = 0;
+    // The type of normalization, wherein the gain is changed to bring the highest PCM sample value or analog signal peak to a given level.
+    MAX_PEAK = 1;
+    // The type of normalization based on EBU R 128 recommendation.
+    LUFS = 2;
+}
+
+message SynthesisOptions {
+    // The name of the TTS model to use for synthesis. Currently should be empty. Do not use it.
+    string model = 1;
+    // The voice to use for speech synthesis.
+    string voice = 2;
+    // The role or speaking style. Can be used to specify pronunciation character for the speaker.
+    string role = 3;
+    // Speed multiplier (default: 1.0).
+    double speed = 4;
+    // Volume adjustment:
+    // * For `MAX_PEAK`: range is (0, 1], default 0.7.
+    // * For `LUFS`: range is [-145, 0), default -19.
+    double volume = 5;
+    // Pitch adjustment, in Hz, range [-1000, 1000], default 0.
+    double pitch_shift = 6;
+    // Specifies output audio format. Default: 22050Hz, linear 16-bit signed little-endian PCM, with WAV header.
+    AudioFormatOptions output_audio_spec = 7;
+    // Loudness normalization type for output (default: `LUFS`).
+    LoudnessNormalizationType loudness_normalization_type = 8;
+}
+
+// The input for synthesis.
+message SynthesisInput {
+    // The text string to be synthesized.
+    string text = 1;
+}
+
+// Event to forcibly trigger synthesis.
+message ForceSynthesisEvent {
+}
+
+// Sent by client to control or provide data during streaming synthesis.
+message StreamSynthesisRequest {
+    oneof Event {
+        // Synthesis options. Must be provided in the first request of the stream and cannot be updated afterwards.
+        SynthesisOptions options = 1;
+        // Input to be synthesized.
+        SynthesisInput synthesis_input = 2;
+        // Triggers immediate synthesis of buffered input.
+        ForceSynthesisEvent force_synthesis = 3;
+    }
+}
+
+message StreamSynthesisResponse {
+    // Part of synthesized audio.
+    AudioChunk audio_chunk = 1;
+    // Part of synthesized text.
+    TextChunk text_chunk = 2;
+    // Start time of the audio chunk in milliseconds.
+    int64 start_ms = 3;
+    // Length of the audio chunk in milliseconds.
+    int64 length_ms = 4;
+}
