@@ -203,10 +203,16 @@ message CreatePrivateSubnetMetadata {
 }
 
 message UpdatePrivateSubnetRequest {
-  reserved 1;
-
   // Reserved for future use.
-  reserved 7 to 199;
+  reserved 6 to 199;
+
+  // ID of the PrivateSubnet resource to update.
+  //
+  // To get the private subnet ID, use a [PrivateSubnetService.List] request.
+  string private_subnet_id = 1 [
+    (pattern) = "[a-z][a-z0-9]*",
+    (length) = "20"
+  ];
 
   // Field mask that specifies which fields of the PrivateSubnet resource are going to be updated.
   google.protobuf.FieldMask update_mask = 2;
@@ -223,14 +229,6 @@ message UpdatePrivateSubnetRequest {
 
   // VRF options. Optional.
   VrfOptionsSpec vrf_options_spec = 5;
-
-  // ID of the PrivateSubnet resource to update.
-  //
-  // To get the private subnet ID, use a [PrivateSubnetService.List] request.
-  string private_subnet_id = 6 [
-    (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
-  ];
 
   // Resource labels as `key:value` pairs.
   //

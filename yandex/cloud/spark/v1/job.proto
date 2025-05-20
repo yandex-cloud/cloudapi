@@ -64,27 +64,10 @@ message Job {
     PysparkJob pyspark_job = 10;
   }
 
-  // Attributes of application.
-  ApplicationInfo application_info = 11;
+  reserved 11;
 
   // Spark UI Url.
   string ui_url = 12;
-}
-
-message ApplicationAttempt {
-  // ID of application attempt
-  string id = 1;
-
-  // ID of Application Master container
-  string am_container_id = 2;
-}
-
-message ApplicationInfo {
-  // ID of application
-  string id = 1;
-
-  // Application attempts
-  repeated ApplicationAttempt application_attempts = 2;
 }
 
 message SparkJob {
@@ -103,7 +86,7 @@ message SparkJob {
   // A mapping of property names to values, used to configure Spark.
   map<string, string> properties = 5;
 
-  // The HCFS URI of the jar file containing the main class.
+  // URI of the jar file containing the main class.
   string main_jar_file_uri = 6;
 
   // The name of the driver's main class.

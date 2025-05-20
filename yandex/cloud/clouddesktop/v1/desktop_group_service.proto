@@ -260,6 +260,12 @@ message UpdateDesktopGroupRequest {
 
   // Configuration of the desktop group.
   DesktopGroupConfiguration group_config = 10;
+
+  // Boot disk specification of the desktop group.
+  DiskSpec boot_disk_spec = 11;
+
+  // Data disk specification of the desktop group.
+  DiskSpec data_disk_spec = 12;
 }
 
 message CreateDesktopGroupRequest {

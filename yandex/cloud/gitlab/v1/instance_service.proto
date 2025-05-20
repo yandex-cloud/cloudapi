@@ -1,0 +1,158 @@
+syntax = "proto3";
+
+package yandex.cloud.gitlab.v1;
+
+import "google/api/annotations.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
+import "yandex/cloud/gitlab/v1/instance.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/gitlab/v1;gitlab";
+
+option java_outer_classname = "GIS";
+option java_package = "yandex.cloud.api.gitlab.v1";
+
+service InstanceService {
+  rpc Get (GetInstanceRequest) returns (Instance) {
+    option (google.api.http) = { get: "/gitlab/v1/instances/{instance_id}" };
+  };
+
+  rpc List (ListInstancesRequest) returns (ListInstancesResponse) {
+    option (google.api.http) = { get: "/gitlab/v1/instances" };
+  };
+
+  rpc Create (CreateInstanceRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/gitlab/v1/instances" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "CreateInstanceMetadata"
+      response: "Instance"
+    };
+  }
+
+  rpc Delete (DeleteInstanceRequest) returns (operation.Operation) {
+    option (google.api.http) = { delete: "/gitlab/v1/instances/{instance_id}" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteInstanceMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  rpc Start (StartInstanceRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/gitlab/v1/instances/{instance_id}:start"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "StartInstanceMetadata"
+      response: "Instance"
+    };
+  }
+
+  rpc Stop (StopInstanceRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/gitlab/v1/instances/{instance_id}:stop"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "StopInstanceMetadata"
+      response: "Instance"
+    };
+  }
+}
+
+message GetInstanceRequest {
+  string instance_id = 1 [(yandex.cloud.required) = true, (yandex.cloud.length) = "<=50"];
+}
+
+message ListInstancesRequest {
+  string folder_id = 1 [(yandex.cloud.required) = true, (yandex.cloud.length) = "<=50"];
+
+  int64 page_size = 2 [(yandex.cloud.value) = "0-1000"];
+
+  string page_token = 3 [(yandex.cloud.length) = "<=100"];
+}
+
+message ListInstancesResponse {
+  repeated Instance instances = 1;
+
+  string next_page_token = 2;
+}
+
+message CreateInstanceRequest {
+  string folder_id = 1 [(yandex.cloud.required) = true, (yandex.cloud.length) = "<=50"];
+
+  string name = 2 [(yandex.cloud.required) = true, (yandex.cloud.pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+
+  string description = 3 [(yandex.cloud.length) = "<=256"];
+
+  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (yandex.cloud.length) = "<=63",
+    (yandex.cloud.pattern) = "[-_0-9a-z]*", (yandex.cloud.map_key).length = "1-63",
+    (yandex.cloud.map_key).pattern = "[a-z][-_0-9a-z]*"];
+
+  string resource_preset_id = 5 [(yandex.cloud.required) = true, (yandex.cloud.length) = "<=50"];
+
+  int64 disk_size = 6;
+
+  string admin_login = 7 [(yandex.cloud.required) = true, (yandex.cloud.length) = "<=50"];
+
+  string admin_email = 8 [(yandex.cloud.required) = true];
+
+  string domain_prefix = 9 [(yandex.cloud.required) = true, (yandex.cloud.length) = "<=50", (yandex.cloud.pattern) = "[a-z0-9][a-z0-9-]{3,48}[a-z0-9]"];
+
+  string subnet_id = 10 [(yandex.cloud.required) = true, (yandex.cloud.length) = "<=50"];
+
+  // reserved for maintenance_window
+  reserved 11;
+
+  int64 backup_retain_period_days = 12 [(yandex.cloud.required) = false];
+
+  // reserved for backup_window_start
+  reserved 13;
+
+  bool maintenance_delete_untagged = 14;
+
+  bool deletion_protection = 15;
+
+  reserved 16;
+
+  string gitlab_type = 17 [(yandex.cloud.length) = "<=10"];
+
+  string gitlab_version = 18 [(yandex.cloud.length) = "<=30"];
+
+  string approval_rules_id = 19 [(yandex.cloud.required) = false, (yandex.cloud.length) = "<=30"];
+
+  reserved 20;
+
+  reserved 21;
+
+  string security_group = 22 [(yandex.cloud.required) = false];
+
+  reserved 23;
+
+  reserved 24;
+
+  string disk_type_id = 25 [(yandex.cloud.required) = false];
+}
+
+message CreateInstanceMetadata {
+  string instance_id = 1;
+}
+
+message DeleteInstanceRequest {
+  string instance_id = 1;
+}
+
+message DeleteInstanceMetadata {
+  string instance_id = 1;
+}
+
+message StartInstanceRequest {
+  string instance_id = 1;
+}
+
+message StartInstanceMetadata {
+  string instance_id = 1;
+}
+
+message StopInstanceRequest {
+  string instance_id = 1;
+}
+
+message StopInstanceMetadata {
+  string instance_id = 1;
+}

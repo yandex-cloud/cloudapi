@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/trino/v1/catalog.proto";
 import "yandex/cloud/trino/v1/cluster.proto";
 import "yandex/cloud/trino/v1/maintenance.proto";
 import "yandex/cloud/validation.proto";
@@ -175,7 +176,9 @@ message CreateClusterRequest {
 }
 
 message TrinoConfigSpec {
-  reserved 1;
+  // List of catalogs that enable integration with various data sources.
+  // Each catalog defines a connection to an external data source that Trino can query.
+  repeated CatalogSpec catalogs = 1;
 
   // Configuration for the coordinator, specifying computational resources and other settings.
   CoordinatorConfig coordinator_config = 2 [(required) = true];

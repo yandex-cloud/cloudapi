@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package yandex.cloud.gitlab.v1;
+
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
+import "yandex/cloud/gitlab/v1/maintenance.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/gitlab/v1;gitlab";
+option java_outer_classname = "GI";
+option java_package = "yandex.cloud.api.gitlab.v1";
+
+message Instance {
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+
+    CREATING = 1;
+
+    RUNNING = 2;
+
+    UPDATING = 3;
+
+    ERROR = 4;
+
+    DELETING = 5;
+
+    BACKUP_CREATING = 6;
+
+    BACKUP_RESTORING = 7;
+
+    STARTING = 8;
+
+    STOPPING = 9;
+
+    STOPPED = 10;
+
+    BACKGROUND_MIGRATIONS = 11;
+
+    OBJECT_STORAGE_MIGRATIONS = 12;
+
+    SNAPSHOT_RESTORING = 13;
+  }
+
+  string id = 1;
+
+  string folder_id = 2;
+
+  google.protobuf.Timestamp created_at = 3;
+
+  google.protobuf.Timestamp updated_at = 4;
+
+  string name = 5;
+
+  string description = 6;
+
+  map<string, string> labels = 7;
+
+  string resource_preset_id = 8;
+
+  int64 disk_size = 9;
+
+  Status status = 10;
+
+  string admin_login = 11;
+
+  string admin_email = 12;
+
+  string domain = 13;
+
+  string subnet_id = 14;
+
+  // reserved for maintenance_window
+  reserved 15;
+
+  MaintenanceOperation planned_operation = 16 [(yandex.cloud.required) = false];
+
+  int64 backup_retain_period_days = 17;
+
+  // reserved for backup_window_start
+  reserved 18;
+
+  bool maintenance_delete_untagged = 19;
+
+  bool deletion_protection = 20;
+
+  reserved 21;
+
+  string approval_rules_id = 22 [(yandex.cloud.required) = false, (yandex.cloud.length) = "<=30"];
+
+  string gitlab_version = 23;
+
+  reserved 24;
+
+  reserved 25;
+
+  reserved 26;
+
+  string security_group = 27 [(yandex.cloud.required) = false];
+
+  reserved 28 to 31;
+
+  string disk_type_id = 32 [(yandex.cloud.required) = false];
+}
