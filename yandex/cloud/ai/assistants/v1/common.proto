@@ -104,6 +104,34 @@ message SearchIndexTool {
   // Used to rewrite the last user message for search,
   // incorporating context from the previous conversation.
   RephraserOptions rephraser_options = 3;
+
+  // Defines the strategy for triggering search.
+  // Controls whether search results are always included or returned only when
+  // the model explicitly calls the tool.
+  CallStrategy call_strategy = 4;
+}
+
+// Defines when the assistant uses the search tool.
+message CallStrategy {
+  // Always includes retrieved search results in the prompt.
+  message AlwaysCall {}
+
+  // Exposes the tool as a callable function.
+  // The model decides when to trigger search based on the instruction.
+  message AutoCall {
+    // The name of the tool as exposed to the model.
+    string name = 1;
+
+    // Required instruction that helps the model decide when to call the tool.
+    string instruction = 2 [(required) = true];
+  }
+
+  // One of `always_call` or `auto_call`.
+  // always_call is used if no strategy is explicitly set
+  oneof Strategy {
+    AlwaysCall always_call = 1;
+    AutoCall auto_call = 2;
+  }
 }
 
 // Represents a function tool that can be invoked by the assistant.

@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package yandex.cloud.serverless.eventrouter.v1;
 
-import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "yandex/cloud/validation.proto";
 
@@ -13,14 +12,10 @@ option java_package = "yandex.cloud.api.serverless.eventrouter.v1";
 // Service for put events to bus for serverless eventrouter.
 service EventService {
   // Puts event to bus.
-  rpc Put (PutEventRequest) returns (google.protobuf.Empty) {
-     option (google.api.http) = { post: "/eventrouter/v1/events/{bus_id}:put" body: "*" };
-  }
+  rpc Put (PutEventRequest) returns (google.protobuf.Empty);
 
   // Send events to bus.
-  rpc Send (SendEventsRequest) returns (google.protobuf.Empty) {
-     option (google.api.http) = { post: "/eventrouter/v1/events/{connector_id}:send" body: "*" };
-  }
+  rpc Send (SendEventsRequest) returns (google.protobuf.Empty);
 }
 
 message PutEventRequest {

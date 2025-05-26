@@ -28,6 +28,11 @@ service LockService {
     option (google.api.http) = { get: "/marketplace/license-manager/saas/v1/locks/{lock_id}" };
   }
 
+  // Returns the subscription lock for given resource and subscription.
+  rpc GetByResourceID(GetLockByResourceIDRequest) returns (licensemanager.v1.Lock) {
+    option (google.api.http) = { get: "/marketplace/license-manager/saas/v1/locks:getByResourceID" };
+  }
+
 }
 
 message EnsureLockRequest {
@@ -45,4 +50,11 @@ message EnsureLockMetadata {
 message GetLockRequest {
   // ID of the subscription lock.
   string lock_id = 1 [(required) = true];
+}
+
+message GetLockByResourceIDRequest {
+  // ID of the resource to with subscription is locked.
+  string resource_id = 1 [(required) = true];
+  // ID of the subscription
+  string instance_id = 2 [(required) = true];
 }

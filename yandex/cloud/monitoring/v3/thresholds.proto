@@ -11,7 +11,7 @@ message Thresholds {
         string color = 1;
 
         // Threshold value
-        double value = 2;
+        optional double value = 2;
     }
 
     enum ShowMode {

@@ -469,6 +469,9 @@ message RestoreClusterRequest {
 
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 14;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 15;
 }
 
 message RestoreClusterMetadata {
