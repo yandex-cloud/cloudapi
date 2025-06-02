@@ -49,6 +49,9 @@ message MultiSourceChartWidget {
 
             // Name of the query.
             string name = 6;
+
+            // Minimal step as raw string.
+            string step = 7;
         }
 
         oneof target {

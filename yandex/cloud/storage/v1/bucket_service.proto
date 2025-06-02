@@ -5,6 +5,7 @@ package yandex.cloud.storage.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/struct.proto";
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/storage/v1/bucket.proto";
@@ -96,6 +97,23 @@ service BucketService {
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteBucketHTTPSConfigMetadata"
       response: "google.protobuf.Empty"
+    };
+  }
+
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/storage/v1/buckets/{resource_id}:updateAccessBindings"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/storage/v1/buckets/{resource_id}:listAccessBindings"
     };
   }
 }

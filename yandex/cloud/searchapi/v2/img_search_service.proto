@@ -4,13 +4,16 @@ package yandex.cloud.searchapi.v2;
 
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/searchapi/v2/search_query.proto";
+import "google/api/annotations.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/searchapi/v2;searchapi";
 option java_package = "yandex.cloud.api.search.v2";
 
 // A set of methods for searching of images using the Yandex Images.
 service ImageSearchService {
-  rpc Search (ImageSearchRequest) returns (ImageSearchResponse) {}
+  rpc Search (ImageSearchRequest) returns (ImageSearchResponse) {
+    option (google.api.http) = { post: "/v2/image/search" body: "*" };
+  }
 }
 
 message ImageSpec {

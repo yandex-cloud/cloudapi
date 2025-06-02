@@ -88,16 +88,4 @@ message Instance {
   string approval_rules_id = 22 [(yandex.cloud.required) = false, (yandex.cloud.length) = "<=30"];
 
   string gitlab_version = 23;
-
-  reserved 24;
-
-  reserved 25;
-
-  reserved 26;
-
-  string security_group = 27 [(yandex.cloud.required) = false];
-
-  reserved 28 to 31;
-
-  string disk_type_id = 32 [(yandex.cloud.required) = false];
 }

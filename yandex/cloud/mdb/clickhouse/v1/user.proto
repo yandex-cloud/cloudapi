@@ -192,6 +192,18 @@ message UserSettings {
     QUERY_CACHE_NONDETERMINISTIC_FUNCTION_HANDLING_IGNORE = 3;
   }
 
+  // Controls how the query cache handles SELECT queries against system tables.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#query_cache_system_table_handling)
+  enum QueryCacheSystemTableHandling {
+    QUERY_CACHE_SYSTEM_TABLE_HANDLING_UNSPECIFIED = 0;
+    // Throw an exception and don't cache the query result.
+    QUERY_CACHE_SYSTEM_TABLE_HANDLING_THROW = 1;
+    // Cache the query result.
+    QUERY_CACHE_SYSTEM_TABLE_HANDLING_SAVE = 2;
+    // Don't cache the query result and don't throw an exception.
+    QUERY_CACHE_SYSTEM_TABLE_HANDLING_IGNORE = 3;
+  }
+
   // Restricts permissions for non-DDL queries. To restrict permissions for DDL queries, use [allow_ddl] instead.
   // * **0** (default)-no restrictions.
   // * **1**-only read data queries are allowed.
@@ -1094,6 +1106,10 @@ message UserSettings {
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#query_cache_nondeterministic_function_handling).
   QueryCacheNondeterministicFunctionHandling query_cache_nondeterministic_function_handling = 165;
 
+  // Controls how the query cache handles SELECT queries against system tables.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#query_cache_system_table_handling)
+  QueryCacheSystemTableHandling query_cache_system_table_handling = 168;
+
   // The maximum number of threads to execute the INSERT SELECT query.
   // Default: 0
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#max_insert_threads)
@@ -1132,6 +1148,10 @@ message UserSettings {
   // Ignore materialized views with dropped target table during pushing to views.
   // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/en/operations/settings/settings#ignore_materialized_views_with_dropped_target_table).
   google.protobuf.BoolValue ignore_materialized_views_with_dropped_target_table = 166;
+
+  // Enable new query analyzer.
+  // See in-depth description in [ClickHouse documentation](https://clickhouse.com/docs/guides/developer/understanding-query-execution-with-the-analyzer#analyzer)
+  google.protobuf.BoolValue enable_analyzer = 167;
 
   // The setting is deprecated and has no effect.
   google.protobuf.BoolValue compile = 44 [deprecated = true];

@@ -24,6 +24,12 @@ message TenantInfo {
     string user_id = 3;
 }
 
+message AgentInfo {
+    string current_version = 1;
+    string latest_version = 2;
+    bool can_update = 3;
+}
+
 message Resource {
     enum Status {
         STATUS_UNSPECIFIED = 0;
@@ -33,7 +39,7 @@ message Resource {
         BACKUPING = 2;
         // Compute Cloud instance is currently recovering itself.
         RECOVERING = 3;
-        // Compute Cloud instance is in failure state, check content of 
+        // Compute Cloud instance is in failure state, check content of
         // `status_details` field for more information.
         FAILED = 4;
         // Unspecified state, check `status_details` field
@@ -92,8 +98,13 @@ message Resource {
     // Type of resource. Could be compute VM or baremetal server.
     ResourceType type = 15;
 
-    // Additional info abount tenant which resource belongs to
+    // Additional info about tenant which resource belongs to
     TenantInfo tenant_info = 16;
+
+    reserved 17;
+
+    // Additional Info about agent version
+    AgentInfo agent_info = 18;
 }
 
 message Progress {

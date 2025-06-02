@@ -497,3 +497,34 @@ message S3APICommonPrefix {
   // Container for the specified common prefix.
   string prefix = 1;
 }
+
+// Represents a response of the get bucket acl or get object acl requests to S3.
+message S3APIGetAclResponse {
+  message Owner {
+    string id = 1;
+    string display_name = 2;
+  }
+
+  message Grant {
+    message Grantee {
+      string id = 1;
+      string type = 2;
+      string uri = 3;
+      string display_name = 4;
+      string email_address = 5;
+    }
+    
+    Grantee grantee = 1;
+    string permission = 2;
+  }
+
+  string request_id = 1;
+  Owner owner = 2;
+  repeated Grant grants = 3;
+}
+
+// Represents a response of the put bucket acl or put object acl requests to S3.
+message S3APIPutAclResponse {
+  // Unique request ID.
+  string request_id = 1;
+}

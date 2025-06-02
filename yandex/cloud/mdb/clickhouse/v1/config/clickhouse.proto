@@ -157,6 +157,21 @@ message ClickhouseConfig {
 
     // Only recalculate ttl info when MATERIALIZE TTL.
     google.protobuf.BoolValue materialize_ttl_recalculate_only = 31;
+
+    // Do fsync for every inserted part. Significantly decreases performance of inserts, not recommended to use with wide parts.
+    google.protobuf.BoolValue fsync_after_insert = 32;
+
+    // Do fsync for part directory after all part operations (writes, renames, etc.).
+    google.protobuf.BoolValue fsync_part_directory = 33;
+
+    // Minimal number of compressed bytes to do fsync for part after fetch. 0 - disabled.
+    google.protobuf.Int64Value min_compressed_bytes_to_fsync_after_fetch = 34;
+
+    // Minimal number of compressed bytes to do fsync for part after merge. 0 - disabled.
+    google.protobuf.Int64Value min_compressed_bytes_to_fsync_after_merge = 35;
+
+    // Minimal number of rows to do fsync for part after merge. 0 - disabled.
+    google.protobuf.Int64Value min_rows_to_fsync_after_merge = 36;
   }
 
   message Kafka {
@@ -712,6 +727,17 @@ message ClickhouseConfig {
     google.protobuf.Int64Value port = 2;
   }
 
+  // Access control settings.
+  message AccessControlImprovements {
+    // Sets whether SELECT * FROM system.<table> requires any grants and can be executed by any user.
+    // If set to true then this query requires GRANT SELECT ON system.<table> just as for non-system tables.
+    google.protobuf.BoolValue select_from_system_db_requires_grant = 1;
+
+    // Sets whether SELECT * FROM information_schema.<table> requires any grants and can be executed by any user.
+    // If set to true, then this query requires GRANT SELECT ON information_schema.<table>, just as for ordinary tables.
+    google.protobuf.BoolValue select_from_information_schema_requires_grant = 2;
+  }
+
   // Logging level for the ClickHouse cluster. Possible values: TRACE, DEBUG, INFORMATION, WARNING, ERROR.
   LogLevel log_level = 1;
 
@@ -910,6 +936,20 @@ message ClickhouseConfig {
   // The maximum time that processors_profile_log records will be retained before removal.
   // If set to 0, automatic removal of processors_profile_log data based on time is disabled.
   google.protobuf.Int64Value processors_profile_log_retention_time = 73;
+
+  // Enable or disable error_log system table.
+  google.protobuf.BoolValue error_log_enabled = 75;
+
+  // The maximum size that error_log can grow to before old data will be removed.
+  // If set to 0 (default), automatic removal of error_log data based on size is disabled.
+  google.protobuf.Int64Value error_log_retention_size = 76;
+
+  // The maximum time that error_log records will be retained before removal.
+  // If set to 0, automatic removal of error_log data based on time is disabled.
+  google.protobuf.Int64Value error_log_retention_time = 77;
+
+  // Access control settings.
+  AccessControlImprovements access_control_improvements = 74;
 
   google.protobuf.Int64Value background_pool_size = 33 [(value) = ">0"];
 

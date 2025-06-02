@@ -108,25 +108,9 @@ message CreateInstanceRequest {
 
   bool deletion_protection = 15;
 
-  reserved 16;
-
-  string gitlab_type = 17 [(yandex.cloud.length) = "<=10"];
-
-  string gitlab_version = 18 [(yandex.cloud.length) = "<=30"];
+  reserved 16 to 18;
 
   string approval_rules_id = 19 [(yandex.cloud.required) = false, (yandex.cloud.length) = "<=30"];
-
-  reserved 20;
-
-  reserved 21;
-
-  string security_group = 22 [(yandex.cloud.required) = false];
-
-  reserved 23;
-
-  reserved 24;
-
-  string disk_type_id = 25 [(yandex.cloud.required) = false];
 }
 
 message CreateInstanceMetadata {

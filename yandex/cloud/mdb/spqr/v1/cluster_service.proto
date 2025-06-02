@@ -320,6 +320,9 @@ message CreateClusterRequest {
 
   // New maintenance window settings for the cluster.
   MaintenanceWindow maintenance_window = 13;
+
+  // Descriptions of shards to be created in the SPQR cluster.
+  repeated ShardSpec shard_specs = 14;
 }
 
 message CreateClusterMetadata {
@@ -969,14 +972,10 @@ message AddClusterShardRequest {
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Name of the SPQR shard to create.
-  string shard_name = 2 [(required) = true, (length) = "<=63", (pattern) = "^[a-zA-Z0-9][a-zA-Z0-9-]*$"];
+  reserved 2,3;
 
-  oneof ShardSpec {
-    option (exactly_one) = true;
-
-    MDBPostgreSQL mdb_postgresql = 3;
-  }
+  // Properties of the shard to be created.
+  ShardSpec shard_spec = 4 [(required) = true];
 }
 
 message AddClusterShardMetadata {

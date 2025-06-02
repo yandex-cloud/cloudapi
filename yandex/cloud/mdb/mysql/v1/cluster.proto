@@ -312,6 +312,9 @@ message Access {
 
   // Allow access for DataTransfer.
   bool data_transfer = 3;
+
+  // Allow access for YandexQuery.
+  bool yandex_query = 4;
 }
 
 message PerformanceDiagnostics {

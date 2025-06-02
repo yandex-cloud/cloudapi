@@ -34,6 +34,8 @@ message Registry {
     NUGET = 4;
     // Registry kind is debian.
     DEBIAN = 5;
+    // Registry kind is pypi.
+    PYPI = 6;
   }
   enum Type {
     TYPE_UNSPECIFIED = 0;
