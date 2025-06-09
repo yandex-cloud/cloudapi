@@ -202,6 +202,22 @@ message GrpcRoute {
   }
 }
 
+message HttpRouteHeaderMatch {
+  // Name of the HTTP Header to be matched. 
+  string name = 1 [(length) = "1-256", (pattern) = "[-0-9a-zA-Z]+"];
+
+  // Value of HTTP Header to be matched.
+  StringMatch value = 2;
+}
+
+message HttpRouteQueryParamMatch {
+  // Name of the HTTP query parameter to be matched.
+  string name = 1 [(length) = "1-256", (pattern) = "[-_0-9a-zA-Z]+"];
+
+  // Value of HTTP query parameter to be matched.
+  StringMatch value = 2;
+}
+
 // An HTTP route condition (predicate) resource.
 message HttpRouteMatch {
   // HTTP method specified in the request.
@@ -211,6 +227,16 @@ message HttpRouteMatch {
   //
   // If not specified, the route matches all paths.
   StringMatch path = 2;
+
+  // Headers specify HTTP request header matchers. Multiple match values are
+  // ANDed together, meaning, a request must match all the specified headers
+  // to select the route. Headers must be unique.
+  repeated HttpRouteHeaderMatch headers = 3 [(size) = "<=32"];
+
+  // Query Parameters specify HTTP query parameter matchers. Multiple match
+  // values are ANDed together, meaning, a request must match all the
+  // specified query parameters to select the route. Query parameters must be unique.
+  repeated HttpRouteQueryParamMatch query_parameters = 4 [(size) = "<=32"];
 }
 
 // A gRPC route condition (predicate) resource.
@@ -388,6 +414,8 @@ message HttpRouteAction {
   // For [StringMatch.exact_match], the whole path is replaced.
   //
   // If not specified, the path is not changed.
+  //
+  // Only one of regex_rewrite, or prefix_rewrite may be specified.
   string prefix_rewrite = 6;
 
   // Supported values for HTTP `Upgrade` header. E.g. `websocket`.
@@ -395,6 +423,31 @@ message HttpRouteAction {
 
   // RateLimit is a rate limit configuration applied for route.
   RateLimit rate_limit = 8;
+
+  // Replacement for portions of the path that match the pattern should be rewritten,
+  // even allowing the substitution of capture groups from the pattern into the new path as specified
+  // by the rewrite substitution string.
+  //
+  // Only one of regex_rewrite, or prefix_rewrite may be specified.
+  //
+  // Examples of using:
+  //  - The path pattern ^/service/([^/]+)(/.*)$ paired with a substitution string of \2/instance/\1 would transform
+  //    /service/foo/v1/api into /v1/api/instance/foo.
+  //  - The pattern one paired with a substitution string of two would transform /xxx/one/yyy/one/zzz
+  //    into /xxx/two/yyy/two/zzz.
+  //  - The pattern ^(.*?)one(.*)$ paired with a substitution string of \1two\2 would replace only the first
+  //    occurrence of one, transforming path /xxx/one/yyy/one/zzz into /xxx/two/yyy/one/zzz.
+  //  - The pattern (?i)/xxx/ paired with a substitution string of /yyy/ would do a case-insensitive match and transform
+  //    path /aaa/XxX/bbb to /aaa/yyy/bbb.
+  RegexMatchAndSubstitute regex_rewrite = 9;
+}
+
+message RegexMatchAndSubstitute {
+  // The regular expression used to find portions of a string that should be replaced.
+  string regex = 1;
+  // The string that should be substituted into matching portions of the subject string during a substitution operation
+  // to produce a new string.
+  string substitute = 2;
 }
 
 // A gRPC route action resource.

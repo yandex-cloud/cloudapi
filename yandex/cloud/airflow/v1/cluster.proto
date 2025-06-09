@@ -114,7 +114,7 @@ message Monitoring {
 
 message ClusterConfig {
   // Version of Apache Airflow that runs on the cluster.
-  // Use `airlow_version` instead.
+  // Use `airflow_version` instead.
   string version_id = 1 [deprecated = true];
 
   // Configuration of the Apache Airflow application itself.
@@ -206,10 +206,18 @@ message S3Config {
   string bucket = 3;
 }
 
+message GitSyncConfig {
+  string repo = 1;
+  string branch = 2;
+  string sub_path = 3;
+  string ssh_key = 4;
+}
+
 message CodeSyncConfig {
   oneof source {
     option (exactly_one) = true;
     S3Config s3 = 1;
+    GitSyncConfig git_sync = 2;
   }
 }
 

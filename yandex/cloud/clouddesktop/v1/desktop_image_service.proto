@@ -128,8 +128,8 @@ message CopyDesktopImageRequest {
 }
 
 message UpdateDesktopImageRequest {
-    google.protobuf.FieldMask update_mask = 1;
-    string image_id = 2 [(required) = true];
+    string image_id = 1 [(required) = true];
+    google.protobuf.FieldMask update_mask = 2;
     string name = 3 [(length) = "<=50"];
     map<string, string> labels = 4 [
         (size) = "<=64",

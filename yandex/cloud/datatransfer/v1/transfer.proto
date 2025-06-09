@@ -34,6 +34,10 @@ enum TransferStatus {
     SNAPSHOTTING = 7;
     // Transfer reach terminal phase
     DONE = 8;
+    // Transfer is paused by user - same as stopped, but replication slot is alive
+    PAUSED = 9;
+    // Transfer does some work before replication
+    PREPARING = 10;
 }
 // Transfer core entity
 message Transfer {

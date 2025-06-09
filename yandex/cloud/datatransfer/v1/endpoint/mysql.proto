@@ -112,4 +112,5 @@ message MysqlTarget {
     string service_database = 15;
     // Security groups
     repeated string security_groups = 16;
+    bool is_schema_migration_disabled = 17;
 }

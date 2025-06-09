@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.trino.v1;
 
+import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -15,14 +16,20 @@ option java_package = "yandex.cloud.api.trino.v1";
 service CatalogService {
   // Returns the specified Trino Catalog resource.
   rpc Get (GetCatalogRequest) returns (Catalog) {
+    option (google.api.http) = {get: "/managed-trino/v1/clusters/{cluster_id}/catalogs/{catalog_id}"};
   }
 
   // Retrieves a list of Trino Catalog resources.
   rpc List (ListCatalogsRequest) returns (ListCatalogsResponse) {
+    option (google.api.http) = {get: "/managed-trino/v1/clusters/{cluster_id}/catalogs"};
   }
 
   // Creates a new Trino Catalog.
   rpc Create (CreateCatalogRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/managed-trino/v1/clusters/{cluster_id}/catalogs"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateCatalogMetadata"
       response: "Catalog"
@@ -31,6 +38,10 @@ service CatalogService {
 
   // Updates the specified Trino Catalog.
   rpc Update (UpdateCatalogRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/managed-trino/v1/clusters/{cluster_id}/catalogs/{catalog_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateCatalogMetadata"
       response: "Catalog"
@@ -39,6 +50,7 @@ service CatalogService {
 
   // Deletes the specified Trino Catalog.
   rpc Delete (DeleteCatalogRequest) returns (operation.Operation) {
+    option (google.api.http) = {delete: "/managed-trino/v1/clusters/{cluster_id}/catalogs/{catalog_id}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteCatalogMetadata"
       response: "google.protobuf.Empty"

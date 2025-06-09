@@ -565,16 +565,11 @@ message RescheduleMaintenanceMetadata {
 }
 
 message MasterScalePolicySpec {
+  reserved 1; // Previously used by fixed scale policy, now deprecated.
+
   oneof scale_type {
     option (exactly_one) = true;
-    FixedScale fixed_scale = 1;
     AutoScale auto_scale = 2;
-  }
-
-  // Fixed master instance resources.
-  message FixedScale {
-    // Preset of computing resources to be used by master.
-    string resource_preset_id = 1 [(required) = true];
   }
 
   // Scalable master instance resources.

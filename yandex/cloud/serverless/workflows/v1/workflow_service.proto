@@ -75,6 +75,8 @@ message CreateWorkflowRequest {
   string network_id = 7;
   // ID of the Service Account which will be used for resources access in Workflow execution.
   string service_account_id = 8;
+  // Express execution mode.
+  bool express = 9;
 }
 
 message CreateWorkflowMetadata {
@@ -101,6 +103,8 @@ message UpdateWorkflowRequest {
   string service_account_id = 8;
   // Field mask that specifies which fields of the Workflow should be updated.
   google.protobuf.FieldMask update_mask = 9;
+  // Express execution mode.
+  bool express = 10;
 }
 
 message UpdateWorkflowMetadata {

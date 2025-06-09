@@ -8,6 +8,7 @@ import "google/protobuf/wrappers.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/foundation_models/v1;foundation_models";
 option java_package = "yandex.cloud.api.ai.foundation_models.v1";
 
+
 // Defines the options for completion generation.
 message CompletionOptions {
   // Enables streaming of partially generated text.

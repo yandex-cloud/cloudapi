@@ -11,6 +11,7 @@ import "yandex/cloud/datatransfer/v1/endpoint.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 
+
 // A set of methods for managing [endpoints]({{ api-url-prefix
 // }}/data-transfer/concepts/#endpoint).
 service EndpointService {

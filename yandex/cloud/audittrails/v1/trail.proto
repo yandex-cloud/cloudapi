@@ -270,7 +270,9 @@ message Trail {
   }
 
   message DnsDataEventsFilter {
-    // Only recursive queries will be delivered
-    bool only_recursive_queries = 1;
+    // deprecated: use all_dns_queries instead
+    bool only_recursive_queries = 1 [deprecated = true];
+    // Not only recursive queries will be delivered
+    bool include_nonrecursive_queries = 2;
   }
 }

@@ -13,6 +13,7 @@ import "yandex/cloud/api/operation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/airflow/v1;airflow";
 option java_package = "yandex.cloud.api.airflow.v1";
 
+
 // A set of methods for managing Apache Airflow Cluster resources.
 service ClusterService {
   // Returns the specified Apache Airflow Cluster resource.

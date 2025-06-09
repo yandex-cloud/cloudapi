@@ -113,7 +113,6 @@ message ListDashboardsResponse {
 
 message CreateDashboardRequest {
   reserved 3 to 18;
-  reserved 28;
   reserved 30 to 33;
   // Container id
   oneof container {
@@ -159,7 +158,7 @@ message CreateDashboardRequest {
   string managed_link = 27;
 
   // Refresh and time window settings
-  Timeline timeline = 34;
+  Timeline timeline = 28;
 
   // Dashboard links
   repeated LinkItem links = 29;
@@ -171,7 +170,6 @@ message CreateDashboardMetadata {
 }
 
 message UpdateDashboardRequest {
-  reserved 28;
   reserved 30 to 33;
   // Required. Dashboard ID.
   string dashboard_id = 1 [
@@ -219,7 +217,7 @@ message UpdateDashboardRequest {
   string managed_link = 27;
 
   // Refresh and time window settings
-  Timeline timeline = 34;
+  Timeline timeline = 28;
 
   // Dashboard links
   repeated LinkItem links = 29;
@@ -272,4 +270,34 @@ message ListDashboardOperationsResponse {
   // for the [ListDashboardOperationsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
+}
+
+message ListDashboardLabelNamesRequest {
+  string project_id = 1;
+  // Contains substring of name(aka key). All label names containing this string will be returned
+  string text = 2;
+  // Filters alerts by this selectors.
+  string selectors = 3;
+  int64 page_size = 4;
+}
+
+message ListDashboardLabelNamesResponse {
+  repeated string label_names = 1;
+  bool truncated = 2;
+}
+
+message ListDashboardLabelValuesRequest {
+  string project_id = 1;
+  // Filters alerts by this selectors.
+  string selectors = 2;
+  // Contains full name (aka key), for which existing values are gathered.
+  string label_name = 3;
+  // Contains substring of value. All label values containing this string will be returned
+  string text = 4;
+  int64 page_size = 5;
+}
+
+message ListDashboardLabelValuesResponse {
+  repeated string label_values = 1;
+  bool truncated = 2;
 }

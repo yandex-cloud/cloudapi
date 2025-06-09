@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.marketplace.licensemanager.v1;
 
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/marketplace/licensemanager/v1/external_instance.proto";
 import "yandex/cloud/marketplace/licensemanager/v1/lock.proto";
 import "yandex/cloud/marketplace/licensemanager/v1/template.proto";
 
@@ -39,6 +40,11 @@ message Instance {
     repeated Lock locks = 12;
     // Subscription template.
     Template license_template = 13;
+
+    reserved 15 to 48;
+
+    // External subscription instance (optional).
+    ExternalInstance external_instance = 49;
 
     enum State {
         STATE_UNSPECIFIED = 0;

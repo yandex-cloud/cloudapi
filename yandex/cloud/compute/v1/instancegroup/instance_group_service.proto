@@ -339,6 +339,9 @@ message CreateInstanceGroupRequest {
   // If specified, an Application Load Balancer target group containing all instances from the instance group will be created
   // and attributed to the instance group.
   ApplicationLoadBalancerSpec application_load_balancer_spec = 15;
+
+  // AutoHealingPolicy policy of the instance group.
+  AutoHealingPolicy auto_healing_policy = 16;
 }
 
 message CreateInstanceGroupFromYamlRequest {
@@ -420,6 +423,9 @@ message UpdateInstanceGroupRequest {
   // Settings for balancing load between instances via [Application Load Balancer](/docs/application-load-balancer/concepts)
   // (OSI model layer 7).
   ApplicationLoadBalancerSpec application_load_balancer_spec = 17;
+
+  // AutoHealingPolicy policy of the instance group.
+  AutoHealingPolicy auto_healing_policy = 18;
 }
 
 message UpdateInstanceGroupFromYamlRequest {

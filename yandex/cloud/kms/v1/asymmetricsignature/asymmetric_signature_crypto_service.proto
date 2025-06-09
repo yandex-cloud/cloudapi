@@ -12,6 +12,7 @@ option java_package = "yandex.cloud.api.kms.v1";
 
 // Set of methods that perform asymmetric signature.
 service AsymmetricSignatureCryptoService {
+
   // Signs data specified KMS key.
   rpc Sign (AsymmetricSignRequest) returns (AsymmetricSignResponse) {
     option (google.api.http) = {post: "/kms/v1/asymmetricSignatureKeys/{key_id}:sign" body: "*"};

@@ -45,6 +45,8 @@ message Workflow {
   string network_id = 10;
   // ID of the Service Account which will be used for resource access in Workflow execution.
   string service_account_id = 11;
+  // Express execution mode.
+  bool express = 12;
 }
 
 message WorkflowPreview {
@@ -68,6 +70,8 @@ message WorkflowPreview {
   string network_id = 9;
   // ID of the Service Account which will be used for resources access in Workflow execution.
   string service_account_id = 10;
+  // Express execution mode.
+  bool express = 11;
 }
 
 message WorkflowSpecification {

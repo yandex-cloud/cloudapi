@@ -8,6 +8,7 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/mdb/operationlog/v1/operation_log.proto";
 import "yandex/cloud/mdb/mongodb/v1/backup.proto";
 import "yandex/cloud/mdb/mongodb/v1/cluster.proto";
 import "yandex/cloud/mdb/mongodb/v1/config/mongodb.proto";
@@ -141,6 +142,7 @@ service ClusterService {
   }
 
   // Retrieves logs for the specified MongoDB cluster.
+  // See the [Logs](/yandex-mdb-guide/concepts/logs.html) section in the developers guide for detailed logs description.
   rpc ListLogs(ListClusterLogsRequest) returns (ListClusterLogsResponse) {
     option (google.api.http) = {get: "/managed-mongodb/v1/clusters/{cluster_id}:logs"};
   }
@@ -390,6 +392,9 @@ message CreateClusterRequest {
 message CreateClusterMetadata {
   // ID of the MongoDB cluster that is being created.
   string cluster_id = 1;
+
+  // Log of actions during operation
+  yandex.cloud.mdb.operationlog.v1.OperationLog operation_log = 2;
 }
 
 message UpdateClusterRequest {
@@ -444,6 +449,9 @@ message UpdateClusterRequest {
 message UpdateClusterMetadata {
   // ID of the MongoDB Cluster resource that is being updated.
   string cluster_id = 1;
+
+  // Log of actions during operation
+  yandex.cloud.mdb.operationlog.v1.OperationLog operation_log = 2;
 }
 
 message DeleteClusterRequest {
@@ -660,6 +668,7 @@ message ListClusterLogsRequest {
     MONGOD = 1;
     MONGOS = 2;
     MONGOCFG = 3;
+    // MongoDB Enterprise audit logs
     AUDIT = 4;
   }
 

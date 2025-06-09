@@ -126,9 +126,9 @@ service DesktopService {
 }
 
 message UpdatePropertiesRequest {
-  google.protobuf.FieldMask update_mask = 1;
   // To get the desktop ID use a [DesktopService.List] request.
-  string desktop_id = 2 [(required) = true, (length) = "<=50"];
+  string desktop_id = 1 [(required) = true, (length) = "<=50"];
+  google.protobuf.FieldMask update_mask = 2;
   string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])"];
   map<string, string> labels = 4 [
     (size) = "<=64", 

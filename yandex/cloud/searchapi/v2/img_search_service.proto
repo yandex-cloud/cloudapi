@@ -14,6 +14,10 @@ service ImageSearchService {
   rpc Search (ImageSearchRequest) returns (ImageSearchResponse) {
     option (google.api.http) = { post: "/v2/image/search" body: "*" };
   }
+
+  rpc SearchByImage (ImageSearchByImageRequest) returns (ImageSearchByImageResponse) {
+    option (google.api.http) = { post: "/v2/image/search_by_image" body: "*" };
+  }
 }
 
 message ImageSpec {
@@ -107,4 +111,51 @@ message ImageSearchRequest {
 message ImageSearchResponse {
   // Search results in XML format.
   bytes raw_data = 1 [(required) = true];
+}
+
+message ImageSearchByImageRequest {
+  // Restricts the search to the specific website.
+  string site = 1 [(length) = "<=1024"];
+  // ID of the folder.
+  string folder_id = 2 [(length) = "<=50"];
+  oneof image {
+    // The image url to use for the search.
+    string url = 3 [(required) = true, (length) = "<=1024"];
+    // The image data to use for the search.
+    bytes data = 4 [(required) = true, (length) = "<=3145728"];
+    // CBIR ID of the image to use for the search.
+    string id = 5  [(required) = true, (length) = "<=1024"];
+  }
+  // The number of a requested page with search results.
+  int64 page = 6 [(value) = ">=0"];
+}
+
+message ImageSearchByImageResponse {
+  message ImageInfo {
+    // Image URL.
+    string url = 1;
+    // Image format.
+    ImageSpec.ImageFormat format = 2;
+    // Image width.
+    int64 width = 3;
+    // Image height.
+    int64 height = 4;
+    // Text passage.
+    string  passage = 5;
+    // Document host.
+    string  host = 6;
+    // Document title.
+    string page_title = 7;
+    // Document URL.
+    string page_url = 8;
+  }
+
+  // The images found.
+  repeated ImageInfo images = 1;
+  // The number of the page with search results.
+  int64 page = 2;
+  // The number of the last page with search results.
+  int64 max_page = 3;
+  // CBIR ID of the image used for the search.
+  string id = 4;
 }

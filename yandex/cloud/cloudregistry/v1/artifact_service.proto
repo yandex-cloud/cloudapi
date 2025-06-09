@@ -12,6 +12,7 @@ import "google/api/annotations.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cloudregistry/v1;cloudregistry";
 option java_package = "yandex.cloud.api.cloudregistry.v1";
 
+
 // A set of methods for managing Artifacts.
 service ArtifactService {
   // Returns the specified artifact resource.

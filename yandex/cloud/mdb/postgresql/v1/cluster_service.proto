@@ -8,6 +8,7 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/mdb/operationlog/v1/operation_log.proto";
 import "yandex/cloud/mdb/postgresql/v1/backup.proto";
 import "yandex/cloud/mdb/postgresql/v1/cluster.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host10.proto";
@@ -366,6 +367,9 @@ message CreateClusterRequest {
 message CreateClusterMetadata {
   // ID of the PostgreSQL cluster that is being created.
   string cluster_id = 1;
+
+  // Log of actions during operation
+  yandex.cloud.mdb.operationlog.v1.OperationLog operation_log = 2;
 }
 
 message UpdateClusterRequest {
@@ -424,6 +428,9 @@ message UpdateClusterRequest {
 message UpdateClusterMetadata {
   // ID of the PostgreSQL Cluster resource that is being updated.
   string cluster_id = 1;
+
+  // Log of actions during operation
+  yandex.cloud.mdb.operationlog.v1.OperationLog operation_log = 2;
 }
 
 message DeleteClusterRequest {

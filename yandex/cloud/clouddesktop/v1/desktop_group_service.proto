@@ -244,8 +244,8 @@ message ListDesktopGroupOperationsResponse {
 
 message UpdateDesktopGroupRequest {
   reserved 8 to 9;
-  google.protobuf.FieldMask update_mask = 1;
-  string desktop_group_id = 2 [(required) = true, (length) = "<=50"];
+  string desktop_group_id = 1 [(required) = true, (length) = "<=50"];
+  google.protobuf.FieldMask update_mask = 2;
   string desktop_image_id = 3 [(length) = "<=50"];
   string name = 4 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])"];
   string description = 5 [(length) = "<=1024"];

@@ -3,7 +3,6 @@ syntax = "proto3";
 package yandex.cloud.billing.v1;
 
 import "google/api/annotations.proto";
-
 import "yandex/cloud/billing/v1/service.proto";
 import "yandex/cloud/validation.proto";
 

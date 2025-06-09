@@ -56,4 +56,5 @@ message YdbTarget {
     bool is_table_column_oriented = 34;
     // Compression that will be used for default columns family on YDB table creation
     YdbDefaultCompression default_compression = 35;
+    bool is_schema_migration_disabled = 36;
 }

@@ -5,6 +5,7 @@ package speechkit.stt.v3;
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/stt/v3;stt";
 option java_package = "yandex.cloud.api.ai.stt.v3";
 
+import "google/protobuf/struct.proto";
 
 // Options
 message TextNormalizationOptions {
@@ -151,6 +152,43 @@ message LanguageRestrictionOptions {
   repeated string language_code = 2;
 }
 
+// Represents the expected structure of the model's response using a JSON Schema.
+message JsonSchema {
+  // The JSON Schema that the model's output must conform to.
+  google.protobuf.Struct schema = 1;
+}
+
+// Represents summarization entry for transcription. 
+message SummarizationProperty {
+  // Summarization instruction for model.
+  string instruction = 1;
+
+  // Specifies the format of the model's response.
+  oneof ResponseFormat {
+    // When set to true, the model will respond with a valid JSON object.
+    // Be sure to explicitly ask the model for JSON.
+    // Otherwise, it may generate excessive whitespace and run indefinitely until it reaches the token limit.
+    bool json_object = 2;
+    // Enforces a specific JSON structure for the model's response based on a provided schema.
+    JsonSchema json_schema = 3;
+  }
+}
+
+// Represents transcription summarization options. 
+message SummarizationOptions {
+  // The [ID of the model](/docs/foundation-models/concepts/yandexgpt/models) to be used for completion generation.
+  string model_uri = 1;
+
+  // A list of suimmarizations to perform with transcription.
+  repeated SummarizationProperty properties = 2;
+}
+
+// Represents summarization response entry for transcription. 
+message SummarizationPropertyResult {
+  // Summarization response text.
+  string response = 1;
+}
+
 message RecognitionModelOptions {
   enum AudioProcessingType {
     AUDIO_PROCESSING_TYPE_UNSPECIFIED = 0;
@@ -203,6 +241,9 @@ message StreamingOptions {
 
   // Configuration for speaker labeling
   SpeakerLabelingOptions speaker_labeling = 5;
+
+  // Summarization options
+  SummarizationOptions summarization = 6;
 }
 
 // Data chunk with audio.
@@ -261,6 +302,9 @@ message RecognizeFileRequest {
 
   // Configuration for speaker labeling
   SpeakerLabelingOptions speaker_labeling = 6;
+
+  // Summarization options
+  SummarizationOptions summarization = 7;
 }
 
 // Now response
@@ -585,6 +629,26 @@ message ConversationAnalysis {
   double total_speech_ratio = 10;
 }
 
+// An object representing the number of content [tokens](/docs/foundation-models/concepts/yandexgpt/tokens) used by the completion model.
+message ContentUsage {
+  // The number of tokens in the textual part of the model input.
+  int64 input_text_tokens = 1;
+
+  // The number of tokens in the generated completion.
+  int64 completion_tokens = 2;
+
+  // The total number of tokens, including all input tokens and all generated tokens.
+  int64 total_tokens = 3;
+}
+
+message Summarization {
+  // A list of summarizations of transcription.
+  repeated SummarizationPropertyResult results = 1;
+
+  // A set of statistics describing the number of content tokens used by the completion model.
+  ContentUsage content_usage = 2;
+}
+
 // Responses from server.
 // Each response contains session uuid
 // AudioCursors
@@ -628,6 +692,9 @@ message StreamingResponse {
 
     // Conversation statistics
     ConversationAnalysis conversation_analysis = 12;
+
+    // Summary
+    Summarization summarization = 13;
   }
 
   // Tag for distinguish audio channels.
