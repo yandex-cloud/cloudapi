@@ -49,4 +49,6 @@ message ClaimProductInstanceMetadata {
   string product_instance_id = 2;
   // ID of the subscription.
   string license_instance_id = 3;
+  // ID of the subscription lock.
+  string lock_id = 4;
 }

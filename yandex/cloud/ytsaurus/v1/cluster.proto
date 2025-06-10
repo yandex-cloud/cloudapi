@@ -1,0 +1,184 @@
+syntax = "proto3";
+
+package yandex.cloud.ytsaurus.v1;
+
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ytsaurus/v1;ytsaurus";
+option java_package = "yandex.cloud.api.ytsaurus.v1";
+
+message Cluster {
+    // ID of the cluster. Generated at creation time.
+    string id = 1;
+
+    // ID of the folder that the cluster belongs to.
+    string folder_id = 2;
+
+    // ID of the availability zone where the cluster resides.
+    string zone_id = 3;
+
+    // Name of the cluster.
+    // The name is unique within the folder.
+    string name = 4;
+
+    // Description of the cluster.
+    string description = 5;
+
+    // Cluster labels as `key:value` pairs.
+    map<string, string> labels = 6;
+
+    // ID of the subnet where the cluster resides.
+    string subnet_id = 7;
+
+    // Network interfaces security groups.
+    repeated string security_group_ids = 8;
+
+    // Cluster specification.
+    ClusterSpec spec = 9;
+
+    // Time when the cluster was created.
+    google.protobuf.Timestamp created_at = 10;
+
+    // User who created the cluster.
+    string created_by = 11;
+
+    // Time when the cluster was last updated.
+    google.protobuf.Timestamp updated_at = 12;
+
+    // User who last updated the cluster.
+    string updated_by = 13;
+
+    enum Status {
+        STATUS_UNKNOWN = 0;
+
+        // Cluster is being created.
+        CREATING = 1;
+
+        // Cluster is running.
+        RUNNING = 2;
+
+        // Cluster encountered a problem and cannot operate.
+        ERROR = 3;
+
+        // Cluster is being stopped.
+        STOPPING = 4;
+
+         // Cluster stopped.
+        STOPPED = 5;
+
+        // Cluster is being started.
+        STARTING = 6;
+
+        // Cluster is being updated.
+        UPDATING = 7;
+
+        // Cluster is being deleted.
+        DELETING = 8;
+    }
+    // Status of the cluster.
+    Status status = 14;
+
+    enum Health {
+        HEALTH_UNKNOWN = 0;
+
+        // Cluster is alive.
+        ALIVE = 1;
+
+        // Cluster is dead.
+        DEAD = 2;
+
+        // Cluster is degraded.
+        DEGRADED = 3;
+    }
+    // Health of the cluster.
+    Health health = 15;
+
+    message Endpoints {
+        string ui = 1;                              // https://CID.ui.ytsaurus.yandexcloud.net
+        string external_http_proxy_balancer = 2;    // https://CID.proxy.ytsaurus.yandexcloud.net
+        string internal_http_proxy_alias = 3;       // https://proxy.CID.ytsaurus.mdb.yandexcloud.net:PORT
+        string internal_rpc_proxy_alias = 4;        // proxy.CID.ytsaurus.mdb.yandexcloud.net:PORT
+        repeated string internal_http_proxies = 5;  // https://proxy-{index}.CID.ytsaurus.mdb.yandexcloud.net
+        repeated string internal_rpc_proxies = 6;   // proxy-{index}.CID.ytsaurus.mdb.yandexcloud.net:PORT
+    }
+    // Endpoints of the cluster.
+    Endpoints endpoints = 16;
+}
+
+message StorageSpec {
+    message HddSpec {
+        reserved 1;
+        int64 size_gb = 2;
+        int64 count = 3;
+    }
+
+    HddSpec hdd = 1;
+
+    message SsdSpec {
+        reserved 1;
+        int64 size_gb = 2;
+        string type = 3;
+        int64 count = 4;
+    }
+
+    SsdSpec ssd = 2;
+}
+
+message ComputeSpec {
+    string preset = 1;
+
+    message DiskSpec {
+        string type = 1;
+        int64 size_gb = 2;
+        repeated string locations = 3;
+    }
+
+    repeated DiskSpec disks = 2;
+
+    message ScalePolicy {
+        message FixedScale {
+            int64 size = 1;
+        }
+
+        message AutoScale {
+            int64 min_size = 1;
+            int64 max_size = 2;
+        }
+
+        oneof policy {
+            option (exactly_one) = true;
+            FixedScale fixed = 1;
+            AutoScale auto = 2;
+        }
+    }
+
+    ScalePolicy scale_policy = 3;
+}
+
+message HttpProxySpec {
+    reserved 1;
+    int64 count = 2;
+}
+
+message RpcProxySpec {
+    reserved 1;
+    int64 count = 2;
+}
+
+message TabletSpec {
+    string preset = 1;
+    int64 count = 2;
+}
+
+message ProxySpec {
+    HttpProxySpec http = 1;
+    RpcProxySpec rpc = 2;
+}
+
+message ClusterSpec {
+    StorageSpec storage = 1;
+    repeated ComputeSpec compute = 2;
+    TabletSpec tablet = 3;
+    ProxySpec proxy = 4;
+}
