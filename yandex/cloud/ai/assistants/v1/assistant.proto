@@ -60,4 +60,7 @@ message Assistant {
   // List of tools that the assistant can use to perform additional tasks.
   // One example is the SearchIndexTool, which is used for Retrieval-Augmented Generation (RAG).
   repeated Tool tools = 16;
+
+  // Specifies the format of the model's response.
+  ResponseFormat response_format = 17;
 }

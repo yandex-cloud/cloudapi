@@ -155,6 +155,9 @@ message Cluster {
 
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 17;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 18;
 }
 
 // Monitoring system.

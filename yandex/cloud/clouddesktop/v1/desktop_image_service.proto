@@ -128,9 +128,16 @@ message CopyDesktopImageRequest {
 }
 
 message UpdateDesktopImageRequest {
+    // Id of image to update.
     string image_id = 1 [(required) = true];
+
+    // Mask of fields that need to be update.
     google.protobuf.FieldMask update_mask = 2;
+
+    // New desktop image name.
     string name = 3 [(length) = "<=50"];
+    
+    // New desktop image labels.
     map<string, string> labels = 4 [
         (size) = "<=64",
         (length) = "<=63",

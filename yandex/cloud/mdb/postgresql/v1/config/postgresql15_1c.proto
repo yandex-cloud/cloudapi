@@ -17,6 +17,18 @@ message PostgresqlConfig15_1C {
   reserved 125;
   reserved 166;
   reserved 64;
+  enum AutoExplainLogFormat {
+    AUTO_EXPLAIN_LOG_FORMAT_UNSPECIFIED = 0;
+
+    AUTO_EXPLAIN_LOG_FORMAT_TEXT = 1;
+
+    AUTO_EXPLAIN_LOG_FORMAT_XML = 2;
+
+    AUTO_EXPLAIN_LOG_FORMAT_JSON = 3;
+
+    AUTO_EXPLAIN_LOG_FORMAT_YAML = 4;
+  }
+
   enum BackslashQuote {
     BACKSLASH_QUOTE_UNSPECIFIED = 0;
 
@@ -530,6 +542,8 @@ message PostgresqlConfig15_1C {
   google.protobuf.Int64Value log_autovacuum_min_duration = 165 [(value) = "-1-2147483647"]; // in milliseconds. The default is 1000 (1 sec).
 
   PasswordEncryption password_encryption = 167; // A default value for `` user_password_encryption `` user-level setting, if it not specified for new users. Possible values are `` PASSWORD_ENCRYPTION_MD5 `` or `` PASSWORD_ENCRYPTION_SCRAM_SHA_256 ``. The default is `` PASSWORD_ENCRYPTION_MD5 ``.
+
+  AutoExplainLogFormat auto_explain_log_format = 168; // Selects the `` EXPLAIN `` output format to be used. The allowed values are `` AUTO_EXPLAIN_LOG_FORMAT_TEXT ``, `` AUTO_EXPLAIN_LOG_FORMAT_XML ``, `` AUTO_EXPLAIN_LOG_FORMAT_JSON ``, and `` AUTO_EXPLAIN_LOG_FORMAT_YAML ``. The default is `` AUTO_EXPLAIN_LOG_FORMAT_TEXT ``.
 }
 
 message PostgresqlConfigSet15_1C {

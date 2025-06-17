@@ -129,7 +129,7 @@ message ListChannelsRequest {
   // Default: "id asc".
   // Possible fields: ["id", "title", "createdAt", "updatedAt"].
   // Both snake_case and camelCase are supported for fields.
-  string order_by = 102;
+  string order_by = 102 [(length) = "<=50"];
 
   // Filter expression that filters resources listed in the response.
   // Expressions are composed of terms connected by logic operators.
@@ -164,9 +164,9 @@ message CreateChannelRequest {
   string organization_id = 1 [(required) = true, (length) = "<=50"];
 
   // Channel title.
-  string title = 2 [(required) = true, (length) = "<=2500"];
+  string title = 2 [(required) = true, (length) = "<=300"];
   // Channel description.
-  string description = 3;
+  string description = 3 [(length) = "<=4000"];
 
   // Custom labels as `` key:value `` pairs. Maximum 64 per resource.
   map<string, string> labels = 200 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_.@:/0-9a-zA-Z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
@@ -189,9 +189,9 @@ message UpdateChannelRequest {
   google.protobuf.FieldMask field_mask = 2 [(required) = true];
 
   // Channel title.
-  string title = 3 [(length) = "<=2500"];
+  string title = 3 [(length) = "<=300"];
   // Channel description.
-  string description = 4;
+  string description = 4 [(length) = "<=4000"];
 
   // Custom labels as `` key:value `` pairs. Maximum 64 per resource.
   map<string, string> labels = 200 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_.@:/0-9a-zA-Z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];

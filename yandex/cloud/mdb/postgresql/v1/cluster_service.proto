@@ -362,6 +362,9 @@ message CreateClusterRequest {
 
   // Backup long-term retention policies setting.
   repeated BackupRetentionPolicySpec retention_policies = 15;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 16;
 }
 
 message CreateClusterMetadata {
@@ -577,6 +580,9 @@ message RestoreClusterRequest {
 
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 15;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 16;
 }
 
 message RestoreClusterMetadata {

@@ -102,7 +102,7 @@ message CreateSubtitleRequest {
   // Contains the subtitle label (or title) that will be displayed on screen during video playback.
   // Should provide a concise and accurate representation of the spoken content.
   // If not provided, it will be auto-generated based on the specified language.
-  string label = 2;
+  string label = 2 [(length) = "<=50"];
 
   oneof parent_id {
     option (exactly_one) = true;

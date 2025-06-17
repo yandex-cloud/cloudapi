@@ -46,6 +46,9 @@ message Run {
 
   // List of tools that are available for the assistant to use in this run.
   repeated yandex.cloud.ai.assistants.v1.Tool tools = 11;
+
+  // Specifies the format of the model's response.
+  yandex.cloud.ai.assistants.v1.ResponseFormat custom_response_format = 12;
 }
 
 // Represents the current state of a run.

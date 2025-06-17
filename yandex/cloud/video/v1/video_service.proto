@@ -156,7 +156,7 @@ message ListVideoRequest {
   // Default: "id asc".
   // Possible fields: ["id", "title", "createdAt", "updatedAt"].
   // Both snake_case and camelCase are supported for fields.
-  string order_by = 102;
+  string order_by = 102 [(length) = "<=50"];
 
   // Filter expression that filters resources listed in the response.
   // Expressions are composed of terms connected by logic operators.
@@ -204,9 +204,9 @@ message CreateVideoRequest {
   string channel_id = 1 [(required) = true, (length) = "<=50"];
 
   // Video title.
-  string title = 2 [(required) = true, (length) = "<=2500"];
+  string title = 2 [(required) = true, (length) = "<=300"];
   // Video description.
-  string description = 3;
+  string description = 3 [(length) = "<=4000"];
   // ID of the thumbnail.
   string thumbnail_id = 4 [(length) = "<=50"];
   // Auto start transcoding.
@@ -268,9 +268,9 @@ message UpdateVideoRequest {
   google.protobuf.FieldMask field_mask = 2 [(required) = true];
 
   // Video title.
-  string title = 3 [(length) = "<=2500"];
+  string title = 3 [(length) = "<=300"];
   // Video description.
-  string description = 4;
+  string description = 4 [(length) = "<=4000"];
   // ID of the thumbnail.
   string thumbnail_id = 5 [(length) = "<=50"];
   // Auto start transcoding.

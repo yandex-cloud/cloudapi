@@ -15,6 +15,7 @@ option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
 // A ClickHouse Cluster resource. For more information, see the
 // [Cluster](/docs/managed-clickhouse/concepts) section in the Developer's Guide.
 message Cluster {
+  reserved 18;
   enum Environment {
     ENVIRONMENT_UNSPECIFIED = 0;
 
@@ -121,6 +122,9 @@ message Cluster {
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 17;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 19;
 }
 
 // Monitoring system metadata.

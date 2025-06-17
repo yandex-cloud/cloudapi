@@ -77,6 +77,9 @@ message CreateAssistantRequest {
   // List of tools that the assistant can use to perform additional tasks.
   // One example is the SearchIndexTool, which is used for Retrieval-Augmented Generation (RAG).
   repeated Tool tools = 10;
+
+  // Specifies the format of the model's response.
+  ResponseFormat response_format = 11;
 }
 
 // Request message for retrieving an assistant by ID.
@@ -119,6 +122,8 @@ message UpdateAssistantRequest {
 
   // New list of tools the assistant can use.
   repeated Tool tools = 11;
+
+  ResponseFormat response_format = 12;
 }
 
 // Request message for deleting an assistant by ID.

@@ -121,7 +121,7 @@ message ListStreamsRequest {
   // Default: "id asc".
   // Possible fields: ["id", "title", "startTime", "finishTime", "createdAt", "updatedAt"].
   // Both snake_case and camelCase are supported for fields.
-  string order_by = 102;
+  string order_by = 102 [(length) = "<=50"];
 
   // Filter expression that filters resources listed in the response.
   // Expressions are composed of terms connected by logic operators.
@@ -171,9 +171,9 @@ message CreateStreamRequest {
   // ID of the line.
   string line_id = 2 [(required) = true, (length) = "<=50"];
   // Stream title.
-  string title = 3 [(required) = true, (length) = "<=2500"];
+  string title = 3 [(required) = true, (length) = "<=300"];
   // Stream description.
-  string description = 4;
+  string description = 4 [(length) = "<=4000"];
   // ID of the thumbnail.
   string thumbnail_id = 5 [(length) = "<=50"];
 
@@ -218,9 +218,9 @@ message UpdateStreamRequest {
   // ID of the line.
   string line_id = 3 [(length) = "<=50"];
   // Stream title.
-  string title = 4 [(length) = "<=2500"];
+  string title = 4 [(length) = "<=300"];
   // Stream description.
-  string description = 5;
+  string description = 5 [(length) = "<=4000"];
   // ID of the thumbnail.
   string thumbnail_id = 6 [(length) = "<=50"];
 

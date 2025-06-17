@@ -387,6 +387,9 @@ message CreateClusterRequest {
 
   // Maintenance window settings for the cluster.
   MaintenanceWindow maintenance_window = 13;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 14;
 }
 
 message CreateClusterMetadata {
@@ -591,6 +594,9 @@ message RestoreClusterRequest {
 
   // Maintenance window settings for the cluster.
   MaintenanceWindow maintenance_window = 13;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 14;
 }
 
 message RestoreClusterMetadata {

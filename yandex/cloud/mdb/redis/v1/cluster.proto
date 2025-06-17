@@ -143,6 +143,9 @@ message Cluster {
 
   // Allows to use ACL users to auth in sentinel
   bool auth_sentinel = 21;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 22;
 }
 
 message Monitoring {

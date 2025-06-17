@@ -100,6 +100,17 @@ service BucketService {
     };
   }
 
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/storage/v1/buckets/{resource_id}:setAccessBindings"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
   rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = {
       patch: "/storage/v1/buckets/{resource_id}:updateAccessBindings"

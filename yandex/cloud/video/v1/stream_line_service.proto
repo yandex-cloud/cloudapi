@@ -185,7 +185,7 @@ message CreateStreamLineRequest {
   // ID of the channel.
   string channel_id = 1 [(required) = true, (length) = "<=50"];
   // Line title.
-  string title = 2 [(required) = true, (length) = "<=2500"];
+  string title = 2 [(required) = true, (length) = "<=300"];
   // ID of the thumbnail.
   string thumbnail_id = 3 [(length) = "<=50"];
 
@@ -226,7 +226,7 @@ message UpdateStreamLineRequest {
   google.protobuf.FieldMask field_mask = 2 [(required) = true];
 
   // Line title.
-  string title = 3 [(length) = "<=2500"];
+  string title = 3 [(length) = "<=300"];
   // ID of the thumbnail.
   string thumbnail_id = 4 [(length) = "<=50"];
 

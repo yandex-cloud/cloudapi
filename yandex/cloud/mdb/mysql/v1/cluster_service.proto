@@ -264,6 +264,7 @@ message ListClustersResponse {
 }
 
 message CreateClusterRequest {
+  reserved 15;
   // ID of the folder to create the cluster in.
   //
   // To get this ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
@@ -320,6 +321,9 @@ message CreateClusterRequest {
 
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 14;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 16;
 }
 
 message CreateClusterMetadata {
@@ -418,7 +422,7 @@ message BackupClusterMetadata {
 }
 
 message RestoreClusterRequest {
-  reserved 3;
+  reserved 3, 16;
 
   // ID of the backup to restore from.
   //
@@ -472,6 +476,9 @@ message RestoreClusterRequest {
 
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 15;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 17;
 }
 
 message RestoreClusterMetadata {
@@ -996,4 +1003,7 @@ message ConfigSpec {
 
   // Retention policy of automated backups.
   google.protobuf.Int64Value backup_retain_period_days = 8 [(value) = "7-60"];
+
+  // Disk size autoscaling
+  DiskSizeAutoscaling disk_size_autoscaling = 9;
 }

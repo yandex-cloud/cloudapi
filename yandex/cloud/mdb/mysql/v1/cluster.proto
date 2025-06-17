@@ -17,6 +17,7 @@ option java_package = "yandex.cloud.api.mdb.mysql.v1";
 //
 // See [the documentation](/docs/managed-mysql/concepts) for details.
 message Cluster {
+  reserved 18;
   enum Environment {
     ENVIRONMENT_UNSPECIFIED = 0;
 
@@ -124,6 +125,9 @@ message Cluster {
 
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 17;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 19;
 }
 
 // Cluster-related monitoring system data.
@@ -168,6 +172,9 @@ message ClusterConfig {
 
   // Retention policy of automated backups.
   google.protobuf.Int64Value backup_retain_period_days = 8 [(value) = "7-60"];
+
+  // Disk size autoscaling
+  DiskSizeAutoscaling disk_size_autoscaling = 9;
 }
 
 message Host {
@@ -327,4 +334,16 @@ message PerformanceDiagnostics {
 
   // Interval (in seconds) for `my_statements` sampling.
   int64 statements_sampling_interval = 3 [(value) = "1-86400"];
+}
+
+
+message DiskSizeAutoscaling {
+    // Amount of used storage for automatic disk scaling in the maintenance window, 0 means disabled, in percent.
+    int64 planned_usage_threshold = 1 [(required) = false, (value) = "0-100"];
+
+    // Amount of used storage for immediately  automatic disk scaling, 0 means disabled, in percent.
+    int64 emergency_usage_threshold = 2 [(required) = false, (value) = "0-100"];
+
+    // Limit on how large the storage for database instances can automatically grow, in bytes.
+    int64 disk_size_limit = 3;
 }

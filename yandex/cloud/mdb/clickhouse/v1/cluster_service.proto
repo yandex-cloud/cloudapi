@@ -413,6 +413,7 @@ message ListClustersResponse {
 }
 
 message CreateClusterRequest {
+  reserved 17;
   // ID of the folder to create the ClickHouse cluster in.
   string folder_id = 1 [
     (required) = true,
@@ -480,6 +481,9 @@ message CreateClusterRequest {
 
   // Configuration(s) of the shard(s) to be created.
   repeated ShardSpec shard_specs = 16;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 18;
 }
 
 message CreateClusterMetadata {
@@ -646,7 +650,7 @@ message BackupClusterMetadata {
 }
 
 message RestoreClusterRequest {
-  reserved 12;
+  reserved 12, 16;
   // ID of the backup to restore from. This backup will be used to create one cluster shard.
   // To get the backup ID, use a [ClusterService.ListBackups] request.
   string backup_id = 1 [(required) = true];
@@ -707,6 +711,9 @@ message RestoreClusterRequest {
 
   // Configuration(s) of the shard(s) in the restored cluster.
   repeated ShardSpec shard_specs = 15;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 17;
 }
 
 message RestoreClusterMetadata {
@@ -781,6 +788,9 @@ message ListClusterLogsRequest {
 
     // Logs of ClickHouse activity.
     CLICKHOUSE = 1;
+
+    // Logs of ClickHouse Keeper activity.
+    CLICKHOUSE_KEEPER = 2;
   }
 
   // Start timestamp for the logs request, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
@@ -839,6 +849,9 @@ message StreamClusterLogsRequest {
 
     // Logs of ClickHouse activity.
     CLICKHOUSE = 1;
+
+    // Logs of ClickHouse Keeper activity.
+    CLICKHOUSE_KEEPER = 2;
   }
 
   // Start timestamp for the logs request.

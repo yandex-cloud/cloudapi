@@ -46,6 +46,12 @@ message TextAnnotation {
 
     // Angle of image rotation.
     Angle rotate = 7;
+
+    // Full markdown (without pictures inside) from image. Available only in markdown and math-markdown models.
+    string markdown = 8;
+
+    // List of pictures locations from image.
+    repeated Picture pictures = 9;
 }
 
 message Entity {
@@ -72,6 +78,9 @@ message Block {
 
     // Block position from full_text string.
     repeated TextSegments text_segments = 4;
+
+    // Block layout type.
+    LayoutType layout_type = 5;
 }
 
 message Line {
@@ -148,4 +157,26 @@ message TableCell {
 
     // Table cell position from full_text string.
     repeated TextSegments text_segments = 7;
+}
+
+message Picture {
+    // Area on the page where the picture is located.
+    Polygon bounding_box = 1;
+
+    // Confidence score of picture location.
+    double score = 2;
+}
+
+enum LayoutType {
+    LAYOUT_TYPE_UNSPECIFIED = 0;
+    LAYOUT_TYPE_UNKNOWN = 1;
+    LAYOUT_TYPE_TEXT = 2;
+    LAYOUT_TYPE_HEADER = 3;
+    LAYOUT_TYPE_SECTION_HEADER = 4;
+    LAYOUT_TYPE_FOOTER = 5;
+    LAYOUT_TYPE_FOOTNOTE = 6;
+    LAYOUT_TYPE_PICTURE = 7;
+    LAYOUT_TYPE_CAPTION = 8;
+    LAYOUT_TYPE_TITLE = 9;
+    LAYOUT_TYPE_LIST = 10;
 }

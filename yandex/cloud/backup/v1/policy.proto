@@ -257,6 +257,31 @@ message PolicySettings {
         // /home/user/Finance/F.log
     }
 
+    enum CommandType {
+        COMMAND_TYPE_UNSPECIFIED = 0;
+        // Launch command before backup execution
+        PRE_COMMAND = 1;
+        // Launch command after backup execution
+        POST_COMMAND = 2;
+    }
+
+    message PrePostCommand {
+        // Command to execute
+        string cmd = 1;
+        // Command args
+        string args = 2;
+        // Is command enabled
+        bool enabled = 3;
+        // Stop backup execution on error
+        bool stop_on_error = 4;
+        // Type of command: pre or post
+        CommandType type = 5;
+        // Wait command finish before launching backup
+        bool wait = 6;
+        // Workdir for command execution 
+        string workdir = 7;
+    }
+
     // Archive compression level.
     Compression compression = 1 [ (required) = true ];
     // Format of the Acronis backup archive.
@@ -314,6 +339,8 @@ message PolicySettings {
     // If LVM fails to create a snapshot (for example, because there is not enough free space),
     // the software will create the snapshot itself.
     bool lvm_snapshotting_enabled = 22;
+    // Commands to launch before or after backup execution
+    repeated PrePostCommand pre_post_commands = 23;
 }
 
 message PolicyApplication {

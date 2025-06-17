@@ -170,3 +170,22 @@ message RephraserOptions {
   // The ID of the model used to rephrase the last user message for search.
   string rephraser_uri = 1 [(required) = true];
 }
+
+// Represents the expected structure of the model's response using a JSON Schema.
+message JsonSchema {
+  // The JSON Schema that the model's output must conform to.
+  google.protobuf.Struct schema = 1;
+}
+
+// Specifies the format of the model's response.
+message ResponseFormat {
+  oneof ResponseFormat {
+    // When set to true, the model will respond with a valid JSON object.
+    // Be sure to explicitly ask the model for JSON.
+    // Otherwise, it may generate excessive whitespace and run indefinitely until it reaches the token limit.
+    bool json_object = 1;
+
+    // Enforces a specific JSON structure for the model's response based on a provided schema.
+    JsonSchema json_schema = 2;
+  }
+}

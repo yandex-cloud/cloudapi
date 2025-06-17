@@ -382,6 +382,9 @@ message CreateClusterRequest {
 
   // Allows to use ACL users to auth in sentinel
   bool auth_sentinel = 19;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 20;
 }
 
 message CreateClusterMetadata {
@@ -552,6 +555,8 @@ message BackupClusterMetadata {
 }
 
 message RestoreClusterRequest {
+  reserved 17;
+
   // ID of the backup to create a cluster from.
   // To get the backup ID, use a [ClusterService.ListBackups] request.
   string backup_id = 1 [(required) = true];
@@ -615,6 +620,9 @@ message RestoreClusterRequest {
 
   // Allows to use ACL users to auth in sentinel
   bool auth_sentinel = 16;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 18;
 }
 
 message RestoreClusterMetadata {

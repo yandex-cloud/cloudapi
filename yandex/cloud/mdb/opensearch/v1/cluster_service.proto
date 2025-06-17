@@ -5,6 +5,7 @@ package yandex.cloud.mdb.opensearch.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/mdb/operationlog/v1/operation_log.proto";
 import "yandex/cloud/mdb/opensearch/v1/auth.proto";
@@ -374,6 +375,9 @@ message CreateClusterRequest {
 
   // Cluster maintenance window. Should be defined by either one of the two options.
   MaintenanceWindow maintenance_window = 11;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 12;
 }
 
 message CreateClusterMetadata {
@@ -971,6 +975,9 @@ message RestoreClusterRequest {
 
   // Cluster maintenance window. Should be defined by either one of the two options.
   MaintenanceWindow maintenance_window = 12;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 13;
 }
 
 message RestoreClusterMetadata {
