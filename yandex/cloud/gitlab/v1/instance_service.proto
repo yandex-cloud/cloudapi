@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.gitlab.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -30,6 +31,15 @@ service InstanceService {
     option (google.api.http) = { post: "/gitlab/v1/instances" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateInstanceMetadata"
+      response: "Instance"
+    };
+  }
+
+  // Updates GitLab instance.
+  rpc Update (UpdateInstanceRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/gitlab/v1/instances/{instance_id}" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateInstanceMetadata"
       response: "Instance"
     };
   }
@@ -153,6 +163,65 @@ message CreateInstanceRequest {
 // Metadata message for InstanceService.Create.
 message CreateInstanceMetadata {
   // ID of the GitLab instance being created.
+  string instance_id = 1;
+}
+
+// Request message for InstanceService.Update.
+message UpdateInstanceRequest {
+  // ID of the GitLab instance to update.
+  string instance_id = 1 [(yandex.cloud.required) = true, (yandex.cloud.length) = "<=50"];
+
+  // Name of the instance (must be unique within the folder).
+  string name = 2 [(yandex.cloud.pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+
+  // Description of the instance.
+  string description = 3 [(yandex.cloud.length) = "<=256"];
+
+  // Custom labels for the instance as `` key:value `` pairs. For example, "env": "prod"
+  map<string, string> labels = 4 [
+    (yandex.cloud.size) = "<=64",
+    (yandex.cloud.length) = "<=63",
+    (yandex.cloud.pattern) = "[-_0-9a-z]*",
+    (yandex.cloud.map_key).length = "1-63",
+    (yandex.cloud.map_key).pattern = "[a-z][-_0-9a-z]*"
+  ];
+
+  reserved 5;
+
+  // Number of days to retain backups.
+  int64 backup_retain_period_days = 6;
+
+  // ID of the resource preset for computational resources.
+  string resource_preset_id = 7;
+
+  reserved 8 to 9;
+
+  // Whether to delete untagged resources during maintenance.
+  bool maintenance_delete_untagged = 10;
+
+  // Whether deletion protection is enabled.
+  bool deletion_protection = 11;
+
+  // ID of approval rules for the instance.
+  string approval_rules_id = 12 [(yandex.cloud.length) = "<=30"];
+
+  // Token of approval rules for the instance.
+  string approval_rules_token = 13 [(yandex.cloud.length) = "<=100"];
+
+  reserved  14 to 20;
+
+  // Disk size in bytes.
+  int64 disk_size = 21;
+
+  reserved 22 to 23;
+
+  // Field mask that specifies which attributes of the trail are going to be updated.
+  google.protobuf.FieldMask update_mask = 24;
+}
+
+// Metadata message for InstanceService.Update.
+message UpdateInstanceMetadata {
+  // ID of the GitLab instance to update.
   string instance_id = 1;
 }
 

@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.loadbalancer.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -117,6 +118,24 @@ service NetworkLoadBalancerService {
   // Lists operations for the specified network load balancer.
   rpc ListOperations (ListNetworkLoadBalancerOperationsRequest) returns (ListNetworkLoadBalancerOperationsResponse) {
     option (google.api.http) = { get: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}/operations" };
+  }
+
+  // Start zonal shift for the specified network load balancer.
+  rpc StartZonalShift(StartZonalShiftRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:startZonalShift" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "StartZonalShiftMetadata"
+      response: "NetworkLoadBalancer"
+    };
+  }
+
+  // Cancel zonal shift for the specified network load balancer.
+  rpc CancelZonalShift(CancelZonalShiftRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:cancelZonalShift" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "CancelZonalShiftMetadata"
+      response: "NetworkLoadBalancer"
+    };
   }
 }
 
@@ -420,4 +439,34 @@ message ListenerSpec {
   // Port of a target.
   // Acceptable values are 1 to 65535, inclusive.
   int64 target_port = 5;
+}
+
+message StartZonalShiftRequest {
+  // ID of the network load balancer to start zonal shift.
+  string network_load_balancer_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Zone IDs to start zonal shift.
+  repeated string zone_ids = 2 [(size) = ">0"];
+
+  // The interval during which the zones will be shifted. Format 1m-72h.
+  // If not set then zone will be shifted until it is removed through a separate call.
+  google.protobuf.Duration duration = 3 [(value) = "1m-72h"];
+}
+
+message StartZonalShiftMetadata {
+  // ID of the network load balancer that the zonal shift is being started to.
+  string network_load_balancer_id = 1;
+}
+
+message CancelZonalShiftRequest {
+  // ID of the network load balancer to cancel zonal shift.
+  string network_load_balancer_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Zone IDs to cancel zonal shift.
+  repeated string zone_ids = 2 [(size) = ">0"];
+}
+
+message CancelZonalShiftMetadata {
+  // ID of the network load balancer that the zonal shift is being canceled to.
+  string network_load_balancer_id = 1;
 }

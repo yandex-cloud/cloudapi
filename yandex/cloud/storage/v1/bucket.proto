@@ -79,6 +79,9 @@ message Bucket {
 
   // Bucket allowed private endpoints.
   BucketAllowedPrivateEndpoints allowed_private_endpoints = 17;
+
+  // ID of the Yandex.Cloud entity that owns the bucket.
+  string resource_id = 18;
 }
 
 message Tag {
