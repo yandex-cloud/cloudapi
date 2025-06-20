@@ -7,6 +7,7 @@ import "yandex/cloud/ai/foundation_models/v1/text_common.proto";
 import "yandex/cloud/ai/foundation_models/v1/batch_inference_task_status.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
+import "google/protobuf/wrappers.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/foundation_models/v1/text_generation;foundation_models";
 option java_package = "yandex.cloud.api.ai.foundation_models.v1";
@@ -36,6 +37,12 @@ message CompletionRequest {
     // Enforces a specific JSON structure for the model's response based on a provided schema.
     JsonSchema json_schema = 6;
   }
+
+  // Controls whether the model can generate multiple tool calls in a single response. Defaults to true.
+  google.protobuf.BoolValue parallel_tool_calls = 7;
+
+  // Specifies how the model should select which tool (or tools) to use when generating a response.
+  ToolChoice tool_choice = 8;
 }
 
 // Response containing generated text completions.

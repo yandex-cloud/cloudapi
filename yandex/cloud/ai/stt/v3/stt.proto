@@ -326,7 +326,7 @@ message Word {
 // Estimation of language and its probability.
 message LanguageEstimation {
 
-  // Language code in ISO 639-1 format.
+  // Language tag in IETF BCP 47 format, consisting of ISO 639-1 language code and ISO 3166-1 country code (e.g., en-US, ru-RU).
   string language_code = 1;
 
   // Estimation of language probability.

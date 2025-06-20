@@ -11,7 +11,7 @@ option java_package = "yandex.cloud.api.ai.foundation_models.v1.image_generation
 message Message {
   // Text describing the image.
   string text = 1;
-  // Message weight. Negative values indicate negative messages.
+  // Message weight. Negative values indicate negative messages. Note: Currently not supported.
   double weight = 2;
 }
 
@@ -27,7 +27,7 @@ message ImageGenerationOptions {
   // The [MIME type](https://en.wikipedia.org/wiki/Media_type) of generated image format.
   // For possible specifications, see [documentation](/docs/foundation-models/concepts).
   string mime_type = 1;
-  // Seed for image generation. It serves as a starting point for image generation from noise.
+  // Seed for image generation. It serves as a starting point for image generation from noise. If set to 0 or not provided, a randomly generated value will be used.
   int64 seed = 2;
   // Aspect ratio of generated image.
   AspectRatio aspect_ratio = 3;

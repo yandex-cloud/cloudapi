@@ -146,11 +146,17 @@ message ClusterConfig {
 
     // Resources allocated to ClickHouse hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings.
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Zookeeper {
     // Resources allocated to ZooKeeper hosts.
     Resources resources = 1;
+
+    // Disk size autoscaling settings.
+    DiskSizeAutoscaling disk_size_autoscaling = 2;
   }
 
   // Version of the ClickHouse server software.
@@ -223,6 +229,9 @@ message ShardConfig {
     // Relative weight of a shard considered when writing data to the cluster.
     // For details, see [ClickHouse documentation](https://clickhouse.com/docs/en/operations/table_engines/distributed/).
     google.protobuf.Int64Value weight = 3;
+
+    // Disk size autoscaling settings.
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // ClickHouse configuration for a shard.
@@ -371,4 +380,15 @@ message CloudStorage {
   google.protobuf.Int64Value data_cache_max_size = 4;
 
   google.protobuf.BoolValue prefer_not_to_merge = 5;
+}
+
+message DiskSizeAutoscaling {
+  // Amount of used storage for automatic disk scaling in the maintenance window, 0 means disabled, in percent.
+  google.protobuf.Int64Value planned_usage_threshold = 1 [(required) = false, (value) = "0-100"];
+
+  // Amount of used storage for immediately  automatic disk scaling, 0 means disabled, in percent.
+  google.protobuf.Int64Value emergency_usage_threshold = 2 [(required) = false, (value) = "0-100"];
+
+  // Limit on how large the storage for database instances can automatically grow, in bytes.
+  google.protobuf.Int64Value disk_size_limit = 3;
 }

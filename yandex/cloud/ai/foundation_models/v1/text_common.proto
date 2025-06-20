@@ -145,6 +145,8 @@ message FunctionTool {
   // A JSON Schema that defines the expected parameters for the function.
   // The schema should describe the required fields, their types, and any constraints or default values.
   google.protobuf.Struct parameters = 3;
+  // Enforces strict adherence to the function schema, ensuring only defined parameters are used.
+  bool strict = 4;
 }
 
 // Represents a call to a tool.
@@ -199,4 +201,28 @@ message ToolResultList {
 message JsonSchema {
   // The JSON Schema that the model's output must conform to.
   google.protobuf.Struct schema = 1;
+}
+
+// Specifies how the model should select which tool (or tools) to use when generating a response.
+message ToolChoice {
+  // Defines the different modes for tool calling.
+  enum ToolChoiceMode {
+    // The server will choose the default behavior, which is AUTO.
+    TOOL_CHOICE_MODE_UNSPECIFIED = 0;
+    // The model will not call any tool and will generate a standard text response.
+    NONE = 1;
+    // The model can choose between generating a text response or calling one or more tools.
+    // This is the default behavior.
+    AUTO = 2;
+    // The model is required to call one or more tools.
+    REQUIRED = 3;
+  }
+
+  oneof ToolChoice {
+    // Specifies the overall tool-calling mode.
+    ToolChoiceMode mode = 1;
+    // Forces the model to call a specific function.
+    // The provided string must match the name of a function in the API request.
+    string function_name = 2;
+  }
 }

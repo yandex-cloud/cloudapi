@@ -1523,12 +1523,18 @@ message ConfigSpec {
 
     // Resources allocated to ClickHouse hosts.
     Resources resources = 2;
+
+    // Disk size autoscaling settings.
+    DiskSizeAutoscaling disk_size_autoscaling = 3;
   }
 
   message Zookeeper {
     // Resources allocated to ZooKeeper hosts. If not set, minimal available resources will be used.
     // All available resource presets can be retrieved with a [ResourcePresetService.List] request.
     Resources resources = 1;
+
+    // Disk size autoscaling settings.
+    DiskSizeAutoscaling disk_size_autoscaling = 2;
   }
 
   // Version of the ClickHouse server software.
@@ -1577,6 +1583,9 @@ message ShardConfigSpec {
     // Relative weight of the shard considered when writing data to the cluster.
     // For details, see [ClickHouse documentation](https://clickhouse.com/docs/en/operations/table_engines/distributed/).
     google.protobuf.Int64Value weight = 3;
+
+    // Disk size autoscaling settings.
+    DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
   // ClickHouse configuration for a shard.
