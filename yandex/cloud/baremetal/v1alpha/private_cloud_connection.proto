@@ -10,7 +10,7 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 
 // A Private cloud connection resource.
 message PrivateCloudConnection {
-    reserved 2, 3,9 to 99, 101 to 200;
+    reserved 2, 3, 10 to 99, 101 to 200;
     // ID of the private cloud connection.
     string id = 1;
     
@@ -28,6 +28,9 @@ message PrivateCloudConnection {
   
     // Status of the private cloud connection.
     Status status = 8;
+
+    // Name of the private cloud connection.
+    string name = 9;
   
     // Creation timestamp.
     google.protobuf.Timestamp created_at = 100;

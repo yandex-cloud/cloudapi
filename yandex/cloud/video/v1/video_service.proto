@@ -331,29 +331,23 @@ message VideoTranslationSettings {
   message InputTrack {
     // Input audio track index (one-based).
     int64 track_index = 1 [(value) = ">=1"];
-    // Source track language in any of the following formats:
-    // * three-letter code according to ISO 639-2/T, ISO 639-2/B, or ISO 639-3 
-    // * two-letter code according to ISO 639-1                          
+    // Source track language represented as a three-letter code according to ISO 639-2/T.
     // Track language will be deduced automatically if not provided.
     // In the latter case the deduction accuracy is not guaranteed.
     // For better performance please do specify the source track language when possible.
-    string src_lang = 2 [(length) = "<=3"];
+    string src_lang = 2 [(length) = "0,3", (pattern) = "|deu|eng|fra|ita|jpn|kaz|rus|spa|ukr|zho"];
   }
 
   message SubtitleTrack {
-    // Target language in any of the following formats:
-    // * three-letter code according to ISO 639-2/T, ISO 639-2/B, or ISO 639-3 
-    // * two-letter code according to ISO 639-1                          
-    string dst_lang = 1 [(required) = true, (length) = "2-3"];
+    // Target language represented as a three-letter code according to ISO 639-2/T.
+    string dst_lang = 1 [(required) = true, (length) = "3", (pattern) = "deu|eng|fra|ita|jpn|kaz|rus|spa|ukr|zho"];
     // Track label to be displayed on the screen during video playback.
     string label = 2 [(required) = true, (length) = "<=50"];
   }
 
   message AudioTrack {
-    // Target language in any of the following formats:
-    // * three-letter code according to ISO 639-2/T, ISO 639-2/B, or ISO 639-3 
-    // * two-letter code according to ISO 639-1                          
-    string dst_lang = 1 [(required) = true, (length) = "2-3"];
+    // Target language represented as a three-letter code according to ISO 639-2/T.
+    string dst_lang = 1 [(required) = true, (length) = "3", (pattern) = "deu|eng|fra|ita|jpn|kaz|rus|spa|ukr|zho"];
     // Track label to be displayed on the screen during video playback.
     string label = 2 [(required) = true, (length) = "<=50"];
   }
@@ -378,11 +372,11 @@ message VideoSummarizationSettings {
   message InputTrack {
     // Input audio track index (one-based).
     int64 track_index = 1 [(value) = ">=1"];
-    // Source track language (three-letter code according to ISO 639-2/T, ISO 639-2/B, or ISO 639-3).
+    // Source track language represented as a three-letter code according to ISO 639-2/T.
     // It will be deduced automatically if not provided.
     // In the latter case the deduction accuracy is not guaranteed.
     // For better performance please do specify the source track language when possible.
-    string src_lang = 2 [(length) = "<=3"];
+    string src_lang = 2 [(length) = "0,3", (pattern) = "|deu|eng|fra|ita|jpn|kaz|rus|spa|ukr|zho"];
   }
 }
 

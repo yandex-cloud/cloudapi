@@ -22,6 +22,8 @@ message TuningTask {
     CANCELED = 6;
 
     DRAFT = 7;
+
+    ARCHIVED = 8;
   }
 
   string task_id = 1;

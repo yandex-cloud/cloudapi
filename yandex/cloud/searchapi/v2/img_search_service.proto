@@ -128,6 +128,8 @@ message ImageSearchByImageRequest {
   }
   // The number of a requested page with search results.
   int64 page = 6 [(value) = ">=0"];
+  // Rule for filtering search results and determines whether any documents should be excluded.
+  SearchQuery.FamilyMode family_mode = 7;
 }
 
 message ImageSearchByImageResponse {

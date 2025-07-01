@@ -269,7 +269,7 @@ message UpdateClusterRequest {
 
   // Cloud logging configuration
   LoggingConfig logging = 9;
-  
+
   // Network related configuration options.
   UpdateNetworkConfigSpec network_spec = 10;
 
@@ -350,7 +350,7 @@ message ExportDataRequest {
     (required) = true,
     (length) = "<=50"
   ];
-  // S3 bucket to export backup from.
+  // S3 bucket to export backup to.
   string bucket = 2 [(required) = true];
   // Export dump filepath.
   string filepath = 3 [(required) = true];

@@ -63,6 +63,13 @@ message DesktopGroup {
 
   // Desktop group configuration.
   DesktopGroupConfiguration group_config = 26;
+
+  // Desktop group update policy.
+  oneof update_policy {
+    option (exactly_one) = true;
+    AutoUpdatePolicy auto_update_policy = 27;
+    ManualUpdatePolicy manual_update_policy = 28;
+  }
 }
 
 message DesktopGroupConfiguration {
@@ -110,4 +117,10 @@ message NetworkInterfaceSpec {
     (length) = "<=50",
     (unique) = true
   ];
+}
+
+message ManualUpdatePolicy {
+}
+
+message AutoUpdatePolicy {
 }

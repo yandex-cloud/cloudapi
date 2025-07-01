@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.spark.v1;
 
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/spark/v1/cluster.proto";
 import "yandex/cloud/spark/v1/maintenance.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -25,6 +26,14 @@ service ClusterService {
   rpc Create (CreateClusterRequest) returns (operation.Operation) {
     option (yandex.cloud.api.operation) = {
       metadata: "CreateClusterMetadata"
+      response: "Cluster"
+    };
+  }
+
+  // Updates configuration of the specified Spark cluster.
+  rpc Update (UpdateClusterRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateClusterMetadata"
       response: "Cluster"
     };
   }
@@ -124,6 +133,41 @@ message CreateClusterRequest {
 message CreateClusterMetadata {
   // ID of the creating Spark cluster.
   string cluster_id = 1 [(required) = true];
+}
+
+message UpdateClusterRequest {
+  // ID of the Spark cluster.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+  google.protobuf.FieldMask update_mask = 2;
+
+  string name = 3 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+
+  // Description of the Spark cluster. 0-256 characters long.
+  string description = 4 [(length) = "<=256"];
+
+  map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+
+  UpdateClusterConfigSpec config_spec = 6;
+
+  UpdateNetworkConfigSpec network_spec = 7;
+
+  // Deletion Protection inhibits deletion of the cluster
+  bool deletion_protection = 8;
+
+  // Service account used to access Cloud resources.
+  string service_account_id = 9 [(length) = "<=50"];
+
+  // Cloud logging configuration
+  LoggingConfig logging = 10;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 11;
+}
+
+message UpdateClusterMetadata {
+  // ID of the updating Spark cluster.
+  string cluster_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message DeleteClusterRequest {

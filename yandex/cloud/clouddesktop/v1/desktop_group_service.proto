@@ -266,6 +266,12 @@ message UpdateDesktopGroupRequest {
 
   // Data disk specification of the desktop group.
   DiskSpec data_disk_spec = 12;
+
+  // Update policy of the desktop group. 
+  oneof update_policy {
+    AutoUpdatePolicy auto_update_policy = 13;
+    ManualUpdatePolicy manual_update_policy = 14;
+  }
 }
 
 message CreateDesktopGroupRequest {

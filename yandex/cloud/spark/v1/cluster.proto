@@ -13,21 +13,21 @@ option java_package = "yandex.cloud.api.spark.v1";
 message Cluster {
 
   enum Status {
-    
+
     // Cluster status is unknown
     STATUS_UNKNOWN = 0;
-    
+
     // Cluster is being created
-    CREATING = 1; 
-    
+    CREATING = 1;
+
     // Cluster is running normally.
     RUNNING = 2;
 
     // Cluster is being updated.
-    UPDATING = 3; 
+    UPDATING = 3;
 
     // Cluster encountered a problem and cannot operate.
-    ERROR = 4; 
+    ERROR = 4;
 
     // Cluster is stopping.
     STOPPING = 5;
@@ -101,6 +101,19 @@ message ClusterConfig {
   Metastore metastore = 4;
 }
 
+message UpdateClusterConfigSpec {
+  ResourcePools resource_pools = 1;
+
+  // Configuration for HistoryServer
+  HistoryServerConfig history_server = 2;
+
+  // Container custom environment dependencies
+  Dependencies dependencies = 3;
+
+  // Metastore Cluster
+  Metastore metastore = 4;
+}
+
 message HistoryServerConfig {
   bool enabled = 1;
 }
@@ -111,6 +124,11 @@ message NetworkConfig {
 
   // User security groups
   repeated string security_group_ids = 2;
+}
+
+message UpdateNetworkConfigSpec {
+  // User security groups.
+  repeated string security_group_ids = 1;
 }
 
 message ResourcePools {

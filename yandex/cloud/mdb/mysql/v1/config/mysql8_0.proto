@@ -607,6 +607,12 @@ message MysqlConfig8_0 {
   //
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_change_buffering).
   InnodbChangeBuffering innodb_change_buffering = 90;
+
+  // Permit some pending read lock requests interval
+  // P.S. Should be UInt64, but java fails to handle UInt64 limits
+  //
+  // For details, see [Percona documentation for the variable](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_max_write_lock_count).
+  google.protobuf.Int64Value max_write_lock_count = 91 [(value) = ">=1"];
 }
 
 message MysqlConfigSet8_0 {

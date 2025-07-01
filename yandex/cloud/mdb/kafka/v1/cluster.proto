@@ -122,6 +122,14 @@ message Cluster {
 
   // Scheduled maintenance operation.
   MaintenanceOperation planned_operation = 17;
+
+  message KafkaUI {
+    // URL for connection to kafka ui
+    string url = 1;
+  }
+
+  // KafkaUI state.
+  KafkaUI kafka_ui = 18;
 }
 
 // Metadata of monitoring system.
@@ -202,6 +210,14 @@ message ConfigSpec {
 
   // Configuration and resource allocation for KRaft-controller hosts.
   KRaft kraft = 12;
+
+  message KafkaUIConfig {
+    // Is Kafka UI enabled for this cluster.
+    bool enabled = 1;
+  }
+
+  // Configuration of Kafka UI.
+  KafkaUIConfig kafka_ui_config = 13;
 }
 
 message Resources {
@@ -394,6 +410,9 @@ message Host {
 
     // The host is a ZooKeeper server.
     ZOOKEEPER = 2;
+
+    // The host is a Kafka KRaft controller broker.
+    KRAFT = 3;
   }
 
   enum Health {

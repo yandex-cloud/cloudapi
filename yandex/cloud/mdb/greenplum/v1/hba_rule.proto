@@ -32,6 +32,9 @@ message HBARule {
 
     // Disable authentication
     REJECT = 3;
+
+    // Perform authentication with IAM token
+    IAM = 4;
   }
 
   // Priority of the Greenplum cluster rule.

@@ -42,6 +42,13 @@ service TuningService {
       response: "TuningResponse"
     };
   }
+
+  rpc Archive(ArchiveTuningRequest) returns (yandex.cloud.operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "ArchiveTuningMetadata"
+      response: "ArchiveTuningResponse"
+    };
+  }
 }
 
 message ListTuningsRequest {
@@ -394,4 +401,16 @@ message DeleteTuningDraftResponse {
 
 message TuneDraftRequest {
   string tuning_task_id = 1 [(required) = true];
+}
+
+message ArchiveTuningRequest {
+  string tuning_task_id = 1 [(required) = true];
+}
+
+message ArchiveTuningMetadata {
+
+}
+
+message ArchiveTuningResponse {
+  string tuning_task_id = 1;
 }

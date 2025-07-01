@@ -45,8 +45,8 @@ message Extension {
   // Extensions supported by Managed Service for PostgreSQL are [listed in the Developer's Guide](/docs/managed-postgresql/operations/extensions/cluster-extensions).
   string name = 1;
 
-  // Version of the extension.
-  string version = 2;
+  // Version of the extension. The setting is deprecated and has no effect.
+  string version = 2 [deprecated = true];
 }
 
 message DatabaseSpec {

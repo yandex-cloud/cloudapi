@@ -11,7 +11,6 @@ import "yandex/cloud/datatransfer/v1/endpoint.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 
-
 // A set of methods for managing [endpoints]({{ api-url-prefix
 // }}/data-transfer/concepts/#endpoint).
 service EndpointService {
@@ -65,7 +64,7 @@ message ListEndpointsRequest {
     // in the response message. Include it into the subsequent `ListEndpointRequest` to
     // fetch the next page. Defaults to `100` if not specified. The maximum allowed
     // value
-    // for this field is `500`.
+    // for this field is `1000`.
     int64 page_size = 2;
     // Opaque value identifying the endpoints page to be fetched. Should be empty in
     // the first `ListEndpointsRequest`. Subsequent requests should have this field

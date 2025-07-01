@@ -160,6 +160,10 @@ message MultiSourceChartWidget {
             message HashColorScheme {
             }
 
+            message ConstantColorScheme {
+                string color = 1;
+            }
+
             message ThresholdsColorScheme {
                 enum Aggregation {
                     AGGREGATION_UNSPECIFIED = 0;
@@ -188,6 +192,8 @@ message MultiSourceChartWidget {
 
                 // Threshold settings color scheme.
                 ThresholdsColorScheme thresholds = 5;
+
+                ConstantColorScheme constant = 6;
             }
         }
 
@@ -342,6 +348,18 @@ message MultiSourceChartWidget {
 
             // Yaxis position.
             YaxisPosition yaxis_position = 6;
+
+            // Line Border Width
+            int64 line_width = 7;
+
+            enum LineStyle {
+                LINE_STYLE_UNSPECIFIED = 0;
+                LINE_STYLE_SOLID = 1;
+                LINE_STYLE_DASH = 2;
+                LINE_STYLE_DOTS = 3;
+            }
+
+            LineStyle line_style = 8 ;
         }
 
         // Required. Series selection type.
@@ -355,6 +373,41 @@ message MultiSourceChartWidget {
 
         // Required. Override settings.
         SeriesOverrideSettings settings = 3;
+
+        string override_name = 4;
+
+        OverrideMatcher matcher = 5;
+    }
+
+    message OverrideMatcher {
+        oneof type {
+            QueryMatcher query = 1;
+            LineMatcher line = 2;
+            RegExpMatcher regexp = 3;
+            ValueMatcher values = 4;
+        }
+    }
+
+    message QueryMatcher {
+        repeated string names = 1;
+    }
+
+    message LineMatcher {
+        repeated string line_ids = 1;
+    }
+
+    message RegExpMatcher {
+        string reg_exp = 1;
+    }
+
+    enum ValuesType {
+        VALUES_TYPE_UNSPECIFIED = 0;
+        VALUES_TYPE_ALL_ZEROS = 1;
+        VALUES_TYPE_ALL_NULL = 2;
+    }
+
+    message ValueMatcher {
+        ValuesType value_type = 1;
     }
 
     // Name hiding settings.

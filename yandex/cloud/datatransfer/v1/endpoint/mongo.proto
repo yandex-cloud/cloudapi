@@ -19,6 +19,7 @@ message MongoConnectionOptions {
     oneof address {
         string mdb_cluster_id = 1;
         OnPremiseMongo on_premise = 2;
+        MongoConnectionManagerConnection connection_manager_connection = 6;
     }
     // User name
     string user = 3;
@@ -61,4 +62,9 @@ message MongoTarget {
     string subnet_id = 7;
     // Security groups
     repeated string security_groups = 8;
+}
+message MongoConnectionManagerConnection {
+    string connection_id = 1;
+    // Used only for on-premise connections
+    string replica_set = 2;
 }
