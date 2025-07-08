@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.apploadbalancer.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
 import "google/protobuf/field_mask.proto";
 
 import "yandex/cloud/api/operation.proto";
@@ -148,6 +149,7 @@ service LoadBalancerService {
 
   // Start ZonalShift for the specified load balancer.
   rpc StartZonalShift(StartZonalShiftRequest) returns (operation.Operation) {
+    option deprecated = true;
     option (google.api.http) = { post: "/apploadbalancer/v1/loadBalancers/{load_balancer_id}:startZonalShift" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "StartZonalShiftMetadata"
@@ -157,9 +159,28 @@ service LoadBalancerService {
 
   // Cancel ZonalShift for the specified load balancer.
   rpc CancelZonalShift(CancelZonalShiftRequest) returns (operation.Operation) {
+    option deprecated = true;
     option (google.api.http) = { post: "/apploadbalancer/v1/loadBalancers/{load_balancer_id}:cancelZonalShift" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "CancelZonalShiftMetadata"
+      response: "LoadBalancer"
+    };
+  }
+
+  // Disable L7 traffic routing in zones for the specified load balancer.
+  rpc DisableZones(DisableZonesRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/apploadbalancer/v1/loadBalancers/{load_balancer_id}:disableZones" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "DisableZonesMetadata"
+      response: "LoadBalancer"
+    };
+  }
+
+  // Enable L7 traffic routing back in zones for the specified load balancer.
+  rpc EnableZones(EnableZonesRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/apploadbalancer/v1/loadBalancers/{load_balancer_id}:enableZones" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "EnableZonesMetadata"
       response: "LoadBalancer"
     };
   }
@@ -681,5 +702,40 @@ message CancelZonalShiftMetadata {
   string load_balancer_id = 1;
 
   // Zone IDs where zonal shift was cancelled.
+  repeated string zone_ids = 2;
+}
+
+message DisableZonesRequest {
+  // ID of the application load balancer to disable traffic in zones.
+  string load_balancer_id = 1 [(required) = true];
+
+  // Zone IDs to disable traffic.
+  repeated string zone_ids = 2 [(size)=">0"];
+
+  // The interval during which the zones will be disabled (1m-72h). If not set then until EnableZones call.
+  google.protobuf.Duration duration = 3 [(value) = "1m-72h"];
+}
+
+message DisableZonesMetadata {
+  // ID of the application load balancer to disable traffic in zones.
+  string load_balancer_id = 1;
+
+  // Zone IDs where traffic was disabled.
+  repeated string zone_ids = 2;
+}
+
+message EnableZonesRequest {
+  // ID of the application load balancer to enable traffic in zones.
+  string load_balancer_id = 1 [(required) = true];
+
+  // Zone IDs to enable traffic.
+  repeated string zone_ids = 2 [(size)=">0"];
+}
+
+message EnableZonesMetadata {
+  // ID of the application load balancer to enable traffic in zones.
+  string load_balancer_id = 1;
+
+  // Zone IDs where traffic was enabled.
   repeated string zone_ids = 2;
 }

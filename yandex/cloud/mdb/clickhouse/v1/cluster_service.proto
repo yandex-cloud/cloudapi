@@ -714,6 +714,9 @@ message RestoreClusterRequest {
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 17;
+
+  // Window of maintenance operations.
+  MaintenanceWindow maintenance_window = 18;
 }
 
 message RestoreClusterMetadata {

@@ -23,7 +23,7 @@ enum IpVersion {
 
 // A NetworkLoadBalancer resource. For more information, see [Network Load Balancer](/docs/network-load-balancer/concepts).
 message NetworkLoadBalancer {
-  reserved 8, 16;
+  reserved 8, 16, 17;
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -112,8 +112,8 @@ message NetworkLoadBalancer {
   // Specifies if network load balancer available to zonal shift.
   bool allow_zonal_shift = 15;
 
-  // List of shifted zones for the network load balancer.
-  repeated ZonalShiftStatus zonal_shift_statuses = 17;
+  // List of disabled zones for the network load balancer.
+  repeated DisableZoneStatus disable_zone_statuses = 18;
 }
 
 // An AttachedTargetGroup resource. For more information, see [Targets and groups](/docs/network-load-balancer/concepts/target-resources).
@@ -192,12 +192,12 @@ message TargetState {
   Status status = 3;
 }
 
-// Status of the shifted zones.
-message ZonalShiftStatus {
+// Status of the disabled zone.
+message DisableZoneStatus {
   // ID of zone.
   string zone_id = 1 [(required) = true];
 
-  // Timestamp until which the zone will be shifted.
-  // If not present then zone will be shifted until it is removed through a separate call.
-  google.protobuf.Timestamp shifted_until = 2;
+  // Timestamp until which the zone will be disabled.
+  // If not present then zone will be disabled until it is removed through a separate call.
+  google.protobuf.Timestamp disabled_until = 2;
 }

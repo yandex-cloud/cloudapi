@@ -120,20 +120,20 @@ service NetworkLoadBalancerService {
     option (google.api.http) = { get: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}/operations" };
   }
 
-  // Start zonal shift for the specified network load balancer.
-  rpc StartZonalShift(StartZonalShiftRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:startZonalShift" body: "*" };
+  // Disable zones for the specified network load balancer.
+  rpc DisableZones(DisableZonesRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:disableZones" body: "*" };
     option (yandex.cloud.api.operation) = {
-      metadata: "StartZonalShiftMetadata"
+      metadata: "DisableZonesMetadata"
       response: "NetworkLoadBalancer"
     };
   }
 
-  // Cancel zonal shift for the specified network load balancer.
-  rpc CancelZonalShift(CancelZonalShiftRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:cancelZonalShift" body: "*" };
+  // Enable zones for the specified network load balancer.
+  rpc EnableZones(EnableZonesRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:enableZones" body: "*" };
     option (yandex.cloud.api.operation) = {
-      metadata: "CancelZonalShiftMetadata"
+      metadata: "EnableZonesMetadata"
       response: "NetworkLoadBalancer"
     };
   }
@@ -441,32 +441,32 @@ message ListenerSpec {
   int64 target_port = 5;
 }
 
-message StartZonalShiftRequest {
-  // ID of the network load balancer to start zonal shift.
+message DisableZonesRequest {
+  // ID of the network load balancer to disable zones.
   string network_load_balancer_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Zone IDs to start zonal shift.
+  // Zone IDs to disable.
   repeated string zone_ids = 2 [(size) = ">0"];
 
-  // The interval during which the zones will be shifted. Format 1m-72h.
-  // If not set then zone will be shifted until it is removed through a separate call.
+  // The interval during which the zones will be disabled. Format 1m-72h.
+  // If not set then zone will be disabled until it is removed through a separate call.
   google.protobuf.Duration duration = 3 [(value) = "1m-72h"];
 }
 
-message StartZonalShiftMetadata {
-  // ID of the network load balancer that the zonal shift is being started to.
+message DisableZonesMetadata {
+  // ID of the network load balancer on which the zones were disabled.
   string network_load_balancer_id = 1;
 }
 
-message CancelZonalShiftRequest {
-  // ID of the network load balancer to cancel zonal shift.
+message EnableZonesRequest {
+  // ID of the network load balancer to enable zones.
   string network_load_balancer_id = 1 [(required) = true, (length) = "<=50"];
 
-  // Zone IDs to cancel zonal shift.
+  // Zone IDs to enable.
   repeated string zone_ids = 2 [(size) = ">0"];
 }
 
-message CancelZonalShiftMetadata {
-  // ID of the network load balancer that the zonal shift is being canceled to.
+message EnableZonesMetadata {
+  // ID of the network load balancer on which the zones were enabled.
   string network_load_balancer_id = 1;
 }

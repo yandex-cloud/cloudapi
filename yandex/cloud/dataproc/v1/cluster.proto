@@ -98,6 +98,9 @@ message Cluster {
 
   // Environment of the cluster
   Environment environment = 19;
+
+  // ID of service account for working with the Instance Groups service.
+  string autoscaling_service_account_id = 20;
 }
 
 // Metadata of a monitoring system for a Yandex Data Processing cluster.

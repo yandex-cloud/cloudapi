@@ -94,13 +94,17 @@ message ListDashboardsRequest {
   // [ListDashboardResponse.next_page_token] returned by a previous list request.
   string page_token = 20 [(length) = "<=100"];
 
-  // A filter expression that filters resources listed in the response.
-  // The expression must specify:
-  // 1. The field name. Currently you can use filtering only on the [Dashboard.name] field.
-  // 2. An `=` operator.
-  // 3. The value in double quotes (`"`). Must be 3-63 characters long and match the regular expression `[a-z][-a-z0-9]{1,61}[a-z0-9]`.
-  // Example: name="abc"
-  string filter = 21 [(length) = "<=1000"];
+  // Text substring to find in any of dashboard fields: id, name, etc
+  // result will include dashboards that meet BOTH filter and selector (see below) criteria
+  string filter = 21  [(length) = "<=1000"];
+
+  // Selector string to match dashboard fields:
+  // id, name, description, managed_by, etc, format: FIELDNAME PREDICATE VALUE, FIELDNAME PREDICATE VALUE, ...
+  // and dashboard labels, format: labels.KEY PREDICATE VALUE, labels.KEY PREDICATE VALUE, ...
+  // supports GLOB and regex expressions
+  // dashboard must meet ALL tokens in selector string
+  // example: name = "New", description = "*new*", labels.key != "bad"
+  string selectors = 22 [(length) = "<=1000"];
 }
 
 message ListDashboardsResponse {

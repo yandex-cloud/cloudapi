@@ -275,6 +275,9 @@ message CreateClusterRequest {
 
   // Environment of the cluster
   Cluster.Environment environment = 15;
+
+  // ID of the service account to be used by the Instance Groups service.
+  string autoscaling_service_account_id = 16;
 }
 
 message CreateClusterMetadata {
@@ -329,6 +332,9 @@ message UpdateClusterRequest {
 
   // ID of the cloud logging log group to write logs. If not set, logs will not be sent to logging service
   string log_group_id = 13;
+
+  // ID of the new service account to be used by the Instance Groups service.
+  string autoscaling_service_account_id = 14;
 }
 
 message UpdateClusterMetadata {

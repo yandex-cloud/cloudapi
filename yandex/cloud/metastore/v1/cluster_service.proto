@@ -67,7 +67,7 @@ service ClusterService {
     };
   }
 
-  // Stop the specified Hive Metastore Cluster.
+  // Stops the specified Hive Metastore Cluster.
   rpc Stop (StopClusterRequest) returns (operation.Operation) {
     option (google.api.http) = {post: "/managed-metastore/v1/clusters/{cluster_id}:stop"};
     option (yandex.cloud.api.operation) = {
@@ -76,7 +76,7 @@ service ClusterService {
     };
   }
 
-  // Start the specified Hive a Metastore Cluster.
+  // Starts the specified Hive a Metastore Cluster.
   rpc Start (StartClusterRequest) returns (operation.Operation) {
     option (google.api.http) = {post: "/managed-metastore/v1/clusters/{cluster_id}:start"};
     option (yandex.cloud.api.operation) = {
@@ -85,7 +85,7 @@ service ClusterService {
     };
   }
 
-  // Import data to the specified Hive Metastore Cluster.
+  // Imports data to the specified Hive Metastore Cluster.
   rpc ImportData (ImportDataRequest) returns (operation.Operation) {
     option (google.api.http) = {
       post: "/managed-metastore/v1/clusters/{cluster_id}:import"
@@ -97,7 +97,7 @@ service ClusterService {
     };
   }
 
-  // Export data from the specified Hive Metastore Cluster.
+  // Exports data from the specified Hive Metastore Cluster.
   rpc ExportData (ExportDataRequest) returns (operation.Operation) {
     option (google.api.http) = {
       post: "/managed-metastore/v1/clusters/{cluster_id}:export"
@@ -181,22 +181,7 @@ message CreateClusterRequest {
     (map_key).pattern = "[a-z][-_0-9a-z]*"
   ];
 
-  reserved 5;
-
-  // Subnet ids to put metastore servers.
-  repeated string subnet_ids = 6 [deprecated = true];
-
-  // Minimum number of metastore servers per zone.
-  int64 min_servers_per_zone = 7;
-
-  // Maximum number of metastore servers per zone.
-  int64 max_servers_per_zone = 8;
-
-  // User security groups.
-  repeated string security_group_ids = 9 [deprecated = true];
-
-  // Host groups to place VMs of cluster on. Note: unused property.
-  repeated string host_group_ids = 10;
+  reserved 5 to 10;
 
   // Deletion Protection inhibits deletion of the cluster.
   bool deletion_protection = 11;
@@ -258,8 +243,7 @@ message UpdateClusterRequest {
     (map_key).pattern = "[a-z][-_0-9a-z]*"
   ];
 
-  // User security groups.
-  repeated string security_group_ids = 6 [deprecated = true];
+  reserved 6;
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 7;
