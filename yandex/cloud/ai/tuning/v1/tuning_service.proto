@@ -49,6 +49,13 @@ service TuningService {
       response: "ArchiveTuningResponse"
     };
   }
+
+  rpc EnableBilling(EnableBillingRequest) returns (yandex.cloud.operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "EnableBillingMetadata"
+      response: "EnableBillingResponse"
+    };
+  }
 }
 
 message ListTuningsRequest {
@@ -413,4 +420,16 @@ message ArchiveTuningMetadata {
 
 message ArchiveTuningResponse {
   string tuning_task_id = 1;
+}
+
+message EnableBillingRequest {
+  string tuning_task_id = 1 [(required) = true];
+}
+
+message EnableBillingResponse {
+  string tuning_task_id = 1;
+}
+
+message EnableBillingMetadata {
+  
 }

@@ -39,7 +39,7 @@ service QuotaRequestService {
 
   // Retrieves the list of quota requests in the specified resource.
   rpc List(ListQuotaRequestRequest) returns (ListQuotaRequestResponse) {
-    option (google.api.http) = {get: "/quota-manager/v1/quotaRequests/quotaRequests"};
+    option (google.api.http) = {get: "/quota-manager/v1/quotaRequests"};
   }
 
   // Lists operations for the specified quota request.

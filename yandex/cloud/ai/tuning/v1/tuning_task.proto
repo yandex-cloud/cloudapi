@@ -24,6 +24,8 @@ message TuningTask {
     DRAFT = 7;
 
     ARCHIVED = 8;
+
+    PAID = 9;
   }
 
   string task_id = 1;

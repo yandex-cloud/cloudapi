@@ -8,42 +8,53 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
 option java_package = "yandex.cloud.api.video.v1";
 
-// Entity representing an ordered list of videos or episodes.
+// Entity representing an ordered collection of videos or episodes.
+// Playlists allow organizing content into sequences for improved user experience.
 message Playlist {
   // Reserved for future use.
-  reserved 6 to 99;
+  reserved 7 to 99;
 
-  // ID of the playlist.
+  // Unique identifier of the playlist.
   string id = 1;
-  // ID of the channel to create the playlist in.
+
+  // Identifier of the channel where this playlist is created and managed.
   string channel_id = 2;
 
-  // Playlist title.
+  // Title of the playlist displayed in interfaces and players.
   string title = 3;
-  // Playlist description.
+
+  // Detailed description of the playlist's content and purpose.
   string description = 4;
 
-  // List of playlist items.
+  // Ordered list of content items included in this playlist.
   repeated PlaylistItem items = 5;
 
-  // Time when playlist was created.
+  // Identifier of the style preset used in the player during playlist playback.
+  string style_preset_id = 6;
+
+  // Timestamp when the playlist was initially created in the system.
   google.protobuf.Timestamp created_at = 100;
-  // Time of last playlist update.
+
+  // Timestamp of the last modification to the playlist or its metadata.
   google.protobuf.Timestamp updated_at = 101;
 }
 
+// Represents a single item in a playlist.
+// Each item references either a video or an episode and specifies its position in the sequence.
 message PlaylistItem {
   // Reserved for future use.
   reserved 2 to 99;
 
+  // Specifies the content identifier type for this playlist item.
   oneof id {
-    option (exactly_one) = true;
-    // ID of the video.
+    // Identifier of a video included in the playlist.
     string video_id = 100 [(length) = "<=50"];
-    // ID of the episode.
+
+    // Identifier of an episode included in the playlist.
     string episode_id = 101 [(length) = "<=50"];
   }
 
-  // Item position (zero-indexed).
+  // Position of this item in the playlist sequence (zero-indexed).
+  // Determines the playback order of content in the playlist.
   int64 position = 1 [(value) = "0-100"];
 }

@@ -70,6 +70,7 @@ message Source {
     MessageQueue message_queue = 2;
     Timer timer = 3;
     EventServiceSource event_service_source = 4;
+    AuditTrails audit_trails = 5;
   }
 }
 
@@ -121,4 +122,7 @@ message Timer {
 
   // payload to send to target
   string payload = 4 [(length) = "<=4096"];
+}
+
+message AuditTrails {
 }

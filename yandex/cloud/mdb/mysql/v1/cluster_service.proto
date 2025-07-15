@@ -430,7 +430,7 @@ message RestoreClusterRequest {
   string backup_id = 1 [(required) = true];
 
   // Timestamp of the moment to which the MySQL cluster should be restored.
-  google.protobuf.Timestamp time = 2 [(required) = true];
+  google.protobuf.Timestamp time = 2;
 
   // Name of the new MySQL cluster the backup will be restored to. The name must be unique within the folder.
   string name = 4 [

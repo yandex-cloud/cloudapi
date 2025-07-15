@@ -16,22 +16,28 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;v
 option java_package = "yandex.cloud.api.video.v1";
 
 // Episode management service.
+// Provides methods for creating, retrieving, updating, and deleting episodes,
+// which represent specific time segments of streams
+// that can be individually accessed, managed, and published.
 service EpisodeService {
-  // Get the specific channel.
+  // Retrieves detailed information about a specific episode by its ID.
+  // Returns all episode metadata, status, and related information.
   rpc Get(GetEpisodeRequest) returns (Episode) {
     option (google.api.http) = {
       get: "/video/v1/episodes/{episode_id}"
     };
   }
 
-  // List episodes for stream or line.
+  // Lists all episodes associated with a specific stream or stream line with pagination support.
+  // Results can be filtered and sorted using the provided parameters.
   rpc List(ListEpisodesRequest) returns (ListEpisodesResponse) {
     option (google.api.http) = {
       get: "/video/v1/episodes"
     };
   }
 
-  // Batch get episodes for channel.
+  // Retrieves multiple episodes by their IDs in a specific channel in a single request.
+  // This is more efficient than making multiple Get requests when retrieving several episodes.
   rpc BatchGet(BatchGetEpisodesRequest) returns (BatchGetEpisodesResponse) {
     option (google.api.http) = {
       post: "/video/v1/episodes:batchGet"
@@ -39,7 +45,9 @@ service EpisodeService {
     };
   }
 
-  // Create episode.
+  // Creates a new episode associated with a stream or stream line.
+  // Episodes can be configured with various settings including title, description,
+  // time boundaries, and access rights.
   rpc Create(CreateEpisodeRequest) returns (operation.Operation) {
     option (google.api.http) = {
       post: "/video/v1/episodes"
@@ -51,7 +59,8 @@ service EpisodeService {
     };
   }
 
-  // Update episode.
+  // Updates an existing episode's metadata and settings.
+  // Only fields specified in the field_mask will be updated.
   rpc Update(UpdateEpisodeRequest) returns (operation.Operation) {
     option (google.api.http) = {
       patch: "/video/v1/episodes/{episode_id}"
@@ -63,7 +72,7 @@ service EpisodeService {
     };
   }
 
-  // Delete episode.
+  // Deletes a specific episode by its ID.
   rpc Delete(DeleteEpisodeRequest) returns (operation.Operation) {
     option (google.api.http) = {
       delete: "/video/v1/episodes/{episode_id}"
@@ -74,7 +83,8 @@ service EpisodeService {
     };
   }
 
-  // Batch delete episodes.
+  // Deletes multiple episodes associated with a specific stream or stream line in a single request.
+  // This is more efficient than making multiple Delete requests when removing several episodes.
   rpc BatchDelete(BatchDeleteEpisodesRequest) returns (operation.Operation) {
     option (yandex.cloud.api.operation) = {
       metadata: "BatchDeleteEpisodesMetadata"
@@ -82,7 +92,7 @@ service EpisodeService {
     };
   }
   
-  // Perform an action on the episode.
+  // Performs a specific action on an episode, such as publishing or unpublishing.
   rpc PerformAction(PerformEpisodeActionRequest) returns (operation.Operation) {
     option (google.api.http) = {
       post: "/video/v1/episodes/{episode_id}:performAction"
@@ -94,14 +104,18 @@ service EpisodeService {
     };
   }
 
-  // Get player url.
+  // Generates a player URL for watching the episode.
+  // The URL can include player parameters such as autoplay, mute, and visibility of interface controls.
+  // For episodes with signed URL access, an expiration duration can be specified.
   rpc GetPlayerURL(GetEpisodePlayerURLRequest) returns (GetEpisodePlayerURLResponse) {
     option (google.api.http) = {
       get: "/video/v1/episodes/{episode_id}:getPlayerUrl"
     };
   }
 
-  // Get manifest urls.
+  // Retrieves the manifest URLs for the episode's media content.
+  // Manifests provide players with necessary information
+  // for streaming the content with different quality levels and formats.
   rpc GetManifests(GetEpisodeManifestsRequest) returns (GetEpisodeManifestsResponse) {
     option (google.api.http) = {
       get: "/video/v1/episodes/{episode_id}:getManifests"
@@ -110,7 +124,7 @@ service EpisodeService {
 }
 
 message GetEpisodeRequest {
-  // ID of the episode.
+  // ID of the episode to retrieve.
   string episode_id = 1 [(required) = true, (length) = "<=50"];
 }
 
@@ -118,38 +132,44 @@ message ListEpisodesRequest {
   // Reserved for future use.
   reserved 3 to 99;
 
+  // Specifies the parent resource to list episodes from (exactly one must be chosen).
   oneof parent_id {
     option (exactly_one) = true;
-    // ID of the stream.
+
+    // ID of the stream containing the episodes to list.
     string stream_id = 1 [(length) = "<=50"];
-    // ID of the line.
+
+    // ID of the stream line containing the episodes to list.
     string line_id = 2 [(length) = "<=50"];
   }
 
-  // The maximum number of the results per page to return.
-  // Default value: 100.
+  // The maximum number of episodes to return per page.
   int64 page_size = 100 [(value) = "<=100"];
-  // Page token for getting the next page of the result.
+
+  // Page token for retrieving the next page of results.
+  // This token is obtained from the next_page_token field in the previous ListEpisodesResponse.
   string page_token = 101 [(length) = "<=15000"];
 
-  // By which column the listing should be ordered and in which direction,
-  // format is "<field> <order>" (e.g. "createdAt desc").
+  // Specifies the ordering of results.
+  // Format is "<field> <order>" (e.g., "createdAt desc").
   // Default: "id asc".
-  // Possible fields: ["id", "createdAt", "updatedAt"].
-  // Both snake_case and camelCase are supported for fields.
+  // Supported fields: ["id", "createdAt", "updatedAt"].
+  // Both snake_case and camelCase field names are supported.
   string order_by = 102 [(length) = "<=50"];
 
-  // Filter expression that filters resources listed in the response.
-  // Expressions are composed of terms connected by logic operators.
-  // If value contains spaces or quotes,
-  // it should be in quotes (`'` or `"`) with the inner quotes being backslash escaped.
+  // Filter expression to narrow down the list of returned episodes.
+  // Expressions consist of terms connected by logical operators.
+  // Values containing spaces or quotes must be enclosed in quotes (`'` or `"`)
+  // with inner quotes being backslash-escaped.
+  //
   // Supported logical operators: ["AND", "OR"].
-  // Supported string match operators: ["=", "!=", ":"].
-  // Operator ":" stands for substring matching.
-  // Filter expressions may also contain parentheses to group logical operands.
-  // Example: `key1='value' AND (key2!='\'value\'' OR key2:"\"value\"")`
-  // Supported fields: ["id", "title"].
-  // Both snake_case and camelCase are supported for fields.
+  // Supported comparison operators: ["=", "!=", ":"] where ":" enables substring matching.
+  // Parentheses can be used to group logical expressions.
+  //
+  // Example: `title:'highlight' AND id='episode-1'`
+  //
+  // Filterable fields: ["id", "title"].
+  // Both snake_case and camelCase field names are supported.
   string filter = 103 [(length) = "<=1000"];
 }
 
@@ -157,50 +177,60 @@ message ListEpisodesResponse {
   // Reserved for future use.
   reserved 2 to 99;
 
-  // List of episodes for specific parent_id.
+  // List of episodes matching the request criteria.
+  // May be empty if no episodes match the criteria or if the parent resource has no episodes.
   repeated Episode episodes = 1;
 
-  // Token for getting the next page.
+  // Token for retrieving the next page of results.
+  // Empty if there are no more results available.
   string next_page_token = 100;
 }
 
 message BatchGetEpisodesRequest {
-  // ID of the channel.
+  // ID of the channel containing the episodes to retrieve.
   string channel_id = 1 [(required) = true, (length) = "<=50"];
 
-  // List of requested episode IDs.
+  // List of episode IDs to retrieve.
   repeated string episode_ids = 2 [(size) = "1-100", (length) = "<=50"];
 }
 
 message BatchGetEpisodesResponse {
-  // List of episodes for specific channel.
+  // List of episodes matching the requested IDs.
   repeated Episode episodes = 1;
 }
 
 message CreateEpisodeRequest {
-  reserved 1001;
+  reserved 1001, 1002;
 
   // Reserved for future use.
-  reserved 1, 8 to 99, 102 to 999;
+  reserved 1, 9 to 99, 102 to 999;
 
+  // Parent resource ID to link the episode to (exactly one must be chosen).
   oneof parent_id {
     option (exactly_one) = true;
+
     // ID of the stream.
     string stream_id = 100 [(length) = "<=50"];
+
     // ID of the line.
     string line_id = 101 [(length) = "<=50"];
   }
 
   // Episode title.
   string title = 2 [(required) = true, (length) = "<=300"];
+
   // Episode description.
   string description = 3 [(length) = "<=4000"];
+
   // ID of the thumbnail.
   string thumbnail_id = 4 [(length) = "<=50"];
+
   // Episode start time.
   google.protobuf.Timestamp start_time = 5;
+
   // Episode finish time.
   google.protobuf.Timestamp finish_time = 6;
+
   // Enables episode DVR mode.
   // Determines how many last seconds of the stream are available.
   //
@@ -209,49 +239,62 @@ message CreateEpisodeRequest {
   //  * `>0`: size of dvr window in seconds, the minimum value is 30s
   int64 dvr_seconds = 7;
 
-  // Episode access rights.
+  // ID of the style preset.
+  string style_preset_id = 8 [(length) = "<=50"];
+
+  // Episode access permission settings (exactly one must be chosen).
   oneof access_rights {
     option (exactly_one) = true;
-    // Episode is available to everyone.
+
+    // Episode is publicly available.
     EpisodePublicAccessParams public_access = 1000;
-    // Checking access rights using the authorization system.
-    EpisodeAuthSystemAccessParams auth_system_access = 1002;
-    // Checking access rights using url's signature.
+
+    // Access to the episode is restricted by temporarily signed links.
     EpisodeSignURLAccessParams sign_url_access = 1003;
   }
 }
 
+// Parameters for episode public access rights.
 message EpisodePublicAccessParams {}
 
-message EpisodeAuthSystemAccessParams {}
-
+// Parameters for episode access restrictions based on temporary signed links.
 message EpisodeSignURLAccessParams {}
 
 message CreateEpisodeMetadata {
-  // ID of the episode.
+  // ID of the episode being created.
   string episode_id = 1;
 }
 
 message UpdateEpisodeRequest {
-  reserved 1001;
+  reserved 1001, 1002;
 
   // Reserved for future use.
-  reserved 9 to 999;
+  reserved 10 to 999;
 
   // ID of the episode.
   string episode_id = 1 [(required) = true, (length) = "<=50"];
-  // Field mask that specifies which fields of the episode are going to be updated.
+
+  // Field mask specifying which fields of the episode should be updated.
+  // Only fields specified in this mask will be modified;
+  // all other fields will retain their current values.
+  // This allows for partial updates.
   google.protobuf.FieldMask field_mask = 2 [(required) = true];
 
   // Episode title.
   string title = 3 [(length) = "<=300"];
+
   // Episode description.
   string description = 4 [(length) = "<=4000"];
+
   // ID of the thumbnail.
   string thumbnail_id = 5 [(length) = "<=50"];
+
+  // Episode start time.
   google.protobuf.Timestamp start_time = 6;
+
   // Episode finish time.
   google.protobuf.Timestamp finish_time = 7;
+
   // Enables episode DVR mode.
   // Determines how many last seconds of the stream are available.
   //
@@ -260,29 +303,32 @@ message UpdateEpisodeRequest {
   //  * `>0`: size of dvr window in seconds, the minimum value is 30s
   int64 dvr_seconds = 8;
 
+  // New ID of the style preset to be applied to the episode player.
+  string style_preset_id = 9 [(length) = "<=50"];
+
   // Episode access rights.
   oneof access_rights {
-    // Episode is available to everyone.
+    // Episode is publicly available.
     EpisodePublicAccessParams public_access = 1000;
-    // Checking access rights using the authorization system.
-    EpisodeAuthSystemAccessParams auth_system_access = 1002;
-    // Checking access rights using url's signature.
+
+    // Access to the episode is restricted by temporarily signed links.
     EpisodeSignURLAccessParams sign_url_access = 1003;
   }
 }
 
 message UpdateEpisodeMetadata {
-  // ID of the episode.
+  // ID of the episode being updated.
   string episode_id = 1;
 }
 
 message DeleteEpisodeRequest {
-  // ID of the episode.
+  // ID of the episode to delete.
   string episode_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message DeleteEpisodeMetadata {
-  // ID of the episode.
+  // ID of the episode being deleted.
+  // This identifier can be used to track the episode deletion operation.
   string episode_id = 1;
 }
 
@@ -290,17 +336,26 @@ message BatchDeleteEpisodesRequest {
   // Reserved for future use.
   reserved 2 to 99;
 
+  // Specifies the parent resource containing the episodes to delete (exactly one must be chosen).
   oneof id {
     option (exactly_one) = true;
-    // ID of the stream.
+
+    // ID of the stream containing the episodes to delete.
     string stream_id = 100 [(length) = "<=50"];
-    // ID of the line.
+
+    // ID of the stream line containing the episodes to delete.
     string line_id = 101 [(length) = "<=50"];
   }
+
+  // List of episode IDs to delete.
+  // All episodes must exist and be linked to the specified parent resource.
   repeated string episode_ids = 1 [(size) = "1-100", (length) = "<=50"];
 }
 
 message BatchDeleteEpisodesMetadata {
+  // List of episode IDs being deleted.
+  // This list can be used to track which episodes are included
+  // in the batch deletion operation.
   repeated string episode_ids = 1;
 }
 
@@ -310,54 +365,81 @@ message PerformEpisodeActionRequest {
   // Reserved for future use.
   reserved 2 to 999;
 
-  // ID of the episode.
+  // ID of the episode on which to perform the action.
   string episode_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Specifies which action to perform on the episode (exactly one must be chosen).
   oneof action {
     option (exactly_one) = true;
+
+    // Publish the episode, making it available for watching.
+    // Changes the episode's visibility status to PUBLISHED.
     PublishEpisodeAction publish = 1002;
+
+    // Unpublish the episode, making it unavailable for watching.
+    // Changes the episode's visibility status to UNPUBLISHED.
     UnpublishEpisodeAction unpublish = 1003;
   }
 }
 
+// Parameters for the publish action.
 message PublishEpisodeAction {}
 
+// Parameters for the unpublish action.
 message UnpublishEpisodeAction {}
 
 message PerformEpisodeActionMetadata {
-  // ID of the episode.
+  // ID of the episode on which the action is being performed.
+  // This identifier can be used to track the action operation
+  // and to verify that the action is being applied to the correct episode.
   string episode_id = 1;
 }
 
 message GetEpisodePlayerURLRequest {
-  // ID of the episode.
+  // ID of the episode for which to generate a player URL.
   string episode_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Optional player parameters to customize the playback experience.
+  // These parameters control initial player state such as mute, autoplay, and visibility of interface controls.
   EpisodePlayerParams params = 2;
 
-  // Optional field, used to set custom url expiration duration for episodes with sign_url_access
+  // For episodes with signed URL access, specifies how long the generated URL will be valid.
+  // If not provided, a default expiration duration will be used.
   google.protobuf.Duration signed_url_expiration_duration = 3;
 }
 
 message EpisodePlayerParams {
-  // If true, a player will be muted by default.
+  // If true, the player will start with audio muted.
+  // Users can unmute the audio manually after playback starts.
   bool mute = 1;
-  // If true, playback will start automatically.
+
+  // If true, the episode will start playing automatically when the player loads.
+  // This may be subject to browser autoplay policies that restrict autoplay with sound.
   bool autoplay = 2;
-  // If true, a player interface will be hidden by default.
+
+  // If true, the player interface controls will be hidden initially.
+  // Users can typically reveal the controls by moving the mouse over the player.
   bool hidden = 3;
 }
 
 message GetEpisodePlayerURLResponse {
-  // Direct link to the episode.
+  // Direct URL to the episode player.
+  // This URL can be used to access the episode in a web browser
+  // or shared with users who have appropriate permissions.
   string player_url = 1;
-  // HTML embed code in Iframe format.
+
+  // HTML embed code in iframe format that can be inserted into web pages.
+  // This code allows the episode to be embedded directly in third-party websites.
   string html = 2;
 }
 
 message GetEpisodeManifestsRequest {
-    // ID of the episode.
-    string episode_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the episode for which to retrieve manifest URLs.
+  string episode_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message GetEpisodeManifestsResponse {
-    repeated Manifest manifests = 1;
+  // List of manifests available for the episode.
+  // Different manifests may represent different streaming formats (e.g., HLS, DASH)
+  repeated Manifest manifests = 1;
 }

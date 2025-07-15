@@ -58,6 +58,12 @@ message Resource {
     
     // Labels of the resource.
     map<string, string> labels = 13;
+
+    // RESERVED: This field is reserved for future use and should not be used at this time.
+    string provider_type = 14;
+
+    // RESERVED: Provider CNAME.
+    string provider_cname = 15;
 }
 
 // This option defines the protocol that will be used by CDN servers to request
