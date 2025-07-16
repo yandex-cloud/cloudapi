@@ -405,12 +405,12 @@ message VideoTranslationSettings {
     // Track language will be deduced automatically if not provided.
     // In the latter case the deduction accuracy is not guaranteed.
     // For better performance please do specify the source track language when possible.
-    string src_lang = 2 [(length) = "0,3", (pattern) = "|deu|eng|fra|ita|jpn|kaz|rus|spa|ukr|zho"];
+    string src_lang = 2 [(length) = "0,3", (pattern) = "|ara|deu|eng|fra|ita|jpn|kor|rus|spa|tur|zho"];
   }
 
   message SubtitleTrack {
     // Target language represented as a three-letter code according to ISO 639-2/T.
-    string dst_lang = 1 [(required) = true, (length) = "3", (pattern) = "deu|eng|fra|ita|jpn|kaz|rus|spa|ukr|zho"];
+    string dst_lang = 1 [(required) = true, (length) = "3", (pattern) = "ara|deu|eng|fra|ita|jpn|kaz|kor|rus|spa|tur|ukr|zho"];
 
     // Track label to be displayed on the screen during video playback.
     string label = 2 [(required) = true, (length) = "<=50"];
@@ -418,7 +418,7 @@ message VideoTranslationSettings {
 
   message AudioTrack {
     // Target language represented as a three-letter code according to ISO 639-2/T.
-    string dst_lang = 1 [(required) = true, (length) = "3", (pattern) = "deu|eng|fra|ita|jpn|kaz|rus|spa|ukr|zho"];
+    string dst_lang = 1 [(required) = true, (length) = "3", (pattern) = "eng|kaz|rus"];
 
     // Track label to be displayed on the screen during video playback.
     string label = 2 [(required) = true, (length) = "<=50"];
@@ -450,7 +450,7 @@ message VideoSummarizationSettings {
     // It will be deduced automatically if not provided.
     // In the latter case the deduction accuracy is not guaranteed.
     // For better performance please do specify the source track language when possible.
-    string src_lang = 2 [(length) = "0,3", (pattern) = "|deu|eng|fra|ita|jpn|kaz|rus|spa|ukr|zho"];
+    string src_lang = 2 [(length) = "0,3", (pattern) = "|ara|deu|eng|fra|ita|jpn|kor|rus|spa|tur|zho"];
   }
 }
 

@@ -110,7 +110,7 @@ message CreateSubtitleRequest {
   reserved 3 to 999, 1001 to 1099;
 
   // Subtitle language represented as a three-letter code according to ISO 639-2/T.
-  string language = 1 [(length) = "3", (pattern) = "deu|eng|fra|ita|jpn|kaz|rus|spa|ukr|zho"];
+  string language = 1 [(length) = "3", (pattern) = "ara|deu|eng|fra|ita|jpn|kaz|kor|rus|spa|tur|ukr|zho"];
 
   // Contains the subtitle label (or title) that will be displayed on screen during video playback.
   // Should provide a concise and accurate representation of the spoken content.
