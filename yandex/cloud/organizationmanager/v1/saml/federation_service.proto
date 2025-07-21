@@ -94,6 +94,51 @@ service FederationService {
   rpc ListOperations(ListFederationOperationsRequest) returns (ListFederationOperationsResponse) {
     option (google.api.http) = {get: "/organization-manager/v1/saml/federations/{federation_id}/operations"};
   }
+
+  // Returns the specified domain in the federation.
+  //
+  // To get the list of available domains, make a [ListDomains] request.
+  rpc GetDomain (GetFederationDomainRequest) returns (Domain) {
+    option (google.api.http) = {get: "/organization-manager/v1/saml/federations/{federation_id}/domains/{domain}"};
+  }
+
+  // Retrieves the list of domains in the specified federation.
+  rpc ListDomains (ListFederationDomainsRequest) returns (ListFederationDomainsResponse) {
+    option (google.api.http) = {get: "/organization-manager/v1/saml/federations/{federation_id}/domains"};
+  }
+
+  // Adds a domain to the specified federation.
+  rpc AddDomain (AddFederationDomainRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/organization-manager/v1/saml/federations/{federation_id}/domains"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "AddFederationDomainMetadata"
+      response: "Domain"
+    };
+  }
+
+  // Validates a domain in the specified federation.
+  rpc ValidateDomain (ValidateFederationDomainRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/organization-manager/v1/saml/federations/{federation_id}/domains/{domain}:validate"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "ValidateFederationDomainMetadata"
+      response: "Domain"
+    };
+  }
+
+  // Deletes the specified domain from the federation.
+  rpc DeleteDomain (DeleteFederationDomainRequest) returns (operation.Operation) {
+    option (google.api.http) = {delete: "/organization-manager/v1/saml/federations/{federation_id}/domains/{domain}"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteFederationDomainMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
 }
 
 message GetFederationRequest {
@@ -398,4 +443,110 @@ message ListFederationOperationsResponse {
   // for the [ListFederationOperationsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
+}
+
+message GetFederationDomainRequest {
+  // ID of the federation to get domain information for.
+  // To get the federation ID, make a [FederationService.List] request.
+  string federation_id = 1 [(required) = true, (length) = "<=50"];
+  
+  // Domain name to get information for.
+  // Must be a valid domain name (1-253 characters).
+  string domain = 2 [(required) = true, (length) = "1-253"];
+}
+
+message ListFederationDomainsRequest {
+  // ID of the federation to list domains for.
+  // To get the federation ID, make a [FederationService.List] request.
+  string federation_id = 1 [(required) = true, (length) = "<=50"];
+  
+  // The maximum number of results per page to return. If the number of available
+  // results is larger than [page_size], the service returns a [ListFederationDomainsResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Default value: 100.
+  int64 page_size = 2 [(value) = "0-1000"];
+  
+  // Page token. To get the next page of results, set [page_token]
+  // to the [ListFederationDomainsResponse.next_page_token]
+  // returned by a previous list request.
+  string page_token = 3 [(length) = "<=2000"];
+  
+  // A filter expression that filters resources listed in the response.
+  // The expression supports the following operations:
+  // - `=` for exact match: `domain = 'domain-1.com'`
+  // - `IN` for multiple values: `status IN ('NEED_TO_VALIDATE', 'VALID')`
+  // - `contains` for domain substring search: `domain contains '3'`
+  // - `AND` for combining conditions: `status = 'INVALID' AND domain contains '3'`
+  //
+  // Available fields for filtering:
+  // - `domain` - domain name
+  // - `status` - domain validation status
+  //
+  // Must be 1-1000 characters long.
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListFederationDomainsResponse {
+  // List of domains for the specified federation.
+  repeated Domain domains = 1;
+  
+  // This token allows you to get the next page of results for list requests. If the number of results
+  // is larger than [ListFederationDomainsRequest.page_size], use the [next_page_token] as the value
+  // for the [ListFederationDomainsRequest.page_token] query parameter in the next list request.
+  // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message AddFederationDomainRequest {
+  // ID of the federation to add a domain to.
+  // To get the federation ID, make a [FederationService.List] request.
+  string federation_id = 1 [(required) = true, (length) = "<=50"];
+  
+  // Domain name to add to the federation.
+  // Must be a valid domain name (1-253 characters).
+  string domain = 2 [(required) = true, (length) = "1-253"];
+}
+
+message AddFederationDomainMetadata {
+  // ID of the federation that the domain is being added to.
+  string federation_id = 1;
+  
+  // Domain name that is being added to the federation.
+  string domain = 2;
+}
+
+message ValidateFederationDomainRequest {
+  // ID of the federation to validate a domain for.
+  // To get the federation ID, make a [FederationService.List] request.
+  string federation_id = 1 [(required) = true, (length) = "<=50"];
+  
+  // Domain name to validate for the federation.
+  // Must be a valid domain name (1-253 characters).
+  string domain = 2 [(required) = true, (length) = "1-253"];
+}
+
+message ValidateFederationDomainMetadata {
+  // ID of the federation that the domain validation is being performed for.
+  string federation_id = 1;
+  
+  // Domain name that is being validated for the federation.
+  string domain = 2;
+}
+
+message DeleteFederationDomainRequest {
+  // ID of the federation to delete a domain from.
+  // To get the federation ID, make a [FederationService.List] request.
+  string federation_id = 1 [(required) = true, (length) = "<=50"];
+  
+  // Domain name to delete from the federation.
+  // Must be a valid domain name (1-253 characters).
+  string domain = 2 [(required) = true, (length) = "1-253"];
+}
+
+message DeleteFederationDomainMetadata {
+  // ID of the federation that the domain is being deleted from.
+  string federation_id = 1;
+  
+  // Domain name that is being deleted from the federation.
+  string domain = 2;
 }

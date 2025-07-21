@@ -89,6 +89,16 @@ message BatchCompletionRequest {
     // ID of the dataset containing the context for the completion model.
     string source_dataset_id = 3;
   }
+
+  // Specifies the format of the model's response.
+  oneof ResponseFormat {
+    // When set to true, the model will respond with a valid JSON object.
+    // Be sure to explicitly ask the model for JSON.
+    // Otherwise, it may generate excessive whitespace and run indefinitely until it reaches the token limit.
+    bool json_object = 4;
+    // Enforces a specific JSON structure for the model's response based on a provided schema.
+    JsonSchema json_schema = 5;
+  }
 }
 
 // Metadata of the batch completion operation.

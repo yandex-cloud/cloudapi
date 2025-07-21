@@ -86,7 +86,7 @@ message Server {
     ERROR = 7;
 
     // Server is being deleted.
-    DELETING = 8;
+    DELETING = 8 [deprecated=true];
 
     // Server operating system is being reinstalled.
     REINSTALLING = 9;

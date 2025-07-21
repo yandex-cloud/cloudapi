@@ -87,3 +87,122 @@ message FederationSecuritySettings {
   // Value parameter ForceAuthn in SAMLRequest.
   bool force_authn = 2;
 }
+
+// A domain.
+message Domain {
+
+  // Status of the domain.
+  enum Status {
+
+    STATUS_UNSPECIFIED = 0;
+
+    // Domain requires ownership validation.
+    NEED_TO_VALIDATE = 1;
+
+    // Domain validation is in progress.
+    VALIDATING = 2;
+
+    // Domain has been successfully validated and is active.
+    VALID = 3;
+
+    // Domain validation failed (check status_code for details).
+    INVALID = 4;
+
+    // Domain is being deleted.
+    DELETING = 5;
+
+  }
+
+  // Domain name
+  string domain = 1;
+
+  // Current status of the domain.
+  Status status = 2;
+
+  // Optional code providing details about validation errors.
+  string status_code = 3;
+
+  // Timestamp of domain creation.
+  google.protobuf.Timestamp created_at = 4;
+
+  // Timestamp when the domain was successfully validated.
+  // Not set if validation hasn't been completed.
+  google.protobuf.Timestamp validated_at = 5;
+
+  // List of challenges to confirm domain ownership.
+  repeated DomainChallenge challenges = 6;
+}
+
+// A domain validation challenge.
+message DomainChallenge {
+
+  // Type of validation challenge.
+  enum Type {
+
+    TYPE_UNSPECIFIED = 0;
+
+    // DNS TXT record validation method.
+    DNS_TXT = 1;
+
+  }
+
+  // Status of the validation challenge.
+  enum Status {
+
+    STATUS_UNSPECIFIED = 0;
+
+    // Challenge is awaiting completion.
+    PENDING = 1;
+
+    // Challenge verification is in progress.
+    PROCESSING = 2;
+
+    // Challenge has been completed successfully.
+    VALID = 3;
+
+    // Challenge verification failed.
+    INVALID = 4;
+
+  }
+
+  // Timestamp of challenge creation.
+  google.protobuf.Timestamp created_at = 1;
+
+  // Timestamp of the last challenge status update.
+  google.protobuf.Timestamp updated_at = 2;
+
+  // Type of the validation challenge.
+  Type type = 3;
+
+  // Current status of the challenge.
+  Status status = 4;
+
+  // Validation challenge payload. Currently supports only DNS records.
+  oneof challenge {
+    // DNS record configuration for domain verification.
+    DnsRecord dns_challenge = 5;
+  }
+
+  // DNS record data for validation challenges.
+  message DnsRecord {
+
+    // Type of DNS record.
+    enum Type {
+
+      TYPE_UNSPECIFIED = 0;
+
+      // TXT record type.
+      TXT = 1;
+
+    }
+
+    // Fully qualified domain name for the record.
+    string name = 1;
+
+    // DNS record type (always TXT for current implementation).
+    Type type = 2;
+
+    // Value to set in the DNS record for verification.
+    string value = 3;
+  }
+}

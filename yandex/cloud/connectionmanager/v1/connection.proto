@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package yandex.cloud.connectionmanager.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "yandex/cloud/connectionmanager/v1/mysql.proto";
+import "yandex/cloud/connectionmanager/v1/postgresql.proto";
+import "yandex/cloud/connectionmanager/v1/mongodb.proto";
+import "yandex/cloud/connectionmanager/v1/clickhouse.proto";
+import "yandex/cloud/connectionmanager/v1/redis.proto";
+import "yandex/cloud/connectionmanager/v1/trino.proto";
+import "yandex/cloud/connectionmanager/v1/valkey.proto";
+import "yandex/cloud/connectionmanager/v1/opensearch.proto";
+import "yandex/cloud/connectionmanager/v1/greenplum.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/connectionmanager/v1;connectionmanager";
+option java_package = "yandex.cloud.api.connectionmanager.v1";
+
+message ConnectionParams {
+    reserved 5;
+    oneof type {
+        PostgreSQLConnection postgresql = 1;
+        MySQLConnection mysql = 2;
+        MongoDBConnection mongodb = 3;
+        ClickHouseConnection clickhouse = 4;
+        RedisConnection redis = 6;
+        OpenSearchConnection opensearch = 7;
+        TrinoConnection trino = 8;
+        ValkeyConnection valkey = 9;
+        GreenplumConnection greenplum = 10;
+    }
+}
+
+message LockboxSecret {
+    string id = 1;
+    string version = 2;
+    string newest_version = 3;
+}
+
+enum DBType {
+    reserved 5;
+    DB_TYPE_UNSPECIFIED = 0;
+    POSTGRESQL = 1;
+    MYSQL = 2;
+    CLICKHOUSE = 3;
+    MONGODB = 4;
+    REDIS = 6;
+    OPENSEARCH = 7;
+    TRINO = 8;
+    VALKEY = 9;
+    GREENPLUM = 10;
+}
+
+message Connection {
+    reserved 11;
+    string id = 1;
+    string folder_id = 2;
+    google.protobuf.Timestamp created_at = 3;
+    google.protobuf.Timestamp updated_at = 4;
+    string name = 5;
+    string description = 6;
+    map<string, string> labels = 7;
+    string created_by = 8;
+    ConnectionParams params = 9;
+
+    oneof secret {
+        LockboxSecret lockbox_secret = 10;
+    }
+    bool is_managed = 12;
+    google.protobuf.BoolValue can_use = 13;
+}
