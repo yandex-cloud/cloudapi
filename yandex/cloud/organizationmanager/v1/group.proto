@@ -24,4 +24,10 @@ message Group {
 
     // Description of the group.
     string description = 5;
+
+    // Id of the subject container that external group belongs to. It is set if group is external.
+    string subject_container_id = 6;
+    
+    // Id of the group from external system. It is set if group is external.
+    string external_id = 7;
 }

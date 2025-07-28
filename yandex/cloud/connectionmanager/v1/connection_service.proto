@@ -12,7 +12,9 @@ import "yandex/cloud/connectionmanager/v1/connection.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/connectionmanager/v1;connectionmanager";
 option java_package = "yandex.cloud.api.connectionmanager.v1";
 
+// A set of methods for managing Connection resources.
 service ConnectionService {
+    // Returns connection.
     rpc Get(GetConnectionRequest) returns (Connection) {
         option (google.api.http) = {
             get: "/v1/connection/{connection_id}"
@@ -29,11 +31,15 @@ service ConnectionService {
             get: "/v1/connection/resolveCluster/{connection_id}"
         };
     }
+
+    // List connections in specified folder.
     rpc List(ListConnectionRequest) returns (ListConnectionResponse) {
         option (google.api.http) = {
             get: "/v1/connections"
         };
     }
+
+    // Creates connection.
     rpc Create(CreateConnectionRequest) returns (operation.Operation) {
         option (google.api.http) = {
             post: "/v1/connection"
@@ -44,6 +50,8 @@ service ConnectionService {
             response: "Connection"
         };
     }
+
+    // Updates specified connection.
     rpc Update(UpdateConnectionRequest) returns (operation.Operation) {
         option (google.api.http) = {
             patch: "/v1/connection/{connection_id}"
@@ -54,6 +62,8 @@ service ConnectionService {
             response: "Connection"
         };
     }
+
+    // Delete specified connection.
     rpc Delete(DeleteConnectionRequest)  returns (operation.Operation) {
         option (google.api.http) = {
             delete: "/v1/connection/{connection_id}"
@@ -63,6 +73,8 @@ service ConnectionService {
             response: "google.protobuf.Empty"
         };
     }
+
+    // Retrieves the list of Operation resources for the specified connection.
     rpc ListOperations(ListOperationsRequest) returns (ListOperationsResponse) {
         option (google.api.http) = {
             get: "/v1/operations"

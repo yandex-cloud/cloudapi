@@ -10,11 +10,14 @@ enum DiskDriveType {
   // Unspecified disk drive type.
   DISK_DRIVE_TYPE_UNSPECIFIED = 0;
 
-  // Hard disk drive.
+  // Hard disk drive (magnetic storage).
   HDD = 1;
 
-  // Solid state drive.
+  // Solid state drive with SATA/SAS interface.
   SSD = 2;
+
+  // Solid state drive with NVMe interface.
+  NVME = 3;
 }
 
 // Disk.
