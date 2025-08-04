@@ -11,6 +11,7 @@ import "yandex/cloud/datatransfer/v1/transfer.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 
+// A set of methods for managing [transfers]({{ api-url-prefix }}/data-transfer/concepts/#transfer).
 service TransferService {
     // Creates a transfer in the specified folder.
     rpc Create(CreateTransferRequest) returns (operation.Operation) {
@@ -86,8 +87,7 @@ message CreateTransferRequest {
     string name = 7;
     // Transfer labels as `key:value` pairs.
     // 
-    // For details about the concept, see [documentation]({{ api-url-prefix
-    // }}/resource-manager/concepts/labels).
+    // For details about the concept, see [documentation]({{ api-url-prefix }}/resource-manager/concepts/labels).
     map<string,string> labels = 8;
     Transformation transformation = 10;
     DataObjects data_objects = 12;
@@ -112,8 +112,7 @@ message UpdateTransferRequest {
     google.protobuf.FieldMask update_mask = 5;
     // Transfer labels as `key:value` pairs.
     // 
-    // For details about the concept, see [documentation]({{ api-url-prefix
-    // }}/resource-manager/concepts/labels).
+    // For details about the concept, see [documentation]({{ api-url-prefix }}/resource-manager/concepts/labels).
     map<string,string> labels = 6;
     Transformation transformation = 8;
     DataObjects data_objects = 10;

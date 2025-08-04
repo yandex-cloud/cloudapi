@@ -122,4 +122,6 @@ message GenSearchResponse {
   bool                  is_answer_rejected = 5;
   // A bullet answer in case the model cannot give a proper response and returns a set of bullets with various data.
   bool                  is_bullet_answer = 6;
+  // Search hints
+  repeated string       hints = 7;
 }

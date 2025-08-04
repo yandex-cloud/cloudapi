@@ -207,9 +207,16 @@ message S3Config {
 }
 
 message GitSyncConfig {
-  string repo = 1;
-  string branch = 2;
+  // Git repository URL.
+  string repo = 1 [(required) = true];
+
+  // Git branch name to sync from.
+  string branch = 2 [(required) = true];
+
+  // Subdirectory path within the repository containing DAG files.
   string sub_path = 3;
+
+  // SSH private key for repository authentication.
   string ssh_key = 4;
 }
 

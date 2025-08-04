@@ -13,6 +13,10 @@ enum ResourceType {
     COMPUTE = 1;
     // Resource is baremetal server
     BMS = 2;
+    // Resource is VM
+    EXTERNAL_VM = 3;
+    // Resource is server
+    EXTERNAL_SERVER = 4;
 }
 
 message TenantInfo {

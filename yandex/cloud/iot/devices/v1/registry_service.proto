@@ -185,7 +185,11 @@ message GetByNameRegistryRequest {
   // Name of the registry to return.
   //
   // To get a registry Name make a [RegistryService.List] request.
-  string registry_name = 2 [(pattern) = "[a-zA-Z0-9_-]{0,63}"];
+  string registry_name = 2 [
+    (required) = true,
+    (length) = "<=50",
+    (pattern) = "[a-zA-Z0-9_-]*"
+  ];
 }
 
 message ListRegistriesRequest {
@@ -230,7 +234,11 @@ message CreateRegistryRequest {
   ];
 
   // Name of the registry. The name must be unique within the folder.
-  string name = 2 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 2 [
+    (required) = true,
+    (length) = "<=50",
+    (pattern) = "[a-zA-Z0-9_-]*"
+  ];
 
   // Description of the registry.
   string description = 3 [(length) = "<=256"];
@@ -280,7 +288,10 @@ message UpdateRegistryRequest {
   google.protobuf.FieldMask update_mask = 2;
 
   // Name of the registry. The name must be unique within the folder.
-  string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 3 [
+    (length) = "<=50",
+    (pattern) = "[a-zA-Z0-9_-]*"
+  ];
 
   // Description of the registry.
   string description = 4 [(length) = "<=256"];
@@ -523,7 +534,10 @@ message ListRegistryOperationsResponse {
 message AddDataStreamExportRequest {
   reserved 3;
   // Name of the YDS export. The name must be unique within the folder.
-  string name = 1 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 1 [
+    (length) = "<=50",
+    (pattern) = "[a-zA-Z0-9_-]*"
+  ];
 
   // ID of the registry to add a YDS export for.
   //

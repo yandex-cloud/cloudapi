@@ -59,6 +59,9 @@ message Tool {
 
     // Function tool that can be invoked by the assistant.
     FunctionTool function = 2;
+
+    // Performs web retrieval and generative synthesis.
+    GenSearchTool gen_search = 3;
   }
 }
 
@@ -188,4 +191,67 @@ message ResponseFormat {
     // Enforces a specific JSON structure for the model's response based on a provided schema.
     JsonSchema json_schema = 2;
   }
+}
+
+message GenSearchTool {
+  // Scoping and filtering rules for the search query
+  GenSearchOptions options = 1;
+
+  // description of the purpose
+  string description = 2 [(required) = true];
+}
+
+message GenSearchOptions {
+  // Restricts the search to the specific websites.
+  message SiteOption {
+    repeated string site = 1 [(length) = "<=1024", (size) = "<=100"];
+  }
+
+  // Restricts the search to the specific pages.
+  message UrlOption {
+    repeated string url = 1 [(length) = "<=1024", (size) = "<=100"];
+  }
+
+  // Restricts the search to the specific hosts.
+  message HostOption {
+    repeated string host = 1 [(length) = "<=1024", (size) = "<=100"];
+  }
+
+  message SearchFilter {
+    enum DocFormat {
+      DOC_FORMAT_UNSPECIFIED = 0;
+      DOC_FORMAT_PDF = 1;
+      DOC_FORMAT_XLS = 2;
+      DOC_FORMAT_ODS = 3;
+      DOC_FORMAT_RTF = 4;
+      DOC_FORMAT_PPT = 5;
+      DOC_FORMAT_ODP = 6;
+      DOC_FORMAT_SWF = 7;
+      DOC_FORMAT_ODT = 8;
+      DOC_FORMAT_ODG = 9;
+      DOC_FORMAT_DOC = 10;
+    }
+
+    // Includes only one of the fields date, lang, format.
+    oneof filter_options {
+      // Restrict by document date
+      string date = 1 [(length) = "<=25"];
+      // Restrict by document language. Use ISO 639-1 language codes.
+      string lang = 2 [(length) = "2"];
+      // Restrict by document format.
+      DocFormat format = 3;
+    }
+  }
+
+  // Restricts the search to the specific websites, hosts or pages.
+  // Includes only one of the fields site, host, url.
+  oneof site_options {
+    SiteOption site = 1;
+    HostOption host = 2;
+    UrlOption url = 3;
+  }
+  // Use the documents inaccessible from the front page.
+  bool enable_nrfm_docs = 4;
+  // Restricts the search by date, document formats or language.
+  repeated SearchFilter search_filters = 5 [(size) = "<=10"];
 }

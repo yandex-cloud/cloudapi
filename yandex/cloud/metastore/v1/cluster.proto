@@ -74,7 +74,8 @@ message Cluster {
   // Custom labels for the Metastore Cluster as `` key:value `` pairs.
   map<string, string> labels = 6;
 
-  reserved 7;
+  // Monitoring systems relevant to the Metastore Cluster.
+  repeated Monitoring monitoring = 7;
 
   // Aggregated cluster health.
   Health health = 8;
@@ -113,6 +114,17 @@ message Cluster {
 
   // Maintenance operation scheduled for the nearest maintenance window.
   MaintenanceOperation planned_operation = 25;
+}
+
+message Monitoring {
+  // Name of the monitoring system.
+  string name = 1;
+
+  // Description of the monitoring system.
+  string description = 2;
+
+  // Link to the monitoring system.
+  string link = 3;
 }
 
 message ClusterConfig {

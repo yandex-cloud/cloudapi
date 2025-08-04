@@ -27,6 +27,14 @@ message GetConfigurationRequest {
     (pattern) = "[a-z][a-z0-9]*",
     (length) = "20"
   ];
+
+  // ID of the folder to return a Configuration resource for.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [
+    (pattern) = "[a-z][a-z0-9.-]*",
+    (length) = "<=50"
+  ];
 }
 
 message ListConfigurationsRequest {
@@ -63,6 +71,14 @@ message ListConfigurationsRequest {
   // Supported fields: ["id", "name"].
   // Both snake_case and camelCase are supported for fields.
   string filter = 103;
+
+  // ID of the folder to return a Configuration resource for.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 104 [
+    (pattern) = "[a-z][a-z0-9.-]*",
+    (length) = "<=50"
+  ];
 }
 
 message ListConfigurationsResponse {
