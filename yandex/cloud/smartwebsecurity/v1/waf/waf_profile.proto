@@ -90,6 +90,111 @@ message WafProfile {
 
   // The parameter is deprecated. Parameters for request body analyzer.
   AnalyzeRequestBody analyze_request_body = 12 [deprecated = true];
+
+  message WafProfileRuleSet {
+    // Types on actions on rule set match.
+    enum RuleSetAction {
+      RULE_SET_ACTION_UNSPECIFIED = 0;
+
+      // Deny request.
+      DENY = 1;
+
+      // Show captcha.
+      CAPTCHA = 2;
+    }
+
+    message RuleGroup {
+      // Types on actions on rule group match.
+      enum Action {
+        ACTION_UNSPECIFIED = 0;
+
+        // Deny request.
+        DENY = 1;
+
+        // Log request.
+        LOG = 2;
+
+        // Ignore request.
+        IGNORE = 3;
+      }
+
+      // ID of the rule group.
+      string id = 1;
+
+      // Action to perfome on rule group match.
+      Action action = 2;
+
+      // Anomaly score.
+      int64 inbound_anomaly_score = 3 [(value) = "1-10000"];
+
+      // Determines is it rule group enabled or not.
+      bool is_enabled = 4;
+    }
+
+    message WafProfileCoreRuleSet {
+      // Rule set.
+      RuleSet rule_set = 1 [(required) = true];
+
+      // Anomaly score.
+      // Enter an integer within the range of 2 and 10000.
+      // The higher this value, the more likely it is that the request that satisfies the rule is an attack.
+      // See [Rules](/docs/smartwebsecurity/concepts/waf#anomaly) for more details.
+      int64 inbound_anomaly_score = 2 [(value) = "2-10000"];
+
+      // Paranoia level.
+      // Enter an integer within the range of 1 and 4.
+      // Paranoia level classifies rules according to their aggression. The higher the paranoia level, the better your protection,
+      // but also the higher the probability of WAF false positives.
+      // See [Rules](/docs/smartwebsecurity/concepts/waf#paranoia) for more details.
+      // NOTE: this option has no effect on enabling or disabling rules.
+      // it is used only as recommendation for user to enable all rules with paranoia_level <= this value.
+      int64 paranoia_level = 3 [(value) = "1,2,3,4"];
+    }
+
+    message WafProfileYaRuleSet {
+      // Rule set.
+      RuleSet rule_set = 1 [(required) = true];
+
+      // List of rule groups.
+      repeated RuleGroup rule_groups = 2;
+    }
+
+    message WafProfileMlRuleSet {
+      // Rule set.
+      RuleSet rule_set = 1 [(required) = true];
+
+      // List of rule groups.
+      repeated RuleGroup rule_groups = 2;
+    }
+
+    oneof rule_set {
+      option (exactly_one) = true;
+
+      // Core rule set settings. See [Basic rule set](/docs/smartwebsecurity/concepts/waf#rules-set) for details.
+      WafProfileCoreRuleSet core_rule_set = 1;
+
+      // Yandex rule set settings.
+      WafProfileYaRuleSet ya_rule_set = 2;
+
+      // Yandex Machine learning rule set settings.
+      WafProfileMlRuleSet ml_rule_set = 3;
+    }
+
+    // Priority of rule set.
+    int64 priority = 4 [(value) = "1-999999"];
+
+    // Determines is it rule set enabled or not.
+    bool is_enabled = 5;
+
+    // Action to perfome on rule set match.
+    RuleSetAction action = 6;
+  }
+
+  // List of rule sets.
+  repeated WafProfileRuleSet rule_sets = 13;
+
+  // Determines
+  bool match_all_rule_sets = 14;
 }
 
 // WafProfileRule object. Determines settings for each rule_id in rule set.
@@ -133,9 +238,29 @@ message WafProfileExclusionRule {
 
 // A RuleSet object. Determines name and version of rule set.
 message RuleSet {
+  // Type of rule set.
+  enum RuleSetType {
+    RULE_SET_TYPE_UNSPECIFIED = 0;
+
+    // Core rule set.
+    CORE = 1;
+
+    // Yandex rule set.
+    YA = 2;
+
+    // Yandex machine learning rule set.
+    ML = 3;
+  }
+
   // Name of rule set.
   string name = 1 [(required) = true];
 
   // Version of rule set.
   string version = 2 [(required) = true];
+
+  // Type of rule set.
+  RuleSetType type = 3;
+
+  // ID of rule set.
+  string id = 4;
 }

@@ -95,6 +95,12 @@ message CreateWafProfileRequest {
 
   // Parameters for request body analyzer.
   WafProfile.AnalyzeRequestBody analyze_request_body = 8;
+
+  // List of rule sets. See [Rules](/docs/smartwebsecurity/concepts/waf#rules-set).
+  repeated WafProfile.WafProfileRuleSet rule_sets = 9;
+
+  // Parameter determines should all rule sets be matched.
+  bool match_all_rule_sets = 10;
 }
 
 message CreateWafProfileMetadata {
@@ -131,6 +137,12 @@ message UpdateWafProfileRequest {
 
   // Parameters for request body analyzer.
   WafProfile.AnalyzeRequestBody analyze_request_body = 9;
+
+  // List of rule sets. See [Rules](/docs/smartwebsecurity/concepts/waf#rules-set).
+  repeated WafProfile.WafProfileRuleSet rule_sets = 10;
+
+  // Parameter determines should all rule sets be matched.
+  bool match_all_rule_sets = 11;
 }
 
 message UpdateWafProfileMetadata {

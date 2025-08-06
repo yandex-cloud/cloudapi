@@ -36,6 +36,15 @@ message Backup {
 
   // The number of indices in the backup.
   int64 indices_total = 9;
+
+  // Size of files which were copied as part of the incremental snapshot.
+  int64 incremental_size_bytes = 10;
+
+  // Size of files that are referenced by the snapshot.
+  int64 total_size_bytes = 11;
+
+  // The space amount required to restore from this backup.
+  int64 free_space_required_bytes = 12;
 }
 
 // Snapshot management configuration
