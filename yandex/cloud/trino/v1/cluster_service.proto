@@ -190,6 +190,10 @@ message TrinoConfigSpec {
   RetryPolicyConfig retry_policy = 4;
 
   reserved 5;
+
+  // Trino version.
+  // Format: "Number".
+  string version = 6;
 }
 
 message CreateClusterMetadata {
@@ -231,7 +235,9 @@ message UpdateTrinoConfigSpec {
   // Configuration for worker nodes, including scaling policy and computational resources.
   UpdateWorkerConfig worker_config = 2;
 
-  reserved 3;
+  // Trino version.
+  // Format: "Number".
+  string version = 3;
 
   // Configuration for retry policy, specifying the spooling storage destination and other settings.
   RetryPolicyConfig retry_policy = 4;

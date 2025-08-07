@@ -163,6 +163,8 @@ message Route {
     GrpcRoute grpc = 3;
   }
   RouteOptions route_options = 4;
+  // Whether set to 'true' disables security profile for the route.
+  bool disable_security_profile = 5;
 }
 
 // An HTTP route configuration resource.
