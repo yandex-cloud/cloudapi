@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.baremetal.v1alpha;
 
+import "google/api/annotations.proto";
 import "yandex/cloud/baremetal/v1alpha/storage.proto";
 import "yandex/cloud/validation.proto";
 
@@ -11,10 +12,20 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 // A set of methods to retrieve information about default storages.
 service StorageService {
   // Returns the default storage for the specified configuration.
-  rpc GetDefault (GetDefaultStorageRequest) returns (DefaultStorage) {}
+  rpc GetDefault (GetDefaultStorageRequest) returns (DefaultStorage) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/storages/default/{configuration_id}"
+    };
+  }
 
   // Returns the default storages for the specified configurations.
-  rpc BatchGetDefault (BatchGetDefaultStoragesRequest) returns (BatchGetDefaultStoragesResponse) {}
+  rpc BatchGetDefault (BatchGetDefaultStoragesRequest) returns (BatchGetDefaultStoragesResponse) {
+    option (google.api.http) = {
+      post: "/baremetal/v1alpha/storages/default:batchGet"
+      body: "*"
+    };
+
+  }
 }
 
 message DefaultStorage {

@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.baremetal.v1alpha;
 
+import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -16,13 +17,25 @@ service PrivateCloudConnectionService {
   // Returns the specific Private cloud connection resource.
   //
   // To get the list of available Private cloud connection resources, make a [List] request.
-  rpc Get(GetPrivateCloudConnectionRequest) returns (PrivateCloudConnection) {}
+  rpc Get(GetPrivateCloudConnectionRequest) returns (PrivateCloudConnection) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/privateCloudConnections/{private_cloud_connection_id}"
+    };
+  }
 
   // Retrieves the list of Private cloud connection resources in the specified folder.
-  rpc List(ListPrivateCloudConnectionRequest) returns (ListPrivateCloudConnectionResponse) {}
+  rpc List(ListPrivateCloudConnectionRequest) returns (ListPrivateCloudConnectionResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/privateCloudConnections"
+    };
+  }
 
   // Creates a private cloud connection in the specified folder.
   rpc Create(CreatePrivateCloudConnectionRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/baremetal/v1alpha/privateCloudConnections"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreatePrivateCloudConnectionMetadata"
       response: "PrivateCloudConnection"
@@ -31,6 +44,10 @@ service PrivateCloudConnectionService {
 
  // Updates the routing_instance_id in a private cloud connection.
  rpc Update(UpdatePrivateCloudConnectionRequest) returns (operation.Operation) {
+  option (google.api.http) = {
+    patch: "/baremetal/v1alpha/privateCloudConnections/{private_cloud_connection_id}"
+    body: "*"
+  };
   option (yandex.cloud.api.operation) = {
     metadata: "UpdatePrivateCloudConnectionMetadata"
     response: "PrivateCloudConnection"
@@ -39,6 +56,9 @@ service PrivateCloudConnectionService {
 
   // Removes a private cloud connection and all allocated network resouces
   rpc Delete(DeletePrivateCloudConnectionRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      delete: "/baremetal/v1alpha/privateCloudConnections/{private_cloud_connection_id}"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "DeletePrivateCloudConnectionMetadata"
       response: "google.protobuf.Empty"

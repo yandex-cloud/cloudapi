@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.baremetal.v1alpha;
 
+import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/baremetal/v1alpha/vrf.proto";
@@ -16,13 +17,25 @@ service VrfService {
   // Returns the specific VRF resource.
   //
   // To get the list of available VRFs, make a [List] request.
-  rpc Get (GetVrfRequest) returns (Vrf) {}
+  rpc Get (GetVrfRequest) returns (Vrf) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/vrfs/{vrf_id}"
+    };
+  }
 
   // Retrieves the list of VRF resources in the specified folder.
-  rpc List (ListVrfRequest) returns (ListVrfResponse) {}
+  rpc List (ListVrfRequest) returns (ListVrfResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/vrfs"
+    };
+  }
 
   // Creates a VRF in the specified folder.
   rpc Create (CreateVrfRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/baremetal/v1alpha/vrfs"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateVrfMetadata"
       response: "Vrf"
@@ -31,6 +44,10 @@ service VrfService {
 
   // Updates the specified VRF resource.
   rpc Update (UpdateVrfRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/baremetal/v1alpha/vrfs/{vrf_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateVrfMetadata"
       response: "Vrf"
@@ -41,6 +58,9 @@ service VrfService {
   //
   // Deleting a VRF removes its data permanently and is irreversible.
   rpc Delete (DeleteVrfRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      delete: "/baremetal/v1alpha/vrfs/{vrf_id}"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteVrfMetadata"
       response: "google.protobuf.Empty"
@@ -48,7 +68,11 @@ service VrfService {
   }
 
   // Lists operations for the specified VRF.
-  rpc ListOperations (ListVrfOperationsRequest) returns (ListVrfOperationsResponse) {}
+  rpc ListOperations (ListVrfOperationsRequest) returns (ListVrfOperationsResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/vrfs/{vrf_id}/operations"
+    };
+  }
 }
 
 message GetVrfRequest {

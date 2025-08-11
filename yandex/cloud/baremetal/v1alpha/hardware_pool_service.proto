@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.baremetal.v1alpha;
 
+import "google/api/annotations.proto";
 import "yandex/cloud/baremetal/v1alpha/hardware_pool.proto";
 import "yandex/cloud/validation.proto";
 
@@ -13,10 +14,18 @@ service HardwarePoolService {
   // Returns the specific HardwarePool resource.
   //
   // To get the list of available HardwarePool resource, make a [List] request.
-  rpc Get (GetHardwarePoolRequest) returns (HardwarePool) {}
+  rpc Get (GetHardwarePoolRequest) returns (HardwarePool) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/hardwarePools/{hardware_pool_id}"
+    };
+  }
 
   // Retrieves the list of HardwarePool resources.
-  rpc List (ListHardwarePoolsRequest) returns (ListHardwarePoolsResponse) {}
+  rpc List (ListHardwarePoolsRequest) returns (ListHardwarePoolsResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/hardwarePools"
+    };
+  }
 }
 
 message GetHardwarePoolRequest {

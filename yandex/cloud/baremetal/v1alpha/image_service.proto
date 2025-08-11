@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.baremetal.v1alpha;
 
+import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/baremetal/v1alpha/image.proto";
@@ -16,13 +17,25 @@ service ImageService {
   // Returns the specific Image resource.
   //
   // To get the list of available Image resources, make a [List] request.
-  rpc Get (GetImageRequest) returns (Image) {}
+  rpc Get (GetImageRequest) returns (Image) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/images/{image_id}"
+    };
+  }
 
   // Retrieves the list of Image resources in the specified folder.
-  rpc List (ListImagesRequest) returns (ListImagesResponse) {}
+  rpc List (ListImagesRequest) returns (ListImagesResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/images"
+    };
+  }
 
   // Creates an image in the specified folder.
   rpc Create (CreateImageRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/baremetal/v1alpha/images"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateImageMetadata"
       response: "Image"
@@ -31,6 +44,10 @@ service ImageService {
 
   // Updates the specified image.
   rpc Update (UpdateImageRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/baremetal/v1alpha/images/{image_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateImageMetadata"
       response: "Image"
@@ -41,6 +58,9 @@ service ImageService {
   //
   // Deleting an image removes its data permanently and is irreversible.
   rpc Delete (DeleteImageRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      delete: "/baremetal/v1alpha/images/{image_id}"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteImageMetadata"
       response: "google.protobuf.Empty"
@@ -48,7 +68,11 @@ service ImageService {
   }
 
   // Lists operations for the specified image.
-  rpc ListOperations (ListImageOperationsRequest) returns (ListImageOperationsResponse) {}
+  rpc ListOperations (ListImageOperationsRequest) returns (ListImageOperationsResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/images/{image_id}/operations"
+    };
+  }
 }
 
 message GetImageRequest {

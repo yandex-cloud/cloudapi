@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.baremetal.v1alpha;
 
+import "google/api/annotations.proto";
 import "yandex/cloud/baremetal/v1alpha/configuration.proto";
 import "yandex/cloud/validation.proto";
 
@@ -13,10 +14,18 @@ service ConfigurationService {
   // Returns the specific Configuration resource.
   //
   // To get the list of available Configuration resources, make a [List] request.
-  rpc Get (GetConfigurationRequest) returns (Configuration) {}
+  rpc Get (GetConfigurationRequest) returns (Configuration) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/configurations/{configuration_id}"
+    };
+  }
 
   // Retrieves the list of Configuration resources.
-  rpc List (ListConfigurationsRequest) returns (ListConfigurationsResponse) {}
+  rpc List (ListConfigurationsRequest) returns (ListConfigurationsResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/configurations"
+    };
+  }
 }
 
 message GetConfigurationRequest {

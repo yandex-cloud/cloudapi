@@ -953,12 +953,21 @@ message ClickhouseConfig {
   // JDBC bridge configuration for queries to external databases.
   message JdbcBridge {
     // Host of jdbc bridge.
-    string host = 1 [(required) = true];
+    string host = 1;
 
     // Port of jdbc bridge.
     //
     // Default value: **9019**.
     google.protobuf.Int64Value port = 2 [(value) = "0-65535"];
+  }
+
+  // ClickHouse macro.
+  message Macro {
+    // Name of the macro.
+    string name = 1 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_][a-zA-Z0-9_-]*"];
+
+    // Value of the macro.
+    string value = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_][a-zA-Z0-9_-]*"];
   }
 
   // Sets the number of threads performing background merges and mutations for MergeTree-engine tables.
@@ -1535,6 +1544,9 @@ message ClickhouseConfig {
   //
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/interfaces/mysql).
   google.protobuf.BoolValue mysql_protocol = 78;
+
+  // Custom ClickHouse macros.
+  repeated Macro custom_macros = 82;
 
   // The interval in seconds before reloading built-in dictionaries.
   //

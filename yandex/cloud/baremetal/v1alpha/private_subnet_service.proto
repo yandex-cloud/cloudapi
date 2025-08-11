@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.baremetal.v1alpha;
 
+import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/baremetal/v1alpha/private_subnet.proto";
@@ -16,13 +17,25 @@ service PrivateSubnetService {
   // Returns the specific PrivateSubnet resource.
   //
   // To get the list of available PrivateSubnet resources, make a [List] request.
-  rpc Get (GetPrivateSubnetRequest) returns (PrivateSubnet) {}
+  rpc Get (GetPrivateSubnetRequest) returns (PrivateSubnet) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/privateSubnets/{private_subnet_id}"
+    };
+  }
 
   // Retrieves the list of PrivateSubnet resources in the specified folder.
-  rpc List (ListPrivateSubnetRequest) returns (ListPrivateSubnetResponse) {}
+  rpc List (ListPrivateSubnetRequest) returns (ListPrivateSubnetResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/privateSubnets"
+    };
+  }
 
   // Creates a private subnet in the specified folder.
   rpc Create (CreatePrivateSubnetRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/baremetal/v1alpha/privateSubnets"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreatePrivateSubnetMetadata"
       response: "PrivateSubnet"
@@ -31,6 +44,10 @@ service PrivateSubnetService {
 
   // Updates the specified private subnet.
   rpc Update (UpdatePrivateSubnetRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/baremetal/v1alpha/privateSubnets/{private_subnet_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdatePrivateSubnetMetadata"
       response: "PrivateSubnet"
@@ -41,6 +58,9 @@ service PrivateSubnetService {
   //
   // Deleting a private subnet removes its data permanently and is irreversible.
   rpc Delete (DeletePrivateSubnetRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      delete: "/baremetal/v1alpha/privateSubnets/{private_subnet_id}"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "DeletePrivateSubnetMetadata"
       response: "google.protobuf.Empty"
@@ -48,7 +68,11 @@ service PrivateSubnetService {
   }
 
   // Lists operations for the specified private subnet.
-  rpc ListOperations (ListPrivateSubnetOperationsRequest) returns (ListPrivateSubnetOperationsResponse) {}
+  rpc ListOperations (ListPrivateSubnetOperationsRequest) returns (ListPrivateSubnetOperationsResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/privateSubnets/{private_subnet_id}/operations"
+    };
+  }
 }
 
 message GetPrivateSubnetRequest {

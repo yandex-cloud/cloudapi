@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.baremetal.v1alpha;
 
+import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/baremetal/v1alpha/server.proto";
@@ -18,13 +19,25 @@ service ServerService {
   // Returns the specific Server resource.
   //
   // To get the list of available Server resources, make a [List] request.
-  rpc Get (GetServerRequest) returns (Server) {}
+  rpc Get (GetServerRequest) returns (Server) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/servers/{server_id}"
+    };
+  }
 
   // Retrieves the list of Server resources in the specified folder.
-  rpc List (ListServerRequest) returns (ListServerResponse) {}
+  rpc List (ListServerRequest) returns (ListServerResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/servers"
+    };
+  }
 
   // Creates a server in the specified folder.
   rpc Create (CreateServerRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/baremetal/v1alpha/servers"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateServerMetadata"
       response: "Server"
@@ -33,6 +46,10 @@ service ServerService {
 
   // Creates multiple servers in the specified folder.
   rpc BatchCreate (BatchCreateServersRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/baremetal/v1alpha/servers:batchCreate"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "BatchCreateServersMetadata"
       response: "BatchCreateServersResponse"
@@ -41,6 +58,10 @@ service ServerService {
 
   // Updates the specified server.
   rpc Update (UpdateServerRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/baremetal/v1alpha/servers/{server_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdateServerMetadata"
       response: "Server"
@@ -49,6 +70,10 @@ service ServerService {
 
   // Powers off the specified server.
   rpc PowerOff (PowerOffServerRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/baremetal/v1alpha/servers/{server_id}:powerOff"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "PowerOffServerMetadata"
       response: "google.protobuf.Empty"
@@ -57,6 +82,10 @@ service ServerService {
 
   // Powers on the specified server.
   rpc PowerOn (PowerOnServerRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/baremetal/v1alpha/servers/{server_id}:powerOn"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "PowerOnServerMetadata"
       response: "google.protobuf.Empty"
@@ -65,6 +94,10 @@ service ServerService {
 
   // Reboots the specified server.
   rpc Reboot (RebootServerRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/baremetal/v1alpha/servers/{server_id}:reboot"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "RebootServerMetadata"
       response: "google.protobuf.Empty"
@@ -73,6 +106,10 @@ service ServerService {
 
   // Reinstalls the specified server.
   rpc Reinstall (ReinstallServerRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/baremetal/v1alpha/servers/{server_id}:reinstall"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "ReinstallServerMetadata"
       response: "google.protobuf.Empty"
@@ -81,6 +118,10 @@ service ServerService {
 
   // Starts prolongation of the specified server.
   rpc StartProlongation (StartProlongationRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/baremetal/v1alpha/servers/{server_id}:startProlongation"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "ServerSetProlongationMetadata"
       response: "Server"
@@ -89,6 +130,10 @@ service ServerService {
 
   // Stops prolongation of the specified server.
   rpc StopProlongation (StopProlongationRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/baremetal/v1alpha/servers/{server_id}:stopProlongation"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "ServerSetProlongationMetadata"
       response: "Server"
@@ -96,7 +141,11 @@ service ServerService {
   }
 
   // Lists operations for the specified server.
-  rpc ListOperations (ListServerOperationsRequest) returns (ListServerOperationsResponse) {}
+  rpc ListOperations (ListServerOperationsRequest) returns (ListServerOperationsResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/servers/{server_id}/operations"
+    };
+  }
 }
 
 message GetServerRequest {

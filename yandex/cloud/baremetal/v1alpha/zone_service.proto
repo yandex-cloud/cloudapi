@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.baremetal.v1alpha;
 
+import "google/api/annotations.proto";
 import "yandex/cloud/baremetal/v1alpha/zone.proto";
 import "yandex/cloud/validation.proto";
 
@@ -13,10 +14,18 @@ service ZoneService {
   // Returns the specific Zone resource.
   //
   // To get the list of Zone resources, make a [List] request.
-  rpc Get (GetZoneRequest) returns (Zone) {}
+  rpc Get (GetZoneRequest) returns (Zone) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/zones/{zone_id}"
+    };
+  }
 
   // Retrieves the list of Zone resources.
-  rpc List (ListZonesRequest) returns (ListZonesResponse) {}
+  rpc List (ListZonesRequest) returns (ListZonesResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/zones"
+    };
+  }
 }
 
 message GetZoneRequest {

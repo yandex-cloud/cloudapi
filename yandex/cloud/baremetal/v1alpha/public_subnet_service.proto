@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.baremetal.v1alpha;
 
+import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/baremetal/v1alpha/public_subnet.proto";
@@ -16,13 +17,25 @@ service PublicSubnetService {
   // Returns the specific PublicSubnet resource.
   //
   // To get the list of available PublicSubnet resources, make a [List] request.
-  rpc Get (GetPublicSubnetRequest) returns (PublicSubnet) {}
+  rpc Get (GetPublicSubnetRequest) returns (PublicSubnet) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/publicSubnets/{public_subnet_id}"
+    };
+  }
 
   // Retrieves the list of PublicSubnet resources in the specified folder.
-  rpc List (ListPublicSubnetRequest) returns (ListPublicSubnetResponse) {}
+  rpc List (ListPublicSubnetRequest) returns (ListPublicSubnetResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/publicSubnets"
+    };
+  }
 
   // Creates a public subnet in the specified folder.
   rpc Create (CreatePublicSubnetRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/baremetal/v1alpha/publicSubnets"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "CreatePublicSubnetMetadata"
       response: "PublicSubnet"
@@ -31,6 +44,10 @@ service PublicSubnetService {
 
   // Updates the specified public subnet.
   rpc Update (UpdatePublicSubnetRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/baremetal/v1alpha/publicSubnets/{public_subnet_id}"
+      body: "*"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "UpdatePublicSubnetMetadata"
       response: "PublicSubnet"
@@ -41,6 +58,9 @@ service PublicSubnetService {
   //
   // Deleting a public subnet removes its data permanently and is irreversible.
   rpc Delete (DeletePublicSubnetRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      delete: "/baremetal/v1alpha/publicSubnets/{public_subnet_id}"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "DeletePublicSubnetMetadata"
       response: "google.protobuf.Empty"
@@ -48,7 +68,11 @@ service PublicSubnetService {
   }
 
   // Lists operations for the specified public subnet.
-  rpc ListOperations (ListPublicSubnetOperationsRequest) returns (ListPublicSubnetOperationsResponse) {}
+  rpc ListOperations (ListPublicSubnetOperationsRequest) returns (ListPublicSubnetOperationsResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/publicSubnets/{public_subnet_id}/operations"
+    };
+  }
 }
 
 message GetPublicSubnetRequest {
@@ -92,12 +116,13 @@ message ListPublicSubnetRequest {
   //
   // Each condition has the form `<field> <operator> <value>`, where:
   // 1. `<field>` is the field name. Currently you can use filtering only on the limited number of fields.
-  // 2. `<operator>` is a logical operator, one of `=` (equal), `:` (substring).
+  // 2. `<operator>` is a logical operator, one of `=` (equal), `:` (substring), `@>` (contains).
   // 3. `<value>` represents a value.
   // String values should be written in double (`"`) or single (`'`) quotes. C-style escape sequences are supported (`\"` turns to `"`, `\'` to `'`, `\\` to backslash).
   // Example: "key1='value' AND key2='value'"
   // Supported operators: ["AND"].
-  // Supported fields: ["id", "name", "zoneId", "hardwarePoolId"].
+  // Supported fields: ["id", "name", "zoneId", "hardwarePoolIds"].
+  // Deprecated fields: ["hardwarePoolId"].
   // Both snake_case and camelCase are supported for fields.
   string filter = 103;
 }
