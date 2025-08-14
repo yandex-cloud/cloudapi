@@ -11,7 +11,6 @@ import "yandex/cloud/datatransfer/v1/transfer.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 
-// A set of methods for managing [transfers]({{ api-url-prefix }}/data-transfer/concepts/#transfer).
 service TransferService {
     // Creates a transfer in the specified folder.
     rpc Create(CreateTransferRequest) returns (operation.Operation) {
@@ -69,7 +68,7 @@ service TransferService {
     }
 }
 message CreateTransferRequest {
-    reserved 9, 11;
+    reserved 9, 11, 13 to 15;
     // Identifier of the source endpoint.
     string source_id = 1;
     // Identifier of the target endpoint.
@@ -87,16 +86,18 @@ message CreateTransferRequest {
     string name = 7;
     // Transfer labels as `key:value` pairs.
     // 
-    // For details about the concept, see [documentation]({{ api-url-prefix }}/resource-manager/concepts/labels).
+    // For details about the concept, see [documentation]({{ api-url-prefix
+    // }}/resource-manager/concepts/labels).
     map<string,string> labels = 8;
     Transformation transformation = 10;
     DataObjects data_objects = 12;
+    Runtime replication_runtime = 16;
 }
 message CreateTransferMetadata {
     string transfer_id = 1;
 }
 message UpdateTransferRequest {
-    reserved 7, 9;
+    reserved 7, 9, 11;
     // Identifier of the transfer to be updated.
     string transfer_id = 1;
     // The new description for the transfer.
@@ -112,10 +113,12 @@ message UpdateTransferRequest {
     google.protobuf.FieldMask update_mask = 5;
     // Transfer labels as `key:value` pairs.
     // 
-    // For details about the concept, see [documentation]({{ api-url-prefix }}/resource-manager/concepts/labels).
+    // For details about the concept, see [documentation]({{ api-url-prefix
+    // }}/resource-manager/concepts/labels).
     map<string,string> labels = 6;
     Transformation transformation = 8;
     DataObjects data_objects = 10;
+    Runtime replication_runtime = 12;
 }
 message UpdateTransferMetadata {
     string transfer_id = 1;

@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/trino/v1/access_control.proto";
 import "yandex/cloud/trino/v1/catalog.proto";
 import "yandex/cloud/trino/v1/cluster.proto";
 import "yandex/cloud/trino/v1/maintenance.proto";
@@ -194,6 +195,9 @@ message TrinoConfigSpec {
   // Trino version.
   // Format: "Number".
   string version = 6;
+
+  // Configuration for access control, specifying the fine-grained access rules.
+  AccessControlConfig access_control = 7;
 }
 
 message CreateClusterMetadata {
@@ -241,6 +245,9 @@ message UpdateTrinoConfigSpec {
 
   // Configuration for retry policy, specifying the spooling storage destination and other settings.
   RetryPolicyConfig retry_policy = 4;
+
+  // Configuration for access control, specifying the fine-grained access rules.
+  AccessControlConfig access_control = 5;
 }
 
 message UpdateNetworkConfigSpec {

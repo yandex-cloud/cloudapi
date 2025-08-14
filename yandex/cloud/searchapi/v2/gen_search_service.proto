@@ -91,6 +91,8 @@ message GenSearchRequest {
   repeated SearchFilter search_filters = 8 [(size) = "<=10"];
   // Search type that determines the domain name that will be used for the search queries.
   SearchQuery.SearchType search_type = 9;
+  // Get partial results
+  bool get_partial_results = 10;
 }
 
 message GenSearchResponse {

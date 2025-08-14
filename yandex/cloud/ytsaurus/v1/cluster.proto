@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.ytsaurus.v1;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ytsaurus/v1;ytsaurus";
@@ -97,10 +98,10 @@ message Cluster {
     message Endpoints {
         string ui = 1;                              // https://CID.ui.ytsaurus.yandexcloud.net
         string external_http_proxy_balancer = 2;    // https://CID.proxy.ytsaurus.yandexcloud.net
-        string internal_http_proxy_alias = 3;       // https://proxy.CID.ytsaurus.mdb.yandexcloud.net:PORT
-        string internal_rpc_proxy_alias = 4;        // proxy.CID.ytsaurus.mdb.yandexcloud.net:PORT
-        repeated string internal_http_proxies = 5;  // https://proxy-{index}.CID.ytsaurus.mdb.yandexcloud.net
-        repeated string internal_rpc_proxies = 6;   // proxy-{index}.CID.ytsaurus.mdb.yandexcloud.net:PORT
+        string internal_http_proxy_alias = 3;       // https://hp.CID.ytsaurus.mdb.yandexcloud.net:PORT
+        string internal_rpc_proxy_alias = 4;        // rp.CID.ytsaurus.mdb.yandexcloud.net:PORT
+        reserved 5; //repeated string internal_http_proxies = 5;
+        reserved 6; //repeated string internal_rpc_proxies = 6;
     }
     // Endpoints of the cluster.
     Endpoints endpoints = 16;
@@ -154,6 +155,9 @@ message ComputeSpec {
     }
 
     ScalePolicy scale_policy = 3;
+
+    // Name for exec pool.
+    string name = 4;
 }
 
 message HttpProxySpec {
@@ -176,9 +180,15 @@ message ProxySpec {
     RpcProxySpec rpc = 2;
 }
 
+message OdinSpec {
+    google.protobuf.Duration checks_ttl = 1;
+}
+
 message ClusterSpec {
     StorageSpec storage = 1;
     repeated ComputeSpec compute = 2;
     TabletSpec tablet = 3;
     ProxySpec proxy = 4;
+
+    OdinSpec odin = 5;
 }

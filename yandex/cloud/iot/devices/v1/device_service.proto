@@ -210,7 +210,6 @@ message CreateDeviceRequest {
 
   // Name of the device. The name must be unique within the registry.
   string name = 2 [
-    (required) = true,
     (length) = "<=50",
     (pattern) = "[a-zA-Z0-9_-]*"
   ];

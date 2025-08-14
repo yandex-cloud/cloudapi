@@ -170,7 +170,6 @@ message CreateBrokerRequest {
 
   // Name of the broker. The name must be unique within the folder.
   string name = 2 [
-    (required) = true,
     (length) = "<=50",
     (pattern) = "[a-zA-Z0-9_-]*"
   ];

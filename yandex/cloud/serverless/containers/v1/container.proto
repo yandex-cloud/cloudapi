@@ -122,11 +122,14 @@ message Revision {
   // Mounts to be used by the revision.
   repeated Mount mounts = 17;
 
-  // The container's execution mode
+  // The container's execution mode.
   Runtime runtime = 18;
 
   // Metadata options for the revision.
   MetadataOptions metadata_options = 19;
+
+  // Config for asynchronous invocations of the revision.
+  AsyncInvocationConfig async_invocation_config = 20;
 }
 
 // Revision image specification.
@@ -365,4 +368,9 @@ enum MetadataOption {
 
   // Option is disabled
   DISABLED = 2;
+}
+
+message AsyncInvocationConfig {
+  // Optional id of service account with permission to invoke container.
+  string service_account_id = 1;
 }

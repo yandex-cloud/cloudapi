@@ -4,6 +4,7 @@ package yandex.cloud.trino.v1;
 
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/logging/v1/log_entry.proto";
+import "yandex/cloud/trino/v1/access_control.proto";
 import "yandex/cloud/trino/v1/maintenance.proto";
 import "yandex/cloud/validation.proto";
 
@@ -150,6 +151,9 @@ message TrinoConfig {
 
   // Configuration for retry policy, specifying the spooling storage destination and other settings.
   RetryPolicyConfig retry_policy = 4;
+
+  // Configuration for access control, specifying the fine-grained rules of accesses.
+  AccessControlConfig access_control = 5;
 }
 
 message CoordinatorConfig {

@@ -104,6 +104,11 @@ message ListBackupsRequest {
     string policy_id = 2;
   }
 
+  message BackupParameters {
+      string backup_id = 1 [(required) = true];
+      string folder_id = 2 [(required) = true];
+  }
+
   oneof id {
     option (exactly_one) = true;
     // List backups that belongs to specific Compute Cloud instance.
@@ -118,6 +123,8 @@ message ListBackupsRequest {
     string resource_id = 6;
     // List backups by specific policy ID.
     string policy_id = 7;
+    // List backups by specific backup ID.
+    BackupParameters backup = 12;
   }
 
   // By which column the listing should be ordered and in which direction,
@@ -135,7 +142,7 @@ message ListBackupsRequest {
   // Type of resource. Could be compute VM or baremetal server.
   ResourceType type = 9;
 
-  // Number of results per page. 
+  // Number of results per page.
   int64 page_size = 10 [ (value) = "<=1000" ];
 
   // Token for the results page. Not allowed to use if listing is performed by specific policy ID.
@@ -260,7 +267,7 @@ message DeleteBackupMetadata {
 }
 
 message DeleteArchiveRequest {
-  // must be specified archive_id and folder/instance_id 
+  // must be specified archive_id and folder/instance_id
   // or pair of policy id and instance_id
 
   // Archive ID that should be deleted.

@@ -41,7 +41,7 @@ enum TransferStatus {
 }
 // Transfer core entity
 message Transfer {
-    reserved 3, 11, 13 to 14, 16, 18, 20 to 21;
+    reserved 3, 11, 13 to 14, 16, 18, 20 to 21, 23;
     string id = 1;
     string folder_id = 2;
     string name = 4;
@@ -56,6 +56,7 @@ message Transfer {
     Transformation transformation = 17;
     DataObjects data_objects = 19;
     bool prestable = 22;
+    Runtime replication_runtime = 24;
 }
 message Runtime {
     reserved 1 to 3;
@@ -150,13 +151,18 @@ message ToStringTransformer {
     // List of included and excluded columns
     ColumnsFilter columns = 2;
 }
+message SharderTransformerTypeRandom {
+}
 // Set the number of shards for particular tables and a list of columns whose
 // values will be used for calculating a hash to determine a shard.
 message SharderTransformer {
     // List of included and excluded tables
     TablesFilter tables = 1;
-    // List of included and excluded columns
-    ColumnsFilter columns = 2;
+    oneof sharderTransformerType {
+        // List of included and excluded columns
+        ColumnsFilter columns = 2;
+        SharderTransformerTypeRandom random = 4;
+    }
     // Number of shards
     int64 shards_count = 3;
 }
