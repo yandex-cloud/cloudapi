@@ -555,8 +555,6 @@ message BackupClusterMetadata {
 }
 
 message RestoreClusterRequest {
-  reserved 17;
-
   // ID of the backup to create a cluster from.
   // To get the backup ID, use a [ClusterService.ListBackups] request.
   string backup_id = 1 [(required) = true];
@@ -589,7 +587,7 @@ message RestoreClusterRequest {
 
   // Configurations for Redis hosts that should be created for
   // the cluster that is being created from the backup.
-  repeated HostSpec host_specs = 7 [(size) = ">0"];
+  repeated HostSpec host_specs = 7;
 
   // ID of the network to create the Redis cluster in.
   string network_id = 8 [
@@ -614,12 +612,15 @@ message RestoreClusterRequest {
 
   // Enable FQDN instead of ip
   bool announce_hostnames = 14;
-  
+
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 15;
 
   // Allows to use ACL users to auth in sentinel
   bool auth_sentinel = 16;
+
+  // Redis cluster mode on/off.
+  bool sharded = 17;
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 18;

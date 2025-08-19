@@ -13,7 +13,6 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/metastore/v1;metastore";
 option java_package = "yandex.cloud.api.metastore.v1";
 
-
 // A set of methods for managing Metastore Cluster resources.
 service ClusterService {
   // Returns the specified Metastore Cluster.
@@ -190,7 +189,10 @@ message CreateClusterRequest {
   ConfigSpec config_spec = 13;
 
   // Service account used to access Cloud resources.
-  string service_account_id = 14 [(length) = "<=50"];
+  string service_account_id = 14 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Cloud logging configuration.
   LoggingConfig logging = 15;

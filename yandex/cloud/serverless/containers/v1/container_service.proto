@@ -357,11 +357,14 @@ message DeployContainerRevisionRequest {
   // Mounts to be used by the revision.
   repeated Mount mounts = 16;
 
-  // The container's execution mode
+  // The container's execution mode.
   Runtime runtime = 17;
 
   // Metadata options for the revision.
   MetadataOptions metadata_options = 18;
+
+  // Config for asynchronous invocations of the revision.
+  AsyncInvocationConfig async_invocation_config = 19;
 }
 
 // Revision image specification.

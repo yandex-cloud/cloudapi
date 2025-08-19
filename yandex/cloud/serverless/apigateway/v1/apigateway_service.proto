@@ -215,7 +215,7 @@ message CreateApiGatewayRequest {
   Canary canary = 9;
 
   // Timeout for gateway call execution
-  google.protobuf.Duration execution_timeout = 10 [(value) = "<=600s"];
+  google.protobuf.Duration execution_timeout = 10 [(value) = "0s-600s"];
 }
 
 message UpdateApiGatewayRequest {
@@ -267,7 +267,7 @@ message UpdateApiGatewayRequest {
   Canary canary = 10;
 
   // Timeout for gateway call execution
-  google.protobuf.Duration execution_timeout = 11 [(value) = "<=600s"];
+  google.protobuf.Duration execution_timeout = 11 [(value) = "0s-600s"];
 }
 
 message DeleteApiGatewayRequest {
