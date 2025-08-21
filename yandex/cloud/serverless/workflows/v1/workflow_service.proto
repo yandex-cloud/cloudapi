@@ -77,6 +77,8 @@ message CreateWorkflowRequest {
   string service_account_id = 8;
   // Express execution mode.
   bool express = 9;
+  // Workflow schedule settings.
+  WorkflowSchedule schedule = 10;
 }
 
 message CreateWorkflowMetadata {
@@ -105,6 +107,8 @@ message UpdateWorkflowRequest {
   google.protobuf.FieldMask update_mask = 9;
   // Express execution mode.
   bool express = 10;
+  // Workflow schedule settings.
+  WorkflowSchedule schedule = 11;
 }
 
 message UpdateWorkflowMetadata {

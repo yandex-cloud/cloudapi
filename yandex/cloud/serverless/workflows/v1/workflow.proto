@@ -47,6 +47,8 @@ message Workflow {
   string service_account_id = 11;
   // Express execution mode.
   bool express = 12;
+  // Workflow schedule settings.
+  WorkflowSchedule schedule = 13;
 }
 
 message WorkflowPreview {
@@ -95,4 +97,11 @@ message LogOptions {
   //
   // See [LogLevel.Level] for details.
   yandex.cloud.logging.v1.LogLevel.Level min_level = 4;
+}
+
+message WorkflowSchedule {
+  // Cron expression for the Workflow schedule.
+  string cron_expression = 1 [(required) = true, (length) = "<=100"];
+  // Timezone for the Workflow schedule.
+  string timezone = 2 [(required) = true];
 }
