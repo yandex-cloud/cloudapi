@@ -60,8 +60,7 @@ service ResourceService {
         };
     }
 
-    // Get Provider's CNAME (edge endpoint) bind to specified folder id.
-    // Returns UNIMPLEMENTED error, if provider doesn't support CNAME request.
+    // Deprecated: Provider-specific CNAME is now available in the `provider_cname` field of each Resource message.
     rpc GetProviderCName(GetProviderCNameRequest) returns (GetProviderCNameResponse) {
         option (google.api.http) = { get: "/cdn/v1/cname/{folder_id}" };
     }
@@ -145,7 +144,14 @@ message CreateResourceRequest {
     // Labels of the resource.
     map<string, string> labels = 9;
 
-   // RESERVED: This field is reserved for future use and should not be used at this time.
+    // Set up resource provider
+    //
+    // It has two possible values:
+    //
+    // ourcdn - Based on Yandex technologies
+    // gcore - Based on an external partner infrastructure
+    //
+    // Default value: ourcdn
     string provider_type = 10;
 }
 

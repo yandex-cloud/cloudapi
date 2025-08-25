@@ -55,14 +55,14 @@ message Resource {
 
     // SSL certificate options.
     SSLCertificate ssl_certificate = 12;
-    
+
     // Labels of the resource.
     map<string, string> labels = 13;
 
-    // RESERVED: This field is reserved for future use and should not be used at this time.
+    // Type of the CDN provider for this resource.
     string provider_type = 14;
 
-    // RESERVED: Provider CNAME.
+    // CNAME provided by the CDN provider for this resource.
     string provider_cname = 15;
 }
 
@@ -415,7 +415,7 @@ message ResourceOptions {
     // Secure token to protect contect and limit access by IP addresses and time limits.
     SecureKeyOption secure_key = 20;
 
-    // Manage the state of the IP access policy option. 
+    // Manage the state of the IP access policy option.
     // The option controls access to content from the specified IP addresses.
     IPAddressACLOption ip_address_acl = 21;
 }

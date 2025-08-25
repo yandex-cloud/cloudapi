@@ -1,0 +1,31 @@
+resources_and_data_sources:
+  - name: yandex_ytsaurus_cluster
+
+model_config:
+  options:
+    # ycp_ytsaurus_cluster fields compatibility
+    yandex.cloud.ytsaurus.v1.CreateClusterRequest.folder_policy:
+      force_new: true
+    yandex.cloud.ytsaurus.v1.Cluster.folder_id:
+      force_new: true
+    yandex.cloud.ytsaurus.v1.StorageSpec.HddSpec.preset:
+      computed: true
+    yandex.cloud.ytsaurus.v1.StorageSpec.SsdSpec.preset:
+      computed: true
+    yandex.cloud.ytsaurus.v1.HttpProxySpec.preset:
+      computed: true
+    yandex.cloud.ytsaurus.v1.RpcProxySpec.preset:
+      computed: true
+
+  timeouts:
+    yandex_ytsaurus_cluster:
+      create: 600m
+      update: 600m
+      delete: 600m
+
+iam_bindings:
+  - name: yandex_compute_disk
+
+iam_members:
+  - name: yandex_certificatemanager_certificate
+    rename: yandex_cm_certificate

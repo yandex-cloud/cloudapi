@@ -13,7 +13,7 @@ option java_package = "yandex.cloud.api.cdn.v1";
 
 // A set of methods for managing Provider Service resources.
 service ProviderService {
-    // Activate provider for specified client.
+    // Deprecated: This functionality is no longer supported - provider activation happens automatically.
     rpc Activate(ActivateProviderRequest)  returns (operation.Operation) {
         option (google.api.http) = { post: "/cdn/v1/providers:activate" body: "*" };
         option (yandex.cloud.api.operation) = {

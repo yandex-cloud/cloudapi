@@ -8,7 +8,7 @@ option java_package = "yandex.cloud.api.cdn.v1";
 
 // An origin. For details about the concept, see [documentation](/docs/cdn/concepts/origins).
 message Origin {
-    // ID of the origin. 
+    // ID of the origin.
     int64 id = 1;
 
     // ID of the parent origin group.
@@ -22,18 +22,18 @@ message Origin {
     // It has two possible values:
     //
     // True - The origin is enabled and used as a source for the CDN. An origins
-    // group must contain at least one enabled origin. 
+    // group must contain at least one enabled origin.
     // False - The origin is disabled and the CDN is not using it to pull content.
     bool enabled = 4;
-    	
-    // Specifies whether the origin is used in its origin group as backup. 
+
+    // Specifies whether the origin is used in its origin group as backup.
     // A backup origin is used when one of active origins becomes unavailable.
     bool backup = 5;
 
     // Set up origin of the content.
     OriginMeta meta = 6;
-    
-    // RESERVED: This field is reserved for future use and should not be used at this time.
+
+    // Type of the CDN provider for this origin group.
     string provider_type = 7;
 }
 
@@ -49,7 +49,7 @@ message OriginParams {
     // group must contain at least one enabled origins. False - The origin is disabled
     // and the CDN is not using it to pull content.
     bool enabled = 2;
-    	
+
     // backup option has two possible values:
     //
     //   True - The option is active. The origin will not be used until one of

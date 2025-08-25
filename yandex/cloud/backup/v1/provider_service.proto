@@ -38,6 +38,8 @@ message ActivateProviderRequest {
     string name = 3 [ (required) = true ];
     // Don't create default policies while activating the provider.
     bool skip_default_policy = 4 [ (required) = false ];
+    // instance registration token for authorization
+    string instance_registration_id = 5;
 }
 
 message ActivateProviderMetadata {
@@ -48,6 +50,8 @@ message ActivateProviderMetadata {
 message ListActivatedProvidersRequest {
     // ID of the folder to find out the backup provider.
     string folder_id = 1 [ (required) = true, (length) = "<=50" ];
+    // instance registration token for authorization
+    string instance_registration_id = 2;
 }
 
 message ListActivatedProvidersResponse {

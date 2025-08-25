@@ -103,7 +103,7 @@ message CreateOriginRequest {
     // False - The origin is disabled and the CDN is not using it to pull content.
     google.protobuf.BoolValue enabled = 4;
 
-    // Specifies whether the origin is used in its origin group as backup. 
+    // Specifies whether the origin is used in its origin group as backup.
     // A backup origin is used when one of active origins becomes unavailable.
     //
     // Default value: False.
@@ -112,14 +112,21 @@ message CreateOriginRequest {
 	// Set up origin of the content.
     OriginMeta meta = 6;
 
-    // RESERVED: This field is reserved for future use and should not be used at this time.
+    // Set up origin provider
+    //
+    // It has two possible values:
+    //
+    // ourcdn - Based on Yandex technologies
+    // gcore - Based on an external partner infrastructure
+    //
+    // Default value: ourcdn
     string provider_type = 7;
 }
 
 message CreateOriginMetadata {
     // ID of the origin.
     int64 origin_id = 1 [(value) = ">0"];
-    
+
     // ID pf the parent origins group.
     int64 origin_group_id = 2 [(value) = ">0"];
 }
@@ -136,7 +143,7 @@ message UpdateOriginRequest {
     // Used if [meta] variant is `common`.
     // Required.
     string source = 3;
-    
+
     // The setting allows to enable or disable an Origin source in the Origins group.
     //
     // It has two possible values:
@@ -145,10 +152,10 @@ message UpdateOriginRequest {
     // group must contain at least one enabled origin. Default value.
     // False - The origin is disabled and the CDN is not using it to pull content.
     //
-    // Required. 
+    // Required.
     bool enabled = 4;
 
-    // Specifies whether the origin is used in its origin group as backup. 
+    // Specifies whether the origin is used in its origin group as backup.
     // A backup origin is used when one of active origins becomes unavailable.
     //
     // Required.

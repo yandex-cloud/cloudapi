@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.backup.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
 
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/backup/v1/resource.proto";
@@ -53,6 +54,9 @@ service ResourceService {
 
     // ListOperations return all operations in backup service for given instance
     rpc ListOperations (ListResourceOperationsRequest) returns (ListResourceOperationsResponse);
+
+    // Get instance registration token to install backup agent withot SA attached to instance
+    rpc GetInstanceRegistrationToken(GetInstanceRegistrationTokenRequest) returns (GetInstanceRegistrationTokenResponse);
 }
 
 message ListResourcesRequest {
@@ -177,4 +181,19 @@ message ListResourceOperationsResponse {
 
      // Token for the next results page.
     string next_page_token = 2;
+}
+
+message GetInstanceRegistrationTokenRequest {
+    // Folder ID.
+    string folder_id = 1 [ (required) = true, (length) = "<=50" ];
+
+    // Type of resource. Could be compute VM or baremetal server.
+    ResourceType type = 2;
+}
+
+message GetInstanceRegistrationTokenResponse {
+    // Instance registration token id for instance registration.
+    string instance_registration_id = 1;
+    // Token expiration timestamp.
+    google.protobuf.Timestamp expired_at = 2;
 }
