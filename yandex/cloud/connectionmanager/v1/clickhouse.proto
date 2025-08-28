@@ -28,9 +28,16 @@ message ClickHouseCluster {
         string shard_name = 4;
         Health health = 5;
     }
-    repeated Host hosts = 6;
+    message ShardGroup {
+      string name = 1;
+      repeated string shard_names = 2;
+    }
+
     TLSParams tls_params = 4;
+    repeated Host hosts = 6;
+    repeated ShardGroup shard_groups = 7;
 }
+
 message ClickHouseConnection {
     // When creating/updating Connection, the field "cluster" is mutually
     // exclusive with "managed_cluster_id".

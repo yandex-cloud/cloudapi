@@ -234,7 +234,7 @@ message CreateGroupRequest {
 
   // Name of the group.
   // The name must be unique within the organization.
-  string name = 2 [(required) = true, (pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 2 [(required) = true, (pattern) = "[a-zA-Z]([-a-zA-Z0-9._-]{0,61}[a-zA-Z0-9])?"];
 
   // Description of the group.
   string description = 3 [(length) = "<=256"];
@@ -251,7 +251,7 @@ message CreateExternalGroupRequest {
   string organization_id = 1 [(required) = true, (length) = "<=50"];
   // Name of the group.
   // The name must be unique within the organization.
-  string name = 2 [(required) = true, (pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 2 [(required) = true, (pattern) = "[a-zA-Z]([-a-zA-Z0-9._-]{0,61}[a-zA-Z0-9])?"];
   // Description of the group.
   string description = 3 [(length) = "<=256"];
   // Id of the subject container that external group belongs to.
@@ -291,7 +291,7 @@ message UpdateGroupRequest {
 
   // Name of the group.
   // The name must be unique within the organization.
-  string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 3 [(pattern) = "|[a-zA-Z]([-a-zA-Z0-9._-]{0,61}[a-zA-Z0-9])?"];
 
   // Description of the group.
   string description = 4 [(length) = "<=256"];

@@ -12,10 +12,10 @@ import "yandex/cloud/operation/operation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/stt/v3;stt";
 option java_package = "yandex.cloud.api.ai.stt.v3";
 
-// A set of methods for voice recognition.
+// A set of methods for streaming speech recognition.
 service Recognizer {
 
-    // Expects audio in real-time
+    // Performs bidirectional streaming speech recognition receiving results while sending audio.
     rpc RecognizeStreaming (stream StreamingRequest) returns (stream StreamingResponse) {
 
     }
@@ -26,9 +26,10 @@ message GetRecognitionRequest {
     string operation_id = 1 [(yandex.cloud.required) = true, (yandex.cloud.length) = "<=50"];
 }
 
-// A set of methods for async voice recognition.
+// A set of methods for asynchronous speech recognition: recognize pre-recorded audio and receive results by request.
 service AsyncRecognizer {
 
+    // Performs asynchronous speech recognition.
     rpc RecognizeFile (RecognizeFileRequest) returns (yandex.cloud.operation.Operation) {
         option (yandex.cloud.api.operation) = {
             response: "google.protobuf.Empty"
@@ -36,11 +37,12 @@ service AsyncRecognizer {
         option (google.api.http) = { post: "/stt/v3/recognizeFileAsync" body: "*" };
     }
 
+    // Gets results of asynchronous recognition after finishing the operation.
     rpc GetRecognition(GetRecognitionRequest) returns (stream StreamingResponse) {
         option (google.api.http) = { get: "/stt/v3/getRecognition"};
     }
 
-
+    // Deletes results of asynchronous recognition by operation ID.
     rpc DeleteRecognition(DeleteRecognitionRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = { delete: "/stt/v3/deleteRecognition"};
     }

@@ -1412,6 +1412,8 @@ message ClickhouseConfig {
 
   // Enables or disables geobase.
   //
+  // Default value: **false** for versions 25.8 and higher, **true** for versions 25.7 and lower.
+  //
   // Change of the setting is applied with restart.
   google.protobuf.BoolValue geobase_enabled = 66;
 

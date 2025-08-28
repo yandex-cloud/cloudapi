@@ -190,6 +190,9 @@ message TargetState {
 
   // Status of the target.
   Status status = 3;
+
+  // Zone shifted status.
+  bool zone_shifted = 4;
 }
 
 // Status of the disabled zone.
