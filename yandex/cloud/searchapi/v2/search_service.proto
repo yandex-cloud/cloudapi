@@ -110,7 +110,7 @@ message WebSearchRequest {
   // Search results format.
   Format response_format = 8;
   // User-Agent request header value.
-  string user_agent = 9 [(length) = "<=200"];
+  string user_agent = 9 [(length) = "<=300"];
 }
 
 message WebSearchResponse {

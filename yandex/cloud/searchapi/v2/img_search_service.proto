@@ -105,7 +105,7 @@ message ImageSearchRequest {
   // ID of the folder.
   string folder_id = 5 [(length) = "<=50"];
   // User-Agent request header value.
-  string user_agent = 6 [(length) = "<=200"];
+  string user_agent = 6 [(length) = "<=300"];
 }
 
 message ImageSearchResponse {

@@ -36,6 +36,8 @@ message Registry {
     DEBIAN = 5;
     // Registry kind is pypi.
     PYPI = 6;
+    // Regisrty kind is binary.
+    BINARY = 7;
   }
   enum Type {
     TYPE_UNSPECIFIED = 0;
