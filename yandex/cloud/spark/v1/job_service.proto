@@ -90,7 +90,13 @@ message CreateJobRequest {
   oneof job_spec {
     SparkJob spark_job = 3;
     PysparkJob pyspark_job = 4;
+    SparkConnectJob spark_connect_job = 5;
   }
+
+  reserved 6, 7;
+
+  // Service account used to access Cloud resources.
+  string service_account_id = 8 [(length) = "<=50"];
 }
 
 message CreateJobMetadata {

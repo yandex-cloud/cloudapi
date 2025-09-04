@@ -680,15 +680,15 @@ message SetScalingPolicyRequest {
 
   // Minimum guaranteed provisioned instances count for all zones in total.
   // Billed separately.
-  int64 provisioned_instances_count = 4 [(value) = "0-1000"];
+  int64 provisioned_instances_count = 4 [(value) = ">=0"];
 
   // Upper limit for instance count in each zone.
   // 0 means no limit.
-  int64 zone_instances_limit = 5 [(value) = "0-1000"];
+  int64 zone_instances_limit = 5 [(value) = ">=0"];
 
   // Upper limit of requests count in each zone.
   // 0 means no limit.
-  int64 zone_requests_limit = 6 [(value) = "0-1000"];
+  int64 zone_requests_limit = 6 [(value) = ">=0"];
 }
 
 message SetScalingPolicyMetadata {

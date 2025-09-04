@@ -45,7 +45,7 @@ message Job {
 
     // Job failed.
     ERROR = 4;
-    
+
     // Job finished.
     DONE = 5;
 
@@ -53,7 +53,7 @@ message Job {
     CANCELLED = 6;
 
     // Job is waiting for cancellation.
-    CANCELLING = 7; 
+    CANCELLING = 7;
   }
   // Status.
   Status status = 8;
@@ -62,12 +62,21 @@ message Job {
   oneof job_spec {
     SparkJob spark_job = 9;
     PysparkJob pyspark_job = 10;
+    SparkConnectJob spark_connect_job = 20;
   }
 
   reserved 11;
 
   // Spark UI Url.
   string ui_url = 12;
+
+  // Service account used to access Cloud resources.
+  string service_account_id = 13;
+
+  // Spark Connect Url.
+  string connect_url = 14;
+
+  reserved 15 to 19;
 }
 
 message SparkJob {
@@ -100,6 +109,30 @@ message SparkJob {
 
   // List of groupId:artifactId, to exclude while resolving the dependencies provided in --packages to avoid dependency conflicts.
   repeated string exclude_packages = 10;
+}
+
+
+message SparkConnectJob {
+  // Jar file URIs to add to the CLASSPATHs of the Spark driver and tasks.
+  repeated string jar_file_uris = 1;
+
+  // URIs of files to be copied to the working directory of Spark drivers and distributed tasks.
+  repeated string file_uris = 2;
+
+  // URIs of archives to be extracted in the working directory of Spark drivers and tasks.
+  repeated string archive_uris = 3;
+
+  // A mapping of property names to values, used to configure Spark.
+  map<string, string> properties = 4;
+
+  // List of maven coordinates of jars to include on the driver and executor classpaths.
+  repeated string packages = 5;
+
+  // List of additional remote repositories to search for the maven coordinates given with --packages.
+  repeated string repositories = 6;
+
+  // List of groupId:artifactId, to exclude while resolving the dependencies provided in --packages to avoid dependency conflicts.
+  repeated string exclude_packages = 7;
 }
 
 message PysparkJob {

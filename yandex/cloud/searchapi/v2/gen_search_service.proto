@@ -93,6 +93,8 @@ message GenSearchRequest {
   SearchQuery.SearchType search_type = 9;
   // Get partial results
   bool get_partial_results = 10;
+  // Search flags
+  SearchMetadata metadata = 11;
 }
 
 message GenSearchResponse {

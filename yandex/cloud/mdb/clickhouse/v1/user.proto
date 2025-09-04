@@ -1500,6 +1500,14 @@ message UserSettings {
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#s3_use_adaptive_timeouts).
   google.protobuf.BoolValue s3_use_adaptive_timeouts = 170;
 
+  // If enabled, automatically applies **FINAL** modifier to all tables in a query, to tables where **FINAL** is applicable,
+  // including joined tables and tables in sub-queries, and distributed tables.
+  //
+  // Default value: **false**.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#final).
+  google.protobuf.BoolValue final = 171;
+
   // The setting is deprecated and has no effect.
   google.protobuf.BoolValue compile = 44 [deprecated = true];
 

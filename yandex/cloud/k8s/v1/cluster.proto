@@ -110,6 +110,8 @@ message Cluster {
   }
 
   ScheduledMaintenance scheduled_maintenance = 20;
+
+  WorkloadIdentityFederation workload_identity_federation = 21;
 }
 
 enum ReleaseChannel {
@@ -332,4 +334,14 @@ message MasterScalePolicy {
     // ID of computing resources preset to be used as lower boundary for scaling.
     string min_resource_preset_id = 1;
   }
+}
+
+// WorkloadIdentityFederation contains configuration for workload identity federation.
+message WorkloadIdentityFederation {
+  // Identifies whether Workload Identity Federation is enabled.
+  bool enabled = 1;
+  // Issuer URI for Kubernetes service account tokens.
+  string issuer = 2;
+  // JSON Web Key Set URI used to verify token signatures.
+  string jwks_uri = 3;
 }

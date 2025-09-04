@@ -55,3 +55,13 @@ message SearchQuery {
   // Typos autocorrections mode
   FixTypoMode fix_typo_mode = 5;
 }
+
+message SearchMetadata {
+  // Search flags, `key:value` pairs.
+  // No more than 64.
+  // The maximum string length in characters for each value is 63.
+  // Each value must match the regular expression `[-_0-9a-z]*`.
+  // The string length in characters for each key must be 1-63.
+  // Each key must match the regular expression `[a-z][-_0-9a-z]*`.
+  map<string, string> fields = 1 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+}

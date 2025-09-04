@@ -265,6 +265,8 @@ message UpdateClusterRequest {
   NetworkPolicy network_policy = 10;
 
   IPAllocationPolicy ip_allocation_policy = 11;
+
+  WorkloadIdentityFederationSpec workload_identity_federation = 12;
 }
 
 message MasterUpdateSpec {
@@ -349,6 +351,8 @@ message CreateClusterRequest {
   oneof network_implementation {
     Cilium cilium = 14;
   }
+
+  WorkloadIdentityFederationSpec workload_identity_federation = 15;
 }
 
 message CreateClusterMetadata {
@@ -577,4 +581,9 @@ message MasterScalePolicySpec {
     // Preset of computing resources to be used as lower boundary for scaling.
     string min_resource_preset_id = 1 [(required) = true];
   }
+}
+
+message WorkloadIdentityFederationSpec {
+  // Identifies whether Workload Identity Federation is enabled.
+  bool enabled = 1;
 }

@@ -111,6 +111,8 @@ message WebSearchRequest {
   Format response_format = 8;
   // User-Agent request header value.
   string user_agent = 9 [(length) = "<=300"];
+  // Search flags
+  SearchMetadata metadata = 10;
 }
 
 message WebSearchResponse {
