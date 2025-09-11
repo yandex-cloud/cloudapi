@@ -21,4 +21,8 @@ message Rule {
     string rule_pattern = 3 [(required) = true, (length) = "<=100"];
 
     ResourceOptions options = 4;
+
+    // Rules are ordered by weight in ascending order (lower weights execute first)
+    // Weight must be between 0 and 9999 inclusive
+    int64 weight = 5;
 }

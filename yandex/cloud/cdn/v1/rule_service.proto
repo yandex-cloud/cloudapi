@@ -90,6 +90,11 @@ message CreateResourceRuleRequest {
     string rule_pattern = 3 [(required) = true, (length) = "<=100"];
 
     ResourceOptions options = 4;
+
+    // Rules are ordered by weight in ascending order (lower weights execute first)
+    // Weight must be between 0 and 9999 inclusive
+    int64 weight = 5;
+
 }
 
 message CreateResourceRuleMetadata {
@@ -118,6 +123,10 @@ message UpdateResourceRuleRequest {
     string rule_pattern = 4 [(length) = "<=100"];
 
     ResourceOptions options = 5;
+
+    // Rules are ordered by weight in ascending order (lower weights execute first)
+    // Weight must be between 0 and 9999 inclusive
+    optional int64 weight = 6;
 }
 
 message UpdateResourceRuleMetadata {
