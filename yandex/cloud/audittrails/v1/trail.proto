@@ -82,7 +82,7 @@ message Trail {
   FilteringPolicy filtering_policy = 15;
 
   message Destination {
-    reserved 2;
+    reserved 2, 5;
 
     oneof destination {
       option (exactly_one) = true;
@@ -97,6 +97,9 @@ message Trail {
 
       // Configuration for event delivery to YDS
       DataStream data_stream = 4;
+
+      // Configuration for event delivery to EventRouter
+      EventRouter eventrouter = 6;
     }
   }
 
@@ -125,6 +128,11 @@ message Trail {
 
     // Name of the destination YDS
     string stream_name = 2;
+  }
+
+  message EventRouter {
+      // ID of the EventRouter Connector
+    string eventrouter_connector_id = 1 [(length) = "<=64"];
   }
 
   message Filter {

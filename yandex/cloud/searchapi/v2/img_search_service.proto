@@ -156,8 +156,7 @@ message ImageSearchByImageResponse {
   repeated ImageInfo images = 1;
   // The number of the page with search results.
   int64 page = 2;
-  // The number of the last page with search results.
-  int64 max_page = 3;
+  int64 max_page = 3 [deprecated = true];
   // CBIR ID of the image used for the search.
   string id = 4;
 }

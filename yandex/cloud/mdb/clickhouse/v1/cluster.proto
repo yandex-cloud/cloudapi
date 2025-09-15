@@ -263,6 +263,12 @@ message Host {
 
     // The host is degraded, and can perform only some of its essential functions.
     DEGRADED = 3;
+
+    // The host is read-only and cannot perform write requests.
+    READONLY = 4; 
+
+    // The host is restoring from backup or syncronzing from other replica.
+    RESTORING = 5; 
   }
 
   // Name of the ClickHouse host. The host name is assigned by MDB at creation time, and cannot be changed.
@@ -320,6 +326,12 @@ message Service {
 
     // The server is dead or unresponsive.
     DEAD = 2;
+
+    // The service is read-only.
+    READONLY = 3;
+
+    // The service is restoring from backup or syncronzing from other replica.
+    RESTORING = 4;
   }
 
   // Type of the service provided by the host. If the field has default value, it is not returned in the response.
