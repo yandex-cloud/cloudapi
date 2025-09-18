@@ -1,0 +1,10 @@
+iam_bindings:
+  - name: yandex_compute_disk
+  - name: yandex_compute_filesystem
+  - name: yandex_compute_disk_placement_group
+  - name: yandex_compute_gpu_cluster
+  - name: yandex_compute_image
+  - name: yandex_compute_instance
+  - name: yandex_compute_placement_group
+  - name: yandex_compute_snapshot
+  - name: yandex_compute_snapshot_schedule

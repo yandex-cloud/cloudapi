@@ -1,0 +1,13 @@
+iam_members:
+  - name: yandex_kms_symmetric_key
+  - name: yandex_kms_asymmetricencryption_asymmetric_encryption_key
+    rename: yandex_kms_asymmetric_encryption_key
+  - name: yandex_kms_asymmetricsignature_asymmetric_signature_key
+    rename: yandex_kms_asymmetric_signature_key
+
+iam_bindings:
+  - name: yandex_kms_symmetric_key
+  - name: yandex_kms_asymmetricencryption_asymmetric_encryption_key
+    rename: yandex_kms_asymmetric_encryption_key
+  - name: yandex_kms_asymmetricsignature_asymmetric_signature_key
+    rename: yandex_kms_asymmetric_signature_key

@@ -1,0 +1,3 @@
+iam_bindings:
+  - name: yandex_dns_dns_zone
+    rename: yandex_dns_zone

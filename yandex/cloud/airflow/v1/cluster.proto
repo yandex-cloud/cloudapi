@@ -143,6 +143,9 @@ message ClusterConfig {
 
   // Python version. Format: "Major.Minor"
   string python_version = 10;
+
+  // Configuration of dag-processor instances.
+  DagProcessorConfig dag_processor = 11;
 }
 
 message AirflowConfig {
@@ -164,6 +167,14 @@ message SchedulerConfig {
 
   // Resources allocated to scheduler instances.
   Resources resources = 2;
+}
+
+message DagProcessorConfig {
+    // The number of dag-processor instances in the cluster.
+    int64 count = 1 [(value) = "1-512"];
+
+    // Resources allocated to dag-processor instances.
+    Resources resources = 2;
 }
 
 message TriggererConfig {

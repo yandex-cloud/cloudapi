@@ -1,0 +1,9 @@
+iam_members:
+  - name: yandex_organization_manager_organization
+    rename: yandex_organizationmanager_organization
+  - name: yandex_organization_manager_group
+    rename: yandex_organizationmanager_group
+
+iam_bindings:
+  - name: yandex_organization_manager_organization
+    rename: yandex_organizationmanager_organization

@@ -7,7 +7,7 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cloudregistry/v1;cloudregistry";
 option java_package = "yandex.cloud.api.cloudregistry.v1";
 
-// A Registry resource.
+// A Registry resource. For more information, see the [Registry](/docs/cloud-registry/concepts/registry) section of the documentation.
 message Registry {
   enum Status {
     STATUS_UNSPECIFIED = 0;

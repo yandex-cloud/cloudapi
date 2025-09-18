@@ -1,0 +1,5 @@
+iam_members:
+  - name: yandex_lockbox_secret
+
+iam_bindings:
+  - name: yandex_lockbox_secret

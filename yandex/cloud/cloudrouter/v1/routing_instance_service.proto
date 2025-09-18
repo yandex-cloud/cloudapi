@@ -78,6 +78,15 @@ service RoutingInstanceService {
     option (google.api.http) = { post: "/cloudrouter/v1/routingInstances/{routing_instance_id}:removePrefixes" body: "*" };
   }
 
+  // Updates multiple vpc using the data specified in the request.
+  // Method starts an asynchronous operation that can be cancelled while it is in progress.
+  rpc UpdateNetworks (UpdateNetworksRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateRoutingInstanceMetadata"
+      response: "RoutingInstance"
+    };
+  }
+
   // Moves the specified prefix between availability zones of the RoutingInstance.
   // Method starts an asynchronous operation that can be cancelled while it is in progress.
   rpc MovePrefix (MovePrefixRequest) returns (operation.Operation) {
@@ -289,6 +298,31 @@ message RemovePrefixesRequest {
 
   // List of VpcAzInfoPrefixes to remove.
   repeated VpcAzInfoPrefixes vpc_az_info_prefixes = 3;
+}
+
+message UpdateNetworksRequest {
+  // ID of the RoutingInstance resource.
+  string routing_instance_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Lists information about the VPC networks that are added to the routing instance.
+  repeated VpcInfo added_vpc_networks = 2;
+
+  // List of VPC network information that is updated in the routing instance.
+  repeated VpcInfo updated_vpc_networks = 3;
+
+  // List of VPC ids to remove from the routing instance.
+  repeated string deleted_vpc_network_ids = 4;
+
+  // Specifies whether to check for vpc in routing instance.
+  bool strict_remove = 5;
+}
+
+message VpcInfo {
+  // ID of the vpcNetwork that is attached to the routingInstance.
+  string vpc_network_id = 1;
+
+  // List of the az-related info about vpcNetworks which are attached to routingInstance
+  repeated VpcAzInfoPrefixes vpc_az_info_prefixes = 2;
 }
 
 message VpcAzInfoPrefixes {

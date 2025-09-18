@@ -22,10 +22,3 @@ model_config:
       create: 600m
       update: 600m
       delete: 600m
-
-iam_bindings:
-  - name: yandex_compute_disk
-
-iam_members:
-  - name: yandex_certificatemanager_certificate
-    rename: yandex_cm_certificate

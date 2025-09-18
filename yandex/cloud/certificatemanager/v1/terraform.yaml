@@ -1,0 +1,7 @@
+iam_members:
+  - name: yandex_certificatemanager_certificate
+    rename: yandex_cm_certificate
+
+iam_bindings:
+  - name: yandex_certificatemanager_certificate
+    rename: yandex_cm_certificate

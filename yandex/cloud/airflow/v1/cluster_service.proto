@@ -218,6 +218,9 @@ message UpdateClusterConfigSpec {
 
   // Python version. Format: "Major.Minor"
   string python_version = 10;
+
+  // Configuration of dag-processor instances.
+  DagProcessorConfig dag_processor = 11;
 }
 
 message UpdateNetworkConfigSpec {

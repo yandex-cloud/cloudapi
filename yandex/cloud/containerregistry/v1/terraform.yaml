@@ -1,0 +1,5 @@
+iam_bindings:
+  - name: yandex_container_registry_registry
+    rename: yandex_container_registry
+  - name: yandex_container_registry_repository
+    rename: yandex_container_repository

@@ -1,0 +1,7 @@
+iam_members:
+  - name: yandex_k8s_cluster
+    rename: yandex_kubernetes_cluster
+
+iam_bindings:
+  - name: yandex_k8s_cluster
+    rename: yandex_kubernetes_cluster

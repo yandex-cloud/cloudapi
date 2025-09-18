@@ -11,6 +11,7 @@ message MongoDBAuth {
     oneof security {
         UserPasswordAuth user_password = 1;
     }
+    string auth_source = 2;
 }
 message MongoDBCluster {
     message Host {
