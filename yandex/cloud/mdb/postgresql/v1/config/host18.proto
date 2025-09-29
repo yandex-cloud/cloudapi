@@ -10,10 +10,11 @@ option java_package = "yandex.cloud.api.mdb.postgresql.v1.config";
 
 // Options and structure of `PostgresqlConfig` reflects PostgreSQL configuration file
 // parameters which detailed description is available in
-// [PostgreSQL documentation](https://www.postgresql.org/docs/11/runtime-config.html).
-message PostgresqlHostConfig16_1C {
-  reserved 52 to 53;
+// [PostgreSQL documentation](https://www.postgresql.org/docs/18/runtime-config.html).
+message PostgresqlHostConfig18 {
+  reserved 7;
   reserved 44;
+  reserved 52 to 53;
   enum BackslashQuote {
     BACKSLASH_QUOTE_UNSPECIFIED = 0;
 
@@ -154,8 +155,6 @@ message PostgresqlHostConfig16_1C {
 
   google.protobuf.Int64Value backend_flush_after = 6 [(value) = "0-2048"];
 
-  google.protobuf.Int64Value old_snapshot_threshold = 7 [(value) = "-1-86400"];
-
   google.protobuf.Int64Value max_standby_streaming_delay = 8; // in milliseconds.
 
   ConstraintExclusion constraint_exclusion = 9;
@@ -200,7 +199,7 @@ message PostgresqlHostConfig16_1C {
 
   google.protobuf.Int64Value statement_timeout = 29; // in milliseconds.
 
-  google.protobuf.Int64Value lock_timeout = 30; // in milliseconds.
+  google.protobuf.Int64Value lock_timeout = 30 [(value) = "0-2147483647"]; // in milliseconds.
 
   google.protobuf.Int64Value idle_in_transaction_session_timeout = 31 [(value) = "0-2147483647"]; // in milliseconds.
 
@@ -272,5 +271,5 @@ message PostgresqlHostConfig16_1C {
 
   google.protobuf.Int64Value effective_io_concurrency = 68 [(value) = "0-1000"];
 
-  google.protobuf.Int64Value effective_cache_size = 69 [(value) = "1048576-549755813888"];
+  google.protobuf.Int64Value effective_cache_size = 69 [(value) = "0-549755813888"];
 }

@@ -202,7 +202,7 @@ message PostgresqlHostConfig10_1C {
 
   google.protobuf.Int64Value gin_pending_list_limit = 36; // in bytes.
 
-  google.protobuf.Int64Value deadlock_timeout = 37; // in milliseconds.
+  google.protobuf.Int64Value deadlock_timeout = 37 [(value) = "1-2147483647"]; // in milliseconds.
 
   google.protobuf.Int64Value max_locks_per_transaction = 38;
 

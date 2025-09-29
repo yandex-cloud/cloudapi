@@ -193,6 +193,9 @@ message ClusterConfig {
 
   // Retain period of automatically created backup in days
   google.protobuf.Int64Value backup_retain_period_days = 13;
+
+  // Valkey modules settings
+  ValkeyModules modules = 14;
 }
 
 message Shard {
@@ -338,4 +341,36 @@ message DiskSizeAutoscaling {
 
   // Limit on how large the storage for database instances can automatically grow, in bytes.
   google.protobuf.Int64Value disk_size_limit = 3;
+}
+
+message ValkeyModules {
+  // valkey-search module settings
+  ValkeySearch valkey_search = 1;
+
+  // valkey-json module settings
+  ValkeyJson valkey_json = 2;
+
+  // valkey-bloom module settings
+  ValkeyBloom valkey_bloom = 3;
+}
+
+message ValkeySearch {
+  // Enable valkey-search module
+  bool enabled = 1;
+
+  // Controls the amount of threads executing queries
+  google.protobuf.Int64Value reader_threads = 2 [(required) = false, (value) = ">=0"];
+
+  // Controls the amount of threads processing index mutations
+  google.protobuf.Int64Value writer_threads = 3 [(required) = false, (value) = ">=0"];
+}
+
+message ValkeyJson {
+  // Enable valkey-json module
+  bool enabled = 1;
+}
+
+message ValkeyBloom {
+  // Enable valkey-bloom module
+  bool enabled = 1;
 }

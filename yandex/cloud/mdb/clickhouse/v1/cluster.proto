@@ -248,6 +248,9 @@ message Host {
 
     // ZooKeeper host.
     ZOOKEEPER = 2;
+
+    // ClickHouse Keeper host.
+    KEEPER = 3;
   }
 
   enum Health {
@@ -265,10 +268,10 @@ message Host {
     DEGRADED = 3;
 
     // The host is read-only and cannot perform write requests.
-    READONLY = 4; 
+    READONLY = 4;
 
     // The host is restoring from backup or syncronzing from other replica.
-    RESTORING = 5; 
+    RESTORING = 5;
   }
 
   // Name of the ClickHouse host. The host name is assigned by MDB at creation time, and cannot be changed.
@@ -314,6 +317,9 @@ message Service {
 
     // The host is a ZooKeeper server.
     ZOOKEEPER = 2;
+
+    // The host is a ClickHouse Keeper server.
+    KEEPER = 3;
   }
 
   enum Health {

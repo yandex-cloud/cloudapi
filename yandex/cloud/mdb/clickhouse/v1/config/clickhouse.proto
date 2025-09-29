@@ -1248,7 +1248,7 @@ message ClickhouseConfig {
 
   // Enables or disables session_log system table.
   //
-  // Default value: **true** for versions 25.8 and higher, **false** for versions 25.7 and lower.
+  // Default value: **true** for versions 25.3 and higher, **false** for versions 25.2 and lower.
   //
   // Change of the setting is applied with restart.
   //
@@ -1258,7 +1258,7 @@ message ClickhouseConfig {
   // The maximum size that session_log can grow to before old data will be removed. If set to **0**,
   // automatic removal of session_log data based on size is disabled.
   //
-  // Default value: **536870912** (512 MiB) for versions 25.8 and higher, **0** for versions 25.7 and lower.
+  // Default value: **536870912** (512 MiB) for versions 25.3 and higher, **0** for versions 25.2 and lower.
   google.protobuf.Int64Value session_log_retention_size = 58 [(value) = ">=0"];
 
   // The maximum time that session_log records will be retained before removal. If set to **0**,

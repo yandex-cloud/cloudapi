@@ -1118,4 +1118,7 @@ message ConfigSpec {
 
   // Retain period of automatically created backup in days
   google.protobuf.Int64Value backup_retain_period_days = 13;
+
+  // Valkey modules settings 
+  ValkeyModules modules = 14;
 }

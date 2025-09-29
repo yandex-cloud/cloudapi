@@ -262,7 +262,7 @@ message PostgresqlConfig9_6 {
 
   google.protobuf.Int64Value gin_pending_list_limit = 56; // in bytes.
 
-  google.protobuf.Int64Value deadlock_timeout = 57; // in milliseconds.
+  google.protobuf.Int64Value deadlock_timeout = 57 [(value) = "1-2147483647"]; // in milliseconds.
 
   google.protobuf.Int64Value max_locks_per_transaction = 58;
 

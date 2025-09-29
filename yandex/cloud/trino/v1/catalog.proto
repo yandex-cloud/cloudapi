@@ -38,6 +38,9 @@ message Connector {
 
     // SQLServer connector configuration for connecting to SQLServer Database instances.
     SQLServerConnector sqlserver = 9;
+
+    // Hudi connector configuration.
+    HudiConnector hudi = 10;
   }
 }
 
@@ -199,6 +202,23 @@ message DeltaLakeConnector {
     (map_key).length = "1-128",
     (map_key).pattern = "[a-z][-_0-9a-z.]*"
   ];
+}
+
+message HudiConnector {
+    // Metastore configuration.
+    Metastore metastore = 1 [(required) = true];
+
+    // File system configuration.
+    FileSystem filesystem = 2 [(required) = true];
+
+    // Additional properties.
+    map<string, string> additional_properties = 3 [
+        (yandex.cloud.size) = "<=256",
+        (length) = "<=128",
+        (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
+        (map_key).length = "1-128",
+        (map_key).pattern = "[a-z][-_0-9a-z.]*"
+    ];
 }
 
 message PostgresqlConnection {

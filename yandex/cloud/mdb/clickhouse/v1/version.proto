@@ -17,4 +17,7 @@ message Version {
 
   // List of versions that can be updated from current.
   repeated string updatable_to = 4;
+
+  // Whether version is LTS.
+  bool lts = 5;
 }

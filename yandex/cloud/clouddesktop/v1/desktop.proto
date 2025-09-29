@@ -57,6 +57,9 @@ message Desktop {
 
     // Desktop did not manage to get created or updated.
     CREATION_FAILED = 10;
+
+    // Desktop in the process of health check.
+    HEALTH_CHECK = 11;
   }
 
   // Status of the desktop.

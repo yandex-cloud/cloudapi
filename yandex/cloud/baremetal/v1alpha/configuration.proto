@@ -15,8 +15,14 @@ message CPU {
   // Vendor of the CPU.
   string vendor = 2;
 
-  // Number of cores.
-  int64 cores = 3;
+  // @deprecated. Number of cores.
+  int64 cores = 3 [deprecated = true];
+
+  // Number of physical cores per CPU (socket).
+  int64 physical_cores = 4;
+
+  // Frequency of the CPU in megahertz (MHz).
+  int64 frequency_mhz = 5;
 }
 
 message DiskDriveConfiguration {
@@ -49,7 +55,7 @@ message Configuration {
   repeated DiskDriveConfiguration disk_drives = 5;
 
   // Network capacity or bandwidth in gigabits per second.
-  int64 network_capacity_gbps = 6;
+  int64 network_capacity_gbps = 6 [deprecated=true];
 
   // Number of cpu.
   int64 cpu_num = 8;

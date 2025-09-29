@@ -35,6 +35,9 @@ message DesktopGroup {
 
     // Desktop group is being deleted.
     DELETING = 3;
+
+    // Desktop group is updating.
+    UPDATING = 4;
   }
 
   // Status of the desktop group.
