@@ -361,7 +361,7 @@ message UpdateVideoMetadata {
 
 message TranscodeVideoRequest {
   // ID of the video to transcode.
-  string video_id = 1;
+  string video_id = 1 [(required) = true, (length) = "<=50"];
 
   // Field mask specifying which transcoding-specific fields should be updated.
   // Only fields specified in this mask will be modified;

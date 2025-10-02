@@ -25,11 +25,6 @@ service DatabaseService {
     option (google.api.http) = { get: "/managed-spqr/v1/clusters/{cluster_id}/databases" };
   }
 
-  // Retrieves the list of SPQR Database resources in the specified cluster at the specified revision.
-  rpc ListAtRevision (ListDatabasesAtRevisionRequest) returns (ListDatabasesResponse) {
-    option (google.api.http) = { get: "/managed-spqr/v1/clusters/{cluster_id}/databases" };
-  }
-
   // Creates a new SPQR database in the specified cluster.
   rpc Create (CreateDatabaseRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-spqr/v1/clusters/{cluster_id}/databases" body: "*" };
@@ -72,24 +67,6 @@ message ListDatabasesRequest {
   // Page token. To get the next page of results, set [page_token] to the
   // [ListDatabasesResponse.next_page_token] returned by the previous list request.
   string page_token = 3 [(length) = "<=100"];
-}
-
-message ListDatabasesAtRevisionRequest {
-  // ID of the SPQR cluster to list databases in.
-  // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
-
-  // The maximum number of results per page to return. If the number of available
-  // results is larger than [page_size], the service returns a [ListDatabasesResponse.next_page_token]
-  // that can be used to get the next page of results in subsequent list requests.
-  int64 page_size = 2 [(value) = "0-1000"];
-
-  // Page token. To get the next page of results, set [page_token] to the
-  // [ListDatabasesResponse.next_page_token] returned by the previous list request.
-  string page_token = 3 [(length) = "<=100"];
-
-  // Cluster revision
-  int64 revision = 4 [(value) = ">0"];
 }
 
 message ListDatabasesResponse {

@@ -1,0 +1,9 @@
+resources_and_data_sources:
+  - name: yandex_iam_o_auth_client
+    rename: yandex_iam_oauth_client
+  
+model_config:
+  renames:
+    yandex.cloud.iam.v1.OAuthClient:
+      fields:
+        id: oauth_client_id

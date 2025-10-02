@@ -31,10 +31,6 @@ service ClusterService {
     option (google.api.http) = { get: "/managed-spqr/v1/clusters/{cluster_id}" };
   }
 
-  rpc GetAtRevision (GetClusterAtRevisionRequest) returns (Cluster) {
-    option (google.api.http) = { get: "/managed-spqr/v1/clusters/{cluster_id}:atRevision" };
-  }
-
   // Retrieves the list of SPQR Cluster resources that belong
   // to the specified folder.
   rpc List (ListClustersRequest) returns (ListClustersResponse) {
@@ -156,11 +152,6 @@ service ClusterService {
     option (google.api.http) = { get: "/managed-spqr/v1/clusters/{cluster_id}/hosts" };
   }
 
-  // Retrieves a list of hosts for the specified cluster.
-  rpc ListHostsAtRevision (ListClusterHostsAtRevisionRequest) returns (ListClusterHostsResponse) {
-    option (google.api.http) = { get: "/managed-spqr/v1/clusters/{cluster_id}/hosts" };
-  }
-
   // Creates new hosts for a cluster.
   rpc AddHosts (AddClusterHostsRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-spqr/v1/clusters/{cluster_id}/hosts:batchCreate" body: "*" };
@@ -207,11 +198,6 @@ service ClusterService {
     option (google.api.http) = { get: "/managed-spqr/v1/clusters/{cluster_id}/shards" };
   }
 
-  // Retrieves a list of shards.
-  rpc ListShardsAtRevision (ListClusterShardsAtRevisionRequest) returns (ListClusterShardsResponse) {
-    option (google.api.http) = { get: "/managed-spqr/v1/clusters/{cluster_id}/shards" };
-  }
-
   // Creates a new shard.
   rpc AddShard (AddClusterShardRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/managed-spqr/v1/clusters/{cluster_id}/shards" body: "*" };
@@ -235,15 +221,6 @@ message GetClusterRequest {
   // ID of the SPQR Cluster resource to return.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [(required) = true, (length) = "<=50"];
-}
-
-message GetClusterAtRevisionRequest {
-  // ID of the SPQR Cluster resource to return.
-  // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
-
-  // Cluster revision
-  int64 revision = 2 [(value) = ">0"];
 }
 
 message ListClustersRequest {
@@ -806,25 +783,6 @@ message ListClusterHostsRequest {
   string page_token = 3 [(length) = "<=100"];
 }
 
-message ListClusterHostsAtRevisionRequest {
-  // ID of the SPQR cluster.
-  // To get the SPQR cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
-
-  // The maximum number of results per page to return. If the number of available
-  // results is larger than [page_size], the service returns a [ListClusterHostsResponse.next_page_token]
-  // that can be used to get the next page of results in subsequent list requests.
-  // Acceptable values are 0 to 1000, inclusive. Default value: 100.
-  int64 page_size = 2 [(value) = "<=1000"];
-
-  // Page token. To get the next page of results, set [page_token] to the
-  // [ListClusterHostsResponse.next_page_token] returned by the previous list request.
-  string page_token = 3 [(length) = "<=100"];
-
-  // Cluster revision
-  int64 revision = 4 [(value) = ">0"];
-}
-
 message ListClusterHostsResponse {
   // List of Host resources.
   repeated Host hosts = 1;
@@ -938,24 +896,6 @@ message ListClusterShardsRequest {
   // Page token. To get the next page of results, set [page_token] to the
   // [ListClusterShardsResponse.next_page_token] returned by the previous list request.
   string page_token = 3 [(length) = "<=100"];
-}
-
-message ListClusterShardsAtRevisionRequest {
-  // ID of the SPQR cluster to list databases in.
-  // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
-
-  // The maximum number of results per page to return. If the number of available
-  // results is larger than [page_size], the service returns a [ListClusterShardsResponse.next_page_token]
-  // that can be used to get the next page of results in subsequent list requests.
-  int64 page_size = 2 [(value) = "<=1000"];
-
-  // Page token. To get the next page of results, set [page_token] to the
-  // [ListClusterShardsResponse.next_page_token] returned by the previous list request.
-  string page_token = 3 [(length) = "<=100"];
-
-  // Cluster revision
-  int64 revision = 4 [(value) = ">0"];
 }
 
 message ListClusterShardsResponse {
