@@ -1,0 +1,17 @@
+resources:
+#  - name: yandex_vpc_gateway
+
+model_config:
+  renames:
+    yandex.cloud.vpc.v1.CreateGatewayRequest:
+      fields:
+        shared_egress_gateway_spec: shared_egress_gateway
+    yandex.cloud.vpc.v1.UpdateGatewayRequest:
+      fields:
+        shared_egress_gateway_spec: shared_egress_gateway
+
+  options:
+    yandex.cloud.vpc.v1.Gateway.folder_id:
+      force_new: true
+    yandex.cloud.vpc.v1.Gateway.shared_egress_gateway:
+      force_new: true

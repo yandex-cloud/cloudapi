@@ -1,0 +1,14 @@
+resources:
+  - name: yandex_logging_log_group
+    rename: yandex_logging_group
+
+model_config:
+  upgrade_state:
+    yandex_logging_group:
+      0:
+        prior_schema: YandexLoggingGroupResourceSchema
+        state_upgrader: moveStateFromV0
+
+  options:
+    yandex.cloud.logging.v1.LogGroup.folder_id:
+      force_new: true

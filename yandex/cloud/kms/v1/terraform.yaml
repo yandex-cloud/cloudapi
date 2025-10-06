@@ -1,3 +1,11 @@
+resources_and_data_sources:
+  - name: yandex_kms_asymmetricencryption_asymmetric_encryption_key
+    rename: yandex_kms_asymmetric_encryption_key
+  - name: yandex_kms_asymmetricsignature_asymmetric_signature_key
+    rename: yandex_kms_asymmetric_signature_key
+resources:
+  - name: yandex_kms_symmetric_key
+
 iam_members:
   - name: yandex_kms_symmetric_key
   - name: yandex_kms_asymmetricencryption_asymmetric_encryption_key
@@ -11,3 +19,56 @@ iam_bindings:
     rename: yandex_kms_asymmetric_encryption_key
   - name: yandex_kms_asymmetricsignature_asymmetric_signature_key
     rename: yandex_kms_asymmetric_signature_key
+
+model_config:
+  renames:
+    yandex.cloud.kms.v1.DeleteSymmetricKeyRequest:
+      fields:
+        key_id: symmetric_key_id
+    yandex.cloud.kms.v1.GetSymmetricKeyRequest:
+      fields:
+        key_id: symmetric_key_id
+    yandex.cloud.kms.v1.UpdateSymmetricKeyRequest:
+      fields:
+        key_id: symmetric_key_id
+    yandex.cloud.kms.v1.SymmetricKey:
+      fields:
+        primary_version: ""
+    yandex.cloud.kms.v1.asymmetricencryption.DeleteAsymmetricEncryptionKeyRequest:
+      fields:
+        key_id: asymmetric_encryption_key_id
+    yandex.cloud.kms.v1.asymmetricencryption.GetAsymmetricEncryptionKeyRequest:
+      fields:
+        key_id: asymmetric_encryption_key_id
+    yandex.cloud.kms.v1.asymmetricencryption.UpdateAsymmetricEncryptionKeyRequest:
+      fields:
+        key_id: asymmetric_encryption_key_id
+    yandex.cloud.kms.v1.asymmetricsignature.DeleteAsymmetricSignatureKeyRequest:
+      fields:
+        key_id: asymmetric_signature_key_id
+    yandex.cloud.kms.v1.asymmetricsignature.GetAsymmetricSignatureKeyRequest:
+      fields:
+        key_id: asymmetric_signature_key_id
+    yandex.cloud.kms.v1.asymmetricsignature.UpdateAsymmetricSignatureKeyRequest:
+      fields:
+        key_id: asymmetric_signature_key_id
+
+  options:
+    yandex.cloud.kms.v1.SymmetricKey.folder_id:
+      force_new: true
+    yandex.cloud.kms.v1.SymmetricKey.default_algorithm:
+      default: "AES_128"
+    yandex.cloud.kms.v1.SymmetricKey.deletion_protection:
+      default: "false"
+    yandex.cloud.kms.v1.asymmetricencryption.AsymmetricEncryptionKey.folder_id:
+      force_new: true
+    yandex.cloud.kms.v1.asymmetricencryption.AsymmetricEncryptionKey.encryption_algorithm:
+      default: "RSA_2048_ENC_OAEP_SHA_256"
+    yandex.cloud.kms.v1.asymmetricencryption.AsymmetricEncryptionKey.deletion_protection:
+      default: "false"
+    yandex.cloud.kms.v1.asymmetricsignature.AsymmetricSignatureKey.folder_id:
+      force_new: true
+    yandex.cloud.kms.v1.asymmetricsignature.AsymmetricSignatureKey.signature_algorithm:
+      default: "RSA_2048_SIGN_PSS_SHA_256"
+    yandex.cloud.kms.v1.asymmetricsignature.AsymmetricSignatureKey.deletion_protection:
+      default: "false"

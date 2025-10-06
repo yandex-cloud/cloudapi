@@ -1,3 +1,80 @@
+resources:
+  - name: yandex_compute_disk_placement_group
+  - name: yandex_compute_filesystem
+  - name: yandex_compute_gpu_cluster
+
+model_config:
+  upgrade_state:
+    yandex_compute_disk_placement_group:
+      0:
+        prior_schema: YandexComputeDiskPlacementGroupResourceSchema
+        state_upgrader: moveStateFromV0
+    yandex_compute_filesystem:
+      0:
+        prior_schema: YandexComputeFilesystemResourceSchema
+        state_upgrader: moveStateFromV0
+    yandex_compute_gpu_cluster:
+      0:
+        prior_schema: YandexComputeGpuClusterResourceSchema
+        state_upgrader: moveStateFromV0
+
+  renames:
+    yandex.cloud.compute.v1.DiskPlacementGroup:
+      fields:
+        partition_placement_strategy: ""
+        zone_id: zone
+    yandex.cloud.compute.v1.CreateDiskPlacementGroupRequest:
+      fields:
+        partition_placement_strategy: ""
+        zone_id: zone
+    yandex.cloud.compute.v1.Filesystem:
+      fields:
+        type_id: type
+        zone_id: zone
+    yandex.cloud.compute.v1.CreateFilesystemRequest:
+      fields:
+        type_id: type
+        zone_id: zone
+    yandex.cloud.compute.v1.GpuCluster:
+      fields:
+        zone_id: zone
+    yandex.cloud.compute.v1.CreateGpuClusterRequest:
+      fields:
+        zone_id: zone
+
+  options:
+    yandex.cloud.compute.v1.DiskPlacementGroup.spread_placement_strategy:
+      constant: "&compute.DiskSpreadPlacementStrategy{}"
+    yandex.cloud.compute.v1.DiskPlacementGroup.folder_id:
+      force_new: true
+    yandex.cloud.compute.v1.DiskPlacementGroup.zone_id:
+      default: "ru-central1-b"
+    yandex.cloud.compute.v1.Filesystem.size:
+      memory: true
+      force_new: true
+      default: 150
+    yandex.cloud.compute.v1.Filesystem.folder_id:
+      force_new: true
+    yandex.cloud.compute.v1.Filesystem.type_id:
+      default: "network-hdd"
+      force_new: true
+    yandex.cloud.compute.v1.CreateFilesystemRequest.zone_id:
+      computed: true
+    yandex.cloud.compute.v1.Filesystem.zone_id:
+      force_new: true
+      computed: true
+    yandex.cloud.compute.v1.Filesystem.block_size:
+      force_new: true
+      default: 4096
+    yandex.cloud.compute.v1.GpuCluster.folder_id:
+      force_new: true
+    yandex.cloud.compute.v1.GpuCluster.interconnect_type:
+      force_new: true
+      default: "INFINIBAND"
+    yandex.cloud.compute.v1.GpuCluster.zone_id:
+      force_new: true
+
+
 iam_bindings:
   - name: yandex_compute_disk
   - name: yandex_compute_filesystem

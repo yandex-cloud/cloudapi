@@ -7,6 +7,7 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/compute/v1/application.proto";
 import "yandex/cloud/compute/v1/disk.proto";
 import "yandex/cloud/compute/v1/instance.proto";
 import "yandex/cloud/compute/v1/maintenance.proto";
@@ -493,6 +494,9 @@ message CreateInstanceRequest {
   // Instance will be created using resources from the reserved instance pool.
   // Reserved instance pool resource configuration must match the resource configuration of the instance.
   string reserved_instance_pool_id = 24 [(length) = "<=50"];
+
+  // Instance application settings.
+  Application application = 25;
 }
 
 message CreateInstanceMetadata {
@@ -582,6 +586,9 @@ message UpdateInstanceRequest {
   // Attaching/detaching stopped instance will leave the size of the reserved instance pool unchanged. Starting such attached instance will use resources from the reserved instance pool.
   // Reserved instance pool resource configuration must match the resource configuration of the instance.
   string reserved_instance_pool_id = 17 [(length) = "<=50"];
+
+  // Instance application settings.
+  Application application = 18;
 }
 
 message UpdateInstanceMetadata {

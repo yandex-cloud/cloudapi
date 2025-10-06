@@ -1,5 +1,40 @@
+resources:
+  - name: yandex_container_registry_registry
+    rename: yandex_container_registry
+  - name: yandex_container_registry_repository
+    rename: yandex_container_repository
+
 iam_bindings:
   - name: yandex_container_registry_registry
     rename: yandex_container_registry
   - name: yandex_container_registry_repository
     rename: yandex_container_repository
+
+model_config:
+  upgrade_state:
+    yandex_container_registry:
+      0:
+        prior_schema: YandexContainerRegistryResourceSchema
+        state_upgrader: moveStateFromV0
+    yandex_container_repository:
+      0:
+        prior_schema: YandexContainerRepositoryResourceSchema
+        state_upgrader: moveStateFromV0
+
+  renames:
+    yandex.cloud.containerregistry.v1.CreateRegistryRequest:
+      fields:
+        secure: ""
+
+  custom_crud:
+    yandex_container_registry_repository:
+      create:
+        name: Upsert
+
+  options:
+    yandex.cloud.containerregistry.v1.Registry.folder_id:
+      force_new: true
+    yandex.cloud.containerregistry.v1.Repository.name:
+      force_new: true
+    yandex.cloud.containerregistry.v1.Repository.id:
+      force_new: true

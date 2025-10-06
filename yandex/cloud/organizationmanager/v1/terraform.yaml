@@ -1,3 +1,11 @@
+resources_and_data_sources:
+  - name: yandex_organization_manager_user_ssh_key
+    rename: yandex_organizationmanager_user_ssh_key
+
+resources:
+  - name: yandex_organization_manager_group
+    rename: yandex_organizationmanager_group
+
 iam_members:
   - name: yandex_organization_manager_organization
     rename: yandex_organizationmanager_organization
@@ -7,3 +15,31 @@ iam_members:
 iam_bindings:
   - name: yandex_organization_manager_organization
     rename: yandex_organizationmanager_organization
+
+model_config:
+  upgrade_state:
+    yandex_organizationmanager_user_ssh_key:
+      0:
+        prior_schema: YandexOrganizationmanagerUserSshKeyResourceSchema
+        state_upgrader: moveStateFromV0
+    yandex_organizationmanager_group:
+      0:
+        prior_schema: YandexOrganizationmanagerGroupResourceSchema
+        state_upgrader: moveStateFromV0
+  renames:
+    yandex.cloud.organizationmanager.v1.Group:
+      fields:
+        subject_container_id: ""
+        external_id: ""
+
+  options:
+    yandex.cloud.organizationmanager.v1.Group.organization_id:
+      force_new: true
+    yandex.cloud.organizationmanager.v1.UserSshKey.id:
+      force_new: true
+    yandex.cloud.organizationmanager.v1.UserSshKey.subject_id:
+      force_new: true
+    yandex.cloud.organizationmanager.v1.UserSshKey.data:
+      force_new: true
+    yandex.cloud.organizationmanager.v1.UserSshKey.organization_id:
+      force_new: true

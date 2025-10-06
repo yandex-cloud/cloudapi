@@ -106,6 +106,9 @@ message ListShieldingLocationsRequest {
     // set [page_token] to the [ListShieldingLocationsResponse.next_page_token]
     // returned by a previous list response.
     string page_token = 3 [(length) = "<=100"];
+
+    // ID of the resource for which to request a list of locations where shielding can be activated.
+    string resource_id = 4 [(required) = true, (length) = "<=50"];
 }
 
 // Response for the list of available shielding locations.

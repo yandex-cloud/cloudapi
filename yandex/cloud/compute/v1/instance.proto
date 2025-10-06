@@ -4,6 +4,7 @@ package yandex.cloud.compute.v1;
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/compute/v1/application.proto";
 import "yandex/cloud/compute/v1/hardware_generation.proto";
 import "yandex/cloud/compute/v1/maintenance.proto";
 
@@ -143,6 +144,9 @@ message Instance {
 
   // ID of the reserved instance pool that the instance belongs to.
   string reserved_instance_pool_id = 32;
+
+  // Instance application settings.
+  Application application = 33;
 }
 
 message Resources {
