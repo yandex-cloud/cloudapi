@@ -49,12 +49,19 @@ message ConnectionPoolerConfig {
   // Set to zero to disable the limit.
   google.protobuf.Int64Value size = 2;
 
-  // Server pool idle timeout, in seconds.
+  // Client pool idle timeout, in seconds.
   //
-  // A server connection closes after being idle for the specified time.
+  // Drop stale client connection after this much seconds of idleness, which is not in transaction.
   //
-  // Set to zero to disable the limit.
+  // Set to zero to disable.
   google.protobuf.Int64Value client_idle_timeout = 3;
+
+  // Client pool idle in transaction timeout, in seconds.
+  //
+  // Drop client connection in transaction after this much seconds of idleness.
+  //
+  // Set to zero to disable.
+  google.protobuf.Int64Value idle_in_transaction_timeout = 4;
 }
 
 message BackgroundActivityStartAt {

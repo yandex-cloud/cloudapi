@@ -224,7 +224,7 @@ message ClickhouseConfig {
 
     // The number of most recently inserted blocks for which ClickHouse Keeper stores hash sums to check for duplicates.
     //
-    // Default value: **1000** for versions 23.11 and higher, **100** for versions 23.10 and lower.
+    // Default value: **10000** for versions 25.9 and higher, **1000** for versions from 23.11 to 25.8, **100** for versions 23.10 and lower.
     //
     // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/merge-tree-settings#replicated_deduplication_window).
     google.protobuf.Int64Value replicated_deduplication_window = 1;
@@ -1368,7 +1368,7 @@ message ClickhouseConfig {
   // Default value: **500**.
   //
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/server-configuration-parameters/settings#max_concurrent_queries).
-  google.protobuf.Int64Value max_concurrent_queries = 7 [(value) = ">=50"];
+  google.protobuf.Int64Value max_concurrent_queries = 7 [(value) = ">=100"];
 
   // Maximum size of the table that can be deleted using **DROP** or **TRUNCATE** query.
   //
@@ -1514,7 +1514,7 @@ message ClickhouseConfig {
   // Per-topic Kafka integration settings.
   //
   // Change of the settings of **kafka_topics** is applied with restart.
-  repeated KafkaTopic kafka_topics = 36;
+  repeated KafkaTopic kafka_topics = 36 [deprecated = true];
 
   // RabbitMQ integration settings.
   //

@@ -198,6 +198,11 @@ message TrinoConfigSpec {
 
   // Configuration for access control, specifying the fine-grained access rules.
   AccessControlConfig access_control = 7;
+
+  reserved 8;
+
+  // Configuration for TLS.
+  TLSConfig tls = 9;
 }
 
 message CreateClusterMetadata {
@@ -248,6 +253,11 @@ message UpdateTrinoConfigSpec {
 
   // Configuration for access control, specifying the fine-grained access rules.
   AccessControlConfig access_control = 5;
+
+  reserved 6;
+
+  // Configuration for TLS.
+  TLSConfig tls = 7;
 }
 
 message UpdateNetworkConfigSpec {

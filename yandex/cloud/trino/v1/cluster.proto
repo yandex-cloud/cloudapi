@@ -154,6 +154,11 @@ message TrinoConfig {
 
   // Configuration for access control, specifying the fine-grained rules of accesses.
   AccessControlConfig access_control = 5;
+
+  reserved 6;
+
+  // Configuration for TLS.
+  TLSConfig tls = 7;
 }
 
 message CoordinatorConfig {
@@ -203,6 +208,16 @@ message RetryPolicyConfig {
     (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
     (map_key).length = "1-128",
     (map_key).pattern = "[a-z][-_0-9a-z.]*"
+  ];
+}
+
+message TLSConfig {
+  // Trusted CA-certificates. Each element should contain single self-signed CA-certificate or
+  // chain of CA-certificates where first certificate is the leaf and last certificate is the self-signed root.
+  repeated string trusted_certificates = 1 [
+    (yandex.cloud.size) = "<=8",
+    (length) = "<=8192",
+    (unique) = true
   ];
 }
 

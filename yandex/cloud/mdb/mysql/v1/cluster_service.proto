@@ -12,6 +12,7 @@ import "yandex/cloud/mdb/mysql/v1/backup.proto";
 import "yandex/cloud/mdb/mysql/v1/cluster.proto";
 import "yandex/cloud/mdb/mysql/v1/config/mysql5_7.proto";
 import "yandex/cloud/mdb/mysql/v1/config/mysql8_0.proto";
+import "yandex/cloud/mdb/mysql/v1/config/mysql8_4.proto";
 import "yandex/cloud/mdb/mysql/v1/database.proto";
 import "yandex/cloud/mdb/mysql/v1/maintenance.proto";
 import "yandex/cloud/mdb/mysql/v1/user.proto";
@@ -975,7 +976,7 @@ message HostSpec {
 message ConfigSpec {
   // Version of MySQL used in the cluster.
   //
-  // Possible values: `5.7`, `8.0`.
+  // Possible values: `5.7`, `8.0`, `8.4`.
   string version = 1; // No formal validation, a list of supported versions should suffice.
 
   // Cluster-wide MySQL configuration.
@@ -985,6 +986,9 @@ message ConfigSpec {
 
     // Configuration for a MySQL 8.0 cluster.
     config.MysqlConfig8_0 mysql_config_8_0 = 6 [json_name = "mysqlConfig_8_0"];
+
+    // Configuration for a MySQL 8.4 cluster.
+    config.MysqlConfig8_4 mysql_config_8_4 = 10 [json_name = "mysqlConfig_8_4"];
   }
 
   // Resource preset for the cluster hosts.
