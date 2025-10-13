@@ -255,6 +255,8 @@ message CreateServerRequest {
   ];
 
   // A period of time for which the server is rented.
+  //
+  // To get the rental period ID, use a [RentalPeriodService.List] request.
   string rental_period_id = 11 [(length) = "<=20"];
 
   // Network configuration for the server. Specifies how the network interface is configured
@@ -505,6 +507,8 @@ message BatchCreateServersRequest {
   ];
 
   // A period of time for which the server is rented.
+  //
+  // To get the rental period ID, use a [RentalPeriodService.List] request.
   string rental_period_id = 11 [(length) = "<=20"];
 
   // Network configuration for the server. Specifies how the network interface is configured
