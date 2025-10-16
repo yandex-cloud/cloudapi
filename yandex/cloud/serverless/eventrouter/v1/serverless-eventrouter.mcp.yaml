@@ -1,0 +1,5 @@
+services:
+  - name: BusService
+  - name: ConnectorService
+  - name: EventService
+  - name: RuleService

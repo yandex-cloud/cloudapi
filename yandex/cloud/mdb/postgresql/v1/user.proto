@@ -53,6 +53,9 @@ message User {
 
   // Connection Manager Connection and settings associated with user. Read only field.
   ConnectionManager connection_manager = 10;
+
+  // Auth method for user
+  AuthMethod auth_method = 11;
 }
 
 message Permission {
@@ -65,9 +68,17 @@ message ConnectionManager {
   string connection_id = 1;
 }
 
+enum AuthMethod {
+  AUTH_METHOD_UNSPECIFIED = 0;
+
+  AUTH_METHOD_PASSWORD = 1;
+
+  AUTH_METHOD_IAM = 2;
+}
+
 message UserSpec {
   // Name of the PostgreSQL user.
-  string name = 1 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+  string name = 1 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_@.-]*"];
 
   // Password of the PostgreSQL user.
   string password = 2 [(required) = true, (length) = "8-128"];
@@ -109,6 +120,9 @@ message UserSpec {
 
   // Generate password using Connection Manager.
   google.protobuf.BoolValue generate_password = 10;
+
+  // Auth method for user
+  AuthMethod auth_method = 11;
 }
 
 enum UserPasswordEncryption {

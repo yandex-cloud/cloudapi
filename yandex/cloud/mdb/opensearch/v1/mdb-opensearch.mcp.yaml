@@ -1,0 +1,5 @@
+services:
+  - name: BackupService
+  - name: ClusterService
+  - name: ExtensionService
+  - name: ResourcePresetService

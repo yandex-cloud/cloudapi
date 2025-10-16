@@ -1,0 +1,15 @@
+services:
+  - name: AccessAnalyzerService
+  - name: AccessKeyService
+  - name: ApiKeyService
+  - name: FederatedCredentialService
+  - name: IamTokenService
+  - name: KeyService
+  - name: OAuthClientSecretService
+  - name: OAuthClientService
+  - name: RefreshTokenService
+  - name: RoleService
+  - name: ServiceAccountService
+  - name: ServiceControlService
+  - name: UserAccountService
+  - name: YandexPassportUserAccountService

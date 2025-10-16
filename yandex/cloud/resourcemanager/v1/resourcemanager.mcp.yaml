@@ -1,0 +1,3 @@
+services:
+  - name: CloudService
+  - name: FolderService

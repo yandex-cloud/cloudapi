@@ -1,0 +1,6 @@
+services:
+  - name: BackupService
+  - name: ClusterService
+  - name: DatabaseService
+  - name: ResourcePresetService
+  - name: UserService

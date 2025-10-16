@@ -191,4 +191,13 @@ message ClusterSpec {
     ProxySpec proxy = 4;
 
     OdinSpec odin = 5;
+
+    enum Flavor {
+        FLAVOR_UNSPECIFIED = 0;
+        
+        // Demo cluster configuration with minimal system resources. Not fault-tolerant, not for production use.
+        DEMO = 1;
+    }
+
+    Flavor flavor = 6;
 }

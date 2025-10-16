@@ -1,0 +1,6 @@
+services:
+  - name: BackupService
+  - name: DatabaseService
+  - name: LocationService
+  - name: ResourcePresetService
+  - name: StorageTypeService

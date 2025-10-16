@@ -1,0 +1,11 @@
+services:
+  - name: AddressService
+  - name: GatewayService
+  - name: NetworkService
+  - name: PrivateEndpointService
+  - name: RouteTableService
+  - name: SecurityGroupService
+    tools:
+      - method: Update
+        disabled: true # https://st.yandex-team.ru/AIAGENT-5
+  - name: SubnetService

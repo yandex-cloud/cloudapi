@@ -1,0 +1,8 @@
+services:
+  - name: BackupService
+  - name: ClusterService
+  - name: HBARuleService
+  - name: PXFDatasourceService
+  - name: ResourceGroupService
+  - name: ResourcePresetService
+  - name: UserService

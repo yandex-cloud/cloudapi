@@ -1,0 +1,11 @@
+services:
+  - name: BackupService
+  - name: ClusterExtensionService
+  - name: ClusterService
+  - name: DatabaseService
+  - name: ExtensionService
+  - name: FormatSchemaService
+  - name: MlModelService
+  - name: ResourcePresetService
+  - name: UserService
+  - name: VersionsService

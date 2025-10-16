@@ -1,0 +1,14 @@
+services:
+  - name: FunctionService
+    tools:
+      - method: GetFunctionVersion
+        disabled: true # Deprecated
+      - method: GetFunctionVersionByTag
+        disabled: true # Deprecated
+      - method: ListFunctionVersions
+        disabled: true # Deprecated
+      - method: ListFunctionTagHistory
+        disabled: true # Deprecated
+      - method: CreateFunctionVersion
+        disabled: true # Deprecated
+  - name: NetworkService

@@ -1,0 +1,5 @@
+services:
+  - name: ClusterService
+  - name: NodeGroupService
+  - name: ResourcePresetService
+  - name: VersionService

@@ -1,0 +1,7 @@
+services:
+  - name: AsymmetricEncryptionCryptoService
+  - name: AsymmetricEncryptionKeyService
+  - name: AsymmetricSignatureCryptoService
+  - name: AsymmetricSignatureKeyService
+  - name: SymmetricCryptoService
+  - name: SymmetricKeyService

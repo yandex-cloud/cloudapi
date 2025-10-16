@@ -1,0 +1,17 @@
+services:
+  - name: DiskPlacementGroupServices
+  - name: DiskService
+  - name: DiskTypeService
+  - name: FilesystemService
+  - name: GpuClusterService
+  - name: HostGroupService
+  - name: HostTypeService
+  - name: ImageService
+  - name: InstanceService
+  - name: InstanceGroupService
+  - name: MaintenanceService
+  - name: PlacementGroupService
+  - name: ReservedInstancePoolService
+  - name: SnapshotScheduleService
+  - name: SnapshotService
+  - name: ZoneService

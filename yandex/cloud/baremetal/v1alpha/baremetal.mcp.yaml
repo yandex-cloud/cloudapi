@@ -1,0 +1,11 @@
+services:
+  - name: ConfigurationService
+  - name: HardwarePoolService
+  - name: ImageService
+  - name: PrivateCloudConnectionService
+  - name: PrivateSubnetService
+  - name: PublicSubnetService
+  - name: ServerService
+  - name: StorageService
+  - name: VrfService
+  - name: ZoneService

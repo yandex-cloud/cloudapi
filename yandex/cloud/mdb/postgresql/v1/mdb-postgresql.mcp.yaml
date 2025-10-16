@@ -1,0 +1,8 @@
+services:
+  - name: BackupRetentionPolicyService
+  - name: BackupService
+  - name: ClusterService
+  - name: DatabaseService
+  - name: PerformanceDiagnosticsService
+  - name: ResourcePresetService
+  - name: UserService

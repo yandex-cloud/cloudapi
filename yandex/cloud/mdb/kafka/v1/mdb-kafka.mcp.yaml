@@ -1,0 +1,6 @@
+services:
+  - name: ClusterService
+  - name: ConnectorService
+  - name: ResourcePresetService
+  - name: TopicService
+  - name: UserService
