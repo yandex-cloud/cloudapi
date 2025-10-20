@@ -45,6 +45,15 @@ service DnsZoneService {
       response: "DnsZone"
     };
   };
+
+  // Moves the specified DNS zone to another folder.
+  rpc Move (MoveDnsZoneRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/dns/v1/zones/{dns_zone_id}:move" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "MoveDnsZoneMetadata"
+      response: "DnsZone"
+    };
+  };
   
   // Deletes the specified DNS zone. 
   rpc Delete (DeleteDnsZoneRequest) returns (operation.Operation) {
@@ -262,6 +271,21 @@ message UpdateDnsZoneRequest {
 
 message UpdateDnsZoneMetadata {
   // ID of the DNS zone that is being updated.
+  string dns_zone_id = 1;
+}
+
+message MoveDnsZoneRequest {
+  // ID of the DNS zone to move.
+  //
+  // To get the DNS zone ID, make a [DnsZoneService.List] request.
+  string dns_zone_id = 1 [(required) = true, (length) = "20"];
+  // ID of the folder to move the zone to.
+  //
+  // To get the folder ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+}
+message MoveDnsZoneMetadata {
+  // ID of the DNS zone that is being moved.
   string dns_zone_id = 1;
 }
 
