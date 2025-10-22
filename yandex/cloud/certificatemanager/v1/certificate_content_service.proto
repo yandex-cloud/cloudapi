@@ -10,6 +10,7 @@ option java_package = "yandex.cloud.api.certificatemanager.v1";
 
 // A set of methods for managing certificate content.
 service CertificateContentService {
+
   // Returns chain and private key of the specified certificate.
   rpc Get(GetCertificateContentRequest) returns (GetCertificateContentResponse) {
     option (google.api.http) = {get: "/certificate-manager/v1/certificates/{certificate_id}:getContent"};

@@ -14,6 +14,7 @@ option java_package = "yandex.cloud.api.iot.devices.v1";
 
 // A set of methods for managing registry.
 service RegistryService {
+
   // Returns the specified registry.
   //
   // To get the list of available registries, make a [List] request.

@@ -7,6 +7,7 @@ import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/mdb/clickhouse/v1/backup.proto";
 import "yandex/cloud/mdb/clickhouse/v1/cluster.proto";
@@ -363,6 +364,35 @@ service ClusterService {
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteClusterExternalDictionaryMetadata"
       response: "Cluster"
+    };
+  }
+
+  // Retrieves a list of access bindings for the specified ClickHouse cluster.
+  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = { get: "/managed-clickhouse/v1/clusters/{resource_id}:listAccessBindings" };
+  }
+
+  // Sets access bindings for the specified ClickHouse cluster.
+  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/managed-clickhouse/v1/clusters/{resource_id}:setAccessBindings"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+        metadata: "access.SetAccessBindingsMetadata"
+        response: "access.AccessBindingsOperationResult"
+    };
+  }
+
+  // Updates access bindings for the specified ClickHouse cluster.
+  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/managed-clickhouse/v1/clusters/{resource_id}:updateAccessBindings"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+        metadata: "access.UpdateAccessBindingsMetadata"
+        response: "access.AccessBindingsOperationResult"
     };
   }
 }

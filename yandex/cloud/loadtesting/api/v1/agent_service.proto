@@ -16,6 +16,7 @@ import "yandex/cloud/validation.proto";
 
 // A set of methods for managing Load Testing agents.
 service AgentService {
+
   // Creates an agent in the specified folder.
   //
   // Also creates a corresponding compute instance.

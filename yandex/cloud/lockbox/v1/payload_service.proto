@@ -11,6 +11,7 @@ option java_package = "yandex.cloud.api.lockbox.v1";
 
 // Set of methods to access payload of secrets.
 service PayloadService {
+
   // Returns the payload of the specified secret.
   //
   // To get the list of all available secrets, make a [SecretService.List] request.

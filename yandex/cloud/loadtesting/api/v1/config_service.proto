@@ -13,6 +13,7 @@ import "yandex/cloud/loadtesting/api/v1/config/config.proto";
 
 // A set of methods for managing test configurations.
 service ConfigService {
+
   // Creates a test config in the specified folder.
   rpc Create(CreateConfigRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/loadtesting/api/v1/configs" body: "*" };

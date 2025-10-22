@@ -7,6 +7,7 @@ import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -213,6 +214,35 @@ service ClusterService {
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteClusterShardMetadata"
       response: "google.protobuf.Empty"
+    };
+  }
+
+  // Retrieves a list of access bindings for the specified SPQR cluster.
+  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = { get: "/managed-spqr/v1/clusters/{resource_id}:listAccessBindings" };
+  }
+
+  // Sets access bindings for the specified SPQR cluster.
+  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/managed-spqr/v1/clusters/{resource_id}:setAccessBindings"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+        metadata: "access.SetAccessBindingsMetadata"
+        response: "access.AccessBindingsOperationResult"
+    };
+  }
+
+  // Updates access bindings for the specified SPQR cluster.
+  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/managed-spqr/v1/clusters/{resource_id}:updateAccessBindings"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+        metadata: "access.UpdateAccessBindingsMetadata"
+        response: "access.AccessBindingsOperationResult"
     };
   }
 }

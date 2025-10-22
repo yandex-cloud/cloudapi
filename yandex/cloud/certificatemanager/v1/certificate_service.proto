@@ -15,6 +15,7 @@ option java_package = "yandex.cloud.api.certificatemanager.v1";
 
 // A set of methods for managing certificates.
 service CertificateService {
+
   // Returns the specified certificate.
   //
   // To get the list of available certificates, make a [List] request.
