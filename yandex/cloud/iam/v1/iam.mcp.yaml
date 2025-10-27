@@ -1,15 +1,98 @@
 services:
   - name: AccessAnalyzerService
+    tools:
+      - method: ListSubjectAccessBindings
+
   - name: AccessKeyService
+    tools:
+      - method: List
+      - method: Get
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+
   - name: ApiKeyService
+    tools:
+      - method: List
+      - method: Get
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: ListScopes
+
   - name: FederatedCredentialService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Delete
+
   - name: IamTokenService
+    tools:
+      - method: Create
+      - method: CreateForServiceAccount
+      - method: Revoke
+
   - name: KeyService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+
   - name: OAuthClientSecretService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Delete
+
   - name: OAuthClientService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+
   - name: RefreshTokenService
+    tools:
+      - method: List
+      - method: Revoke
+
   - name: RoleService
+    tools:
+      - method: Get
+      - method: List
+
   - name: ServiceAccountService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+      - method: ListOperations
+
   - name: ServiceControlService
+    tools:
+      - method: Get
+      - method: List
+      - method: Enable
+      - method: Disable
+      - method: ResolveAgent
+
   - name: UserAccountService
+    tools:
+      - method: Get
+
   - name: YandexPassportUserAccountService
+    tools:
+      - method: GetByLogin

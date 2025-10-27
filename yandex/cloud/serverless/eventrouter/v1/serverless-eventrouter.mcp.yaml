@@ -1,5 +1,45 @@
 services:
   - name: BusService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: ConnectorService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: Start
+      - method: Stop
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: EventService
+    tools:
+      - method: Put
+      - method: Send
+
   - name: RuleService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: Enable
+      - method: Disable
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings

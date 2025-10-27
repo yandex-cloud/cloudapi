@@ -1,11 +1,102 @@
 services:
   - name: BackupService
+    tools:
+      - method: Get
+      - method: List
+      - method: Delete
+
   - name: ClusterExtensionService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Delete
+      - method: Update
+      - method: SetExtensions
+
   - name: ClusterService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: Start
+      - method: Stop
+      - method: Move
+      - method: AddZookeeper
+      - method: Backup
+      - method: Restore
+      - method: RescheduleMaintenance
+      - method: ListLogs
+      - method: StreamLogs
+      - method: ListOperations
+      - method: ListBackups
+      - method: ListHosts
+      - method: AddHosts
+      - method: UpdateHosts
+      - method: DeleteHosts
+      - method: RestartHosts
+      - method: GetShard
+      - method: ListShards
+      - method: AddShard
+      - method: AddShards
+      - method: UpdateShard
+      - method: DeleteShard
+      - method: DeleteShards
+      - method: GetShardGroup
+      - method: ListShardGroups
+      - method: CreateShardGroup
+      - method: UpdateShardGroup
+      - method: DeleteShardGroup
+      - method: ListExternalDictionaries
+      - method: CreateExternalDictionary
+      - method: UpdateExternalDictionary
+      - method: DeleteExternalDictionary
+
   - name: DatabaseService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Delete
+
   - name: ExtensionService
+    tools:
+      - method: Get
+      - method: List
+
   - name: FormatSchemaService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+
   - name: MlModelService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+
   - name: ResourcePresetService
+    tools:
+      - method: Get
+      - method: List
+
   - name: UserService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: GrantPermission
+      - method: RevokePermission
+
   - name: VersionsService
+    tools:
+      - method: List

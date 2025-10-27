@@ -1,5 +1,48 @@
 services:
   - name: BackupService
+    tools:
+      - method: Get
+      - method: List
+
   - name: ClusterService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: Backup
+      - method: DeleteBackup
+      - method: Restore
+      - method: RescheduleMaintenance
+      - method: ListBackups
+      - method: Move
+      - method: Start
+      - method: Stop
+      - method: ListLogs
+      - method: StreamLogs
+      - method: ListOperations
+      - method: ListHosts
+      - method: AddOpenSearchNodeGroup
+      - method: DeleteOpenSearchNodeGroup
+      - method: UpdateOpenSearchNodeGroup
+      - method: AddDashboardsNodeGroup
+      - method: DeleteDashboardsNodeGroup
+      - method: UpdateDashboardsNodeGroup
+      - method: GetAuthSettings
+      - method: UpdateAuthSettings
+      - method: RestartOpenSearch
+      - method: SwitchMaster
+
   - name: ExtensionService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+
   - name: ResourcePresetService
+    tools:
+      - method: Get
+      - method: List

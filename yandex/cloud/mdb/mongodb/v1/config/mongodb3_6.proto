@@ -88,7 +88,7 @@ message MongodConfig3_6 {
 
   message Network {
     // The maximum number of simultaneous connections that mongod will accept.
-    google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-16384"];
+    google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-32768"];
   }
 
   // `storage` section of mongod configuration.
@@ -144,7 +144,7 @@ message MongoCfgConfig3_6 {
 
   message Network {
     // The maximum number of incoming connections.
-    google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-16384"];
+    google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-32768"];
   }
 
   // `storage` section of mongocfg configuration.
@@ -160,7 +160,7 @@ message MongoCfgConfig3_6 {
 message MongosConfig3_6 {
   message Network {
     // The maximum number of incoming connections.
-    google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-16384"];
+    google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-32768"];
   }
 
   // Network settings for mongos.

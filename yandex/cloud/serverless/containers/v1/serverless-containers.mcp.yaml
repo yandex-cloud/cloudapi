@@ -1,2 +1,16 @@
 services:
   - name: ContainerService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: DeployRevision
+      - method: Rollback
+      - method: GetRevision
+      - method: ListRevisions
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings

@@ -1,2 +1,8 @@
 services:
   - name: HelmReleaseService
+    tools:
+      - method: List
+      - method: Get
+      - method: Install
+      - method: Update
+      - method: Uninstall

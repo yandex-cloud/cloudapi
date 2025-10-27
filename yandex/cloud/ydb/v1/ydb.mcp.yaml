@@ -1,6 +1,41 @@
 services:
   - name: BackupService
+    tools:
+      - method: Get
+      - method: ListPaths
+      - method: List
+      - method: Delete
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: DatabaseService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Start
+      - method: Stop
+      - method: Move
+      - method: Delete
+      - method: Restore
+      - method: Backup
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: LocationService
+    tools:
+      - method: Get
+      - method: List
+
   - name: ResourcePresetService
+    tools:
+      - method: Get
+      - method: List
+
   - name: StorageTypeService
+    tools:
+      - method: Get
+      - method: List

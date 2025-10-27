@@ -1,2 +1,11 @@
 services:
   - name: TriggerService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: Pause
+      - method: Resume
+      - method: ListOperations

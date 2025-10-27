@@ -1,3 +1,18 @@
 services:
   - name: ExecutionService
+    tools:
+      - method: Start
+      - method: Stop
+      - method: Terminate
+      - method: Get
+      - method: GetHistory
+      - method: List
+
   - name: WorkflowService
+    tools:
+      - method: Create
+      - method: Update
+      - method: Get
+      - method: Delete
+      - method: List
+      - method: ListOperations

@@ -128,3 +128,14 @@ message AccessBindingsOperationResult {
   // Result access binding deltas.
   repeated AccessBindingDelta effective_deltas = 1;
 }
+
+message AccessPolicy {
+  // ID of the access policy template.
+  string id = 1;
+
+  // Name of the access policy template.
+  string name = 2;
+
+  // Description of the access policy template.
+  string description = 3;
+}

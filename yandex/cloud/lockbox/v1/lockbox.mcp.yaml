@@ -1,3 +1,23 @@
 services:
   - name: PayloadService
+    tools:
+      - method: Get
+      - method: GetEx
+
   - name: SecretService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: Activate
+      - method: Deactivate
+      - method: ListVersions
+      - method: AddVersion
+      - method: ScheduleVersionDestruction
+      - method: CancelVersionDestruction
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings

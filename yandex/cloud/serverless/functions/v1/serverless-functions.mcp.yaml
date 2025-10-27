@@ -1,14 +1,41 @@
 services:
   - name: FunctionService
     tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: GetVersion
       - method: GetFunctionVersion
         disabled: true # Deprecated
+      - method: GetVersionByTag
       - method: GetFunctionVersionByTag
         disabled: true # Deprecated
+      - method: ListVersions
       - method: ListFunctionVersions
         disabled: true # Deprecated
+      - method: DeleteVersion
+      - method: SetTag
+      - method: RemoveTag
+      - method: ListTagHistory
       - method: ListFunctionTagHistory
         disabled: true # Deprecated
+      - method: CreateVersion
       - method: CreateFunctionVersion
         disabled: true # Deprecated
+      - method: ListRuntimes
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+      - method: ListScalingPolicies
+      - method: SetScalingPolicy
+      - method: RemoveScalingPolicy
+
   - name: NetworkService
+    tools:
+      - method: GetUsed
+      - method: ListUsed
+      - method: ListConnectedResources
+      - method: TriggerUsedCleanup

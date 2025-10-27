@@ -1,6 +1,54 @@
 services:
   - name: BackupService
+    tools:
+      - method: Get
+      - method: List
+      - method: Delete
+
   - name: ClusterService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: AddSubcluster
+      - method: Start
+      - method: Stop
+      - method: Move
+      - method: Backup
+      - method: Restore
+      - method: RescheduleMaintenance
+      - method: ListLogs
+      - method: StreamLogs
+      - method: ListOperations
+      - method: ListBackups
+      - method: ListHosts
+      - method: AddHosts
+      - method: UpdateHosts
+      - method: DeleteHosts
+      - method: ResetupHosts
+      - method: GetShard
+      - method: ListShards
+      - method: AddShard
+      - method: DeleteShard
+
   - name: DatabaseService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Delete
+
   - name: ResourcePresetService
+    tools:
+      - method: Get
+      - method: List
+
   - name: UserService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete

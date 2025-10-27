@@ -1,11 +1,79 @@
 services:
   - name: ConfigurationService
+    tools:
+      - method: Get
+      - method: List
+
   - name: HardwarePoolService
+    tools:
+      - method: Get
+      - method: List
+
   - name: ImageService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+
   - name: PrivateCloudConnectionService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+
   - name: PrivateSubnetService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+
   - name: PublicSubnetService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+
   - name: ServerService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: BatchCreate
+      - method: Update
+      - method: PowerOff
+      - method: PowerOn
+      - method: Reboot
+      - method: Reinstall
+      - method: StartProlongation
+      - method: StopProlongation
+      - method: ListOperations
+
   - name: StorageService
+    tools:
+      - method: GetDefault
+      - method: BatchGetDefault
+
   - name: VrfService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+
   - name: ZoneService
+    tools:
+      - method: Get
+      - method: List

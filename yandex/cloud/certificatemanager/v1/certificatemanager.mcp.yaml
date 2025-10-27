@@ -1,3 +1,129 @@
 services:
   - name: CertificateContentService
+    tools:
+      - method: Get
+      - method: GetEx
+
   - name: CertificateService
+    tools:
+      - method: Get
+      - method: List
+      - method: ListVersions
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: RequestNew
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
+  - name: PolicyService
+    disabled: true
+    tools:
+      - method: Get
+        disabled: true
+      - method: List
+        disabled: true
+      - method: Create
+        disabled: true
+      - method: Update
+        disabled: true
+      - method: Delete
+        disabled: true
+      - method: ListAccessBindings
+        disabled: true
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
+        disabled: true
+
+  - name: PrivateCaCertificateContentService
+    disabled: true
+    tools:
+      - method: GetChain
+        disabled: true
+      - method: GetPrivateKey
+        disabled: true
+
+  - name: PrivateCaCertificateService
+    disabled: true
+    tools:
+      - method: Get
+        disabled: true
+      - method: List
+        disabled: true
+      - method: Update
+        disabled: true
+      - method: Delete
+        disabled: true
+      - method: IssueCertificate
+        disabled: true
+      - method: IssueCertificateByCsr
+        disabled: true
+      - method: RevokeCertificate
+        disabled: true
+      - method: ListAccessBindings
+        disabled: true
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
+        disabled: true
+
+  - name: PrivateCaContentService
+    disabled: true
+    tools:
+      - method: GetChain
+        disabled: true
+      - method: GetPrivateKey
+        disabled: true
+
+  - name: PrivateCaService
+    disabled: true
+    tools:
+      - method: Get
+        disabled: true
+      - method: List
+        disabled: true
+      - method: Update
+        disabled: true
+      - method: Delete
+        disabled: true
+      - method: GenerateCertificateAuthority
+        disabled: true
+      - method: GenerateCertificateAuthorityByCsr
+        disabled: true
+      - method: ImportCertificateAuthority
+        disabled: true
+      - method: GenerateCsrForCertificateAuthority
+        disabled: true
+      - method: SendSignedCertificateOfCertificateAuthority
+        disabled: true
+      - method: GetCsrForCertificateAuthority
+        disabled: true
+      - method: ListAccessBindings
+        disabled: true
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
+        disabled: true
+
+  - name: TemplateService
+    disabled: true
+    tools:
+      - method: Get
+        disabled: true
+      - method: List
+        disabled: true
+      - method: Create
+        disabled: true
+      - method: Update
+        disabled: true
+      - method: Delete
+        disabled: true
+      - method: ListAccessBindings
+        disabled: true
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
+        disabled: true

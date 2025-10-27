@@ -121,7 +121,7 @@ message MongodConfig5_0_enterprise {
     }
 
     // The maximum number of simultaneous connections that mongod will accept.
-    google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-16384"];
+    google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-32768"];
 
     // Compression settings
     Compression compression = 2;
@@ -228,7 +228,7 @@ message MongoCfgConfig5_0_enterprise {
 
   message Network {
     // The maximum number of simultaneous connections that mongocfg will accept.
-    google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-16384"];
+    google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-32768"];
   }
   // `storage` section of mongocfg configuration.
   Storage storage = 1;
@@ -267,7 +267,7 @@ message MongosConfig5_0_enterprise {
     }
 
     // The maximum number of simultaneous connections that mongos will accept.
-    google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-16384"];
+    google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-32768"];
 
     // Compression settings
     Compression compression = 2;

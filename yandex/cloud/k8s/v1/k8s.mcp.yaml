@@ -1,5 +1,36 @@
 services:
   - name: ClusterService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: Stop
+      - method: Start
+      - method: RescheduleMaintenance
+      - method: ListNodeGroups
+      - method: ListOperations
+      - method: ListNodes
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: NodeGroupService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: ListNodes
+
   - name: ResourcePresetService
+    tools:
+      - method: Get
+      - method: List
+
   - name: VersionService
+    tools:
+      - method: List

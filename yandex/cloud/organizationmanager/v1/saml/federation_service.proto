@@ -139,6 +139,32 @@ service FederationService {
       response: "google.protobuf.Empty"
     };
   }
+
+  // Suspend federated user accounts.
+  // Method skips non-existent federated user accounts and returns ones that were actually suspended.
+  rpc SuspendUserAccounts (SuspendFederatedUserAccountsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/organization-manager/v1/saml/federations/{federation_id}:suspendUserAccounts"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "SuspendFederatedUserAccountsMetadata"
+      response: "SuspendFederatedUserAccountsResponse"
+    };
+  }
+
+  // Reactivate federated user accounts.
+  // Method skips non-existent federated user accounts and returns ones that were actually reactivated.
+  rpc ReactivateUserAccounts (ReactivateFederatedUserAccountsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/organization-manager/v1/saml/federations/{federation_id}:reactivateUserAccounts"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "ReactivateFederatedUserAccountsMetadata"
+      response: "ReactivateFederatedUserAccountsResponse"
+    };
+  }
 }
 
 message GetFederationRequest {
@@ -549,4 +575,46 @@ message DeleteFederationDomainMetadata {
   
   // Domain name that is being deleted from the federation.
   string domain = 2;
+}
+
+message SuspendFederatedUserAccountsRequest {
+  // ID of the federation to suspend users of.
+  string federation_id = 1 [(required) = true, (length) = "<=50"];
+  // List of subjects to suspend.
+  repeated string subject_ids = 2 [(size) = "1-1000", (length) = "1-50"];
+  // Reason of the suspension
+  string reason = 3 [(length) = "<=256"];
+}
+
+message SuspendFederatedUserAccountsMetadata {
+  // ID of the federation to suspend subjects of.
+  string federation_id = 1;
+  // List of subjects to suspend.
+  repeated string subject_ids = 2;
+  // Reason of the suspension.
+  string reason = 3;
+}
+
+message SuspendFederatedUserAccountsResponse {
+  // Subjects that were actually suspended.
+  repeated string subject_ids = 1;
+}
+
+message ReactivateFederatedUserAccountsRequest {
+  // ID of the federation to reactivate subjects of.
+  string federation_id = 1 [(required) = true, (length) = "<=50"];
+  // List of subjects to reactivate.
+  repeated string subject_ids = 2 [(size) = "1-1000", (length) = "1-50"];
+}
+
+message ReactivateFederatedUserAccountsMetadata {
+  // ID of the federation to reactivate subjects of.
+  string federation_id = 1;
+  // List of subjects to reactivate.
+  repeated string subject_ids = 2;
+}
+
+message ReactivateFederatedUserAccountsResponse {
+  // Subjects that were actually reactivated.
+  repeated string subject_ids = 1;
 }

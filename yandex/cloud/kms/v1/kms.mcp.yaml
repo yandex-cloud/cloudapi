@@ -1,7 +1,59 @@
 services:
   - name: AsymmetricEncryptionCryptoService
+    tools:
+      - method: Decrypt
+      - method: GetPublicKey
+
   - name: AsymmetricEncryptionKeyService
+    tools:
+      - method: Create
+      - method: Get
+      - method: List
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: AsymmetricSignatureCryptoService
+    tools:
+      - method: Sign
+      - method: SignHash
+      - method: GetPublicKey
+
   - name: AsymmetricSignatureKeyService
+    tools:
+      - method: Create
+      - method: Get
+      - method: List
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: SymmetricCryptoService
+    tools:
+      - method: Encrypt
+      - method: Decrypt
+      - method: ReEncrypt
+      - method: GenerateDataKey
+
   - name: SymmetricKeyService
+    tools:
+      - method: Create
+      - method: Get
+      - method: List
+      - method: ListVersions
+      - method: Update
+      - method: Delete
+      - method: SetPrimaryVersion
+      - method: ScheduleVersionDestruction
+      - method: CancelVersionDestruction
+      - method: Rotate
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings

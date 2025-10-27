@@ -1,17 +1,207 @@
 services:
-  - name: DiskPlacementGroupServices
+  - name: DiskPlacementGroupService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListDisks
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: DiskService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: Move
+      - method: Relocate
+      - method: ListSnapshotSchedules
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: DiskTypeService
+    tools:
+      - method: Get
+      - method: List
+
   - name: FilesystemService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: GpuClusterService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: ListInstances
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: HostGroupService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: ListInstances
+      - method: ListHosts
+      - method: UpdateHost
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: HostTypeService
+    tools:
+      - method: Get
+      - method: List
+
   - name: ImageService
+    tools:
+      - method: Get
+      - method: GetLatestByFamily
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: InstanceService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: UpdateMetadata
+      - method: GetSerialPortOutput
+      - method: Stop
+      - method: Start
+      - method: Restart
+      - method: AttachDisk
+      - method: DetachDisk
+      - method: AttachFilesystem
+      - method: DetachFilesystem
+      - method: AttachNetworkInterface
+      - method: DetachNetworkInterface
+      - method: AddOneToOneNat
+      - method: RemoveOneToOneNat
+      - method: UpdateNetworkInterface
+      - method: ListOperations
+      - method: Move
+      - method: Relocate
+      - method: SimulateMaintenanceEvent
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: InstanceGroupService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: CreateFromYaml
+      - method: Update
+      - method: UpdateFromYaml
+      - method: Stop
+      - method: RollingRestart
+      - method: RollingRecreate
+      - method: Start
+      - method: Delete
+      - method: ListInstances
+      - method: DeleteInstances
+      - method: StopInstances
+      - method: ListOperations
+      - method: ListLogRecords
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+      - method: ResumeProcesses
+      - method: PauseProcesses
+
   - name: MaintenanceService
+    tools:
+      - method: List
+      - method: Get
+      - method: Reschedule
+
   - name: PlacementGroupService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListInstances
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: ReservedInstancePoolService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: ListInstances
+
   - name: SnapshotScheduleService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: UpdateDisks
+      - method: Disable
+      - method: Enable
+      - method: ListOperations
+      - method: ListSnapshots
+      - method: ListDisks
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: SnapshotService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+
   - name: ZoneService
+    tools:
+      - method: Get
+      - method: List

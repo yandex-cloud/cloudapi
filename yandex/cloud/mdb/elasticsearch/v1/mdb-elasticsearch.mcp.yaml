@@ -1,7 +1,57 @@
 services:
   - name: AuthService
+    tools:
+      - method: ListProviders
+      - method: GetProvider
+      - method: AddProviders
+      - method: UpdateProviders
+      - method: DeleteProviders
+      - method: UpdateProvider
+      - method: DeleteProvider
+
   - name: BackupService
+    tools:
+      - method: Get
+      - method: List
+
   - name: ClusterService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: Move
+      - method: Start
+      - method: Stop
+      - method: Backup
+      - method: ListBackups
+      - method: Restore
+      - method: ListLogs
+      - method: StreamLogs
+      - method: ListOperations
+      - method: ListHosts
+      - method: AddHosts
+      - method: DeleteHosts
+      - method: RescheduleMaintenance
+
   - name: ExtensionService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+
   - name: ResourcePresetService
+    tools:
+      - method: Get
+      - method: List
+
   - name: UserService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete

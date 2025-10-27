@@ -1,0 +1,78 @@
+services:
+  - name: ExportService
+    disabled: true
+    tools:
+      - method: Get
+        disabled: true
+      - method: List
+        disabled: true
+      - method: Create
+        disabled: true
+      - method: Update
+        disabled: true
+      - method: Delete
+        disabled: true
+      - method: Run
+        disabled: true
+      - method: ListOperations
+        disabled: true
+      - method: ListAccessBindings
+        disabled: true
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
+        disabled: true
+
+  - name: LogGroupService
+    tools:
+      - method: Get
+      - method: List
+      - method: Stats
+      - method: Create
+        disabled: true
+      - method: Update
+        disabled: true
+      - method: Delete
+        disabled: true
+      - method: ListResources
+        disabled: true
+      - method: ListOperations
+        disabled: true
+      - method: ListAccessBindings
+        disabled: true
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
+        disabled: true
+
+  - name: LogIngestionService
+    disabled: true
+    tools:
+      - method: Write
+        disabled: true
+
+  - name: LogReadingService
+    tools:
+      - method: Read
+
+  - name: SinkService
+    disabled: true
+    tools:
+      - method: Get
+        disabled: true
+      - method: List
+        disabled: true
+      - method: Create
+        disabled: true
+      - method: Update
+        disabled: true
+      - method: Delete
+        disabled: true
+      - method: ListOperations
+        disabled: true
+      - method: ListAccessBindings
+        disabled: true
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
+        disabled: true

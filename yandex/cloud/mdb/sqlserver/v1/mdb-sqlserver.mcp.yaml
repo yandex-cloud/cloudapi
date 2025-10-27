@@ -1,6 +1,49 @@
 services:
   - name: BackupService
+    tools:
+      - method: Get
+      - method: List
+
   - name: ClusterService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: Start
+      - method: Stop
+      - method: Move
+      - method: Backup
+      - method: Restore
+      - method: StartFailover
+      - method: ListLogs
+      - method: ListOperations
+      - method: ListBackups
+      - method: ListHosts
+      - method: UpdateHosts
+
   - name: DatabaseService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Restore
+      - method: ImportBackup
+      - method: ExportBackup
+      - method: Delete
+
   - name: ResourcePresetService
+    tools:
+      - method: Get
+      - method: List
+
   - name: UserService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: GrantPermission
+      - method: RevokePermission

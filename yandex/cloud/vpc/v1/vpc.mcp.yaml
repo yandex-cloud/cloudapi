@@ -1,11 +1,80 @@
 services:
   - name: AddressService
+    tools:
+      - method: Get
+      - method: GetByValue
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: Move
+
   - name: GatewayService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: Move
+
   - name: NetworkService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListSubnets
+      - method: ListSecurityGroups
+      - method: ListRouteTables
+      - method: ListOperations
+      - method: Move
+
   - name: PrivateEndpointService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+
   - name: RouteTableService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+      - method: Move
+
   - name: SecurityGroupService
     tools:
+      - method: Get
+      - method: List
+      - method: Create
       - method: Update
         disabled: true # https://st.yandex-team.ru/AIAGENT-5
+      - method: UpdateRules
+      - method: UpdateRule
+      - method: Delete
+      - method: Move
+      - method: ListOperations
+
   - name: SubnetService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: AddCidrBlocks
+      - method: RemoveCidrBlocks
+      - method: Delete
+      - method: ListOperations
+      - method: Move
+      - method: Relocate
+      - method: ListUsedAddresses

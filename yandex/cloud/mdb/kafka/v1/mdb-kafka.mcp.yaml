@@ -1,6 +1,49 @@
 services:
   - name: ClusterService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: Move
+      - method: Start
+      - method: Stop
+      - method: RescheduleMaintenance
+      - method: ListLogs
+      - method: StreamLogs
+      - method: ListOperations
+      - method: ListHosts
+
   - name: ConnectorService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: Resume
+      - method: Pause
+
   - name: ResourcePresetService
+    tools:
+      - method: Get
+      - method: List
+
   - name: TopicService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+
   - name: UserService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: GrantPermission
+      - method: RevokePermission

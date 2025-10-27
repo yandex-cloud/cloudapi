@@ -1,8 +1,63 @@
 services:
   - name: BackupService
+    tools:
+      - method: Get
+      - method: List
+      - method: Delete
+
   - name: ClusterService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Expand
+      - method: Delete
+      - method: Start
+      - method: Stop
+      - method: Move
+      - method: RescheduleMaintenance
+      - method: ListOperations
+      - method: ListMasterHosts
+      - method: ListSegmentHosts
+      - method: ListLogs
+      - method: StreamLogs
+      - method: ListBackups
+      - method: Backup
+      - method: Restore
+
   - name: HBARuleService
+    tools:
+      - method: List
+      - method: ListAtRevision
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: BatchUpdate
+
   - name: PXFDatasourceService
+    tools:
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+
   - name: ResourceGroupService
+    tools:
+      - method: List
+      - method: GetAtRevision
+      - method: Create
+      - method: Update
+      - method: Delete
+
   - name: ResourcePresetService
+    tools:
+      - method: Get
+      - method: List
+
   - name: UserService
+    tools:
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete

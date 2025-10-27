@@ -1,3 +1,19 @@
 services:
   - name: BucketService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: GetStats
+      - method: GetHTTPSConfig
+      - method: SetHTTPSConfig
+      - method: DeleteHTTPSConfig
+      - method: SetAccessBindings
+      - method: UpdateAccessBindings
+      - method: ListAccessBindings
+
   - name: PresignService
+    tools:
+      - method: Create

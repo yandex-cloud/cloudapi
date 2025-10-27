@@ -1,2 +1,6 @@
 services:
   - name: ConnectionService
+    tools:
+      - method: Get
+      - method: Send
+      - method: Disconnect
