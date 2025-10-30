@@ -14,6 +14,8 @@ import "yandex/cloud/connectionmanager/v1/valkey.proto";
 import "yandex/cloud/connectionmanager/v1/opensearch.proto";
 import "yandex/cloud/connectionmanager/v1/greenplum.proto";
 import "yandex/cloud/connectionmanager/v1/kafka.proto";
+import "yandex/cloud/connectionmanager/v1/storedoc.proto";
+
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/connectionmanager/v1;connectionmanager";
 option java_package = "yandex.cloud.api.connectionmanager.v1";
@@ -30,6 +32,7 @@ message ConnectionParams {
         TrinoConnection trino = 8;
         ValkeyConnection valkey = 9;
         GreenplumConnection greenplum = 10;
+        StoreDocConnection storedoc = 11;
     }
 }
 
@@ -51,6 +54,7 @@ enum DBType {
     TRINO = 8;
     VALKEY = 9;
     GREENPLUM = 10;
+    STOREDOC = 11;
 }
 
 message Connection {

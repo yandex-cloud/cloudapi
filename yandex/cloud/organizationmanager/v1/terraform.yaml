@@ -1,6 +1,10 @@
 resources_and_data_sources:
   - name: yandex_organization_manager_user_ssh_key
     rename: yandex_organizationmanager_user_ssh_key
+  - name: yandex_organization_manager_idp_user
+    rename: yandex_organizationmanager_idp_user
+  - name: yandex_organization_manager_idp_userpool
+    rename: yandex_organizationmanager_idp_userpool
 
 resources:
   - name: yandex_organization_manager_group
@@ -43,3 +47,9 @@ model_config:
       force_new: true
     yandex.cloud.organizationmanager.v1.UserSshKey.organization_id:
       force_new: true
+    yandex.cloud.organizationmanager.v1.idp.PasswordSpec.password:
+      sensitive: true
+    yandex.cloud.organizationmanager.v1.idp.PasswordSpec.generation_proof:
+      sensitive: true
+    yandex.cloud.organizationmanager.v1.idp.PasswordHash.password_hash:
+      sensitive: true

@@ -347,11 +347,8 @@ message CreateClusterRequest {
 // Configuration of Greenplum® and Odyssey®.
 
 message ConfigSpec {
-  reserved 7;
+  reserved 1, 2, 4, 7;
   oneof greenplum_config {
-    GreenplumConfig6_17 greenplum_config_6_17 = 1 [json_name = "greenplumConfig_6_17"];
-    GreenplumConfig6_19 greenplum_config_6_19 = 2 [json_name = "greenplumConfig_6_19"];
-    GreenplumConfig6_21 greenplum_config_6_21 = 4 [json_name = "greenplumConfig_6_21"];
     GreenplumConfig6_22 greenplum_config_6_22 = 5 [json_name = "greenplumConfig_6_22"];
     GreenplumConfig6 greenplum_config_6 = 9 [json_name = "greenplumConfig_6"];
   }
