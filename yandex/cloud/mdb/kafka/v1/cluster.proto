@@ -127,6 +127,7 @@ message Cluster {
     // URL for connection to kafka ui
     string url = 1;
   }
+
   // KafkaUI state.
   KafkaUI kafka_ui = 18;
 }
@@ -217,8 +218,6 @@ message ConfigSpec {
 
   // Configuration of Kafka UI.
   KafkaUIConfig kafka_ui_config = 13;
-  // Patch or release version ex. 3.9.1, 4.0.1 etc
-  string patch_version = 14;
 }
 
 message Resources {
