@@ -263,6 +263,10 @@ message PolicySettings {
         PRE_COMMAND = 1;
         // Launch command after backup execution
         POST_COMMAND = 2;
+        // Launch command before data capture (snapshot execution)
+        PRE_DATA_COMMAND = 3;
+        // Launch command after data capture (snapshot execution)
+        POST_DATA_COMMAND = 4;
     }
 
     message PrePostCommand {

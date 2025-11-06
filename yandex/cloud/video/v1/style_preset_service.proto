@@ -133,7 +133,7 @@ message CreateStylePresetRequest {
   string channel_id = 1 [(required) = true, (length) = "<=50"];
 
   // Style preset title.
-  string title = 2 [(required) = true, (pattern) = "[a-zA-Z0-9-_ ]+", (length) = "<=50"];
+  string title = 2 [(required) = true, (length) = "<=50"];
 
   // Background color.
   string background_color = 3 [(required) = true, (pattern) = "[#a-zA-Z0-9]+", (length) = "<=50"];
@@ -148,7 +148,7 @@ message CreateStylePresetRequest {
   string widget_accent_color = 6 [(required) = true, (pattern) = "[#a-zA-Z0-9]+", (length) = "<=50"];
 
   // Gap between widget blocks.
-  int64 widget_block_gap = 7 [(value) = "0-10"];
+  int64 widget_block_gap = 7 [(value) = "0-50"];
 
   // Line color between widget blocks.
   string widget_block_separator_color = 8 [(required) = true, (pattern) = "[#a-zA-Z0-9]+", (length) = "<=50"];
@@ -166,7 +166,7 @@ message CreateStylePresetRequest {
   int64 playlist_item_border_radius = 16 [(value) = ">=0"];
 
   // Gap between videos in playlist.
-  int64 playlist_item_gap = 17 [(value) = ">=0"];
+  int64 playlist_item_gap = 17 [(value) = "0-50"];
 
   // Playlist widget location.
   StylePreset.WidgetLocation playlist_location = 18 [(required) = true];
@@ -196,7 +196,7 @@ message UpdateStylePresetRequest {
   google.protobuf.FieldMask field_mask = 2 [(required) = true];
 
   // Style preset title.
-  string title = 3 [(pattern) = "[a-zA-Z0-9-_ ]*", (length) = "<=50"];
+  string title = 3 [(length) = "<=50"];
 
   // Background color.
   string background_color = 4 [(pattern) = "[#a-zA-Z0-9-]*", (length) = "<=50"];
@@ -211,7 +211,7 @@ message UpdateStylePresetRequest {
   string widget_accent_color = 7 [(pattern) = "[#a-zA-Z0-9-]*", (length) = "<=50"];
 
   // Gap between widget blocks.
-  int64 widget_block_gap = 8 [(value) = "0-10"];
+  int64 widget_block_gap = 8 [(value) = "0-50"];
 
   // Line color between widget blocks.
   string widget_block_separator_color = 9 [(pattern) = "[#a-zA-Z0-9-]*", (length) = "<=50"];
@@ -229,7 +229,7 @@ message UpdateStylePresetRequest {
   int64 playlist_item_border_radius = 17 [(value) = ">=0"];
 
   // Gap between videos in playlist.
-  int64 playlist_item_gap = 18 [(value) = ">=0"];
+  int64 playlist_item_gap = 18 [(value) = "0-50"];
 
   // Playlist widget location.
   StylePreset.WidgetLocation playlist_location = 19;

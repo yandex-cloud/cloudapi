@@ -128,4 +128,6 @@ message GenSearchResponse {
   bool                  is_bullet_answer = 6;
   // Search hints
   repeated string       hints = 7;
+  // The answer may contain inappropriate content
+  bool                  problematic_answer = 8;
 }

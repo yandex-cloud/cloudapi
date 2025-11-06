@@ -14,7 +14,14 @@ option java_package = "yandex.cloud.api.serverless.workflows.v1";
 service ExecutionService {
   // Starts new Workflow execution.
   rpc Start (StartExecutionRequest) returns (StartExecutionResponse) {
-    option (google.api.http) = {post: "/workflows/v1/execution/start" body: "*"};
+    option (google.api.http) = {
+      post: "/workflows/v1/execution/start"
+      body: "*"
+      additional_bindings {
+        post: "/workflows/v1/execution/{workflow_id}/start"
+        body: "input.input_json"
+      }
+    };
   };
 
   // Stops specified Workflow execution.

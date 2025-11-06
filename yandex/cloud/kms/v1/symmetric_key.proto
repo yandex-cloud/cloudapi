@@ -23,6 +23,9 @@ enum SymmetricAlgorithm {
 
   // AES algorithm with 256-bit keys hosted by HSM
   AES_256_HSM = 4;
+
+  // GOST R 34.12-2015 Kuznyechik algorithm
+  GOST_R_3412_2015_K = 5;
 }
 
 // A symmetric KMS key that may contain several versions of the cryptographic material.

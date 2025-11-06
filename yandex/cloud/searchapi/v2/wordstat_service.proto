@@ -49,6 +49,8 @@ message GetTopRequest {
   repeated string regions = 3 [(size) = "<=100"];
   // A list of device types a query was made from.
   repeated Device devices = 4 [(size) = "<=3"];
+  // ID of the folder.
+  string folder_id = 5 [(length) = "<=50"];
 }
 
 message GetTopResponse {
@@ -90,6 +92,8 @@ message GetDynamicsRequest {
   repeated string regions = 5 [(size) = "<=100"];
   // A list of device types a query was made from.
   repeated Device devices = 6 [(size) = "<=3"];
+  // ID of the folder.
+  string folder_id = 7 [(length) = "<=50"];
 }
 
 message GetDynamicsResponse {
@@ -122,6 +126,8 @@ message GetRegionsDistributionRequest {
   Region region = 2;
   // A list of device types a query was made from.
   repeated Device devices = 3;
+  // ID of the folder.
+  string folder_id = 4 [(length) = "<=50"];
 }
 
 message GetRegionsDistributionResponse {

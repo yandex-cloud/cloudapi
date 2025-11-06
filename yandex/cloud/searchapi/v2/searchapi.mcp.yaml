@@ -1,0 +1,92 @@
+services:
+  - name: GenSearchService
+    tools:
+      - method: Search
+        alias: documentation_generative_search
+        description: 'Searches Yandex Cloud documentation with generative search'
+        input:
+          - field: messages
+            description: |-
+              The query to search, that have "chat completion" format. 
+              This field must contain one user message with particular query.
+              Example: [{"content": "users query", "role": "ROLE_USER"}].
+            required: true
+            inner:
+              - field: role
+                default: ROLE_USER
+                description: |-
+                  Enum. "ROLE_USER" (default); "ROLE_ASSISTANT".
+
+          - field: folder_id
+            disabled: true
+
+          - field: site
+            disabled: true
+            required: true
+            inner:
+              - field: site
+                disabled: true
+                default: ["https://yandex.cloud/ru/docs", "https://yandex.cloud/en/docs", "https://github.com/yandex-cloud-examples"]
+
+          - field: host
+            disabled: true
+
+          - field: url
+            disabled: true
+
+          - field: fix_misspell
+            disabled: true
+            default: true
+
+          - field: enable_nrfm_docs
+            disabled: true
+            default: true
+
+          - field: search_filters
+            disabled: true
+
+          - field: search_type
+            disabled: true
+            default: 1
+
+          - field: metadata
+            disabled: true
+
+          - field: get_partial_results
+            disabled: true
+
+          - field: host
+            disabled: true
+
+  - name: ImageSearchService
+    disabled: true
+    tools:
+      - method: Search
+        disabled: true
+
+      - method: SearchByImage
+        disabled: true
+
+  - name: WebSearchAsyncService
+    disabled: true
+    tools:
+      - method: Search
+        disabled: true
+  
+  - name: WebSearchService
+    disabled: true
+    tools:
+      - method: Search
+        disabled: true
+  
+  - name: WordstatService
+    disabled: true
+    tools:
+      - method: GetTop
+        disabled: true
+
+      - method: GetDynamics
+        disabled: true
+
+      - method: GetRegionsDistribution
+        disabled: true

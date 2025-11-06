@@ -4,6 +4,7 @@ package yandex.cloud.serverless.workflows.v1;
 
 import "google/protobuf/field_mask.proto";
 import "google/api/annotations.proto";
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/serverless/workflows/v1/workflow.proto";
@@ -54,6 +55,35 @@ service WorkflowService {
   // Lists operations for specified Workflow.
   rpc ListOperations(ListOperationsRequest) returns (ListOperationsResponse) {
     option (google.api.http) = {get: "/workflows/v1/workflow/{workflow_id}/operations"};
+  }
+
+  // Lists existing access bindings for the specified Workflow.
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {get: "/workflows/v1/workflow/{resource_id}:listAccessBindings"};
+  }
+
+  // Sets access bindings for the Workflow.
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/workflows/v1/workflow/{resource_id}:setAccessBindings"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Updates access bindings for the specified Workflow.
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/workflows/v1/workflow/{resource_id}:updateAccessBindings"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
   }
 }
 
