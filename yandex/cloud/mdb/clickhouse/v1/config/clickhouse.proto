@@ -231,7 +231,7 @@ message ClickhouseConfig {
 
     // The number of seconds after which the hash sums of the inserted blocks are removed from ClickHouse Keeper.
     //
-    // Default value: **604800** (7 days).
+    // Default value: **3600** (1 hour) for versions 25.10 and higher, **604800** (7 days) for versions 25.9 and lower.
     //
     // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/merge-tree-settings#replicated_deduplication_window_seconds).
     google.protobuf.Int64Value replicated_deduplication_window_seconds = 2;
@@ -1386,7 +1386,7 @@ message ClickhouseConfig {
 
   // The number of seconds that ClickHouse waits for incoming requests for HTTP protocol before closing the connection.
   //
-  // Default value: **30**.
+  // Default value: **3** for versions 25.10 and higher, **30** for versions 25.9 and lower.
   //
   // Change of the setting is applied with restart.
   //

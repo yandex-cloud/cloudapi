@@ -10,18 +10,22 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/searchapi/v2;searchapi";
 option java_package = "yandex.cloud.api.search.v2";
 
+// Not implemented.
 // A set of methods for viewing statistics on search queries to Yandex.
 service WordstatService {
+  // Not implemented.
   // The method returns the last 30 days data about popular queries containing the specified keyword and queries that are similar to the specified one.
   rpc GetTop (GetTopRequest) returns (GetTopResponse) {
     option (google.api.http) = { post: "/v2/wordstat/topRequests" body: "*" };
   }
 
+  // Not implemented.
   // The method returns the frequency of queries over time for a given keyword.
   rpc GetDynamics (GetDynamicsRequest) returns (GetDynamicsResponse) {
     option (google.api.http) = { post: "/v2/wordstat/dynamics" body: "*" };
   }
 
+  // Not implemented.
   // The method returns the distribution of the number of queries containing the given keyword globally by region for the last 30 days.
   rpc GetRegionsDistribution (GetRegionsDistributionRequest) returns (GetRegionsDistributionResponse) {
     option (google.api.http) = { post: "/v2/wordstat/regions" body: "*" };

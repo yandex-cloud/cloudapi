@@ -66,6 +66,32 @@ service OrganizationService {
     };
   }
 
+  //
+  // Access policies
+  //
+
+  // Returns list of access policy bindings for the organization.
+  rpc ListAccessPolicyBindings (access.ListAccessPolicyBindingsRequest) returns (access.ListAccessPolicyBindingsResponse) {
+    option (google.api.http) = { get: "/organization-manager/v1/organizations/{resource_id}:listAccessPolicyBindings" };
+  }
+
+  // Binds the access policy template to the organization.
+  rpc BindAccessPolicy (access.BindAccessPolicyRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/organization-manager/v1/organizations/{resource_id}:bindAccessPolicy" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.BindAccessPolicyMetadata"
+      response: "access.BindAccessPolicyResponse"
+    };
+  }
+
+  // Unbinds the access policy template from the organization.
+  rpc UnbindAccessPolicy (access.UnbindAccessPolicyRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/organization-manager/v1/organizations/{resource_id}:unbindAccessPolicy" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.UnbindAccessPolicyMetadata"
+      response: "access.UnbindAccessPolicyResponse"
+    };
+  }
 }
 
 message GetOrganizationRequest {

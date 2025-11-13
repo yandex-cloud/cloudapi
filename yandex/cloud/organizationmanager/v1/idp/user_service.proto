@@ -175,9 +175,9 @@ message CreateUserRequest {
   oneof credentials {
     option (exactly_one) = true;
 
-    // Password specification.
+    // Password specification. Credentials type. Exactly one of credentials type must be specified.
     PasswordSpec password_spec = 9;
-    // Password hash.
+    // Password hash. Credentials type. Exactly one of credentials type must be specified.
     PasswordHash password_hash = 11;
   }
 

@@ -84,6 +84,33 @@ service FolderService {
       response: "access.AccessBindingsOperationResult"
     };
   }
+
+  //
+  // Access policies
+  //
+
+  // Returns list of access policy bindings for the folder.
+  rpc ListAccessPolicyBindings (access.ListAccessPolicyBindingsRequest) returns (access.ListAccessPolicyBindingsResponse) {
+    option (google.api.http) = { get: "/resource-manager/v1/folders/{resource_id}:listAccessPolicyBindings" };
+  }
+
+  // Binds the access policy template to the folder.
+  rpc BindAccessPolicy (access.BindAccessPolicyRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/resource-manager/v1/folders/{resource_id}:bindAccessPolicy" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.BindAccessPolicyMetadata"
+      response: "access.BindAccessPolicyResponse"
+    };
+  }
+
+  // Unbinds the access policy template from the folder.
+  rpc UnbindAccessPolicy (access.UnbindAccessPolicyRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/resource-manager/v1/folders/{resource_id}:unbindAccessPolicy" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.UnbindAccessPolicyMetadata"
+      response: "access.UnbindAccessPolicyResponse"
+    };
+  }
 }
 
 message GetFolderRequest {
