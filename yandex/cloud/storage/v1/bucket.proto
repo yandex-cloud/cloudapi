@@ -82,6 +82,9 @@ message Bucket {
 
   // ID of the Yandex.Cloud entity that owns the bucket.
   string resource_id = 18;
+
+  // An option to disable access key auth for a bucket.
+  bool disabled_accesskey_auth = 19;
 }
 
 message Tag {
@@ -95,6 +98,7 @@ message ACL {
   // A grant resource, used to specify the permission granted and the grantee.
   message Grant {
     enum Permission {
+      // Permission unspecified.
       PERMISSION_UNSPECIFIED = 0;
 
       // Allows grantee the `PERMISSION_WRITE`, `PERMISSION_WRITE_ACP`, `PERMISSION_READ`, and `PERMISSION_READ_ACP`
@@ -131,6 +135,7 @@ message ACL {
     }
 
     enum GrantType {
+      // Grant type unspecified.
       GRANT_TYPE_UNSPECIFIED = 0;
 
       // A grantee is an [account on the platform](/docs/iam/concepts/#accounts).
@@ -195,6 +200,7 @@ message CorsRule {
   // list of the allowed methods. If there is a match, all the allowed methods are listed in the
   // `Access-Control-Allow-Methods` header of the response.
   enum Method {
+    // Method unspecified.
     METHOD_UNSPECIFIED = 0;
 
     // HTTP `GET` method.
@@ -254,6 +260,7 @@ message CorsRule {
 
 message WebsiteSettings {
   enum Protocol {
+    // Protocol unspecified.
     PROTOCOL_UNSPECIFIED = 0;
 
     // `http` scheme.
@@ -424,9 +431,13 @@ message LifecycleRule {
 
   message RuleFilter {
     message And {
+      // Key prefix that the object must have in order for the rule to apply.
       string prefix = 1;
+      // Size that the object must be greater.
       google.protobuf.Int64Value object_size_greater_than = 2;
+      // Size that the object must be less than.
       google.protobuf.Int64Value object_size_less_than = 3;
+      // Tags that the object's tag set must have for the rule to apply.
       repeated Tag tag = 4;
     }
     // Key prefix that the object must have in order for the rule to apply.
@@ -503,6 +514,7 @@ message LifecycleRule {
 }
 
 enum Versioning {
+  // Versioning unspecified.
   VERSIONING_UNSPECIFIED = 0;
 
   // The bucket is unversioned, i.e. versioning has never been enabled for the bucket, including at its creation.
@@ -624,6 +636,7 @@ message BucketStats {
 message HTTPSConfig {
   // A resource for type of TLS certificate source.
   enum SourceType {
+    // Source type unspecified.
     SOURCE_TYPE_UNSPECIFIED = 0;
 
     // Your certificate, uploaded directly.
@@ -666,8 +679,11 @@ message HTTPSConfig {
 message ObjectLock {
   // Activity status of the object lock settings on the bucket
   enum ObjectLockStatus {
+    // Object lock status unspecified.
     OBJECT_LOCK_STATUS_UNSPECIFIED = 0;
+    // Object lock status disabled.
     OBJECT_LOCK_STATUS_DISABLED = 1;
+    // Object lock status enabled.
     OBJECT_LOCK_STATUS_ENABLED = 2;
   }
 
@@ -675,11 +691,15 @@ message ObjectLock {
   message DefaultRetention {
     // Lock type
     enum Mode {
+      // Mode unspecified.
       MODE_UNSPECIFIED = 0;
+      // Mode governance.
       MODE_GOVERNANCE = 1;
+      // Mode compliance.
       MODE_COMPLIANCE = 2;
     }
 
+    // Mode
     Mode mode = 1;
     oneof period {
       option (exactly_one) = true;
@@ -691,16 +711,21 @@ message ObjectLock {
     }
   }
 
+  // Status
   ObjectLockStatus status = 2;
+  // Default retention
   DefaultRetention default_retention = 3;
 }
 
 message Encryption {
   message EncryptionRule {
+    // KMS master key ID
     string kms_master_key_id = 1;
+    // SSE algorithm
     string sse_algorithm = 2;
   }
 
+  // Rules
   repeated EncryptionRule rules = 1;
 }
 

@@ -16,6 +16,7 @@ option java_package = "yandex.cloud.api.mdb.kafka.v1";
 // For more information, see the [Concepts](/docs/managed-kafka/concepts) section of the documentation.
 message Cluster {
   enum Environment {
+    // Unspecified environment.
     ENVIRONMENT_UNSPECIFIED = 0;
 
     // Stable environment with a conservative update policy when only hotfixes are applied during regular maintenance.
@@ -129,6 +130,8 @@ message Cluster {
   }
   // KafkaUI state.
   KafkaUI kafka_ui = 18;
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 19;
 }
 
 // Metadata of monitoring system.
@@ -152,7 +155,9 @@ message ConfigSpec {
 
     // Kafka broker configuration.
     oneof kafka_config {
+      // Configuration of an Apache Kafka® 2.8 broker.
       KafkaConfig2_8 kafka_config_2_8 = 4 [json_name = "kafkaConfig_2_8"];
+      // Configuration of an Apache Kafka® 3.x broker.
       KafkaConfig3 kafka_config_3 = 5 [json_name = "kafkaConfig_3"];
     }
   }

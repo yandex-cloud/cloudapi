@@ -23,8 +23,6 @@ message Instance {
     string template_version_id = 5;
 
     reserved 6;
-    // Description of the subscription instance.
-    string description = 14;
 
     // Timestamp of the start of the subscription.
     google.protobuf.Timestamp start_time = 7;
@@ -40,13 +38,19 @@ message Instance {
     repeated Lock locks = 12;
     // Subscription template.
     Template license_template = 13;
+    // Description of the subscription instance.
+    string description = 14;
 
     reserved 15 to 48;
 
     // External subscription instance (optional).
     ExternalInstance external_instance = 49;
 
+    // Indicates whether the subscription can be automatically prolonged/renewed.
+    bool prolongation = 50;
+
     enum State {
+        // Default unspecified state.
         STATE_UNSPECIFIED = 0;
         // Subscription created but not active yet.
         PENDING = 1;

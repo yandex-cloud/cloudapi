@@ -32,7 +32,11 @@ message Lock {
     // from parent subscription instance.
     ExternalInstance external_instance = 10;
 
+    // Indicates whether the subscription lock can be automatically prolonged/renewed.
+    bool instance_prolongation = 11;
+
     enum State {
+        // Default unspecified state.
         STATE_UNSPECIFIED = 0;
         // Subscription unlocked.
         UNLOCKED = 1;

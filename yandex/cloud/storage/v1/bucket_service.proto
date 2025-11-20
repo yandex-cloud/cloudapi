@@ -92,6 +92,8 @@ service BucketService {
   }
 
   // Deletes the HTTPS configuration for the specified bucket.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled
+  //     for compatibility with old format --)
   rpc DeleteHTTPSConfig(DeleteBucketHTTPSConfigRequest) returns (operation.Operation) {
     option (google.api.http) = {post: "/storage/v1/buckets/{name}:deleteHttpsConfig"};
     option (yandex.cloud.api.operation) = {
@@ -100,6 +102,7 @@ service BucketService {
     };
   }
 
+  // Sets access bindings for the specified bucket.
   rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = {
       post: "/storage/v1/buckets/{resource_id}:setAccessBindings"
@@ -111,6 +114,9 @@ service BucketService {
     };
   }
 
+  // Updates access bindings for the specified bucket.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled
+  //     for compatibility with old format --)  
   rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = {
       patch: "/storage/v1/buckets/{resource_id}:updateAccessBindings"
@@ -122,6 +128,7 @@ service BucketService {
     };
   }
 
+  // Lists access bindings for the specified bucket.
   rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
     option (google.api.http) = {
       get: "/storage/v1/buckets/{resource_id}:listAccessBindings"
@@ -131,6 +138,7 @@ service BucketService {
 
 message GetBucketRequest {
   enum View {
+    // View unspecified.
     VIEW_UNSPECIFIED = 0;
 
     // Returns basic information about a bucket.
@@ -224,6 +232,10 @@ message CreateBucketRequest {
   // Configuration for bucket's allowed private endpoints.
   // requires permission s3:PutBucketAllowedPrivateEndpoints
   BucketAllowedPrivateEndpoints allowed_private_endpoints = 11;
+  
+  // An option to disable access key auth for a bucket.
+  // requires permission s3:PutBucketAccessKeyAuthSettings
+  bool disabled_accesskey_auth = 12;
 }
 
 message CreateBucketMetadata {
@@ -294,6 +306,10 @@ message UpdateBucketRequest {
 
   // requires permission s3:PutBucketAllowedPrivateEndpoints
   BucketAllowedPrivateEndpoints allowed_private_endpoints = 15;
+
+  // An option to disable access key auth for a bucket.
+  // requires permission s3:PutBucketAccessKeyAuthSettings
+  bool disabled_accesskey_auth = 16; 
 }
 
 message UpdateBucketMetadata {

@@ -128,6 +128,16 @@ message Trail {
 
     // Name of the destination YDS
     string stream_name = 2;
+
+    // Codec for compressing events
+    Codec codec = 3;
+  }
+
+  enum Codec {
+    CODEC_UNSPECIFIED = 0;
+    RAW = 1;
+    GZIP = 2;
+    ZSTD = 3;
   }
 
   message EventRouter {

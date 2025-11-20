@@ -4,6 +4,7 @@ package yandex.cloud.metastore.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/metastore/v1/cluster.proto";
 import "yandex/cloud/metastore/v1/maintenance.proto";
@@ -103,6 +104,35 @@ service ClusterService {
   // Retrieves the list of Operation resources for the specified Hive Metastore Cluster.
   rpc ListOperations (ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
     option (google.api.http) = {get: "/managed-metastore/v1/clusters/{cluster_id}/operations"};
+  }
+
+  // Retrieves a list of access bindings for the specified Metastore cluster.
+  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = { get: "/managed-metastore/v1/clusters/{resource_id}:listAccessBindings" };
+  }
+
+  // Sets access bindings for the specified Metastore cluster.
+  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/managed-metastore/v1/clusters/{resource_id}:setAccessBindings"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+        metadata: "access.SetAccessBindingsMetadata"
+        response: "access.AccessBindingsOperationResult"
+    };
+  }
+
+  // Updates access bindings for the specified Metastore cluster.
+  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/managed-metastore/v1/clusters/{resource_id}:updateAccessBindings"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+        metadata: "access.UpdateAccessBindingsMetadata"
+        response: "access.AccessBindingsOperationResult"
+    };
   }
 }
 

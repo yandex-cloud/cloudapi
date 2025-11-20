@@ -105,6 +105,11 @@ message Parameter {
 
   // Parameter description.
   string description = 10;
+
+  reserved 11, 12;
+
+  // Group name.
+  string group_name = 13;
 }
 
 // Parametrization.

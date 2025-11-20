@@ -62,8 +62,8 @@ message WafProfile {
   oneof rule_set {
       option (exactly_one) = true;
 
-      // Core rule set settings. See [Basic rule set](/docs/smartwebsecurity/concepts/waf#rules-set) for details.
-      CoreRuleSet core_rule_set = 11;
+      // The parameter is deprecated. Core rule set settings.
+      CoreRuleSet core_rule_set = 11 [deprecated = true];
   }
 
   message AnalyzeRequestBody {
