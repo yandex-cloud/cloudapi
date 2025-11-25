@@ -183,6 +183,32 @@ message PasswordQualityPolicy {
     int64 three = 3 [(value) = ">=0"];
   }
 
+  // Fixed complexity policy enforces uniform password rules with required character classes and minimum length.
+  message Fixed {
+    // Whether lowercase letters are required in the password.
+    bool lowers_required = 1;
+    // Whether uppercase letters are required in the password.
+    bool uppers_required = 2;
+    // Whether digits are required in the password.
+    bool digits_required = 3;
+    // Whether special characters are required in the password.
+    bool specials_required = 4;
+    // Minimum length required for all passwords.
+    int64 min_length = 5 [(value) = ">=0"];
+  }
+
+  // Smart complexity policy applies adaptive requirements based on character class diversity.
+  message Smart {
+    // For passwords with one class of characters
+    int64 one_class = 1 [(value) = ">=0"];
+    // For passwords with two classes of characters
+    int64 two_classes = 2 [(value) = ">=0"];
+    // For passwords with three classes of characters
+    int64 three_classes = 3 [(value) = ">=0"];
+    // For passwords with all four classes of characters
+    int64 four_classes = 4 [(value) = ">=0"];
+  }
+
   // Whether passwords similar to previous ones are allowed.
   bool allow_similar = 1;
   // Maximum password length. Zero means no maximum length is enforced.
@@ -196,6 +222,14 @@ message PasswordQualityPolicy {
   // Minimum length requirements based on character class diversity.
   // If not specified, these checks are disabled.
   MinLengthByClassSettings min_length_by_class_settings = 6;
+
+  // Defines password complexity policy.
+  oneof complexity_policy {
+    // Fixed complexity requirements
+    Fixed fixed = 7;
+    // Smart complexity requirements
+    Smart smart = 8;
+  }
 }
 
 // Policy that defines password lifetime requirements.

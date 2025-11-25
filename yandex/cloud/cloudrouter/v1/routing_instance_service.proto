@@ -135,6 +135,18 @@ service RoutingInstanceService {
     option (google.api.http) = { delete: "/cloudrouter/v1/routingInstances/{routing_instance_id}" };
   }
 
+  // Moves the specified RoutingInstance to another folder.
+  rpc Move(MoveRoutingInstanceRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/cloudrouter/v1/routingInstances/{routing_instance_id}:move"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "MoveRoutingInstanceMetadata"
+      response: "RoutingInstance"
+    };
+  }
+
   // Lists operations for the specified RoutingInstance.
   rpc ListOperations (ListRoutingInstanceOperationsRequest) returns (ListRoutingInstanceOperationsResponse) {
     option (google.api.http) = { get: "/cloudrouter/v1/routingInstances/{routing_instance_id}/operations" };
@@ -400,6 +412,21 @@ message DeleteRoutingInstanceRequest {
 
 message DeleteRoutingInstanceMetadata {
   // ID of the RoutingInstance resource.
+  string routing_instance_id = 1;
+}
+
+message MoveRoutingInstanceRequest {
+  // ID of the RoutingInstance resource to move.
+  // To get the routingInstance ID use a [RoutingInstanceService.List] request.
+  string routing_instance_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the folder to which routingInstance will be moved.
+  // To get the folder ID use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message MoveRoutingInstanceMetadata {
+  // ID of the routingInstance that is being moved.
   string routing_instance_id = 1;
 }
 

@@ -106,10 +106,10 @@ message Parameter {
   // Parameter description.
   string description = 10;
 
-  reserved 11, 12;
+  reserved 11 to 13;
 
-  // Group name.
-  string group_name = 13;
+  // Is parameter grouped.
+  bool grouped = 14;
 }
 
 // Parametrization.

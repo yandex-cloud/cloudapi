@@ -81,6 +81,18 @@ service PrivateConnectionService {
     option (google.api.http) = { post: "/cic/v1/privateConnections/{private_connection_id}:removeStaticRoutes" body: "*" };
   }
 
+  // Moves the specified PrivateConnection to another folder.
+  rpc Move(MovePrivateConnectionRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/cic/v1/privateConnections/{private_connection_id}:move"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "MovePrivateConnectionMetadata"
+      response: "PrivateConnection"
+    };
+  }
+
   // Lists operations for the specified PrivateConnection.
   rpc ListOperations (ListPrivateConnectionOperationsRequest) returns (ListPrivateConnectionOperationsResponse) {
     option (google.api.http) = { get: "/cic/v1/privateConnections/{private_connection_id}/operations" };
@@ -269,6 +281,21 @@ message RemoveStaticRouteRequest {
 
 message RemoveStaticRouteMetadata {
   // ID of the PrivateConnection resource.
+  string private_connection_id = 1;
+}
+
+message MovePrivateConnectionRequest {
+  // ID of the PrivateConnection resource to move.
+  // To get the privateConnection ID use a [PrivateConnectionService.List] request.
+  string private_connection_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the folder to which privateConnection will be moved.
+  // To get the folder ID use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message MovePrivateConnectionMetadata {
+  // ID of the privateConnection that is being moved.
   string private_connection_id = 1;
 }
 

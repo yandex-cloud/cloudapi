@@ -57,6 +57,15 @@ service RegistryService {
     };
   }
 
+  // Forcefully deletes the specified registry along with all its repositories and data.
+  rpc ForceDelete (DeleteRegistryRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/cloud-registry/v1/registries/{registry_id}:forceDelete"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteRegistryMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
   //access
 
   // Lists access bindings for the specified registry.

@@ -1351,6 +1351,27 @@ message ClickhouseConfig {
   // Default value: **2592000000** (30 days).
   google.protobuf.Int64Value error_log_retention_time = 77 [(value) = ">=0"];
 
+  // Enables or disables query_metric_log system table.
+  //
+  // Default value: **false**.
+  //
+  // Change of the setting is applied with restart.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/system-tables/query_metric_log).
+  google.protobuf.BoolValue query_metric_log_enabled = 83;
+
+  // The maximum size that query_metric_log can grow to before old data will be removed. If set to **0**,
+  // automatic removal of query_metric_log data based on size is disabled.
+  //
+  // Default value: **536870912** (512 MiB).
+  google.protobuf.Int64Value query_metric_log_retention_size = 84 [(value) = ">=0"];
+
+  // The maximum time that query_metric_log records will be retained before removal. If set to **0**,
+  // automatic removal of query_metric_log data based on time is disabled.
+  //
+  // Default value: **2592000000** (30 days).
+  google.protobuf.Int64Value query_metric_log_retention_time = 85 [(value) = ">=0"];
+
   // Access control settings.
   AccessControlImprovements access_control_improvements = 74;
 
@@ -1479,6 +1500,31 @@ message ClickhouseConfig {
   //
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/server-configuration-parameters/settings#restore_threads).
   google.protobuf.Int64Value restore_threads = 81;
+
+  // Size of cache for vector similarity indexes, in bytes. **0** means disabled.
+  //
+  // Default value: **5368709120** (5 GiB).
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/server-configuration-parameters/settings#vector_similarity_index_cache_size).
+  google.protobuf.Int64Value vector_similarity_index_cache_size = 86 [(value) = ">=0"];
+
+  // Size of cache for vector similarity indexes, in entries. **0** means disabled.
+  //
+  // Default value: **10000000**.
+  //
+  // Change of the setting is applied with restart.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/server-configuration-parameters/settings#vector_similarity_index_cache_max_entries).
+  google.protobuf.Int64Value vector_similarity_index_cache_max_entries = 87 [(value) = ">=0"];
+
+  // The maximum number of threads to use for building vector indexes. **0** means unlimited.
+  //
+  // Default value: **16**.
+  //
+  // Change of the setting is applied with restart.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/server-configuration-parameters/settings#max_build_vector_similarity_index_thread_pool_size).
+  google.protobuf.Int64Value max_build_vector_similarity_index_thread_pool_size = 88 [(value) = ">=0"];
 
   // Settings for the MergeTree table engine family.
   //

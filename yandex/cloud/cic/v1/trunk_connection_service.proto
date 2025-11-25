@@ -62,6 +62,18 @@ service TrunkConnectionService {
     option (google.api.http) = { delete: "/cic/v1/trunkConnections/{trunk_connection_id}" };
   }
 
+  // Moves the specified TrunkConnection to another folder.
+  rpc Move(MoveTrunkConnectionRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/cic/v1/trunkConnections/{trunk_connection_id}:move"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "MoveTrunkConnectionMetadata"
+      response: "TrunkConnection"
+    };
+  }
+
   // Lists operations for the specified TrunkConnection.
   rpc ListOperations (ListTrunkConnectionOperationsRequest) returns (ListTrunkConnectionOperationsResponse) {
     option (google.api.http) = { get: "/cic/v1/trunkConnections/{trunk_connection_id}/operations" };
@@ -256,6 +268,21 @@ message DeleteTrunkConnectionRequest {
 
 message DeleteTrunkConnectionMetadata {
   // ID of the TrunkConnection resource.
+  string trunk_connection_id = 1;
+}
+
+message MoveTrunkConnectionRequest {
+  // ID of the TrunkConnection resource to move.
+  // To get the trunkConnection ID use a [TrunkConnectionService.List] request.
+  string trunk_connection_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the folder to which trunkConnection will be moved.
+  // To get the folder ID use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message MoveTrunkConnectionMetadata {
+  // ID of the trunkConnection that is being moved.
   string trunk_connection_id = 1;
 }
 

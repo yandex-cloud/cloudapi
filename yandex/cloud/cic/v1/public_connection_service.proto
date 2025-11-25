@@ -5,6 +5,8 @@ package yandex.cloud.cic.v1;
 import "google/api/annotations.proto";
 
 import "yandex/cloud/validation.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
 
 import "yandex/cloud/cic/v1/public_connection.proto";
 
@@ -24,6 +26,18 @@ service PublicConnectionService {
   // Retrieves the list of PublicConnection resources in the specified folder.
   rpc List (ListPublicConnectionsRequest) returns (ListPublicConnectionsResponse) {
     option (google.api.http) = {get: "/cic/v1/publicConnections"};
+  }
+
+  // Moves the specified PublicConnection to another folder.
+  rpc Move(MovePublicConnectionRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/cic/v1/publicConnections/{public_connection_id}:move"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "MovePublicConnectionMetadata"
+      response: "PublicConnection"
+    };
   }
 }
 
@@ -67,4 +81,19 @@ message ListPublicConnectionsResponse {
   // in the next list request. Subsequent list requests will have their own
   // [next_page_token] to continue paging through the results.
   string next_page_token = 2;
+}
+
+message MovePublicConnectionRequest {
+  // ID of the PublicConnection resource to move.
+  // To get the publicConnection ID use a [PublicConnectionService.List] request.
+  string public_connection_id = 1 [(required) = true, (length) = "<=50"];
+
+  // ID of the folder to which publicConnections will be moved.
+  // To get the folder ID use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+}
+
+message MovePublicConnectionMetadata {
+  // ID of the publicConnection that is being moved.
+  string public_connection_id = 1;
 }

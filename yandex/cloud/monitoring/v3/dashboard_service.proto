@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.monitoring.v3;
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/monitoring/v3/dashboard.proto";
 import "yandex/cloud/monitoring/v3/parametrization.proto";
@@ -105,6 +106,9 @@ message ListDashboardsRequest {
   // dashboard must meet ALL tokens in selector string
   // example: name = "New", description = "*new*", labels.key != "bad"
   string selectors = 22 [(length) = "<=1000"];
+
+  // Control which fields to include in dashboard response.
+  google.protobuf.FieldMask read_mask = 23;
 }
 
 message ListDashboardsResponse {
