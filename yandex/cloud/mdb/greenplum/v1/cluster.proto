@@ -222,6 +222,9 @@ message GreenplumConfig {
   //
   // After the cluster has been created, this setting cannot be changed.
   bool assign_public_ip = 6;
+
+  // Full version
+  string full_version = 10;
 }
 
 // Greenplum® cluster access options.

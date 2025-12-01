@@ -99,6 +99,9 @@ message ClusterConfig {
 
   // Metastore Cluster
   Metastore metastore = 4;
+
+  // Spark version. Format: "Major.Minor"
+  string spark_version = 5;
 }
 
 message UpdateClusterConfigSpec {
@@ -112,6 +115,9 @@ message UpdateClusterConfigSpec {
 
   // Metastore Cluster
   Metastore metastore = 4;
+
+  // Spark version. Format: "Major.Minor"
+  string spark_version = 5;
 }
 
 message HistoryServerConfig {

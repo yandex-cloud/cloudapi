@@ -206,6 +206,9 @@ message ClusterConfig {
 
   // Configuration and resource allocation for a MongoDB Enterprise cluster.
   Mongodb mongodb_config = 19;
+
+  // Full version
+  string full_version = 20;
 }
 
 message Mongodb3_6 {

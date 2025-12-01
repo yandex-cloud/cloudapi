@@ -157,6 +157,9 @@ message ClusterConfig {
 
   // Snapshot management configuration
   SnapshotManagement snapshot_management = 5;
+
+  // Full version
+  string full_version = 6;
 }
 
 // The OpenSearch host group type configuration.

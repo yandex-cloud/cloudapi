@@ -30,6 +30,12 @@ service WordstatService {
   rpc GetRegionsDistribution (GetRegionsDistributionRequest) returns (GetRegionsDistributionResponse) {
     option (google.api.http) = { post: "/v2/wordstat/regions" body: "*" };
   }
+
+  // Not implemented.
+  // The method method returns a tree of Wordstat-supported regions.
+  rpc GetRegionsTree (GetRegionsTreeRequest) returns (GetRegionsTreeResponse) {
+    option (google.api.http) = { post: "/v2/wordstat/getRegionsTree" body: "*" };
+  }
 }
 
 enum Device {
@@ -136,7 +142,7 @@ message GetRegionsDistributionRequest {
 
 message GetRegionsDistributionResponse {
   message RegionInfo {
-      // region ID
+      // Region ID
       string region = 1;
       // Number of queries containing the given keyword.
       int64  count = 2;
@@ -147,4 +153,23 @@ message GetRegionsDistributionResponse {
   }
   // Results.
   repeated  RegionInfo results = 1;
+}
+
+message GetRegionsTreeRequest {
+  // ID of the folder.
+  string folder_id = 1;
+}
+
+message GetRegionsTreeResponse {
+  message RegionInfo {
+    // Region ID.
+    string  id = 1;
+    // Region name
+    string  label = 2;
+    // Child regions.
+    repeated RegionInfo children = 3;
+  }
+
+  // Region tree
+  repeated RegionInfo regions = 1;
 }

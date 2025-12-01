@@ -77,17 +77,36 @@ message BalancerSettings {
 
 // Configuration of a SPQR router.
 message RouterSettings {
-reserved 3;
+  reserved 3;
   enum DefaultRouteBehavior {
     DEFAULT_ROUTE_BEHAVIOR_UNSPECIFIED = 0;
     BLOCK = 1;
     ALLOW = 2;
   }
 
+  enum TargetSessionAttrs {
+    TARGET_SESSION_ATTRS_UNSPECIFIED = 0;
+    READ_WRITE = 1;
+    SMART_READ_WRITE = 2;
+    READ_ONLY = 3;
+    PREFER_STANDBY = 4;
+    ANY = 5;
+  }
+
+  enum CommitStrategy {
+    COMMIT_STRATEGY_UNSPECIFIED = 0;
+    BEST_EFFORT = 1;
+    ONE_PC = 2;
+    TWO_PC = 3;
+  }
+
   google.protobuf.BoolValue show_notice_messages = 1;
   repeated double time_quantiles = 2;
   DefaultRouteBehavior default_route_behavior = 4;
   google.protobuf.BoolValue prefer_same_availability_zone = 5;
+  google.protobuf.BoolValue enhanced_multishard_processing = 6;
+  TargetSessionAttrs default_target_session_attrs = 7;
+  CommitStrategy default_commit_strategy = 8;
 }
 
 // Configuration of a SPQR coordinator.

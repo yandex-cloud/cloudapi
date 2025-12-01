@@ -5,6 +5,7 @@ package yandex.cloud.storage.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/struct.proto";
+
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -132,6 +133,43 @@ service BucketService {
   rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
     option (google.api.http) = {
       get: "/storage/v1/buckets/{resource_id}:listAccessBindings"
+    };
+  }
+
+  // Create/Update an inventory configuration with the corresponding ID
+  rpc CreateInventoryConfiguration(CreateBucketInventoryConfigurationRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/storage/v1/buckets/{bucket}/{id}:createInventoryConfiguration"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "CreateBucketInventoryConfigurationMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Get an inventory configuration with the corresponding ID
+  rpc GetInventoryConfiguration(GetBucketInventoryConfigurationRequest) returns (InventoryConfiguration) {
+    option (google.api.http) = {
+        get: "/storage/v1/buckets/{bucket}/{id}:getInventoryConfiguration"
+    };
+  }
+
+  // Delete an inventory configuration with the corresponding ID
+  rpc DeleteInventoryConfiguration(DeleteBucketInventoryConfigurationRequest) returns (operation.Operation){
+    option (google.api.http) = {
+        post: "/storage/v1/buckets/{bucket}/{id}:deleteInventoryConfiguration"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteBucketInventoryConfigurationMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Listing inventory configurations 
+  rpc ListInventoryConfigurations(ListBucketInventoryConfigurationsRequest) returns (ListBucketInventoryConfigurationsResponse) {
+    option (google.api.http) = {
+        get: "/storage/v1/buckets/{bucket}:listInventoryConfigurations"
     };
   }
 }
@@ -391,4 +429,50 @@ message DeleteBucketHTTPSConfigRequest {
 message DeleteBucketHTTPSConfigMetadata {
   // Name of the bucket the HTTPS configuration is being deleted for.
   string name = 1;
+}
+
+message CreateBucketInventoryConfigurationRequest {
+    // Name of the bucket to update the inventory configuration for.
+    string bucket = 1 [(required) = true];
+    // ID of the inventory configuration to set.
+    string id = 2 [(required) = true];
+    // Inventory configuration.
+    InventoryConfiguration configuration = 3 [(required) = true];
+}
+
+message CreateBucketInventoryConfigurationMetadata {
+  // Bucket name for which inventory configuration will be set
+  string name = 1;
+}
+
+message GetBucketInventoryConfigurationRequest {
+    // Name of the bucket to get the inventory configuration for.
+    string bucket = 1 [(required) = true];
+    // ID of the inventory configuration to get.
+    string id = 2 [(required) = true];
+}
+message DeleteBucketInventoryConfigurationRequest {
+    // Name of the bucket to delete the inventory configuration for.
+    string bucket = 1 [(required) = true];
+    // ID of the inventory configuration to delete.
+    string id = 2 [(required) = true];
+}
+
+message DeleteBucketInventoryConfigurationMetadata {
+  // Bucket name for which inventory configuration will be set
+  string name = 1;
+}
+
+message ListBucketInventoryConfigurationsRequest {
+    // Name of the bucket to list the inventory configurations for.
+    string bucket = 1 [(required) = true];
+    // Continuation token
+    string page_token = 2;
+}
+
+message ListBucketInventoryConfigurationsResponse {
+    // List of inventory configurations.
+    repeated InventoryConfiguration configurations = 1;
+    // Continuation token to retrieve the next page of results.
+    string next_page_token = 2;
 }

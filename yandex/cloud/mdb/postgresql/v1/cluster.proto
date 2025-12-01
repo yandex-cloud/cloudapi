@@ -265,6 +265,9 @@ message ClusterConfig {
 
   // Disk size autoscaling
   DiskSizeAutoscaling disk_size_autoscaling = 23;
+
+  // Full version
+  string full_version = 31;
 }
 
 message ConnectionPoolerConfig {

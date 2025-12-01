@@ -123,6 +123,9 @@ message InstanceGroup {
     // The group status will change to `ACTIVE`.
     PAUSED = 6;
   }
+
+  // List of disabled zones for the instance group.
+  repeated DisableZoneStatus disable_zone_statuses = 23;
 }
 
 message ApplicationLoadBalancerState {
@@ -997,4 +1000,14 @@ enum MetadataOption {
   ENABLED = 1;
   // Option is disabled
   DISABLED = 2;
+}
+
+// Status of the disabled zone.
+message DisableZoneStatus {
+  // ID of zone.
+  string zone_id = 1;
+
+  // Timestamp until which the zone will be disabled.
+  // If not present then zone will be disabled until it is removed through a separate call.
+  google.protobuf.Timestamp disabled_until = 2;
 }

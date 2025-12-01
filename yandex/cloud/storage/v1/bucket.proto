@@ -736,3 +736,99 @@ message BucketAllowedPrivateEndpoints {
   // white list of private endpoints bucket accessible from
   repeated string private_endpoints = 2;
 }
+
+message InventoryConfiguration {
+    message InventoryBucketDestination {
+        // Output format.
+        enum Format {
+            FORMAT_UNSPECIFIED = 0;
+            // CSV format.  
+            CSV = 1;
+        }
+        // Bucket where inventory results will be published.
+        string bucket = 1 [(required) = true];
+        // Specifies the output format of the inventory results.
+        Format format = 2 [(required) = true];
+        // The prefix that is prepended to all inventory results.
+        google.protobuf.StringValue prefix = 3;
+    }
+    
+    message InventoryDestination {
+        // Destination bucket settings 
+        InventoryBucketDestination bucket_destination = 1 [(required) = true];
+    }
+    
+    message InventorySchedule {
+        // Types of generation frequency
+        enum Frequency {
+            // UNSPECIFIED
+            FREQUENCY_UNSPECIFIED = 0;
+            // Daily generation.
+            DAILY = 1;
+            // Weekly generation.
+            WEEKLY = 2;
+        }
+        // Specifies how frequently inventory results are produced.
+        Frequency frequency = 1 [(required) = true];
+    }
+    
+    message InventoryFilter {
+        // The prefix that an object must have to be included in the inventory results.
+        string prefix = 1 [(required) = true];
+    }
+    
+    // Types of object versions to include in the inventory list.
+    enum IncludedObjectVersions {
+        // UNSPECIFIED
+        INCLUDED_OBJECT_VERSIONS_UNSPECIFIED = 0;
+        // Include all versions.
+        ALL = 1;
+        // Include only the current version.
+        CURRENT = 2;
+    }
+    
+    // Type of optional field.
+    enum OptionalField {
+        // UNSPECIFIED  
+        OPTIONAL_FIELD_UNSPECIFIED = 0;
+        // The object size in bytes.
+        SIZE = 1;
+        // The object creation date or the last modified date, whichever is the latest.
+        LAST_MODIFIED_DATE = 2;
+        // The storage class that's used for storing the object.
+        STORAGE_CLASS = 3;
+        // The entity tag (ETag) is a hash of the object.
+        ETAG = 4;
+        // Specifies that the object was uploaded as a multipart upload.
+        IS_MULTIPART_UPLOADED = 5;
+        // The server-side encryption type that's used to encrypt the object.
+        ENCRYPTION_STATUS = 6;
+        // The date until which the object is locked.
+        OBJECT_LOCK_RETAIN_UNTIL_DATE = 7;
+        // The level of protection applied to the object, either Governance or Compliance.
+        OBJECT_LOCK_MODE = 8;
+        // The legal hold status of the locked object.
+        OBJECT_LOCK_LEGAL_HOLD_STATUS = 9;
+        // Indicates the algorithm that is used to create the checksum for the object.
+        CHECKSUM_ALGORITHM = 10;
+        // An access control list (ACL) for each object.
+        OBJECT_ACCESS_CONTROL_LIST = 11;
+        // The owner of the object.
+        OBJECT_OWNER = 12;
+    }
+    
+    // The ID used to identify the inventory configuration.
+    string id = 1 [(required) = true];
+    // Contains information about where to publish the inventory results.
+    InventoryDestination destination = 2 [(required) = true];
+    // Object versions to include in the inventory list.
+    IncludedObjectVersions included_object_versions = 3 [(required) = true];
+    // Specifies whether the inventory is enabled.
+    bool is_enabled = 4;
+    // Specifies the schedule for generating inventory results.
+    InventorySchedule schedule = 5 [(required) = true];
+    // Specifies the filter for objects to include in the inventory.
+    InventoryFilter filter = 6;
+    // Contains the optional fields that are included in the inventory results.
+    repeated OptionalField optional_fields = 7;
+}

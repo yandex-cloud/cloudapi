@@ -5,6 +5,10 @@ resources_and_data_sources:
     rename: yandex_organizationmanager_idp_user
   - name: yandex_organization_manager_idp_userpool
     rename: yandex_organizationmanager_idp_userpool
+  - name: yandex_organization_manager_idp_application_oauth_application
+    rename: yandex_organizationmanager_idp_application_oauth_application
+  - name: yandex_organization_manager_idp_application_saml_application
+    rename: yandex_organizationmanager_idp_application_saml_application
 
 resources:
   - name: yandex_organization_manager_group
@@ -53,3 +57,5 @@ model_config:
       sensitive: true
     yandex.cloud.organizationmanager.v1.idp.PasswordHash.password_hash:
       sensitive: true
+    yandex.cloud.organizationmanager.v1.idp.application.saml.Application.organization_id:
+      force_new: true

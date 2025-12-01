@@ -187,6 +187,9 @@ message ClusterConfig {
 
   // Retain period of automatically created backup in days
   google.protobuf.Int64Value backup_retain_period_days = 10;
+
+  // Full version
+  string full_version = 11;
 }
 
 message Shard {

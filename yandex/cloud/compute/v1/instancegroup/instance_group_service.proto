@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.compute.v1.instancegroup;
 
 import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
@@ -222,6 +223,22 @@ service InstanceGroupService {
     };
     option (yandex.cloud.api.operation) = {
       metadata: "PauseInstanceGroupProcessMetadata"
+      response: "InstanceGroup"
+    };
+  }
+
+  // Disable zones for the specified instance group.
+  rpc DisableZones(DisableZonesRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "DisableZonesMetadata"
+      response: "InstanceGroup"
+    };
+  }
+
+  // Enable zones for the specified instance group.
+  rpc EnableZones(EnableZonesRequest) returns (operation.Operation) {
+    option (yandex.cloud.api.operation) = {
+      metadata: "EnableZonesMetadata"
       response: "InstanceGroup"
     };
   }
@@ -715,4 +732,34 @@ message ListInstanceGroupLogRecordsResponse {
   // in the next list request. Each subsequent list request will have its own
   // [next_page_token] to continue paging through the results.
   string next_page_token = 2;
+}
+
+message DisableZonesRequest {
+  // ID of the instance group to disable zones.
+  string instance_group_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Zone IDs to disable.
+  repeated string zone_ids = 2 [(size) = ">0"];
+
+  // The interval during which the zones will be disabled. Format 1m-72h.
+  // If not set then zone will be disabled until it is removed through a separate call.
+  google.protobuf.Duration duration = 3 [(value) = "1m-72h"];
+}
+
+message DisableZonesMetadata {
+  // ID of the instance group on which the zones were disabled.
+  string instance_group_id = 1;
+}
+
+message EnableZonesRequest {
+  // ID of the instance group to enable zones.
+  string instance_group_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Zone IDs to enable.
+  repeated string zone_ids = 2 [(size) = ">0"];
+}
+
+message EnableZonesMetadata {
+  // ID of the instance group on which the zones were enabled.
+  string instance_group_id = 1;
 }

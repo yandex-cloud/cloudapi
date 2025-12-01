@@ -179,6 +179,9 @@ message ClusterConfig {
 
   // Disk size autoscaling
   DiskSizeAutoscaling disk_size_autoscaling = 9;
+
+  // Full version
+  string full_version = 11;
 }
 
 message Host {

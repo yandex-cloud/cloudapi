@@ -196,6 +196,9 @@ message ClusterConfig {
 
   // Valkey modules settings
   ValkeyModules modules = 14;
+
+  // Full version
+  string full_version = 15;
 }
 
 message Shard {
