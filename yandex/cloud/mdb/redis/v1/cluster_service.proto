@@ -654,6 +654,9 @@ message RestoreClusterRequest {
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 18;
+
+  // Descriptions of users to be created in the Redis cluster.
+  repeated UserSpec user_specs = 19 [(size) = ">=0"];
 }
 
 message RestoreClusterMetadata {
@@ -1149,6 +1152,6 @@ message ConfigSpec {
   // Retain period of automatically created backup in days
   google.protobuf.Int64Value backup_retain_period_days = 13;
 
-  // Valkey modules settings 
+  // Valkey modules settings
   ValkeyModules modules = 14;
 }

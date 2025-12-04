@@ -1501,6 +1501,33 @@ message ClickhouseConfig {
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/server-configuration-parameters/settings#restore_threads).
   google.protobuf.Int64Value restore_threads = 81;
 
+  // Size of cache for vector similarity indexes, in bytes. **0** means disabled.
+  //
+  // Default value: **5368709120** (5 GiB).
+  //
+  // Change of the setting is applied with restart.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/server-configuration-parameters/settings#vector_similarity_index_cache_size).
+  google.protobuf.Int64Value vector_similarity_index_cache_size = 86 [(value) = ">=0"];
+
+  // Size of cache for vector similarity indexes, in entries. **0** means disabled.
+  //
+  // Default value: **10000000**.
+  //
+  // Change of the setting is applied with restart.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/server-configuration-parameters/settings#vector_similarity_index_cache_max_entries).
+  google.protobuf.Int64Value vector_similarity_index_cache_max_entries = 87 [(value) = ">=0"];
+
+  // The maximum number of threads to use for building vector indexes. **0** means unlimited.
+  //
+  // Default value: **16**.
+  //
+  // Change of the setting is applied with restart.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/server-configuration-parameters/settings#max_build_vector_similarity_index_thread_pool_size).
+  google.protobuf.Int64Value max_build_vector_similarity_index_thread_pool_size = 88 [(value) = ">=0"];
+
   // Settings for the MergeTree table engine family.
   //
   // Change of the settings of **merge_tree** is applied with restart.

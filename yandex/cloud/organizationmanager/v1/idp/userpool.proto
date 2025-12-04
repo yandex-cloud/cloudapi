@@ -198,6 +198,7 @@ message PasswordQualityPolicy {
   }
 
   // Smart complexity policy applies adaptive requirements based on character class diversity.
+  // Zero value means passwords with this number of classes are forbidden.
   message Smart {
     // For passwords with one class of characters
     int64 one_class = 1 [(value) = ">=0"];
@@ -225,9 +226,9 @@ message PasswordQualityPolicy {
 
   // Defines password complexity policy.
   oneof complexity_policy {
-    // Fixed complexity requirements
+    // Fixed complexity requirements. Exactly one of complexity requirements must be specified.
     Fixed fixed = 7;
-    // Smart complexity requirements
+    // Smart complexity requirements. Exactly one of complexity requirements must be specified.
     Smart smart = 8;
   }
 }
@@ -242,6 +243,7 @@ message PasswordLifetimePolicy {
 }
 
 // Policy that defines protection against brute force attacks.
+// Zero or empty values disable bruteforce protection.
 message BruteforceProtectionPolicy {
   // Time window for counting failed authentication attempts.
   google.protobuf.Duration window = 1;

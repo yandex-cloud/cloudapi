@@ -71,6 +71,20 @@ message TextValuesParameter {
   repeated string default_values = 1;
 }
 
+// Workspace parameter.
+message WorkspaceParameter {
+    // Container id
+    oneof container {
+        // Required. Project ID.
+        string project_id = 1;
+        // Required. Folder ID.
+        string folder_id = 2;
+    }
+
+    // Default value
+    string default_workspace_id = 3;
+}
+
 // Parameter.
 message Parameter {
   // Parameter identifier.
@@ -98,6 +112,9 @@ message Parameter {
 
     // Integer parameter.
     TextValuesParameter text_values = 9;
+
+    // Workspace parameter
+    WorkspaceParameter workspace_parameter = 15;
   }
 
   // UI-visibility.

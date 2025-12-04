@@ -131,6 +131,9 @@ message CreateClusterRequest {
 
   // Cluster specification.
   ClusterSpec spec = 8;
+
+  // CIDRs whitelist.
+  CidrBlocks cidr_blocks_whitelist = 9;
 }
 
 message CreateClusterMetadata {
@@ -169,6 +172,9 @@ message UpdateClusterRequest {
 
   // New cluster specification.
   ClusterSpec spec = 8;
+
+  // CIDRs whitelist.
+  CidrBlocks cidr_blocks_whitelist = 9;
 }
 
 message UpdateClusterMetadata {

@@ -271,9 +271,9 @@ message CreateBucketRequest {
   // requires permission s3:PutBucketAllowedPrivateEndpoints
   BucketAllowedPrivateEndpoints allowed_private_endpoints = 11;
   
-  // An option to disable access key auth for a bucket.
-  // requires permission s3:PutBucketAccessKeyAuthSettings
-  bool disabled_accesskey_auth = 12;
+  // An option to disable static key auth for a bucket.
+  // requires permission s3:UpdateBucketStaticKeyAuthSettings
+  bool disabled_statickey_auth = 12;
 }
 
 message CreateBucketMetadata {
@@ -345,9 +345,9 @@ message UpdateBucketRequest {
   // requires permission s3:PutBucketAllowedPrivateEndpoints
   BucketAllowedPrivateEndpoints allowed_private_endpoints = 15;
 
-  // An option to disable access key auth for a bucket.
-  // requires permission s3:PutBucketAccessKeyAuthSettings
-  bool disabled_accesskey_auth = 16; 
+  // An option to disable static key auth for a bucket.
+  // requires permission s3:UpdateBucketStaticKeyAuthSettings
+  bool disabled_statickey_auth = 16; 
 }
 
 message UpdateBucketMetadata {

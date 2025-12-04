@@ -39,6 +39,11 @@ model_config:
       fields:
         subject_container_id: ""
         external_id: ""
+    yandex.cloud.organizationmanager.v1.idp.PasswordQualityPolicy:
+      fields:
+        min_length: ""
+        required_classes: ""
+        min_length_by_class_settings: ""
 
   options:
     yandex.cloud.organizationmanager.v1.Group.organization_id:

@@ -105,6 +105,14 @@ message Cluster {
     }
     // Endpoints of the cluster.
     Endpoints endpoints = 16;
+
+    // CIDRs whitelist.
+    CidrBlocks cidr_blocks_whitelist = 17;
+}
+
+message CidrBlocks {
+    // IPv4 CIDR blocks.
+    repeated string v4_cidr_blocks = 1;
 }
 
 message StorageSpec {
@@ -184,6 +192,36 @@ message OdinSpec {
     google.protobuf.Duration checks_ttl = 1;
 }
 
+message ClearTmpCronSpec {
+    // Script starting interval.
+    google.protobuf.Duration interval = 1;
+    // Total max space usage ratio.
+    double account_usage_ratio_save_total = 2;
+    // Per account max space usage ratio.
+    double account_usage_ratio_save_per_owner = 3;
+    // Max nodes in every directory.
+    int64 max_dir_node_count = 4;
+}
+
+message CronSpec {
+    // Cluster regular tmp-account cleaning settings.
+    ClearTmpCronSpec clear_tmp = 1;
+}
+
+message ClientLogging {
+    // ID of Service account used for write logs.
+    string service_account_id = 1;
+    // Destination of cloud logging group.
+    oneof destination {
+        // ID of cloud logging group.
+        string log_group_id = 2;
+        // ID of cloud logging folder. Used default loging group.
+        string folder_id = 3;
+    }
+    // Enable audit logs.
+    bool audit_logs_enabled = 4;
+}
+
 message ClusterSpec {
     StorageSpec storage = 1;
     repeated ComputeSpec compute = 2;
@@ -200,4 +238,10 @@ message ClusterSpec {
     }
 
     Flavor flavor = 6;
+
+    // Cluster regular processing settings.
+    CronSpec cron = 7;
+
+    // Client Cloud logging configuration.
+    ClientLogging client_logging = 8;
 }

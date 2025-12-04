@@ -62,6 +62,18 @@ service ApiGatewayService {
     };
   }
 
+  // Resumes the specified API gateway.
+  rpc Resume(ResumeApiGatewayRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/apigateways/v1/apigateways/{api_gateway_id}:resume"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "ResumeApiGatewayMetadata"
+      response: "ApiGateway"
+    };
+  }
+
   // Attaches domain to the specified API gateway.
   rpc AddDomain(AddDomainRequest) returns (operation.Operation) {
     option (google.api.http) = {
@@ -277,6 +289,13 @@ message DeleteApiGatewayRequest {
   string api_gateway_id = 1 [(required) = true];
 }
 
+message ResumeApiGatewayRequest {
+  // ID of the API gateway to update.
+  //
+  // To get a API gateway ID make a [ApiGatewayService.List] request.
+  string api_gateway_id = 1 [(required) = true];
+}
+
 message AddDomainRequest {
   reserved 2;
   // ID of the API gateway that the domain is attached to.
@@ -306,6 +325,11 @@ message UpdateApiGatewayMetadata {
 
 message DeleteApiGatewayMetadata {
   // ID of the API gateway that is being deleted.
+  string api_gateway_id = 1;
+}
+
+message ResumeApiGatewayMetadata {
+  // ID of the API gateway that is being resumed.
   string api_gateway_id = 1;
 }
 

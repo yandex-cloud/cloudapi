@@ -627,6 +627,17 @@ message RestoreClusterRequest {
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 14;
+
+  message PartialRestoreSpec {
+      // List of MongoDB namespaces restore to
+      repeated string whitelist = 1 [(size) = ">=0"];
+
+      // List of MongoDB namespaces not restore to
+      repeated string blacklist = 2 [(size) = ">=0"];
+  }
+
+  // Specification of the list of cluster namespaces, which should be restored.
+  PartialRestoreSpec partial_restore_spec = 15;
 }
 
 message RestoreClusterMetadata {

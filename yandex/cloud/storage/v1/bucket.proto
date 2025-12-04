@@ -83,8 +83,8 @@ message Bucket {
   // ID of the Yandex.Cloud entity that owns the bucket.
   string resource_id = 18;
 
-  // An option to disable access key auth for a bucket.
-  bool disabled_accesskey_auth = 19;
+  // An option to disable static key auth for a bucket.
+  bool disabled_statickey_auth = 19;
 }
 
 message Tag {

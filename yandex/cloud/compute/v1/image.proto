@@ -13,6 +13,7 @@ option java_package = "yandex.cloud.api.compute.v1";
 message Image {
 
   enum Status {
+    // Unknown status.
     STATUS_UNSPECIFIED = 0;
 
     // Image is being created.
@@ -34,6 +35,7 @@ message Image {
   // ID of the folder that the image belongs to.
   string folder_id = 2;
 
+  // Creation timestamp.
   google.protobuf.Timestamp created_at = 3;
 
   // Name of the image. 1-63 characters long.
@@ -88,6 +90,7 @@ message Image {
 message Os {
 
   enum Type {
+    // Unknown operating system type.
     TYPE_UNSPECIFIED = 0;
 
     // Linux operating system.
@@ -101,4 +104,13 @@ message Os {
   //
   // This field is used to correctly emulate a vCPU and calculate the cost of using an instance.
   Type type = 1;
+
+  // Gpu type.
+  // This field is used to correctly select a node with a host gpu that matches the gpu from here, in order to run the VM on it.
+  Nvidia nvidia = 2;
+}
+
+message Nvidia {
+  // Gpu driver version.
+  string driver = 1;
 }
