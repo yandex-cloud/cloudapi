@@ -1083,7 +1083,7 @@ message ConfigSpec {
   Resources resources = 5;
 
   // Configuration setting which enables/disables autofailover in cluster.
-  google.protobuf.BoolValue autofailover = 6;
+  google.protobuf.BoolValue autofailover = 6 [deprecated=true];
 
   // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 8;

@@ -29,6 +29,9 @@ message ApiGateway {
 
     // API gateway is being updated.
     UPDATING = 5;
+
+    // API gateway stopped.
+    STOPPED = 6;
   }
 
   // ID of the API gateway. Generated at creation time.

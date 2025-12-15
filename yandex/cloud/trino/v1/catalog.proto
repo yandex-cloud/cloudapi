@@ -44,6 +44,9 @@ message Connector {
 
     // MySQL connector configuration for connecting to MySQL Database instances.
     MysqlConnector mysql = 11;
+
+    // Greenplum connector configuration for connecting to Greenplum or Cloudberry Database instances.
+    GreenplumConnector greenplum = 12;
   }
 }
 
@@ -522,4 +525,71 @@ message MysqlConnector {
     (map_key).length = "1-128",
     (map_key).pattern = "[a-z][-_0-9a-z.]*"
   ];
+}
+
+message GreenplumConnection {
+    message OnPremise {
+        // Connection to the Greenplum/Cloudberry.
+        string connection_url = 1 [
+            (required) = true,
+            (pattern) = "^jdbc:[a-z0-9]+://(?:.+:\\d+)/(?:.*)$"
+        ];
+
+        // Name of the Greenplum/Cloudberry user.
+        string user_name = 2 [
+            (required) = true,
+            (length) = "<=63",
+            (pattern) = "[a-zA-Z0-9_-]*"
+        ];
+
+        // Password of the Greenplum/Cloudberry user.
+        string password = 3 [
+            (required) = true,
+            (length) = "0-128"
+        ];
+    }
+
+    message ConnectionManager {
+        // Connection ID.
+        string connection_id = 1 [
+            (required) = true,
+            (length) = "1-50"
+        ];
+
+        // Database.
+        string database = 2 [
+            (required) = true,
+            (length) = "<=63",
+            (pattern) = "[a-zA-Z0-9_-]*"
+        ];
+
+        // Additional connection properties.
+        map<string, string> connection_properties = 3 [
+            (yandex.cloud.size) = "<=256",
+            (length) = "<=128",
+            (pattern) = "[-_0-9a-zA-Z.,:\\/_]*",
+            (map_key).length = "1-128",
+            (map_key).pattern = "[a-zA-Z]*"
+        ];
+    }
+
+    oneof type {
+        option (exactly_one) = true;
+        OnPremise on_premise = 1;
+        ConnectionManager connection_manager = 2;
+    }
+}
+
+message GreenplumConnector {
+    // Connection configuration
+    GreenplumConnection connection = 1;
+
+    // Additional properties.
+    map<string, string> additional_properties = 2 [
+        (yandex.cloud.size) = "<=256",
+        (length) = "<=128",
+        (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
+        (map_key).length = "1-128",
+        (map_key).pattern = "[a-z][-_0-9a-z.]*"
+    ];
 }

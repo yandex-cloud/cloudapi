@@ -735,6 +735,9 @@ message BucketAllowedPrivateEndpoints {
   bool enabled = 1;
   // white list of private endpoints bucket accessible from
   repeated string private_endpoints = 2;
+  // if true, cloud console will be able to access a bucket
+  // regardless of private_endpoints list
+  bool force_cloud_console_access = 3;  
 }
 
 message InventoryConfiguration {

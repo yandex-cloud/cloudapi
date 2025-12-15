@@ -1,4 +1,6 @@
 resources_and_data_sources:
+  - name: yandex_organization_manager_mfa_enforcement
+    rename: yandex_organizationmanager_mfa_enforcement
   - name: yandex_organization_manager_user_ssh_key
     rename: yandex_organizationmanager_user_ssh_key
   - name: yandex_organization_manager_idp_user
@@ -9,6 +11,8 @@ resources_and_data_sources:
     rename: yandex_organizationmanager_idp_application_oauth_application
   - name: yandex_organization_manager_idp_application_saml_application
     rename: yandex_organizationmanager_idp_application_saml_application
+  - name: yandex_organization_manager_idp_application_saml_signature_certificate
+    rename: yandex_organizationmanager_idp_application_saml_signature_certificate
 
 resources:
   - name: yandex_organization_manager_group
@@ -25,6 +29,12 @@ iam_bindings:
     rename: yandex_organizationmanager_organization
 
 model_config:
+  custom_crud:
+    yandex_organization_manager_mfa_enforcement:
+      create:
+        before_hook: setCorrectEnumForCreate
+      update:
+        before_hook: setCorrectEnumForUpdate
   upgrade_state:
     yandex_organizationmanager_user_ssh_key:
       0:
@@ -39,6 +49,12 @@ model_config:
       fields:
         subject_container_id: ""
         external_id: ""
+    yandex.cloud.organizationmanager.v1.CreateMfaEnforcementRequest:
+      fields:
+        status: ""
+    yandex.cloud.organizationmanager.v1.UpdateMfaEnforcementRequest:
+      fields:
+        status: ""
     yandex.cloud.organizationmanager.v1.idp.PasswordQualityPolicy:
       fields:
         min_length: ""
@@ -48,6 +64,10 @@ model_config:
   options:
     yandex.cloud.organizationmanager.v1.Group.organization_id:
       force_new: true
+    yandex.cloud.organizationmanager.v1.MfaEnforcement.organization_id:
+      force_new: true
+    yandex.cloud.organizationmanager.v1.MfaEnforcement.status:
+      specifiable: true
     yandex.cloud.organizationmanager.v1.UserSshKey.id:
       force_new: true
     yandex.cloud.organizationmanager.v1.UserSshKey.subject_id:

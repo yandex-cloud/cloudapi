@@ -15,11 +15,11 @@ service ExecutionService {
   // Starts new Workflow execution.
   rpc Start (StartExecutionRequest) returns (StartExecutionResponse) {
     option (google.api.http) = {
-      post: "/workflows/v1/execution/start"
+      post: "/workflows/v1/execution/start" 
       body: "*"
       additional_bindings {
         post: "/workflows/v1/execution/{workflow_id}/start"
-        body: "input.input_json"
+        body: "input.input_value"
       }
     };
   };

@@ -7,3 +7,8 @@ model_config:
     yandex.cloud.iam.v1.OAuthClient:
       fields:
         id: oauth_client_id
+  options:
+    yandex.cloud.iam.v1.OAuthClient.scopes:
+      set: true
+    yandex.cloud.iam.v1.OAuthClient.redirect_uris:
+      set: true

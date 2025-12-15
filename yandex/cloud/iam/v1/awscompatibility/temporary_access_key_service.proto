@@ -32,8 +32,9 @@ message CreateEphemeralAccessKeyRequest {
   // AWS-compatible policy in JSON format that you want to use as an inline session policy.
   string policy = 3 [(length) = "<=2048"];
 
-  // Duration, which specifies the duration of the temporary security credentials.
-  google.protobuf.Duration duration = 4 [(value) = "15m-168h"];
+  // Duration, which specifies the duration of the ephemeral access key,
+  // but duration won't be longer than the lifetime of the authentication token that made the request
+  google.protobuf.Duration duration = 4 [(value) = ">=15m"];
 }
 
 message CreateEphemeralAccessKeyResponse {

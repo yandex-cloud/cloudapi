@@ -101,6 +101,12 @@ message Captcha {
 
   // List of variants to use in security_rules
   repeated OverrideVariant override_variants = 23 [(size) = "<=32"];
+
+  bool disallow_data_processing = 24;
+
+  string description = 25 [(length) = "<=512"];
+
+  map<string, string> labels = 26 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 
 // OverrideVariant object. Contains the settings to override.
