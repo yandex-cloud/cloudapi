@@ -15,11 +15,18 @@ enum MetrikaStreamType {
     METRIKA_STREAM_TYPE_HITS_V2 = 3;
 }
 message MetrikaStream {
+    // Stream type, one of: METRIKA_STREAM_TYPE_HITS, METRIKA_STREAM_TYPE_VISITS,
+    // METRIKA_STREAM_TYPE_HITS_V2
     MetrikaStreamType type = 1;
+    // Column names
     repeated string columns = 2;
 }
+// Settings specific to the Yandex Metrika source endpoint
 message MetrikaSource {
+    // Counter IDs
     repeated int64 counter_ids = 1;
+    // Authentication token
     Secret token = 2;
+    // Streams
     repeated MetrikaStream streams = 3;
 }

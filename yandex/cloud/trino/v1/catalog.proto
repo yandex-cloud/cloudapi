@@ -133,6 +133,7 @@ message Metastore {
 
   oneof type {
     option (exactly_one) = true;
+    // Apache Hive Metastore.
     HiveMetastore hive = 1;
   }
 }
@@ -146,15 +147,26 @@ message FileSystem {
 
   // Describes External S3 compatible file system.
   message ExternalS3FileSystem {
+    // AWS access key.
     string aws_access_key = 1 [(required) = true];
+
+    // AWS secret key.
     string aws_secret_key = 2 [(required) = true];
+
+    // AWS endpoint.
     string aws_endpoint = 3 [(required) = true];
+
+    // AWS region.
     string aws_region = 4 [(required) = true];
   }
 
   oneof type {
     option (exactly_one) = true;
+
+    // Yandex Cloud S3 filesystem.
     S3FileSystem s3 = 1;
+
+    // External S3 filesystem.
     ExternalS3FileSystem external_s3 = 2;
   }
 }
@@ -232,7 +244,7 @@ message PostgresqlConnection {
     // Connection to the Postgresql.
     string connection_url = 1 [
       (required) = true,
-      (pattern) = "^jdbc:[a-z0-9]+://(?:.+:\\d+)/(?:.*)$"
+      (pattern) = "^jdbc:postgresql://(?:.+:\\d+)/(?:.*)$"
     ];
 
     // Name of the Postgresql user.
@@ -275,7 +287,11 @@ message PostgresqlConnection {
 
   oneof type {
     option (exactly_one) = true;
+
+    // Connection configured manually.
     OnPremise on_premise = 1;
+
+    // Connection configured using Yandex Cloud Connection Manager.
     ConnectionManager connection_manager = 2;
   }
 }
@@ -299,7 +315,7 @@ message ClickhouseConnection {
     // Connection to the Clickhouse.
     string connection_url = 1 [
       (required) = true,
-      (pattern) = "^jdbc:[a-z0-9]+://(?:.+:\\d+)/(?:.*)$"
+      (pattern) = "^jdbc:clickhouse://(?:.+:\\d+)/(?:.*)$"
     ];
 
     // Name of the Clickhouse user.
@@ -342,7 +358,11 @@ message ClickhouseConnection {
 
   oneof type {
     option (exactly_one) = true;
+
+    // Connection configured manually.
     OnPremise on_premise = 1;
+
+    // Connection configured using Yandex Cloud Connection Manager.
     ConnectionManager connection_manager = 2;
   }
 }
@@ -388,7 +408,7 @@ message OracleConnection {
     // Connection to the Oracle.
     string connection_url = 1 [
       (required) = true,
-      (pattern) = "^jdbc:[a-z0-9]+:(?s:.*)$"
+      (pattern) = "^jdbc:oracle:(?s:.*)$"
     ];
 
     // Name of the Oracle user.
@@ -407,6 +427,8 @@ message OracleConnection {
 
   oneof type {
     option (exactly_one) = true;
+
+    // Connection configured manually.
     OnPremise on_premise = 1;
   }
 }
@@ -430,7 +452,7 @@ message SQLServerConnection {
     // Connection to the SQLServer.
     string connection_url = 1 [
       (required) = true,
-      (pattern) = "^jdbc:[a-z0-9]+:(?s:.*)$"
+      (pattern) = "^jdbc:sqlserver:(?s:.*)$"
     ];
 
     // Name of the SQLServer user.
@@ -449,6 +471,8 @@ message SQLServerConnection {
 
   oneof type {
     option (exactly_one) = true;
+
+    // Connection configured manually.
     OnPremise on_premise = 1;
   }
 }
@@ -472,7 +496,7 @@ message MysqlConnection {
     // Connection to the MySQL.
     string connection_url = 1 [
       (required) = true,
-      (pattern) = "^jdbc:[a-z0-9]+://(?:.+:\\d+)/(?:.*)$"
+      (pattern) = "^jdbc:mysql://(?:.+:\\d+)(?:/?.*)$"
     ];
 
     // Name of the MySQL user.
@@ -508,7 +532,11 @@ message MysqlConnection {
 
   oneof type {
     option (exactly_one) = true;
+
+    // Connection configured manually.
     OnPremise on_premise = 1;
+
+    // Connection configured using Yandex Cloud Connection Manager.
     ConnectionManager connection_manager = 2;
   }
 }
@@ -532,7 +560,7 @@ message GreenplumConnection {
         // Connection to the Greenplum/Cloudberry.
         string connection_url = 1 [
             (required) = true,
-            (pattern) = "^jdbc:[a-z0-9]+://(?:.+:\\d+)/(?:.*)$"
+            (pattern) = "^jdbc:postgresql://(?:.+:\\d+)/(?:.*)$"
         ];
 
         // Name of the Greenplum/Cloudberry user.
@@ -575,7 +603,11 @@ message GreenplumConnection {
 
     oneof type {
         option (exactly_one) = true;
+
+        // Connection configured manually.
         OnPremise on_premise = 1;
+
+        // Connection configured using Yandex Cloud Connection Manager.
         ConnectionManager connection_manager = 2;
     }
 }

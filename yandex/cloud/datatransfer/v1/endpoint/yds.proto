@@ -15,15 +15,19 @@ enum YdsCompressionCodec {
     YDS_COMPRESSION_CODEC_GZIP = 2;
     YDS_COMPRESSION_CODEC_ZSTD = 4;
 }
+// Settings specific to the YDS source endpoint
 message YDSSource {
     reserved 3 to 7, 12 to 19, 21 to 29, 31 to 33;
-    // Database
+    // Database path in YDB for streams 
+    // Example: `/ru/transfer_manager/prod/data-transfer`
     string database = 1;
-    // Stream
+    // Stream to read
     string stream = 2;
-    // SA which has read access to the stream.
+    // Service account ID which has read access to the stream.
     string service_account_id = 8;
-    // Compression codec
+    // List of supported compression codecs
+    // Options: YDS_COMPRESSION_CODEC_RAW, YDS_COMPRESSION_CODEC_ZSTD,
+    // YDS_COMPRESSION_CODEC_GZIP 
     repeated YdsCompressionCodec supported_codecs = 9;
     // Data parsing rules
     Parser parser = 10;
@@ -31,34 +35,44 @@ message YDSSource {
     // False: stop the transfer in error state, if detected lost data. True: continue
     // working with losing part of data
     bool allow_ttl_rewind = 11;
-    // for dedicated db
+    // YDS Endpoint for dedicated db
     string endpoint = 20;
-    // Network interface for endpoint. If none will assume public ipv4
+    // Identifier of the Yandex Cloud VPC subnetwork to user for accessing the
+    // database. If omitted, the server has to be accessible via Internet
     string subnet_id = 30;
-    // Security groups
+    // List of security groups that the transfer associated with this endpoint should
+    // use
     repeated string security_groups = 34;
-    // for important streams
+    // Custom consumer - for important streams
     string consumer = 35;
 }
+// Settings specific to the YDS target endpoint
 message YDSTarget {
     reserved 6 to 7, 9 to 19, 21 to 29, 31 to 33;
-    // Database
+    // Database path in YDB for streams 
+    // Example: `/ru/transfer_manager/prod/data-transfer`
     string database = 1;
-    // Stream
+    // Stream to write to
     string stream = 2;
-    // SA which has read access to the stream.
+    // Service account ID which has read access to the stream
     string service_account_id = 3;
     // Save transaction order
     // Not to split events queue into separate per-table queues.
     // Incompatible with setting Topic prefix, only with Topic full name.
     bool save_tx_order = 4;
+    // Codec to use for output data compression. If not specified, no compression will
+    // be done
+    // Options: YDS_COMPRESSION_CODEC_RAW, YDS_COMPRESSION_CODEC_ZSTD,
+    // YDS_COMPRESSION_CODEC_GZIP 
     YdsCompressionCodec compression_codec = 5;
     // Data serialization format
     Serializer serializer = 8;
-    // for dedicated db
+    // YDS Endpoint for dedicated db
     string endpoint = 20;
-    // Network interface for endpoint. If none will assume public ipv4
+    // Identifier of the Yandex Cloud VPC subnetwork to user for accessing the
+    // database. If omitted, the server has to be accessible via Internet
     string subnet_id = 30;
-    // Security groups
+    // List of security groups that the transfer associated with this endpoint should
+    // use
     repeated string security_groups = 34;
 }

@@ -5,18 +5,20 @@ services:
 
   - name: AccessKeyService
     tools:
-      - method: List
       - method: Get
+      - method: List
       - method: Create
+        tags: ["sensitive"]
       - method: Update
       - method: Delete
       - method: ListOperations
 
   - name: ApiKeyService
     tools:
-      - method: List
       - method: Get
+      - method: List
       - method: Create
+        tags: ["sensitive"]
       - method: Update
       - method: Delete
       - method: ListOperations
@@ -32,7 +34,9 @@ services:
   - name: IamTokenService
     tools:
       - method: Create
+        tags: ["sensitive"]
       - method: CreateForServiceAccount
+        tags: ["sensitive"]
       - method: Revoke
 
   - name: KeyService
@@ -40,6 +44,7 @@ services:
       - method: Get
       - method: List
       - method: Create
+        tags: ["sensitive"]
       - method: Update
       - method: Delete
       - method: ListOperations
@@ -49,6 +54,7 @@ services:
       - method: Get
       - method: List
       - method: Create
+        tags: ["sensitive"]
       - method: Delete
 
   - name: OAuthClientService

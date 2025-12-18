@@ -56,15 +56,25 @@ message Secret {
     }
 }
 message ColSchema {
+    // Field name
     string name = 1;
+    // Field type, one of: `INT64`, `INT32`, `INT16`, `INT8`, `UINT64`, `UINT32`,
+    // `UINT16`, `UINT8`, `DOUBLE`, `BOOLEAN`, `STRING`, `UTF8`, `ANY`, `DATETIME`.    
     ColumnType type = 2;
+    // Mark field as Primary Key
     bool key = 3;
+    // Mark field as required
     bool required = 4;
+    // Path to the field
     string path = 5;
 }
+// TLS configuration
 message TLSMode {
     oneof tls_mode {
+        // Empty block designating that the connection is not secured, i.e. plaintext
+        // connection
         google.protobuf.Empty disabled = 1;
+        // TLS is used for the server connection
         TLSConfig enabled = 2;
     }
 }
@@ -72,8 +82,9 @@ message TLSConfig {
     // CA certificate
     // 
     // X.509 certificate of the certificate authority which issued the server's
-    // certificate, in PEM format. When CA certificate is specified TLS is used to
-    // connect to the server.
+    // certificate, in PEM format. When CA certificate is specified, TLS is used to
+    // connect to the server. If CA certificate is empty, the server's certificate must
+    // be signed by a well-known CA
     string ca_certificate = 1;
 }
 message ColumnValue {
@@ -87,7 +98,8 @@ message DataTransformationOptions {
     string cloud_function = 1;
     // Number of retries
     int64 number_of_retries = 2;
-    // Buffer size for function
+    // Buffer size for function. Maximum 4 GB.  Use value with units, i.e. 10 B, 20 kB,
+    // 2.0 MB, 30 MB, 1.0 GB
     string buffer_size = 3;
     // Flush interval
     string buffer_flush_interval = 4;
@@ -98,18 +110,26 @@ message DataTransformationOptions {
 }
 message FieldList {
     reserved 1;
-    // Column schema
+    // Description of the column schema in the array of `fields` structure
     repeated ColSchema fields = 2;
 }
 message DataSchema {
     oneof schema {
+        // Description of the data schema as JSON specification
         string json_fields = 1;
+        // Description of the data schema in the array of `fields` structure
         FieldList fields = 2;
     }
 }
 // No authentication
 message NoAuth {
 }
+// Use Connection Manager connection
 message ConnectionManagerConnection {
+    // ID of connection in Connection Manager with installation params and credetials
     string connection_id = 1;
+    // Identifier of the Yandex Cloud VPC subnetwork to user for accessing the
+    // database. 
+    // If omitted, the server has to be accessible via Internet
+    string subnet_id = 2;
 }

@@ -82,10 +82,13 @@ message PostgresObjectTransferSettings {
 }
 message OnPremisePostgres {
     reserved 1, 3;
-    // Will be used if the cluster ID is not specified.
+    // PG port. Will be used if the cluster ID is not specified.
     int64 port = 2;
-    // Network interface for endpoint. If none will assume public ipv4
+    // Identifier of the Yandex Cloud VPC subnetwork to user for accessing the
+    // database. 
+    // If omitted, the server has to be accessible via Internet
     string subnet_id = 4;
+    // PG installation hosts
     repeated string hosts = 5;
     // TLS settings for server connection. Disabled by default.
     TLSMode tls_mode = 6;
@@ -96,54 +99,65 @@ message PostgresConnection {
         string mdb_cluster_id = 1;
         // Connection options for on-premise PostgreSQL
         OnPremisePostgres on_premise = 2;
+        // Get Postgres installation params and credentials from Connection Manager
         ConnectionManagerConnection connection_manager_connection = 3;
     }
 }
+// Settings specific to the PostgreSQL source endpoint.
 message PostgresSource {
     reserved 7, 10 to 12;
     // Database connection settings
     PostgresConnection connection = 1;
-    // Database name
+    // Name of the database to transfer
     string database = 2;
-    // User for database access. not required as may be in connection
+    // User for database access. Required unless Connection Manager connection is used.
     string user = 3;
     // Password for database access.
     Secret password = 4;
-    // Included tables
-    // 
-    // If none or empty list is presented, all tables are replicated. Full table name
-    // with schema. Can contain schema_name.* patterns.
+    // List of tables to transfer, formatted as `schemaname.tablename`. 
+    // If omitted or an empty list is specified, all tables will be transferred.
+    // Can contain schema_name.* patterns.
     repeated string include_tables = 5;
-    // Excluded tables
-    // 
-    // If none or empty list is presented, all tables are replicated. Full table name
-    // with schema. Can contain schema_name.* patterns.
+    // List of tables which will not be transfered, formatted as `schemaname.tablename`
+    // If omitted or empty list is specified, all tables are replicated. 
+    // Can contain schema_name.* patterns.
     repeated string exclude_tables = 6;
-    // Maximum lag of replication slot (in bytes); after exceeding this limit
-    // replication will be aborted.
+    // Maximum WAL size held by the replication slot (API - in bytes, terraform - in
+    // gigabytes); 
+    // Exceeding this limit will result in a replication failure and deletion of the
+    // replication slot.
+    // Default is 50 gigabytes
     int64 slot_byte_lag_limit = 8;
-    // Database schema for service tables (__consumer_keeper,
-    // __data_transfer_mole_finder). Default is public
+    // Name of the database schema in which auxiliary tables needed for the transfer
+    // will be created (__consumer_keeper, __data_transfer_mole_finder). 
+    // Empty `service_schema` implies schema `public`
     string service_schema = 9;
-    // Select database objects to be transferred during activation or deactivation.
+    // Defines which database schema objects should be transferred, e.g. views,
+    // functions, etc. 
+    // All of the attributes in this block are optional and should be either
+    // `BEFORE_DATA`, `AFTER_DATA` or `NEVER`
     PostgresObjectTransferSettings object_transfer_settings = 13;
-    // Security groups
+    // List of security groups that the transfer associated with this endpoint should
+    // use
     repeated string security_groups = 14;
 }
+// Settings specific to the PostgreSQL target endpoint
 message PostgresTarget {
     reserved 6;
     // Database connection settings
     PostgresConnection connection = 1;
-    // Database name
+    // Target database name
     string database = 2;
-    // User for database access. not required as may be in connection
+    // User for database access. Required unless Connection Manager connection is used
     string user = 3;
     // Password for database access.
     Secret password = 4;
-    // Cleanup policy for activate, reactivate and reupload processes. Default is
-    // truncate.
+    // Cleanup policy for activate, reactivate and reupload processes. 
+    // One of: DISABLED, DROP, TRUNCATE. Default is TRUNCATE
     CleanupPolicy cleanup_policy = 5;
-    // Security groups
+    // List of security groups that the transfer associated with this endpoint should
+    // use
     repeated string security_groups = 7;
+    // Whether can change table schema if schema changed on source
     bool is_schema_migration_disabled = 8;
 }

@@ -334,6 +334,16 @@ message ResourceOptions {
         repeated string excepted_values = 3;
     }
 
+    message FollowRedirectsOption {
+        // True - the option is enabled and its [flag] is applied to the resource.
+        // False - the option is disabled and its default value of the [flag] is used for the resource.
+        bool enabled = 1;
+        // Add the redirect HTTP status codes that the source returns.
+        repeated int64 codes = 2;
+        // Use the redirect target domain as a Host header, or leave it the same as the value of the Change Host header option.
+        bool use_custom_host = 3;
+    }
+
     // Set up a cache status.
     BoolOption disable_cache = 1;
 
@@ -418,6 +428,10 @@ message ResourceOptions {
     // Manage the state of the IP access policy option.
     // The option controls access to content from the specified IP addresses.
     IPAddressACLOption ip_address_acl = 21;
+
+    // Manage the state of the Redirection from origin option.
+    // If the source returns a redirect, the option lets CDN pull the requested content from the source that was returned in the redirect.
+    FollowRedirectsOption follow_redirects = 22;
 }
 
 // A set of the personal SSL certificate parameters.

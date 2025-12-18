@@ -15,6 +15,8 @@ import "yandex/cloud/datatransfer/v1/endpoint/postgres.proto";
 import "yandex/cloud/datatransfer/v1/endpoint/ydb.proto";
 import "yandex/cloud/datatransfer/v1/endpoint/yds.proto";
 
+// Data Transfer endpoint. For more information, see [the official
+// documentation](https://yandex.cloud/docs/data-transfer/)
 message Endpoint {
     reserved 3, 7 to 51;
     string id = 1;
@@ -22,6 +24,7 @@ message Endpoint {
     string name = 4;
     string description = 5;
     map<string,string> labels = 6;
+    // DataTransfer Endpoint Settings block
     EndpointSettings settings = 52;
 }
 message EndpointSettings {

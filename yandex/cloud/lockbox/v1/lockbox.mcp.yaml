@@ -2,19 +2,24 @@ services:
   - name: PayloadService
     tools:
       - method: Get
+        tags: ["sensitive"]
       - method: GetEx
+        disabled: true # Deprecated
+        tags: ["sensitive"]
 
   - name: SecretService
     tools:
       - method: Get
       - method: List
       - method: Create
+        tags: ["sensitive"]
       - method: Update
       - method: Delete
       - method: Activate
       - method: Deactivate
       - method: ListVersions
       - method: AddVersion
+        tags: ["sensitive"]
       - method: ScheduleVersionDestruction
       - method: CancelVersionDestruction
       - method: ListOperations
