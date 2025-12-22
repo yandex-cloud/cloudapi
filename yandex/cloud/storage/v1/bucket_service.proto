@@ -215,11 +215,18 @@ message ListBucketsRequest {
     (required) = true,
     (length) = "<=50"
   ];
+  reserved 2;
+  // Indicates that the list is being continued on this bucket with a token.
+  string page_token = 3;
+  // Maximum number of buckets to be returned in response. 
+  int64 page_size = 4; 
 }
 
 message ListBucketsResponse {
   // List of buckets in the specified folder.
   repeated Bucket buckets = 1;
+  // Included in the response when there are more buckets that can be listed with pagination. 
+  string next_page_token = 2; 
 }
 
 message CreateBucketRequest {

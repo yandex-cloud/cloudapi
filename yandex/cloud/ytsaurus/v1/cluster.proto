@@ -51,6 +51,8 @@ message Cluster {
     string updated_by = 13;
 
     enum Status {
+
+        // Unknown status.
         STATUS_UNKNOWN = 0;
 
         // Cluster is being created.
@@ -81,6 +83,8 @@ message Cluster {
     Status status = 14;
 
     enum Health {
+
+        // Unknown health.
         HEALTH_UNKNOWN = 0;
 
         // Cluster is alive.
@@ -96,8 +100,8 @@ message Cluster {
     Health health = 15;
 
     message Endpoints {
-        string ui = 1;                              // https://CID.ui.ytsaurus.yandexcloud.net
-        string external_http_proxy_balancer = 2;    // https://CID.proxy.ytsaurus.yandexcloud.net
+        string ui = 1;                              // https://CID.ytsaurus.yandexcloud.net
+        string external_http_proxy_balancer = 2;    // https://proxy.CID.ytsaurus.yandexcloud.net
         string internal_http_proxy_alias = 3;       // https://hp.CID.ytsaurus.mdb.yandexcloud.net:PORT
         string internal_rpc_proxy_alias = 4;        // rp.CID.ytsaurus.mdb.yandexcloud.net:PORT
         reserved 5; //repeated string internal_http_proxies = 5;
@@ -116,52 +120,89 @@ message CidrBlocks {
 }
 
 message StorageSpec {
+
     message HddSpec {
         reserved 1;
+
+        // Size of a single HDD disk in GB.
         int64 size_gb = 2;
+
+        // Total amount of HDD disks.
         int64 count = 3;
     }
 
+    // Configuration of cluster HDD strorage.
     HddSpec hdd = 1;
 
     message SsdSpec {
         reserved 1;
+
+        // Size of a single SSD disk in GB.
         int64 size_gb = 2;
+
+        // Type of a SSD disk.
         string type = 3;
+
+        // Total amount of SSD disks.
         int64 count = 4;
+
+        message Changelogs {
+            // Size of changelogs disk in GB.
+            int64 size_gb = 1;
+        }
+
+        // Configuration of dynamic table changelogs.
+        Changelogs changelogs = 5;
     }
 
+    // Configuration of cluster SSD strorage
     SsdSpec ssd = 2;
 }
 
 message ComputeSpec {
+    // VM configuration preset name.
     string preset = 1;
 
     message DiskSpec {
+        // Type of a disk.
         string type = 1;
+
+        // Size of a single disk in GB.
         int64 size_gb = 2;
+
+        // Locations on a disk.
         repeated string locations = 3;
     }
 
+    // Configuration of exec node strorage.
     repeated DiskSpec disks = 2;
 
     message ScalePolicy {
         message FixedScale {
+            // Amount of exec nodes.
             int64 size = 1;
         }
 
         message AutoScale {
+            // Minimal amount of exec nodes.
             int64 min_size = 1;
+
+            // Maximum amount of exec nodes.
             int64 max_size = 2;
         }
 
         oneof policy {
             option (exactly_one) = true;
+
+            // Scale policy that doesn't change number of running exec nodes over time.
             FixedScale fixed = 1;
+
+            // Scale policy that can adjust number of running exec nodes within specified range based on some criteria.
             AutoScale auto = 2;
         }
     }
 
+    // Exec nodes scaling policy.
     ScalePolicy scale_policy = 3;
 
     // Name for exec pool.
@@ -170,25 +211,36 @@ message ComputeSpec {
 
 message HttpProxySpec {
     reserved 1;
+
+    // Total amount of HTTP proxies.
     int64 count = 2;
 }
 
 message RpcProxySpec {
     reserved 1;
+
+    // Total amount of RPC proxies.
     int64 count = 2;
 }
 
 message TabletSpec {
+    // VM configuration preset name.
     string preset = 1;
+
+    // Total amount of tablet nodes.
     int64 count = 2;
 }
 
 message ProxySpec {
+    // Configuration of HTTP proxies.
     HttpProxySpec http = 1;
+
+    // Configuration of rpc proxies.
     RpcProxySpec rpc = 2;
 }
 
 message OdinSpec {
+    // TTL of Odin check samples.
     google.protobuf.Duration checks_ttl = 1;
 }
 
@@ -223,20 +275,31 @@ message ClientLogging {
 }
 
 message ClusterSpec {
+    // Cluster storage configuration.
     StorageSpec storage = 1;
+  
+    // Cluster exec nodes configuration.
     repeated ComputeSpec compute = 2;
+  
+    // Cluster tablet nodes configuration.
     TabletSpec tablet = 3;
+  
+    // Cluster proxies configuration.
     ProxySpec proxy = 4;
 
+    // Odin configuration.
     OdinSpec odin = 5;
 
     enum Flavor {
+
+        // Unspecified flavor.
         FLAVOR_UNSPECIFIED = 0;
         
         // Demo cluster configuration with minimal system resources. Not fault-tolerant, not for production use.
         DEMO = 1;
     }
 
+    // Cluster flavor (type).
     Flavor flavor = 6;
 
     // Cluster regular processing settings.
