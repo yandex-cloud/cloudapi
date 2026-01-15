@@ -319,4 +319,18 @@ enum UnitFormat {
 
     // == 1000 UNIT_MILLICORE_CPU
     UNIT_CORE_CPU = 94;
+	
+    // Electricity.
+    
+    // Ampere (A).
+    UNIT_AMPERE = 95;
+    
+    // Volt (V).
+    UNIT_VOLT = 96;
+            
+    // Watt (W).
+    UNIT_WATT = 97;
+            
+    // Ohm (Ohm).
+    UNIT_OHM = 98;
 }

@@ -29,8 +29,11 @@ message Topic {
 
   // User-defined settings for the topic.
   oneof topic_config {
+    // Configuration of the Apache Kafka® 2.8 topic.
     TopicConfig2_8 topic_config_2_8 = 7 [json_name = "topicConfig_2_8"];
+    // Configuration of the Apache Kafka® 3.x topic.
     TopicConfig3 topic_config_3 = 8 [json_name = "topicConfig_3"];
+    // Configuration of the Apache Kafka® 4.x topic.
     TopicConfig4 topic_config_4 = 9 [json_name="topicConfig_4"];
   }
 }
@@ -48,8 +51,11 @@ message TopicSpec {
 
   // User-defined settings for the topic.
   oneof topic_config {
+    // Configuration of the Apache Kafka® 2.8 topic.
     TopicConfig2_8 topic_config_2_8 = 6 [json_name = "topicConfig_2_8"];
+    // Configuration of the Apache Kafka® 3.x topic.
     TopicConfig3 topic_config_3 = 7 [json_name = "topicConfig_3"];
+    // Configuration of the Apache Kafka® 4.x topic.
     TopicConfig4 topic_config_4 = 8 [json_name="topicConfig_4"];
   }
 }
@@ -57,6 +63,7 @@ message TopicSpec {
 // Topic settings for 2.8
 message TopicConfig2_8 {
   enum CleanupPolicy {
+    // Cleanup policy is unspecified.
     CLEANUP_POLICY_UNSPECIFIED = 0;
 
     // This policy discards log segments when either their retention time or log size limit is reached. See also: [KafkaConfig2_8.log_retention_ms] and other similar parameters.
@@ -122,11 +129,15 @@ message TopicConfig2_8 {
   //
   // This setting overrides the cluster-level [KafkaConfig2_8.log_preallocate] setting on the topic level.
   google.protobuf.BoolValue preallocate = 13;
+
+  // Define whether the timestamp in the message is message create time or log append time.
+  MessageTimestampType message_timestamp_type = 14;
 }
 
 // Topic settings for 3.x
 message TopicConfig3 {
   enum CleanupPolicy {
+    // Cleanup policy is unspecified.
     CLEANUP_POLICY_UNSPECIFIED = 0;
 
     // This policy discards log segments when either their retention time or log size limit is reached. See also: [KafkaConfig3.log_retention_ms] and other similar parameters.
@@ -192,11 +203,15 @@ message TopicConfig3 {
   //
   // This setting overrides the cluster-level [KafkaConfig3.log_preallocate] setting on the topic level.
   google.protobuf.BoolValue preallocate = 13;
+
+  // Define whether the timestamp in the message is message create time or log append time.
+  MessageTimestampType message_timestamp_type = 14;
 }
 
 // Topic settings for 4.x
 message TopicConfig4 {
   enum CleanupPolicy {
+    // Cleanup policy is unspecified.
     CLEANUP_POLICY_UNSPECIFIED = 0;
 
     // This policy discards log segments when either their retention time or log size limit is reached. See also: [KafkaConfig4.log_retention_ms] and other similar parameters.
@@ -262,4 +277,7 @@ message TopicConfig4 {
   //
   // This setting overrides the cluster-level [KafkaConfig4.log_preallocate] setting on the topic level.
   google.protobuf.BoolValue preallocate = 13;
+
+  // Define whether the timestamp in the message is message create time or log append time.
+  MessageTimestampType message_timestamp_type = 14;
 }

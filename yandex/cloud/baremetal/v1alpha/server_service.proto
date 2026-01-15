@@ -244,7 +244,10 @@ message CreateServerRequest {
   // ID of the hardware pool that the server belongs to.
   //
   // To get the hardware pool ID, use a [HardwarePoolService.List] request.
-  string hardware_pool_id = 4 [(length) = "<=20"];
+  string hardware_pool_id = 4 [
+    (required) = true,  
+    (length) = "<=20"
+  ];
 
   // ID of the configuration to use for the server.
   //
@@ -496,7 +499,10 @@ message BatchCreateServersRequest {
   // ID of the hardware pool that the server belongs to.
   //
   // To get the hardware pool ID, use a [HardwarePoolService.List] request.
-  string hardware_pool_id = 4 [(length) = "<=20"];
+  string hardware_pool_id = 4 [
+    (required) = true,  
+    (length) = "<=20"
+  ];
 
   // ID of the configuration to use for the server.
   //

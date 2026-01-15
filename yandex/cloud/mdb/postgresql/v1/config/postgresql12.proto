@@ -204,7 +204,7 @@ message PostgresqlConfig12 {
     XML_OPTION_CONTENT = 2;
   }
 
-  google.protobuf.Int64Value max_connections = 1;
+  google.protobuf.Int64Value max_connections = 1 [(value) = ">=16"];
 
   google.protobuf.Int64Value shared_buffers = 2; // in bytes.
 

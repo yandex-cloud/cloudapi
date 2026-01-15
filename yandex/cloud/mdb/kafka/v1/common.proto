@@ -6,6 +6,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/kafka/
 option java_package = "yandex.cloud.api.mdb.kafka.v1";
 
 enum CompressionType {
+  // codec is unspecified.
   COMPRESSION_TYPE_UNSPECIFIED = 0;
 
   // no codec (uncompressed).
@@ -28,9 +29,21 @@ enum CompressionType {
 }
 
 enum SaslMechanism {
+  // SASL mechanism is unspecified.
   SASL_MECHANISM_UNSPECIFIED = 0;
 
+  // SHA_256.
   SASL_MECHANISM_SCRAM_SHA_256 = 1;
 
+  // SHA_512.
   SASL_MECHANISM_SCRAM_SHA_512 = 2;
+}
+
+enum MessageTimestampType {
+  // Message timestamp type is unspecified.
+  MESSAGE_TIMESTAMP_TYPE_UNSPECIFIED = 0;
+  // Message timestamp type is create time. 
+  MESSAGE_TIMESTAMP_TYPE_CREATE_TIME = 1;
+  // Message timestamp type is log append time.
+  MESSAGE_TIMESTAMP_TYPE_LOG_APPEND_TIME = 2;
 }

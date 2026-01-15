@@ -84,3 +84,5 @@ model_config:
       sensitive: true
     yandex.cloud.organizationmanager.v1.idp.application.saml.Application.organization_id:
       force_new: true
+    yandex.cloud.organizationmanager.v1.idp.application.oauth.ClientGrant.authorized_scopes:
+      set: true

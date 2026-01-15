@@ -125,19 +125,34 @@ message LoggingConfig {
   yandex.cloud.logging.v1.LogLevel.Level min_level = 4;
 }
 
+message PrivateAccessConfig {
+  // Enables access to the cluster only via private endpoint.
+  bool enabled = 1;
+}
+
 message NetworkConfig {
   // IDs of VPC network subnets where instances of the cluster are attached.
   repeated string subnet_ids = 1;
 
   // User security groups.
   repeated string security_group_ids = 2;
+
+  // Private link configuration for secure connectivity to the cluster.
+  PrivateAccessConfig private_access = 3;
 }
 
 enum Health {
-  HEALTH_UNKNOWN = 0; // Object is in unknown state (we have no data)
-  ALIVE = 1; // Object is alive and well (all hosts are alive)
-  DEAD = 2; // Object is inoperable (it cannot perform any of its essential functions)
-  DEGRADED = 3; // Object is partially alive (it can perform some of its essential functions)
+  // Object is in unknown state (we have no data)
+  HEALTH_UNKNOWN = 0;
+
+  // Object is alive and well (all hosts are alive)
+  ALIVE = 1;
+
+  // Object is inoperable (it cannot perform any of its essential functions)
+  DEAD = 2;
+
+  // Object is partially alive (it can perform some of its essential functions)
+  DEGRADED = 3;
 }
 
 message TrinoConfig {
@@ -194,7 +209,11 @@ message WorkerConfig {
 message RetryPolicyConfig {
   enum RetryPolicy {
     RETRY_POLICY_UNSPECIFIED = 0;
+
+    // Retry policy for queries.
     QUERY = 1;
+
+    // Retry policy for tasks.
     TASK = 2;
   }
 
@@ -245,6 +264,7 @@ message ExchangeManagerConfig {
     (map_key).pattern = "[a-z][-_0-9a-z.]*"
   ];
 
+  // Storage for spooled data by exchange manager.
   ExchangeManagerStorage storage = 2;
 }
 
@@ -262,6 +282,8 @@ message FixedScalePolicy {
 }
 
 message AutoScalePolicy {
+  // Minimum number of worker instances.
   int64 min_count = 1 [(value) = "0-512"];
+  // Maximum number of worker instances.
   int64 max_count = 2 [(value) = "1-512"];
 }

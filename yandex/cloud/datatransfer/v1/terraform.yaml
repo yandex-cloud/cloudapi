@@ -1,0 +1,198 @@
+resources_and_data_sources:
+  - name: yandex_datatransfer_endpoint
+
+model_config:
+  renames:
+    yandex.cloud.datatransfer.v1.Endpoint:
+      fields:
+        async_operations: ""
+        # Remove flat fields from Endpoint schema. Use the corresponding fields in the "settings" attribute
+        logbroker_v2_source: ""
+        mysql_source: ""
+        postgres_source: ""
+        ydb_source: ""
+        empty_source: ""
+        logfeller_source: ""
+        yds_source: ""
+        kafka_source: ""
+        mongo_v2_source: ""
+        clickhouse_source: ""
+        oracle_source: ""
+        greenplum_source: ""
+        eventhub_source: ""
+        mysql_target: ""
+        postgres_target: ""
+        yt_target: ""
+        clickhouse_target: ""
+        ydb_target: ""
+        empty_target: ""
+        logfeller_target: ""
+        object_storage_target: ""
+        kafka_target: ""
+        mongo_v2_target: ""
+        logbroker_v2_target: ""
+        logbroker_source: ""
+        managed_postgres_source: ""
+        on_premise_postgres_source: ""
+        managed_mysql_source: ""
+        on_premise_mysql_source: ""
+        on_premise_mongo_source: ""
+        managed_mongo_source: ""
+        managed_mysql_target: ""
+        on_premise_mysql_target: ""
+        managed_postgres_target: ""
+        on_premise_postgres_target: ""
+        managed_mongo_target: ""
+        on_premise_mongo_target: ""
+        logbroker_target: ""
+        opensearch_target: ""
+        opensearch_source: ""
+        elasticsearch_source: ""
+        elasticsearch_target: ""
+    yandex.cloud.datatransfer.v1.CreateEndpointRequest:
+      fields:
+        async_operations: ""
+        on_behalf_of: ""
+        # Remove flat fields from CreateEndpointRequest schema. Use the corresponding fields in the "settings" attribute
+        logbroker_v2_source: ""
+        mysql_source: ""
+        postgres_source: ""
+        ydb_source: ""
+        empty_source: ""
+        logfeller_source: ""
+        yds_source: ""
+        kafka_source: ""
+        mongo_v2_source: ""
+        clickhouse_source: ""
+        oracle_source: ""
+        greenplum_source: ""
+        eventhub_source: ""
+        mysql_target: ""
+        postgres_target: ""
+        yt_target: ""
+        clickhouse_target: ""
+        ydb_target: ""
+        empty_target: ""
+        logfeller_target: ""
+        object_storage_target: ""
+        kafka_target: ""
+        mongo_v2_target: ""
+        logbroker_v2_target: ""
+        logbroker_source: ""
+        managed_postgres_source: ""
+        on_premise_postgres_source: ""
+        managed_mysql_source: ""
+        on_premise_mysql_source: ""
+        on_premise_mongo_source: ""
+        managed_mongo_source: ""
+        managed_mysql_target: ""
+        on_premise_mysql_target: ""
+        managed_postgres_target: ""
+        on_premise_postgres_target: ""
+        managed_mongo_target: ""
+        on_premise_mongo_target: ""
+        logbroker_target: ""
+        opensearch_target: ""
+        opensearch_source: ""
+        elasticsearch_source: ""
+        elasticsearch_target: ""
+    yandex.cloud.datatransfer.v1.UpdateEndpointRequest:
+      fields:
+        async_operations: ""
+        # Remove flat fields from UpdateEndpointRequest schema. Use the corresponding fields in the "settings" attribute
+        logbroker_v2_source: ""
+        mysql_source: ""
+        postgres_source: ""
+        ydb_source: ""
+        empty_source: ""
+        logfeller_source: ""
+        yds_source: ""
+        kafka_source: ""
+        mongo_v2_source: ""
+        clickhouse_source: ""
+        oracle_source: ""
+        greenplum_source: ""
+        eventhub_source: ""
+        mysql_target: ""
+        postgres_target: ""
+        yt_target: ""
+        clickhouse_target: ""
+        ydb_target: ""
+        empty_target: ""
+        logfeller_target: ""
+        object_storage_target: ""
+        kafka_target: ""
+        mongo_v2_target: ""
+        logbroker_v2_target: ""
+        logbroker_source: ""
+        managed_postgres_source: ""
+        on_premise_postgres_source: ""
+        managed_mysql_source: ""
+        on_premise_mysql_source: ""
+        on_premise_mongo_source: ""
+        managed_mongo_source: ""
+        managed_mysql_target: ""
+        on_premise_mysql_target: ""
+        managed_postgres_target: ""
+        on_premise_postgres_target: ""
+        managed_mongo_target: ""
+        on_premise_mongo_target: ""
+        logbroker_target: ""
+        opensearch_target: ""
+        opensearch_source: ""
+        elasticsearch_source: ""
+        elasticsearch_target: ""
+    yandex.cloud.datatransfer.v1.EndpointSettings:
+      fields:
+        # Remove legacy endpoint types from EndpointSettings
+        managed_postgres_source: ""
+        on_premise_postgres_source: ""
+        managed_mysql_source: ""
+        on_premise_mysql_source: ""
+        on_premise_mongo_source: ""
+        managed_mongo_source: ""
+        logbroker_source: ""
+        managed_mysql_target: ""
+        on_premise_mysql_target: ""
+        managed_postgres_target: ""
+        on_premise_postgres_target: ""
+        managed_mongo_target: ""
+        on_premise_mongo_target: ""
+        logbroker_target: ""
+    yandex.cloud.datatransfer.v1.endpoint.OnPremisePostgres:
+      fields:
+        host: "" # use "hosts" instead
+    yandex.cloud.datatransfer.v1.endpoint.OnPremiseMysql:
+      fields:
+        host: "" # use "hosts" instead
+    yandex.cloud.datatransfer.v1.endpoint.PostgresSource:
+      fields:
+        pre_steps: ""  # use "object_transfer_settings" instead
+        post_steps: "" # use "object_transfer_settings" instead
+        slot_byte_lag_limit: slot_gigabyte_lag_limit  # for backward compatibility - the unit transformation is via memory option
+    yandex.cloud.datatransfer.v1.endpoint.MysqlSource:
+      fields:
+        include_tables: ""  # use "include_tables_regex" instead
+        exclude_tables: ""  # use "exclude_tables_regex" instead
+        pre_steps: ""  # use "object_transfer_settings" instead
+        post_steps: "" # use "object_transfer_settings" instead
+
+  options:
+    yandex.cloud.datatransfer.v1.Endpoint.folder_id:
+      force_new: true
+    yandex.cloud.datatransfer.v1.Endpoint.direction:
+      force_new: true
+    yandex.cloud.datatransfer.v1.UpdateEndpointRequest.name:
+      force_new: true
+    yandex.cloud.datatransfer.v1.endpoint.Secret.raw:
+      sensitive: true
+    yandex.cloud.datatransfer.v1.endpoint.YdbSource.sa_key_content:
+      sensitive: true
+    yandex.cloud.datatransfer.v1.endpoint.YdbTarget.sa_key_content:
+      sensitive: true
+    yandex.cloud.datatransfer.v1.endpoint.PostgresSource.slot_byte_lag_limit:
+      memory: true
+    yandex.cloud.datatransfer.v1.endpoint.DataSchema.json_fields:
+      deprecated: "Please use `fields` instead"
+    yandex.cloud.datatransfer.v1.endpoint.KafkaSource.topic_name:
+      deprecated: "Please use `topic_names` instead"

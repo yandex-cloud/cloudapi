@@ -103,6 +103,7 @@ service ClusterService {
   }
 
   // Updates access bindings for the specified Trino cluster.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled
   rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = {
       patch: "/managed-trino/v1/clusters/{resource_id}:updateAccessBindings"
@@ -296,6 +297,9 @@ message UpdateTrinoConfigSpec {
 message UpdateNetworkConfigSpec {
   // User security groups.
   repeated string security_group_ids = 1;
+
+  // Private access configuration for secure connectivity to the cluster.
+  PrivateAccessConfig private_access = 2;
 }
 
 message UpdateClusterRequest {
@@ -305,6 +309,7 @@ message UpdateClusterRequest {
     (length) = "<=50"
   ];
 
+  // Field mask that specifies which fields of the Trino cluster should be updated.
   google.protobuf.FieldMask update_mask = 2;
 
   // Name of the Trino cluster. The name must be unique within the folder.

@@ -25,6 +25,9 @@ message User {
 
   // User grants
   repeated string grants = 5 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  // Deletion Protection inhibits deletion of the user
+  google.protobuf.BoolValue deletion_protection = 6;
 }
 
 message Permission {
@@ -47,6 +50,9 @@ message UserSpec {
 
   // User grants
   repeated string grants = 5 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+  // Deletion Protection inhibits deletion of the user
+  google.protobuf.BoolValue deletion_protection = 6;
 }
 
 message UserSettings {

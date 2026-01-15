@@ -893,6 +893,16 @@ message ClickhouseConfig {
     //
     // Default value: **AUTO_OFFSET_RESET_LARGEST**.
     AutoOffsetReset auto_offset_reset = 9;
+
+    // Maximum Kafka protocol request message size.
+    //
+    // Default value: **1000000**.
+    google.protobuf.Int64Value message_max_bytes = 10 [(value) = "1000-1000000000"];
+
+    // Maximum size (in bytes) of all messages batched in one MessageSet, including protocol framing overhead.
+    //
+    // Default value: **1000000**.
+    google.protobuf.Int64Value batch_size = 11 [(value) = "1-2147483647"];
   }
 
   message KafkaTopic {

@@ -20,4 +20,7 @@ message Version {
 
   // Whether version is LTS.
   bool lts = 5;
+
+  // Full version.
+  string full_version = 6;
 }

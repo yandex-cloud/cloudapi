@@ -4,6 +4,7 @@ package yandex.cloud.dataproc.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/dataproc/v1/cluster.proto";
 import "yandex/cloud/dataproc/v1/common.proto";
@@ -95,6 +96,35 @@ service ClusterService {
   // Retrieves a list of links to web interfaces being proxied by Yandex Data Processing UI Proxy.
   rpc ListUILinks(ListUILinksRequest) returns (ListUILinksResponse) {
     option (google.api.http) = {get: "/dataproc/v1/clusters/{cluster_id}/ui_links"};
+  }
+
+  // Retrieves a list of access bindings for the specified cluster.
+  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = { get: "/dataproc/v1/clusters/{resource_id}:listAccessBindings" };
+  }
+
+  // Sets access bindings for the specified cluster.
+  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/dataproc/v1/clusters/{resource_id}:setAccessBindings"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+        metadata: "access.SetAccessBindingsMetadata"
+        response: "access.AccessBindingsOperationResult"
+    };
+  }
+
+  // Updates access bindings for the specified cluster.
+  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/dataproc/v1/clusters/{resource_id}:updateAccessBindings"
+      body: "*"
+    };
+    option (yandex.cloud.api.operation) = {
+        metadata: "access.UpdateAccessBindingsMetadata"
+        response: "access.AccessBindingsOperationResult"
+    };
   }
 }
 

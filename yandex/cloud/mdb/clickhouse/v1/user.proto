@@ -1508,6 +1508,15 @@ message UserSettings {
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#final).
   google.protobuf.BoolValue final = 171;
 
+  // When enabled, ClickHouse will detect Hive-style partitioning in path (/name=value/) in file-like table engines
+  // File/S3/URL/HDFS/AzureBlobStorage and will allow to use partition columns as virtual columns in the query.
+  // These virtual columns will have the same names as in the partitioned path, but starting with _.
+  //
+  // Default value: **true** for versions 25.1 and higher, **false** for versions 24.12 and lower.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#use_hive_partitioning).
+  google.protobuf.BoolValue use_hive_partitioning = 172;
+
   // The setting is deprecated and has no effect.
   google.protobuf.BoolValue compile = 44 [deprecated = true];
 

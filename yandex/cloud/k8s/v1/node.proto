@@ -39,6 +39,7 @@ message Node {
 
   // Computed node status.
   enum Status {
+    // Status is not specified.
     STATUS_UNSPECIFIED = 0;
     // Node instance is not yet created (e.g. in progress).
     PROVISIONING = 1;
@@ -101,6 +102,7 @@ message Condition {
 
 message Taint {
   enum Effect {
+    // Effect is not specified.
     EFFECT_UNSPECIFIED = 0;
 
     // Do not allow new pods to schedule onto the node unless they tolerate the taint,
@@ -188,17 +190,23 @@ message NodeTemplate {
   // Can not be used together with 'v4_address_spec'
   repeated NetworkInterfaceSpec network_interface_specs = 7;
 
+  // Placement policy configuration that controls physical placement of node group instances
+  // in the cloud infrastructure for optimizing performance and reliability.
   PlacementPolicy placement_policy = 10;
 
   message NetworkSettings {
     enum Type {
+      // Network type is not specified.
       TYPE_UNSPECIFIED = 0;
+      // Standard network.
       STANDARD = 1;
+      // Software accelerated network.
       SOFTWARE_ACCELERATED = 2;
       // unsupported yet, commented for possible future utilization.
       //HARDWARE_ACCELERATED = 3;
     }
 
+    // Network type that specifies the network configuration for the node group instances.
     Type type = 1 [(required) = true];
   }
 
@@ -207,20 +215,27 @@ message NodeTemplate {
 
   message ContainerRuntimeSettings {
     enum Type {
+      // Container runtime type is not specified.
       TYPE_UNSPECIFIED = 0;
+      // Docker container runtime.
       DOCKER = 1;
+      // Containerd container runtime.
       CONTAINERD = 2;
     }
 
+    // Type of container runtime.
     Type type = 1 [(required) = true];
   }
 
+  // Container runtime settings for the node template.
   ContainerRuntimeSettings container_runtime_settings = 12;
 
   message ContainerNetworkSettings {
+    // MTU (Maximum Transmission Unit) size for pod network interfaces.
     int64 pod_mtu = 1;
   }
 
+  // Container network settings for the node template.
   ContainerNetworkSettings container_network_settings = 16;
 
   // GPU settings
@@ -287,6 +302,7 @@ message OneToOneNatSpec {
 }
 
 enum IpVersion {
+  // IP version is not specified.
   IP_VERSION_UNSPECIFIED = 0;
 
   // IPv4 address, for example 192.168.0.0.
