@@ -161,7 +161,7 @@ message DomainChallenge {
 // Policy that defines password quality requirements.
 message PasswordQualityPolicy {
 
-  // Character classes that can be required in passwords.
+  // Deprecated. Use Fixed instead.
   message RequiredClasses {
     // Whether lowercase letters are required.
     bool lowers = 1;
@@ -173,7 +173,7 @@ message PasswordQualityPolicy {
     bool specials = 4;
   }
 
-  // Minimum password length requirements based on character class diversity.
+  // Deprecated. Use Smart instead.
   message MinLengthByClassSettings {
     // Minimum length for passwords with one character class.
     int64 one = 1 [(value) = ">=0"];
@@ -214,15 +214,17 @@ message PasswordQualityPolicy {
   bool allow_similar = 1;
   // Maximum password length. Zero means no maximum length is enforced.
   int64 max_length = 2 [(value) = ">=0"];
-  // Minimum password length.
-  int64 min_length = 3 [(value) = ">=0"];
+
+  // Deprecated. Use Fixed instead.
+  int64 min_length = 3 [deprecated = true];
+
   // Minimum length of substrings to check for similarity to vulnerable sequences.
   int64 match_length = 4 [(value) = ">=0"];
-  // Character classes required in passwords.
-  RequiredClasses required_classes = 5;
-  // Minimum length requirements based on character class diversity.
-  // If not specified, these checks are disabled.
-  MinLengthByClassSettings min_length_by_class_settings = 6;
+
+  // Deprecated. Use Fixed instead.
+  RequiredClasses required_classes = 5 [deprecated = true];
+  // Deprecated. Use Smart instead.
+  MinLengthByClassSettings min_length_by_class_settings = 6 [deprecated = true];
 
   // Defines password complexity policy.
   oneof complexity_policy {

@@ -321,16 +321,52 @@ enum UnitFormat {
     UNIT_CORE_CPU = 94;
 	
     // Electricity.
-    
+
     // Ampere (A).
     UNIT_AMPERE = 95;
-    
+
+    // Kiloampere (kA).
+    UNIT_KILOAMPERE = 96;
+
+    // Megaampere (MA).
+    UNIT_MEGAAMPERE = 97;
+
+    // Gigaampere (GA).
+    UNIT_GIGAAMPERE = 98;
+
     // Volt (V).
-    UNIT_VOLT = 96;
-            
+    UNIT_VOLT = 99;
+
+    // Kilovolt (kV).
+    UNIT_KILOVOLT = 100;
+
+    // Megavolt (MV).
+    UNIT_MEGAVOLT = 101;
+
+    // Gigavolt (GV).
+    UNIT_GIGAVOLT = 102;
+
     // Watt (W).
-    UNIT_WATT = 97;
-            
+    UNIT_WATT = 103;
+
+    // Kilowatt (kW).
+    UNIT_KILOWATT = 104;
+
+    // Megawatt (MW).
+    UNIT_MEGAWATT = 105;
+
+    // Gigawatt (GW).
+    UNIT_GIGAWATT = 106;
+
     // Ohm (Ohm).
-    UNIT_OHM = 98;
+    UNIT_OHM = 107;
+
+    // Kiloohm (kOhm).
+    UNIT_KILOOHM = 108;
+
+    // Megaohm (MOhm).
+    UNIT_MEGAOHM = 109;
+
+    // Gigaohm (GOhm).
+    UNIT_GIGAOHM = 110;
 }

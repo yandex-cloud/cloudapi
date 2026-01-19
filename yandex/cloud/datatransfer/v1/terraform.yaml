@@ -182,8 +182,6 @@ model_config:
       force_new: true
     yandex.cloud.datatransfer.v1.Endpoint.direction:
       force_new: true
-    yandex.cloud.datatransfer.v1.UpdateEndpointRequest.name:
-      force_new: true
     yandex.cloud.datatransfer.v1.endpoint.Secret.raw:
       sensitive: true
     yandex.cloud.datatransfer.v1.endpoint.YdbSource.sa_key_content:
