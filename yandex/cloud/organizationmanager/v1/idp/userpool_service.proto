@@ -252,16 +252,16 @@ message DeleteUserpoolMetadata {
 // Request to get a domain for a userpool.
 message GetUserpoolDomainRequest {
   // ID of the userpool to get a domain for.
-  string userpool_id = 1;
+  string userpool_id = 1 [(required) = true, (length) = "<=50"];
   
   // Domain name.
-  string domain = 2;
+  string domain = 2 [(required) = true];
 }
 
 // Request to list domains for a userpool.
 message ListUserpoolDomainsRequest {
   // ID of the userpool to list domains for.
-  string userpool_id = 1;
+  string userpool_id = 1 [(required) = true, (length) = "<=50"];
   
   // The maximum number of results per page to return.
   int64 page_size = 2 [(value) = "0-1000"];
@@ -285,10 +285,10 @@ message ListUserpoolDomainsResponse {
 // Request to add a domain to a userpool.
 message AddUserpoolDomainRequest {
   // ID of the userpool to add a domain to.
-  string userpool_id = 1;
+  string userpool_id = 1 [(required) = true, (length) = "<=50"];
   
   // Domain name to add.
-  string domain = 2;
+  string domain = 2 [(required) = true];
 }
 
 // Metadata for the [UserpoolService.AddDomain] operation.
@@ -303,10 +303,10 @@ message AddUserpoolDomainMetadata {
 // Request to validate a domain for a userpool.
 message ValidateUserpoolDomainRequest {
   // ID of the userpool to validate a domain for.
-  string userpool_id = 1;
+  string userpool_id = 1 [(required) = true, (length) = "<=50"];
   
   // Domain name to validate.
-  string domain = 2;
+  string domain = 2 [(required) = true];
 }
 
 // Metadata for the [UserpoolService.ValidateDomain] operation.
@@ -321,10 +321,10 @@ message ValidateUserpoolDomainMetadata {
 // Request to delete a domain from a userpool.
 message DeleteUserpoolDomainRequest {
   // ID of the userpool to delete a domain from.
-  string userpool_id = 1;
+  string userpool_id = 1 [(required) = true, (length) = "<=50"];
   
   // Domain name to delete.
-  string domain = 2;
+  string domain = 2 [(required) = true];
 }
 
 // Metadata for the [UserpoolService.DeleteDomain] operation.

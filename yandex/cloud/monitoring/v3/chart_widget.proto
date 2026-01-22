@@ -352,6 +352,7 @@ message ChartWidget {
             LineStyle line_style = 8;
 
             enum LineHidingType {
+                option deprecated = true;
                 // Not specified.
                 LINE_HIDING_TYPE_UNSPECIFIED = 0;
                 // Hide in legend.
@@ -365,7 +366,16 @@ message ChartWidget {
             reserved 9;
 
             // Line hiding settings.
-            LineHidingType line_hiding_type = 10;
+            LineHidingType line_hiding_type = 10 [deprecated=true];
+
+            // Hide line in legend.
+            bool line_hiding_in_legend = 11;
+
+            // Hide line in tooltip.
+            bool line_hiding_in_tooltip = 12;
+
+            // Hide line in chart.
+            bool line_hiding_in_chart = 13;
         }
 
         // Required. Series selection type.

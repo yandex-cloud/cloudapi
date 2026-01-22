@@ -198,7 +198,7 @@ message CreateStreamLineRequest {
   reserved 3;
 
   // Reserved for future use.
-  reserved 4 to 199, 201 to 999, 1001, 1003 to 1999;
+  reserved 4 to 199, 201 to 999, 1001, 1004 to 1999;
 
   // ID of the channel.
   string channel_id = 1 [(required) = true, (length) = "<=50"];
@@ -215,6 +215,9 @@ message CreateStreamLineRequest {
 
     // RTMP pull input type.
     RTMPPullParams rtmp_pull = 1002;
+
+    // SRT pull input type.
+    SRTPullParams srt_pull = 1003;
   }
 
   // Line type.
@@ -244,7 +247,7 @@ message UpdateStreamLineRequest {
   reserved 4;
 
   // Reserved for future use.
-  reserved 5 to 199, 201 to 999, 1001, 1003 to 1006;
+  reserved 5 to 199, 201 to 999, 1001, 1004 to 1006;
 
   // ID of the line.
   string stream_line_id = 1 [(required) = true, (length) = "<=50"];
@@ -265,6 +268,9 @@ message UpdateStreamLineRequest {
 
     // RTMP pull input type.
     RTMPPullParams rtmp_pull = 1002;
+
+    // SRT pull input type.
+    SRTPullParams srt_pull = 1003;
   }
 
   // New custom labels for the stream line as `key:value` pairs.
@@ -341,6 +347,11 @@ message RTMPPullParams {
   // The RTMP URL from which to pull the video stream.
   // Must be a valid RTMP URL starting with "rtmp://".
   string url = 1 [(required) = true, (pattern) = "rtmp://.*"];
+}
+
+message SRTPullParams {
+  // URL of a SRT streaming server.
+  string url = 1;
 }
 
 // Parameters for manual stream line.

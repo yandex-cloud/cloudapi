@@ -1392,7 +1392,7 @@ message ClickhouseConfig {
   // Change of the setting is applied with restart.
   //
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/server-configuration-parameters/settings#max_connections).
-  google.protobuf.Int64Value max_connections = 6 [(value) = ">=10"];
+  google.protobuf.Int64Value max_connections = 6 [(value) = "128-8192"];
 
   // Maximum number of concurrently executed queries.
   //

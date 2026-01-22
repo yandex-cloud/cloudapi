@@ -12,7 +12,7 @@ message StreamLine {
   reserved 4;
 
   // Reserved for future use.
-  reserved 5 to 99, 102 to 199, 201 to 999, 1001, 1003 to 1999;
+  reserved 5 to 99, 102 to 199, 201 to 999, 1001, 1004 to 1999;
 
   // ID of the line.
   string id = 1;
@@ -30,6 +30,9 @@ message StreamLine {
 
     // Real-Time Messaging Protocol (RTMP) pull input type.
     RTMPPullInput rtmp_pull = 1002;
+
+    // Secure Reliable Transport (SRT) pull input type.
+    SRTPullInput srt_pull = 1003;
   }
 
   // Specifies the control type of the stream line.
@@ -73,6 +76,14 @@ message RTMPPushInput {
 message RTMPPullInput {
   // RTMP url for receiving video signal.
   string url = 1;
+}
+
+// Settings for an SRT pull input.
+// Used when the service pulls the video stream from an SRT source.
+// @see https://en.wikipedia.org/wiki/Secure_Reliable_Transport
+message SRTPullInput {
+    // SRT url for receiving video signal.
+    string url = 1;
 }
 
 // Represents a manual line type where the stream control is handled manually.

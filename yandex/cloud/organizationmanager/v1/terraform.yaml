@@ -17,6 +17,8 @@ resources_and_data_sources:
 resources:
   - name: yandex_organization_manager_group
     rename: yandex_organizationmanager_group
+  - name: yandex_organization_manager_idp_userpool_domain
+    rename: yandex_organizationmanager_idp_userpool_domain
 
 iam_members:
   - name: yandex_organization_manager_organization
@@ -60,6 +62,36 @@ model_config:
         min_length: ""
         required_classes: ""
         min_length_by_class_settings: ""
+    yandex.cloud.organizationmanager.v1.idp.Domain:
+      fields:
+        status: ""
+        status_code: ""
+        validated_at: ""
+        challenges: ""
+        deletion_protection: ""
+  custom_importer:
+    yandex_organizationmanager_idp_userpool_domain: customDomainImporter
+  custom_fields:
+    yandex_organizationmanager_idp_userpool_domain:
+      - name: id
+        type: string
+        description: "ID in format userpool_id:domain"
+        optional: true
+        computed: true
+  copy_from:
+    yandex_organization_manager_idp_userpool:
+      resources:
+        - name: yandex_organizationmanager_idp_userpool_domain
+          crud:
+            create:
+              name: AddDomain
+            delete:
+              name: DeleteDomain
+            read:
+              name: GetDomain
+              after_hook: setID
+            update:
+              name: "-"
 
   options:
     yandex.cloud.organizationmanager.v1.Group.organization_id:
@@ -86,3 +118,9 @@ model_config:
       force_new: true
     yandex.cloud.organizationmanager.v1.idp.application.oauth.ClientGrant.authorized_scopes:
       set: true
+    yandex.cloud.organizationmanager.v1.idp.GetUserpoolDomainRequest.userpool_id:
+      ordinary_field: true
+    yandex.cloud.organizationmanager.v1.idp.DeleteUserpoolDomainRequest.userpool_id:
+      ordinary_field: true
+    yandex.cloud.organizationmanager.v1.idp.AddUserpoolDomainRequest.userpool_id:
+      ordinary_field: true

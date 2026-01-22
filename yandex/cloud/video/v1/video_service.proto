@@ -241,7 +241,7 @@ message CreateVideoRequest {
 
   // Detailed description of the video content and context.
   // Optional field that can provide additional information about the video.
-  string description = 3 [(length) = "<=4000"];
+  string description = 3 [(length) = "<=5000"];
 
   // ID of the thumbnail image to be used for the video.
   // If not provided, a thumbnail may be automatically generated during transcoding.
@@ -332,7 +332,7 @@ message UpdateVideoRequest {
   string title = 3 [(length) = "<=300"];
 
   // New description for the video.
-  string description = 4 [(length) = "<=4000"];
+  string description = 4 [(length) = "<=5000"];
 
   // New thumbnail ID for the video.
   string thumbnail_id = 5 [(length) = "<=50"];

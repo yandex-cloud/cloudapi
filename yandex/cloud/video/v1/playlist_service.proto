@@ -156,7 +156,7 @@ message CreatePlaylistRequest {
 
   // Detailed description of the playlist content and context.
   // Optional field that can provide additional information about the playlist.
-  string description = 3 [(length) = "<=4000"];
+  string description = 3 [(length) = "<=5000"];
 
   // List of items to include in the playlist.
   // Each item represents a video or episode to be played in sequence.
@@ -188,7 +188,7 @@ message UpdatePlaylistRequest {
 
   // New description for the playlist.
   // Optional field that can provide additional information about the playlist.
-  string description = 4 [(length) = "<=4000"];
+  string description = 4 [(length) = "<=5000"];
 
   // New list of items to include in the playlist.
   // This completely replaces the existing items if specified in the field mask.
