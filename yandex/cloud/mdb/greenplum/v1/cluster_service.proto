@@ -923,8 +923,7 @@ message RestoreClusterRequest {
   // Host groups to place VMs of cluster on.
   repeated string host_group_ids = 13;
 
-  // The setting is deprecated and has no effect.
-  string placement_group_id = 14 [deprecated = true];
+  reserved 14;
 
   // A Greenplum® cluster maintenance window. Should be defined by either one of the two options.
   MaintenanceWindow maintenance_window = 15;

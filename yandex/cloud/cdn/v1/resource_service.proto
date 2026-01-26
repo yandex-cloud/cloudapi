@@ -4,6 +4,7 @@ package yandex.cloud.cdn.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/wrappers.proto";
+import "google/protobuf/struct.proto";
 
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/cdn/v1/origin.proto";
@@ -64,6 +65,9 @@ service ResourceService {
     rpc GetProviderCName(GetProviderCNameRequest) returns (GetProviderCNameResponse) {
         option (google.api.http) = { get: "/cdn/v1/cname/{folder_id}" };
     }
+
+    // Get resource attributes.
+    rpc GetAttributes(GetResourceAttributesRequest) returns (GetResourceAttributesResponse);
 }
 
 // A request to get a resource.
@@ -140,7 +144,7 @@ message CreateResourceRequest {
 
     // SSL Certificate options.
     SSLTargetCertificate ssl_certificate = 8;
-    
+
     // Labels of the resource.
     map<string, string> labels = 9;
 
@@ -192,7 +196,7 @@ message UpdateResourceRequest {
 
     // SSL Certificate options.
     SSLTargetCertificate ssl_certificate = 7;
-    
+
     // Resource labels. At some point will be needed for granular detailing.
     map<string, string> labels = 8;
 
@@ -227,4 +231,14 @@ message GetProviderCNameResponse {
 
     // ID of the folder that the provider belongs to.
     string folder_id = 2;
+}
+
+message GetResourceAttributesRequest {
+  // ID of the resource to get attributes for.
+  string resource_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message GetResourceAttributesResponse {
+  // Resource attributes.
+  google.protobuf.Value attributes = 1;
 }

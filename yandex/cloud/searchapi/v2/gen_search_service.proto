@@ -95,6 +95,8 @@ message GenSearchRequest {
   bool get_partial_results = 10;
   // Search flags
   SearchMetadata metadata = 11;
+  // Return rich structured answer
+  bool enable_rich_structured_answer = 12;
 }
 
 message GenSearchResponse {
