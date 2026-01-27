@@ -99,7 +99,7 @@ message McpTool {
   // Name of the tool.
   string name = 1 [(required) = true, (length) = "<=128", (pattern) = "([a-zA-Z][-a-zA-Z0-9_]{0,63})?"];
   // Description of the tool.
-  string description = 2 [(length) = "<=4000"];
+  string description = 2 [(length) = "<=65536"];
   // JSON Schema describing tool input.
   string input_json_schema = 3;
   // Action to perform when this tool is invoked.
@@ -163,14 +163,23 @@ message HttpCall {
 
 enum HttpMethod {
   HTTP_METHOD_UNSPECIFIED = 0;
+  // OPTIONS HTTP method.
   OPTIONS = 1;
+  // GET HTTP method.
   GET = 2;
+  // HEAD HTTP method.
   HEAD = 3;
+  // POST HTTP method.
   POST = 4;
+  // PUT HTTP method.
   PUT = 5;
+  // PATCH HTTP method.
   PATCH = 6;
+  // DELETE HTTP method.
   DELETE = 7;
+  // TRACE HTTP method.
   TRACE = 8;
+  // CONNECT HTTP method.
   CONNECT = 9;
 }
 
@@ -178,23 +187,30 @@ message McpCall {
   // MCP endpoint base URL. (required)
   string url = 1 [(required) = true];
   oneof action {
+    // Tool call action to invoke a specific tool on the MCP endpoint.
     ToolCall tool_call = 2;
   }
   // Transport to use for MCP communication.
   Transport transport = 3;
   // Authorization mode for requests to the MCP endpoint.
   oneof authorization {
+    // No authorization mode.
     NoAuthorization unauthorized = 4;
+    // Header-based authorization.
     HeaderAuthorization header = 5;
+    // Service account authorization.
     SaAuthorization service_account = 6;
   }
   // Headers from the incoming request to forward downstream by name.
   map<string, string> forward_headers = 7;
 
   enum Transport {
-    TRANSPORT_UNSPECIFIED = 0; // Unspecified transport.
-    SSE = 1; // Server-Sent Events (HTTP SSE).
-    STREAMABLE = 2; // Streamable HTTP transport.
+    // Unspecified transport.
+    TRANSPORT_UNSPECIFIED = 0;
+    // Server-Sent Events (HTTP SSE).
+    SSE = 1;
+    // Streamable HTTP transport.
+    STREAMABLE = 2;
   }
 
   // No authorization will be sent.

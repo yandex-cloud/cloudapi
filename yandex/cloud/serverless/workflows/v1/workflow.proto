@@ -49,6 +49,10 @@ message Workflow {
   bool express = 12;
   // Workflow schedule settings.
   WorkflowSchedule schedule = 13;
+  // Ability of the Workflow to be executed without authentication.
+  bool is_public = 14;
+  // Execution URL of the Workflow.
+  string execution_url = 15;
 }
 
 message WorkflowPreview {
@@ -74,6 +78,10 @@ message WorkflowPreview {
   string service_account_id = 10;
   // Express execution mode.
   bool express = 11;
+  // Ability of the Workflow to be executed without authentication.
+  bool is_public = 12;
+  // Execution URL of the Workflow.
+  string execution_url = 13;
 }
 
 message WorkflowSpecification {

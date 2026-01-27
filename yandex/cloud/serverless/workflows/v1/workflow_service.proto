@@ -109,6 +109,8 @@ message CreateWorkflowRequest {
   bool express = 9;
   // Workflow schedule settings.
   WorkflowSchedule schedule = 10;
+  // Ability of the Workflow to be executed without authentication.
+  bool is_public = 11;
 }
 
 message CreateWorkflowMetadata {
@@ -139,6 +141,8 @@ message UpdateWorkflowRequest {
   bool express = 10;
   // Workflow schedule settings.
   WorkflowSchedule schedule = 11;
+  // Ability of the Workflow to be executed without authentication.
+  bool is_public = 12;
 }
 
 message UpdateWorkflowMetadata {

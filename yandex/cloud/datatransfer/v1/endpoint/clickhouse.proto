@@ -92,7 +92,7 @@ message ClickhouseSource {
     // will replicate all tables. Can contain * patterns.
     repeated string exclude_tables = 8;
     // Identifier of the Yandex Cloud VPC subnetwork to user for accessing the
-    // database. 
+    // database.
     // If omitted, the server has to be accessible via Internet
     string subnet_id = 9;
     // List of security groups that the transfer associated with this endpoint should
@@ -108,7 +108,7 @@ message ClickhouseTarget {
     // Connection settings
     ClickhouseConnection connection = 2;
     // Identifier of the Yandex Cloud VPC subnetwork to user for accessing the
-    // database. 
+    // database.
     // If omitted, the server has to be accessible via Internet
     string subnet_id = 12;
     // Table renaming rules in target

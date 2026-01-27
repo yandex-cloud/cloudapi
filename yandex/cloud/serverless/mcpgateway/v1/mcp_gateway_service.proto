@@ -130,7 +130,7 @@ message CreateMcpGatewayRequest {
   // Name of the MCP Gateway.
   string name = 2 [(required) = true, (length) = "<=128", (pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
   // Description of the MCP Gateway.
-  string description = 3 [(length) = "<=4000"];
+  string description = 3 [(length) = "<=65536"];
   // MCP Gateway labels as `key:value` pairs.
   map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
   // List of MCP tools.
@@ -158,7 +158,7 @@ message UpdateMcpGatewayRequest {
   // Updated name of the MCP Gateway.
   string name = 2 [(length) = "<=128", (pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
   // Updated description of the MCP Gateway.
-  string description = 3 [(length) = "<=4000"];
+  string description = 3 [(length) = "<=65536"];
   // Updated MCP Gateway labels as `key:value` pairs.
   map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
   // Updated list of MCP tools associated with the gateway.

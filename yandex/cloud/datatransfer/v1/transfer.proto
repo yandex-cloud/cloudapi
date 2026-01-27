@@ -49,13 +49,19 @@ message Transfer {
     map<string,string> labels = 6;
     Endpoint source = 7;
     Endpoint target = 8;
+    // Runtime parameters for the transfer
     Runtime runtime = 9;
     TransferStatus status = 10;
+    // Type of the transfer. One of SNAPSHOT_ONLY, INCREMENT_ONLY,
+    // SNAPSHOT_AND_INCREMENT
     TransferType type = 12;
+    // Error description if transfer has any errors.
     string warning = 15;
+    // Transformation for the transfer.
     Transformation transformation = 17;
     DataObjects data_objects = 19;
     bool prestable = 22;
+    // Replication runtime parameters for the transfer
     Runtime replication_runtime = 24;
 }
 message Runtime {
@@ -64,13 +70,19 @@ message Runtime {
         YcRuntime yc_runtime = 4;
     }
 }
+// Parallel snapshot parameters
 message ShardingUploadParams {
+    // Number of workers.
     int64 job_count = 1;
+    // Number of threads.
     int64 process_count = 2;
 }
+// YC Runtime parameters for the transfer
 message YcRuntime {
     reserved 2 to 7;
+    // Number of workers in parallel replication.
     int64 job_count = 1;
+    // Parallel snapshot parameters
     ShardingUploadParams upload_shard_params = 8;
 }
 // Mask function
@@ -213,13 +225,25 @@ message FilterRowsTransformer {
 message Transformer {
     reserved 3, 5, 8, 10 to 12;
     oneof transformer {
+        // Mask field transformer allows you to hash data
         MaskFieldTransformer mask_field = 1;
+        // Set up a list of table columns to transfer
         FilterColumnsTransformer filter_columns = 2;
+        // Set rules for renaming tables by specifying the current names of the tables in
+        // the source and new names for these tables in the target
         RenameTablesTransformer rename_tables = 4;
+        // Override primary keys.
         ReplacePrimaryKeyTransformer replace_primary_key = 6;
+        // Convert column values to strings
         ToStringTransformer convert_to_string = 7;
+        // Set the number of shards for particular tables and a list of columns whose
+        // values will be used for calculating a hash to determine a shard.
         SharderTransformer sharder_transformer = 9;
+        // Splits the X table into multiple tables (X_1, X_2, ..., X_n) based on data.
         TableSplitterTransformer table_splitter_transformer = 13;
+        // This filter only applies to transfers with queues (Logbroker or Apache Kafka®)
+        // as a data source. When running a transfer, only the strings meeting the
+        // specified criteria remain in a changefeed.
         FilterRowsTransformer filter_rows = 14;
     }
 }
@@ -229,7 +253,8 @@ message Transformer {
 // A transformer can be run at both the metadata and data levels.
 // Data can only be transformed if the source and target are of different types.
 message Transformation {
-    // Transformers are set as a list.
+    // A list of transformers. You can specify exactly 1 transformer in each element of
+    // list
     // When activating a transfer, a transformation plan is made for the tables that
     // match the specified criteria.
     // Transformers are applied to the tables in the sequence specified in the list.
