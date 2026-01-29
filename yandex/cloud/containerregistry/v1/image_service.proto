@@ -74,6 +74,9 @@ message ListImagesRequest {
   // 2. An `=` operator.
   // 3. The value in double quotes (`"`). Must be a maximum of 256 characters long and match the regular expression `[a-z0-9]+(?:[._-][a-z0-9]+)*(/([a-z0-9]+(?:[._-][a-z0-9]+)*))`.
   string filter = 5 [(length) = "<=1000"];
+
+  // By which field to sort the results.
+  // You can sort by `name`, `digest`, `created_at`, `last_modified`. To sort results by multiple fields, separate the fields with commas.
   string order_by = 6 [(length) = "<=100"];
 }
 

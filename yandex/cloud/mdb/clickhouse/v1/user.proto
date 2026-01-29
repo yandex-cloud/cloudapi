@@ -1517,6 +1517,13 @@ message UserSettings {
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#use_hive_partitioning).
   google.protobuf.BoolValue use_hive_partitioning = 172;
 
+  // Enables or disables showing data lake catalogs in system tables.
+  //
+  // Default value: **false** for versions 25.10 and higher, **true** for versions 25.9 and lower.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#show_data_lake_catalogs_in_system_tables).
+  google.protobuf.BoolValue show_data_lake_catalogs_in_system_tables = 173;
+
   // The setting is deprecated and has no effect.
   google.protobuf.BoolValue compile = 44 [deprecated = true];
 

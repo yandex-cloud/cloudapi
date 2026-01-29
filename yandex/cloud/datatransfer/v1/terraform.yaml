@@ -1,5 +1,6 @@
 resources_and_data_sources:
   - name: yandex_datatransfer_endpoint
+  - name: yandex_datatransfer_transfer
 
 model_config:
   renames:
@@ -176,6 +177,19 @@ model_config:
         exclude_tables: ""  # use "exclude_tables_regex" instead
         pre_steps: ""  # use "object_transfer_settings" instead
         post_steps: "" # use "object_transfer_settings" instead
+    yandex.cloud.datatransfer.v1.Transfer:
+      fields:
+        status: ""
+        data_objects: ""
+        prestable: "" # cannot be set by public API
+        source: ""
+        target: ""
+    yandex.cloud.datatransfer.v1.CreateTransferRequest:
+      fields:
+        data_objects: ""
+    yandex.cloud.datatransfer.v1.UpdateTransferRequest:
+      fields:
+        data_objects: ""
 
   options:
     yandex.cloud.datatransfer.v1.Endpoint.folder_id:
@@ -194,3 +208,35 @@ model_config:
       deprecated: "Please use `fields` instead"
     yandex.cloud.datatransfer.v1.endpoint.KafkaSource.topic_name:
       deprecated: "Please use `topic_names` instead"
+    yandex.cloud.datatransfer.v1.Transfer.folder_id:
+      force_new: true
+    yandex.cloud.datatransfer.v1.Transfer.type:
+      force_new: true
+    yandex.cloud.datatransfer.v1.Transfer.target_id:
+      force_new: true
+    yandex.cloud.datatransfer.v1.Transfer.source_id:
+      force_new: true
+    yandex.cloud.datatransfer.v1.UpdateTransferRequest.target_id:
+      force_new: true
+    yandex.cloud.datatransfer.v1.UpdateTransferRequest.source_id:
+      force_new: true
+
+  custom_fields:
+    yandex_datatransfer_transfer:
+      - name: on_create_activate_mode
+        type: string
+        description: "Activation action on create a new incremental transfer. It is not part of the transfer parameter and is used only on create. One of `sync_activate`, `async_activate`, `dont_activate`. The default is `async_activate`."
+        default: "async_activate"
+        optional: true
+        computed: true
+        validators:
+          - "stringvalidator.OneOf(\"sync_activate\", \"async_activate\", \"dont_activate\")," #comma as tmp fix
+
+  custom_crud:
+    yandex_datatransfer_transfer:
+      create:
+        after_hook: ActivateReplicationAfterCreate    # Функция вызывается после создания
+      delete:
+        before_hook: DeactivateReplicationBeforeDelete  # Функция вызывается перед удалением
+      read:
+        after_hook: PatchIDsAfterRead     # Функция вызывается после чтения

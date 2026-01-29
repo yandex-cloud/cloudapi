@@ -144,6 +144,8 @@ message ContainerCall {
   map<string, string> headers = 5;
   // Query string parameters to include in the request.
   map<string, string> query = 6;
+  // Policy that defines which headers from the incoming request should be forwarded
+  ForwardHeadersPolicy forward_headers = 7;
 }
 
 message HttpCall {
@@ -159,6 +161,29 @@ message HttpCall {
   map<string, string> query = 5;
   // Use MCP Gateway service account credentials for the request.
   bool use_service_account = 6;
+  // Policy that defines which headers from the incoming request should be forwarded
+  ForwardHeadersPolicy forward_headers = 7;
+}
+
+// Policy defining which HTTP headers from the incoming request should be forwarded.
+message ForwardHeadersPolicy {
+  // Mode of header forwarding. Determines how the headers list is interpreted.
+  ForwardMode mode = 1 [(required) = true];
+  // List of HTTP header names to forward. Interpretation depends on the mode:
+  // - WHITE_LIST: only these headers will be forwarded (all others are excluded)
+  // - BLACK_LIST: all headers except these will be forwarded (these are excluded)
+  repeated string headers = 2;
+
+  // Mode for header forwarding policy.
+  enum ForwardMode {
+    FORWARD_MODE_UNSPECIFIED = 0;
+    // Whitelist mode: only headers listed in the headers field will be forwarded.
+    // All other headers from the incoming request will be excluded.
+    WHITE_LIST = 1;
+    // Blacklist mode: all headers from the incoming request will be forwarded
+    // except those listed in the headers field.
+    BLACK_LIST = 2;
+  }
 }
 
 enum HttpMethod {
@@ -203,6 +228,8 @@ message McpCall {
   }
   // Headers from the incoming request to forward downstream by name.
   map<string, string> forward_headers = 7;
+  // Policy that defines which headers from the incoming request should be forwarded to the HTTP endpoint
+  ForwardHeadersPolicy transfer_headers = 8;
 
   enum Transport {
     // Unspecified transport.
@@ -245,6 +272,8 @@ message GrpcCall {
   string body = 4;
   // gRPC/HTTP headers to include with the call.
   map<string, string> headers = 5;
+  // Policy that defines which headers from the incoming request should be forwarded
+  ForwardHeadersPolicy forward_headers = 6;
 }
 
 message StartWorkflow {

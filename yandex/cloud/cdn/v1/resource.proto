@@ -344,6 +344,18 @@ message ResourceOptions {
         bool use_custom_host = 3;
     }
 
+    message WebsocketsOption {
+        // Enables or disables feature.
+        bool enabled = 1;
+    }
+
+    message HeaderFilterOption {
+        // Enables or disables feature.
+        bool enabled = 1;
+        // Whitelist of headers.
+        repeated string headers = 2;
+    }
+
     // Set up a cache status.
     BoolOption disable_cache = 1;
 
@@ -432,6 +444,13 @@ message ResourceOptions {
     // Manage the state of the Redirection from origin option.
     // If the source returns a redirect, the option lets CDN pull the requested content from the source that was returned in the redirect.
     FollowRedirectsOption follow_redirects = 22;
+
+    // Configuration for WebSocket protocol support.
+    WebsocketsOption websockets = 23;
+
+    // Configuration for HTTP response header filtering.
+    // This feature allows controlling which headers from the origin are passed to end users.
+    HeaderFilterOption header_filter = 24;
 }
 
 // A set of the personal SSL certificate parameters.

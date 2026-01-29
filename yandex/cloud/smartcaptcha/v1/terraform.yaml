@@ -1,0 +1,29 @@
+resources_and_data_sources:
+  - name: yandex_smartcaptcha_captcha
+
+model_config:
+  use_list_for_struct:
+    - yandex_smartcaptcha_captcha
+  datasource_with_resolver:
+    - yandex_smartcaptcha_captcha
+  renames:
+    yandex.cloud.smartcaptcha.v1.UpdateCaptchaRequest:
+      fields:
+        override_variants: override_variant
+        security_rules: security_rule
+    yandex.cloud.smartcaptcha.v1.CreateCaptchaRequest:
+      fields:
+        override_variants: override_variant
+        security_rules: security_rule
+    yandex.cloud.smartcaptcha.v1.Captcha:
+      fields:
+        override_variants: override_variant
+        security_rules: security_rule
+
+  options:
+    yandex.cloud.smartcaptcha.v1.Captcha.security_rules:
+      use_block: true
+    yandex.cloud.smartcaptcha.v1.Captcha.override_variants:
+      use_block: true
+    yandex.cloud.smartcaptcha.v1.CreateCaptchaRequest.folder_id:
+      force_new: true
