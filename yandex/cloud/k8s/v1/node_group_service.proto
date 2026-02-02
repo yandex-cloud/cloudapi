@@ -214,6 +214,9 @@ message UpdateNodeGroupRequest {
 
   // Labels that are assigned to the nodes of the node group at creation time.
   map<string, string> node_labels = 14;
+
+  // Workload Identity Federation parameters of the node group.
+  NodeGroupWorkloadIdentityFederation workload_identity_federation = 16;
 }
 
 message UpdateNodeGroupMetadata {
@@ -272,6 +275,9 @@ message CreateNodeGroupRequest {
 
   // Labels that are assigned to the nodes of the node group at creation time.
   map<string, string> node_labels = 12;
+
+  // Workload Identity Federation parameters of the node group.
+  NodeGroupWorkloadIdentityFederation workload_identity_federation = 14;
 }
 
 message CreateNodeGroupMetadata {

@@ -112,6 +112,15 @@ message CreateCaptchaRequest {
 
   // List of variants to use in security_rules
   repeated OverrideVariant override_variants = 13;
+  	
+  // If true, Yandex team won't be able to read internal data.
+  bool disallow_data_processing = 14;
+
+  // Optional description of the captcha.
+  string description = 15 [(length) = "<=512"];
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 16 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 
 message CreateCaptchaMetadata {
@@ -168,6 +177,15 @@ message UpdateCaptchaRequest {
 
   // List of variants to use in security_rules
   repeated OverrideVariant override_variants = 14;
+
+  // If true, Yandex team won't be able to read internal data.
+  bool disallow_data_processing = 15;
+
+  // Optional description of the captcha.
+  string description = 16 [(length) = "<=512"];
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 17 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 
 message UpdateCaptchaMetadata {

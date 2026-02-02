@@ -3,6 +3,8 @@ syntax = "proto3";
 package yandex.cloud.mdb.mysql.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -31,6 +33,15 @@ service DatabaseService {
     option (google.api.http) = { post: "/managed-mysql/v1/clusters/{cluster_id}/databases" body: "*" };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateDatabaseMetadata"
+      response: "Database"
+    };
+  }
+
+  // Updates the specified database.
+  rpc Update (UpdateDatabaseRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/managed-mysql/v1/clusters/{cluster_id}/databases/{database_name}" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateDatabaseMetadata"
       response: "Database"
     };
   }
@@ -107,6 +118,34 @@ message CreateDatabaseMetadata {
 
   // Name of the database that is being created.
   string database_name = 2;
+}
+
+message UpdateDatabaseRequest {
+    // ID of the cluster to update a database in.
+    //
+    // To get the cluster ID use a [ClusterService.List] request.
+    string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+    // Name of the database to update.
+    //
+    // To get the name of the database use a [DatabaseService.List] request.
+    string database_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+
+    // Field mask that specifies which fields of the Database resource should be updated.
+    google.protobuf.FieldMask update_mask = 3;
+
+    // Deletion Protection inhibits deletion of the database
+    //
+    // Default value: `false` (protection is disabled)
+    google.protobuf.BoolValue deletion_protection = 4;
+}
+
+message UpdateDatabaseMetadata {
+    // ID of the cluster where a database is being updated.
+    string cluster_id = 1;
+
+    // Name of the database that is being updated.
+    string database_name = 2;
 }
 
 message DeleteDatabaseRequest {

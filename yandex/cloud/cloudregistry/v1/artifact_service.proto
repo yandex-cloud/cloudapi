@@ -6,6 +6,7 @@ import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/validation.proto";
 import "yandex/cloud/cloudregistry/v1/artifact.proto";
 import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/access/access.proto";
 
 import "google/api/annotations.proto";
 
@@ -27,6 +28,30 @@ service ArtifactService {
     option (google.api.http) = { delete: "/cloud-registry/v1/artifacts/{artifact_id}" };
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteArtifactMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  //access bindings
+  // Lists access bindings for the specified artifact (folder, package, artifact, etc).
+  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {get: "/cloud-registry/v1/artifacts/{resource_id}:listAccessBindings"};
+  }
+
+  // Sets access bindings for the specified artifact (folder, package, artifact, etc).
+  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {post: "/cloud-registry/v1/artifacts/{resource_id}:setAccessBindings" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
+
+  // Updates access bindings for the specified artifact (folder, package, artifact, etc).
+  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (google.api.http) = {patch: "/cloud-registry/v1/artifacts/{resource_id}:updateAccessBindings" body: "*"};
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
   }

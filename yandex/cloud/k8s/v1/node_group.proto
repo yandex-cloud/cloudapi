@@ -77,7 +77,7 @@ message NodeGroup {
 
   // Version of Kubernetes components that runs on the nodes.
   // Deprecated. Use version_info.current_version.
-  string node_version = 12;
+  string node_version = 12 [deprecated = true];
 
   // Detailed information about the Kubernetes version that is running on the node.
   VersionInfo version_info = 13;
@@ -93,6 +93,9 @@ message NodeGroup {
 
   // Labels that are assigned to the nodes of the node group at creation time.
   map<string, string> node_labels = 17;
+
+  // Workload Identity Federation parameters of the node group.
+  NodeGroupWorkloadIdentityFederation workload_identity_federation = 19;
 }
 
 message ScalePolicy {
@@ -158,4 +161,10 @@ message DeployPolicy {
   // If [max_unavailable] is not specified or set to zero, [max_expansion] must
   // be set to a non-zero value.
   int64 max_expansion = 2 [(value) = "0-100"];
+}
+
+// NodeGroupWorkloadIdentityFederation contains configuration for Workload Identity Federation.
+message NodeGroupWorkloadIdentityFederation {
+  // Identifies whether Workload Identity Federation is enabled.
+  bool enabled = 1;
 }
