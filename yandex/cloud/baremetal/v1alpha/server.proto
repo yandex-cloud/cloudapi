@@ -104,23 +104,133 @@ message Server {
 
 message NetworkInterface {
   reserved 4 to 6;
+  
+  // Reserved for future use from private API.
+  reserved 9, 10, 11;
 
   // ID of the network interface.
   string id = 1;
 
   // MAC address that is assigned to the network interface.
+  //
+  // Read only field.
   string mac_address = 2;
 
+  // @deprecated. Use `interface.ipaddress` instead.
   // IPv4 address that is assigned to the server for this network interface.
-  string ip_address = 3;
+  //
+  // Read only field.
+  string ip_address = 3 [deprecated = true];
 
+  // @deprecated. Use `interface` instead.
   // Subnet that the network interface belongs to.
   oneof subnet {
-    // Private subnet.
-    PrivateSubnetNetworkInterface private_subnet = 7;
+    // @deprecated Private subnet.
+    PrivateSubnetNetworkInterface private_subnet = 7 [deprecated = true];
 
-    // Public subnet.
-    PublicSubnetNetworkInterface public_subnet = 8;
+    // @deprecated Public subnet.
+    PublicSubnetNetworkInterface public_subnet = 8 [deprecated = true];
+  }
+
+  oneof interface {
+    // Private interface.
+    PrivateNetworkInterface private_interface = 12;
+
+    // Public interface.
+    PublicNetworkInterface public_interface = 13;
+  }
+}
+
+message PrivateNetworkInterface {
+  // ID of the private subnet which is used as native subnet for interface.
+  string native_subnet_id = 1;
+
+  // IPv4 address that is assigned to the server for this network interface.
+  //
+  // Read only field.
+  string ip_address = 2;
+
+  // Limit of MAC addresses in the native subnet.
+  //
+  // Read only field.
+  int64 mac_limit = 3;
+
+  // Array of VLAN subinterfaces. Additional tagged subnets for the interface.
+  repeated VLANSubinterface vlan_subinterfaces = 4;
+
+}
+
+message VLANSubinterface {
+  // ID of the private subnet which is used as tagged subnet for interface.
+  string tagged_subnet_id = 1;
+
+  // IPv4 address that is assigned to the VLAN subinterface.
+  //
+  // Read only field.
+  string ip_address = 2;
+
+  // Limit of MAC addresses in the tagged subnet.
+  //
+  // Read only field.
+  int64 mac_limit = 3;
+}
+
+message PublicNetworkInterface {
+  // Reserved for future use from private API.
+  reserved 4, 5;
+
+  // IPv4 address that is assigned to the server for this network interface.
+  //
+  // Read only field.
+  string ip_address = 1;
+
+  // ID of the public subnet which is used as native subnet for interface.
+  //
+  // Read only field.
+  string native_subnet_id = 2;
+
+  // Limit of MAC addresses in the native subnet.
+  //
+  // Read only field.
+  int64 mac_limit = 3;
+
+  // Native subnet configuration.
+  //
+  // Input only field.
+  oneof native_subnet_config {
+    // Use existing native subnet.
+    //
+    // Input only field.
+    NativeSubnet native_subnet = 6;
+
+    // Create new native subnet.
+    //
+    // Input only field.
+    NewNativeSubnet new_native_subnet = 7;
+  }
+
+  // Configuration for using existing native subnet.
+  message NativeSubnet {
+    // ID of the existing public subnet.
+    string subnet_id = 1;
+  }
+
+  // Configuration for creating new native subnet.
+  message NewNativeSubnet {
+    // Addressing type (DHCP | Static).
+    AddressingType addressing_type = 1;
+
+    // Addressing type for public subnet.
+    enum AddressingType {
+      // Unspecified public subnet addressing type.
+      ADDRESSING_TYPE_UNSPECIFIED = 0;
+
+      // DHCP addressing.
+      DHCP = 1;
+
+      // Static addressing.
+      STATIC = 2;
+    }
   }
 }
 

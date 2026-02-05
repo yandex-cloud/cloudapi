@@ -68,6 +68,8 @@ service ServerService {
     };
   }
 
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  //     Required for backward compatibility with old clients. --)
   // Powers off the specified server.
   rpc PowerOff (PowerOffServerRequest) returns (operation.Operation) {
     option (google.api.http) = {
@@ -80,6 +82,8 @@ service ServerService {
     };
   }
 
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  //     Required for backward compatibility with old clients. --)
   // Powers on the specified server.
   rpc PowerOn (PowerOnServerRequest) returns (operation.Operation) {
     option (google.api.http) = {
@@ -92,6 +96,8 @@ service ServerService {
     };
   }
 
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  //     Required for backward compatibility with old clients. --)
   // Reboots the specified server.
   rpc Reboot (RebootServerRequest) returns (operation.Operation) {
     option (google.api.http) = {
@@ -104,6 +110,8 @@ service ServerService {
     };
   }
 
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  //     Required for backward compatibility with old clients. --)
   // Reinstalls the specified server.
   rpc Reinstall (ReinstallServerRequest) returns (operation.Operation) {
     option (google.api.http) = {
@@ -328,6 +336,8 @@ message UpdateServerRequest {
   ];
 }
 
+// (-- api-linter: yc::1704::file-separation=disabled
+//     Required for backward compatibility with old clients. --)
 message NetworkInterfaceSpec {
   reserved 2 to 6;
 
@@ -337,13 +347,22 @@ message NetworkInterfaceSpec {
     (length) = "<=20"
   ];
 
-  // Subnet that the network interface belongs to.
+  // @deprecated. Use `interface` instead.
+  // Subnet specific interface params.
   oneof subnet {
-    // Private subnet.
-    PrivateSubnetNetworkInterface private_subnet = 7;
+    // @deprecated Private subnet.
+    PrivateSubnetNetworkInterface private_subnet = 7 [deprecated = true];
 
-    // Public subnet.
-    PublicSubnetNetworkInterface public_subnet = 8;
+    // @deprecated Public subnet.
+    PublicSubnetNetworkInterface public_subnet = 8 [deprecated = true];
+  }
+
+  oneof interface {
+    // Private interface.
+    PrivateNetworkInterface private_interface = 9;
+
+    // Public interface.
+    PublicNetworkInterface public_interface = 10;
   }
 }
 

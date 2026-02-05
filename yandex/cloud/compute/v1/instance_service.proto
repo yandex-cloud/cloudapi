@@ -1034,6 +1034,16 @@ message AttachedDiskSpec {
 message AttachedLocalDiskSpec {
   // Size of the disk, specified in bytes.
   int64 size = 1 [(required) = true];
+
+  oneof type {
+    // Local disk configuration
+    PhysicalLocalDiskSpec physical_local_disk = 2;
+  }
+}
+
+message PhysicalLocalDiskSpec {
+  // ID of KMS key for disk encryption
+  string kms_key_id = 1;
 }
 
 message AttachedFilesystemSpec {

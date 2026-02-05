@@ -62,6 +62,9 @@ message LifecycleRule {
     // Maven-specific filters.
     MavenFilters maven_filters = 6;
   }
+
+  // Regular expression pattern to match package version or docker tag.
+  string version_regexp = 7;
 }
 
 // Docker-specific filters for lifecycle rules.
