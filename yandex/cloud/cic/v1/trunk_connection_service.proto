@@ -126,10 +126,10 @@ message CreateTrunkConnectionRequest {
   // Name of the trunkConnection.
   // The name must be unique within the folder.
   // Value must match the regular expression ``\|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?``.
-  string name = 1;
+  string name = 1 [(pattern) = "|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?"];
   
   // Optional description of the trunkConnection. 0-256 characters long.
-  string description = 2;
+  string description = 2 [(length) = "<=256"];
 
   reserved 3;
 
@@ -143,8 +143,13 @@ message CreateTrunkConnectionRequest {
 
   // Special trunkConnection config
   oneof joint {
+    // Single port trunkConnection config
     SinglePortDirectJoint single_port_direct_joint = 10;
+
+    // LAG trunkConnection config
     LagDirectJoint lag_direct_joint = 11;
+
+    // PartnerJoint trunkConnection config
     PartnerJoint partner_joint_info = 12;
   }
 
@@ -218,10 +223,10 @@ message UpdateTrunkConnectionRequest {
   // Name of the trunkConnection.
   // The name must be unique within the folder.
   // Value must match the regular expression ``\|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?``.
-  string name = 3;
+  string name = 3 [(pattern) = "|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?"];
    
   // Optional description of the trunkConnection. 0-256 characters long.
-  string description = 4;
+  string description = 4 [(length) = "<=256"];
 
   reserved 5 to 6;
   

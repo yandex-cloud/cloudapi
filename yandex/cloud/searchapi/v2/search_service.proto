@@ -93,6 +93,18 @@ message WebSearchRequest {
     FORMAT_HTML = 2;
   }
 
+  enum Period {
+    PERIOD_UNSPECIFIED = 0;
+    // All time
+    PERIOD_ALL_TIME = 1;
+    // Last 24 hours
+    PERIOD_DAY = 2;
+    // Last 2 weeks
+    PERIOD_2_WEEKS = 3;
+    // Last month
+    PERIOD_MONTH = 4;
+  }
+
   // Search query.
   SearchQuery query = 1 [(required) = true];
   // The rules for sorting search results that define the sequence of the returned search results.
@@ -113,6 +125,8 @@ message WebSearchRequest {
   string user_agent = 9 [(length) = "<=300"];
   // Search flags
   SearchMetadata metadata = 10;
+  // Get results for the certain period
+  Period period = 11;
 }
 
 message WebSearchResponse {

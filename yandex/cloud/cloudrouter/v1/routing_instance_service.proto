@@ -211,10 +211,10 @@ message CreateRoutingInstanceRequest {
   // Name of the RoutingInstance.
   // The name must be unique within the folder.
   // Value must match the regular expression ``\|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?``.
-  string name = 1;
+  string name = 1 [(pattern) = "|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?"];
 
   // Optional description of the RoutingInstance. 0-256 characters long.
-  string description = 2;
+  string description = 2 [(length) = "<=256"];
 
   reserved 3;
 
@@ -256,10 +256,10 @@ message UpdateRoutingInstanceRequest {
   // Name of the RoutingInstance.
   // The name must be unique within the folder.
   // Value must match the regular expression ``\|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?``.
-  string name = 3;
+  string name = 3 [(pattern) = "|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?"];
   
   // Optional description of the RoutingInstance. 0-256 characters long.
-  string description = 4;
+  string description = 4 [(length) = "<=256"];
 
   reserved 5 to 6;
   

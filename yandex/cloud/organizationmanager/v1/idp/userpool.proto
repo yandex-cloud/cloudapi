@@ -176,11 +176,11 @@ message PasswordQualityPolicy {
   // Deprecated. Use Smart instead.
   message MinLengthByClassSettings {
     // Minimum length for passwords with one character class.
-    int64 one = 1 [(value) = ">=0"];
+    int64 one = 1;
     // Minimum length for passwords with two character classes.
-    int64 two = 2 [(value) = ">=0"];
+    int64 two = 2;
     // Minimum length for passwords with three character classes.
-    int64 three = 3 [(value) = ">=0"];
+    int64 three = 3;
   }
 
   // Fixed complexity policy enforces uniform password rules with required character classes and minimum length.
@@ -194,32 +194,32 @@ message PasswordQualityPolicy {
     // Whether special characters are required in the password.
     bool specials_required = 4;
     // Minimum length required for all passwords.
-    int64 min_length = 5 [(value) = ">=0"];
+    int64 min_length = 5 [(value) = "0-1000"];
   }
 
   // Smart complexity policy applies adaptive requirements based on character class diversity.
   // Zero value means passwords with this number of classes are forbidden.
   message Smart {
     // For passwords with one class of characters
-    int64 one_class = 1 [(value) = ">=0"];
+    int64 one_class = 1 [(value) = "0-1000"];
     // For passwords with two classes of characters
-    int64 two_classes = 2 [(value) = ">=0"];
+    int64 two_classes = 2 [(value) = "0-1000"];
     // For passwords with three classes of characters
-    int64 three_classes = 3 [(value) = ">=0"];
+    int64 three_classes = 3 [(value) = "0-1000"];
     // For passwords with all four classes of characters
-    int64 four_classes = 4 [(value) = ">=0"];
+    int64 four_classes = 4 [(value) = "0-1000"];
   }
 
   // Whether passwords similar to previous ones are allowed.
   bool allow_similar = 1;
   // Maximum password length. Zero means no maximum length is enforced.
-  int64 max_length = 2 [(value) = ">=0"];
+  int64 max_length = 2 [(value) = "0-1000"];
 
   // Deprecated. Use Fixed instead.
   int64 min_length = 3 [deprecated = true];
 
   // Minimum length of substrings to check for similarity to vulnerable sequences.
-  int64 match_length = 4 [(value) = ">=0"];
+  int64 match_length = 4 [(value) = "0-1000"];
 
   // Deprecated. Use Fixed instead.
   RequiredClasses required_classes = 5 [deprecated = true];
@@ -238,19 +238,19 @@ message PasswordQualityPolicy {
 // Policy that defines password lifetime requirements.
 message PasswordLifetimePolicy {
   // Minimum number of days before a password can be changed.
-  int64 min_days_count = 1 [(value) = ">=0"];
+  int64 min_days_count = 1 [(value) = "0-730"];
   // Maximum number of days a password remains valid.
   // Zero means passwords never expire.
-  int64 max_days_count = 2 [(value) = ">=0"];
+  int64 max_days_count = 2 [(value) = "0-730"];
 }
 
 // Policy that defines protection against brute force attacks.
 // Zero or empty values disable bruteforce protection.
 message BruteforceProtectionPolicy {
   // Time window for counting failed authentication attempts.
-  google.protobuf.Duration window = 1;
+  google.protobuf.Duration window = 1 [(value) = "0h-8760h"];
   // Duration of the block after too many failed attempts.
-  google.protobuf.Duration block = 2;
+  google.protobuf.Duration block = 2 [(value) = "0h-8760h"];
   // Number of failed attempts allowed within the window before blocking.
-  int64 attempts = 3 [(value) = ">0"];
+  int64 attempts = 3 [(value) = "1-100"];
 }

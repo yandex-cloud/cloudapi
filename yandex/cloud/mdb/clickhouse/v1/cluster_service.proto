@@ -227,6 +227,7 @@ service ClusterService {
   }
 
   // Creates a new shard in the specified cluster.
+  // Deprecated. Use **AddShards** instead.
   rpc AddShard(AddClusterShardRequest) returns (operation.Operation) {
     option (google.api.http) = {
       post: "/managed-clickhouse/v1/clusters/{cluster_id}/shards"
@@ -236,6 +237,7 @@ service ClusterService {
       metadata: "AddClusterShardMetadata"
       response: "Shard"
     };
+    option deprecated = true;
   }
 
   // Creates one or more shards in the specified cluster.
@@ -263,12 +265,14 @@ service ClusterService {
   }
 
   // Deletes the specified shard.
+  // Deprecated. Use **DeleteShards** instead.
   rpc DeleteShard(DeleteClusterShardRequest) returns (operation.Operation) {
     option (google.api.http) = {delete: "/managed-clickhouse/v1/clusters/{cluster_id}/shards/{shard_name}"};
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteClusterShardMetadata"
       response: "google.protobuf.Empty"
     };
+    option deprecated = true;
   }
 
   // Deletes the specified shards (one or more).

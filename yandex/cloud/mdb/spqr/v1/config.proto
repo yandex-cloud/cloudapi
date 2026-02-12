@@ -21,7 +21,7 @@ enum LogLevel {
   WARNING = 3;
   ERROR = 4;
   FATAL = 5;
-  PANIC = 6;
+  reserved 6;
 }
 
 message SPQRConfig {
