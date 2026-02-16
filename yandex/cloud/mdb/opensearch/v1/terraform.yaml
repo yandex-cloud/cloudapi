@@ -1,0 +1,2 @@
+iam_bindings:
+  - name: yandex_mdb_opensearch_cluster

@@ -1,0 +1,3 @@
+iam_bindings:
+  - name: yandex_mdb_spqr_cluster
+    rename: yandex_mdb_sharded_postgresql_cluster

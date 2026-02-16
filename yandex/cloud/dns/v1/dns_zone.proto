@@ -57,6 +57,9 @@ message RecordSet {
 
   // Data of the record set.
   repeated string data = 4 [(size) = "1-100", (length) = "1-255", (unique) = true];
+
+  // Description of the record set.
+  string description = 5;
 }
 
 // Configuration for privately visible zones.

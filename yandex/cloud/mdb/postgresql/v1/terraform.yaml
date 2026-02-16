@@ -1,0 +1,3 @@
+iam_bindings:
+  - name: yandex_mdb_postgre_sql_cluster
+    rename: yandex_mdb_postgresql_cluster
