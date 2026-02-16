@@ -231,12 +231,20 @@ message TabletSpec {
     int64 count = 2;
 }
 
+message TaskProxySpec {
+    // Total amount of task proxies.
+    int64 count = 1;
+}
+
 message ProxySpec {
     // Configuration of HTTP proxies.
     HttpProxySpec http = 1;
 
     // Configuration of rpc proxies.
     RpcProxySpec rpc = 2;
+
+    // Configuration of task proxies.
+    TaskProxySpec task = 3;
 }
 
 message OdinSpec {
@@ -274,6 +282,11 @@ message ClientLogging {
     bool audit_logs_enabled = 4;
 }
 
+message ExcelSpec {
+    // Enable Excel.
+    bool enabled = 1;
+}
+
 message ClusterSpec {
     // Cluster storage configuration.
     StorageSpec storage = 1;
@@ -307,4 +320,7 @@ message ClusterSpec {
 
     // Client Cloud logging configuration.
     ClientLogging client_logging = 8;
+
+    // Cluster Excel configuration.
+    ExcelSpec excel = 9;
 }
