@@ -64,6 +64,9 @@ message Resource {
 
     // CNAME provided by the CDN provider for this resource.
     string provider_cname = 15;
+
+    // TLS configuration for the resource.
+    TLS tls = 16;
 }
 
 // This option defines the protocol that will be used by CDN servers to request
@@ -253,7 +256,8 @@ message ResourceOptions {
             BoolOption redirect_http_to_https = 1;
 
             // Using [BoolOption]. Set up a redirect from HTTP to HTTPS.
-            BoolOption redirect_https_to_http = 2;
+            // Deprecated: Use of redirect_https_to_http is deprecated.
+            BoolOption redirect_https_to_http = 2 [deprecated = true];
         }
     }
 
@@ -356,6 +360,59 @@ message ResourceOptions {
         repeated string headers = 2;
     }
 
+    message GeoACLOption {
+        // Enables or disables the Geo ACL option.
+        bool enabled = 1;
+
+        // Mode of the Geo ACL.
+        Mode mode = 2;
+
+        // List of country codes (ISO 3166, uppercase).
+        repeated string countries = 3;
+
+        enum Mode {
+            MODE_UNSPECIFIED = 0;
+            // Allow access to all specified countries.
+            MODE_ALLOW = 1;
+            // Deny access to all specified countries.
+            MODE_DENY = 2;
+        }
+    }
+
+    message ReferrerACLOption {
+        // Enables or disables feature.
+        bool enabled = 1;
+
+        // Access mode for the referrer list.
+        Mode mode = 2;
+
+        // List of referer patterns. Supports three types of values:
+        // 1. Domain without scheme with or without query, e.g. "google.com", "ya.ru/abc"
+        // 2. Wildcard pattern with dot separator, e.g. "*.hello.com", "staging.*"
+        //    Note: dot must be present before or after `*` (so "*abc.com" is NOT valid)
+        // 3. Regular expression starting with `~`, e.g. "~^prod\..*\.company.org/abc"
+        repeated string referrers = 3;
+
+        enum Mode {
+            MODE_UNSPECIFIED = 0;
+            // Allow access to all specified referrers.
+            MODE_ALLOW = 1;
+            // Deny access to all specified referrers.
+            MODE_DENY = 2;
+        }
+    }
+
+    message StaticResponseOption {
+        // Enables or disables feature.
+        bool enabled = 1;
+        // HTTP status code.
+        int64 code = 2;
+        // A string containing the response content.
+        // For 3xx - Location header
+        // For other codes - body
+        string content = 3;
+    }
+
     // Set up a cache status.
     BoolOption disable_cache = 1;
 
@@ -443,6 +500,7 @@ message ResourceOptions {
 
     // Manage the state of the Redirection from origin option.
     // If the source returns a redirect, the option lets CDN pull the requested content from the source that was returned in the redirect.
+    // This option works only when origin shielding is activated.
     FollowRedirectsOption follow_redirects = 22;
 
     // Configuration for WebSocket protocol support.
@@ -451,6 +509,15 @@ message ResourceOptions {
     // Configuration for HTTP response header filtering.
     // This feature allows controlling which headers from the origin are passed to end users.
     HeaderFilterOption header_filter = 24;
+
+    // Configuration for geographic access control.
+    GeoACLOption geo_acl = 25;
+
+    // Configuration for referrer-based access control.
+    ReferrerACLOption referrer_acl = 26;
+
+    // Configuration for serving a static HTTP response instead of fetching from origin.
+    StaticResponseOption static_response = 27;
 }
 
 // A set of the personal SSL certificate parameters.
@@ -515,4 +582,21 @@ message SSLCertificateData {
 message SSLCertificateCMData {
     // ID of the custom certificate.
     string id = 1;
+}
+
+message TLS {
+    enum Profile {
+        PROFILE_UNSPECIFIED = 0;
+        // TLSv1.2+, less secure
+        PROFILE_COMPATIBLE = 1;
+        // TLSv1+, excluding most vulnerable
+        PROFILE_LEGACY = 2;
+        // TLSv1.2+, most secure
+        PROFILE_SECURE = 3;
+        // TLSv1.3 only
+        PROFILE_STRICT = 4;
+    }
+
+    // TLS profile used for the resource.
+    Profile profile = 1;
 }

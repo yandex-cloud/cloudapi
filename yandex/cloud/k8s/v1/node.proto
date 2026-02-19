@@ -169,6 +169,9 @@ message NodeTemplate {
   // Specification for the boot disk that will be attached to the node.
   DiskSpec boot_disk_spec = 3;
 
+  // ID of the reserved instance pool.
+  string reserved_instance_pool_id = 19;
+
   // The metadata as `key:value` pairs assigned to this instance template. Only SSH keys are supported as metadata.
   //
   // For more information, see [Connecting to a node over SSH](/docs/managed-kubernetes/operations/node-connect-ssh).

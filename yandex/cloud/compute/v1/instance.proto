@@ -57,6 +57,7 @@ message Instance {
   // ID of the folder that the instance belongs to.
   string folder_id = 2;
 
+  // The date and time when the instance was created.
   google.protobuf.Timestamp created_at = 3;
 
   // Name of the instance. 1-63 characters long.
@@ -84,6 +85,8 @@ message Instance {
   //
   // For example, you may use the metadata in order to provide your public SSH key to the instance.
   // For more information, see [Metadata](/docs/compute/concepts/vm-metadata).
+  //
+  // **The `metadata` field is currently omitted from response for the [yandex.cloud.compute.v1.InstanceService.List] request.**
   map<string, string> metadata = 11;
 
   // Options allow user to configure access to instance's metadata
@@ -337,7 +340,9 @@ message PlacementPolicy {
   message HostAffinityRule {
     enum Operator {
       OPERATOR_UNSPECIFIED = 0;
+      // Include action
       IN = 1;
+      // Exclude action
       NOT_IN = 2;
     }
 

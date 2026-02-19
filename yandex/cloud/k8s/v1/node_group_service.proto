@@ -215,6 +215,9 @@ message UpdateNodeGroupRequest {
   // Labels that are assigned to the nodes of the node group at creation time.
   map<string, string> node_labels = 14;
 
+  // Variables for templating.
+  repeated Variable variables = 17;
+
   // Workload Identity Federation parameters of the node group.
   NodeGroupWorkloadIdentityFederation workload_identity_federation = 16;
 }
@@ -275,6 +278,9 @@ message CreateNodeGroupRequest {
 
   // Labels that are assigned to the nodes of the node group at creation time.
   map<string, string> node_labels = 12;
+
+  // Variables for templating.
+  repeated Variable variables = 15;
 
   // Workload Identity Federation parameters of the node group.
   NodeGroupWorkloadIdentityFederation workload_identity_federation = 14;
