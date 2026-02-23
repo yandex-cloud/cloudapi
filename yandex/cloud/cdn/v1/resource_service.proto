@@ -68,6 +68,9 @@ service ResourceService {
 
     // Get resource attributes.
     rpc GetAttributes(GetResourceAttributesRequest) returns (GetResourceAttributesResponse);
+
+    // List resource attributes.
+    rpc ListAttributes(ListResourceAttributesRequest) returns (ListResourceAttributesResponse);
 }
 
 // A request to get a resource.
@@ -157,6 +160,9 @@ message CreateResourceRequest {
     //
     // Default value: ourcdn
     string provider_type = 10;
+
+    // TLS configuration for the resource.
+    TLS tls = 11;
 }
 
 // A set of resource origin parameters.
@@ -202,6 +208,9 @@ message UpdateResourceRequest {
 
     // If flag is set to true resource labels will be deleted.
     bool remove_labels = 9;
+
+    // TLS configuration for the resource.
+    TLS tls = 10;
 }
 
 message UpdateResourceMetadata {
@@ -241,4 +250,14 @@ message GetResourceAttributesRequest {
 message GetResourceAttributesResponse {
   // Resource attributes.
   google.protobuf.Value attributes = 1;
+}
+
+message ListResourceAttributesRequest {
+  // Folder ID to list attributes.
+  string folder_id = 1 [(required) = true, (length) = "<=50"];
+}
+
+message ListResourceAttributesResponse {
+  // Mapping resource ID to its attributes.
+  map<string, google.protobuf.Value> attributes = 1;
 }

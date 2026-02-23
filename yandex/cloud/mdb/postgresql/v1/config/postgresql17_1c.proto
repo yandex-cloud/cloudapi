@@ -553,6 +553,8 @@ message PostgresqlConfig17_1C {
   google.protobuf.Int64Value max_wal_senders = 171 [(value) = "20-100"];
 
   google.protobuf.Int64Value max_replication_slots = 172 [(value) = "20-100"];
+
+  google.protobuf.Int64Value idle_session_timeout = 173 [(value) = "0-2147483647"]; // in milliseconds.
 }
 
 message PostgresqlConfigSet17_1C {

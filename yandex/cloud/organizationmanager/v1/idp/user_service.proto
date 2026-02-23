@@ -185,6 +185,15 @@ message CreateUserRequest {
   google.protobuf.BoolValue is_active = 10;
   // External identifier for the user.
   string external_id = 12 [(length) = "<=256"];
+
+  // User's company name.
+  string company_name = 13 [(length) = "<=256"];
+  // User's department.
+  string department = 14 [(length) = "<=256"];
+  // User's job title.
+  string job_title = 15 [(length) = "<=256"];
+  // User's employee ID
+  string employee_id = 16 [(length) = "<=256"];
 }
 
 // Metadata for the [UserService.Create] operation.
@@ -211,6 +220,14 @@ message UpdateUserRequest {
   string email = 8 [(length) = "<=254", (pattern) = "|(.{3,254})"];
   // New phone number for the user.
   string phone_number = 9 [(length) = "<=50"];
+  // New company name for the user.
+  string company_name = 10 [(length) = "<=256"];
+  // New department for the user.
+  string department = 11 [(length) = "<=256"];
+  // New job title for the user.
+  string job_title = 12 [(length) = "<=256"];
+  // New employee ID for the user.
+  string employee_id = 13 [(length) = "<=256"];
 
   reserved 4;
 }

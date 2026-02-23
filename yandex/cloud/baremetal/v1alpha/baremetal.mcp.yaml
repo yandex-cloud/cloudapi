@@ -44,6 +44,12 @@ services:
       - method: Delete
       - method: ListOperations
 
+  - name: PublicPrefixPoolService
+    tools:
+      - method: Get
+      - method: List
+      - method: ListOperations
+
   - name: ServerService
     tools:
       - method: Get

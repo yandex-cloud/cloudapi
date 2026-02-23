@@ -167,6 +167,19 @@ message UnbindAccessPolicyMetadata {
 message UnbindAccessPolicyResponse {
 }
 
+message UpdateAccessPolicyBindingParametersRequest {
+  string resource_id = 1 [(required) = true, (length) = "<=50"];
+  AccessPolicyBinding access_policy_binding = 2 [(required) = true];
+}
+
+message UpdateAccessPolicyBindingParametersMetadata {
+  string resource_id = 1;
+  AccessPolicyBinding access_policy_binding = 2;
+}
+
+message UpdateAccessPolicyBindingParametersResponse {
+}
+
 message SetAccessBindingsRequest {
   // ID of the resource for which access bindings are being set.
   //

@@ -89,6 +89,14 @@ enum UserTargetAttribute {
   PHONE_NUMBER = 5;
   // Username attribute.
   USERNAME = 6;
+  // Company name attribute.
+  COMPANY_NAME = 7;
+	// Job title attribute.
+  JOB_TITLE = 8;
+	// Department attribute.
+  DEPARTMENT = 9;
+	// Employee ID attribute.
+  EMPLOYEE_ID = 10;
 }
 
 // Target attributes for group mapping.

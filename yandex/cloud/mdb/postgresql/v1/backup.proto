@@ -67,4 +67,13 @@ message Backup {
 
   // Status of backup
   BackupStatus status = 10;
+
+  // ID of assigned BackupRetentionPolicy.
+  string retention_policy_id = 11;
+
+  // Name of assigned BackupRetentionPolicy.
+  string retention_policy_name = 12;
+
+  // Expiration timestamp of the backup set by the BackupRetentionPolicy.
+  google.protobuf.Timestamp retain_until = 13;
 }

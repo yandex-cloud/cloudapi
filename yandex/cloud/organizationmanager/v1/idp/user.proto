@@ -73,5 +73,17 @@ message User {
   // This ID can be used to link this user with an account in an external system.
   string external_id = 13;
 
+  // User's company name.
+  string company_name = 14;
+
+  // User's department.
+  string department = 15;
+
+  // User's job title.
+  string job_title = 16;
+
+  // User's employee ID
+  string employee_id = 17;
+  
   reserved 5;
 }

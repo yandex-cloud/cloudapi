@@ -14,6 +14,7 @@ option java_package = "yandex.cloud.api.mdb.postgresql.v1.config";
 message PostgresqlHostConfig16 {
   reserved 52 to 53;
   reserved 44;
+  reserved 70 to 72;
   enum BackslashQuote {
     BACKSLASH_QUOTE_UNSPECIFIED = 0;
 
@@ -273,4 +274,6 @@ message PostgresqlHostConfig16 {
   google.protobuf.Int64Value effective_io_concurrency = 68 [(value) = "0-1000"];
 
   google.protobuf.Int64Value effective_cache_size = 69 [(value) = "1048576-549755813888"];
+
+  google.protobuf.Int64Value idle_session_timeout = 73 [(value) = "0-2147483647"]; // in milliseconds.
 }

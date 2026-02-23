@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.baremetal.v1alpha;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/baremetal/v1alpha/dhcp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v1alpha;baremetal";
@@ -11,7 +12,7 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 // A PublicSubnet resource.
 message PublicSubnet {
   // Reserved for future use.
-  reserved 6, 14 to 99, 101 to 199;
+  reserved 6, 15 to 99, 101 to 199;
 
   // ID of the public subnet.
   string id = 1;
@@ -50,11 +51,17 @@ message PublicSubnet {
   // Gateway IP address for the public subnet.
   string gateway_ip = 13;
 
+  // ID of the public prefix pool that the public subnet belongs to.
+  google.protobuf.StringValue public_prefix_pool_id = 14;
+
   // Creation timestamp.
   google.protobuf.Timestamp created_at = 100;
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 200;
+
+  // Timestamp when deletion of the public subnet is allowed.
+  google.protobuf.Timestamp deletion_unlocked_at = 201;
 }
 
 // Type of the public subnet.

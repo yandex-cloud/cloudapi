@@ -111,6 +111,15 @@ service FolderService {
       response: "access.UnbindAccessPolicyResponse"
     };
   }
+
+  // Updates the access policy binding parameters for the folder.
+  rpc UpdateAccessPolicyBindingParameters (access.UpdateAccessPolicyBindingParametersRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/resource-manager/v1/folders/{resource_id}:updateAccessPolicyBindingParameters" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.UpdateAccessPolicyBindingParametersMetadata"
+      response: "access.UpdateAccessPolicyBindingParametersResponse"
+    };
+  }
 }
 
 message GetFolderRequest {

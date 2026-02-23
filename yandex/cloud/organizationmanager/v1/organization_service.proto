@@ -92,6 +92,15 @@ service OrganizationService {
       response: "access.UnbindAccessPolicyResponse"
     };
   }
+
+  // Updates the access policy binding parameters for the organization.
+  rpc UpdateAccessPolicyBindingParameters (access.UpdateAccessPolicyBindingParametersRequest) returns (operation.Operation) {
+    option (google.api.http) = { patch: "/organization-manager/v1/organizations/{resource_id}:updateAccessPolicyBindingParameters" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "access.UpdateAccessPolicyBindingParametersMetadata"
+      response: "access.UpdateAccessPolicyBindingParametersResponse"
+    };
+  }
 }
 
 message GetOrganizationRequest {
