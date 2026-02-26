@@ -93,6 +93,7 @@ service DesktopService {
   rpc Update(UpdateRequest) returns (operation.Operation) {
     option (google.api.http) = {
       patch: "/cloud-desktop/v1/desktops/{desktop_id}:update"
+      body: "*"
     };
     option (yandex.cloud.api.operation) = {
         metadata: "UpdateDesktopMetadata"
@@ -128,8 +129,14 @@ service DesktopService {
 message UpdatePropertiesRequest {
   // To get the desktop ID use a [DesktopService.List] request.
   string desktop_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Mask of fields that need to be update.
   google.protobuf.FieldMask update_mask = 2;
+
+  // New desktop name.
   string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])"];
+
+  // New desktop labels.
   map<string, string> labels = 4 [
     (size) = "<=64", 
     (length) = "<=63", 
@@ -137,6 +144,9 @@ message UpdatePropertiesRequest {
     (map_key).length = "1-63", 
     (map_key).pattern = "[a-z][-_0-9a-z]*"
   ];
+
+  // New desktop description.
+  string description = 5 [(length) = "<=1024"];
 }
 
 message StartRequest {
@@ -286,6 +296,21 @@ message CreateDesktopRequest {
 
   // List of users.
   repeated User users = 23 [(size) = ">0"];
+
+  // Name of the desktop.
+  string name = 24 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])"];
+
+  // Desktop labels.
+  map<string, string> labels = 25 [
+      (size) = "<=64",
+      (length) = "<=63",
+      (pattern) = "[-_0-9a-z]*", 
+      (map_key).length = "1-63", 
+      (map_key).pattern = "[a-z][-_0-9a-z]*"
+  ];
+
+  // Desktop description.
+  string description = 26 [(length) = "<=1024"];
 }
 
 message CreateDesktopMetadata {
@@ -336,17 +361,21 @@ message RestartDesktopMetadata {
 }
 
 message UpdateDesktopPropertiesMetadata {
-    string desktop_id = 1;
+  // ID of the desktop.
+  string desktop_id = 1;
 }
 
 message StartDesktopMetadata {
-    string desktop_id = 1;
+  // ID of the desktop.
+  string desktop_id = 1;
 }
 
 message StopDesktopMetadata {
-    string desktop_id = 1;
+  // ID of the desktop.
+  string desktop_id = 1;
 }
 
 message UpdateDesktopMetadata {
-    string desktop_id = 1;
+  // ID of the desktop.
+  string desktop_id = 1;
 }

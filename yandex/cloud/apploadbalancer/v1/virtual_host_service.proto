@@ -343,6 +343,9 @@ message UpdateRouteRequest {
   RouteOptions route_options = 7;
   // Whether set to 'true' disable security profile for the route.
   bool disable_security_profile = 8;
+
+  // New settings of the client certificate forwarding.
+  ClientCertificateForward client_certificate_forward = 9;
 }
 
 message UpdateRouteMetadata {

@@ -244,11 +244,22 @@ message ListDesktopGroupOperationsResponse {
 
 message UpdateDesktopGroupRequest {
   reserved 8 to 9;
+  // ID of the desktop group to update.
   string desktop_group_id = 1 [(required) = true, (length) = "<=50"];
+
+  // Field mask that specifies which fields of the desktop group should be updated.
   google.protobuf.FieldMask update_mask = 2;
+
+  // New desktop image ID.
   string desktop_image_id = 3 [(length) = "<=50"];
+
+  // New desktop group name.
   string name = 4 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])"];
+
+  // New desktop group description.
   string description = 5 [(length) = "<=1024"];
+
+  // New desktop group labels.
   map<string, string> labels = 6 [
     (size) = "<=64", 
     (length) = "<=63", 
@@ -256,6 +267,8 @@ message UpdateDesktopGroupRequest {
     (map_key).length = "1-63", 
     (map_key).pattern = "[a-z][-_0-9a-z]*"
   ];
+
+  // Resources specification of the desktop group.
   ResourcesSpec resources_spec = 7;
 
   // Configuration of the desktop group.
@@ -269,7 +282,10 @@ message UpdateDesktopGroupRequest {
 
   // Update policy of the desktop group. 
   oneof update_policy {
+    // Update automatically
     AutoUpdatePolicy auto_update_policy = 13;
+
+    // Update manually
     ManualUpdatePolicy manual_update_policy = 14;
   }
 }
@@ -312,6 +328,15 @@ message CreateDesktopGroupRequest {
 
   // Configuration of the desktop group.
   DesktopGroupConfiguration group_config = 25;
+
+  // Desktop group labels.
+  map<string, string> labels = 26 [
+      (size) = "<=64",
+      (length) = "<=63",
+      (pattern) = "[-_0-9a-z]*", 
+      (map_key).length = "1-63", 
+      (map_key).pattern = "[a-z][-_0-9a-z]*"
+  ];
 }
 
 message CreateDesktopGroupMetadata {

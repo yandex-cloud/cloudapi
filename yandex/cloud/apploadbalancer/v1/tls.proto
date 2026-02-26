@@ -18,3 +18,14 @@ message ValidationContext {
     string trusted_ca_bytes = 2;
   }
 }
+
+// Client certificates verification settings.
+message ClientCertificatesVerification {
+  // If true, ALB will reject connections without a valid client certificate.
+  bool require_client_certificate = 1;
+
+  oneof trusted_ca {
+    // Trusted certificate authority certificates bundle (PEM text).
+    string bytes = 2;
+  }
+}

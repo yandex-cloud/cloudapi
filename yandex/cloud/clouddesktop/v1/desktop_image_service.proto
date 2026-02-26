@@ -125,6 +125,18 @@ message CopyDesktopImageRequest {
 
     // ID of the compute image to copy the image from.
     string image_id = 8 [(required) = true, (length) = "<=50"];
+
+    // Desktop image labels.
+    map<string, string> labels = 9 [
+        (size) = "<=64",
+        (length) = "<=63",
+        (pattern) = "[-_0-9a-z]*", 
+        (map_key).length = "1-63", 
+        (map_key).pattern = "[a-z][-_0-9a-z]*"
+    ];
+
+    // Desktop image description.
+    string description = 10 [(length) = "<=1024"];
 }
 
 message UpdateDesktopImageRequest {
@@ -145,6 +157,9 @@ message UpdateDesktopImageRequest {
         (map_key).length = "1-63", 
         (map_key).pattern = "[a-z][-_0-9a-z]*"
     ];
+
+    // New desktop image description.
+    string description = 5 [(length) = "<=1024"];
 }
 
 message CopyFromDesktopRequest {
@@ -158,6 +173,18 @@ message CopyFromDesktopRequest {
 
     // ID of the desktop to copy the image from.
     string desktop_id = 8 [(required) = true, (length) = "<=50"];
+
+    // Desktop image labels.
+    map<string, string> labels = 9 [
+        (size) = "<=64",
+        (length) = "<=63",
+        (pattern) = "[-_0-9a-z]*", 
+        (map_key).length = "1-63", 
+        (map_key).pattern = "[a-z][-_0-9a-z]*"
+    ];
+
+    // Desktop image description.
+    string description = 10 [(length) = "<=1024"];
 }
 
 message CopyDesktopImageMetadata {
@@ -186,6 +213,6 @@ message GetDesktopImageRequest {
 }
 
 message UpdateDesktopImageMetadata {
+    // ID of the image to update.
     string image_id = 1 [(required) = true];
-    
 }

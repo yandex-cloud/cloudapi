@@ -134,10 +134,10 @@ message CreateTrunkConnectionRequest {
   reserved 3;
 
   // ID of the folder that the trunkConnection belongs to.
-  string folder_id = 4;
+  string folder_id = 4 [(required) = true, (length) = "<=50"];
 
   // ID of the region that the trunkConnection belongs to.
-  string region_id = 5;
+  string region_id = 5 [(length) = "<=50", deprecated = true];
 
   reserved 6 to 9;
 
@@ -154,14 +154,12 @@ message CreateTrunkConnectionRequest {
   }
 
   // ID of pointOfPresence that the trunkConnection is deployed on.
-  // Optional.
-  // If is not set scheduler selects it by himself.
-  google.protobuf.StringValue point_of_presence_id = 13;
+  google.protobuf.StringValue point_of_presence_id = 13 [(required) = true];
 
   reserved 14 to 16;
 
   // Capacity of the trunkConnection
-  TrunkConnection.Capacity capacity = 17;
+  TrunkConnection.Capacity capacity = 17 [(required) = true];
 
   // Resource labels, `key:value` pairs.
   // No more than 64 per resource.
@@ -181,7 +179,7 @@ message CreateTrunkConnectionRequest {
   // Config of trunkConnection that is deployed on single port.
   message SinglePortDirectJoint {
     // Type of transceiver that the trunkConnection is deployed on.
-    common.TransceiverType transceiver_type = 1;
+    common.TransceiverType transceiver_type = 1 [(required) = true];
 
     reserved 2 to 4;
   }
@@ -189,12 +187,12 @@ message CreateTrunkConnectionRequest {
   // Config of trunkConnection that is deployed on lag.
   message LagDirectJoint {
     // Type of transceiver that the trunkConnection is deployed on.
-    common.TransceiverType transceiver_type = 1;
+    common.TransceiverType transceiver_type = 1 [(required) = true];
 
     reserved 2;
 
     // LAG allocation settings that the trunkConnection is deployed on.
-    common.LagAllocationSettingsRequest lag_allocation_settings = 3;
+    common.LagAllocationSettingsRequest lag_allocation_settings = 3 [(required) = true];
   }
 
   // Config of trunkConnection that is deployed on partner joint.
@@ -202,9 +200,7 @@ message CreateTrunkConnectionRequest {
     reserved 1 to 3;
     
     // ID of partner that the trunkConnection is deployed on.
-    // Optional.
-    // If is not set scheduler selects it by himself.    
-    google.protobuf.StringValue partner_id = 4;
+    google.protobuf.StringValue partner_id = 4 [(required) = true];
   }
 }
 
@@ -231,19 +227,17 @@ message UpdateTrunkConnectionRequest {
   reserved 5 to 6;
   
   // ID of the region that the trunkConnection belongs to.
-  string region_id = 7;
+  string region_id = 7 [(length) = "<=50", deprecated = true];
 
   reserved 8 to 12;
 
   // ID of pointOfPresence that the trunkConnection is deployed on.
-  // Optional.
-  // If is not set scheduler selects it by himself.
-  google.protobuf.StringValue point_of_presence_id = 13;
+  google.protobuf.StringValue point_of_presence_id = 13 [deprecated = true];
 
   reserved 14 to 16;
 
   // Capacity of the trunkConnection
-  TrunkConnection.Capacity capacity = 17;
+  TrunkConnection.Capacity capacity = 17 [(required) = true];
 
   // Resource labels, `key:value` pairs.
   // No more than 64 per resource.
@@ -299,11 +293,11 @@ message ListTrunkConnectionOperationsRequest {
   // results is larger than [page_size],
   // the service returns a [ListTrunkConnectionOperationsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests. Default value: 100.  
-  int64 page_size = 2;
+  int64 page_size = 2 [(value) = "<=1000"];
   
   // Page token. To get the next page of results, set [page_token] to the
   // [ListTrunkConnectionOperationsResponse.next_page_token] returned by a previous list request.
-  string page_token = 3;
+  string page_token = 3 [(length) = "<=100"];
 }
 
 message ListTrunkConnectionOperationsResponse {

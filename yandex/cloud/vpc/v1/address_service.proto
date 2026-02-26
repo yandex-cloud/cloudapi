@@ -33,6 +33,11 @@ service AddressService {
     option (google.api.http) = {get: "/vpc/v1/addresses"};
   }
 
+  // Retrieves the list of Address resources in the specified subnet.
+  rpc ListBySubnet(ListAddressesBySubnetRequest) returns (ListAddressesBySubnetResponse) {
+    option (google.api.http) = {get: "/vpc/v1/addresses:bySubnet"};
+  }
+
   // Creates an address in the specified folder and network.
   rpc Create(CreateAddressRequest) returns (operation.Operation) {
     option (google.api.http) = {
@@ -95,9 +100,18 @@ message GetAddressRequest {
 }
 
 message GetAddressByValueRequest {
-  // External ipv4 address specification.
-  oneof address {
+  reserved 3 to 4;
+
+  oneof address {    
+    // External ipv4 address specification.
     string external_ipv4_address = 1;
+    // Internal ipv4 address specification.
+    string internal_ipv4_address = 2;
+  }
+
+  oneof scope {
+    // subnet where address was allocated
+    string subnet_id = 5 [(length) = "<=50"];
   }
 }
 
@@ -142,8 +156,38 @@ message ListAddressesResponse {
   string next_page_token = 2;
 }
 
+message ListAddressesBySubnetRequest {
+  // ID of the subnet to list addresses in.
+  string subnet_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
+
+  // The maximum number of results per page to return. If the number of available
+  // results is larger than `page_size`, the service returns a [ListAddressesBySubnetResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Default value: 100.
+  int64 page_size = 2 [(value) = "<=1000"];
+
+  // Page token. To get the next page of results, set `page_token` to the
+  // [ListAddressesBySubnetResponse.next_page_token] returned by a previous list request.
+  string page_token = 3 [(length) = "<=100"];
+}
+
+message ListAddressesBySubnetResponse {
+  // List of addresses.
+  repeated Address addresses = 1;
+
+  // Token for getting the next page of the list. If the number of results is greater than
+  // the specified [ListAddressesBySubnetRequest.page_size], use `next_page_token` as the value
+  // for the [ListAddressesBySubnetRequest.page_token] parameter in the next list request.
+  //
+  // Each subsequent page will have its own `next_page_token` to continue paging through the results.
+  string next_page_token = 2;
+}
+
 message CreateAddressRequest {
-  reserved 6 to 9;
+  reserved 7 to 9;
   // ID of the folder to create a address in.
   //
   // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
@@ -168,9 +212,12 @@ message CreateAddressRequest {
     (map_key).pattern = "[a-z][-_0-9a-z]*"
   ];
 
-  // External ipv4 address specification.
+  
   oneof address_spec {
+    // External ipv4 address specification.
     ExternalIpv4AddressSpec external_ipv4_address_spec = 5;
+    // Internal ipv4 address specification.
+    InternalIpv4AddressSpec internal_ipv4_address_spec = 6;
   }
   // Specifies if address protected from deletion.
   bool deletion_protection = 10;
@@ -188,6 +235,18 @@ message ExternalIpv4AddressSpec {
 
   // Parameters of the allocated address, for example DDoS Protection.
   AddressRequirements requirements = 3;
+}
+
+message InternalIpv4AddressSpec {
+  // Value of address.
+  string address = 1 [(length) = "<=16"]; // if unspecified, one will be automatically allocated from the subnet
+
+  oneof scope {
+    option (exactly_one) = true;
+
+    // Subnet from which the address will be allocated.
+    string subnet_id = 2 [(length) = "<=50"];
+  }
 }
 
 message DnsRecordSpec {

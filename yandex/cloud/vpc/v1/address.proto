@@ -10,7 +10,8 @@ option java_package = "yandex.cloud.api.vpc.v1";
 
 // An Address resource. For more information, see [Address](/docs/vpc/concepts/address).
 message Address {
-  reserved 8 to 14;
+  reserved 9 to 14;
+
   enum Type {
     TYPE_UNSPECIFIED = 0;
 
@@ -56,11 +57,13 @@ message Address {
   // Each key must match the regular expression `[a-z][-_0-9a-z]*`.
   map<string, string> labels = 6;
 
-  // External ipv4 address specification.
   oneof address {
     option (exactly_one) = true;
 
+    // External ipv4 address specification.
     ExternalIpv4Address external_ipv4_address = 7;
+    // Internal ipv4 address specification
+    InternalIpv4Address internal_ipv4_address = 8;
   }
 
   // Specifies if address is reserved or not.
@@ -92,6 +95,19 @@ message ExternalIpv4Address {
   // Parameters of the allocated address, for example DDoS Protection.
   AddressRequirements requirements = 3;
 }
+
+message InternalIpv4Address {
+  // Value of address.
+  string address = 1;
+
+  oneof scope {
+    option (exactly_one) = true;
+
+    // Subnet from which the address will be allocated
+    string subnet_id = 2;
+  }
+}
+
 
 message AddressRequirements {
   // DDoS protection provider ID.

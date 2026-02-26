@@ -153,18 +153,18 @@ message CreatePrivateConnectionRequest {
   reserved 3;
 
   // ID of the folder that the privateConnection belongs to.
-  string folder_id = 4;
+  string folder_id = 4 [(required) = true, (length) = "<=50"];
 
   // ID of the region that the privateConnection belongs to.
-  string region_id = 5;
+  string region_id = 5 [(length) = "<=50", deprecated = true];
 
   // ID of the trunk_connection that the privateConnection belongs to.
-  string trunk_connection_id = 6;
+  string trunk_connection_id = 6 [(required) = true, (length) = "<=50"];
 
   // VLAN_ID that the privateConnection uses in multiplexing.
   // Not used in connections over partners-II
   // Value range: [1, 4095]
-  google.protobuf.Int64Value vlan_id = 7;
+  google.protobuf.Int64Value vlan_id = 7 [(value) = "1-4095"];
 
   reserved 8 to 9;
 
@@ -210,15 +210,15 @@ message UpdatePrivateConnectionRequest {
   reserved 5 to 6;
 
   // ID of the region that the privateConnection belongs to.
-  string region_id = 7;
+  string region_id = 7 [(length) = "<=50", deprecated = true];
 
   // ID of the trunk_connection that the privateConnection belongs to.
-  string trunk_connection_id = 8;
+  string trunk_connection_id = 8 [(required) = true, (length) = "<=50"];
 
   // VLAN_ID that the privateConnection uses in multiplexing.
   // Not used in connections over partners-II
   // Value range: [1, 4095]
-  google.protobuf.Int64Value vlan_id = 9;
+  google.protobuf.Int64Value vlan_id = 9 [(value) = "1-4095"];
 
   // IPv4 peering config of connection
   Peering ipv4_peering = 10;

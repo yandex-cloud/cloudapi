@@ -71,17 +71,30 @@ message Desktop {
   // Resources of the desktop.
   Resources resources = 21;
 
+  // Network interfaces of the desktop.
   repeated NetworkInterface network_interfaces = 22;
 
+  // Users of the desktop.
   repeated User users = 23;
 
   // Labels of the desktop.
   map<string, string> labels = 24;
+
+  // Description of the desktop.
+  string description = 25;
 }
 
 message Resources {
+  // The amount of memory available to the desktop, specified in bytes.
   int64 memory = 1 [(value) = ">=1"];
+
+  // The number of cores available to the desktop.
   int64 cores = 2 [(value) = ">=1"];
+
+  // Baseline level of CPU performance with the ability to burst performance above that baseline level.
+  // This field sets baseline performance for each core.
+  //
+  // For example, if you need only 5% of the CPU performance, you can set core_fraction=5.
   int64 core_fraction = 3 [(value) = "0-100"];
 }
 
@@ -94,10 +107,13 @@ message User {
 }
 
 message NetworkInterface {
+  // ID of the network.
   string network_id = 1 [
     (required) = true,
     (length) = "<=50"
   ];
+
+  // ID of the subnet.
   string subnet_id = 2 [
     (required) = true,
     (length) = "<=50"

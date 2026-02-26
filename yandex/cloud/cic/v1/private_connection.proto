@@ -19,7 +19,7 @@ message PrivateConnection {
   // Value must match the regular expression ``\|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?``.
   string name = 2;
 
-  // Optional description of the privateConnection. 0-256 characters long.
+  // Description of the privateConnection. 0-256 characters long.
   string description = 3;
 
   reserved 4;

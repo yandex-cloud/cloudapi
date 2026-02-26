@@ -80,7 +80,6 @@ message TLSMode {
 }
 message TLSConfig {
     // CA certificate
-    // 
     // X.509 certificate of the certificate authority which issued the server's
     // certificate, in PEM format. When CA certificate is specified, TLS is used to
     // connect to the server. If CA certificate is empty, the server's certificate must
@@ -116,7 +115,8 @@ message FieldList {
 message DataSchema {
     oneof schema {
         // Description of the data schema as JSON specification
-        string json_fields = 1;
+        // Deprecated: please use fields instead
+        string json_fields = 1 [deprecated = true];
         // Description of the data schema in the array of `fields` structure
         FieldList fields = 2;
     }

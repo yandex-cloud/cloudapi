@@ -47,4 +47,7 @@ message DesktopImage {
 
     // Minimum disk size in bytes required to use the image.
     int64 min_disk_size = 15;
+
+    // Description of the image.
+    string description = 16;
 }

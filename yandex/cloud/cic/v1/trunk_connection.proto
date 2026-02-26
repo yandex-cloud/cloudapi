@@ -45,8 +45,6 @@ message TrunkConnection {
   }
 
   // ID of pointOfPresence that the trunkConnection is deployed on.
-  // Optional.
-  // If is not set scheduler selects it by himself.
   google.protobuf.StringValue point_of_presence_id = 12;
 
   reserved 13 to 21;
@@ -65,8 +63,7 @@ message TrunkConnection {
   // Status of the trunkConnection.
   Status status = 24;
 
-  // Optional deletion protection flag.
-  // If set prohibits deletion of the trunkConnection.
+  // Deletion protection flag.
   bool deletion_protection = 25;
 
   // Config of trunkConnection that is deployed on partner joint.
@@ -78,8 +75,6 @@ message TrunkConnection {
     string service_key = 3;
 
     // ID of partner that the trunkConnection is deployed on.
-    // Optional.
-    // If is not set scheduler selects it by himself.
     google.protobuf.StringValue partner_id = 4;
   }
 
