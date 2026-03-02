@@ -9,6 +9,7 @@ services:
       - method: ListOperations
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: ConnectorService
@@ -23,6 +24,7 @@ services:
       - method: ListOperations
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: EventService
@@ -42,4 +44,5 @@ services:
       - method: ListOperations
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings

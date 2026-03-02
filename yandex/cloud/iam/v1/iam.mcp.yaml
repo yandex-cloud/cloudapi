@@ -84,6 +84,7 @@ services:
       - method: Delete
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
       - method: ListOperations
 

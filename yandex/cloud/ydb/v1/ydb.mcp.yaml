@@ -7,6 +7,7 @@ services:
       - method: Delete
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: DatabaseService
@@ -23,6 +24,7 @@ services:
       - method: Backup
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: LocationService

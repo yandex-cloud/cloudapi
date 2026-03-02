@@ -21,9 +21,5 @@ model_config:
         security_rules: security_rule
 
   options:
-    yandex.cloud.smartcaptcha.v1.Captcha.security_rules:
-      use_block: true
-    yandex.cloud.smartcaptcha.v1.Captcha.override_variants:
-      use_block: true
     yandex.cloud.smartcaptcha.v1.CreateCaptchaRequest.folder_id:
       force_new: true

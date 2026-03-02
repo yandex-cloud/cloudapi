@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.cloudrouter.v1;
 
+import "yandex/cloud/validation.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cloudrouter/v1;cloudrouter";
@@ -16,7 +17,7 @@ message RoutingInstance {
     // Value must match the regular expression ``\|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?``.
     string name = 2;
 
-    // Optional description of the routingInstance. 0-256 characters long.
+    // Description of the routingInstance. 0-256 characters long.
     string description = 3;
 
     reserved 4;
@@ -53,32 +54,32 @@ message RoutingInstance {
 
     message CicPrivateConnectionInfo {
         // ID of the cicPrivateConnection that is attached to the routingInstance.
-        string cic_private_connection_id = 1;
+        string cic_private_connection_id = 1 [(required) = true, (length) = "<=50"];
     }
 
     message VpcInfo {
         // ID of the vpcNetwork that is attached to the routingInstance.
-        string vpc_network_id = 1;
+        string vpc_network_id = 1 [(required) = true, (length) = "<=50"];
 
         // List of the az-related info about vpcNetworks which are attached to routingInstance
-        repeated VpcAzInfo az_infos = 2;
+        repeated VpcAzInfo az_infos = 2 [(required) = true, (size) = "1-50"];
     }
 
     message VpcAzInfo {
         reserved 1;
 
         // VpcInfo which is set by user
-        VpcManualInfo manual_info = 2;
+        VpcManualInfo manual_info = 2 [(required) = true];
     }
 
     message VpcManualInfo {
         // ID of the AZ
-        string az_id = 1;
+        string az_id = 1 [(required) = true, (length) = "<=50"];
 
         reserved 2 to 4;
 
         // List of prefixes to announce
-        repeated string prefixes = 5;
+        repeated string prefixes = 5 [(required) = true, (size) = "1-10000"];
     }
 
     enum Status {

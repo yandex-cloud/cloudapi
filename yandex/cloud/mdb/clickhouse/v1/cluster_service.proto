@@ -575,6 +575,11 @@ message UpdateClusterRequest {
 
   // ID of the network to move the cluster to.
   string network_id = 11 [(length) = "<=50"];
+
+  // Allows or denies re-creation of replicas during update of cluster configuration. The option must be enabled for
+  // configuration changes including disk type change.
+  // NOTE: Only data of replicated tables will be preserved during host re-creation. Data of non-replicated tables will be lost.
+  google.protobuf.BoolValue allow_host_recreation = 12;
 }
 
 message UpdateClusterMetadata {
@@ -1233,6 +1238,11 @@ message UpdateClusterShardRequest {
 
   // New configuration for the specified shard.
   ShardConfigSpec config_spec = 4;
+
+  // Allows or denies re-creation of replicas during update of shard configuration. The option must be enabled for
+  // configuration changes including disk type change.
+  // NOTE: Only data of replicated tables will be preserved during host re-creation. Data of non-replicated tables will be lost.
+  google.protobuf.BoolValue allow_host_recreation = 5;
 }
 
 message UpdateClusterShardMetadata {

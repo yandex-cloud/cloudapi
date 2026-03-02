@@ -146,7 +146,7 @@ message ListVrfResponse {
 
 message CreateVrfRequest {
   // Reserved for future use.
-  reserved 4 to 199;
+  reserved 5 to 199;
 
   // ID of the folder to create a VRF in.
   //
@@ -166,6 +166,9 @@ message CreateVrfRequest {
   // Description of the VRF.
   string description = 3 [(length) = "<=1024"];
 
+  // VRF static routes.
+  repeated StaticRoute static_routes = 4;
+
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 200 [
     (yandex.cloud.size) = "<=64",
@@ -183,7 +186,7 @@ message CreateVrfMetadata {
 
 message UpdateVrfRequest {
   // Reserved for future use.
-  reserved 5 to 199;
+  reserved 6 to 199;
 
   // ID of the VRF to update.
   //
@@ -205,6 +208,9 @@ message UpdateVrfRequest {
 
   // Description of the VRF.
   string description = 4 [(length) = "<=1024"];
+
+  // VRF static routes.  
+  repeated StaticRoute static_routes = 5;
 
   // Resource labels as `key:value` pairs.
   //

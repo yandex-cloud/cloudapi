@@ -9,4 +9,5 @@ services:
       - method: ListOperations
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings

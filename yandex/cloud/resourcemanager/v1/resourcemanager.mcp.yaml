@@ -9,6 +9,7 @@ services:
       - method: ListOperations
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: FolderService
@@ -21,4 +22,5 @@ services:
       - method: ListOperations
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings

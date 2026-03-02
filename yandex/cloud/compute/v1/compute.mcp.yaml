@@ -10,6 +10,7 @@ services:
       - method: ListOperations
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: DiskService
@@ -25,6 +26,7 @@ services:
       - method: ListSnapshotSchedules
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: DiskTypeService
@@ -42,6 +44,7 @@ services:
       - method: ListOperations
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: GpuClusterService
@@ -55,6 +58,7 @@ services:
       - method: ListInstances
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: HostGroupService
@@ -70,6 +74,7 @@ services:
       - method: UpdateHost
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: HostTypeService
@@ -88,6 +93,7 @@ services:
       - method: ListOperations
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: InstanceService
@@ -117,6 +123,7 @@ services:
       - method: SimulateMaintenanceEvent
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: InstanceGroupService
@@ -139,6 +146,7 @@ services:
       - method: ListLogRecords
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
       - method: ResumeProcesses
       - method: PauseProcesses
@@ -160,6 +168,7 @@ services:
       - method: ListOperations
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: ReservedInstancePoolService
@@ -187,6 +196,7 @@ services:
       - method: ListDisks
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: SnapshotService
@@ -199,6 +209,7 @@ services:
       - method: ListOperations
       - method: ListAccessBindings
       - method: SetAccessBindings
+        disabled: true
       - method: UpdateAccessBindings
 
   - name: ZoneService

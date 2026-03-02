@@ -9,7 +9,7 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 
 message Vrf {
   // Reserved for future use.
-  reserved 6 to 99, 101 to 199;
+  reserved 8 to 99, 101 to 199;
 
   // ID of the VRF.
   string id = 1;
@@ -27,9 +27,48 @@ message Vrf {
   // Optional description of the VRF.
   string description = 5;
 
+  // Status of the VRF.  
+  Status status = 6;
+
+  // Static routes.
+  repeated StaticRoute static_routes = 7;
+
   // Creation timestamp.
   google.protobuf.Timestamp created_at = 100;
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 200;
+
+  enum Status {
+    // Unspecified VRF status.
+    STATUS_UNSPECIFIED = 0;
+
+    // VRF is ready to use.
+    ACTIVE = 1;
+
+    // VRF is being updated.
+    UPDATING = 2;
+  }
+}
+
+message StaticRoute {
+  // Destination network CIDR block.
+  string destination_cidr = 1;
+
+  // Next hop host IP address.
+  string next_hop_ip_address = 2;
+
+  // Redistribution type.
+  RedistributionType redistribution_type = 3;
+
+  enum RedistributionType {
+    // Unspecified redistribution type.
+    REDISTRIBUTION_TYPE_UNSPECIFIED = 0;
+
+    // Static route announcements outside BareMetal VRF disabled.
+    DISABLED = 1;
+
+    // Static route announcements outside BareMetal VRF enabled.
+    ENABLED = 2;
+  }
 }
