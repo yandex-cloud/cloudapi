@@ -124,3 +124,7 @@ model_config:
       ordinary_field: true
     yandex.cloud.organizationmanager.v1.idp.AddUserpoolDomainRequest.userpool_id:
       ordinary_field: true
+    yandex.cloud.organizationmanager.v1.idp.PasswordQualityPolicy.fixed:
+      use_state_for_unknown: false
+    yandex.cloud.organizationmanager.v1.idp.PasswordQualityPolicy.smart:
+      use_state_for_unknown: false

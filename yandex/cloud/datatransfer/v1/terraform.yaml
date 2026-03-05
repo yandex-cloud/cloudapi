@@ -180,16 +180,9 @@ model_config:
     yandex.cloud.datatransfer.v1.Transfer:
       fields:
         status: ""
-        data_objects: ""
         prestable: "" # cannot be set by public API
         source: ""
         target: ""
-    yandex.cloud.datatransfer.v1.CreateTransferRequest:
-      fields:
-        data_objects: ""
-    yandex.cloud.datatransfer.v1.UpdateTransferRequest:
-      fields:
-        data_objects: ""
 
   options:
     yandex.cloud.datatransfer.v1.Endpoint.folder_id:

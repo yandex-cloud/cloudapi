@@ -406,11 +406,11 @@ message MysqlConfig8_4 {
   google.protobuf.Int64Value wait_timeout = 52 [(value) = "600-86400"];
 
   // Replication lag threshold (seconds) which will switch MySQL to 'offline_mode = ON' to prevent users from reading stale data.
-  google.protobuf.Int64Value mdb_offline_mode_enable_lag = 53 [(value) = "600-432000"];
+  google.protobuf.Int64Value mdb_offline_mode_enable_lag = 53 [(value) = "30-86400"];
 
   // Replication lag threshold (seconds) which will switch MySQL to 'offline_mode = OFF'.
   // Should be less than mdb_offline_mode_enable_lag.
-  google.protobuf.Int64Value mdb_offline_mode_disable_lag = 54 [(value) = "60-86400"];
+  google.protobuf.Int64Value mdb_offline_mode_disable_lag = 54 [(value) = "10-86400"];
 
   // The limit on memory consumption for the range optimizer.
   //
