@@ -22,202 +22,276 @@ message PostgresqlConfig15 {
   enum AutoExplainLogFormat {
     AUTO_EXPLAIN_LOG_FORMAT_UNSPECIFIED = 0;
 
+    // Text EXPLAIN output format
     AUTO_EXPLAIN_LOG_FORMAT_TEXT = 1;
 
+    // XML EXPLAIN output format
     AUTO_EXPLAIN_LOG_FORMAT_XML = 2;
 
+    // JSON EXPLAIN output format
     AUTO_EXPLAIN_LOG_FORMAT_JSON = 3;
 
+    // YAML EXPLAIN output format
     AUTO_EXPLAIN_LOG_FORMAT_YAML = 4;
   }
 
   enum BackslashQuote {
     BACKSLASH_QUOTE_UNSPECIFIED = 0;
 
+    //  Quotation mark can be represented as \' (same as on).
     BACKSLASH_QUOTE = 1;
 
+    // Quotation mark can be represented as \'.
     BACKSLASH_QUOTE_ON = 2;
 
+    // Quotation mark can only be represented using the standard SQL syntax ''.
     BACKSLASH_QUOTE_OFF = 3;
 
+    // Representing a quotation mark as \' is only permitted for client encodings where \ is not used for multibyte characters.
     BACKSLASH_QUOTE_SAFE_ENCODING = 4;
   }
 
   enum ByteaOutput {
     BYTEA_OUTPUT_UNSPECIFIED = 0;
 
+    // Each byte is represented by two hexadecimal characters, e.g., 'SELECT '\xDEADBEEF';'.
     BYTEA_OUTPUT_HEX = 1;
 
+    // Standard PostgreSQL format with ASCII characters only.
     BYTEA_OUTPUT_ESCAPED = 2;
   }
 
   enum ConstraintExclusion {
     CONSTRAINT_EXCLUSION_UNSPECIFIED = 0;
 
+    // Use constraints for all tables.
     CONSTRAINT_EXCLUSION_ON = 1;
 
+    // Do not use constraints.
     CONSTRAINT_EXCLUSION_OFF = 2;
 
+    // Only use constraints for child tables and UNION ALL clauses.
     CONSTRAINT_EXCLUSION_PARTITION = 3;
   }
 
   enum ForceParallelMode {
     FORCE_PARALLEL_MODE_UNSPECIFIED = 0;
 
+    // Force parallel mode for all queries that can be executed safely in parallel.
     FORCE_PARALLEL_MODE_ON = 1;
 
+    // Enable parallel mode only if it is expected to increase performance.
     FORCE_PARALLEL_MODE_OFF = 2;
 
+    // Equivalent to on, but generates output identical to the off state.
     FORCE_PARALLEL_MODE_REGRESS = 3;
   }
 
   enum LogErrorVerbosity {
     LOG_ERROR_VERBOSITY_UNSPECIFIED = 0;
 
+    // DETAIL, HINT, QUERY, and CONTEXT fields are excluded from the error message.
     LOG_ERROR_VERBOSITY_TERSE = 1;
 
+    // Default.
     LOG_ERROR_VERBOSITY_DEFAULT = 2;
 
+    // Error message includes the SQLSTATE error code, source filename, function name, and the line number where the error occurred.
     LOG_ERROR_VERBOSITY_VERBOSE = 3;
   }
 
   enum LogLevel {
     LOG_LEVEL_UNSPECIFIED = 0;
 
+    // Provides successively-more-detailed information for use by developers.
     LOG_LEVEL_DEBUG5 = 1;
 
+    // Provides successively-more-detailed information for use by developers.
     LOG_LEVEL_DEBUG4 = 2;
 
+    // Provides successively-more-detailed information for use by developers.
     LOG_LEVEL_DEBUG3 = 3;
 
+    // Provides successively-more-detailed information for use by developers.
     LOG_LEVEL_DEBUG2 = 4;
 
+    // Provides successively-more-detailed information for use by developers.
     LOG_LEVEL_DEBUG1 = 5;
 
+    // Reports information of interest to administrators, e.g., checkpoint activity.
     LOG_LEVEL_LOG = 6;
 
+    // Provides information that might be helpful to users, e.g., notice of truncation of long identifiers.
     LOG_LEVEL_NOTICE = 7;
 
+    // Provides warnings of likely problems, e.g., COMMIT outside a transaction block.
     LOG_LEVEL_WARNING = 8;
 
+    // Reports an error that caused the current command to abort.
     LOG_LEVEL_ERROR = 9;
 
+    // Reports an error that caused the current session to abort.
     LOG_LEVEL_FATAL = 10;
 
+    // Reports an error that caused all database sessions to abort.
     LOG_LEVEL_PANIC = 11;
   }
 
   enum LogStatement {
     LOG_STATEMENT_UNSPECIFIED = 0;
 
+    // The filter is disabled, no SQL statements are logged.
     LOG_STATEMENT_NONE = 1;
 
+    // System logs DDL statements, e.g., CREATE, ALTER, DROP etc.
     LOG_STATEMENT_DDL = 2;
 
+    // System logs ddl-statements along with data modification commands, e.g., INSERT, UPDATE, etc.
     LOG_STATEMENT_MOD = 3;
 
+    // System logs all SQL statements.
     LOG_STATEMENT_ALL = 4;
   }
 
   enum PasswordEncryption {
     PASSWORD_ENCRYPTION_UNSPECIFIED = 0;
 
+    // The method md5 uses a custom less secure challenge-response mechanism. It prevents password sniffing and avoids storing passwords on the server in plain text but provides no protection if an attacker manages to steal the password hash from the server. Also, the MD5 hash algorithm is nowadays no longer considered secure against determined attacks.
     PASSWORD_ENCRYPTION_MD5 = 1;
 
+    // The method scram-sha-256 performs SCRAM-SHA-256 authentication, as described in RFC 7677. It is a challenge-response scheme that prevents password sniffing on untrusted connections and supports storing passwords on the server in a cryptographically hashed form that is thought to be secure.
+    // This is the most secure of the currently provided methods, but it is not supported by older client libraries.
     PASSWORD_ENCRYPTION_SCRAM_SHA_256 = 2;
   }
 
   enum PgHintPlanDebugPrint {
     PG_HINT_PLAN_DEBUG_PRINT_UNSPECIFIED = 0;
 
+    // Disable debug output
     PG_HINT_PLAN_DEBUG_PRINT_OFF = 1;
 
+    // Print debug messages about hint parsing
     PG_HINT_PLAN_DEBUG_PRINT_ON = 2;
 
+    // Print detailed debug information including query planning process
     PG_HINT_PLAN_DEBUG_PRINT_DETAILED = 3;
 
+    // Print verbose debug output with all internal operations
     PG_HINT_PLAN_DEBUG_PRINT_VERBOSE = 4;
   }
 
   enum PlanCacheMode {
     PLAN_CACHE_MODE_UNSPECIFIED = 0;
 
+    // Automatic selection.
     PLAN_CACHE_MODE_AUTO = 1;
 
+    // Forces the use of custom plans.
     PLAN_CACHE_MODE_FORCE_CUSTOM_PLAN = 2;
 
+    // Forces the use of generic plans.
     PLAN_CACHE_MODE_FORCE_GENERIC_PLAN = 3;
   }
 
   enum SharedPreloadLibraries {
     SHARED_PRELOAD_LIBRARIES_UNSPECIFIED = 0;
 
+    // Required for the [auto_explain](https://www.postgresql.org/docs/current/auto-explain.html) extension.
     SHARED_PRELOAD_LIBRARIES_AUTO_EXPLAIN = 1;
 
+    // Required for the [pg_hint_plan](https://github.com/ossc-db/pg_hint_plan) extension.
     SHARED_PRELOAD_LIBRARIES_PG_HINT_PLAN = 2;
 
+    // Required for [TimescaleDB](https://github.com/timescale/timescaledb) to function.
     SHARED_PRELOAD_LIBRARIES_TIMESCALEDB = 3;
 
+    // Required for the [pg_qualstats](https://github.com/powa-team/pg_qualstats) extension.
     SHARED_PRELOAD_LIBRARIES_PG_QUALSTATS = 4;
 
+    // Required for the [pg_cron](https://github.com/citusdata/pg_cron) extension.
     SHARED_PRELOAD_LIBRARIES_PG_CRON = 5;
 
+    // Required for the [pglogical](https://github.com/2ndQuadrant/pglogical) extension.
     SHARED_PRELOAD_LIBRARIES_PGLOGICAL = 6;
 
+    // Required for the [pg_prewarm](https://www.postgresql.org/docs/current/pgprewarm.html#PGPREWARM) extension.
     SHARED_PRELOAD_LIBRARIES_PG_PREWARM = 7;
 
+    // Required for the [pgaudit](https://www.pgaudit.org/) extension.
     SHARED_PRELOAD_LIBRARIES_PGAUDIT = 8;
 
+    // Required for the [postgresql_anonymizer](https://postgresql-anonymizer.readthedocs.io/en/stable/) extension.
     SHARED_PRELOAD_LIBRARIES_ANON = 9;
   }
 
   enum SynchronousCommit {
     SYNCHRONOUS_COMMIT_UNSPECIFIED = 0;
 
+    // Success is reported to the client if the data is in WAL (Write-Ahead Log), and WAL is written to the storage of both the master and its synchronous standby server. Default value.
     SYNCHRONOUS_COMMIT_ON = 1;
 
+    // Success is reported to the client even if the data is not in WAL.
+    // There is no synchronous write operation, data may be loss in case of storage subsystem failure.
     SYNCHRONOUS_COMMIT_OFF = 2;
 
+    // Success is reported to the client if the data is in WAL, and WAL is written to the storage of the master server.
+    // The transaction may be lost due to storage subsystem failure on the master server.
     SYNCHRONOUS_COMMIT_LOCAL = 3;
 
+    // Success is reported to the client if the data is in WAL, WAL is written to the storage of the master server, and the server's synchronous standby indicates that it has received WAL and written it out to its operating system.
+    // The transaction may be lost due to simultaneous storage subsystem failure on the master and operating system's failure on the synchronous standby.
     SYNCHRONOUS_COMMIT_REMOTE_WRITE = 4;
 
+    // Success is reported to the client if the data is in WAL (Write-Ahead Log), WAL is written to the storage of the master server, and its synchronous standby indicates that it has received WAL and applied it.
+    // The transaction may be lost due to irrecoverably failure of both the master and its synchronous standby.
     SYNCHRONOUS_COMMIT_REMOTE_APPLY = 5;
   }
 
   enum TransactionIsolation {
     TRANSACTION_ISOLATION_UNSPECIFIED = 0;
 
+    // This level behaves like `TRANSACTION_ISOLATION_READ_COMMITTED` in PostgreSQL.
     TRANSACTION_ISOLATION_READ_UNCOMMITTED = 1;
 
+    // On this level query sees only data committed before the query began. Default value.
     TRANSACTION_ISOLATION_READ_COMMITTED = 2;
 
+    // On this level all subsequent queries in a transaction will see the same rows, that were read by the first `SELECT` or `INSERT` query in this transaction, unchanged (these rows are locked during the first query).
     TRANSACTION_ISOLATION_REPEATABLE_READ = 3;
 
+    // This level provides the strictest transaction isolation.
+    // All queries in the current transaction see only the rows that were fixed prior to execution of the first `SELECT` or `INSERT` query in this transaction.
+    // If read and write operations in a concurrent set of serializable transactions overlap and this may cause an inconsistency that is not possible during the serial transaction execution, then one of the transaction will be rolled back, triggering a serialization failure.
     TRANSACTION_ISOLATION_SERIALIZABLE = 4;
   }
 
   enum WalLevel {
     WAL_LEVEL_UNSPECIFIED = 0;
 
+    // Supports WAL archiving and physical replication.
     WAL_LEVEL_REPLICA = 1;
 
+    // Supports WAL archiving, physical replication, and logical decoding.
     WAL_LEVEL_LOGICAL = 2;
   }
 
   enum XmlBinary {
     XML_BINARY_UNSPECIFIED = 0;
 
+    // Base64 encoding.
     XML_BINARY_BASE64 = 1;
 
+    // Hexadecimal encoding.
     XML_BINARY_HEX = 2;
   }
 
   enum XmlOption {
     XML_OPTION_UNSPECIFIED = 0;
 
+    // XML document.
     XML_OPTION_DOCUMENT = 1;
 
+    // XML fragment.
     XML_OPTION_CONTENT = 2;
   }
 

@@ -68,7 +68,7 @@ service TransferService {
     }
 }
 message CreateTransferRequest {
-    reserved 9, 11, 13 to 15;
+    reserved 11, 13 to 15;
     // Identifier of the source endpoint.
     string source_id = 1;
     // Identifier of the target endpoint.
@@ -89,6 +89,7 @@ message CreateTransferRequest {
     // For details about the concept, see [documentation]({{ api-url-prefix
     // }}/resource-manager/concepts/labels).
     map<string,string> labels = 8;
+    RegularSnapshot regular_snapshot = 9;
     Transformation transformation = 10;
     DataObjects data_objects = 12;
     Runtime replication_runtime = 16;
@@ -97,7 +98,7 @@ message CreateTransferMetadata {
     string transfer_id = 1;
 }
 message UpdateTransferRequest {
-    reserved 7, 9, 11;
+    reserved 9, 11;
     // Identifier of the transfer to be updated.
     string transfer_id = 1;
     // The new description for the transfer.
@@ -116,6 +117,7 @@ message UpdateTransferRequest {
     // For details about the concept, see [documentation]({{ api-url-prefix
     // }}/resource-manager/concepts/labels).
     map<string,string> labels = 6;
+    RegularSnapshot regular_snapshot = 7;
     Transformation transformation = 8;
     DataObjects data_objects = 10;
     Runtime replication_runtime = 12;
