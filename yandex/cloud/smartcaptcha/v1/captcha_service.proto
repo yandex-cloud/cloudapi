@@ -5,9 +5,9 @@ package yandex.cloud.smartcaptcha.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
-import "yandex/cloud/validation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/smartcaptcha/v1/captcha.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/smartcaptcha/v1;smartcaptcha";
 option java_package = "yandex.cloud.api.smartcaptcha.v1";
@@ -15,70 +15,70 @@ option java_package = "yandex.cloud.api.smartcaptcha.v1";
 // A set of methods for managing Captcha resources.
 service CaptchaService {
   // Returns the specified Captcha resource.
-  rpc Get (GetCaptchaRequest) returns (Captcha) {
+  rpc Get(GetCaptchaRequest) returns (Captcha) {
     option (google.api.http) = {get: "/smartcaptcha/v1/captchas/{captcha_id}"};
   }
 
   // Returns the secret data of specified Captcha resource.
-  rpc GetSecretKey (GetCaptchaRequest) returns (CaptchaSecretKey) {
+  rpc GetSecretKey(GetCaptchaRequest) returns (CaptchaSecretKey) {
     option (google.api.http) = {get: "/smartcaptcha/v1/captchas/{captcha_id}:getSecretKey"};
   }
 
-  // Retrieves the list of Captcha resources in the specified folder.
-  rpc List (ListCaptchasRequest) returns (ListCaptchasResponse) {
-    option (google.api.http) = {get: "/smartcaptcha/v1/captchas"};
-  }
-
   // Creates a captcha in the specified folder using the data specified in the request.
-  rpc Create (CreateCaptchaRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/smartcaptcha/v1/captchas" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateCaptchaRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      post: "/smartcaptcha/v1/captchas"
+      body: "*"
+    };
+    option (api.operation) = {
       metadata: "CreateCaptchaMetadata"
       response: "Captcha"
     };
   }
 
-  // Updates the specified captcha.
-  rpc Update (UpdateCaptchaRequest) returns (operation.Operation) {
-    option (google.api.http) = {patch: "/smartcaptcha/v1/captchas/{captcha_id}" body: "*"};
-    option (yandex.cloud.api.operation) = {
-      metadata: "UpdateCaptchaMetadata"
+  // Deletes the specified captcha.
+  rpc Delete(DeleteCaptchaRequest) returns (operation.Operation) {
+    option (google.api.http) = {delete: "/smartcaptcha/v1/captchas/{captcha_id}"};
+    option (api.operation) = {
+      metadata: "DeleteCaptchaMetadata"
       response: "Captcha"
     };
   }
 
-  // Deletes the specified captcha.
-  rpc Delete (DeleteCaptchaRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/smartcaptcha/v1/captchas/{captcha_id}"};
-    option (yandex.cloud.api.operation) = {
-      metadata: "DeleteCaptchaMetadata"
-      response: "google.protobuf.Empty"
+  // Updates the specified captcha.
+  rpc Update(UpdateCaptchaRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      patch: "/smartcaptcha/v1/captchas/{captcha_id}"
+      body: "*"
     };
+    option (api.operation) = {
+      response: "Captcha"
+      metadata: "UpdateCaptchaMetadata"
+    };
+  }
+
+  // Retrieves the list of Captcha resources in the specified folder.
+  rpc List(ListCaptchasRequest) returns (ListCaptchasResponse) {
+    option (google.api.http) = {get: "/smartcaptcha/v1/captchas"};
   }
 }
 
 message GetCaptchaRequest {
   // ID of the Captcha resource to return.
-  string captcha_id = 1 [(required) = true, (length) = "<=50"];
-}
-
-message ListCaptchasRequest {
-  // ID of the folder that the captcha belongs to.
-  // Currently page_size, page_token, filter and order_by are not supported and List method will return all captchas in the folder.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
-}
-
-message ListCaptchasResponse {
-  reserved 1, 2;
-
-  // List of Captcha resources.
-  // Currently next_page_token is not supported and List method will return all captchas in the folder.
-  repeated Captcha resources = 3;
+  string captcha_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message CreateCaptchaRequest {
+  reserved 7, 10;
+
   // ID of the folder to create a captcha in.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Name of the captcha.
   // The name must be unique within the folder.
@@ -102,8 +102,6 @@ message CreateCaptchaRequest {
   // Additional task type of the captcha.
   CaptchaChallengeType challenge_type = 9;
 
-  reserved 7, 10;
-
   // List of security rules.
   repeated SecurityRule security_rules = 11;
 
@@ -112,7 +110,7 @@ message CreateCaptchaRequest {
 
   // List of variants to use in security_rules
   repeated OverrideVariant override_variants = 13;
-  	
+
   // If true, Yandex team won't be able to read internal data.
   bool disallow_data_processing = 14;
 
@@ -120,7 +118,15 @@ message CreateCaptchaRequest {
   string description = 15 [(length) = "<=512"];
 
   // Resource labels as `key:value` pairs.
-  map<string, string> labels = 16 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 16 [
+    (pattern) = "[-_0-9a-z]*",
+    (map_key) = {
+      pattern: "[a-z][-_0-9a-z]*"
+      length: "1-63"
+    },
+    (size) = "<=64",
+    (length) = "<=63"
+  ];
 }
 
 message CreateCaptchaMetadata {
@@ -130,7 +136,10 @@ message CreateCaptchaMetadata {
 
 message DeleteCaptchaRequest {
   // ID of the captcha to delete.
-  string captcha_id = 1 [(required) = true, (length) = "<=50"];
+  string captcha_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message DeleteCaptchaMetadata {
@@ -139,8 +148,13 @@ message DeleteCaptchaMetadata {
 }
 
 message UpdateCaptchaRequest {
+  reserved 8, 11;
+
   // ID of the captcha to update.
-  string captcha_id = 1 [(required) = true, (length) = "<=50"];
+  string captcha_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
 
   // Field mask that specifies which fields of the Captcha resource are going to be updated.
   google.protobuf.FieldMask update_mask = 2;
@@ -170,9 +184,7 @@ message UpdateCaptchaRequest {
   // List of security rules.
   repeated SecurityRule security_rules = 12;
 
-  reserved 8, 11;
-
-    // Determines whether captcha is protected from being deleted.
+  // Determines whether captcha is protected from being deleted.
   bool deletion_protection = 13;
 
   // List of variants to use in security_rules
@@ -185,10 +197,35 @@ message UpdateCaptchaRequest {
   string description = 16 [(length) = "<=512"];
 
   // Resource labels as `key:value` pairs.
-  map<string, string> labels = 17 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 17 [
+    (map_key) = {
+      pattern: "[a-z][-_0-9a-z]*"
+      length: "1-63"
+    },
+    (size) = "<=64",
+    (length) = "<=63",
+    (pattern) = "[-_0-9a-z]*"
+  ];
 }
 
 message UpdateCaptchaMetadata {
   // ID of the Captcha resource that is being updated.
   string captcha_id = 1;
+}
+
+message ListCaptchasRequest {
+  // ID of the folder that the captcha belongs to.
+  // Currently page_size, page_token, filter and order_by are not supported and List method will return all captchas in the folder.
+  string folder_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
+}
+
+message ListCaptchasResponse {
+  reserved 1 to 2;
+
+  // List of Captcha resources.
+  // Currently next_page_token is not supported and List method will return all captchas in the folder.
+  repeated Captcha resources = 3;
 }

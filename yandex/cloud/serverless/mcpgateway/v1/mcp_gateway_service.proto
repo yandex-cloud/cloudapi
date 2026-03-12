@@ -134,7 +134,7 @@ message CreateMcpGatewayRequest {
   // MCP Gateway labels as `key:value` pairs.
   map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
   // List of MCP tools.
-  repeated McpTool tools = 5 [(size) = ">0"];
+  repeated McpTool tools = 5;
   // Logging options for the MCP Gateway.
   LogOptions log_options = 6;
   // Service account ID for the MCP Gateway.
