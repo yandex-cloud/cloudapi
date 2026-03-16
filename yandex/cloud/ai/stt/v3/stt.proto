@@ -24,6 +24,7 @@ message TextNormalizationOptions {
     // Disable phone formatting
     PHONE_FORMATTING_MODE_DISABLED = 1;
   }
+  // Text normalization mode.
   TextNormalization text_normalization = 1;
   // Profanity filter (default: false).
   bool profanity_filter = 2;
@@ -87,6 +88,19 @@ message RecognitionClassifierOptions {
   repeated RecognitionClassifier classifiers = 1;
 }
 
+message SpeakerAnalysisOptions {
+    // threshold of the silence segment duration to acknowledge the segment to be silence
+    int64 silence_threshold_ms = 1;
+}
+
+message ConversationAnalysisOptions {
+    // threshold of the overlapping silence duration to acknowledge the segment to be simultaneous silence
+    int64 simultaneous_silence_threshold_ms = 1;
+
+    // threshold of the overlapping speech duration to acknowledge the segment to be simultaneous speech
+    int64 simultaneous_speech_threshold_ms = 2;
+}
+
 message SpeechAnalysisOptions {
   // Analyse speech for every speaker
   bool enable_speaker_analysis = 1;
@@ -94,6 +108,10 @@ message SpeechAnalysisOptions {
   bool enable_conversation_analysis = 2;
   // Quantile levels in range (0, 1) for descriptive statistics
   repeated double descriptive_statistics_quantiles = 3;
+  // option spectific to the conver
+  SpeakerAnalysisOptions speaker_options = 4;
+  // options specific to the conversation analysis
+  ConversationAnalysisOptions converstation_options = 5;
 }
 
 // RAW Audio format spec (no container to infer type). Used in AudioFormat options.
@@ -707,10 +725,14 @@ message StreamingResponse {
   string channel_tag = 9;
 }
 
+// Delete async recognition result request.
 message DeleteRecognitionRequest {
+  // Async recognition operation id to delete.
   string operation_id = 1;
 }
 
+// Response from async recognition.
 message StreamingResponseList {
+  // List of responses from async recognition.
   repeated StreamingResponse streaming_responses = 1;
 }

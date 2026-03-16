@@ -182,7 +182,7 @@ message HiveConnector {
   map<string, string> additional_properties = 3 [
     (yandex.cloud.size) = "<=256",
     (length) = "<=128",
-    (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
+    (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
     (map_key).length = "1-128",
     (map_key).pattern = "[a-z][-_0-9a-z.]*"
   ];
@@ -199,7 +199,7 @@ message IcebergConnector {
   map<string, string> additional_properties = 3 [
     (yandex.cloud.size) = "<=256",
     (length) = "<=128",
-    (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
+    (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
     (map_key).length = "1-128",
     (map_key).pattern = "[a-z][-_0-9a-z.]*"
   ];
@@ -216,7 +216,7 @@ message DeltaLakeConnector {
   map<string, string> additional_properties = 3 [
     (yandex.cloud.size) = "<=256",
     (length) = "<=128",
-    (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
+    (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
     (map_key).length = "1-128",
     (map_key).pattern = "[a-z][-_0-9a-z.]*"
   ];
@@ -233,7 +233,7 @@ message HudiConnector {
     map<string, string> additional_properties = 3 [
         (yandex.cloud.size) = "<=256",
         (length) = "<=128",
-        (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
+        (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
         (map_key).length = "1-128",
         (map_key).pattern = "[a-z][-_0-9a-z.]*"
     ];
@@ -304,7 +304,7 @@ message PostgresqlConnector {
   map<string, string> additional_properties = 2 [
     (yandex.cloud.size) = "<=256",
     (length) = "<=128",
-    (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
+    (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
     (map_key).length = "1-128",
     (map_key).pattern = "[a-z][-_0-9a-z.]*"
   ];
@@ -375,7 +375,7 @@ message ClickhouseConnector {
     map<string, string> additional_properties = 2 [
         (yandex.cloud.size) = "<=256",
         (length) = "<=128",
-        (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
+        (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
         (map_key).length = "1-128",
         (map_key).pattern = "[a-z][-_0-9a-z.]*"
     ];
@@ -386,7 +386,7 @@ message TPCHConnector {
   map<string, string> additional_properties = 1 [
     (yandex.cloud.size) = "<=256",
     (length) = "<=128",
-    (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
+    (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
     (map_key).length = "1-128",
     (map_key).pattern = "[a-z][-_0-9a-z.]*"
   ];
@@ -397,7 +397,7 @@ message TPCDSConnector {
   map<string, string> additional_properties = 1 [
     (yandex.cloud.size) = "<=256",
     (length) = "<=128",
-    (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
+    (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
     (map_key).length = "1-128",
     (map_key).pattern = "[a-z][-_0-9a-z.]*"
   ];
@@ -441,7 +441,7 @@ message OracleConnector {
   map<string, string> additional_properties = 2 [
     (yandex.cloud.size) = "<=256",
     (length) = "<=128",
-    (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
+    (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
     (map_key).length = "1-128",
     (map_key).pattern = "[a-z][-_0-9a-z.]*"
   ];
@@ -485,7 +485,7 @@ message SQLServerConnector {
   map<string, string> additional_properties = 2 [
     (yandex.cloud.size) = "<=256",
     (length) = "<=128",
-    (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
+    (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
     (map_key).length = "1-128",
     (map_key).pattern = "[a-z][-_0-9a-z.]*"
   ];
@@ -549,7 +549,7 @@ message MysqlConnector {
   map<string, string> additional_properties = 2 [
     (yandex.cloud.size) = "<=256",
     (length) = "<=128",
-    (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
+    (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
     (map_key).length = "1-128",
     (map_key).pattern = "[a-z][-_0-9a-z.]*"
   ];
@@ -620,7 +620,7 @@ message GreenplumConnector {
     map<string, string> additional_properties = 2 [
         (yandex.cloud.size) = "<=256",
         (length) = "<=128",
-        (pattern) = "[-_0-9a-zA-Z.,:\\/_ ]*",
+        (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
         (map_key).length = "1-128",
         (map_key).pattern = "[a-z][-_0-9a-z.]*"
     ];

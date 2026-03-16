@@ -16,51 +16,60 @@ option java_package = "yandex.cloud.api.smartcaptcha.v1";
 service CaptchaService {
   // Returns the specified Captcha resource.
   rpc Get(GetCaptchaRequest) returns (Captcha) {
-    option (google.api.http) = {get: "/smartcaptcha/v1/captchas/{captcha_id}"};
-  }
+    option (google.api.http) = {
+      get: "/smartcaptcha/v1/captchas/{captcha_id}"
+    };
+  };
 
   // Returns the secret data of specified Captcha resource.
   rpc GetSecretKey(GetCaptchaRequest) returns (CaptchaSecretKey) {
-    option (google.api.http) = {get: "/smartcaptcha/v1/captchas/{captcha_id}:getSecretKey"};
-  }
+    option (google.api.http) = {
+      get: "/smartcaptcha/v1/captchas/{captcha_id}:getSecretKey"
+    };
+  };
 
   // Creates a captcha in the specified folder using the data specified in the request.
   rpc Create(CreateCaptchaRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/smartcaptcha/v1/captchas"
-      body: "*"
-    };
     option (api.operation) = {
       metadata: "CreateCaptchaMetadata"
       response: "Captcha"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/smartcaptcha/v1/captchas"
+    };
+  };
 
   // Deletes the specified captcha.
   rpc Delete(DeleteCaptchaRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/smartcaptcha/v1/captchas/{captcha_id}"};
     option (api.operation) = {
       metadata: "DeleteCaptchaMetadata"
       response: "Captcha"
     };
-  }
+    option (google.api.http) = {
+      delete: "/smartcaptcha/v1/captchas/{captcha_id}"
+    };
+  };
 
   // Updates the specified captcha.
   rpc Update(UpdateCaptchaRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/smartcaptcha/v1/captchas/{captcha_id}"
-      body: "*"
-    };
     option (api.operation) = {
-      response: "Captcha"
       metadata: "UpdateCaptchaMetadata"
+      response: "Captcha"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/smartcaptcha/v1/captchas/{captcha_id}"
+    };
+  };
 
   // Retrieves the list of Captcha resources in the specified folder.
   rpc List(ListCaptchasRequest) returns (ListCaptchasResponse) {
-    option (google.api.http) = {get: "/smartcaptcha/v1/captchas"};
-  }
+    option (google.api.http) = {
+      get: "/smartcaptcha/v1/captchas"
+    };
+  };
+
 }
 
 message GetCaptchaRequest {
@@ -119,13 +128,13 @@ message CreateCaptchaRequest {
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 16 [
-    (pattern) = "[-_0-9a-z]*",
+    (length) = "<=63",
     (map_key) = {
-      pattern: "[a-z][-_0-9a-z]*"
       length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
     },
-    (size) = "<=64",
-    (length) = "<=63"
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
   ];
 }
 
@@ -152,8 +161,8 @@ message UpdateCaptchaRequest {
 
   // ID of the captcha to update.
   string captcha_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Field mask that specifies which fields of the Captcha resource are going to be updated.
@@ -198,13 +207,13 @@ message UpdateCaptchaRequest {
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 17 [
-    (map_key) = {
-      pattern: "[a-z][-_0-9a-z]*"
-      length: "1-63"
-    },
-    (size) = "<=64",
     (length) = "<=63",
-    (pattern) = "[-_0-9a-z]*"
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
   ];
 }
 
@@ -217,8 +226,8 @@ message ListCaptchasRequest {
   // ID of the folder that the captcha belongs to.
   // Currently page_size, page_token, filter and order_by are not supported and List method will return all captchas in the folder.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 

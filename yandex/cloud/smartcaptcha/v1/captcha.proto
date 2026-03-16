@@ -62,13 +62,13 @@ message Captcha {
   bool disallow_data_processing = 24;
   string description = 25 [(length) = "<=512"];
   map<string, string> labels = 26 [
-    (size) = "<=64",
     (length) = "<=63",
     (map_key) = {
       length: "1-63"
       pattern: "[a-z][-_0-9a-z]*"
     },
-    (pattern) = "[-_0-9a-z]*"
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
   ];
 }
 
@@ -76,8 +76,8 @@ message Captcha {
 message OverrideVariant {
   // Unique identifier of the variant.
   string uuid = 1 [
-    (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*",
-    (length) = "<=64"
+    (length) = "<=64",
+    (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*"
   ];
 
   // Optional description of the rule. 0-512 characters long.
@@ -99,9 +99,9 @@ message SecurityRule {
 
   // Name of the rule. The name is unique within the captcha. 1-50 characters long.
   string name = 1 [
-    (required) = true,
+    (length) = "1-50",
     (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*",
-    (length) = "1-50"
+    (required) = true
   ];
 
   // Priority of the rule. Lower value means higher priority.
@@ -129,11 +129,12 @@ message Condition {
       string pire_regex_match = 5 [(length) = "0-255"];
       string pire_regex_not_match = 6 [(length) = "0-255"];
     }
+
   }
 
   // HostMatcher object.
   message HostMatcher {
-    // *OR* semantics implied.
+    // List of hosts. OR semantics implied.
     repeated StringMatcher hosts = 1 [(size) = "<=20"];
   }
 
@@ -150,8 +151,8 @@ message Condition {
   message QueryMatcher {
     // Key of the query parameter.
     string key = 1 [
-      (required) = true,
-      (length) = "1-255"
+      (length) = "1-255",
+      (required) = true
     ];
 
     // Value of the query parameter.
@@ -183,8 +184,8 @@ message Condition {
   message IpRangesMatcher {
     // *OR* semantics implied.
     repeated string ip_ranges = 1 [
-      (size) = "<=10000",
-      (length) = ">0"
+      (length) = ">0",
+      (size) = "<=10000"
     ]; // v4/v6 - allow, exact IP == /32 or /128 range
   }
 
@@ -193,8 +194,8 @@ message Condition {
     // *OR semantics implied. ISO 3166-1 alpha 2
     repeated string locations = 1 [
       (length) = "2",
-      (unique) = true,
-      (size) = ">=1"
+      (size) = ">=1",
+      (unique) = true
     ];
   }
 
@@ -234,6 +235,7 @@ enum CaptchaComplexity {
   FORCE_HARD = 4;
 }
 
+
 // Captcha's basic check type, see [Task types / Main task](/docs/smartcaptcha/concepts/tasks#main-task).
 enum CaptchaPreCheckType {
   CAPTCHA_PRE_CHECK_TYPE_UNSPECIFIED = 0;
@@ -244,6 +246,7 @@ enum CaptchaPreCheckType {
   // User must move the slider from left to right.
   SLIDER = 2;
 }
+
 
 // Additional task, see [Task types / Additional task](/docs/smartcaptcha/concepts/tasks#additional-task).
 enum CaptchaChallengeType {
