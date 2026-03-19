@@ -405,11 +405,17 @@ message ConfigSpec {
 
   // Configuration for computational resources for Metastore server instances.
   Resources resources = 2;
+
+  // Configuration of warehouse.
+  WarehouseConfig warehouse = 3;
 }
 
 message UpdateClusterConfigSpec {
   // Configuration for computational resources for Metastore server instances.
   Resources resources = 1;
+
+  // Configuration of warehouse.
+  WarehouseConfig warehouse = 2;
 }
 
 message UpdateNetworkConfigSpec {

@@ -5,12 +5,8 @@ package yandex.cloud.mdb.postgresql.v1;
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
-import "yandex/cloud/mdb/postgresql/v1/config/host10.proto";
-import "yandex/cloud/mdb/postgresql/v1/config/host10_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host11.proto";
-import "yandex/cloud/mdb/postgresql/v1/config/host11_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host12.proto";
-import "yandex/cloud/mdb/postgresql/v1/config/host12_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host13.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host13_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host14.proto";
@@ -23,13 +19,8 @@ import "yandex/cloud/mdb/postgresql/v1/config/host17.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host17_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host18.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host18_1c.proto";
-import "yandex/cloud/mdb/postgresql/v1/config/host9_6.proto";
-import "yandex/cloud/mdb/postgresql/v1/config/postgresql10.proto";
-import "yandex/cloud/mdb/postgresql/v1/config/postgresql10_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql11.proto";
-import "yandex/cloud/mdb/postgresql/v1/config/postgresql11_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql12.proto";
-import "yandex/cloud/mdb/postgresql/v1/config/postgresql12_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql13.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql13_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql14.proto";
@@ -42,7 +33,6 @@ import "yandex/cloud/mdb/postgresql/v1/config/postgresql17.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql17_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql18.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql18_1c.proto";
-import "yandex/cloud/mdb/postgresql/v1/config/postgresql9_6.proto";
 import "yandex/cloud/mdb/postgresql/v1/maintenance.proto";
 import "yandex/cloud/validation.proto";
 
@@ -177,6 +167,11 @@ message Monitoring {
 }
 
 message ClusterConfig {
+  reserved 2;
+  reserved 3;
+  reserved 10;
+  reserved 13;
+  reserved 14;
   reserved 20;
   reserved 26;
   // Version of PostgreSQL server software.
@@ -184,26 +179,11 @@ message ClusterConfig {
 
   // Configuration for PostgreSQL servers in the cluster.
   oneof postgresql_config {
-    // Configuration of a PostgreSQL 9.6 server.
-    config.PostgresqlConfigSet9_6 postgresql_config_9_6 = 2 [json_name = "postgresqlConfig_9_6"];
-
-    // Configuration of a PostgreSQL 10 1C server.
-    config.PostgresqlConfigSet10_1C postgresql_config_10_1c = 10 [json_name = "postgresqlConfig_10_1c"];
-
-    // Configuration of a PostgreSQL 10 server.
-    config.PostgresqlConfigSet10 postgresql_config_10 = 3 [json_name = "postgresqlConfig_10"];
-
     // Configuration of a PostgreSQL 11 server.
     config.PostgresqlConfigSet11 postgresql_config_11 = 8 [json_name = "postgresqlConfig_11"];
 
-    // Configuration of a PostgreSQL 11 1C server.
-    config.PostgresqlConfigSet11_1C postgresql_config_11_1c = 13 [json_name = "postgresqlConfig_11_1c"];
-
     // Configuration of a PostgreSQL 12 server.
     config.PostgresqlConfigSet12 postgresql_config_12 = 11 [json_name = "postgresqlConfig_12"];
-
-    // Configuration of a PostgreSQL 12 1C server.
-    config.PostgresqlConfigSet12_1C postgresql_config_12_1c = 14 [json_name = "postgresqlConfig_12_1c"];
 
     // Configuration of a PostgreSQL 13 server.
     config.PostgresqlConfigSet13 postgresql_config_13 = 15 [json_name = "postgresqlConfig_13"];
@@ -378,28 +358,17 @@ message Host {
 }
 
 message HostConfig {
+  reserved 4;
+  reserved 6;
+  reserved 7;
+
   // Configuration of a PostgreSQL server for the host.
   oneof postgresql_config {
-    // Configuration for a host with PostgreSQL 9.6 server deployed.
-    config.PostgresqlHostConfig9_6 postgresql_config_9_6 = 1 [json_name = "postgresqlHostConfig_9_6"];
-
-    // Configuration for a host with PostgreSQL 10 1C server deployed.
-    config.PostgresqlHostConfig10_1C postgresql_config_10_1c = 4 [json_name = "postgresqlHostConfig_10_1c"];
-
-    // Configuration for a host with PostgreSQL 10 server deployed.
-    config.PostgresqlHostConfig10 postgresql_config_10 = 2 [json_name = "postgresqlHostConfig_10"];
-
     // Configuration for a host with PostgreSQL 11 server deployed.
     config.PostgresqlHostConfig11 postgresql_config_11 = 3 [json_name = "postgresqlHostConfig_11"];
 
-    // Configuration for a host with PostgreSQL 11 1C server deployed.
-    config.PostgresqlHostConfig11_1C postgresql_config_11_1c = 6 [json_name = "postgresqlHostConfig_11_1c"];
-
     // Configuration for a host with PostgreSQL 12 server deployed.
     config.PostgresqlHostConfig12 postgresql_config_12 = 5 [json_name = "postgresqlHostConfig_12"];
-
-    // Configuration for a host with PostgreSQL 12 1C server deployed.
-    config.PostgresqlHostConfig12_1C postgresql_config_12_1c = 7 [json_name = "postgresqlHostConfig_12_1c"];
 
     // Configuration for a host with PostgreSQL 13 server deployed.
     config.PostgresqlHostConfig13 postgresql_config_13 = 8 [json_name = "postgresqlHostConfig_13"];

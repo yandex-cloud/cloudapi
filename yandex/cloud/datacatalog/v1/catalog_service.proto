@@ -1,0 +1,166 @@
+syntax = "proto3";
+
+package yandex.cloud.datacatalog.v1;
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/datacatalog/v1/catalog.proto";
+import "yandex/cloud/operation/operation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datacatalog/v1;datacatalog";
+option java_package = "yandex.cloud.api.datacatalog.v1";
+
+service CatalogService {
+  // Returns the specified catalog.
+  rpc GetCatalog(GetCatalogRequest) returns (Catalog) {
+    option (api.tools.method) = {
+      lint_skip: {
+        contains_resource_name: true
+      }
+    };
+    option (google.api.http) = {
+      get: "/v1/catalog/{catalog_id}"
+    };
+  };
+
+  // Retrieves the list of catalogs in the specified folder.
+  rpc ListCatalogs(ListCatalogsRequest) returns (ListCatalogsResponse) {
+    option (api.tools.method) = {
+      lint_skip: {
+        contains_resource_name: true
+      }
+    };
+    option (google.api.http) = {
+      get: "/v1/catalogs"
+    };
+  };
+
+  // Creates a catalog.
+  rpc CreateCatalog(CreateCatalogRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreateCatalogMetadata"
+      response: "Catalog"
+    };
+    option (api.tools.method) = {
+      lint_skip: {
+        contains_resource_name: true
+      }
+    };
+    option (google.api.http) = {
+      body: "catalog"
+      post: "/v1/catalogs"
+    };
+  };
+
+  // Deletes a catalog.
+  rpc DeleteCatalog(DeleteCatalogRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeleteCatalogMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (api.tools.method) = {
+      lint_skip: {
+        contains_resource_name: true
+      }
+    };
+    option (google.api.http) = {
+      delete: "/v1/catalog/{catalog_id}"
+    };
+  };
+
+  // Updates the specified catalog.
+  rpc UpdateCatalog(UpdateCatalogRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdateCatalogMetadata"
+      response: "Catalog"
+    };
+    option (api.tools.method) = {
+      lint_skip: {
+        contains_resource_name: true
+      }
+    };
+    option (google.api.http) = {
+      body: "*"
+      patch: "/v1/catalog/{catalog.id}"
+    };
+  };
+}
+
+// Request message for getting a catalog.
+message GetCatalogRequest {
+  // ID of the catalog to return.
+  string catalog_id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Request message for getting catalogs by folder id.
+message ListCatalogsRequest {
+  // ID of the folder to list catalogs in.
+  string folder_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The maximum number of results per page to return. If the number of available
+  // results is larger than `page_size`, the service returns a `next_page_token`
+  // that can be used to get the next page of results in subsequent list requests.
+  // if omitted, default value will be used
+  int64 page_size = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // Page token. To get the next page of results, set `page_token` to the
+  // `next_page_token` returned by a previous list request.
+  string page_token = 3 [(google.api.field_behavior) = OPTIONAL];
+
+  // Filter by name. Use this in case if it's necessary to find catalogs by name
+  // if empty - filter will be omited
+  string name_pattern_or_id = 4 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Response message that contains result of listing catalogs.
+message ListCatalogsResponse {
+  // List of catalogs.
+  repeated Catalog catalogs = 1;
+
+  // This token allows you to get the next page of results for list requests.
+  // If the number of results is larger than the specified `page_size`, use the
+  // `next_page_token` as the value for the `page_token` parameter in the next list request.
+  // Each subsequent list request will have its own `next_page_token` to continue paging
+  string next_page_token = 2;
+}
+
+// Request message for creating a catalog.
+message CreateCatalogRequest {
+  // Catalog to create.
+  Catalog catalog = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Request message for deleting a catalog.
+message DeleteCatalogRequest {
+  // ID of the catalog to delete.
+  string catalog_id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Request message for updating a catalog.
+message UpdateCatalogRequest {
+  // Catalog to update.
+  Catalog catalog = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Field mask that specifies which fields to update.
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+// Metadata for the catalog create operation.
+message CreateCatalogMetadata {
+  // ID of the catalog that is being created.
+  string catalog_id = 1;
+}
+
+// Metadata for the catalog update operation.
+message UpdateCatalogMetadata {
+  // ID of the catalog that is being updated.
+  string catalog_id = 1;
+}
+
+// Metadata for the catalog delete operation.
+message DeleteCatalogMetadata {
+  // ID of the catalog that is being deleted.
+  string catalog_id = 1;
+}

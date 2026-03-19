@@ -221,7 +221,7 @@ message UpdateConnectorConfigIcebergSinkSpec {
 
 message StaticTablesSpec {
   // List of tables, separated by ','.
-  repeated string tables = 1;
+  string tables = 1;
 }
 
 message DynamicTablesSpec {

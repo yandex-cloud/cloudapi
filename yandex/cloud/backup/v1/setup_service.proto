@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package yandex.cloud.backup.v1;
+
+import "google/api/annotations.proto";
+
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/backup/v1;backup";
+option java_package = "yandex.cloud.api.backup.v1";
+
+service SetupService {
+    rpc GetAgentInstallCommand(GetAgentInstallCommandRequest) returns (GetAgentInstallCommandResponse) {
+        option (google.api.http) = { post: "/backup/v1/setup/getAgentInstallCommand" body: "*" };
+    };
+}
+
+message GetAgentInstallCommandRequest {
+    enum AgentInstallCommandType {
+        AGENT_INSTALL_COMMAND_TYPE_UNSPECIFIED = 0;
+        AGENT_INSTALL_BASH_EXTERNAL_VM = 1;
+        AGENT_INSTALL_BASH_EXTERNAL_SERVER = 2;
+    }
+
+    string folder_id = 1 [ (required) = true ];
+    AgentInstallCommandType type = 2 [ (required) = true ];
+    repeated string policy_ids = 3;
+}
+
+message GetAgentInstallCommandResponse {
+    string command = 1;
+}

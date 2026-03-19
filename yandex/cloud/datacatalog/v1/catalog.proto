@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package yandex.cloud.datacatalog.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datacatalog/v1;datacatalog";
+option java_package = "yandex.cloud.api.datacatalog.v1";
+
+message Catalog {
+  // Catalog identifier
+  string id = 1 [
+    (google.api.field_behavior) = IDENTIFIER,
+    (google.api.field_behavior) = OUTPUT_ONLY
+  ];
+
+  // Folder identifier
+  string folder_id = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // Catalog name
+  string name = 3 [(google.api.field_behavior) = REQUIRED];
+
+  // Catalog description
+  string description = 4 [(google.api.field_behavior) = OPTIONAL];
+
+  // Catalog labels
+  map<string, string> labels = 5 [(google.api.field_behavior) = OPTIONAL];
+
+  // Id of subject who created the catalog
+  string created_by = 6 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // AI markup enabled flag
+  CatalogAIMarkupRules ai_markup_rules = 7 [(google.api.field_behavior) = OPTIONAL];
+
+  // Configuration for auto ingestion feature
+  CatalogAutoIngestionConfig auto_ingestion_params = 8 [(google.api.field_behavior) = OPTIONAL];
+
+  // Date of catalog creation
+  google.protobuf.Timestamp created_at = 9 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Date of catalog last update
+  google.protobuf.Timestamp updated_at = 10 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+message CatalogAIMarkupRules {
+  // If set to true, AI marking up of catalog entities will be enabled
+  bool ai_enabled = 1 [(google.api.field_behavior) = OPTIONAL];
+
+  // Rules for the AI agent, that will be used for assets mark up
+  string documentation_rules = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // Rules for the AI agent, that will be used for domains mark up
+  string domain_rules = 3 [(google.api.field_behavior) = OPTIONAL];
+
+  // Rules for the AI agent, that will be used for terms mark up
+  string terms_rules = 4 [(google.api.field_behavior) = OPTIONAL];
+
+  // Rules for the AI agent, that will be used for tags mark up
+  string tags_rules = 5 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message CatalogAutoIngestionConfig {
+  reserved 1 to 18;
+
+  // ID of service account, which will be used for auto ingestion feature
+  string service_account_id = 19 [(google.api.field_behavior) = OPTIONAL];
+}

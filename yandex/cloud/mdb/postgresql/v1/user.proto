@@ -346,4 +346,7 @@ message UserSettings {
 
   // Settings of the [PostgreSQL Audit Extension](https://www.pgaudit.org/) (pgaudit).
   PGAuditSettings pgaudit = 13;
+
+  // in milliseconds; can be set only for PostgreSQL 14+
+  google.protobuf.Int64Value idle_session_timeout = 14 [(value) = "0-2147483647"];
 }

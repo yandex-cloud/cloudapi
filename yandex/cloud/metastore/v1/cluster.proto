@@ -55,7 +55,7 @@ message Cluster {
   }
 
   // Unique ID of the Metastore Cluster.
-  // This ID is assigned by Cloud in the process of creating a Trino cluster.
+  // This ID is assigned by Cloud in the process of creating a Metastore cluster.
   string id = 1;
 
   // ID of the folder that the Metastore Cluster belongs to.
@@ -132,6 +132,9 @@ message ClusterConfig {
 
   // Configuration for computational resources for Metastore server instances.
   Resources resources = 2;
+
+  // Configuration of warehouse.
+  WarehouseConfig warehouse = 3;
 }
 
 message NetworkConfig {
@@ -167,4 +170,21 @@ message LoggingConfig {
   //
   // See [LogLevel.Level] for details.
   yandex.cloud.logging.v1.LogLevel.Level min_level = 4;
+}
+
+message WarehouseConfig {
+  message S3Warehouse {
+    // Bucket name to use.
+    string bucket = 1 [(required) = true];
+
+    // Path within the bucket to use.
+    string path = 2 [(pattern) = "([a-zA-Z0-9/][-a-zA-Z0-9_./]{0,512})?"];
+  }
+
+  oneof warehouse {
+    option (exactly_one) = true;
+
+    // Yandex Cloud Object Storage.
+    S3Warehouse s3 = 1;
+  }
 }
