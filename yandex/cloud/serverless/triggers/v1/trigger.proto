@@ -23,9 +23,12 @@ enum TriggerType {
 
   // The trigger is activated by messages from IoT Core.
   IOT_MESSAGE = 4;
+  // The trigger is activated by messages from IoT Core broker.
   IOT_BROKER_MESSAGE = 12;
 
+  // The trigger is activated by Object Storage events.
   OBJECT_STORAGE = 5;
+  // The trigger is activated by Container Registry events.
   CONTAINER_REGISTRY = 6;
 
   // The trigger is activated by cloud log group events
@@ -87,13 +90,21 @@ message Trigger {
 
       // Rule for a IoT Core trigger.
       IoTMessage iot_message = 4;
+      // Rule for a IoT Core Broker trigger.
       IoTBrokerMessage iot_broker_message = 14;
+      // Rule for an Object Storage trigger.
       ObjectStorage object_storage = 5;
+      // Rule for a Container Registry trigger.
       ContainerRegistry container_registry = 6;
+      // Rule for a Cloud Logs trigger.
       CloudLogs cloud_logs = 9;
+      // Rule for a Logging trigger.
       Logging logging = 10;
+      // Rule for a Billing Budget trigger.
       BillingBudget billing_budget = 11;
+      // Rule for a Data Stream trigger.
       DataStream data_stream = 12;
+      // Rule for a Mail trigger.
       Mail mail = 13;
     }
   }
@@ -116,7 +127,7 @@ message Trigger {
       option (exactly_one) = true;
 
       // Instructions for invoking a function once.
-      InvokeFunctionOnce invoke_function = 101;
+      InvokeFunctionOnce invoke_function = 101 [deprecated=true];
 
       // Instructions for invoking a function with retry.
       InvokeFunctionWithRetry invoke_function_with_retry = 103;
@@ -126,6 +137,9 @@ message Trigger {
 
       // Instructions for broadcasting to API gateway websocket once.
       GatewayWebsocketBroadcast gateway_websocket_broadcast = 105;
+
+      // Instructions for starting a workflow with retry.
+      StartWorkflowWithRetry start_workflow = 106;
     }
   }
 
@@ -160,6 +174,9 @@ message Trigger {
 
       // Instructions for broadcasting to API gateway websocket once.
       GatewayWebsocketBroadcast gateway_websocket_broadcast = 103;
+
+      // Instructions for starting a workflow once.
+      StartWorkflowOnce start_workflow = 104;
     }
   }
 
@@ -222,8 +239,11 @@ message Trigger {
 
   enum ObjectStorageEventType {
     OBJECT_STORAGE_EVENT_TYPE_UNSPECIFIED = 0;
+    // An object was created.
     OBJECT_STORAGE_EVENT_TYPE_CREATE_OBJECT = 1;
+    // An object was updated.
     OBJECT_STORAGE_EVENT_TYPE_UPDATE_OBJECT = 2;
+    // An object was deleted.
     OBJECT_STORAGE_EVENT_TYPE_DELETE_OBJECT = 3;
   }
 
@@ -255,14 +275,21 @@ message Trigger {
 
       // Instructions for broadcasting to API gateway websocket once.
       GatewayWebsocketBroadcast gateway_websocket_broadcast = 103;
+
+      // Instructions for starting a workflow with retry.
+      StartWorkflowWithRetry start_workflow = 104;
     }
   }
 
   enum ContainerRegistryEventType {
     CONTAINER_REGISTRY_EVENT_TYPE_UNSPECIFIED = 0;
+    // An image was created.
     CONTAINER_REGISTRY_EVENT_TYPE_CREATE_IMAGE = 1;
+    // An image was deleted.
     CONTAINER_REGISTRY_EVENT_TYPE_DELETE_IMAGE = 2;
+    // An image tag was created.
     CONTAINER_REGISTRY_EVENT_TYPE_CREATE_IMAGE_TAG = 3;
+    // An image tag was deleted.
     CONTAINER_REGISTRY_EVENT_TYPE_DELETE_IMAGE_TAG = 4;
   }
 
@@ -293,9 +320,13 @@ message Trigger {
 
       // Instructions for broadcasting to API gateway websocket once.
       GatewayWebsocketBroadcast gateway_websocket_broadcast = 103;
+
+      // Instructions for starting a workflow with retry.
+      StartWorkflowWithRetry start_workflow = 104;
     }
   }
 
+  // Deprecated. Use Logging instead.
   message CloudLogs {
     reserved 3 to 100;
     // Log group identifiers, at least one value is required.
@@ -322,18 +353,22 @@ message Trigger {
     // Log events filter settings.
     string log_group_id = 1 [(length) = "<=50"];
 
+    // Resource types to filter log events.
     repeated string resource_type = 3 [
       (pattern) = "[a-zA-Z][-a-zA-Z0-9_.]{1,62}",
       (size) = "<=100"
     ];
+    // Resource IDs to filter log events.
     repeated string resource_id = 4 [
       (pattern) = "[a-zA-Z][-a-zA-Z0-9_.]{1,62}",
       (size) = "<=100"
     ];
+    // Stream names to filter log events.
     repeated string stream_name = 7 [
       (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]",
       (size) = "<=100"
     ];
+    // Logging levels to filter log events.
     repeated yandex.cloud.logging.v1.LogLevel.Level levels = 5 [(size) = "<=10"];
 
     // Batch settings for processing log events.
@@ -350,12 +385,17 @@ message Trigger {
 
       // Instructions for broadcasting to API gateway websocket once.
       GatewayWebsocketBroadcast gateway_websocket_broadcast = 104;
+
+      // Instructions for starting a workflow with retry.
+      StartWorkflowWithRetry start_workflow = 105;
     }
   }
 
   enum Status {
     STATUS_UNSPECIFIED = 0;
+    // The trigger is active and will fire when the triggering event occurs.
     ACTIVE = 1;
+    // The trigger is paused and will not fire when the triggering event occurs.
     PAUSED = 2;
   }
 }
@@ -434,14 +474,46 @@ message InvokeContainerWithRetry {
   PutQueueMessage dead_letter_queue = 6;
 }
 
+// A single workflow invocation.
+message StartWorkflowOnce {
+  // ID of the workflow to start.
+  string workflow_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
+
+  // ID of the service account which has permission to start the workflow.
+  string service_account_id = 2;
+}
+
+// A workflow invocation with retries.
+message StartWorkflowWithRetry {
+  // ID of the workflow to start.
+  string workflow_id = 1 [
+    (required) = true,
+    (length) = "<=50"
+  ];
+
+  // ID of the service account which has permission to start the workflow.
+  string service_account_id = 2;
+
+  // Retry policy. If the field is not specified, or the value is empty, no retries will be attempted.
+  RetrySettings retry_settings = 3;
+
+  // DLQ policy (no value means discarding a message).
+  PutQueueMessage dead_letter_queue = 4;
+}
+
 message GatewayWebsocketBroadcast {
+  // ID of the API gateway.
   string gateway_id = 1 [
     (required) = true,
     (length) = "<=50"
   ];
+  // Path in the OpenAPI specification. Messages will be sent through WebSocket connections established using this path.
   string path = 2 [(required) = true];
 
-  // sa which has permission for writing to websockets
+  // ID of the service account which has permission for broadcasting to WebSocket connections.
   string service_account_id = 3 [
     (required) = true,
     (length) = "<=50"
@@ -506,17 +578,24 @@ message RetrySettings {
 message BillingBudget {
   reserved 102;
   reserved 3 to 100;
+  // ID of the billing account.
   string billing_account_id = 1 [
     (required) = true,
     (length) = "<=50"
   ];
+  // ID of the budget.
   string budget_id = 2 [(length) = "<=50"];
 
   oneof action {
     option (exactly_one) = true;
+    // Instructions for invoking a function with retries as needed.
     InvokeFunctionWithRetry invoke_function = 101;
+    // Instructions for invoking a container with retries as needed.
     InvokeContainerWithRetry invoke_container = 103;
+    // Instructions for broadcasting to API gateway websocket once.
     GatewayWebsocketBroadcast gateway_websocket_broadcast = 104;
+    // Instructions for starting a workflow with retry.
+    StartWorkflowWithRetry start_workflow = 105;
   }
 }
 
@@ -547,9 +626,14 @@ message DataStream {
 
   oneof action {
     option (exactly_one) = true;
+    // Instructions for invoking a function with retries as needed.
     InvokeFunctionWithRetry invoke_function = 13;
+    // Instructions for invoking a container with retries as needed.
     InvokeContainerWithRetry invoke_container = 15;
+    // Instructions for broadcasting to API gateway websocket once.
     GatewayWebsocketBroadcast gateway_websocket_broadcast = 16;
+    // Instructions for starting a workflow with retry.
+    StartWorkflowWithRetry start_workflow = 17;
   }
 }
 
@@ -583,8 +667,13 @@ message Mail {
 
   oneof action {
     option (exactly_one) = true;
+    // Instructions for invoking a function with retries as needed.
     InvokeFunctionWithRetry invoke_function = 101;
+    // Instructions for invoking a container with retries as needed.
     InvokeContainerWithRetry invoke_container = 103;
+    // Instructions for broadcasting to API gateway websocket once.
     GatewayWebsocketBroadcast gateway_websocket_broadcast = 104;
+    // Instructions for starting a workflow with retry.
+    StartWorkflowWithRetry start_workflow = 105;
   }
 }

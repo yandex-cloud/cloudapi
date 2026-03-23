@@ -423,13 +423,32 @@ message MultiSourceChartWidget {
             LineHidingType line_hiding_type = 10 [deprecated=true];
 
             // Hide line in legend.
-            bool line_hiding_in_legend = 11;
+            bool line_hiding_in_legend = 11 [deprecated=true];
 
             // Hide line in tooltip.
-            bool line_hiding_in_tooltip = 12;
+            bool line_hiding_in_tooltip = 12 [deprecated=true];
 
             // Hide line in chart.
-            bool line_hiding_in_chart = 13;
+            bool line_hiding_in_chart = 13 [deprecated=true];
+
+            // Visibility override settings for a line element.
+            enum LineOverrideVisibilitySettings {
+                // Not specified (default visibility applies).
+                LINE_OVERRIDE_VISIBILITY_SETTINGS_UNSPECIFIED = 0;
+                // Explicitly visible.
+                LINE_OVERRIDE_VISIBILITY_SETTINGS_VISIBLE = 1;
+                // Explicitly hidden.
+                LINE_OVERRIDE_VISIBILITY_SETTINGS_HIDDEN = 2;
+            }
+
+            // Line visibility in legend. Replaces line_hiding_in_legend.
+            LineOverrideVisibilitySettings line_visibility_in_legend = 14;
+
+            // Line visibility in tooltip. Replaces line_hiding_in_tooltip.
+            LineOverrideVisibilitySettings line_visibility_in_tooltip = 15;
+
+            // Line visibility in chart. Replaces line_hiding_in_chart.
+            LineOverrideVisibilitySettings line_visibility_in_chart = 16;
         }
 
         // Required. Series selection type.

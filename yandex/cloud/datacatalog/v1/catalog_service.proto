@@ -15,11 +15,6 @@ option java_package = "yandex.cloud.api.datacatalog.v1";
 service CatalogService {
   // Returns the specified catalog.
   rpc GetCatalog(GetCatalogRequest) returns (Catalog) {
-    option (api.tools.method) = {
-      lint_skip: {
-        contains_resource_name: true
-      }
-    };
     option (google.api.http) = {
       get: "/v1/catalog/{catalog_id}"
     };
@@ -27,11 +22,6 @@ service CatalogService {
 
   // Retrieves the list of catalogs in the specified folder.
   rpc ListCatalogs(ListCatalogsRequest) returns (ListCatalogsResponse) {
-    option (api.tools.method) = {
-      lint_skip: {
-        contains_resource_name: true
-      }
-    };
     option (google.api.http) = {
       get: "/v1/catalogs"
     };
@@ -42,11 +32,6 @@ service CatalogService {
     option (api.operation) = {
       metadata: "CreateCatalogMetadata"
       response: "Catalog"
-    };
-    option (api.tools.method) = {
-      lint_skip: {
-        contains_resource_name: true
-      }
     };
     option (google.api.http) = {
       body: "catalog"
@@ -60,11 +45,6 @@ service CatalogService {
       metadata: "DeleteCatalogMetadata"
       response: "google.protobuf.Empty"
     };
-    option (api.tools.method) = {
-      lint_skip: {
-        contains_resource_name: true
-      }
-    };
     option (google.api.http) = {
       delete: "/v1/catalog/{catalog_id}"
     };
@@ -75,11 +55,6 @@ service CatalogService {
     option (api.operation) = {
       metadata: "UpdateCatalogMetadata"
       response: "Catalog"
-    };
-    option (api.tools.method) = {
-      lint_skip: {
-        contains_resource_name: true
-      }
     };
     option (google.api.http) = {
       body: "*"
