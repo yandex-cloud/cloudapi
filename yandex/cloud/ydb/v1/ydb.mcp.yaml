@@ -5,6 +5,7 @@ services:
       - method: ListPaths
       - method: List
       - method: Delete
+        disabled: true
       - method: ListAccessBindings
       - method: SetAccessBindings
         disabled: true
@@ -20,6 +21,7 @@ services:
       - method: Stop
       - method: Move
       - method: Delete
+        disabled: true
       - method: Restore
       - method: Backup
       - method: ListAccessBindings

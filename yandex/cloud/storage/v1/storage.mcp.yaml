@@ -6,6 +6,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
       - method: GetStats
       - method: GetHTTPSConfig
       - method: SetHTTPSConfig

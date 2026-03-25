@@ -376,6 +376,12 @@ message MetadataOptions {
 
   // Enabled access to IAM credentials with AWS flavored metadata (IMDSv1)
   MetadataOption aws_v1_http_token = 4;
+
+  // Enabled access to AWS flavored metadata with session token (IMDSv2)
+  MetadataOption aws_v2_http_endpoint = 5;
+
+  // Enabled access to STS credentials with AWS flavored metadata with session token (IMDSv2)
+  MetadataOption aws_v2_http_token = 6;
 }
 
 enum MetadataOption {

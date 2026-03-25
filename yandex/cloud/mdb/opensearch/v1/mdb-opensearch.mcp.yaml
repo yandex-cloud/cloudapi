@@ -11,8 +11,10 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
       - method: Backup
       - method: DeleteBackup
+        disabled: true
       - method: Restore
       - method: RescheduleMaintenance
       - method: ListBackups
@@ -25,14 +27,20 @@ services:
       - method: ListHosts
       - method: AddOpenSearchNodeGroup
       - method: DeleteOpenSearchNodeGroup
+        disabled: true
       - method: UpdateOpenSearchNodeGroup
       - method: AddDashboardsNodeGroup
       - method: DeleteDashboardsNodeGroup
+        disabled: true
       - method: UpdateDashboardsNodeGroup
       - method: GetAuthSettings
       - method: UpdateAuthSettings
       - method: RestartOpenSearch
       - method: SwitchMaster
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
 
   - name: ExtensionService
     tools:
@@ -41,6 +49,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
 
   - name: ResourcePresetService
     tools:

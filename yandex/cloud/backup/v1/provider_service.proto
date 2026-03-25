@@ -3,7 +3,6 @@ syntax = "proto3";
 package yandex.cloud.backup.v1;
 
 import "google/api/annotations.proto";
-
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -13,51 +12,74 @@ option java_package = "yandex.cloud.api.backup.v1";
 
 // A set of methods for managing [backup providers](/docs/backup/concepts/#providers).
 service ProviderService {
-    // Activate provider for specified client.
-    rpc Activate(ActivateProviderRequest)  returns (operation.Operation) {
-        option (google.api.http) = {post: "/backup/v1/providers/{name}:activate" body: "*"};
-        option (yandex.cloud.api.operation) = {
-            metadata: "ActivateProviderMetadata"
-            response: "google.protobuf.Empty"
-        };
+  // Activate provider for specified client.
+  rpc Activate(ActivateProviderRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "ActivateProviderMetadata"
+      response: "google.protobuf.Empty"
     };
+    option (google.api.http) = {
+      body: "*"
+      post: "/backup/v1/providers/{name}:activate"
+    };
+  };
 
-    // List activated providers for specified client.
-    rpc ListActivated(ListActivatedProvidersRequest)  returns (ListActivatedProvidersResponse) {
-        option (google.api.http) = {get: "/backup/v1/providers"};
+  // List activated providers for specified client.
+  rpc ListActivated(ListActivatedProvidersRequest) returns (ListActivatedProvidersResponse) {
+    option (google.api.http) = {
+      get: "/backup/v1/providers"
     };
+  };
 }
 
 message ActivateProviderRequest {
-    // Activate provider for Folder iD.
-    string folder_id = 1 [ (required) = true, (length) = "<=50"];
-    reserved 2;
-    // Activate specific provider by name.
-    //
-    // For more information, please see [activate-provider](/docs/backup/quickstart#activate-provider)
-    string name = 3 [ (required) = true ];
-    // Don't create default policies while activating the provider.
-    bool skip_default_policy = 4 [ (required) = false ];
-    // instance registration token for authorization
-    string instance_registration_id = 5;
+  reserved 2;
+
+  // Activate provider for Folder iD.
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Activate specific provider by name.
+  // For more information, please see [activate-provider](/docs/backup/quickstart#activate-provider)
+  string name = 3 [(required) = true];
+
+  // Don't create default policies while activating the provider.
+  bool skip_default_policy = 4 [(required) = false];
+
+  // instance registration token for authorization
+  string instance_registration_id = 5;
 }
 
 message ActivateProviderMetadata {
-    // Activate provider for folder specified by ID.
-    string folder_id = 1 [ (required) = true, (length) = "<=50" ];
+  // Activate provider for folder specified by ID.
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListActivatedProvidersRequest {
-    // ID of the folder to find out the backup provider.
-    string folder_id = 1 [ (required) = true, (length) = "<=50" ];
-    // instance registration token for authorization
-    string instance_registration_id = 2;
+  // ID of the folder to find out the backup provider.
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // instance registration token for authorization
+  string instance_registration_id = 2;
 }
 
 message ListActivatedProvidersResponse {
-    // Folder ID.
-    string folder_id = 1;
-    reserved 2;
-    // Name of the backup provider.
-    repeated string names = 3;
+  reserved 2;
+
+  // Folder ID.
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the backup provider.
+  repeated string names = 3;
 }

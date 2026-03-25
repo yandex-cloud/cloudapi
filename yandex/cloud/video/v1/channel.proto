@@ -73,6 +73,9 @@ message ChannelSettings {
   // Restricts which domains can embed content from this channel.
   // If not specified or disabled, content can be embedded on any domain.
   RefererVerificationSettings referer_verification = 3;
+
+  // Settings for displaying video
+  ChannelVideoSettings video = 4;
 }
 
 // Settings for advertisement display and behavior in the channel.
@@ -123,4 +126,12 @@ message RefererVerificationSettings {
   // Only relevant when enable is set to true.
   // Supports wildcard notation (e.g., "*.example.com") to allow all subdomains.
   repeated string allowed_domains = 2 [(pattern) = "^(?:\\*\\.)?(?:[a-zA-Z0-9-]*\\.)+[a-zA-Z]{2,}$|^\\*\\.[a-zA-Z]{2,}$", (length) = "4-255", (size) = "<=100"];
+}
+
+// Settings for displaying video
+message ChannelVideoSettings {
+  // Instruct the player to allow playback of the raw source file while
+  // transcoding is in progress. Once a transcoded version is available, 
+  // the source file will no longer be used.
+  bool show_source_file_before_transcoding = 1;
 }

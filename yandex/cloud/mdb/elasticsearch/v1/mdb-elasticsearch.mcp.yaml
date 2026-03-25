@@ -6,8 +6,10 @@ services:
       - method: AddProviders
       - method: UpdateProviders
       - method: DeleteProviders
+        disabled: true
       - method: UpdateProvider
       - method: DeleteProvider
+        disabled: true
 
   - name: BackupService
     tools:
@@ -21,6 +23,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
       - method: Move
       - method: Start
       - method: Stop
@@ -33,6 +36,7 @@ services:
       - method: ListHosts
       - method: AddHosts
       - method: DeleteHosts
+        disabled: true
       - method: RescheduleMaintenance
 
   - name: ExtensionService
@@ -42,6 +46,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
 
   - name: ResourcePresetService
     tools:
@@ -55,3 +60,4 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true

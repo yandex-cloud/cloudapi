@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+
+package yandex.cloud.datacatalog.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datacatalog/v1;datacatalog";

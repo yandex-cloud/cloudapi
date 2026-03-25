@@ -6,6 +6,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
       - method: Move
       - method: Start
       - method: Stop
@@ -14,6 +15,10 @@ services:
       - method: StreamLogs
       - method: ListOperations
       - method: ListHosts
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
 
   - name: ConnectorService
     tools:
@@ -22,6 +27,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
       - method: Resume
       - method: Pause
 
@@ -37,6 +43,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
 
   - name: UserService
     tools:
@@ -45,5 +52,6 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
       - method: GrantPermission
       - method: RevokePermission

@@ -64,6 +64,7 @@ message InstanceGroup {
   // Status of the instance group.
   Status status = 17;
 
+  // User-defined [variables](docs/compute/concepts/instance-groups/variables-in-the-template) for instance template rendering.
   repeated Variable variables = 18;
 
   // Flag prohibiting deletion of the instance group.
@@ -137,10 +138,12 @@ message ApplicationLoadBalancerState {
 }
 
 message Variable {
+  // Name of the variable.
   string key = 1 [
     (length) = "1-128",
     (pattern) = "[a-zA-Z0-9._-]*"
   ];
+  // Value of the variable.
   string value = 2 [(length) = "<=128"];
 }
 
@@ -518,7 +521,7 @@ message InstanceTemplate {
   // ID of the reserved instance pool that the instance should belong to.
   // Attaching/detaching running instance will increase/decrease the size of the reserved instance pool.
   // Attaching/detaching stopped instance will leave the size of the reserved instance pool unchanged. Starting such attached instance will use resources from the reserved instance pool.
-  // Reserved instance pool resource configuration must match the resource configuration of the instance. 
+  // Reserved instance pool resource configuration must match the resource configuration of the instance.
   string reserved_instance_pool_id = 17;
 }
 
@@ -556,7 +559,9 @@ message PlacementPolicy {
   message HostAffinityRule {
     enum Operator {
       OPERATOR_UNSPECIFIED = 0;
+      // Include action
       IN = 1;
+      // Exclude action
       NOT_IN = 2;
     }
 
@@ -718,8 +723,14 @@ message SchedulingPolicy {
 message NetworkSettings {
   enum Type {
     TYPE_UNSPECIFIED = 0;
+
+    // Standard network.
     STANDARD = 1;
+
+    // Software accelerated network.
     SOFTWARE_ACCELERATED = 2;
+
+    // Hardware accelerated network.
     HARDWARE_ACCELERATED = 3;
   }
   // Type of instance network.
@@ -992,6 +1003,10 @@ message MetadataOptions {
   MetadataOption gce_http_token = 3;
   // Enabled access to IAM credentials with AWS flavored metadata (IMDSv1)
   MetadataOption aws_v1_http_token = 4;
+  // Enabled access to AWS flavored metadata with session token (IMDSv2)
+  MetadataOption aws_v2_http_endpoint = 5;
+  // Enabled access to STS credentials with AWS flavored metadata with session token (IMDSv2)
+  MetadataOption aws_v2_http_token = 6;
 }
 
 enum MetadataOption {

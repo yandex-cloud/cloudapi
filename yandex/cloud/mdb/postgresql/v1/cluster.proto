@@ -361,7 +361,6 @@ message HostConfig {
   reserved 4;
   reserved 6;
   reserved 7;
-
   // Configuration of a PostgreSQL server for the host.
   oneof postgresql_config {
     // Configuration for a host with PostgreSQL 11 server deployed.

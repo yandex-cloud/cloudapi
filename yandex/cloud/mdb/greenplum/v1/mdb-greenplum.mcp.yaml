@@ -4,6 +4,7 @@ services:
       - method: Get
       - method: List
       - method: Delete
+        disabled: true
 
   - name: ClusterService
     tools:
@@ -13,6 +14,7 @@ services:
       - method: Update
       - method: Expand
       - method: Delete
+        disabled: true
       - method: Start
       - method: Stop
       - method: Move
@@ -25,6 +27,10 @@ services:
       - method: ListBackups
       - method: Backup
       - method: Restore
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
 
   - name: HBARuleService
     tools:
@@ -33,6 +39,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
       - method: BatchUpdate
 
   - name: PXFDatasourceService
@@ -41,6 +48,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
 
   - name: ResourceGroupService
     tools:
@@ -49,6 +57,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
 
   - name: ResourcePresetService
     tools:
@@ -61,3 +70,4 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true

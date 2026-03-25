@@ -139,7 +139,7 @@ message CreateTrailRequest {
   string folder_id = 1 [(required) = true, (length) = "<=50"];
 
   // Name of the trail.
-  string name = 2 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 2 [(pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
 
   // Description of the trail.
   string description = 3 [(length) = "<=1024"];

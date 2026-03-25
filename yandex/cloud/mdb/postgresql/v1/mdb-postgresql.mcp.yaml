@@ -4,25 +4,186 @@ services:
       - method: List
       - method: Create
       - method: Delete
+        disabled: true
 
   - name: BackupService
     tools:
       - method: Get
       - method: List
       - method: Delete
+        disabled: true
 
   - name: ClusterService
     tools:
       - method: Get
       - method: List
       - method: Create
+        input:
+          - field: config_spec
+            inner:
+              - field: version
+                description: "Version of PostgreSQL used in the cluster. Possible values: '16', '17', '18'"
+              # Enabled versions below (16, 17, 18)
+              - field: postgresql_config_16
+              - field: postgresql_config_17
+              - field: postgresql_config_18
+              # Disabled versions below
+              - field: postgresql_config_11
+                disabled: true
+              - field: postgresql_config_12
+                disabled: true
+              - field: postgresql_config_13
+                disabled: true
+              - field: postgresql_config_13_1c
+                disabled: true
+              - field: postgresql_config_14
+                disabled: true
+              - field: postgresql_config_14_1c
+                disabled: true
+              - field: postgresql_config_15
+                disabled: true
+              - field: postgresql_config_15_1c
+                disabled: true
+              - field: postgresql_config_16_1c
+                disabled: true
+              - field: postgresql_config_17_1c
+                disabled: true
+              - field: postgresql_config_18_1c
+                disabled: true
+          - field: host_specs
+            inner:
+              - field: config_spec
+                inner:
+                  # Enabled versions below (16, 17, 18)
+                  - field: postgresql_config_16
+                  - field: postgresql_config_17
+                  - field: postgresql_config_18
+                  # Disabled versions below
+                  - field: postgresql_config_11
+                    disabled: true
+                  - field: postgresql_config_12
+                    disabled: true
+                  - field: postgresql_config_13
+                    disabled: true
+                  - field: postgresql_config_13_1c
+                    disabled: true
+                  - field: postgresql_config_14
+                    disabled: true
+                  - field: postgresql_config_14_1c
+                    disabled: true
+                  - field: postgresql_config_15
+                    disabled: true
+                  - field: postgresql_config_15_1c
+                    disabled: true
+                  - field: postgresql_config_16_1c
+                    disabled: true
+                  - field: postgresql_config_17_1c
+                    disabled: true
+                  - field: postgresql_config_18_1c
+                    disabled: true
       - method: Update
+        input:
+          - field: config_spec
+            inner:
+              - field: version
+                description: "Version of PostgreSQL used in the cluster. Possible values: '16', '17', '18'"
+              # Enabled versions below (16, 17, 18)
+              - field: postgresql_config_16
+              - field: postgresql_config_17
+              - field: postgresql_config_18
+              # Disabled versions below
+              - field: postgresql_config_11
+                disabled: true
+              - field: postgresql_config_12
+                disabled: true
+              - field: postgresql_config_13
+                disabled: true
+              - field: postgresql_config_13_1c
+                disabled: true
+              - field: postgresql_config_14
+                disabled: true
+              - field: postgresql_config_14_1c
+                disabled: true
+              - field: postgresql_config_15
+                disabled: true
+              - field: postgresql_config_15_1c
+                disabled: true
+              - field: postgresql_config_16_1c
+                disabled: true
+              - field: postgresql_config_17_1c
+                disabled: true
+              - field: postgresql_config_18_1c
+                disabled: true
       - method: Delete
+        disabled: true
       - method: Start
       - method: Stop
       - method: Move
       - method: Backup
       - method: Restore
+        input:
+          - field: config_spec
+            inner:
+              - field: version
+                description: "Version of PostgreSQL used in the cluster. Possible values: '16', '17', '18'"
+              # Enabled versions below (16, 17, 18)
+              - field: postgresql_config_16
+              - field: postgresql_config_17
+              - field: postgresql_config_18
+              # Disabled versions below
+              - field: postgresql_config_11
+                disabled: true
+              - field: postgresql_config_12
+                disabled: true
+              - field: postgresql_config_13
+                disabled: true
+              - field: postgresql_config_13_1c
+                disabled: true
+              - field: postgresql_config_14
+                disabled: true
+              - field: postgresql_config_14_1c
+                disabled: true
+              - field: postgresql_config_15
+                disabled: true
+              - field: postgresql_config_15_1c
+                disabled: true
+              - field: postgresql_config_16_1c
+                disabled: true
+              - field: postgresql_config_17_1c
+                disabled: true
+              - field: postgresql_config_18_1c
+                disabled: true
+          - field: host_specs
+            inner:
+              - field: config_spec
+                inner:
+                  # Enabled versions below (16, 17, 18)
+                  - field: postgresql_config_16
+                  - field: postgresql_config_17
+                  - field: postgresql_config_18
+                  # Disabled versions below
+                  - field: postgresql_config_11
+                    disabled: true
+                  - field: postgresql_config_12
+                    disabled: true
+                  - field: postgresql_config_13
+                    disabled: true
+                  - field: postgresql_config_13_1c
+                    disabled: true
+                  - field: postgresql_config_14
+                    disabled: true
+                  - field: postgresql_config_14_1c
+                    disabled: true
+                  - field: postgresql_config_15
+                    disabled: true
+                  - field: postgresql_config_15_1c
+                    disabled: true
+                  - field: postgresql_config_16_1c
+                    disabled: true
+                  - field: postgresql_config_17_1c
+                    disabled: true
+                  - field: postgresql_config_18_1c
+                    disabled: true
       - method: RescheduleMaintenance
       - method: StartFailover
       - method: ListLogs
@@ -31,8 +192,77 @@ services:
       - method: ListBackups
       - method: ListHosts
       - method: AddHosts
-      - method: DeleteHosts
+        input:
+          - field: host_specs
+            inner:
+              - field: config_spec
+                inner:
+                  # Enabled versions below (16, 17, 18)
+                  - field: postgresql_config_16
+                  - field: postgresql_config_17
+                  - field: postgresql_config_18
+                  # Disabled versions below
+                  - field: postgresql_config_11
+                    disabled: true
+                  - field: postgresql_config_12
+                    disabled: true
+                  - field: postgresql_config_13
+                    disabled: true
+                  - field: postgresql_config_13_1c
+                    disabled: true
+                  - field: postgresql_config_14
+                    disabled: true
+                  - field: postgresql_config_14_1c
+                    disabled: true
+                  - field: postgresql_config_15
+                    disabled: true
+                  - field: postgresql_config_15_1c
+                    disabled: true
+                  - field: postgresql_config_16_1c
+                    disabled: true
+                  - field: postgresql_config_17_1c
+                    disabled: true
+                  - field: postgresql_config_18_1c
+                    disabled: true
       - method: UpdateHosts
+        input:
+          - field: update_host_specs
+            inner:
+              - field: config_spec
+                inner:
+                  # Enabled versions below (16, 17, 18)
+                  - field: postgresql_config_16
+                  - field: postgresql_config_17
+                  - field: postgresql_config_18
+                  # Disabled versions below
+                  - field: postgresql_config_11
+                    disabled: true
+                  - field: postgresql_config_12
+                    disabled: true
+                  - field: postgresql_config_13
+                    disabled: true
+                  - field: postgresql_config_13_1c
+                    disabled: true
+                  - field: postgresql_config_14
+                    disabled: true
+                  - field: postgresql_config_14_1c
+                    disabled: true
+                  - field: postgresql_config_15
+                    disabled: true
+                  - field: postgresql_config_15_1c
+                    disabled: true
+                  - field: postgresql_config_16_1c
+                    disabled: true
+                  - field: postgresql_config_17_1c
+                    disabled: true
+                  - field: postgresql_config_18_1c
+                    disabled: true
+      - method: DeleteHosts
+        disabled: true
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
 
   - name: DatabaseService
     tools:
@@ -41,6 +271,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
 
   - name: PerformanceDiagnosticsService
     tools:
@@ -59,5 +290,6 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
       - method: GrantPermission
       - method: RevokePermission

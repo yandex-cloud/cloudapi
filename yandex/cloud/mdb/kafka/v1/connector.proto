@@ -173,6 +173,9 @@ message ConnectorConfigIcebergSinkSpec {
     string topics_regex = 2;
   }
 
+  // Control topic name for Iceberg connector.
+  string control_topic = 11;
+
   // Credentials for connecting to Managed Hive Metastore.
   MetastoreConnectionSpec metastore_connection = 3;
 
@@ -205,6 +208,9 @@ message UpdateConnectorConfigIcebergSinkSpec {
     // Regex of Kafka topics.
     string topics_regex = 2;
   }
+
+  // Control topic name for Iceberg connector.
+  string control_topic = 7;
 
   // Credentials for connecting to Managed Hive Metastore.
   MetastoreConnectionSpec metastore_connection = 3;
@@ -474,6 +480,9 @@ message ConnectorConfigIcebergSink {
     // Regex of Kafka topics.
     string topics_regex = 2;
   }
+
+  // Control topic name for Iceberg connector.
+  string control_topic = 9;
 
   // Credentials for connecting to Managed Hive Metastore.
   MetastoreConnection metastore_connection = 3;

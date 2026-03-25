@@ -15,6 +15,7 @@ services:
         tags: ["sensitive"]
       - method: Update
       - method: Delete
+        disabled: true
       - method: Activate
       - method: Deactivate
       - method: ListVersions

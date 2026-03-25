@@ -4,6 +4,7 @@ services:
       - method: Get
       - method: List
       - method: Delete
+        disabled: true
 
   - name: ClusterService
     tools:
@@ -12,6 +13,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
       - method: Start
       - method: Stop
       - method: Move
@@ -26,13 +28,19 @@ services:
       - method: ListHosts
       - method: AddHosts
       - method: DeleteHosts
+        disabled: true
       - method: UpdateHosts
       - method: GetShard
       - method: ListShards
       - method: AddShard
       - method: DeleteShard
+        disabled: true
       - method: Rebalance
       - method: EnableSharding
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
 
   - name: ResourcePresetService
     tools:
@@ -46,3 +54,4 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true

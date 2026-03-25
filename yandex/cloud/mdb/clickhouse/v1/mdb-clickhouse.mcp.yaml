@@ -4,6 +4,7 @@ services:
       - method: Get
       - method: List
       - method: Delete
+        disabled: true
 
   - name: ClusterExtensionService
     tools:
@@ -11,6 +12,7 @@ services:
       - method: List
       - method: Create
       - method: Delete
+        disabled: true
       - method: Update
       - method: SetExtensions
 
@@ -21,6 +23,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
       - method: Start
       - method: Stop
       - method: Move
@@ -36,6 +39,7 @@ services:
       - method: AddHosts
       - method: UpdateHosts
       - method: DeleteHosts
+        disabled: true
       - method: RestartHosts
       - method: GetShard
       - method: ListShards
@@ -43,16 +47,24 @@ services:
       - method: AddShards
       - method: UpdateShard
       - method: DeleteShard
+        disabled: true
       - method: DeleteShards
+        disabled: true
       - method: GetShardGroup
       - method: ListShardGroups
       - method: CreateShardGroup
       - method: UpdateShardGroup
       - method: DeleteShardGroup
+        disabled: true
       - method: ListExternalDictionaries
       - method: CreateExternalDictionary
       - method: UpdateExternalDictionary
       - method: DeleteExternalDictionary
+        disabled: true
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
 
   - name: DatabaseService
     tools:
@@ -60,6 +72,7 @@ services:
       - method: List
       - method: Create
       - method: Delete
+        disabled: true
 
   - name: ExtensionService
     tools:
@@ -73,6 +86,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
 
   - name: MlModelService
     tools:
@@ -81,6 +95,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
 
   - name: ResourcePresetService
     tools:
@@ -94,6 +109,7 @@ services:
       - method: Create
       - method: Update
       - method: Delete
+        disabled: true
       - method: GrantPermission
       - method: RevokePermission
 

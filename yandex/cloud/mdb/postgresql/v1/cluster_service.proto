@@ -1085,7 +1085,7 @@ message ConfigHostSpec {
   reserved 4;
   reserved 6;
   reserved 7;
-  
+
   oneof postgresql_config {
     // Configuration for a host with PostgreSQL 11 server deployed.
     config.PostgresqlHostConfig11 postgresql_config_11 = 3 [json_name = "postgresqlHostConfig_11"];
