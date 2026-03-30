@@ -136,7 +136,11 @@ message Condition {
   // HostMatcher object.
   message HostMatcher {
     // List of hosts. OR semantics implied.
-    repeated StringMatcher hosts = 1 [(size) = "<=20"];
+    repeated StringMatcher hosts = 1 [
+      (size) = "<=20",
+      deprecated = true
+    ];
+    StringMatcher host_matcher = 2;
   }
 
   // UriMatcher object. AND semantics implied.
