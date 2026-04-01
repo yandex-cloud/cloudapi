@@ -206,6 +206,12 @@ message MongodConfig {
 
         // Specifies the settings for mirrored reads for the mongod instance
         MirrorReads mirror_reads = 12;
+
+        // Enables redacting any message accompanying a given log event before logging.
+        // This prevents the mongod or mongos from writing potentially sensitive data
+        // stored on the database to the diagnostic log.
+        // https://mongo-db.ru/reference/configuration-options/index.html#mongodb-setting-security.redactClientLogData
+        google.protobuf.BoolValue redact_client_log_data = 13;
     }
 
     message Oplog {
@@ -299,6 +305,12 @@ message MongoCfgConfig {
         // Enables the auditing of authorization successes
         // https://www.mongodb.com/docs/manual/reference/parameters/#mongodb-parameter-param.auditAuthorizationSuccess
         google.protobuf.BoolValue audit_authorization_success = 2;
+
+        // Enables redacting any message accompanying a given log event before logging.
+        // This prevents the mongod or mongos from writing potentially sensitive data
+        // stored on the database to the diagnostic log.
+        // https://mongo-db.ru/reference/configuration-options/index.html#mongodb-setting-security.redactClientLogData
+        google.protobuf.BoolValue redact_client_log_data = 3;
     }
 
     message AuditLog {
@@ -412,6 +424,12 @@ message MongosConfig {
 
         // Optional override for ShardingTaskExecutorPoolMinSize to set the minimum number of outbound connections each TaskExecutor connection pool can open to a configuration server.
         google.protobuf.Int64Value sharding_task_executor_pool_min_size_for_config_servers  = 13;
+
+        // Enables redacting any message accompanying a given log event before logging.
+        // This prevents the mongod or mongos from writing potentially sensitive data
+        // stored on the database to the diagnostic log.
+        // https://mongo-db.ru/reference/configuration-options/index.html#mongodb-setting-security.redactClientLogData
+        google.protobuf.BoolValue redact_client_log_data = 14;
     }
 
     message AuditLog {

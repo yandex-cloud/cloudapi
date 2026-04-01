@@ -30,4 +30,7 @@ message Group {
     
     // Id of the group from external system. It is set if group is external.
     string external_id = 7;
+
+    // Resource labels as `key:value` pairs.
+    map<string, string> labels = 8;
 }

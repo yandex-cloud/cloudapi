@@ -64,7 +64,7 @@ service GroupService {
     };
   }
 
-  // Converts single basic (not external) group to external. Precondition: group must be basic. 
+  // Converts single basic (not external) group to external. Precondition: group must be basic.
   rpc ConvertToExternal (ConvertToExternalGroupRequest) returns (operation.Operation) {
     option (google.api.http) = { post: "/organization-manager/v1/groups/{group_id}:convertToExternal" body: "*" };
     option (yandex.cloud.api.operation) = {
@@ -243,6 +243,9 @@ message CreateGroupRequest {
 
   // Description of the group.
   string description = 3 [(length) = "<=256"];
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 
 message CreateGroupMetadata {
@@ -269,6 +272,8 @@ message CreateExternalGroupRequest {
   string external_id = 5 [(required) = true];
   // If true, then creator of group will be assigned to role that allows modification of group as external group.
   bool make_editor = 6;
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 7 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 
 message CreateExternalGroupMetadata {
@@ -300,6 +305,9 @@ message UpdateGroupRequest {
 
   // Description of the group.
   string description = 4 [(length) = "<=256"];
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
 }
 
 message UpdateGroupMetadata {

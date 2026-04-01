@@ -756,6 +756,20 @@ message RestoreClusterRequest {
 
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 18;
+
+  // Specification of what databases and table to restore
+  PartialRestoreSpec partial_restore = 19;
+}
+
+message PartialRestoreSpec {
+
+  // Tables and databases that will be included in restored cluster. 
+  // Possible formats: db1.table1, db1.* or db1.table*
+  repeated string include_patterns = 1;
+
+  // Tables and databases that will be excluded in restored cluster. 
+  // Possible formats: db1.table1, db1.* or db1.table*
+  repeated string exclude_patterns = 2;
 }
 
 message RestoreClusterMetadata {
@@ -1016,8 +1030,8 @@ message AddClusterHostsRequest {
   // Configurations for ClickHouse hosts that should be added to the cluster.
   repeated HostSpec host_specs = 2 [(size) = ">0"];
 
-  // Whether to copy schema to new ClickHouse hosts from replicas.
-  google.protobuf.BoolValue copy_schema = 3;
+  // Deprecated. The schema is always copied to new ClickHouse replicas in order to avoid potential data loss.
+  google.protobuf.BoolValue copy_schema = 3 [deprecated = true];
 }
 
 message AddClusterHostsMetadata {

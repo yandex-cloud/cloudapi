@@ -60,8 +60,14 @@ message Captcha {
 
   // List of variants to use in security_rules
   repeated OverrideVariant override_variants = 23 [(size) = "<=32"];
+
+  // Disables the use of HTTP request data for training and improving the service's ML models.
   bool disallow_data_processing = 24;
+
+  // Optional description of the captcha.
   string description = 25 [(length) = "<=512"];
+
+  // Labels as `` key:value `` pairs. Maximum of 64 per resource.
   map<string, string> labels = 26 [
     (length) = "<=63",
     (map_key) = {
@@ -123,11 +129,22 @@ message Condition {
   // StringMatcher object.
   message StringMatcher {
     oneof match {
+      // Exact match condition.
       string exact_match = 1 [(length) = "0-255"];
+
+      // Exact not match condition.
       string exact_not_match = 2 [(length) = "0-255"];
+
+      // Prefix match condition.
       string prefix_match = 3 [(length) = "0-255"];
+
+      // Prefix not match condition.
       string prefix_not_match = 4 [(length) = "0-255"];
+
+      // PIRE regex match condition.
       string pire_regex_match = 5 [(length) = "0-255"];
+
+      // PIRE regex not match condition.
       string pire_regex_not_match = 6 [(length) = "0-255"];
     }
 
@@ -140,6 +157,8 @@ message Condition {
       (size) = "<=20",
       deprecated = true
     ];
+
+    // Host matcher.
     StringMatcher host_matcher = 2;
   }
 
@@ -178,10 +197,16 @@ message Condition {
 
   // IpMatcher object. AND semantics implied.
   message IpMatcher {
-    // *AND* semantics implied.
+    // IP ranges to match with.
     IpRangesMatcher ip_ranges_match = 1;
+
+    // IP ranges to not match with.
     IpRangesMatcher ip_ranges_not_match = 2;
+
+    // Geo locations to match with.
     GeoIpMatcher geo_ip_match = 3;
+
+    // Geo locations to not match with.
     GeoIpMatcher geo_ip_not_match = 4;
   }
 

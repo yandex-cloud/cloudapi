@@ -40,6 +40,68 @@ message SecurityProfile {
     Action size_limit_action = 2;
   }
 
+  message LogOptions {
+    // SWS module that processed the request.
+    enum Module {
+      MODULE_UNSPECIFIED = 0;
+
+      // Base rules condition check.
+      RULE_CONDITION = 1;
+
+      // Smart Protection module.
+      SMART_PROTECTION = 2;
+
+      // Web Application Firewall module.
+      WAF = 3;
+
+      // Advanced Rate Limiter module.
+      ARL = 4;
+    }
+
+    // Verdict assigned to the request by SWS.
+    enum Action {
+      ACTION_UNSPECIFIED = 0;
+
+      // Request was allowed.
+      ALLOW = 1;
+
+      // Request was denied.
+      DENY = 2;
+
+      // Request was redirected to CAPTCHA.
+      CAPTCHA = 3;
+    }
+
+    // Log destination.
+    enum Output {
+      OUTPUT_UNSPECIFIED = 0;
+
+      // Write logs to Cloud Logging.
+      CLOUD_LOGGING = 1;
+
+      // Write logs to Audit Trails.
+      AUDIT_TRAILS = 2;
+    }
+
+    // ID of the Cloud Logging log group to write SWS logs to.
+    string log_group_id = 1;
+
+    // Enables logging of requests processed by SWS.
+    bool enable = 2;
+
+    // List of modules whose requests will be logged.
+    repeated Module enabled_modules = 3;
+
+    // List of verdicts for which requests will be logged.
+    repeated Action enabled_actions = 4;
+
+    // Percentage of ALLOW verdicts to discard from logging (0-100).
+    int64 discard_allow_percentage = 5 [(value)="0-100"];
+
+    // List of log destinations: Cloud Logging and/or Audit Trails.
+    repeated Output outputs = 6;
+  }
+
   // ID of the security profile.
   string id = 1;
 
@@ -77,6 +139,22 @@ message SecurityProfile {
 
   // Parameters for request body analyzer.
   AnalyzeRequestBody analyze_request_body = 13;
+
+  // Disables the use of HTTP request data for training and improving the service's ML models.
+  bool disallow_data_processing = 14;
+
+  // Configures logging of requests processed by SWS to Audit Trails and Cloud Logging.
+  LogOptions log_options = 15;
+
+  // ID of the Cloud Logging log group to write SWS logs to.
+  string log_group_id = 16;
+
+  reserved 17;
+
+  reserved 18;
+
+  // ID of the default custom page shown to the user when a request is denied.
+  string custom_page_id = 19;
 }
 
 // A SecurityRule object, see [Rules](/docs/smartwebsecurity/concepts/rules).
@@ -109,6 +187,11 @@ message SecurityRule {
 
   // Optional description of the rule. 0-512 characters long.
   string description = 7 [(length) = "<=512"];
+
+  reserved 8;
+
+  // ID of the custom page shown to the user when the rule denies a request.
+  string custom_page_id = 9;
 
   // RuleCondition object.
   message RuleCondition {
@@ -196,28 +279,92 @@ message Condition {
   // Match IP.
   IpMatcher source_ip = 5;
 
+  reserved 6;
+
+  // Match cookies.
+  repeated CookieMatcher cookies = 7 [(size) = "<=20"];
+
+  // Match bot category.
+  BotCategoryMatcher bot_category = 8;
+
+  // Match bot name.
+  BotNameMatcher bot_name = 9;
+
+  // Match bot score.
+  BotScoreMatcher bot_score = 10;
+
+  // Match verified bot.
+  VerifiedBotMatcher verified_bot = 11;
+
+  // Match fingerprint.
+  FingerPrintMatcher finger_print = 12;
+
   // StringMatcher object.
   message StringMatcher {
     oneof match {
+      // Exact match condition.
       string exact_match = 1 [(length) = "0-255"];
+
+      // Exact not match condition.
       string exact_not_match = 2 [(length) = "0-255"];
+
+      // Prefix match condition.
       string prefix_match = 3 [(length) = "0-255"];
+
+      // Prefix not match condition.
       string prefix_not_match = 4 [(length) = "0-255"];
+
+      // PIRE regex match condition.
       string pire_regex_match = 5 [(length) = "0-255"];
+
+      // PIRE regex not match condition.
       string pire_regex_not_match = 6 [(length) = "0-255"];
+
+      // Matches if the field is defined.
+      bool defined = 7;
+
+      // Matches against string and regular expression lists.
+      ListsMatchers lists_matchers = 8;
     }
+  }
+  
+  // ListsMatcher object.
+  message ListsMatcher {
+    // List of list IDs to match against. OR semantics implied.
+    repeated string list_ids = 1;
+  }
+
+  // ListsMatchers object.
+  message ListsMatchers {
+    // String lists to match with.
+    ListsMatcher str_lists_match = 1;
+
+    // String lists to not match with.
+    ListsMatcher str_lists_not_match = 2;
+
+    // Regular expression lists to match with.
+    ListsMatcher reg_exp_lists_match = 3;
+
+    // Regular expression lists to not match with.
+    ListsMatcher reg_exp_lists_not_match = 4;
   }
 
   // HttpMethodMatcher object.
   message HttpMethodMatcher {
     // List of HTTP methods. OR semantics implied.
-    repeated StringMatcher http_methods = 1 [(size) = "<=20"];
+    repeated StringMatcher http_methods = 1 [(size) = "<=20", deprecated=true];
+
+    // HTTP method matcher.
+    StringMatcher http_method_matcher = 2;
   }
 
   // AuthorityMatcher object.
   message AuthorityMatcher {
     // List of authorities. OR semantics implied.
-    repeated StringMatcher authorities = 1 [(size) = "<=20"];
+    repeated StringMatcher authorities = 1 [(size) = "<=20", deprecated=true];
+
+    // Authority matcher.
+    StringMatcher authority_matcher = 2;
   }
 
   // RequestUriMatcher object. AND semantics implied.
@@ -249,10 +396,127 @@ message Condition {
 
   // IpMatcher object. AND semantics implied.
   message IpMatcher {
+    // IP ranges to match with.
     IpRangesMatcher ip_ranges_match = 1;
+
+    // IP ranges to not match with.
     IpRangesMatcher ip_ranges_not_match = 2;
+
+    // Geo locations to match with.
     GeoIpMatcher geo_ip_match = 3;
+
+    // Geo locations to not match with.
     GeoIpMatcher geo_ip_not_match = 4;
+
+    // IP lists to match with.
+    ListsMatcher ip_lists_match = 5;
+
+    // IP lists to not match with.
+    ListsMatcher ip_lists_not_match = 6;
+
+    // ASN ranges to match with.
+    AsnRangesMatcher asn_ranges_match = 7;
+
+    // ASN ranges to not match with.
+    AsnRangesMatcher asn_ranges_not_match = 8;
+
+    // ASN lists to match with.
+    ListsMatcher asn_lists_match = 9;
+
+    // ASN lists to not match with.
+    ListsMatcher asn_lists_not_match = 10;
+  }
+
+  // BotCategoryMatcher object. AND semantics implied.
+  message BotCategoryMatcher {
+    // Bot category lists to match with.
+    ListsMatcher bot_category_lists_match = 5;
+
+    // Bot category lists to not match with.
+    ListsMatcher bot_category_lists_not_match = 6;
+  }
+
+  // BotNameMatcher object. AND semantics implied.
+  message BotNameMatcher {
+    // Bot name lists to match with.
+    ListsMatcher bot_name_lists_match = 5;
+
+    // Bot name lists to not match with.
+    ListsMatcher bot_name_lists_not_match = 6;
+  }
+
+  // BoolMatcher object.
+  message BoolMatcher {
+    // Boolean value to match against.
+    bool match = 1;
+  }
+
+  // IntLEMatcher object.
+  message IntLEMatcher {
+    // Upper bound value (inclusive).
+    int64 value = 1;
+  }
+
+  // IntGEMatcher object.
+  message IntGEMatcher {
+    // Lower bound value (inclusive).
+    int64 value = 1;
+  }
+
+  // IntEQMatcher object.
+  message IntEQMatcher {
+    // Value to match against.
+    int64 value = 1;
+  }
+
+  // IntNEMatcher object.
+  message IntNEMatcher {
+    // Value to not match against.
+    int64 value = 1;
+  }
+
+  // IntMatcher object.
+  message IntMatcher {
+    oneof match {
+      // Less than or equal condition.
+      IntLEMatcher le_match = 1;
+
+      // Greater than or equal condition.
+      IntGEMatcher ge_match = 2;
+
+      // Equal condition.
+      IntEQMatcher eq_match = 3;
+
+      // Not equal condition.
+      IntNEMatcher ne_match = 4;
+    }
+  }
+
+  // BotScoreMatcher object.
+  message BotScoreMatcher {
+    // List of integer matchers for bot score. OR semantics implied.
+    repeated IntMatcher value = 1 [(size) = "<=4"];
+  }
+
+  // VerifiedBotMatcher object.
+  message VerifiedBotMatcher {
+    // Matches if the bot is verified or not.
+    BoolMatcher verified = 1;
+  }
+
+  // FingerPrintMatcher object.
+  message FingerPrintMatcher {
+    // List of JA3 fingerprint matchers. OR semantics implied.
+    repeated StringMatcher ja3_ranges = 1 [(size) = "<=20", deprecated=true];
+
+    // List of JA4 fingerprint matchers. OR semantics implied.
+    repeated StringMatcher ja4_ranges = 2 [(size) = "<=20", deprecated=true];
+
+    // JA3 fingerprint matcher.
+    StringMatcher ja3_matcher = 3;
+
+    // JA4 fingerprint matcher.
+    StringMatcher ja4_matcher = 4;
   }
 
   // IpRangesMatcher object.
@@ -265,5 +529,20 @@ message Condition {
   message GeoIpMatcher {
     // ISO 3166-1 alpha 2. OR semantics implied.
     repeated string locations = 1 [(size) = ">=1", (unique) = true, (length) = "2"];
+  }
+
+  // AsnRangesMatcher object.
+  message AsnRangesMatcher {
+    // List of ASN values to match against. OR semantics implied.
+    repeated int64 asn_ranges = 1 [(size) = "<=10000", (value)="0-4294967295"];
+  }
+
+  // CookieMatcher object.
+  message CookieMatcher {
+    // Name of the cookie parametr.
+    string name = 1 [(required) = true, (length) = "1-255"];
+
+    // Value of the cookie parametr.
+    StringMatcher value = 2 [(required) = true];
   }
 }
