@@ -176,6 +176,8 @@ message SecuritySettingsSpec {
 message NameIdSpec {
   // Format of the NameID.
   NameId.Format format = 1 [(required) = true];
+  // Value of the NameID.
+  string value = 2;
 }
 
 // Attribute mapping specification for SAML application.

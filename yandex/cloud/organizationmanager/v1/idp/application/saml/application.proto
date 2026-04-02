@@ -157,7 +157,7 @@ message NameId {
   // Format of the NameID.
   Format format = 1 [(required) = true];
   // Value of the NameID.
-  string value = 2 [(required) = true];
+  string value = 2;
 
   // NameID formats supported by SAML.
   enum Format {

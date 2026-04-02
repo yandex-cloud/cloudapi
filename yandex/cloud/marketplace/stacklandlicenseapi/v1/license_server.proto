@@ -39,6 +39,9 @@ message LicenseServer {
 
   // Timestamp when the credentials expire
   google.protobuf.Timestamp valid_until = 4;
+
+  // PEM-encoded PKIX public key for verifying license signatures
+  string ls_signing_public_key = 5;
 }
 
 // Metadata for register license server operation
