@@ -190,6 +190,9 @@ message CreateUserpoolRequest {
   
   // Bruteforce protection policy for the userpool.
   BruteforceProtectionPolicy bruteforce_protection_policy = 9;
+
+  // Password blacklist policy for the userpool.
+  PasswordBlacklistPolicy password_blacklist_policy = 10;
 }
 
 // Metadata for the [UserpoolService.Create] operation.
@@ -228,6 +231,9 @@ message UpdateUserpoolRequest {
   
   // Bruteforce protection policy for the userpool.
   BruteforceProtectionPolicy bruteforce_protection_policy = 9;
+
+  // Password blacklist policy for the userpool.
+  PasswordBlacklistPolicy password_blacklist_policy = 10;
 }
 
 // Metadata for the [UserpoolService.Update] operation.
