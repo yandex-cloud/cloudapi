@@ -22,6 +22,13 @@ service ArtifactService {
     };
   };
 
+  // Returns the specified artifact resource by path within the registry.
+  rpc GetByPath(GetArtifactByPathRequest) returns (Artifact) {
+    option (google.api.http) = {
+      get: "/cloud-registry/v1/registries/{registry_id}/artifacts:getByPath"
+    };
+  };
+
   // Deletes the specified artifact.
   rpc Delete(DeleteArtifactRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -64,6 +71,7 @@ service ArtifactService {
       patch: "/cloud-registry/v1/artifacts/{resource_id}:updateAccessBindings"
     };
   };
+
 }
 
 message GetArtifactRequest {
@@ -85,4 +93,15 @@ message DeleteArtifactRequest {
 message DeleteArtifactMetadata {
   // ID of the artifact to delete.
   string artifact_id = 1;
+}
+
+message GetArtifactByPathRequest {
+  // ID of the registry that contains the artifact.
+  string registry_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // The path to a specific node where the registry artifact is located.
+  string path = 2 [(required) = true];
 }

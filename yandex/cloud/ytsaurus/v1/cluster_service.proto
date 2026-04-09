@@ -14,70 +14,90 @@ option java_package = "yandex.cloud.api.ytsaurus.v1";
 
 // A set of methods for managing Cluster resources.
 service ClusterService {
+  // Returns the specified cluster.
+  rpc Get(GetClusterRequest) returns (Cluster) {
+    option (google.api.http) = {
+      get: "/ytsaurus/v1/clusters/{cluster_id}"
+    };
+  };
 
-    // Returns the specified cluster.
-    rpc Get(GetClusterRequest) returns (Cluster) {
-      option (google.api.http) = { get: "/ytsaurus/v1/clusters/{cluster_id}" };
-    }
+  // Retrieves the list of clusters in the specified folder.
+  rpc List(ListClustersRequest) returns (ListClustersResponse) {
+    option (google.api.http) = {
+      get: "/ytsaurus/v1/clusters"
+    };
+  };
 
-    // Retrieves the list of clusters in the specified folder.
-    rpc List(ListClustersRequest) returns (ListClustersResponse) {
-      option (google.api.http) = { get: "/ytsaurus/v1/clusters" };
-    }
+  // Creates a cluster in the specified folder.
+  rpc Create(CreateClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreateClusterMetadata"
+      response: "Cluster"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/ytsaurus/v1/clusters"
+    };
+  };
 
-    // Creates a cluster in the specified folder.
-    rpc Create (CreateClusterRequest) returns (operation.Operation) {
-      option (google.api.http) = { post: "/ytsaurus/v1/clusters" body: "*" };
-      option (yandex.cloud.api.operation) = {
-        metadata: "CreateClusterMetadata"
-        response: "Cluster"
-      };
-    }
+  // Updates the specified cluster.
+  rpc Update(UpdateClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdateClusterMetadata"
+      response: "Cluster"
+    };
+    option (google.api.http) = {
+      body: "*"
+      patch: "/ytsaurus/v1/clusters"
+    };
+  };
 
-    // Updates the specified cluster.
-    rpc Update (UpdateClusterRequest) returns (operation.Operation) {
-      option (google.api.http) = { patch: "/ytsaurus/v1/clusters" body: "*" };
-      option (yandex.cloud.api.operation) = {
-        metadata: "UpdateClusterMetadata"
-        response: "Cluster"
-      };
-    }
+  // Deletes the specified cluster.
+  rpc Delete(DeleteClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeleteClusterMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      delete: "/ytsaurus/v1/clusters/{cluster_id}"
+    };
+  };
 
-    // Deletes the specified cluster.
-    rpc Delete (DeleteClusterRequest) returns (operation.Operation) {
-      option (google.api.http) = { delete: "/ytsaurus/v1/clusters/{cluster_id}" };
-      option (yandex.cloud.api.operation) = {
-        metadata: "DeleteClusterMetadata"
-        response: "google.protobuf.Empty"
-      };
-    }
+  // Starts the specified cluster.
+  rpc Start(StartClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "StartClusterMetadata"
+      response: "Cluster"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/ytsaurus/v1/clusters/{cluster_id}:start"
+    };
+  };
 
-    // Starts the specified cluster.
-    rpc Start (StartClusterRequest) returns (operation.Operation) {
-      option (google.api.http) = { post: "/ytsaurus/v1/clusters/{cluster_id}:start" body: "*" };
-      option (yandex.cloud.api.operation) = {
-        metadata: "StartClusterMetadata"
-        response: "Cluster"
-      };
-    }
+  // Stops the specified cluster.
+  rpc Stop(StopClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "StopClusterMetadata"
+      response: "Cluster"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/ytsaurus/v1/clusters/{cluster_id}:stop"
+    };
+  };
 
-    // Stops the specified cluster.
-    rpc Stop (StopClusterRequest) returns (operation.Operation) {
-      option (google.api.http) = { post: "/ytsaurus/v1/clusters/{cluster_id}:stop" body: "*" };
-      option (yandex.cloud.api.operation) = {
-        metadata: "StopClusterMetadata"
-        response: "Cluster"
-      };
-    }
 }
 
 message GetClusterRequest {
   // ID of the cluster to return.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListClustersRequest {
-
   // ID of the folder to list clusters in.
   string folder_id = 1 [(required) = true];
 
@@ -107,7 +127,6 @@ message ListClustersResponse {
 }
 
 message CreateClusterRequest {
-
   // ID of the folder to create the cluster in.
   string folder_id = 1 [(required) = true];
 
@@ -115,7 +134,10 @@ message CreateClusterRequest {
   string zone_id = 2 [(required) = true];
 
   // Name of the cluster.
-  string name = 3 [(length) = "<=63", (pattern) = "[a-zA-Z0-9\u0401\u0451\u0410-\u044f]\\S{1,61}[a-zA-Z0-9\u0401\u0451\u0410-\u044f]"];
+  string name = 3 [
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9\u0401\u0451\u0410-\u044f]\\S{1,61}[a-zA-Z0-9\u0401\u0451\u0410-\u044f]"
+  ];
 
   // Description of the cluster.
   string description = 4;
@@ -143,7 +165,10 @@ message CreateClusterMetadata {
 
 message UpdateClusterRequest {
   // ID of the cluster to update.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Field mask that specifies which attributes of the cluster should be updated.
   google.protobuf.FieldMask update_mask = 2;
@@ -156,7 +181,6 @@ message UpdateClusterRequest {
   string description = 4;
 
   // Cluster labels as `key:value` pairs.
-  //
   // Existing set of labels is completely replaced by the provided set, so if you just want
   // to add or remove a label:
   // 1. Get the current set of labels with a [ClusterService.Get] request.
@@ -184,7 +208,10 @@ message UpdateClusterMetadata {
 
 message DeleteClusterRequest {
   // ID of the cluster to delete.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message DeleteClusterMetadata {
@@ -194,7 +221,10 @@ message DeleteClusterMetadata {
 
 message StartClusterRequest {
   // ID of the cluster to start.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message StartClusterMetadata {
@@ -204,7 +234,10 @@ message StartClusterMetadata {
 
 message StopClusterRequest {
   // ID of the cluster to stop.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message StopClusterMetadata {

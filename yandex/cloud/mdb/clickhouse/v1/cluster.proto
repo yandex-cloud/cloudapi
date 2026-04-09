@@ -5,6 +5,7 @@ package yandex.cloud.mdb.clickhouse.v1;
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
+import "google/protobuf/duration.proto";
 import "yandex/cloud/mdb/clickhouse/v1/config/clickhouse.proto";
 import "yandex/cloud/mdb/clickhouse/v1/maintenance.proto";
 import "yandex/cloud/validation.proto";
@@ -190,6 +191,9 @@ message ClusterConfig {
 
   // Full version
   string full_version = 11;
+
+  // Configuration performance diagnostics
+  PerformanceDiagnostics performance_diagnostics = 12;
 }
 
 message Shard {
@@ -412,4 +416,12 @@ message DiskSizeAutoscaling {
 
   // Limit on how large the storage for database instances can automatically grow, in bytes.
   google.protobuf.Int64Value disk_size_limit = 3;
+}
+
+message PerformanceDiagnostics {
+  // Whether to use Performance Diagnostics service in cluster.
+  google.protobuf.BoolValue enabled = 1;
+
+  // Time interval to collect data from system.processes table.
+  google.protobuf.Duration processes_refresh_interval = 2;
 }

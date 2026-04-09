@@ -41,6 +41,7 @@ message Permission {
 message UserSettings {
   // Determines the behavior of distributed subqueries.
   enum DistributedProductMode {
+    // Not specified.
     DISTRIBUTED_PRODUCT_MODE_UNSPECIFIED = 0;
     // Prohibits using these types of subqueries (returns the "Double-distributed in/JOIN subqueries is denied" exception).
     DISTRIBUTED_PRODUCT_MODE_DENY = 1;
@@ -55,6 +56,7 @@ message UserSettings {
   // Determines the format of distributed DDL query result.
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#distributed_ddl_output_mode).
   enum DistributedDdlOutputMode {
+    // Not specified.
     DISTRIBUTED_DDL_OUTPUT_MODE_UNSPECIFIED = 0;
     // Returns result set with query execution status for all hosts where query is finished. If query has failed on some hosts, then it will rethrow the first exception.
     // If query is not finished yet on some hosts and **distributed_ddl_task_timeout** exceeded, then it throws **TIMEOUT_EXCEEDED** exception.
@@ -74,32 +76,51 @@ message UserSettings {
     DISTRIBUTED_DDL_OUTPUT_MODE_THROW_ONLY_ACTIVE = 7;
   }
 
+  // Load balancing algorithm for selecting a replica for distributed queries.
   enum LoadBalancing {
+    // Not specified.
     LOAD_BALANCING_UNSPECIFIED = 0;
+    // Select a replica at random for each query.
     LOAD_BALANCING_RANDOM = 1;
+    // Prefer replicas whose hostname is lexicographically closest to the current server's hostname.
     LOAD_BALANCING_NEAREST_HOSTNAME = 2;
+    // Select replicas in the order defined in the configuration, failing over to the next on error.
     LOAD_BALANCING_IN_ORDER = 3;
+    // Always try the first replica; fall back to a random replica if it is unavailable or has errors.
     LOAD_BALANCING_FIRST_OR_RANDOM = 4;
+    // Cycle through replicas sequentially in a round-robin fashion.
     LOAD_BALANCING_ROUND_ROBIN = 5;
   }
 
+  // Method used for reading data from the local filesystem.
   enum LocalFilesystemReadMethod {
+    // Not specified.
     LOCAL_FILESYSTEM_READ_METHOD_UNSPECIFIED = 0;
+    // Use the read() system call.
     LOCAL_FILESYSTEM_READ_METHOD_READ = 1;
+    // Use pread() system calls dispatched via a thread pool.
     LOCAL_FILESYSTEM_READ_METHOD_PREAD_THREADPOOL = 2;
+    // Use the pread() system call.
     LOCAL_FILESYSTEM_READ_METHOD_PREAD = 3;
+    // Use memory-mapped I/O (mmap).
     LOCAL_FILESYSTEM_READ_METHOD_NMAP = 4;
+    // Use Linux io_uring for asynchronous I/O.
     LOCAL_FILESYSTEM_READ_METHOD_IO_URING = 5;
   }
 
+  // Method used for reading data from remote filesystems.
   enum RemoteFilesystemReadMethod {
+    // Not specified.
     REMOTE_FILESYSTEM_READ_METHOD_UNSPECIFIED = 0;
+    // Read data synchronously.
     REMOTE_FILESYSTEM_READ_METHOD_READ = 1;
+    // Read data using a thread pool for parallelism.
     REMOTE_FILESYSTEM_READ_METHOD_THREADPOOL = 2;
   }
 
   // Determines the behavior on exceeding of query complexity limits.
   enum OverflowMode {
+    // Not specified.
     OVERFLOW_MODE_UNSPECIFIED = 0;
     // Abort query execution and return an error.
     OVERFLOW_MODE_THROW = 1;
@@ -109,6 +130,7 @@ message UserSettings {
 
   // Determines behavior on exceeding the limit on the number of unique keys during aggregation.
   enum GroupByOverflowMode {
+    // Not specified.
     GROUP_BY_OVERFLOW_MODE_UNSPECIFIED = 0;
     // Abort query execution and return an error.
     GROUP_BY_OVERFLOW_MODE_THROW = 1;
@@ -118,39 +140,63 @@ message UserSettings {
     GROUP_BY_OVERFLOW_MODE_ANY = 3;
   }
 
+  // Format for parsing date and time values in text input.
   enum DateTimeInputFormat {
+    // Not specified.
     DATE_TIME_INPUT_FORMAT_UNSPECIFIED = 0;
+    // Parse the basic YYYY-MM-DD HH:MM:SS format and all ISO 8601 date and time formats.
     DATE_TIME_INPUT_FORMAT_BEST_EFFORT = 1;
+    // Parse date/time in YYYY-MM-DD or YYYY-MM-DD HH:MM:SS format only.
     DATE_TIME_INPUT_FORMAT_BASIC = 2;
+    // Like best_effort but interprets ambiguous dates (e.g., MM/DD/YYYY) using US conventions (month-first).
     DATE_TIME_INPUT_FORMAT_BEST_EFFORT_US = 3;
   }
 
+  // Format for outputting date and time values in text output.
   enum DateTimeOutputFormat {
+    // Not specified.
     DATE_TIME_OUTPUT_FORMAT_UNSPECIFIED = 0;
+    // Output date/time in a simple human-readable format (e.g. 2024-01-01 12:00:00).
     DATE_TIME_OUTPUT_FORMAT_SIMPLE = 1;
+    // Output date/time in ISO 8601 format (e.g. 2024-01-01T12:00:00Z).
     DATE_TIME_OUTPUT_FORMAT_ISO = 2;
+    // Output date/time as a Unix timestamp (seconds since epoch).
     DATE_TIME_OUTPUT_FORMAT_UNIX_TIMESTAMP = 3;
   }
 
+  // Escaping rule applied to fields when using the Regexp format.
   enum FormatRegexpEscapingRule {
+    // Not specified.
     FORMAT_REGEXP_ESCAPING_RULE_UNSPECIFIED = 0;
+    // Apply backslash escaping (as in TSV format).
     FORMAT_REGEXP_ESCAPING_RULE_ESCAPED = 1;
+    // Apply quoting escaping (as in Values format).
     FORMAT_REGEXP_ESCAPING_RULE_QUOTED = 2;
+    // Apply CSV escaping rules.
     FORMAT_REGEXP_ESCAPING_RULE_CSV = 3;
+    // Apply JSON escaping rules.
     FORMAT_REGEXP_ESCAPING_RULE_JSON = 4;
+    // Apply XML escaping rules.
     FORMAT_REGEXP_ESCAPING_RULE_XML = 5;
+    // No escaping; use raw field values (as in TSVRaw format).
     FORMAT_REGEXP_ESCAPING_RULE_RAW = 6;
   }
 
+  // Determines how queries are associated with quota limits.
   enum QuotaMode {
+    // Not specified.
     QUOTA_MODE_UNSPECIFIED = 0;
+    // Track resource usage as a single shared quota across all users without per-user separation.
     QUOTA_MODE_DEFAULT = 1;
+    // Track quota separately per unique quota key value passed in the query parameter.
     QUOTA_MODE_KEYED = 2;
+    // Track quota separately per client IP address.
     QUOTA_MODE_KEYED_BY_IP = 3;
   }
 
   // Controls how the query cache handles SELECT queries with non-deterministic functions like rand() or now().
   enum QueryCacheNondeterministicFunctionHandling {
+    // Not specified.
     QUERY_CACHE_NONDETERMINISTIC_FUNCTION_HANDLING_UNSPECIFIED = 0;
     // Throw an exception and don't cache the query result.
     QUERY_CACHE_NONDETERMINISTIC_FUNCTION_HANDLING_THROW = 1;
@@ -162,6 +208,7 @@ message UserSettings {
 
   // Controls how the query cache handles SELECT queries against system tables.
   enum QueryCacheSystemTableHandling {
+    // Not specified.
     QUERY_CACHE_SYSTEM_TABLE_HANDLING_UNSPECIFIED = 0;
     // Throw an exception and don't cache the query result.
     QUERY_CACHE_SYSTEM_TABLE_HANDLING_THROW = 1;
@@ -171,23 +218,39 @@ message UserSettings {
     QUERY_CACHE_SYSTEM_TABLE_HANDLING_IGNORE = 3;
   }
 
+  // Implementation used for the COUNT(DISTINCT ...) function.
   enum CountDistinctImplementation {
+    // Not specified.
     COUNT_DISTINCT_IMPLEMENTATION_UNSPECIFIED = 0;
+    // Approximate count using an adaptive sampling algorithm. Fast with low memory usage; recommended for most scenarios.
     COUNT_DISTINCT_IMPLEMENTATION_UNIQ = 1;
+    // Adaptive approximate count combining multiple algorithms for better accuracy than uniq.
     COUNT_DISTINCT_IMPLEMENTATION_UNIQ_COMBINED = 2;
+    // Like uniqCombined but uses 64-bit hashing for better accuracy with large cardinalities.
     COUNT_DISTINCT_IMPLEMENTATION_UNIQ_COMBINED_64 = 3;
+    // Approximate count using HyperLogLog with 2^12 cells.
     COUNT_DISTINCT_IMPLEMENTATION_UNIQ_HLL_12 = 4;
+    // Exact count using a hash set. Higher memory usage but fully accurate.
     COUNT_DISTINCT_IMPLEMENTATION_UNIQ_EXACT = 5;
   }
 
+  // Algorithm used for JOIN operations.
   enum JoinAlgorithm {
+    // Not specified.
     JOIN_ALGORITHM_UNSPECIFIED = 0;
+    // Use a hash join algorithm.
     JOIN_ALGORITHM_HASH = 1;
+    // Build several hash tables concurrently to speed up the build phase, at the cost of higher memory usage.
     JOIN_ALGORITHM_PARALLEL_HASH = 2;
+    // Sort-based join that minimizes memory usage by processing sorted chunks of the right table; slower than hash join.
     JOIN_ALGORITHM_PARTIAL_MERGE = 3;
+    // Directly look up join keys in a dictionary-backed table (Dictionary, Join, or EmbeddedRocksDB engine). Supports LEFT ANY join only.
     JOIN_ALGORITHM_DIRECT = 4;
+    // Automatically choose the best join algorithm at runtime based on available memory and data size.
     JOIN_ALGORITHM_AUTO = 5;
+    // Non-memory-bound sort-merge join; can skip the sort phase when both tables are pre-sorted on the join key.
     JOIN_ALGORITHM_FULL_SORTING_MERGE = 6;
+    // Prefer partial_merge join when applicable, falling back to hash join otherwise.
     JOIN_ALGORITHM_PREFER_PARTIAL_MERGE = 7;
   }
 

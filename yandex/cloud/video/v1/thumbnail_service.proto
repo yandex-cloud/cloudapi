@@ -85,12 +85,15 @@ message GetThumbnailRequest {
 }
 
 message ListThumbnailRequest {
+  reserved 1000, 1001;
+
   // Reserved for future use.
-  reserved 2 to 99, 102 to 1002;
+  reserved 2 to 99, 102 to 999, 1002;
 
   // [Deprecated] ID of the channel.
-  string channel_id = 1 [(length) = "<=50"];
+  string channel_id = 1 [deprecated = true, (length) = "<=50"];
 
+  // Specifies the parent resource to list thumbnails from (exactly one must be chosen).
   oneof parent_id {
     // ID of the episode containing the thumbnails to list.
     string episode_id = 1003 [(length) = "<=50"];
@@ -121,13 +124,15 @@ message ListThumbnailResponse {
 }
 
 message CreateThumbnailRequest {
+  reserved 1;
+
   // Reserved for future use.
   reserved 2 to 1002;
 
-  // [Deprecated] ID of the channel.
-  string channel_id = 1 [(length) = "<=50"];
-
+  // Specifies the parent resource to associate the thumbnail with (exactly one must be chosen).
   oneof parent_id {
+    option (exactly_one) = true;
+
     // ID of the episode to associate the thumbnail with.
     string episode_id = 1003 [(length) = "<=50"];
 

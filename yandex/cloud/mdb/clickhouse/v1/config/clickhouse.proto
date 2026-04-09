@@ -11,12 +11,19 @@ option java_package = "yandex.cloud.api.mdb.clickhouse.v1.config";
 // ClickHouse configuration settings. Supported settings are a subset of settings described
 // in [ClickHouse documentation](https://clickhouse.com/docs/operations/server-configuration-parameters/settings).
 message ClickhouseConfig {
+  // Logging level for ClickHouse server.
   enum LogLevel {
+    // Not specified.
     LOG_LEVEL_UNSPECIFIED = 0;
+    // All messages including trace-level debug information.
     TRACE = 1;
+    // All messages including debug-level information.
     DEBUG = 2;
+    // Informational messages, warnings, and errors.
     INFORMATION = 3;
+    // Warnings and errors only.
     WARNING = 4;
+    // Errors only.
     ERROR = 5;
   }
 
@@ -41,18 +48,27 @@ message ClickhouseConfig {
     // Determines the behavior of background merges for MergeTree tables with projections.
     // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/merge-tree-settings#deduplicate_merge_projection_mode).
     enum DeduplicateMergeProjectionMode {
+      // Not specified.
       DEDUPLICATE_MERGE_PROJECTION_MODE_UNSPECIFIED = 0;
+      // Ignore projections during the merge without rebuilding them. Kept for compatibility only; may result in incorrect query answers.
       DEDUPLICATE_MERGE_PROJECTION_MODE_IGNORE = 1;
+      // Throw an exception and refuse to merge if a projection exists.
       DEDUPLICATE_MERGE_PROJECTION_MODE_THROW = 2;
+      // Drop projections before merging and do not rebuild them afterwards.
       DEDUPLICATE_MERGE_PROJECTION_MODE_DROP = 3;
+      // Rebuild projections during the merge.
       DEDUPLICATE_MERGE_PROJECTION_MODE_REBUILD = 4;
     }
 
     // Determines the behavior of lightweight deletes for MergeTree tables with projections.
     enum LightweightMutationProjectionMode {
+      // Not specified.
       LIGHTWEIGHT_MUTATION_PROJECTION_MODE_UNSPECIFIED = 0;
+      // Throw an exception if a projection exists.
       LIGHTWEIGHT_MUTATION_PROJECTION_MODE_THROW = 1;
+      // Drop projections and proceed with the lightweight mutation without rebuilding them.
       LIGHTWEIGHT_MUTATION_PROJECTION_MODE_DROP = 2;
+      // Rebuild projections after applying the lightweight mutation.
       LIGHTWEIGHT_MUTATION_PROJECTION_MODE_REBUILD = 3;
     }
 
@@ -127,6 +143,14 @@ message ClickhouseConfig {
     //
     // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/merge-tree-settings#number_of_free_entries_in_pool_to_execute_mutation).
     google.protobuf.Int64Value number_of_free_entries_in_pool_to_execute_mutation = 20;
+
+    // When there is less than specified number of free entries in pool, do not execute optimizing entire partition in the background (this task generated when set min_age_to_force_merge_seconds and enable min_age_to_force_merge_on_partition_only).
+    // This is to leave free threads for regular merges and avoid "Too many parts".
+    //
+    // Default value: **25**.
+    //
+    // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/merge-tree-settings#number_of_free_entries_in_pool_to_execute_optimize_entire_partition).
+    google.protobuf.Int64Value number_of_free_entries_in_pool_to_execute_optimize_entire_partition = 37;
 
     // The maximum total part size (in bytes) to be merged into one part, with the minimum available resources in the background pool.
     //
@@ -327,6 +351,7 @@ message ClickhouseConfig {
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/server-configuration-parameters/settings#compression).
   message Compression {
     enum Method {
+      // Not specified.
       METHOD_UNSPECIFIED = 0;
       // [LZ4 compression algorithm](https://lz4.github.io/lz4).
       LZ4 = 1;
@@ -417,6 +442,7 @@ message ClickhouseConfig {
       // Layout type.
       // For details, see [ClickHouse documentation](https://clickhouse.com/docs/en/sql-reference/dictionaries#ways-to-store-dictionaries-in-memory).
       enum Type {
+        // Not specified.
         TYPE_UNSPECIFIED = 0;
         // The dictionary is completely stored in memory in the form of flat arrays.
         // Applicable only for dictionaries with numeric keys of the UInt64 type.
@@ -667,6 +693,7 @@ message ClickhouseConfig {
       // Mode of SSL TCP/IP connection to a PostgreSQL host.
       // For details, see [PostgreSQL documentation](https://www.postgresql.org/docs/current/libpq-ssl.html).
       enum SslMode {
+        // Not specified.
         SSL_MODE_UNSPECIFIED = 0;
         // Only try a non-SSL connection.
         DISABLE = 1;
@@ -799,55 +826,99 @@ message ClickhouseConfig {
   // Kafka configuration settings.
   // For details, see [librdkafka documentation](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md).
   message Kafka {
+    // Security protocol used to communicate with Kafka brokers.
     enum SecurityProtocol {
+      // Not specified.
       SECURITY_PROTOCOL_UNSPECIFIED = 0;
+      // Unencrypted, unauthenticated connection.
       SECURITY_PROTOCOL_PLAINTEXT = 1;
+      // SSL/TLS encrypted connection.
       SECURITY_PROTOCOL_SSL = 2;
+      // SASL authenticated, unencrypted connection.
       SECURITY_PROTOCOL_SASL_PLAINTEXT = 3;
+      // SASL authenticated, SSL/TLS encrypted connection.
       SECURITY_PROTOCOL_SASL_SSL = 4;
     }
 
+    // SASL mechanism used for Kafka authentication.
     enum SaslMechanism {
+      // Not specified.
       SASL_MECHANISM_UNSPECIFIED = 0;
+      // Kerberos-based authentication (GSSAPI).
       SASL_MECHANISM_GSSAPI = 1;
+      // Simple username/password authentication.
       SASL_MECHANISM_PLAIN = 2;
+      // SCRAM authentication using SHA-256 hashing.
       SASL_MECHANISM_SCRAM_SHA_256 = 3;
+      // SCRAM authentication using SHA-512 hashing.
       SASL_MECHANISM_SCRAM_SHA_512 = 4;
     }
 
+    // Debug context to enable for the Kafka client.
     enum Debug {
+      // Not specified.
       DEBUG_UNSPECIFIED = 0;
+      // Generic client debugging.
       DEBUG_GENERIC = 1;
+      // Broker connection debugging.
       DEBUG_BROKER = 2;
+      // Topic metadata debugging.
       DEBUG_TOPIC = 3;
+      // Metadata request and response debugging.
       DEBUG_METADATA = 4;
+      // Feature flag debugging.
       DEBUG_FEATURE = 5;
+      // Message queue debugging.
       DEBUG_QUEUE = 6;
+      // Message-level debugging.
       DEBUG_MSG = 7;
+      // Protocol-level debugging.
       DEBUG_PROTOCOL = 8;
+      // Consumer group debugging.
       DEBUG_CGRP = 9;
+      // Security and authentication debugging.
       DEBUG_SECURITY = 10;
+      // Message fetch debugging.
       DEBUG_FETCH = 11;
+      // Interceptor plugin debugging.
       DEBUG_INTERCEPTOR = 12;
+      // Plugin debugging.
       DEBUG_PLUGIN = 13;
+      // Consumer-level debugging.
       DEBUG_CONSUMER = 14;
+      // Admin API debugging.
       DEBUG_ADMIN = 15;
+      // Exactly-once semantics (EOS) debugging.
       DEBUG_EOS = 16;
+      // Mock cluster debugging.
       DEBUG_MOCK = 17;
+      // Partition assignor debugging.
       DEBUG_ASSIGNOR = 18;
+      // Configuration debugging.
       DEBUG_CONF = 19;
+      // Telemetry debugging.
       DEBUG_TELEMETRY = 20;
+      // Enable all debug contexts.
       DEBUG_ALL = 21;
     }
 
+    // Action to take when there is no initial offset or the desired offset is out of range.
     enum AutoOffsetReset {
+      // Not specified.
       AUTO_OFFSET_RESET_UNSPECIFIED = 0;
+      // Reset offset to the earliest available message (alias for earliest).
       AUTO_OFFSET_RESET_SMALLEST = 1;
+      // Reset offset to the earliest available message.
       AUTO_OFFSET_RESET_EARLIEST = 2;
+      // Reset offset to the beginning of the partition (alias for earliest).
       AUTO_OFFSET_RESET_BEGINNING = 3;
+      // Reset offset to the latest available message (alias for latest).
       AUTO_OFFSET_RESET_LARGEST = 4;
+      // Reset offset to the latest available message.
       AUTO_OFFSET_RESET_LATEST = 5;
+      // Reset offset to the end of the partition (alias for latest).
       AUTO_OFFSET_RESET_END = 6;
+      // Trigger an error if no initial offset exists or the offset is out of range.
       AUTO_OFFSET_RESET_ERROR = 7;
     }
 

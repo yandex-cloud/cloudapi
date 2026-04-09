@@ -247,6 +247,8 @@ message CreateStreamMetadata {
 }
 
 message UpdateStreamRequest {
+  reserved 3;
+
   // Reserved for future use.
   reserved 8 to 199, 201 to 999;
 
@@ -258,9 +260,6 @@ message UpdateStreamRequest {
   // all other fields will retain their current values.
   // This allows for partial updates.
   google.protobuf.FieldMask field_mask = 2 [(required) = true];
-
-  // DEPRECATED.
-  string line_id = 3 [(length) = "<=50"];
 
   // Stream title.
   string title = 4 [(length) = "<=300"];

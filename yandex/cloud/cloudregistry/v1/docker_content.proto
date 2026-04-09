@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package yandex.cloud.cloudregistry.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cloudregistry/v1;cloudregistry";
+option java_package = "yandex.cloud.api.cloudregistry.v1";
+
+// Docker-specific content of the artifact.
+message DockerContent {
+  oneof spec {
+    // Single-platform image manifest.
+    ImageManifest image_manifest = 2;
+
+    // Multi-platform manifest list.
+    ManifestList manifest_list = 3;
+  }
+
+  // Digest of the manifest.
+  string manifest_digest = 1;
+}
+
+// Image manifest describing a single-platform Docker image.
+message ImageManifest {
+  // Descriptor of the image configuration.
+  Descriptor config = 1;
+
+  // Descriptors of the image layers.
+  repeated Descriptor layers = 2;
+}
+
+// Manifest list describing a multi-platform Docker image.
+message ManifestList {
+  // List of platform-specific manifests.
+  repeated PlatformManifest manifests = 1;
+}
+
+// Descriptor of a content blob (config, layer, or manifest).
+message Descriptor {
+  // Digest of the content.
+  string digest = 1;
+
+  // Size of the content in bytes.
+  int64 size = 2;
+}
+
+// Platform-specific manifest entry within a manifest list.
+message PlatformManifest {
+  // Descriptor of the platform-specific manifest.
+  Descriptor manifest_descriptor = 1;
+
+  // Platform this manifest targets.
+  Platform platform = 2;
+}
+
+// Platform describes the target OS and architecture of an image.
+message Platform {
+  // CPU architecture.
+  string architecture = 1;
+
+  // Operating system.
+  string os = 2;
+
+  // OS version.
+  string os_version = 3;
+
+  // CPU variant.
+  string variant = 4;
+}

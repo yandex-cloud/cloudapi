@@ -10,8 +10,10 @@ option java_package = "yandex.cloud.api.video.v1";
 // Entity representing an image used as a visual representation for various content entities.
 // Thumbnails provide preview images for channels, streams, episodes, videos, and stream lines.
 message Thumbnail {
+  reserved 1000, 1001;
+
   // Reserved for future use.
-  reserved 3 to 99, 101 to 1002;
+  reserved 3 to 99, 101 to 999, 1002;
 
   // Unique identifier of the thumbnail.
   string id = 1;

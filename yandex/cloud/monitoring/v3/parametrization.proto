@@ -85,6 +85,74 @@ message WorkspaceParameter {
     string default_workspace_id = 3;
 }
 
+// User-defined query parameter.
+message QueryParameterCustomItem {
+  // User defined value
+  string value = 1;
+
+  // User defined key
+  string key = 2;
+}
+
+// Regex to search and replace in label values.
+message RelabelItem {
+  /**
+   * Search regex
+   */
+  string find = 1;
+  /**
+   * Replace regex
+   */
+  string replace = 2;
+}
+
+// Monitoring source for QueryParameter.
+message MonitoringQuerySource {
+  // Required. Project id. Support interpolation by another parameter value.
+  string project_id = 1;
+
+  // Required. Selectors to select metric label values. Support interpolation by another parameter value.
+  string selectors = 2;
+
+  // Required. Label which is used to search values.
+  string label_key = 3;
+}
+
+// Prometheus source for QueryParameter.
+message PrometheusQuerySource {
+  // Required. Selectors to select metric label values. Support interpolation by another parameter value.
+  repeated string match = 1;
+
+  // Required. Label which is used to search values.
+  string label_key = 2;
+
+  // Required. Workspace id which is used for search. Support interpolation by another parameter value.
+  string workspace_id = 3;
+}
+
+// Query parameter.
+message QueryParameter {
+  // Is parameter multiselectable.
+  bool multiselectable = 1;
+
+  // Default value or comma-separated values
+  repeated string default_values = 2;
+
+  // List of user defined values
+  repeated QueryParameterCustomItem custom_items = 3;
+
+  // List of regex for search and replace in label values.
+  repeated RelabelItem relabel_items = 4;
+
+  // Query parameter datasource settings
+  oneof data_source {
+    // Monitoring source for QueryParameter.
+    MonitoringQuerySource monitoring = 5;
+    // Prometheus source for QueryParameter.
+    PrometheusQuerySource prometheus = 6;
+  }
+}
+
 // Parameter.
 message Parameter {
   // Parameter identifier.
@@ -96,7 +164,7 @@ message Parameter {
   // Parameter data.
   oneof data {
     // Label values parameter.
-    LabelValuesParameter label_values = 3;
+    LabelValuesParameter label_values = 3 [deprecated = true];
 
     // Custom parameter.
     CustomParameter custom = 4;
@@ -115,6 +183,9 @@ message Parameter {
 
     // Workspace parameter
     WorkspaceParameter workspace_parameter = 15;
+
+    // Query parameter
+    QueryParameter query = 16;
   }
 
   // UI-visibility.
@@ -126,7 +197,7 @@ message Parameter {
   reserved 11 to 13;
 
   // Is parameter grouped.
-  bool grouped = 14;
+  bool grouped = 14 [deprecated = true];
 }
 
 // Parametrization.
@@ -135,5 +206,5 @@ message Parametrization {
   repeated Parameter parameters = 1;
 
   // Predefined selectors.
-  string selectors = 2;
+  string selectors = 2 [deprecated = true];
 }
