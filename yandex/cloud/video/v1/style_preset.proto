@@ -12,10 +12,19 @@ option java_package = "yandex.cloud.api.video.v1";
 // Style presets define the appearance of players, widgets, and other UI elements
 // to ensure consistent branding and user experience.
 message StylePreset {
-  reserved 10, 11;
+  // Widget position relative to the player.
+  enum WidgetLocation {
+    // The widget location is not specified.
+    WIDGET_LOCATION_UNSPECIFIED = 0;
 
-  // Reserved for future use.
-  reserved 18 to 19, 22 to 99;
+    // Position the widget to the right of the player.
+    RIGHT = 1;
+
+    // Position the widget below the player.
+    BOTTOM = 2;
+  }
+
+  reserved 10 to 11, 18 to 19, 22 to 99;
 
   // Unique identifier of the style preset.
   string id = 1;
@@ -73,23 +82,21 @@ message StylePreset {
 
   // Timestamp of the last modification to the style preset or its metadata.
   google.protobuf.Timestamp updated_at = 101;
-
-  // Widget position relative to the player.
-  enum WidgetLocation {
-    // The widget location is not specified.
-    WIDGET_LOCATION_UNSPECIFIED = 0;
-
-    // Position the widget to the right of the player.
-    RIGHT = 1;
-
-    // Position the widget below the player.
-    BOTTOM = 2;
-  }
 }
 
 // Represents a UI component that displays additional content or functionality.
 // Widgets can be positioned in different locations around the player.
 message Widget {
+  // Widget that presents an automatically generated summary of the video content.
+  // This helps viewers quickly understand the main points without watching the entire video.
+  message Summarization {
+  }
+
+  // Widget that displays the full description text for the video.
+  // This can include details about the content, creators, and other relevant information.
+  message Description {
+  }
+
   // Specifies the type of widget to display.
   oneof widget {
     option (exactly_one) = true;
@@ -101,11 +108,4 @@ message Widget {
     Description description = 2;
   }
 
-  // Widget that presents an automatically generated summary of the video content.
-  // This helps viewers quickly understand the main points without watching the entire video.
-  message Summarization {}
-
-  // Widget that displays the full description text for the video.
-  // This can include details about the content, creators, and other relevant information.
-  message Description {}
 }

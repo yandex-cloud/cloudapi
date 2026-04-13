@@ -145,8 +145,10 @@ message UpdateUserRequest {
   // New set of permissions for the user.
   repeated Permission permissions = 5;
 
+  // New user settings.
   UserSettings settings = 6;
 
+  // New user quotas.
   repeated UserQuota quotas = 7;
 
   // Generate password using Connection Manager.

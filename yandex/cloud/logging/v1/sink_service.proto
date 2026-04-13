@@ -16,109 +16,117 @@ option java_package = "yandex.cloud.api.logging.v1";
 // A set of methods for managing log sinks.
 service SinkService {
   // Returns the specified sink.
-  //
   // To get the list of all available sinks, make a [List] request.
   rpc Get(GetSinkRequest) returns (Sink) {
-    option (google.api.http) = {get: "/logging/v1/sinks/{sink_id}"};
-  }
+    option (google.api.http) = {
+      get: "/logging/v1/sinks/{sink_id}"
+    };
+  };
 
   // Retrieves the list of sinks in the specified folder.
   rpc List(ListSinksRequest) returns (ListSinksResponse) {
-    option (google.api.http) = {get: "/logging/v1/sinks"};
-  }
+    option (google.api.http) = {
+      get: "/logging/v1/sinks"
+    };
+  };
 
   // Creates a sink in the specified folder.
   rpc Create(CreateSinkRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/logging/v1/sinks"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateSinkMetadata"
       response: "Sink"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/logging/v1/sinks"
+    };
+  };
 
   // Updates the specified sink.
   rpc Update(UpdateSinkRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/logging/v1/sinks/{sink_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateSinkMetadata"
       response: "Sink"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/logging/v1/sinks/{sink_id}"
+    };
+  };
 
   // Deletes the specified sink.
   rpc Delete(DeleteSinkRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/logging/v1/sinks/{sink_id}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteSinkMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/logging/v1/sinks/{sink_id}"
+    };
+  };
 
   // Lists operations for the specified sink.
   rpc ListOperations(ListSinkOperationsRequest) returns (ListSinkOperationsResponse) {
-    option (google.api.http) = {get: "/logging/v1/sinks/{sink_id}/operations"};
-  }
+    option (google.api.http) = {
+      get: "/logging/v1/sinks/{sink_id}/operations"
+    };
+  };
 
   // Lists existing access bindings for the specified sink.
   rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = {get: "/logging/v1/sinks/{resource_id}:listAccessBindings"};
-  }
+    option (google.api.http) = {
+      get: "/logging/v1/sinks/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the specified sink.
   rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/logging/v1/sinks/{resource_id}:setAccessBindings"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/logging/v1/sinks/{resource_id}:setAccessBindings"
+    };
+  };
 
   // Updates access bindings for the specified sink.
   rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/logging/v1/sinks/{resource_id}:updateAccessBindings"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/logging/v1/sinks/{resource_id}:updateAccessBindings"
+    };
+  };
+
 }
 
 message GetSinkRequest {
   // ID of the sink to return.
-  //
   // To get a sink ID make a [SinkService.List] request.
   string sink_id = 1 [
-    (required) = true,
-    (length) = "<=64"
+    (length) = "<=64",
+    (required) = true
   ];
 }
 
 message ListSinksRequest {
   reserved 2;
+
   // Folder ID of the sinks to return.
-  //
   // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=64"
+    (length) = "<=64",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than `page_size`, the service returns a [ListSinkssResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  //
   // Default value: 100.
   int64 page_size = 3;
 
@@ -127,7 +135,6 @@ message ListSinksRequest {
   string page_token = 4 [(length) = "<=100"];
 
   // A filter expression that filters sinks listed in the response.
-  //
   // The expression must specify:
   // 1. The field name. Currently filtering can only be applied to the [Sink.name] field.
   // 2. An `=` operator.
@@ -143,18 +150,27 @@ message ListSinksResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListSinksRequest.page_size], use `next_page_token` as the value
   // for the [ListSinksRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
 }
 
 message CreateSinkRequest {
+  // Logs destination
+  oneof sink {
+    option (exactly_one) = true;
+
+    // Yandex data stream
+    Sink.Yds yds = 6;
+
+    // Object storage
+    Sink.S3 s3 = 7;
+  }
+
   // ID of the folder to create a sink in.
-  //
   // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=64"
+    (length) = "<=64",
+    (required) = true
   ];
 
   // Name of the sink.
@@ -166,24 +182,17 @@ message CreateSinkRequest {
 
   // Sink labels as `key:value` pairs.
   map<string, string> labels = 4 [
-    (size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // Logs will be written to the sink on behalf of this service account
   string service_account_id = 5 [(length) = "<=64"];
-
-  // Logs destination
-  oneof sink {
-    option (exactly_one) = true;
-    // Yandex data stream
-    Sink.Yds yds = 6;
-    // Object storage
-    Sink.S3 s3 = 7;
-  }
 }
 
 message CreateSinkMetadata {
@@ -192,12 +201,22 @@ message CreateSinkMetadata {
 }
 
 message UpdateSinkRequest {
+  // New logs destination
+  oneof sink {
+    option (exactly_one) = true;
+
+    // Yandex data stream
+    Sink.Yds yds = 7;
+
+    // Object storage
+    Sink.S3 s3 = 8;
+  }
+
   // ID of the sink to update.
-  //
   // To get a sink ID make a [SinkService.List] request.
   string sink_id = 1 [
-    (required) = true,
-    (length) = "<=64"
+    (length) = "<=64",
+    (required) = true
   ];
 
   // Field mask that specifies which attributes of the function should be updated.
@@ -212,24 +231,17 @@ message UpdateSinkRequest {
 
   // New sink labels as `key:value` pairs.
   map<string, string> labels = 5 [
-    (size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // new service account to use for logs writing to the sink.
   string service_account_id = 6 [(length) = "<=64"];
-
-  // New logs destination
-  oneof sink {
-    option (exactly_one) = true;
-    // Yandex data stream
-    Sink.Yds yds = 7;
-    // Object storage
-    Sink.S3 s3 = 8;
-  }
 }
 
 message UpdateSinkMetadata {
@@ -239,11 +251,10 @@ message UpdateSinkMetadata {
 
 message DeleteSinkRequest {
   // ID of the sink to delete.
-  //
   // To get a sink ID make a [SinkService.List] request.
   string sink_id = 1 [
-    (required) = true,
-    (length) = "<=64"
+    (length) = "<=64",
+    (required) = true
   ];
 }
 
@@ -254,25 +265,23 @@ message DeleteSinkMetadata {
 
 message ListSinkOperationsRequest {
   // ID of the sink to list operations for.
-  //
   // To get a sink ID make a [SinkService.List] request.
   string sink_id = 1 [
-    (required) = true,
-    (length) = "<=64"
+    (length) = "<=64",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than `page_size`, the service returns a [ListSinkOperationsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  //
   // Default value: 100.
   int64 page_size = 2 [(value) = "0-1000"];
 
   // Page token. To get the next page of results, set `page_token` to the
   // [ListSinkOperationsResponse.next_page_token] returned by a previous list request.
   string page_token = 3 [(length) = "<=100"];
+
   // A filter expression that filters resources listed in the response.
-  //
   // The expression must specify:
   // 1. The field name. Currently filtering can be applied to the [operation.Operation.description], [operation.Operation.created_at], [operation.Operation.modified_at], [operation.Operation.created_by], [operation.Operation.done] fields.
   // 2. An `=` operator.
@@ -288,7 +297,6 @@ message ListSinkOperationsResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListOSinkperationsRequest.page_size], use `next_page_token` as the value
   // for the [ListSinkOperationsRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
 }

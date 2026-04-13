@@ -12,12 +12,10 @@ option java_package = "yandex.cloud.api.logging.v1";
 
 message LogEntry {
   // Unique entry ID.
-  //
   // Useful for logs deduplication.
   string uid = 1;
 
   // Entry resource specification.
-  //
   // May contain information about source service and resource ID.
   // Also may be provided by the user.
   LogEntryResource resource = 2;
@@ -29,12 +27,10 @@ message LogEntry {
   google.protobuf.Timestamp ingested_at = 4;
 
   // Entry save time.
-  //
   // Entry is ready to be read since this moment.
   google.protobuf.Timestamp saved_at = 5;
 
   // Entry severity.
-  //
   // See [LogLevel.Level] for details.
   LogLevel.Level level = 6;
 
@@ -53,7 +49,6 @@ message IncomingLogEntry {
   google.protobuf.Timestamp timestamp = 1 [(required) = true];
 
   // Entry severity.
-  //
   // See [LogLevel.Level] for details.
   LogLevel.Level level = 2;
 
@@ -68,10 +63,10 @@ message IncomingLogEntry {
 }
 
 message LogEntryDefaults {
-  reserved 3;
+  reserved 1, 3;
+
   // Default entry severity.
   // Will be applied if entry level is unspecified.
-  //
   // See [LogLevel.Level] for details.
   LogLevel.Level level = 2;
 
@@ -90,54 +85,50 @@ message Destination {
     option (exactly_one) = true;
 
     // Entry should be written to log group resolved by ID.
-    string log_group_id = 1 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
+    string log_group_id = 1 [
+      (length) = "<=63",
+      (pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"
+    ];
 
     // Entry should be written to default log group for the folder.
     string folder_id = 2 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
   }
+
 }
 
 message LogLevel {
   // Possible log levels for entries.
   enum Level {
     // Default log level.
-    //
     // Equivalent to not specifying log level at all.
     LEVEL_UNSPECIFIED = 0;
 
     // Trace log level.
-    //
     // Possible use case: verbose logging of some business logic.
     TRACE = 1;
 
     // Debug log level.
-    //
     // Possible use case: debugging special cases in application logic.
     DEBUG = 2;
 
     // Info log level.
-    //
     // Mostly used for information messages.
     INFO = 3;
 
     // Warn log level.
-    //
     // May be used to alert about significant events.
     WARN = 4;
 
     // Error log level.
-    //
     // May be used to alert about errors in infrastructure, logic, etc.
     ERROR = 5;
 
     // Fatal log level.
-    //
     // May be used to alert about unrecoverable failures and events.
     FATAL = 6;
   }
 
   // Entry level.
-  //
   // See [Level] for possible values.
   Level level = 1;
 }

@@ -9,8 +9,10 @@ option java_package = "yandex.cloud.api.datasphere.v1";
 message NodeExecutionErrorDetails {
   // Error name
   string error_name = 1;
+
   // Error message
   string error_message = 2;
+
   // Error traceback
   repeated string traceback = 3;
 }

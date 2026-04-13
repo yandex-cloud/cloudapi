@@ -11,8 +11,38 @@ option java_package = "yandex.cloud.api.video.v1";
 // Subtitles provide text versions of the audio content, enabling accessibility
 // and multilingual support for video content.
 message Subtitle {
-  // Reserved for future use.
+  // Current processing status of the subtitle.
+  enum SubtitleStatus {
+    // The subtitle status is not specified.
+    SUBTITLE_STATUS_UNSPECIFIED = 0;
+
+    // The subtitle file upload is in progress, waiting for all bytes to be received.
+    WAIT_UPLOADING = 1;
+
+    // The subtitle file has been fully uploaded and is ready for use.
+    UPLOADED = 2;
+  }
+
+
+  // Source type representing how the subtitle was created or obtained.
+  enum SubtitleSourceType {
+    // The subtitle source type is not specified.
+    SUBTITLE_SOURCE_TYPE_UNSPECIFIED = 0;
+
+    // The subtitle was manually created and uploaded by a user.
+    MANUAL = 1;
+
+    // The subtitle was automatically generated through speech recognition.
+    GENERATED = 2;
+  }
+
   reserved 7 to 99, 102 to 999;
+
+  // Specifies the parent content this subtitle is associated with.
+  oneof parent_id {
+    // Identifier of the video this subtitle belongs to.
+    string video_id = 1000;
+  }
 
   // Unique identifier of the subtitle track.
   string id = 1;
@@ -37,34 +67,4 @@ message Subtitle {
 
   // Timestamp of the last modification to the subtitle or its metadata.
   google.protobuf.Timestamp updated_at = 101;
-
-  // Specifies the parent content this subtitle is associated with.
-  oneof parent_id {
-    // Identifier of the video this subtitle belongs to.
-    string video_id = 1000;
-  }
-
-  // Current processing status of the subtitle.
-  enum SubtitleStatus {
-    // The subtitle status is not specified.
-    SUBTITLE_STATUS_UNSPECIFIED = 0;
-
-    // The subtitle file upload is in progress, waiting for all bytes to be received.
-    WAIT_UPLOADING = 1;
-
-    // The subtitle file has been fully uploaded and is ready for use.
-    UPLOADED = 2;
-  }
-
-  // Source type representing how the subtitle was created or obtained.
-  enum SubtitleSourceType {
-    // The subtitle source type is not specified.
-    SUBTITLE_SOURCE_TYPE_UNSPECIFIED = 0;
-
-    // The subtitle was manually created and uploaded by a user.
-    MANUAL = 1;
-
-    // The subtitle was automatically generated through speech recognition.
-    GENERATED = 2;
-  }
 }

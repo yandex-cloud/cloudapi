@@ -13,28 +13,47 @@ option java_package = "yandex.cloud.api.datasphere.v2";
 // A set of methods for managing Datasets.
 service DatasetService {
   // Activates shared dataset for project
-  rpc Activate (ActivateDatasetRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/datasphere/v2/dataset/activate" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc Activate(ActivateDatasetRequest) returns (operation.Operation) {
+    option (api.operation) = {
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v2/dataset/activate"
+    };
+  };
 
   // Deactivates shared dataset for project
-  rpc Deactivate (DeactivateDatasetRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/datasphere/v2/dataset/deactivate" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc Deactivate(DeactivateDatasetRequest) returns (operation.Operation) {
+    option (api.operation) = {
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v2/dataset/deactivate"
+    };
+  };
+
 }
 
 message ActivateDatasetRequest {
-  string dataset_id = 1 [(required) = true, (length) = "<=50"];
-  string project_id = 2 [(required) = true, (length) = "<=50"];
+  string dataset_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+  string project_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message DeactivateDatasetRequest {
-  string dataset_id = 1 [(required) = true, (length) = "<=50"];
-  string project_id = 2 [(required) = true, (length) = "<=50"];
+  string dataset_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+  string project_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }

@@ -12,20 +12,28 @@ option java_package = "yandex.cloud.api.datasphere.v1";
 service NodeService {
   // Executes deployed Node.
   rpc Execute(NodeExecutionRequest) returns (NodeExecutionResponse) {
-    option (google.api.http) = { post: "/datasphere/v1/nodes/{node_id}:execute" body: "*" };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v1/nodes/{node_id}:execute"
+    };
+  };
 
   // Executes NodeAlias requests.
   rpc ExecuteAlias(AliasExecutionRequest) returns (AliasExecutionResponse) {
-    option (google.api.http) = { post: "/datasphere/v1/aliases/{alias_name}:execute" body: "*" };
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v1/aliases/{alias_name}:execute"
+    };
   };
 }
 
 message NodeExecutionRequest {
   // ID of the folder that will be matched with Node ACL.
   string folder_id = 1;
+
   // ID of the Node to perform request on.
   string node_id = 2;
+
   // Input data for the execution.
   google.protobuf.Struct input = 3;
 }
@@ -38,8 +46,10 @@ message NodeExecutionResponse {
 message AliasExecutionRequest {
   // ID of the folder that will be matched with Alias ACL
   string folder_id = 1;
+
   // Name of the Alias to perform request on
   string alias_name = 2;
+
   // Input data for the execution
   google.protobuf.Struct input = 3;
 }

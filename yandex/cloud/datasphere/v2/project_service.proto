@@ -7,12 +7,11 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/wrappers.proto";
-import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/access/access.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/datasphere/v2/project.proto";
 import "yandex/cloud/datasphere/v2/resource_types.proto";
 import "yandex/cloud/datasphere/v2/restrictions.proto";
-
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -22,160 +21,216 @@ option java_package = "yandex.cloud.api.datasphere.v2";
 // A set of methods for managing Project resources.
 service ProjectService {
   // Creates a project in the specified folder.
-  rpc Create (CreateProjectRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/datasphere/v2/projects" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateProjectRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateProjectMetadata"
       response: "Project"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v2/projects"
+    };
+  };
 
   // Updates the specified project.
-  rpc Update (UpdateProjectRequest) returns (operation.Operation) {
-    option (google.api.http) = {patch: "/datasphere/v2/projects/{project_id}" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateProjectRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateProjectMetadata"
       response: "Project"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/datasphere/v2/projects/{project_id}"
+    };
+  };
 
   // Deletes the specified project.
-  rpc Delete (DeleteProjectRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/datasphere/v2/projects/{project_id}"};
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteProjectRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteProjectMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/datasphere/v2/projects/{project_id}"
+    };
+  };
 
   // Opens the specified project.
-  rpc Open (OpenProjectRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/datasphere/v2/projects/{project_id}:open" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc Open(OpenProjectRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "OpenProjectMetadata"
       response: "OpenProjectResponse"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v2/projects/{project_id}/open"
+    };
+  };
 
   // Returns the specified project.
-  rpc Get (GetProjectRequest) returns (Project) {
-    option (google.api.http) = {get: "/datasphere/v2/projects/{project_id}"};
-  }
+  rpc Get(GetProjectRequest) returns (Project) {
+    option (google.api.http) = {
+      get: "/datasphere/v2/projects/{project_id}"
+    };
+  };
 
   // Lists projects for the specified community.
-  rpc List (ListProjectsRequest) returns (ListProjectsResponse) {
-    option (google.api.http) = {get: "/datasphere/v2/projects"};
-  }
+  rpc List(ListProjectsRequest) returns (ListProjectsResponse) {
+    option (google.api.http) = {
+      get: "/datasphere/v2/projects"
+    };
+  };
 
   // Returns the unit balance of the specified project.
-  rpc GetUnitBalance (GetUnitBalanceRequest) returns (GetUnitBalanceResponse) {
-    option (google.api.http) = {get: "/datasphere/v2/projects/{project_id}:unitBalance"};
-  }
+  rpc GetUnitBalance(GetUnitBalanceRequest) returns (GetUnitBalanceResponse) {
+    option (google.api.http) = {
+      get: "/datasphere/v2/projects/{project_id}:unitBalance"
+    };
+  };
 
   // Sets the unit balance of the specified project.
-  rpc SetUnitBalance (SetUnitBalanceRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/datasphere/v2/projects/{project_id}:unitBalance" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc SetUnitBalance(SetUnitBalanceRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "SetUnitBalanceMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v2/projects/{project_id}:unitBalance"
+    };
+  };
 
   // Executes code of the specified notebook using configuration defined in the project settings. If the default project configuration is not specified, `c1.4` is used.
-  rpc Execute (ProjectExecutionRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/datasphere/v2/projects/{project_id}:execute" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc Execute(ProjectExecutionRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "ProjectExecutionMetadata"
       response: "ProjectExecutionResponse"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v2/projects/{project_id}:execute"
+    };
+  };
 
   // Lists access bindings for the project.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = {get: "/datasphere/v2/projects/{resource_id}:accessBindings"};
-  }
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/datasphere/v2/projects/{resource_id}:accessBindings"
+    };
+  };
 
   // Sets access bindings for the project.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/datasphere/v2/projects/{resource_id}:setAccessBindings" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "SetProjectAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v2/projects/{resource_id}:setAccessBindings"
+    };
+  };
 
   // Updates access bindings for the project.
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {patch: "/datasphere/v2/projects/{resource_id}:updateAccessBindings" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateProjectAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/datasphere/v2/projects/{resource_id}:updateAccessBindings"
+    };
+  };
 
   // Adds shared resource to project
-  rpc AddResource (AddResourceToProjectRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/datasphere/v2/projects/{resource_id}:addResource" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc AddResource(AddResourceToProjectRequest) returns (operation.Operation) {
+    option (api.operation) = {
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v2/projects/{resource_id}:addResource"
+    };
+  };
 
   // Removes shared resource from project
-  rpc RemoveResource (RemoveResourceFromProjectRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/datasphere/v2/projects/{resource_id}:removeResource" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc RemoveResource(RemoveResourceFromProjectRequest) returns (operation.Operation) {
+    option (api.operation) = {
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v2/projects/{resource_id}:removeResource"
+    };
+  };
 
   // Resizes project disk
-  rpc ResizeDisk (ResizeProjectDiskRequest) returns (operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+  rpc ResizeDisk(ResizeProjectDiskRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "ResizeProjectDiskMetadata"
       response: "DiskInfo"
     };
-  }
+  };
 
   // Get meta information about available restrictions.
-  rpc GetRestrictionsMeta (google.protobuf.Empty) returns (GetRestrictionsMetaResponse) {
-    option (google.api.http) = {get: "/datasphere/v2/projects/restrictionsMeta"};
-  }
+  rpc GetRestrictionsMeta(google.protobuf.Empty) returns (GetRestrictionsMetaResponse) {
+    option (google.api.http) = {
+      get: "/datasphere/v2/projects/restrictionsMeta"
+    };
+  };
 
   // Get current project restrictions.
-  rpc GetRestrictions (GetProjectRestrictionsRequest) returns (RestrictionsResponse) {
-    option (google.api.http) = {get: "/datasphere/v2/projects/{project_id}:restrictions"};
-  }
+  rpc GetRestrictions(GetProjectRestrictionsRequest) returns (RestrictionsResponse) {
+    option (google.api.http) = {
+      get: "/datasphere/v2/projects/{project_id}:restrictions"
+    };
+  };
 
   // Set project restrictions.
-  rpc SetRestrictions (SetProjectRestrictionsRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/datasphere/v2/projects/{project_id}:setRestrictions" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc SetRestrictions(SetProjectRestrictionsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       response: "RestrictionsResponse"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v2/projects/{project_id}:setRestrictions"
+    };
+  };
 }
 
 message CreateProjectRequest {
   // ID of the community to create a project in.
-  string community_id = 1 [(length) = "<=50", (required) = true];
+  string community_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Name of the project. 0-63 characters long.
-  string name = 2 [(length) = "<=63", (pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 2 [
+    (length) = "<=63",
+    (pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?"
+  ];
 
   // Description of the project. 0-256 characters long.
   string description = 3 [(length) = "<=256"];
 
   // Labels of the project.
-  map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 
   // Settings of the project.
   Project.Settings settings = 5;
 
   // Limits of the project.
   Project.Limits limits = 6;
-
-  reserved 7;
 }
 
 message CreateProjectMetadata {
@@ -186,19 +241,33 @@ message CreateProjectMetadata {
 message UpdateProjectRequest {
   // ID of the Project resource to update.
   // To get the project ID use a [ProjectService.List] request.
-  string project_id = 1 [(required) = true, (length) = "<=50"];
+  string project_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Field mask that specifies which fields of the Project resource are going to be updated.
   google.protobuf.FieldMask update_mask = 2;
 
   // Name of the project. 0-63 characters long.
-  string name = 3 [(length) = "<=63", (pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 3 [
+    (length) = "<=63",
+    (pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?"
+  ];
 
   // Description of the project. 0-256 characters long.
   string description = 4 [(length) = "<=256"];
 
   // Labels of the project.
-  map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 5 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 
   // Settings of the project.
   Project.Settings settings = 6;
@@ -215,7 +284,10 @@ message UpdateProjectMetadata {
 message DeleteProjectRequest {
   // ID of the Project resource to delete.
   // To get the project ID use a [ProjectService.List] request.
-  string project_id = 1 [(required) = true, (length) = "<=50"];
+  string project_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message DeleteProjectMetadata {
@@ -226,11 +298,16 @@ message DeleteProjectMetadata {
 message OpenProjectRequest {
   // ID of the Project resource to open.
   // To get the project ID use a [ProjectService.List] request.
-  string project_id = 1 [(required) = true, (length) = "<=50"];
+  string project_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message OpenProjectMetadata {
   enum OpenProjectStatus {
+    reserved 6;
+
     OPEN_PROJECT_STATUS_UNSPECIFIED = 0;
 
     // Closing previous IDE instance.
@@ -250,12 +327,11 @@ message OpenProjectMetadata {
 
     // Unknown open project status.
     OPEN_PROJECT_STATUS_UNKNOWN = 7;
-
-    reserved 6;
   }
 
   // ID of the project that is being opened.
   string project_id = 1;
+
   // Project opening status.
   OpenProjectStatus status = 2;
 }
@@ -274,7 +350,10 @@ message OpenProjectResponse {
 message GetProjectRequest {
   // ID of the Project resource to return.
   // To get the project ID use a [ProjectService.List] request.
-  string project_id = 1 [(required) = true, (length) = "<=50"];
+  string project_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListProjectsRequest {
@@ -315,7 +394,10 @@ message ListProjectsResponse {
 
 message GetUnitBalanceRequest {
   // ID of the project to return the unit balance for.
-  string project_id = 1 [(required) = true, (length) = "<=50"];
+  string project_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message GetUnitBalanceResponse {
@@ -325,7 +407,10 @@ message GetUnitBalanceResponse {
 
 message SetUnitBalanceRequest {
   // ID of the project to set the unit balance for.
-  string project_id = 1 [(required) = true, (length) = "<=50"];
+  string project_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The number of units available to the project.
   google.protobuf.Int64Value unit_balance = 2;
@@ -337,20 +422,26 @@ message SetUnitBalanceMetadata {
 }
 
 message ProjectExecutionRequest {
-  // ID of the project to execute notebook/cell in.
-  string project_id = 1 [(required) = true, (length) = "<=50"];
   oneof target {
     option (exactly_one) = true;
 
     // The path to the executable notebook in the project storage. The maximum string length is 200 characters.
-    //
     // To get the path, right-click on the notebook in JupyterLab and select `Copy path`.
     string notebook_id = 2 [(length) = "<=200"];
 
     // ID of the cell to execute.
     // Deprecated
-    string cell_id = 3 [(length) = "<=200", deprecated=true];
+    string cell_id = 3 [
+      (length) = "<=200",
+      deprecated = true
+    ];
   }
+
+  // ID of the project to execute notebook/cell in.
+  string project_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Values of input variables. Input variables will be available in the project as environment variables.
   google.protobuf.Struct input_variables = 4;
@@ -358,16 +449,14 @@ message ProjectExecutionRequest {
   // Names of output variables.
   repeated string output_variable_names = 5;
 
-  //Specification of the VM
+  // Specification of the VM
   string spec = 6;
 
-  //ID of the Spark Connector
+  // ID of the Spark Connector
   string spark_connector_id = 7 [(length) = "<=200"];
 }
 
 message ProjectExecutionMetadata {
-  // ID of the project in which notebook is being executed.
-  string project_id = 1;
   oneof target {
     option (exactly_one) = true;
 
@@ -377,23 +466,84 @@ message ProjectExecutionMetadata {
     // ID of the cell that is being executed
     string cell_id = 3 [(length) = "<=200"];
   }
-}
 
-enum ExecutionStatus {
-  EXECUTION_STATUS_UNSPECIFIED = 0;
-  // Execution finished successfully.
-  OK      = 1;
-  // Execution ended with error.
-  ERROR   = 2;
-  // Execution was aborted.
-  ABORTED = 3;
+  // ID of the project in which notebook is being executed.
+  string project_id = 1;
 }
 
 message ProjectExecutionResponse {
+  reserved 1 to 2;
+
   // Execution final status.
   ExecutionStatus execution_status = 3;
+}
 
-  reserved 1, 2;
+message AddResourceToProjectRequest {
+  string project_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+  ResourceType resource_type = 2;
+  string resource_id = 3 [(required) = true];
+}
+
+message RemoveResourceFromProjectRequest {
+  string project_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+  ResourceType resource_type = 2;
+  string resource_id = 3 [(required) = true];
+}
+
+message DiskInfo {
+  message DetailedDiskInfo {
+    // Used project disk for user data in gigabytes.
+    double user_data_gb = 1;
+
+    // Used project disk for packages in gigabytes.
+    double packages_gb = 2;
+
+    // Used project disk for system data in gigabytes.
+    double system_data_gb = 3;
+
+    // Free space project disk in gigabytes.
+    double free_space_gb = 4;
+  }
+
+  // ID of the project.
+  string project_id = 1;
+
+  // Project disk size in gigabytes.
+  double disk_size_gb = 2;
+
+  // Used project disk in gigabytes.
+  double disk_used_gb = 3;
+
+  // Detailed information about the project disk.
+  DetailedDiskInfo detailed_usage = 4;
+}
+
+message ResizeProjectDiskRequest {
+  // ID of the project.
+  string project_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Set new size project disk in gigabytes.
+  int64 new_disk_size_gb = 2;
+}
+
+message ResizeProjectDiskMetadata {
+  // ID of the project which resized project disk.
+  string project_id = 1;
+
+  // Old size project disk in gigabytes.
+  int64 old_disk_size_gb = 2;
+
+  // New size project disk in gigabytes.
+  int64 new_disk_size_gb = 3;
 }
 
 message SetProjectAccessBindingsMetadata {
@@ -406,18 +556,6 @@ message UpdateProjectAccessBindingsMetadata {
   string project_id = 1;
 }
 
-message AddResourceToProjectRequest {
-  string project_id = 1 [(required) = true, (length) = "<=50"];
-  ResourceType resource_type = 2;
-  string resource_id = 3 [(required) = true];
-}
-
-message RemoveResourceFromProjectRequest {
-  string project_id = 1 [(required) = true, (length) = "<=50"];
-  ResourceType resource_type = 2;
-  string resource_id = 3 [(required) = true];
-}
-
 message GetProjectRestrictionsRequest {
   // ID of the project.
   string project_id = 1 [(required) = true];
@@ -426,43 +564,20 @@ message GetProjectRestrictionsRequest {
 message SetProjectRestrictionsRequest {
   // ID of the project.
   string project_id = 1 [(required) = true];
+
   // List of restrictions to set.
   repeated Restriction restrictions = 2;
 }
 
-message ResizeProjectDiskRequest {
-  // ID of the project.
-  string project_id = 1 [(required) = true, (length) = "<=50"];
-  // Set new size project disk in gigabytes.
-  int64 new_disk_size_gb = 2;
-}
+enum ExecutionStatus {
+  EXECUTION_STATUS_UNSPECIFIED = 0;
 
-message ResizeProjectDiskMetadata {
-  // ID of the project which resized project disk.
-  string project_id = 1;
-  // Old size project disk in gigabytes.
-  int64 old_disk_size_gb = 2;
-  // New size project disk in gigabytes.
-  int64 new_disk_size_gb = 3;
-}
+  // Execution finished successfully.
+  OK = 1;
 
-message DiskInfo {
-  message DetailedDiskInfo {
-    // Used project disk for user data in gigabytes.
-    double user_data_gb = 1;
-    // Used project disk for packages in gigabytes.
-    double packages_gb = 2;
-    // Used project disk for system data in gigabytes.
-    double system_data_gb = 3;
-    // Free space project disk in gigabytes.
-    double free_space_gb = 4;
-  }
-  // ID of the project.
-  string project_id = 1;
-  // Project disk size in gigabytes.
-  double disk_size_gb = 2;
-  // Used project disk in gigabytes.
-  double disk_used_gb = 3;
-  // Detailed information about the project disk.
-  DetailedDiskInfo detailed_usage = 4;
+  // Execution ended with error.
+  ERROR = 2;
+
+  // Execution was aborted.
+  ABORTED = 3;
 }

@@ -12,7 +12,6 @@ message LogGroup {
   // Possible log group statuses.
   enum Status {
     // Unknown status.
-    //
     // Should never occur.
     STATUS_UNSPECIFIED = 0;
 
@@ -23,7 +22,6 @@ message LogGroup {
     ACTIVE = 2;
 
     // Log group is being deleted.
-    //
     // No messages will be accepted.
     DELETING = 3;
 
@@ -52,16 +50,13 @@ message LogGroup {
   // Log group labels.
   map<string, string> labels = 7;
 
-
   // Status of the log group.
   Status status = 8;
 
   // Log group entry retention period.
-  //
   // Entries will be present in group during this period.
   google.protobuf.Duration retention_period = 9;
 
   // Data stream name
   string data_stream = 10;
-
 }

@@ -21,7 +21,7 @@ service ThumbnailService {
     option (google.api.http) = {
       get: "/video/v1/thumbnails/{thumbnail_id}"
     };
-  }
+  };
 
   // Lists all thumbnails associated with a specific resource (channel, stream, video, etc.)
   // with pagination support.
@@ -29,69 +29,66 @@ service ThumbnailService {
     option (google.api.http) = {
       get: "/video/v1/thumbnails"
     };
-  }
+  };
 
   // Creates a new thumbnail record for a specific resource.
   // This method only creates the metadata record; the actual image must be uploaded
   // using the URL obtained from the GenerateUploadURL method.
   rpc Create(CreateThumbnailRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/video/v1/thumbnails"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateThumbnailMetadata"
       response: "Thumbnail"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/video/v1/thumbnails"
+    };
+  };
 
   // Generates download URLs for multiple thumbnails in a single request.
   // The response includes URLs for both original and scaled versions of each thumbnail.
   // This is useful for efficiently retrieving multiple thumbnails at once.
   rpc BatchGenerateDownloadURLs(BatchGenerateDownloadURLsRequest) returns (BatchGenerateDownloadURLsResponse) {
     option (google.api.http) = {
-      post: "/video/v1/thumbnails:batchGenerateDownloadURLs"
       body: "*"
+      post: "/video/v1/thumbnails:batchGenerateDownloadURLs"
     };
-  }
+  };
 
   // Generates a URL for uploading an image to an existing thumbnail record.
   // This URL can be used to upload the actual image file using an HTTP PUT request.
   // The URL is pre-signed and has a limited validity period.
   rpc GenerateUploadURL(GenerateThumbnailUploadURLRequest) returns (GenerateThumbnailUploadURLResponse) {
     option (google.api.http) = {
-      post: "/video/v1/thumbnails/{thumbnail_id}:generateUploadURL"
       body: "*"
+      post: "/video/v1/thumbnails/{thumbnail_id}:generateUploadURL"
     };
-  }
+  };
 
   // Deletes a specific thumbnail by its ID.
   // This removes both the metadata record and the associated image file.
   rpc Delete(DeleteThumbnailRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      delete: "/video/v1/thumbnails/{thumbnail_id}"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteThumbnailMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/video/v1/thumbnails/{thumbnail_id}"
+    };
+  };
 }
 
 message GetThumbnailRequest {
   // ID of the thumbnail to retrieve.
   // Must be a valid thumbnail identifier string.
-  string thumbnail_id = 1 [(required) = true, (length) = "<=50"];
+  string thumbnail_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListThumbnailRequest {
-  reserved 1000, 1001;
-
-  // Reserved for future use.
-  reserved 2 to 99, 102 to 999, 1002;
-
-  // [Deprecated] ID of the channel.
-  string channel_id = 1 [deprecated = true, (length) = "<=50"];
+  reserved 2 to 99, 102 to 1002;
 
   // Specifies the parent resource to list thumbnails from (exactly one must be chosen).
   oneof parent_id {
@@ -102,6 +99,12 @@ message ListThumbnailRequest {
     string video_id = 1004 [(length) = "<=50"];
   }
 
+  // [Deprecated] ID of the channel.
+  string channel_id = 1 [
+    (length) = "<=50",
+    deprecated = true
+  ];
+
   // The maximum number of thumbnails to return per page.
   int64 page_size = 100 [(value) = "<=100"];
 
@@ -111,7 +114,6 @@ message ListThumbnailRequest {
 }
 
 message ListThumbnailResponse {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // List of thumbnails matching the request criteria.
@@ -124,10 +126,7 @@ message ListThumbnailResponse {
 }
 
 message CreateThumbnailRequest {
-  reserved 1;
-
-  // Reserved for future use.
-  reserved 2 to 1002;
+  reserved 1 to 1002;
 
   // Specifies the parent resource to associate the thumbnail with (exactly one must be chosen).
   oneof parent_id {
@@ -139,6 +138,7 @@ message CreateThumbnailRequest {
     // ID of the video to associate the thumbnail with.
     string video_id = 1004 [(length) = "<=50"];
   }
+
 }
 
 message CreateThumbnailMetadata {
@@ -148,10 +148,16 @@ message CreateThumbnailMetadata {
 
 message BatchGenerateDownloadURLsRequest {
   // ID of the channel containing the thumbnails.
-  string channel_id = 1 [(required) = true, (length) = "<=50"];
+  string channel_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // List of thumbnail IDs for which to generate download URLs.
-  repeated string thumbnail_ids = 2 [(size) = "1-100", (length) = "<=50"];
+  repeated string thumbnail_ids = 2 [
+    (length) = "<=50",
+    (size) = "1-100"
+  ];
 }
 
 message BatchGenerateDownloadURLsResponse {
@@ -161,17 +167,6 @@ message BatchGenerateDownloadURLsResponse {
 }
 
 message ThumbnailDownloadURL {
-  // ID of the thumbnail for which download URLs are provided.
-  string thumbnail_id = 1;
-
-  // URL for downloading the original, unmodified thumbnail image.
-  // This provides access to the image at its original resolution and format.
-  string original_url = 2;
-
-  // List of URLs for downloading scaled versions of the thumbnail.
-  // Different scaled versions are optimized for different display sizes and purposes.
-  repeated ScaledURL scaled_urls = 3;
-
   // Represents a URL for a specific scaled version of a thumbnail image.
   message ScaledURL {
     // URL for downloading this scaled version of the thumbnail.
@@ -205,12 +200,26 @@ message ThumbnailDownloadURL {
     // May not be supported on all platforms and older browsers.
     WEBP = 2;
   }
+
+  // ID of the thumbnail for which download URLs are provided.
+  string thumbnail_id = 1;
+
+  // URL for downloading the original, unmodified thumbnail image.
+  // This provides access to the image at its original resolution and format.
+  string original_url = 2;
+
+  // List of URLs for downloading scaled versions of the thumbnail.
+  // Different scaled versions are optimized for different display sizes and purposes.
+  repeated ScaledURL scaled_urls = 3;
 }
 
 message GenerateThumbnailUploadURLRequest {
   // ID of the thumbnail for which to generate an upload URL.
   // The thumbnail record must already exist, typically created using the Create method.
-  string thumbnail_id = 1 [(required) = true, (length) = "<=50"];
+  string thumbnail_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message GenerateThumbnailUploadURLResponse {
@@ -222,7 +231,10 @@ message GenerateThumbnailUploadURLResponse {
 
 message DeleteThumbnailRequest {
   // ID of the thumbnail to delete.
-  string thumbnail_id = 1 [(required) = true, (length) = "<=50"];
+  string thumbnail_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message DeleteThumbnailMetadata {

@@ -13,28 +13,47 @@ option java_package = "yandex.cloud.api.datasphere.v2";
 // A set of methods for managing S3 configurations.
 service S3Service {
   // Activates shared s3 for project
-  rpc Activate (ActivateS3Request) returns (operation.Operation) {
-    option (google.api.http) = {post: "/datasphere/v2/s3/activate" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc Activate(ActivateS3Request) returns (operation.Operation) {
+    option (api.operation) = {
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v2/s3/activate"
+    };
+  };
 
   // Deactivates shared s3 for project
-  rpc Deactivate (DeactivateS3Request) returns (operation.Operation) {
-    option (google.api.http) = {post: "/datasphere/v2/s3/deactivate" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc Deactivate(DeactivateS3Request) returns (operation.Operation) {
+    option (api.operation) = {
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v2/s3/deactivate"
+    };
+  };
+
 }
 
 message ActivateS3Request {
-  string s3_id = 1 [(required) = true, (length) = "<=50"];
-  string project_id = 2 [(required) = true, (length) = "<=50"];
+  string s3_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+  string project_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message DeactivateS3Request {
-  string s3_id = 1 [(required) = true, (length) = "<=50"];
-  string project_id = 2 [(required) = true, (length) = "<=50"];
+  string s3_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+  string project_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }

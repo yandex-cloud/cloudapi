@@ -46,6 +46,17 @@ message Dataset {
 }
 
 message DatasetStatus {
+  message StatusActive {
+  }
+
+  message StatusInactive {
+  }
+
+  message StatusError {
+    // Text of the error.
+    string error = 1;
+  }
+
   oneof status {
     // Dataset is activated.
     StatusActive status_active = 1;
@@ -57,10 +68,4 @@ message DatasetStatus {
     StatusError status_error = 3;
   }
 
-  message StatusActive {}
-  message StatusInactive {}
-  message StatusError {
-    // Text of the error.
-    string error = 1;
-  }
 }

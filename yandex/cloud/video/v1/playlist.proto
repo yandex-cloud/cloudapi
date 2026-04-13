@@ -11,7 +11,6 @@ option java_package = "yandex.cloud.api.video.v1";
 // Entity representing an ordered collection of videos or episodes.
 // Playlists allow organizing content into sequences for improved user experience.
 message Playlist {
-  // Reserved for future use.
   reserved 7 to 99;
 
   // Unique identifier of the playlist.
@@ -42,7 +41,6 @@ message Playlist {
 // Represents a single item in a playlist.
 // Each item references either a video or an episode and specifies its position in the sequence.
 message PlaylistItem {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // Specifies the content identifier type for this playlist item.

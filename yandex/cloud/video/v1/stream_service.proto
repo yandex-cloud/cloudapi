@@ -25,7 +25,7 @@ service StreamService {
     option (google.api.http) = {
       get: "/video/v1/streams/{stream_id}"
     };
-  }
+  };
 
   // Lists all streams in a specific channel with pagination support.
   // Results can be filtered and sorted using the provided parameters.
@@ -33,93 +33,99 @@ service StreamService {
     option (google.api.http) = {
       get: "/video/v1/streams"
     };
-  }
+  };
 
   // Retrieves multiple streams by their IDs in a specific channel in a single request.
   // This is more efficient than making multiple Get requests when retrieving several streams.
   rpc BatchGet(BatchGetStreamsRequest) returns (BatchGetStreamsResponse) {
     option (google.api.http) = {
-      post: "/video/v1/streams:batchGet"
       body: "*"
+      post: "/video/v1/streams:batchGet"
     };
-  }
+  };
 
   // Creates a new stream in the specified channel.
   // Streams can be created as on-demand (starting when a signal appears)
   // or scheduled (starting and finishing at specified time).
   rpc Create(CreateStreamRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/video/v1/streams"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateStreamMetadata"
       response: "Stream"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/video/v1/streams"
+    };
+  };
 
   // Updates an existing stream's metadata and settings.
   // Only fields specified in the field_mask will be updated.
   rpc Update(UpdateStreamRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/video/v1/streams/{stream_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateStreamMetadata"
       response: "Stream"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/video/v1/streams/{stream_id}"
+    };
+  };
 
   // Deletes a specific stream by its ID.
   rpc Delete(DeleteStreamRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      delete: "/video/v1/streams/{stream_id}"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteStreamMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/video/v1/streams/{stream_id}"
+    };
+  };
 
   // Deletes multiple streams in a specific channel in a single request.
   // This is more efficient than making multiple Delete requests when removing several streams.
   rpc BatchDelete(BatchDeleteStreamsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/video/v1/streams:batchDelete"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "BatchDeleteStreamsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/video/v1/streams:batchDelete"
+    };
+  };
 
   // Performs a specific action on a stream, such as publishing or stopping.
   // Actions change the stream's state without modifying its content or metadata.
   rpc PerformAction(PerformStreamActionRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/video/v1/streams/{stream_id}:performAction"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "PerformStreamActionMetadata"
       response: "Stream"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/video/v1/streams/{stream_id}:performAction"
+    };
+  };
+
 }
 
 message GetStreamRequest {
   // ID of the stream to retrieve.
-  string stream_id = 1 [(required) = true, (length) = "<=50"];
+  string stream_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListStreamsRequest {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // ID of the channel containing the streams to list.
-  string channel_id = 1 [(required) = true, (length) = "<=50"];
+  string channel_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of streams to return per page.
   int64 page_size = 100 [(value) = "<=100"];
@@ -139,20 +145,16 @@ message ListStreamsRequest {
   // Expressions consist of terms connected by logical operators.
   // Values containing spaces or quotes must be enclosed in quotes (`'` or `"`)
   // with inner quotes being backslash-escaped.
-  //
   // Supported logical operators: ["AND", "OR"].
   // Supported comparison operators: ["=", "!=", ":"] where ":" enables substring matching.
   // Parentheses can be used to group logical expressions.
-  //
   // Example: `title:'live' AND (status='READY' OR status='ONAIR')`
-  //
   // Filterable fields: ["id", "title", "lineId", "status"].
   // Both snake_case and camelCase field names are supported.
   string filter = 103 [(length) = "<=1000"];
 }
 
 message ListStreamsResponse {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // List of streams matching the request criteria.
@@ -166,10 +168,16 @@ message ListStreamsResponse {
 
 message BatchGetStreamsRequest {
   // ID of the channel containing the streams to retrieve.
-  string channel_id = 1 [(required) = true, (length) = "<=50"];
+  string channel_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // List of stream IDs to retrieve.
-  repeated string stream_ids = 2 [(size) = "1-100", (length) = "<=50"];
+  repeated string stream_ids = 2 [
+    (length) = "<=50",
+    (size) = "1-100"
+  ];
 }
 
 message BatchGetStreamsResponse {
@@ -178,18 +186,39 @@ message BatchGetStreamsResponse {
 }
 
 message CreateStreamRequest {
-  // Reserved for future use.
   reserved 7 to 199, 201 to 999;
 
+  // Specifies the stream scheduling type (exactly one must be chosen).
+  oneof stream_type {
+    option (exactly_one) = true;
+
+    // On-demand stream that starts immediately when a video signal appears.
+    // This type of stream has no predetermined start or end time.
+    OnDemandParams on_demand = 1000;
+
+    // Scheduled stream that starts and finishes at specified time.
+    // This type of stream has predetermined start and end time.
+    ScheduleParams schedule = 1001;
+  }
+
   // ID of the channel where the stream will be created.
-  string channel_id = 1 [(required) = true, (length) = "<=50"];
+  string channel_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // ID of the stream line to which this stream will be linked.
   // Stream lines define the technical configuration for streaming.
-  string line_id = 2 [(required) = true, (length) = "<=50"];
+  string line_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Title of the stream to be displayed in interfaces and players.
-  string title = 3 [(required) = true, (length) = "<=300"];
+  string title = 3 [
+    (length) = "<=300",
+    (required) = true
+  ];
 
   // Detailed description of the stream content and context.
   // Optional field that can provide additional information about the stream.
@@ -208,20 +237,15 @@ message CreateStreamRequest {
   // Maximum 64 labels per stream.
   // Keys must be lowercase alphanumeric strings with optional hyphens/underscores.
   // Values can contain alphanumeric characters and various symbols.
-  map<string, string> labels = 200 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_.@:/0-9a-zA-Z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
-
-  // Specifies the stream scheduling type (exactly one must be chosen).
-  oneof stream_type {
-    option (exactly_one) = true;
-
-    // On-demand stream that starts immediately when a video signal appears.
-    // This type of stream has no predetermined start or end time.
-    OnDemandParams on_demand = 1000;
-
-    // Scheduled stream that starts and finishes at specified time.
-    // This type of stream has predetermined start and end time.
-    ScheduleParams schedule = 1001;
-  }
+  map<string, string> labels = 200 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "<=63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_.@:/0-9a-zA-Z]*",
+    (size) = "<=64"
+  ];
 }
 
 // On-demand streams start automatically when a video signal is detected
@@ -247,13 +271,24 @@ message CreateStreamMetadata {
 }
 
 message UpdateStreamRequest {
-  reserved 3;
+  reserved 3, 8 to 199, 201 to 999;
 
-  // Reserved for future use.
-  reserved 8 to 199, 201 to 999;
+  // Stream type.
+  oneof stream_type {
+    // On demand stream.
+    // It starts immediately when a signal appears.
+    OnDemandParams on_demand = 1000;
+
+    // Scheduled stream.
+    // It starts and finishes at specified time.
+    ScheduleParams schedule = 1001;
+  }
 
   // ID of the stream.
-  string stream_id = 1 [(required) = true, (length) = "<=50"];
+  string stream_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Field mask specifying which fields of the stream should be updated.
   // Only fields specified in this mask will be modified;
@@ -277,18 +312,15 @@ message UpdateStreamRequest {
   // New custom labels for the stream as `key:value` pairs.
   // Maximum 64 labels per stream.
   // If provided, replaces all existing labels.
-  map<string, string> labels = 200 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_.@:/0-9a-zA-Z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
-
-  // Stream type.
-  oneof stream_type {
-    // On demand stream.
-    // It starts immediately when a signal appears.
-    OnDemandParams on_demand = 1000;
-
-    // Scheduled stream.
-    // It starts and finishes at specified time.
-    ScheduleParams schedule = 1001;
-  }
+  map<string, string> labels = 200 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "<=63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_.@:/0-9a-zA-Z]*",
+    (size) = "<=64"
+  ];
 }
 
 message UpdateStreamMetadata {
@@ -298,7 +330,10 @@ message UpdateStreamMetadata {
 
 message DeleteStreamRequest {
   // ID of the stream to delete.
-  string stream_id = 1 [(required) = true, (length) = "<=50"];
+  string stream_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message DeleteStreamMetadata {
@@ -309,11 +344,17 @@ message DeleteStreamMetadata {
 
 message BatchDeleteStreamsRequest {
   // ID of the channel containing the streams to delete.
-  string channel_id = 1 [(required) = true, (length) = "<=50"];
+  string channel_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // List of stream IDs to delete.
   // All streams must exist in the specified channel.
-  repeated string stream_ids = 2 [(size) = "1-100", (length) = "<=50"];
+  repeated string stream_ids = 2 [
+    (length) = "<=50",
+    (size) = "1-100"
+  ];
 }
 
 message BatchDeleteStreamsMetadata {
@@ -324,13 +365,7 @@ message BatchDeleteStreamsMetadata {
 }
 
 message PerformStreamActionRequest {
-  reserved 1001;
-
-  // Reserved for future use.
-  reserved 2 to 999;
-
-  // ID of the stream on which to perform the action.
-  string stream_id = 1 [(required) = true, (length) = "<=50"];
+  reserved 2 to 999, 1001;
 
   // Specifies which action to perform on the stream (exactly one must be chosen).
   oneof action {
@@ -344,15 +379,23 @@ message PerformStreamActionRequest {
     // This terminates the streaming session and releases resources.
     StopAction stop = 1002;
   }
+
+  // ID of the stream on which to perform the action.
+  string stream_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 // Parameters for the publish action.
 // The action changes the stream's status from READY to ONAIR.
-message PublishAction {}
+message PublishAction {
+}
 
 // Parameters for the stop action.
 // The action changes the stream's status to FINISHED.
-message StopAction {}
+message StopAction {
+}
 
 message PerformStreamActionMetadata {
   // ID of the stream on which the action is being performed.

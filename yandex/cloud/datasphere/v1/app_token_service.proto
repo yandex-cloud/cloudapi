@@ -12,8 +12,10 @@ option java_package = "yandex.cloud.api.datasphere.v1";
 service AppTokenService {
   // Validates app token.
   rpc Validate(AppTokenValidateRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = { post: "/datasphere/v1/appTokens/{token}:validate" };
-  }
+    option (google.api.http) = {
+      post: "/datasphere/v1/appTokens/{token}:validate"
+    };
+  };
 }
 
 message AppTokenValidateRequest {

@@ -9,19 +9,7 @@ option java_package = "yandex.cloud.api.video.v1";
 
 // Entity representing the incoming video signal settings.
 message StreamLine {
-  reserved 4;
-
-  // Reserved for future use.
-  reserved 5 to 99, 102 to 199, 201 to 999, 1001, 1004 to 1999;
-
-  // ID of the line.
-  string id = 1;
-
-  // ID of the channel to which this stream line belongs.
-  string channel_id = 2;
-
-  // Title of the stream line.
-  string title = 3;
+  reserved 4 to 99, 102 to 199, 201 to 999, 1001, 1004 to 1999;
 
   // Specifies the input type and settings for the video signal source.
   oneof input_type {
@@ -43,6 +31,15 @@ message StreamLine {
     // Automatic stream control.
     AutoLine auto_line = 2001;
   }
+
+  // ID of the line.
+  string id = 1;
+
+  // ID of the channel to which this stream line belongs.
+  string channel_id = 2;
+
+  // Title of the stream line.
+  string title = 3;
 
   // Timestamp when the stream line was initially created in the system.
   google.protobuf.Timestamp created_at = 100;
@@ -82,19 +79,17 @@ message RTMPPullInput {
 // Used when the service pulls the video stream from an SRT source.
 // @see https://en.wikipedia.org/wiki/Secure_Reliable_Transport
 message SRTPullInput {
-    // SRT url for receiving video signal.
-    string url = 1;
+  // SRT url for receiving video signal.
+  string url = 1;
 }
 
 // Represents a manual line type where the stream control is handled manually.
 // This means that stream start/stop actions are performed by the user.
-message ManualLine {}
+message ManualLine {
+}
 
 // Represents an automatic line type where the stream control is handled automatically.
 message AutoLine {
-  // The status of the automatic line.
-  AutoLineStatus status = 1;
-
   // Enum representing the status of an automatic stream line.
   // Indicates whether the automatic line is active or deactivated.
   enum AutoLineStatus {
@@ -107,4 +102,7 @@ message AutoLine {
     // The automatic line is active and operational.
     ACTIVE = 2;
   }
+
+  // The status of the automatic line.
+  AutoLineStatus status = 1;
 }

@@ -9,36 +9,42 @@ option java_package = "yandex.cloud.api.access";
 
 message Subject {
   // ID of the subject.
-  //
-  // It can contain one of the following values:
+  // It can contain one of the following values:oauth
   // * `allAuthenticatedUsers`: A special public group that represents anyone
-  //    who is authenticated. It can be used only if the [type] is `system`.
+  // who is authenticated. It can be used only if the [type] is `system`.
   // * `allUsers`: A special public group that represents anyone. No authentication is required.
-  //    For example, you don't need to specify the IAM token in an API query.
-  //    It can be used only if the [type] is `system`.
+  // For example, you don't need to specify the IAM token in an API query.
+  // It can be used only if the [type] is `system`.
   // * `group:organization:<id>:users`: A special system group that represents all members of organization
-  //    with given <id>. It can be used only if the [type] is `system`.
+  // with given <id>. It can be used only if the [type] is `system`.
   // * `group:federation:<id>:users`: A special system group that represents all users of federation
-  //    with given <id>. It can be used only if the [type] is `system`.
+  // with given <id>. It can be used only if the [type] is `system`.
   // * `<cloud generated id>`: An identifier that represents a user account.
-  //    It can be used only if the [type] is `userAccount`, `federatedUser` or `serviceAccount`.
-  string id = 1 [(required) = true, (length) = "<=100"];
+  // It can be used only if the [type] is `userAccount`, `federatedUser` or `serviceAccount`.
+  string id = 1 [
+    (length) = "<=100",
+    (required) = true
+  ];
 
   // Type of the subject.
-  //
   // It can contain one of the following values:
   // * `userAccount`: An account on Yandex or Yandex Connect, added to Yandex Cloud.
   // * `serviceAccount`: A service account. This type represents the [yandex.cloud.iam.v1.ServiceAccount] resource.
   // * `federatedUser`: A federated account. This type represents a user from an identity federation, like Active Directory.
   // * `system`: System group. This type represents several accounts with a common system identifier.
-  //
   // For more information, see [Subject to which the role is assigned](/docs/iam/concepts/access-control/#subject).
-  string type = 2 [(required) = true, (length) = "<=100"];
+  string type = 2 [
+    (length) = "<=100",
+    (required) = true
+  ];
 }
 
 message AccessBinding {
   // ID of the [yandex.cloud.iam.v1.Role] that is assigned to the [subject].
-  string role_id = 1 [(required) = true, (length) = "<=50"];
+  string role_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Identity for which access binding is being created.
   // It can represent an account with a unique ID or several accounts with a system identifier.
@@ -46,6 +52,7 @@ message AccessBinding {
 }
 
 message AccessPolicy {
+
   // ID of the access policy template.
   string id = 1;
 
@@ -58,16 +65,31 @@ message AccessPolicy {
 
 message AccessPolicyBinding {
   // ID of the access policy template being applied.
-  string access_policy_template_id = 1 [(required) = true, (length) = "<=50"];
-  map<string, string> parameters = 2;
+  string access_policy_template_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // A list of access policy binding parameter KEY=VALUE pairs.
+  map<string, string> parameters = 2 [
+    (length) = "<=1024",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (size) = "<=64"
+  ];
 }
 
 message BindAccessPolicyRequest {
   // ID of the resource for which access policy bindings are being set.
-  //
   // To get the resource ID, use a corresponding List request.
-  string resource_id = 1 [(required) = true, (length) = "<=50"];
+  string resource_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
+  // Access policy binding. For more information, see [Access Bindings](/docs/iam/concepts/access-control/#access-policies).
   AccessPolicyBinding access_policy_binding = 2 [(required) = true];
 }
 
@@ -75,6 +97,7 @@ message BindAccessPolicyMetadata {
   // ID of the resource for which access policy bindings are being set.
   string resource_id = 1;
 
+  // Access policy binding. For more information, see [Access Bindings](/docs/iam/concepts/access-control/#access-policies).
   AccessPolicyBinding access_policy_binding = 2;
 }
 
@@ -83,10 +106,12 @@ message BindAccessPolicyResponse {
 
 message ListAccessBindingsRequest {
   // ID of the resource to list access bindings for.
-  //
   // To get the resource ID, use a corresponding List request.
   // For example, use the [yandex.cloud.resourcemanager.v1.CloudService.List] request to get the Cloud resource ID.
-  string resource_id = 1 [(required) = true, (length) = "<=50"];
+  string resource_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page that should be returned. If the number of available
   // results is larger than [page_size],
@@ -116,10 +141,12 @@ message ListAccessBindingsResponse {
 
 message ListAccessPolicyBindingsRequest {
   // ID of the resource to list access policy bindings for.
-  //
   // To get the resource ID, use a corresponding List request.
   // For example, use the [yandex.cloud.resourcemanager.v1.CloudService.List] request to get the Cloud resource ID.
-  string resource_id = 1 [(required) = true, (length) = "<=50"];
+  string resource_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page that should be returned.
   // If the number of available results is larger than [page_size], the service returns a
@@ -150,9 +177,12 @@ message ListAccessPolicyBindingsResponse {
 
 message UnbindAccessPolicyRequest {
   // ID of the resource for which access policy bindings are being removed.
-  //
   // To get the resource ID, use a corresponding List request.
-  string resource_id = 1 [(required) = true, (length) = "<=50"];
+  string resource_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // ID of the access policy.
   string access_policy_template_id = 2 [(required) = true];
 }
@@ -160,6 +190,7 @@ message UnbindAccessPolicyRequest {
 message UnbindAccessPolicyMetadata {
   // ID of the resource for which access policy bindings are being removed.
   string resource_id = 1;
+
   // ID of the access policy.
   string access_policy_template_id = 2;
 }
@@ -168,12 +199,21 @@ message UnbindAccessPolicyResponse {
 }
 
 message UpdateAccessPolicyBindingParametersRequest {
-  string resource_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the resource for which access policy bindings are being updated.
+  string resource_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Identity for which access policy binding is being updated.
   AccessPolicyBinding access_policy_binding = 2 [(required) = true];
 }
 
 message UpdateAccessPolicyBindingParametersMetadata {
+  // ID of the resource for which access policy bindings are being updated.
   string resource_id = 1;
+
+  // Identity for which access policy binding is being updated.
   AccessPolicyBinding access_policy_binding = 2;
 }
 
@@ -182,9 +222,11 @@ message UpdateAccessPolicyBindingParametersResponse {
 
 message SetAccessBindingsRequest {
   // ID of the resource for which access bindings are being set.
-  //
   // To get the resource ID, use a corresponding List request.
-  string resource_id = 1 [(required) = true, (length) = "<=50"];
+  string resource_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Access bindings to be set. For more information, see [Access Bindings](/docs/iam/concepts/access-control/#access-bindings).
   repeated AccessBinding access_bindings = 2 [(size) = "<=1000"];
@@ -197,7 +239,10 @@ message SetAccessBindingsMetadata {
 
 message UpdateAccessBindingsRequest {
   // ID of the resource for which access bindings are being updated.
-  string resource_id = 1 [(required) = true, (length) = "<=50"];
+  string resource_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Updates to access bindings.
   repeated AccessBindingDelta access_binding_deltas = 2 [(size) = "1-1000"];
@@ -206,16 +251,6 @@ message UpdateAccessBindingsRequest {
 message UpdateAccessBindingsMetadata {
   // ID of the resource for which access bindings are being updated.
   string resource_id = 1;
-}
-
-enum AccessBindingAction {
-  ACCESS_BINDING_ACTION_UNSPECIFIED = 0;
-
-  // Addition of an access binding.
-  ADD = 1;
-
-  // Removal of an access binding.
-  REMOVE = 2;
 }
 
 message AccessBindingDelta {
@@ -229,4 +264,14 @@ message AccessBindingDelta {
 message AccessBindingsOperationResult {
   // Result access binding deltas.
   repeated AccessBindingDelta effective_deltas = 1;
+}
+
+enum AccessBindingAction {
+  ACCESS_BINDING_ACTION_UNSPECIFIED = 0;
+
+  // Addition of an access binding.
+  ADD = 1;
+
+  // Removal of an access binding.
+  REMOVE = 2;
 }

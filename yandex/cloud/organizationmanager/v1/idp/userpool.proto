@@ -260,6 +260,6 @@ message BruteforceProtectionPolicy {
 
 // Policy that defines password blacklist requirements.
 message PasswordBlacklistPolicy {
-  // Whether check in common password database is enabled.
+  // Whether check in common password database is enabled. Default value is true.
   google.protobuf.BoolValue check_common = 1;
 }

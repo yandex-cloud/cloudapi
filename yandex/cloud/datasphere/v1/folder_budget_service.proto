@@ -3,8 +3,8 @@ syntax = "proto3";
 package yandex.cloud.datasphere.v1;
 
 import "google/api/annotations.proto";
-import "google/protobuf/field_mask.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
 import "google/protobuf/wrappers.proto";
 import "yandex/cloud/validation.proto";
 
@@ -13,21 +13,28 @@ option java_package = "yandex.cloud.api.datasphere.v1";
 
 // A set of methods for managing Datasphere folder budgets.
 service FolderBudgetService {
-
   // Returns the specified folder budget.
-  rpc Get (GetFolderBudgetRequest) returns (GetFolderBudgetResponse) {
-    option (google.api.http) = { get: "/datasphere/v1/folders/{folder_id}:budget" };
-  }
+  rpc Get(GetFolderBudgetRequest) returns (GetFolderBudgetResponse) {
+    option (google.api.http) = {
+      get: "/datasphere/v1/folders/{folder_id}:budget"
+    };
+  };
 
   // Sets the unit balance and the limits of the specified folder budget.
-  rpc Set (SetFolderBudgetRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = { post: "/datasphere/v1/folders/{folder_id}:budget" body: "*" };
-  }
+  rpc Set(SetFolderBudgetRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v1/folders/{folder_id}:budget"
+    };
+  };
 }
 
 message GetFolderBudgetRequest {
   // ID of the folder to get a budget for.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message GetFolderBudgetResponse {
@@ -43,7 +50,10 @@ message GetFolderBudgetResponse {
 
 message SetFolderBudgetRequest {
   // ID of the folder to set a budget for.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Field mask that specifies which fields of the budget are going to be set.
   google.protobuf.FieldMask set_mask = 2;

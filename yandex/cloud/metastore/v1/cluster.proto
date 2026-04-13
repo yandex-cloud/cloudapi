@@ -114,6 +114,9 @@ message Cluster {
 
   // Maintenance operation scheduled for the nearest maintenance window.
   MaintenanceOperation planned_operation = 25;
+
+  // Output only. Whether the cluster is configured for high availability (multiple zones).
+  bool is_ha = 26;
 }
 
 message Monitoring {

@@ -14,7 +14,6 @@ option java_package = "yandex.cloud.api.video.v1";
 // Each channel belongs to a specific organization and can have its own
 // configuration for advertisements, content cleanup, and embedding restrictions.
 message Channel {
-  // Reserved for future use.
   reserved 6 to 99, 102 to 199;
 
   // Unique identifier of the channel.
@@ -61,7 +60,6 @@ message Channel {
 // These settings apply to all content in the channel and control
 // various aspects of how the channel and its content behave.
 message ChannelSettings {
-  // Reserved for future use.
   reserved 2;
 
   // Settings for advertisement display and behavior.
@@ -78,21 +76,29 @@ message ChannelSettings {
   ChannelVideoSettings video = 4;
 }
 
+// Settings for HTTP Referer verification to control where content can be embedded.
+// When enabled, the system checks the HTTP Referer request header to ensure
+// that content is only embedded on allowed domains.
+message RefererVerificationSettings {
+  // Enables or disables Referer verification for this channel.
+  // When set to true, only requests from allowed domains will be permitted.
+  // When set to false, content can be embedded on any domain.
+  bool enable = 1;
+
+  // List of domains allowed to embed content from this channel.
+  // Only relevant when enable is set to true.
+  // Supports wildcard notation (e.g., "*.example.com") to allow all subdomains.
+  repeated string allowed_domains = 2 [
+    (length) = "4-255",
+    (pattern) = "^(?:\\*\\.)?(?:[a-zA-Z0-9-]*\\.)+[a-zA-Z]{2,}$|^\\*\\.[a-zA-Z]{2,}$",
+    (size) = "<=100"
+  ];
+}
+
 // Settings for advertisement display and behavior in the channel.
 // These settings control whether and how advertisements are shown
 // with content in this channel, including both videos and streams.
 message AdvertisementSettings {
-  // Reserved for future use.
-  reserved 1 to 99;
-
-  // Specifies the advertisement provider to use.
-  // Only one provider can be active at a time.
-  oneof provider {
-    // Yandex.Direct advertisement provider settings.
-    // When specified, advertisements will be served through Yandex.Direct.
-    YandexDirect yandex_direct = 100;
-  }
-
   // Configuration for the Yandex.Direct advertisement provider.
   // These settings are specific to the Yandex.Direct advertising platform.
   message YandexDirect {
@@ -111,27 +117,23 @@ message AdvertisementSettings {
     // appropriate advertisement targeting and compliance.
     int64 category = 3;
   }
-}
 
-// Settings for HTTP Referer verification to control where content can be embedded.
-// When enabled, the system checks the HTTP Referer request header to ensure
-// that content is only embedded on allowed domains.
-message RefererVerificationSettings {
-  // Enables or disables Referer verification for this channel.
-  // When set to true, only requests from allowed domains will be permitted.
-  // When set to false, content can be embedded on any domain.
-  bool enable = 1;
+  reserved 1 to 99;
 
-  // List of domains allowed to embed content from this channel.
-  // Only relevant when enable is set to true.
-  // Supports wildcard notation (e.g., "*.example.com") to allow all subdomains.
-  repeated string allowed_domains = 2 [(pattern) = "^(?:\\*\\.)?(?:[a-zA-Z0-9-]*\\.)+[a-zA-Z]{2,}$|^\\*\\.[a-zA-Z]{2,}$", (length) = "4-255", (size) = "<=100"];
+  // Specifies the advertisement provider to use.
+  // Only one provider can be active at a time.
+  oneof provider {
+    // Yandex.Direct advertisement provider settings.
+    // When specified, advertisements will be served through Yandex.Direct.
+    YandexDirect yandex_direct = 100;
+  }
+
 }
 
 // Settings for displaying video
 message ChannelVideoSettings {
   // Instruct the player to allow playback of the raw source file while
-  // transcoding is in progress. Once a transcoded version is available, 
+  // transcoding is in progress. Once a transcoded version is available,
   // the source file will no longer be used.
   bool show_source_file_before_transcoding = 1;
 }

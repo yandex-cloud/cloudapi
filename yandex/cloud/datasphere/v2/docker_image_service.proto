@@ -13,15 +13,25 @@ option java_package = "yandex.cloud.api.datasphere.v2";
 // A set of methods for managing Docker Images.
 service DockerImageService {
   // Activates shared docker image in project
-  rpc Activate (ActivateDockerImageRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/datasphere/v2/docker/activate" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc Activate(ActivateDockerImageRequest) returns (operation.Operation) {
+    option (api.operation) = {
       response: "google.protobuf.Empty"
     };
+    option (google.api.http) = {
+      body: "*"
+      post: "/datasphere/v2/docker/activate"
+    };
   };
+
 }
 
 message ActivateDockerImageRequest {
-  string project_id = 1 [(required) = true, (length) = "<=50"];
-  string docker_id = 2 [(required) = true, (length) = "<=50"];
+  string project_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+  string docker_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }

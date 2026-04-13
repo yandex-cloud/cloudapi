@@ -10,15 +10,18 @@ option java_package = "yandex.cloud.api.datasphere.v1";
 // A set of methods for managing data of the Project resource.
 service ProjectDataService {
   // Uploads a file to the specified project.
-  rpc UploadFile (stream UploadFileRequest) returns (UploadFileResponse);
+  rpc UploadFile(stream UploadFileRequest) returns (UploadFileResponse);
 
   // Downloads the specified file from the specified project.
-  rpc DownloadFile (DownloadFileRequest) returns (stream DownloadFileResponse);
+  rpc DownloadFile(DownloadFileRequest) returns (stream DownloadFileResponse);
 }
 
 message FileMetadata {
   // ID of the Project resource associated with the file.
-  string project_id = 1 [(required) = true, (length) = "<=200"];
+  string project_id = 1 [
+    (length) = "<=200",
+    (required) = true
+  ];
 
   // File path.
   string path = 2;
@@ -35,6 +38,7 @@ message UploadFileRequest {
     // Byte chunk of the file to upload.
     bytes chunk = 2;
   }
+
 }
 
 message UploadFileResponse {
@@ -44,7 +48,11 @@ message UploadFileResponse {
 
 message DownloadFileRequest {
   // ID of the Project resource to download the file from.
-  string project_id = 1 [(required) = true, (length) = "<=200"];
+  string project_id = 1 [
+    (length) = "<=200",
+    (required) = true
+  ];
+
   // Path of the file to download.
   string file_path = 2 [(required) = true];
 }
@@ -57,4 +65,5 @@ message DownloadFileResponse {
     // Byte chunk of the downloaded file.
     bytes chunk = 2;
   }
+
 }

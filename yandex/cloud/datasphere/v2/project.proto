@@ -11,24 +11,28 @@ option java_package = "yandex.cloud.api.datasphere.v2";
 
 // A Project resource.
 message Project {
-  reserved 10;
   message Settings {
-
     enum Ide {
       IDE_UNSPECIFIED = 0;
+
       // Project running on JupyterLab IDE.
       JUPYTER_LAB = 1;
     }
 
     enum StaleExecutionTimeoutMode {
       STALE_EXECUTION_TIMEOUT_MODE_UNSPECIFIED = 0;
+
       // Setting to automatically stop stale execution after one hour with low consumption.
       ONE_HOUR = 1;
+
       // Setting to automatically stop stale execution after three hours with low consumption.
       THREE_HOURS = 2;
+
       // Setting to never automatically stop stale executions.
       NO_TIMEOUT = 3;
     }
+
+    reserved 4, 10;
 
     // ID of the service account, on whose behalf all operations with clusters will be performed.
     string service_account_id = 1;
@@ -60,20 +64,20 @@ message Project {
 
     // Default VM configuration for DEDICATED mode.
     string default_dedicated_spec = 12;
-
-    reserved 4, 10;
   }
 
   message Limits {
     // The number of units that can be spent per hour.
     google.protobuf.Int64Value max_units_per_hour = 1;
+
     // The number of units that can be spent on the one execution.
     google.protobuf.Int64Value max_units_per_execution = 2;
   }
 
+  reserved 9 to 10;
+
   // ID of the project.
   string id = 1;
-
   google.protobuf.Timestamp created_at = 2;
 
   // Name of the project. 1-63 characters long.
@@ -89,8 +93,6 @@ message Project {
 
   // Limits of the project.
   Limits limits = 8;
-
-  reserved 9;
 
   // ID of the community that the project belongs to.
   string community_id = 11;

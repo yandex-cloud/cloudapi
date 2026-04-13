@@ -11,10 +11,60 @@ option java_package = "yandex.cloud.api.video.v1";
 
 // Main entity representing a video in the platform.
 message Video {
-  reserved 10, 2001, 2002;
+  // Current processing status of the video.
+  enum VideoStatus {
+    reserved 3, 6;
 
-  // Reserved for future use.
-  reserved 7, 14 to 15, 19 to 99, 102 to 199, 201 to 999, 1001 to 1999;
+    // The video status is not specified.
+    VIDEO_STATUS_UNSPECIFIED = 0;
+
+    // The video upload is in progress, waiting for all bytes to be received.
+    WAIT_UPLOADING = 1;
+
+    // The video has been fully uploaded and is ready for transcoding.
+    UPLOADED = 2;
+
+    // The video is currently being processed.
+    PROCESSING = 4;
+
+    // The video has been successfully processed and is ready for watching.
+    READY = 5;
+
+    // An error occurred during video processing.
+    ERROR = 7;
+  }
+
+
+  // Visibility status of the video.
+  enum VisibilityStatus {
+    // The visibility status is not specified.
+    VISIBILITY_STATUS_UNSPECIFIED = 0;
+
+    // The video is publicly available, subject to its access permission settings.
+    PUBLISHED = 1;
+
+    // The video is available only to administrators.
+    UNPUBLISHED = 2;
+  }
+
+  reserved 7, 10, 14 to 15, 19 to 99, 102 to 199, 201 to 999, 1001 to 1999, 2001 to 2002;
+
+  // Specifies the video upload source method (one source variant must be chosen).
+  oneof source {
+    // Upload video using the TUS (Tus Resumable Upload Protocol) protocol.
+    // @see https://tus.io/
+    VideoTUSDSource tusd = 1000;
+  }
+
+  // Specifies the video access permission settings.
+  oneof access_rights {
+    // Allows unrestricted public access to the video via direct link.
+    // No additional authorization or access control is applied.
+    VideoPublicAccessRights public_access = 2000;
+
+    // Restricts video access using URL signatures for secure time-limited access.
+    VideoSignURLAccessRights sign_url_access = 2003;
+  }
 
   // Unique identifier of the video.
   string id = 1;
@@ -63,23 +113,6 @@ message Video {
   // Additional video processing features and their results, such as summarization.
   VideoFeatures features = 13;
 
-  // Specifies the video upload source method (one source variant must be chosen).
-  oneof source {
-    // Upload video using the TUS (Tus Resumable Upload Protocol) protocol.
-    // @see https://tus.io/
-    VideoTUSDSource tusd = 1000;
-  }
-
-  // Specifies the video access permission settings.
-  oneof access_rights {
-    // Allows unrestricted public access to the video via direct link.
-    // No additional authorization or access control is applied.
-    VideoPublicAccessRights public_access = 2000;
-
-    // Restricts video access using URL signatures for secure time-limited access.
-    VideoSignURLAccessRights sign_url_access = 2003;
-  }
-
   // Timestamp when the video was initially created in the system.
   google.protobuf.Timestamp created_at = 100;
 
@@ -90,41 +123,6 @@ message Video {
   // Maximum 64 labels per video.
   // Labels can be used for organization, filtering, and metadata purposes.
   map<string, string> labels = 200;
-
-  // Current processing status of the video.
-  enum VideoStatus {
-    reserved 3, 6;
-
-    // The video status is not specified.
-    VIDEO_STATUS_UNSPECIFIED = 0;
-
-    // The video upload is in progress, waiting for all bytes to be received.
-    WAIT_UPLOADING = 1;
-
-    // The video has been fully uploaded and is ready for transcoding.
-    UPLOADED = 2;
-
-    // The video is currently being processed.
-    PROCESSING = 4;
-
-    // The video has been successfully processed and is ready for watching.
-    READY = 5;
-
-    // An error occurred during video processing.
-    ERROR = 7;
-  }
-
-  // Visibility status of the video.
-  enum VisibilityStatus {
-    // The visibility status is not specified.
-    VISIBILITY_STATUS_UNSPECIFIED = 0;
-
-    // The video is publicly available, subject to its access permission settings.
-    PUBLISHED = 1;
-
-    // The video is available only to administrators.
-    UNPUBLISHED = 2;
-  }
 }
 
 // Represents a video upload source using the TUS (Tus Resumable Upload Protocol) protocol.
@@ -140,39 +138,18 @@ message VideoTUSDSource {
 
 // Represents public access rights for a video.
 // When this access type is set, the video is publicly accessible via direct link.
-message VideoPublicAccessRights {}
+message VideoPublicAccessRights {
+}
 
 // Represents access rights controlled by URL signatures.
 // When this access type is set, the video is accessible only via properly signed temporary link.
-message VideoSignURLAccessRights {}
-
-// Enum controlling whether videos are automatically transcoded after upload.
-enum AutoTranscode {
-  // The auto-transcoding setting is not specified.
-  AUTO_TRANSCODE_UNSPECIFIED = 0;
-
-  // Automatically start transcoding after the video upload is complete.
-  ENABLE = 1;
-
-  // Do not automatically transcode; requires manual initiation via the Transcode() method.
-  DISABLE = 2;
+message VideoSignURLAccessRights {
 }
 
 // Contains additional processing features and their results for the video.
 message VideoFeatures {
-  // Results of the video content summarization process.
-  Summary summary = 1;
-
   // Contains the results of video summarization.
   message Summary {
-    reserved 2;
-
-    // Current status of the summarization process.
-    FeatureResult result = 1;
-
-    // List of URLs to summarization results for different audio tracks.
-    repeated SummaryURL urls = 3;
-
     // Contains a URL to a summarization result for a specific audio track.
     message SummaryURL {
       // URL to the summarization result file.
@@ -184,6 +161,14 @@ message VideoFeatures {
       // Source track language represented as a three-letter code according to ISO 639-2/T.
       string src_lang = 3;
     }
+
+    reserved 2;
+
+    // Current status of the summarization process.
+    FeatureResult result = 1;
+
+    // List of URLs to summarization results for different audio tracks.
+    repeated SummaryURL urls = 3;
   }
 
   // Status of a feature processing request.
@@ -203,4 +188,19 @@ message VideoFeatures {
     // The feature processing has failed.
     FAILED = 4;
   }
+
+  // Results of the video content summarization process.
+  Summary summary = 1;
+}
+
+// Enum controlling whether videos are automatically transcoded after upload.
+enum AutoTranscode {
+  // The auto-transcoding setting is not specified.
+  AUTO_TRANSCODE_UNSPECIFIED = 0;
+
+  // Automatically start transcoding after the video upload is complete.
+  ENABLE = 1;
+
+  // Do not automatically transcode; requires manual initiation via the Transcode() method.
+  DISABLE = 2;
 }

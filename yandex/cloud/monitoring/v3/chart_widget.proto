@@ -283,6 +283,11 @@ message ChartWidget {
 
         // Settings for stat widget.
         TilesSettings tiles_settings = 10;
+
+        reserved 11;
+
+        // Hide chart partial data.
+        bool hide_partial_data = 12;
     }
 
     // Series override settings.

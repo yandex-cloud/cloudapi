@@ -8,7 +8,6 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/logging/v1
 option java_package = "yandex.cloud.api.logging.v1";
 
 // Log entry resource specification.
-//
 // May be used either by services and by user.
 message LogEntryResource {
   // Resource type, i.e., `serverless.function`
@@ -21,7 +20,6 @@ message LogEntryResource {
 // Log group resource.
 message LogGroupResource {
   // Resource type.
-  //
   // Collected from log entries inside log group.
   string type = 1;
 

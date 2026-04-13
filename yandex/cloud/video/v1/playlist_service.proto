@@ -22,7 +22,7 @@ service PlaylistService {
     option (google.api.http) = {
       get: "/video/v1/playlists/{playlist_id}"
     };
-  }
+  };
 
   // Lists all playlists in a specific channel with pagination support.
   // Results can be filtered and sorted using the provided parameters.
@@ -30,58 +30,58 @@ service PlaylistService {
     option (google.api.http) = {
       get: "/video/v1/playlists"
     };
-  }
+  };
 
   // Creates a new playlist in the specified channel with the provided items.
   // Playlists can contain videos, episodes, or a mix of both content types.
   rpc Create(CreatePlaylistRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/video/v1/playlists"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreatePlaylistMetadata"
       response: "Playlist"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/video/v1/playlists"
+    };
+  };
 
   // Updates an existing playlist's metadata and items.
   // Only fields specified in the field_mask will be updated.
   rpc Update(UpdatePlaylistRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/video/v1/playlists/{playlist_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdatePlaylistMetadata"
       response: "Playlist"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/video/v1/playlists/{playlist_id}"
+    };
+  };
 
   // Deletes a specific playlist by its ID.
   // This removes the playlist but does not affect the videos or episodes it contains.
   rpc Delete(DeletePlaylistRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      delete: "/video/v1/playlists/{playlist_id}"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeletePlaylistMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/video/v1/playlists/{playlist_id}"
+    };
+  };
 
   // Deletes multiple playlists in a specific channel in a single request.
   // This is more efficient than making multiple Delete requests when removing several playlists.
   rpc BatchDelete(BatchDeletePlaylistsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/video/v1/playlists:batchDelete"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "BatchDeletePlaylistsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/video/v1/playlists:batchDelete"
+    };
+  };
 
   // Generates a player URL for watching the playlist.
   // The URL can include player parameters such as autoplay, mute, and visibility of interface controls.
@@ -89,20 +89,25 @@ service PlaylistService {
     option (google.api.http) = {
       get: "/video/v1/playlists/{playlist_id}:getPlayerURL"
     };
-  }
+  };
 }
 
 message GetPlaylistRequest {
   // ID of the playlist to retrieve.
-  string playlist_id = 1 [(required) = true, (length) = "<=50"];
+  string playlist_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListPlaylistsRequest {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // ID of the channel containing the playlists to list.
-  string channel_id = 1 [(required) = true, (length) = "<=50"];
+  string channel_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of playlists to return per page.
   int64 page_size = 100 [(value) = "<=100"];
@@ -122,20 +127,16 @@ message ListPlaylistsRequest {
   // Expressions consist of terms connected by logical operators.
   // Values containing spaces or quotes must be enclosed in quotes (`'` or `"`)
   // with inner quotes being backslash-escaped.
-  //
   // Supported logical operators: ["AND", "OR"].
   // Supported comparison operators: ["=", "!=", ":"] where ":" enables substring matching.
   // Parentheses can be used to group logical expressions.
-  //
   // Example: `title:'highlights' AND id='playlist-1'`
-  //
   // Filterable fields: ["id", "title"].
   // Both snake_case and camelCase field names are supported.
   string filter = 103 [(length) = "<=1000"];
 }
 
 message ListPlaylistsResponse {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // List of playlists matching the request criteria.
@@ -149,10 +150,16 @@ message ListPlaylistsResponse {
 
 message CreatePlaylistRequest {
   // ID of the channel where the playlist will be created.
-  string channel_id = 1 [(required) = true, (length) = "<=50"];
+  string channel_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Title of the playlist to be displayed in interfaces and players.
-  string title = 2 [(required) = true, (length) = "<=300"];
+  string title = 2 [
+    (length) = "<=300",
+    (required) = true
+  ];
 
   // Detailed description of the playlist content and context.
   // Optional field that can provide additional information about the playlist.
@@ -175,7 +182,10 @@ message CreatePlaylistMetadata {
 
 message UpdatePlaylistRequest {
   // ID of the playlist to update.
-  string playlist_id = 1 [(required) = true, (length) = "<=50"];
+  string playlist_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Field mask specifying which fields of the playlist should be updated.
   // Only fields specified in this mask will be modified;
@@ -206,7 +216,10 @@ message UpdatePlaylistMetadata {
 
 message DeletePlaylistRequest {
   // ID of the playlist to delete.
-  string playlist_id = 1 [(required) = true, (length) = "<=50"];
+  string playlist_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message DeletePlaylistMetadata {
@@ -217,11 +230,17 @@ message DeletePlaylistMetadata {
 
 message BatchDeletePlaylistsRequest {
   // ID of the channel containing the playlists to delete.
-  string channel_id = 1 [(required) = true, (length) = "<=50"];
+  string channel_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // List of playlist IDs to delete.
   // All playlists must exist in the specified channel.
-  repeated string playlist_ids = 2 [(size) = "1-100", (length) = "<=50"];
+  repeated string playlist_ids = 2 [
+    (length) = "<=50",
+    (size) = "1-100"
+  ];
 }
 
 message BatchDeletePlaylistsMetadata {
@@ -233,7 +252,10 @@ message BatchDeletePlaylistsMetadata {
 
 message GetPlaylistPlayerURLRequest {
   // ID of the playlist for which to generate a player URL.
-  string playlist_id = 1 [(required) = true, (length) = "<=50"];
+  string playlist_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Optional player parameters to customize the playback experience.
   // These parameters control initial player state such as mute, autoplay, and visibility of interface controls.

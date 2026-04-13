@@ -42,9 +42,18 @@ message Export {
 }
 
 message ExportParams {
-  repeated string resource_types = 1 [(length) = "<=63", (size) = "<=100"];
-  repeated string resource_ids = 2 [(length) = "<=63", (size) = "<=100"];
-  repeated string stream_names = 3 [(length) = "<=63", (size) = "<=100"];
+  repeated string resource_types = 1 [
+    (length) = "<=63",
+    (size) = "<=100"
+  ];
+  repeated string resource_ids = 2 [
+    (length) = "<=63",
+    (size) = "<=100"
+  ];
+  repeated string stream_names = 3 [
+    (length) = "<=63",
+    (size) = "<=100"
+  ];
   repeated LogLevel.Level levels = 4 [(size) = "<=10"];
   string filter = 5 [(length) = "<=1000"];
 }
