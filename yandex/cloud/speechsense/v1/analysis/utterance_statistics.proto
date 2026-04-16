@@ -4,9 +4,9 @@ package yandex.cloud.speechsense.v1.analysis;
 
 import "yandex/cloud/speechsense/v1/analysis/statistics_common.proto";
 
-option java_package = "yandex.cloud.api.speechsense.v1.analysis";
-option java_outer_classname = "UtteranceStatisticsProto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/speechsense/v1/analysis;speechsense";
+option java_outer_classname = "UtteranceStatisticsProto";
+option java_package = "yandex.cloud.api.speechsense.v1.analysis";
 
 message UtteranceStatistics {
   string speaker_tag = 1;

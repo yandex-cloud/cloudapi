@@ -158,7 +158,6 @@ enum DeleteLifecycleRuleKind {
   SOFT_DELETE = 2;
 }
 
-
 // State of the lifecycle policy.
 enum LifecyclePolicyState {
   LIFECYCLE_POLICY_STATE_UNSPECIFIED = 0;

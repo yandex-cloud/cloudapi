@@ -55,7 +55,6 @@ message MongoConnection {
   oneof connection {
     MongoConnectionOptions connection_options = 3;
   }
-
 }
 
 message MongoCollection {

@@ -15,79 +15,75 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 // A set of methods for managing PublicSubnet resources.
 service PublicSubnetService {
   // Returns the specific PublicSubnet resource.
-  //
   // To get the list of available PublicSubnet resources, make a [List] request.
-  rpc Get (GetPublicSubnetRequest) returns (PublicSubnet) {
+  rpc Get(GetPublicSubnetRequest) returns (PublicSubnet) {
     option (google.api.http) = {
       get: "/baremetal/v1alpha/publicSubnets/{public_subnet_id}"
     };
-  }
+  };
 
   // Retrieves the list of PublicSubnet resources in the specified folder.
-  rpc List (ListPublicSubnetRequest) returns (ListPublicSubnetResponse) {
+  rpc List(ListPublicSubnetRequest) returns (ListPublicSubnetResponse) {
     option (google.api.http) = {
       get: "/baremetal/v1alpha/publicSubnets"
     };
-  }
+  };
 
   // Creates a public subnet in the specified folder.
-  rpc Create (CreatePublicSubnetRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/baremetal/v1alpha/publicSubnets"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreatePublicSubnetRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreatePublicSubnetMetadata"
       response: "PublicSubnet"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v1alpha/publicSubnets"
+    };
+  };
 
   // Updates the specified public subnet.
-  rpc Update (UpdatePublicSubnetRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/baremetal/v1alpha/publicSubnets/{public_subnet_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdatePublicSubnetRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdatePublicSubnetMetadata"
       response: "PublicSubnet"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/baremetal/v1alpha/publicSubnets/{public_subnet_id}"
+    };
+  };
 
   // Deletes the specified public subnet.
-  //
   // Deleting a public subnet removes its data permanently and is irreversible.
-  rpc Delete (DeletePublicSubnetRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      delete: "/baremetal/v1alpha/publicSubnets/{public_subnet_id}"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeletePublicSubnetRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeletePublicSubnetMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/baremetal/v1alpha/publicSubnets/{public_subnet_id}"
+    };
+  };
 
   // Lists operations for the specified public subnet.
-  rpc ListOperations (ListPublicSubnetOperationsRequest) returns (ListPublicSubnetOperationsResponse) {
+  rpc ListOperations(ListPublicSubnetOperationsRequest) returns (ListPublicSubnetOperationsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v1alpha/publicSubnets/{public_subnet_id}/operations"
     };
-  }
+  };
+
 }
 
 message GetPublicSubnetRequest {
   // ID of the PublicSubnet resource to return.
-  //
   // To get the public subnet ID use a [PublicSubnetService.List] request.
   string public_subnet_id = 1 [(required) = true];
 }
 
 message ListPublicSubnetRequest {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // ID of the folder to list public subnets in.
-  //
   // To get the folder ID use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1;
 
@@ -110,7 +106,6 @@ message ListPublicSubnetRequest {
 
   // A filter expression that filters resources listed in the response.
   // The expression consists of one or more conditions united by `AND` operator: `<condition1> [AND <condition2> [<...> AND <conditionN>]]`.
-  //
   // Each condition has the form `<field> <operator> <value>`, where:
   // 1. `<field>` is the field name. Currently you can use filtering only on the limited number of fields.
   // 2. `<operator>` is a logical operator, one of `=` (equal), `:` (substring), `@>` (contains).
@@ -125,7 +120,6 @@ message ListPublicSubnetRequest {
 }
 
 message ListPublicSubnetResponse {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // List of PublicSubnet resources.
@@ -134,55 +128,12 @@ message ListPublicSubnetResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // [ListPublicSubnetRequest.page_size], use `next_page_token` as the value
   // for the [ListPublicSubnetRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 100;
 }
 
 message CreatePublicSubnetRequest {
-  // Reserved for future use.
   reserved 8 to 199;
-
-  // ID of the folder to create a public subnet in.
-  //
-  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
-  string folder_id = 1;
-
-  // Name of the public subnet.
-  // The name must be unique within the folder.
-  string name = 2 [
-    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?",
-    (length) = "2-63"
-  ];
-
-  // Description of the public subnet.
-  string description = 3 [(length) = "<=1024"];
-
-  // IDs of the hardware pool that the public subnet belongs to.
-  //
-  // To get a list of available hardware pools, use the [HardwarePoolService.List] request.
-  repeated string hardware_pool_ids = 4;
-
-  // @deprecated
-  // Prefix length of the public subnet CIDR block.
-  int64 prefix_length = 5 [(value) = "1-31", deprecated = true];
-
-  // Method for allocating CIDR block to the public subnet.
-  oneof cidr_allocation_method {
-      // Automatic CIDR allocation from the system public prefix pool.
-      AutoAllocation auto_allocation = 6;
-      // Manual CIDR allocation with explicit CIDR from user's own public prefix pool (BYOIP).
-      ManualAllocation manual_allocation = 7;
-  }
-
-  // Resource labels as `key:value` pairs.
-  map<string, string> labels = 200 [
-    (yandex.cloud.size) = "<=64",
-    (length) = "<=63",
-    (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
-  ];
 
   // Automatic CIDR allocation configuration.
   message AutoAllocation {
@@ -196,10 +147,54 @@ message CreatePublicSubnetRequest {
     string cidr = 1;
 
     // ID of the public prefix pool that the CIDR block belongs to.
-    //
     // To get a list of available public prefix pools, use the [PublicPrefixPoolService.List] request.
     string public_prefix_pool_id = 2;
   }
+
+  // Method for allocating CIDR block to the public subnet.
+  oneof cidr_allocation_method {
+    // Automatic CIDR allocation from the system public prefix pool.
+    AutoAllocation auto_allocation = 6;
+
+    // Manual CIDR allocation with explicit CIDR from user's own public prefix pool (BYOIP).
+    ManualAllocation manual_allocation = 7;
+  }
+
+  // ID of the folder to create a public subnet in.
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 1;
+
+  // Name of the public subnet.
+  // The name must be unique within the folder.
+  string name = 2 [
+    (length) = "2-63",
+    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?"
+  ];
+
+  // Description of the public subnet.
+  string description = 3 [(length) = "<=1024"];
+
+  // IDs of the hardware pool that the public subnet belongs to.
+  // To get a list of available hardware pools, use the [HardwarePoolService.List] request.
+  repeated string hardware_pool_ids = 4;
+
+  // @deprecated
+  // Prefix length of the public subnet CIDR block.
+  int64 prefix_length = 5 [
+    (value) = "1-31",
+    deprecated = true
+  ];
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 200 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 }
 
 message CreatePublicSubnetMetadata {
@@ -208,11 +203,9 @@ message CreatePublicSubnetMetadata {
 }
 
 message UpdatePublicSubnetRequest {
-  // Reserved for future use.
   reserved 7 to 199;
 
   // ID of the PublicSubnet resource to update.
-  //
   // To get the public subnet ID, use a [PublicSubnetService.List] request.
   string public_subnet_id = 1 [(required) = true];
 
@@ -222,15 +215,14 @@ message UpdatePublicSubnetRequest {
   // Name of the public subnet.
   // The name must be unique within the folder.
   string name = 3 [
-    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?",
-    (length) = "2-63"
+    (length) = "2-63",
+    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?"
   ];
 
   // Description of the public subnet.
   string description = 4 [(length) = "<=1024"];
 
   // IDs of the hardware pool that the public subnet belongs to.
-  //
   // To get a list of available hardware pools, use the [HardwarePoolService.List] request.
   repeated string hardware_pool_ids = 5;
 
@@ -238,14 +230,15 @@ message UpdatePublicSubnetRequest {
   PublicSubnetType type = 6;
 
   // Resource labels as `key:value` pairs.
-  //
   // Existing set of `labels` is completely replaced by the provided set.
   map<string, string> labels = 200 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 }
 
@@ -256,7 +249,6 @@ message UpdatePublicSubnetMetadata {
 
 message DeletePublicSubnetRequest {
   // ID of the public subnet to delete.
-  //
   // To get the public subnet ID, use a [PublicSubnetService.List] request.
   string public_subnet_id = 1 [(required) = true];
 }
@@ -267,7 +259,6 @@ message DeletePublicSubnetMetadata {
 }
 
 message ListPublicSubnetOperationsRequest {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // ID of the PublicSubnet resource to list operations for.
@@ -286,7 +277,6 @@ message ListPublicSubnetOperationsRequest {
 }
 
 message ListPublicSubnetOperationsResponse {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // List of operations for the specified PublicSubnet resource.
@@ -295,7 +285,6 @@ message ListPublicSubnetOperationsResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // [ListPublicSubnetOperationsRequest.page_size], use `next_page_token` as the value
   // for the [ListPublicSubnetOperationsRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 100;
 }

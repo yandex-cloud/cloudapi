@@ -53,7 +53,6 @@ message ClickhouseConnection {
   oneof connection {
     ClickhouseConnectionOptions connection_options = 1;
   }
-
 }
 
 message ClickhouseSharding {
@@ -94,7 +93,6 @@ message ClickhouseSharding {
     // Specify as an empty block to enable
     google.protobuf.Empty round_robin = 4;
   }
-
 }
 
 // Settings specific to the ClickHouse source endpoint

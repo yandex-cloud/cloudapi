@@ -5,6 +5,7 @@ package yandex.cloud.cloudregistry.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/cloudregistry/v1/lifecycle_policy.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -72,6 +73,17 @@ service LifecyclePolicyService {
     };
   };
 
+  // Creates a request of a dry run of the lifecycle policy.
+  rpc DryRun(DryRunLifecyclePolicyRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DryRunLifecyclePolicyMetadata"
+      response: "DryRunLifecyclePolicyResponse"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/cloud-registry/v1/lifecyclePolicies/{policy_id}:dryRun"
+    };
+  };
 }
 
 message CreateLifecyclePolicyRequest {
@@ -183,4 +195,31 @@ message ChangeLifecyclePolicyStateRequest {
 
   // Target state of the lifecycle policy.
   LifecyclePolicyState state = 2 [(required) = true];
+}
+
+message DryRunLifecyclePolicyRequest {
+  // ID of the lifecycle policy.
+  string policy_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message DryRunLifecyclePolicyMetadata {
+  // ID of the lifecycle policy.
+  string policy_id = 1;
+}
+
+message DryRunLifecyclePolicyResponse {
+  // ID of the lifecycle policy.
+  string policy_id = 1;
+
+  // Time when the dry run started.
+  google.protobuf.Timestamp run_at = 2;
+
+  // Count of artifacts to be hard deleted.
+  int64 artifacts_to_hard_delete_count = 3;
+
+  // Count of artifacts to be soft deleted.
+  int64 artifacts_to_soft_delete_count = 4;
 }

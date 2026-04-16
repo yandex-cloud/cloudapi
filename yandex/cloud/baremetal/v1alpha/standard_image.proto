@@ -7,12 +7,12 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 
 // A Standard Image resource.
 message StandardImage {
-    // ID of the standard image.
-    string id = 1;
+  // ID of the standard image.
+  string id = 1;
 
-    // Name of the standard image.
-    string name = 2;
+  // Name of the standard image.
+  string name = 2;
 
-    // Folder of standard image.
-    string folder_id = 3;
+  // Folder of standard image.
+  string folder_id = 3;
 }

@@ -11,6 +11,8 @@ option java_package = "yandex.cloud.api.video.v1";
 // Entity representing a live video stream.
 // A stream is a real-time video broadcast linked to a specific stream line.
 message Stream {
+  reserved 7, 13 to 99, 102 to 199, 201 to 999;
+
   // Current status of the stream.
   enum StreamStatus {
     // The stream status is not specified.
@@ -31,8 +33,6 @@ message Stream {
     // The stream has completed and is no longer broadcasting.
     FINISHED = 5;
   }
-
-  reserved 7, 13 to 99, 102 to 199, 201 to 999;
 
   // Specifies the stream scheduling type.
   oneof stream_type {

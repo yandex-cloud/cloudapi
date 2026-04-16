@@ -19,7 +19,6 @@ option java_package = "yandex.cloud.api.datatransfer.v1";
 message Endpoint {
   reserved 3, 7 to 51;
 
-
   string id = 1;
   string folder_id = 2;
   string name = 4;
@@ -50,5 +49,4 @@ message EndpointSettings {
     endpoint.MetrikaSource metrika_source = 146;
     endpoint.YDSTarget yds_target = 150;
   }
-
 }

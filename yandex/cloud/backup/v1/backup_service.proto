@@ -94,7 +94,6 @@ message ListArchivesRequest {
     // List of archives of the specified Compute Cloud instance.
     string compute_instance_id = 2;
   }
-
 }
 
 message ListArchivesResponse {
@@ -283,6 +282,8 @@ message TargetPathCustom {
 }
 
 message FilesRecoveryOptions {
+  reserved 3 to 99;
+
   enum Overwrite {
     // Unspecified value treated as Overwrite all
     OVERWRITE_UNSPECIFIED = 0;
@@ -296,8 +297,6 @@ message FilesRecoveryOptions {
     // None does not overwrites files at all.
     OVERWRITE_NONE = 3;
   }
-
-  reserved 3 to 99;
 
   // Path strategy for selected files.
   oneof type {

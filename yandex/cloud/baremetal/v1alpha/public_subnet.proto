@@ -11,7 +11,6 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 
 // A PublicSubnet resource.
 message PublicSubnet {
-  // Reserved for future use.
   reserved 6, 15 to 99, 101 to 199;
 
   // ID of the public subnet.

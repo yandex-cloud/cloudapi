@@ -20,7 +20,8 @@ message MaintenanceWindow {
   }
 }
 
-message AnytimeMaintenanceWindow {}
+message AnytimeMaintenanceWindow {
+}
 
 message WeeklyMaintenanceWindow {
   enum WeekDay {

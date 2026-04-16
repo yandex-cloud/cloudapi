@@ -11,6 +11,8 @@ option java_package = "yandex.cloud.api.video.v1";
 // Subtitles provide text versions of the audio content, enabling accessibility
 // and multilingual support for video content.
 message Subtitle {
+  reserved 7 to 99, 102 to 999;
+
   // Current processing status of the subtitle.
   enum SubtitleStatus {
     // The subtitle status is not specified.
@@ -23,7 +25,6 @@ message Subtitle {
     UPLOADED = 2;
   }
 
-
   // Source type representing how the subtitle was created or obtained.
   enum SubtitleSourceType {
     // The subtitle source type is not specified.
@@ -35,8 +36,6 @@ message Subtitle {
     // The subtitle was automatically generated through speech recognition.
     GENERATED = 2;
   }
-
-  reserved 7 to 99, 102 to 999;
 
   // Specifies the parent content this subtitle is associated with.
   oneof parent_id {

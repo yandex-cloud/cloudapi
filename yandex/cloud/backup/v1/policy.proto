@@ -35,6 +35,8 @@ message Policy {
 
 // Set of policy settings
 message PolicySettings {
+  reserved 13 to 14;
+
   message Interval {
     enum Type {
       TYPE_UNSPECIFIED = 0;
@@ -107,6 +109,8 @@ message PolicySettings {
   }
 
   message Retention {
+    reserved 2;
+
     message RetentionRule {
       oneof condition {
         option (exactly_one) = true;
@@ -118,8 +122,6 @@ message PolicySettings {
       // A list of backup sets where rules are effective.
       repeated RepeatePeriod backup_set = 1;
     }
-
-    reserved 2;
 
     // A list of retention rules.
     repeated RetentionRule rules = 1;
@@ -307,8 +309,6 @@ message PolicySettings {
     // Launch command after data capture (snapshot execution)
     POST_DATA_COMMAND = 4;
   }
-
-  reserved 13 to 14;
 
   // Archive compression level.
   Compression compression = 1 [(required) = true];

@@ -17,138 +17,152 @@ option java_package = "yandex.cloud.api.metastore.v1";
 // A set of methods for managing Metastore Cluster resources.
 service ClusterService {
   // Returns the specified Metastore Cluster.
-  rpc Get (GetClusterRequest) returns (Cluster) {
-    option (google.api.http) = {get: "/managed-metastore/v1/clusters/{cluster_id}"};
-  }
+  rpc Get(GetClusterRequest) returns (Cluster) {
+    option (google.api.http) = {
+      get: "/managed-metastore/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Retrieves a list of Metastore Clusters.
-  rpc List (ListClustersRequest) returns (ListClustersResponse) {
-    option (google.api.http) = {get: "/managed-metastore/v1/clusters"};
-  }
+  rpc List(ListClustersRequest) returns (ListClustersResponse) {
+    option (google.api.http) = {
+      get: "/managed-metastore/v1/clusters"
+    };
+  };
 
   // Creates a Metastore Cluster.
-  rpc Create (CreateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-metastore/v1/clusters"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-metastore/v1/clusters"
+    };
+  };
 
   // Updates the configuration of the specified Metastore Cluster.
-  rpc Update (UpdateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/managed-metastore/v1/clusters/{cluster_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-metastore/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Deletes the specified Metastore Cluster.
-  rpc Delete (DeleteClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/managed-metastore/v1/clusters/{cluster_id}"};
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteClusterMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/managed-metastore/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Starts the specified Metastore Cluster.
-  rpc Start (StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-metastore/v1/clusters/{cluster_id}:start"};
-    option (yandex.cloud.api.operation) = {
+  rpc Start(StartClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      post: "/managed-metastore/v1/clusters/{cluster_id}:start"
+    };
+  };
 
   // Stops the specified Metastore Cluster.
-  rpc Stop (StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-metastore/v1/clusters/{cluster_id}:stop"};
-    option (yandex.cloud.api.operation) = {
+  rpc Stop(StopClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      post: "/managed-metastore/v1/clusters/{cluster_id}:stop"
+    };
+  };
 
   // Imports data to the specified Metastore Cluster.
-  rpc ImportData (ImportDataRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-metastore/v1/clusters/{cluster_id}:import"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc ImportData(ImportDataRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "ImportDataMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-metastore/v1/clusters/{cluster_id}:import"
+    };
+  };
 
   // Exports data from the specified Metastore Cluster.
-  rpc ExportData (ExportDataRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-metastore/v1/clusters/{cluster_id}:export"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc ExportData(ExportDataRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "ExportDataMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-metastore/v1/clusters/{cluster_id}:export"
+    };
+  };
 
   // Retrieves the list of Operation resources for the specified Hive Metastore Cluster.
-  rpc ListOperations (ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
-    option (google.api.http) = {get: "/managed-metastore/v1/clusters/{cluster_id}/operations"};
-  }
+  rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
+    option (google.api.http) = {
+      get: "/managed-metastore/v1/clusters/{cluster_id}/operations"
+    };
+  };
 
   // Retrieves a list of access bindings for the specified Metastore cluster.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = { get: "/managed-metastore/v1/clusters/{resource_id}:listAccessBindings" };
-  }
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/managed-metastore/v1/clusters/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the specified Metastore cluster.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
     option (google.api.http) = {
-      post: "/managed-metastore/v1/clusters/{resource_id}:setAccessBindings"
       body: "*"
+      post: "/managed-metastore/v1/clusters/{resource_id}:setAccessBindings"
     };
-    option (yandex.cloud.api.operation) = {
-        metadata: "access.SetAccessBindingsMetadata"
-        response: "access.AccessBindingsOperationResult"
-    };
-  }
+  };
 
   // Updates access bindings for the specified Metastore cluster.
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
     option (google.api.http) = {
-      patch: "/managed-metastore/v1/clusters/{resource_id}:updateAccessBindings"
       body: "*"
+      patch: "/managed-metastore/v1/clusters/{resource_id}:updateAccessBindings"
     };
-    option (yandex.cloud.api.operation) = {
-        metadata: "access.UpdateAccessBindingsMetadata"
-        response: "access.AccessBindingsOperationResult"
-    };
-  }
+  };
 }
 
 message GetClusterRequest {
   // ID of the Metastore Cluster to return.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
 message ListClustersRequest {
   // ID of the folder to list Metastore Clusters in.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -180,18 +194,20 @@ message ListClustersResponse {
 }
 
 message CreateClusterRequest {
+  reserved 5 to 10;
+
   // ID of the folder to create the Metastore Cluster in.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Name of the Metastore Cluster.
   // The name must be unique within the folder.
   string name = 2 [
-    (required) = true,
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*"
+    (pattern) = "[a-zA-Z0-9_-]*",
+    (required) = true
   ];
 
   // Description of the Metastore Cluster.
@@ -200,14 +216,14 @@ message CreateClusterRequest {
   // Custom labels for the Metastore Cluster as `` key:value `` pairs.
   // For example: {"env": "prod"}.
   map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
-
-  reserved 5 to 10;
 
   // Deletion Protection prevents deletion of the cluster.
   bool deletion_protection = 11;
@@ -220,8 +236,8 @@ message CreateClusterRequest {
 
   // Service account used to access Cloud resources.
   string service_account_id = 14 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Cloud logging configuration.
@@ -240,10 +256,12 @@ message CreateClusterMetadata {
 }
 
 message UpdateClusterRequest {
+  reserved 6;
+
   // ID of the Metastore Cluster to update.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Fields of the Metastore Cluster to be updated.
@@ -258,14 +276,14 @@ message UpdateClusterRequest {
   // Custom labels for the Metastore Cluster as `` key:value `` pairs.
   // For example: {"env": "prod"}.
   map<string, string> labels = 5 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
-
-  reserved 6;
 
   // Deletion Protection prevents deletion of the cluster.
   bool deletion_protection = 7;
@@ -297,8 +315,8 @@ message UpdateClusterMetadata {
 message DeleteClusterRequest {
   // ID of the Metastore Cluster to delete.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -310,8 +328,8 @@ message DeleteClusterMetadata {
 message StartClusterRequest {
   // ID of the Metastore Cluster to start.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -323,8 +341,8 @@ message StartClusterMetadata {
 message StopClusterRequest {
   // ID of the Metastore Cluster to stop.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -336,8 +354,8 @@ message StopClusterMetadata {
 message ImportDataRequest {
   // ID of the Metastore Cluster into which data will be imported.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // S3 bucket to import backup from.
@@ -355,8 +373,8 @@ message ImportDataMetadata {
 message ExportDataRequest {
   // ID of the Metastore Cluster from which data will be exported.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // S3 bucket to export backup to.
@@ -374,8 +392,8 @@ message ExportDataMetadata {
 message ListClusterOperationsRequest {
   // ID of the Metastore Cluster to list operations for.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available

@@ -72,6 +72,17 @@ service ArtifactService {
     };
   };
 
+  // Upserts a folder at the specified path within the registry.
+  rpc UpsertFolder(UpsertFolderRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpsertFolderMetadata"
+      response: "Artifact"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/cloud-registry/v1/registries/{registry_id}/artifacts:upsertFolder"
+    };
+  };
 }
 
 message GetArtifactRequest {
@@ -104,4 +115,23 @@ message GetArtifactByPathRequest {
 
   // The path to a specific node where the registry artifact is located.
   string path = 2 [(required) = true];
+}
+
+message UpsertFolderRequest {
+  // ID of the registry to upsert a folder in.
+  string registry_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Path of the folder to upsert.
+  string path = 2 [(required) = true];
+}
+
+message UpsertFolderMetadata {
+  // ID of the registry that the folder is being upserted in.
+  string registry_id = 1;
+
+  // Path of the folder that is being upserted.
+  string path = 2;
 }

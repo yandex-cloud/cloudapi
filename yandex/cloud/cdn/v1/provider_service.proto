@@ -3,7 +3,6 @@ syntax = "proto3";
 package yandex.cloud.cdn.v1;
 
 import "google/api/annotations.proto";
-
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -13,42 +12,58 @@ option java_package = "yandex.cloud.api.cdn.v1";
 
 // A set of methods for managing Provider Service resources.
 service ProviderService {
-    // Deprecated: This functionality is no longer supported - provider activation happens automatically.
-    rpc Activate(ActivateProviderRequest)  returns (operation.Operation) {
-        option (google.api.http) = { post: "/cdn/v1/providers:activate" body: "*" };
-        option (yandex.cloud.api.operation) = {
-            metadata: "ActivateProviderMetadata"
-            response: "google.protobuf.Empty"
-        };
-    }
+  // Deprecated: This functionality is no longer supported - provider activation happens automatically.
+  rpc Activate(ActivateProviderRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "ActivateProviderMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/cdn/v1/providers:activate"
+    };
+  };
 
-    // List activated providers for specified client.
-    rpc ListActivated(ListActivatedProvidersRequest)  returns (ListActivatedProvidersResponse) {
-        option (google.api.http) = { get: "/cdn/v1/providers"};
-    }
+  // List activated providers for specified client.
+  rpc ListActivated(ListActivatedProvidersRequest) returns (ListActivatedProvidersResponse) {
+    option (google.api.http) = {
+      get: "/cdn/v1/providers"
+    };
+  };
 }
 
 message ActivateProviderRequest {
-    // ID of the folder that the activate provider belongs to.
-    string folder_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the folder that the activate provider belongs to.
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
-    // Specify provider brand/type.
-    //
-    // Possible values: `gcore`.
-    string provider_type = 2 [(required) = true, (length) = "<=50"];
+  // Specify provider brand/type.
+  // Possible values: `gcore`.
+  string provider_type = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ActivateProviderMetadata {
-    // ID of the folder that the activate provider belongs to.
-    string folder_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the folder that the activate provider belongs to.
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListActivatedProvidersRequest {
-    // ID of the folder that the activate provider belongs to.
-    string folder_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the folder that the activate provider belongs to.
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListActivatedProvidersResponse {
-    // Creates a list of providers.
-    repeated string providers = 1;
+  // Creates a list of providers.
+  repeated string providers = 1;
 }

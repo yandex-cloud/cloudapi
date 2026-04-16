@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package yandex.cloud.speechsense.v1;
 
-option java_package = "yandex.cloud.api.speechsense.v1";
-option java_outer_classname = "AssistantProto";
-option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/speechsense/v1;speechsense";
-
 import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/speechsense/v1;speechsense";
+option java_outer_classname = "AssistantPrivProto";
+option java_package = "yandex.cloud.api.speechsense.v1";
 
 message Assistant {
   // Assistant id
@@ -29,17 +29,14 @@ message Assistant {
 
   // Fields that will be set after assistant processing
   repeated AssistantField fields = 7;
-
   bool enabled = 8;
 
   // Billing labels
   map<string, string> labels = 9;
-
   google.protobuf.Timestamp created_at = 10;
 
   // Subject id
   string created_by = 11;
-
   google.protobuf.Timestamp modified_at = 12;
 
   // Subject id
@@ -60,17 +57,6 @@ message AssistantField {
   AssistantFieldType type = 4;
 }
 
-enum AssistantFieldType {
-  ASSISTANT_FIELD_TYPE_UNSPECIFIED = 0;
-
-  ASSISTANT_FIELD_TYPE_STRING = 1;
-
-  ASSISTANT_FIELD_TYPE_NUMBER = 2;
-
-  // Floating-point number
-  ASSISTANT_FIELD_TYPE_DECIMAL = 3;
-}
-
 message Model {
   // Model id
   string id = 1;
@@ -80,4 +66,13 @@ message Model {
 
   // Model description
   string description = 3;
+}
+
+enum AssistantFieldType {
+  ASSISTANT_FIELD_TYPE_UNSPECIFIED = 0;
+  ASSISTANT_FIELD_TYPE_STRING = 1;
+  ASSISTANT_FIELD_TYPE_NUMBER = 2;
+
+  // Floating-point number
+  ASSISTANT_FIELD_TYPE_DECIMAL = 3;
 }

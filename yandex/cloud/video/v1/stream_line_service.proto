@@ -277,7 +277,6 @@ message UpdateStreamLineRequest {
     SRTPullParams srt_pull = 1003;
   }
 
-
   // ID of the line.
   string stream_line_id = 1 [
     (length) = "<=50",

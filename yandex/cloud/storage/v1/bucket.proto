@@ -17,7 +17,6 @@ message Bucket {
   string id = 1;
 
   // Name of the bucket.
-  //
   // The name is unique within the platform. For naming limitations and rules, see
   // [documentation](/docs/storage/concepts/bucket#naming).
   string name = 2;
@@ -90,6 +89,7 @@ message Bucket {
 message Tag {
   // Key of the bucket tag.
   string key = 1;
+
   // Value of the bucket tag.
   string value = 2;
 }
@@ -103,32 +103,27 @@ message ACL {
 
       // Allows grantee the `PERMISSION_WRITE`, `PERMISSION_WRITE_ACP`, `PERMISSION_READ`, and `PERMISSION_READ_ACP`
       // on the bucket.
-      //
       // Maps to `x-amz-grant-full-control` header for [bucketPutAcl](/docs/storage/s3/api-ref/acl/bucketput) method of
       // Amazon S3-compatible HTTP API.
       PERMISSION_FULL_CONTROL = 1;
 
       // Allows grantee to create new objects in the bucket. For the bucket and object owners of existing objects, also
       // allows deletions and overwrites of those objects.
-      //
       // Maps to `x-amz-grant-write` header for [bucketPutAcl](/docs/storage/s3/api-ref/acl/bucketput) method of Amazon
       // S3-compatible HTTP API.
       PERMISSION_WRITE = 2;
 
       // Allows grantee to write the ACL for the bucket.
-      //
       // Maps to `x-amz-grant-write-acp` header for [bucketPutAcl](/docs/storage/s3/api-ref/acl/bucketput) method of
       // Amazon S3-compatible HTTP API.
       PERMISSION_WRITE_ACP = 3;
 
       // Allows grantee to list the objects in the bucket.
-      //
       // Maps to `x-amz-grant-read` header for [bucketPutAcl](/docs/storage/s3/api-ref/acl/bucketput) method of Amazon
       // S3-compatible HTTP API.
       PERMISSION_READ = 4;
 
       // Allows grantee to read the bucket ACL
-      //
       // Maps to `x-amz-grant-read-acp` header for [bucketPutAcl](/docs/storage/s3/api-ref/acl/bucketput) method of
       // Amazon S3-compatible HTTP API.
       PERMISSION_READ_ACP = 5;
@@ -139,10 +134,8 @@ message ACL {
       GRANT_TYPE_UNSPECIFIED = 0;
 
       // A grantee is an [account on the platform](/docs/iam/concepts/#accounts).
-      //
       // For this grantee type, you need to specify the user ID in [Bucket.acl.grants.grantee_id] field. To get user ID, see
       // [instruction](/docs/iam/operations/users/get).
-      //
       // Maps to using `id="*"` value for `x-amz-grant-*` header ([bucketPutAcl](/docs/storage/s3/api-ref/acl/bucketput)
       // method of Amazon S3-compatible HTTP API).
       GRANT_TYPE_ACCOUNT = 1;
@@ -150,14 +143,12 @@ message ACL {
       // Grantees are all authenticated users, both from your clouds and other users' clouds. Access
       // permission to this group allows any account on the platform to access the resource via a signed (authenticated)
       // request.
-      //
       // Maps to using `uri="http://acs.amazonaws.com/groups/global/AuthenticatedUsers"` value for `x-amz-grant-*`
       // header ([bucketPutAcl](/docs/storage/s3/api-ref/acl/bucketput) method of Amazon S3-compatible HTTP API).
       GRANT_TYPE_ALL_AUTHENTICATED_USERS = 2;
 
       // Grantees are all internet users. Access permission to this group allows anyone in the world access to the
       // resource via signed (authenticated) or unsigned (anonymous) requests.
-      //
       // Maps to using `uri="http://acs.amazonaws.com/groups/global/AllUsers"` value for `x-amz-grant-*` header
       // ([bucketPutAcl](/docs/storage/s3/api-ref/acl/bucketput) method of Amazon S3-compatible HTTP API).
       GRANT_TYPE_ALL_USERS = 3;
@@ -194,7 +185,6 @@ message AnonymousAccessFlags {
 // For details about the concept, see [documentation](/docs/storage/concepts/cors).
 message CorsRule {
   // List of HTTP methods that are allowed by the CORS rule.
-  //
   // When a client sends a CORS-preflight `options` request with the `Access-Control-Request-Method` header (see
   // S3-compatible API reference](/docs/storage/s3/api-ref/object/options)), the specified method is checked against the
   // list of the allowed methods. If there is a match, all the allowed methods are listed in the
@@ -223,7 +213,6 @@ message CorsRule {
   string id = 1;
 
   // List of HTTP methods allowed by the CORS rule.
-  //
   // When a client sends a CORS-preflight `options` request with the `Access-Control-Request-Method` header (see
   // [S3-compatible API reference](/docs/storage/s3/api-ref/object/options)), the specified method is checked against
   // the list of the allowed methods. If there is a match, all the allowed methods are listed in the
@@ -234,18 +223,15 @@ message CorsRule {
   ];
 
   // List of HTTP headers allowed by the CORS rule.
-  //
   // When a client sends a CORS-preflight `options` request with the `Access-Control-Request-Headers` header (see
   // [S3-compatible API reference](/docs/storage/s3/api-ref/object/options)), the specified headers are checked against
   // the list of the allowed headers. If there is a match, the specified headers that are allowed are listed in the
   // `Access-Control-Allow-Headers` header of the response.
-  //
   // Each string in the list can contain at most one `*` wildcard character that matches 0 or more characters.
   // For example, `x-amz-*` value will allow all Amazon S3-compatible headers.
   repeated string allowed_headers = 3;
 
   // List of request origins allowed by the CORS rule.
-  //
   // Each string in the list can contain at most one `*` wildcard character that matches 0 or more characters.
   // For example, `http://*.example.com` value will allow requests originating from all subdomains of `example.com`.
   repeated string allowed_origins = 4 [(size) = ">0"];
@@ -259,17 +245,6 @@ message CorsRule {
 }
 
 message WebsiteSettings {
-  enum Protocol {
-    // Protocol unspecified.
-    PROTOCOL_UNSPECIFIED = 0;
-
-    // `http` scheme.
-    PROTOCOL_HTTP = 1;
-
-    // `https` scheme.
-    PROTOCOL_HTTPS = 2;
-  }
-
   // A configuration resource for redirecting all requests sent to the website.
   message Scheme {
     // Scheme of the redirect URI.
@@ -292,7 +267,6 @@ message WebsiteSettings {
     string hostname = 1;
 
     // HTTP status code of the redirect response.
-    //
     // Default value: `"301"`.
     string http_redirect_code = 2 [(pattern) = "3(0[1-9]|[1-9][0-9])"];
 
@@ -300,12 +274,10 @@ message WebsiteSettings {
     Protocol protocol = 3;
 
     // Substitution for the prefix of the object key specified in [Condition.key_prefix_equals].
-    //
     // At most one of [replace_key_prefix_with] and [replace_key_with] can be specified.
     string replace_key_prefix_with = 4;
 
     // New object key.
-    //
     // At most one of [replace_key_with] and [replace_key_prefix_with] can be specified.
     string replace_key_with = 5;
   }
@@ -319,10 +291,19 @@ message WebsiteSettings {
     Redirect redirect = 2;
   }
 
+  enum Protocol {
+    // Protocol unspecified.
+    PROTOCOL_UNSPECIFIED = 0;
+
+    // `http` scheme.
+    PROTOCOL_HTTP = 1;
+
+    // `https` scheme.
+    PROTOCOL_HTTPS = 2;
+  }
+
   // Key of the index page object that is returned when a response is made to the root of the website.
-  //
   // Either [index] or [redirect_all_requests] must be specified in order for the bucket to host a static website.
-  //
   // If specified, the index page object must be located in the root of the bucket.
   string index = 1;
 
@@ -330,7 +311,6 @@ message WebsiteSettings {
   string error = 2;
 
   // Configuration for redirecting all requests sent to the website.
-  //
   // Either [redirect_all_requests] or [index] must be specified in order for the bucket to host a static website.
   // If [redirect_all_requests] is specified, it must be the only field in [Bucket.website_settings].
   Scheme redirect_all_requests = 3;
@@ -362,7 +342,6 @@ message LifecycleRule {
 
   // List of transition rules for non-current versions of objects in a bucket with versioning enabled
   // ([Bucket.versioning] is `VERSIONING_ENABLED`) or suspended (`VERSIONING_SUSPENDED`).
-  //
   // At transition, the non-current version of the object is transitioned to the specified storage class.
   message NoncurrentTransition {
     // Time period, in number of days since the version of an object was classified as non-current, after which the
@@ -370,39 +349,32 @@ message LifecycleRule {
     google.protobuf.Int64Value noncurrent_days = 1;
 
     // Storage class to which a non-current version of an object is transitioned from standard storage.
-    //
     // The only supported class is cold storage (`COLD`, `STANDARD_IA`, `NEARLINE` all synonyms). Transitions from cold
     // to standard storage and transitions to or from ice storage are not allowed.
     string storage_class = 2 [(required) = true];
   }
 
   // List of transition rules.
-  //
   // The transition of an object is described as follows.
-  //
   // For the unversioned bucket ([Bucket.versioning] is `VERSIONING_DISABLED`), the object is transitioned to the
   // specified storage class.
-  //
   // For the bucket with versioning enabled ([Bucket.versioning] is `VERSIONING_ENABLED`) or suspended
   // (`VERSIONING_SUSPENDED`), the current version of the object is transitioned to the specified storage class.
   message Transition {
     reserved 3;
+
     // Specific date of object transition.
-    //
     // The rule continues to apply even after the date has passed, i.e. any new objects created in the bucket are
     // transitioned immediately.
-    //
     // At most one of [date] and [days] fields can be specified.
     google.protobuf.Timestamp date = 1;
 
     // Time period, in number of days from the creation or modification of the object, after which an object is
     // transitioned.
-    //
     // At most one of [days] and [date] fields can be specified.
     google.protobuf.Int64Value days = 2;
 
     // Storage class to which an object is transitioned from standard storage.
-    //
     // The only supported class is cold storage (`COLD`, `STANDARD_IA`, `NEARLINE` all synonyms). Transitions from cold
     // to standard storage and transitions to or from ice storage are not allowed.
     string storage_class = 4 [(required) = true];
@@ -410,21 +382,17 @@ message LifecycleRule {
 
   message Expiration {
     // Specific date of object expiration.
-    //
     // The rule continues to apply even after the date has passed, i.e. any new objects created in the bucket expire
     // immediately.
-    //
     // Exactly one of [date], [days], and [expired_object_delete_marker] fields can be specified.
     google.protobuf.Timestamp date = 1;
 
     // Time period, in number of days from the creation or modification of the object, after which an object expires.
-    //
     // Exactly one of [days], [date], and [expired_object_delete_marker] fields can be specified.
     google.protobuf.Int64Value days = 2;
 
     // Indicates whether a delete marker of an object with no non-current versions (referred to as an expired object
     // delete marker) is removed at the object's expiration.
-    //
     // Exactly one of [expired_object_delete_marker], [date], and [days] fields can be specified.
     google.protobuf.BoolValue expired_object_delete_marker = 3;
   }
@@ -433,21 +401,29 @@ message LifecycleRule {
     message And {
       // Key prefix that the object must have in order for the rule to apply.
       string prefix = 1;
+
       // Size that the object must be greater.
       google.protobuf.Int64Value object_size_greater_than = 2;
+
       // Size that the object must be less than.
       google.protobuf.Int64Value object_size_less_than = 3;
+
       // Tags that the object's tag set must have for the rule to apply.
       repeated Tag tag = 4;
     }
+
     // Key prefix that the object must have in order for the rule to apply.
     string prefix = 1;
+
     // Size that the object must be greater.
     google.protobuf.Int64Value object_size_greater_than = 2;
+
     // Size that the object must be less t.
     google.protobuf.Int64Value object_size_less_than = 3;
+
     // Tags that the object's tag set must have for the rule to apply.
     Tag tag = 4;
+
     // Apply a logical AND to all of the predicates configured inside the And operator.
     And and_operator = 5;
   }
@@ -459,33 +435,25 @@ message LifecycleRule {
   bool enabled = 2;
 
   // Filter that identifies the objects to which the rule applies.
-  //
   // If not specified, the rule applies to all objects in the bucket.
   RuleFilter filter = 3;
 
   // Expiration rule.
-  //
   // The expiration of an object is described as follows.
-  //
   // For the unversioned bucket ([Bucket.versioning] is `VERSIONING_DISABLED`), the object is deleted and cannot be
   // recovered.
-  //
   // For the bucket with versioning enabled ([Bucket.versioning] is `VERSIONING_ENABLED`), the current version of the
   // object (if it exists and is not a delete marker) is retained as a non-current version, and a delete marker becomes
   // the current version of the object.
-  //
   // For the bucket with versioning suspended ([Bucket.versioning] is `VERSIONING_SUSPENDED`), the current version of
   // the object is retained as a non-current version if it is not a delete marker, or is removed otherwise, and a
   // delete marker becomes the current version of the object.
   Expiration expiration = 4;
 
   // List of transition rules.
-  //
   // The transition of an object is described as follows.
-  //
   // For the unversioned bucket ([Bucket.versioning] is `VERSIONING_DISABLED`), the object is transitioned to the
   // specified storage class.
-  //
   // For the bucket with versioning enabled ([Bucket.versioning] is `VERSIONING_ENABLED`) or suspended
   // (`VERSIONING_SUSPENDED`), the current version of the object is transitioned to the specified storage class.
   repeated Transition transitions = 5;
@@ -495,49 +463,19 @@ message LifecycleRule {
 
   // Expiration rule for non-current versions of objects in a bucket with versioning enabled ([Bucket.versioning] is
   // `VERSIONING_ENABLED`) or suspended (`VERSIONING_SUSPENDED`).
-  //
   // At expiration, the non-current version of the object is deleted and cannot be recovered.
   NoncurrentExpiration noncurrent_expiration = 7;
 
   // List of transition rules for non-current versions of objects in a bucket with versioning enabled
   // ([Bucket.versioning] is `VERSIONING_ENABLED`) or suspended (`VERSIONING_SUSPENDED`).
-  //
   // At transition, the non-current version of the object is transitioned to the specified storage class.
   repeated NoncurrentTransition noncurrent_transitions = 8;
 
   // Expiration rule for non-current delete markers of an objects in a bucket with versioning
   // enabled ([Bucket.versioning] is `VERSIONING_ENABLED`) or suspended (`VERSIONING_SUSPENDED`).
   // Works in the same way as noncurrent_expiration rule, but only for delete markers.
-  //
   // At expiration, the non-current delete marker of the object is deleted and cannot be recovered.
   NoncurrentDeleteMarkers noncurrent_delete_markers = 9;
-}
-
-enum Versioning {
-  // Versioning unspecified.
-  VERSIONING_UNSPECIFIED = 0;
-
-  // The bucket is unversioned, i.e. versioning has never been enabled for the bucket, including at its creation.
-  // Objects that are stored in the bucket have a version ID of `null`.
-  //
-  // To enable versioning, change status to `VERSIONING_ENABLED` via a [BucketService.Update] request. Note that this
-  // action is irreversible, and a bucket with versioning enabled can never return to `VERSIONING_DISABLED` state.
-  VERSIONING_DISABLED = 1;
-
-  // Bucket versioning is enabled, i.e. all new objects are versioned and given a unique version ID, and objects that
-  // already existed at the time versioning was enabled will be versioned and given a unique version ID when modified
-  // by future requests.
-  //
-  // To suspend versioning, change status to `VERSIONING_SUSPENDED` via a [BucketService.Update] request. You cannot
-  // disable versioning altogether for a bucket that already had it enabled; objects that had version IDs will keep
-  // them.
-  VERSIONING_ENABLED = 2;
-
-  // Bucket versioning is suspended, i.e. new objects are not versioned, but objects that already existed at the time
-  // versioning was suspended are still versioned and keep their version IDs.
-  //
-  // To resume versioning, change status to `VERSIONING_ENABLED` via a [BucketService.Update] request.
-  VERSIONING_SUSPENDED = 3;
 }
 
 message Counters {
@@ -668,7 +606,6 @@ message HTTPSConfig {
   google.protobuf.Timestamp not_after = 7;
 
   // ID of the TLS certificate in Certificate Manager.
-  //
   // To get information about the certificate from Certificate Manager, make a
   // [yandex.cloud.certificatemanager.v1.CertificateService.Get] request.
   string certificate_id = 8;
@@ -677,15 +614,7 @@ message HTTPSConfig {
 // A resource for Object Lock configuration of a bucket.
 // For details about the concept, see [documentation](/docs/storage/concepts/object-lock).
 message ObjectLock {
-  // Activity status of the object lock settings on the bucket
-  enum ObjectLockStatus {
-    // Object lock status unspecified.
-    OBJECT_LOCK_STATUS_UNSPECIFIED = 0;
-    // Object lock status disabled.
-    OBJECT_LOCK_STATUS_DISABLED = 1;
-    // Object lock status enabled.
-    OBJECT_LOCK_STATUS_ENABLED = 2;
-  }
+  reserved 1;
 
   // Default lock configuration for added objects
   message DefaultRetention {
@@ -693,26 +622,43 @@ message ObjectLock {
     enum Mode {
       // Mode unspecified.
       MODE_UNSPECIFIED = 0;
+
       // Mode governance.
       MODE_GOVERNANCE = 1;
+
       // Mode compliance.
       MODE_COMPLIANCE = 2;
     }
 
-    // Mode
-    Mode mode = 1;
     oneof period {
       option (exactly_one) = true;
 
       // Number of days for locking
       int64 days = 2;
+
       // Number of years for locking
       int64 years = 3;
     }
+
+    // Mode
+    Mode mode = 1;
+  }
+
+  // Activity status of the object lock settings on the bucket
+  enum ObjectLockStatus {
+    // Object lock status unspecified.
+    OBJECT_LOCK_STATUS_UNSPECIFIED = 0;
+
+    // Object lock status disabled.
+    OBJECT_LOCK_STATUS_DISABLED = 1;
+
+    // Object lock status enabled.
+    OBJECT_LOCK_STATUS_ENABLED = 2;
   }
 
   // Status
   ObjectLockStatus status = 2;
+
   // Default retention
   DefaultRetention default_retention = 3;
 }
@@ -721,6 +667,7 @@ message Encryption {
   message EncryptionRule {
     // KMS master key ID
     string kms_master_key_id = 1;
+
     // SSE algorithm
     string sse_algorithm = 2;
   }
@@ -733,105 +680,158 @@ message BucketAllowedPrivateEndpoints {
   // if true, private endpoints white list check is enabled
   // even if private_endpoints list is empty
   bool enabled = 1;
+
   // white list of private endpoints bucket accessible from
   repeated string private_endpoints = 2;
+
   // if true, cloud console will be able to access a bucket
   // regardless of private_endpoints list
-  bool force_cloud_console_access = 3;  
+  bool force_cloud_console_access = 3;
 }
 
 message InventoryConfiguration {
-    message InventoryBucketDestination {
-        // Output format.
-        enum Format {
-            FORMAT_UNSPECIFIED = 0;
-            // CSV format.  
-            CSV = 1;
-        }
-        // Bucket where inventory results will be published.
-        string bucket = 1 [(required) = true];
-        // Specifies the output format of the inventory results.
-        Format format = 2 [(required) = true];
-        // The prefix that is prepended to all inventory results.
-        google.protobuf.StringValue prefix = 3;
+  message InventoryBucketDestination {
+    // Output format.
+    enum Format {
+      FORMAT_UNSPECIFIED = 0;
+
+      // CSV format.
+      CSV = 1;
     }
-    
-    message InventoryDestination {
-        // Destination bucket settings 
-        InventoryBucketDestination bucket_destination = 1 [(required) = true];
+
+    // Bucket where inventory results will be published.
+    string bucket = 1 [(required) = true];
+
+    // Specifies the output format of the inventory results.
+    Format format = 2 [(required) = true];
+
+    // The prefix that is prepended to all inventory results.
+    google.protobuf.StringValue prefix = 3;
+  }
+
+  message InventoryDestination {
+    // Destination bucket settings
+    InventoryBucketDestination bucket_destination = 1 [(required) = true];
+  }
+
+  message InventorySchedule {
+    // Types of generation frequency
+    enum Frequency {
+      // UNSPECIFIED
+      FREQUENCY_UNSPECIFIED = 0;
+
+      // Daily generation.
+      DAILY = 1;
+
+      // Weekly generation.
+      WEEKLY = 2;
     }
-    
-    message InventorySchedule {
-        // Types of generation frequency
-        enum Frequency {
-            // UNSPECIFIED
-            FREQUENCY_UNSPECIFIED = 0;
-            // Daily generation.
-            DAILY = 1;
-            // Weekly generation.
-            WEEKLY = 2;
-        }
-        // Specifies how frequently inventory results are produced.
-        Frequency frequency = 1 [(required) = true];
-    }
-    
-    message InventoryFilter {
-        // The prefix that an object must have to be included in the inventory results.
-        string prefix = 1 [(required) = true];
-    }
-    
-    // Types of object versions to include in the inventory list.
-    enum IncludedObjectVersions {
-        // UNSPECIFIED
-        INCLUDED_OBJECT_VERSIONS_UNSPECIFIED = 0;
-        // Include all versions.
-        ALL = 1;
-        // Include only the current version.
-        CURRENT = 2;
-    }
-    
-    // Type of optional field.
-    enum OptionalField {
-        // UNSPECIFIED  
-        OPTIONAL_FIELD_UNSPECIFIED = 0;
-        // The object size in bytes.
-        SIZE = 1;
-        // The object creation date or the last modified date, whichever is the latest.
-        LAST_MODIFIED_DATE = 2;
-        // The storage class that's used for storing the object.
-        STORAGE_CLASS = 3;
-        // The entity tag (ETag) is a hash of the object.
-        ETAG = 4;
-        // Specifies that the object was uploaded as a multipart upload.
-        IS_MULTIPART_UPLOADED = 5;
-        // The server-side encryption type that's used to encrypt the object.
-        ENCRYPTION_STATUS = 6;
-        // The date until which the object is locked.
-        OBJECT_LOCK_RETAIN_UNTIL_DATE = 7;
-        // The level of protection applied to the object, either Governance or Compliance.
-        OBJECT_LOCK_MODE = 8;
-        // The legal hold status of the locked object.
-        OBJECT_LOCK_LEGAL_HOLD_STATUS = 9;
-        // Indicates the algorithm that is used to create the checksum for the object.
-        CHECKSUM_ALGORITHM = 10;
-        // An access control list (ACL) for each object.
-        OBJECT_ACCESS_CONTROL_LIST = 11;
-        // The owner of the object.
-        OBJECT_OWNER = 12;
-    }
-    
-    // The ID used to identify the inventory configuration.
-    string id = 1 [(required) = true];
-    // Contains information about where to publish the inventory results.
-    InventoryDestination destination = 2 [(required) = true];
-    // Object versions to include in the inventory list.
-    IncludedObjectVersions included_object_versions = 3 [(required) = true];
-    // Specifies whether the inventory is enabled.
-    bool is_enabled = 4;
-    // Specifies the schedule for generating inventory results.
-    InventorySchedule schedule = 5 [(required) = true];
-    // Specifies the filter for objects to include in the inventory.
-    InventoryFilter filter = 6;
-    // Contains the optional fields that are included in the inventory results.
-    repeated OptionalField optional_fields = 7;
+
+    // Specifies how frequently inventory results are produced.
+    Frequency frequency = 1 [(required) = true];
+  }
+
+  message InventoryFilter {
+    // The prefix that an object must have to be included in the inventory results.
+    string prefix = 1 [(required) = true];
+  }
+
+  // Types of object versions to include in the inventory list.
+  enum IncludedObjectVersions {
+    // UNSPECIFIED
+    INCLUDED_OBJECT_VERSIONS_UNSPECIFIED = 0;
+
+    // Include all versions.
+    ALL = 1;
+
+    // Include only the current version.
+    CURRENT = 2;
+  }
+
+  // Type of optional field.
+  enum OptionalField {
+    // UNSPECIFIED
+    OPTIONAL_FIELD_UNSPECIFIED = 0;
+
+    // The object size in bytes.
+    SIZE = 1;
+
+    // The object creation date or the last modified date, whichever is the latest.
+    LAST_MODIFIED_DATE = 2;
+
+    // The storage class that's used for storing the object.
+    STORAGE_CLASS = 3;
+
+    // The entity tag (ETag) is a hash of the object.
+    ETAG = 4;
+
+    // Specifies that the object was uploaded as a multipart upload.
+    IS_MULTIPART_UPLOADED = 5;
+
+    // The server-side encryption type that's used to encrypt the object.
+    ENCRYPTION_STATUS = 6;
+
+    // The date until which the object is locked.
+    OBJECT_LOCK_RETAIN_UNTIL_DATE = 7;
+
+    // The level of protection applied to the object, either Governance or Compliance.
+    OBJECT_LOCK_MODE = 8;
+
+    // The legal hold status of the locked object.
+    OBJECT_LOCK_LEGAL_HOLD_STATUS = 9;
+
+    // Indicates the algorithm that is used to create the checksum for the object.
+    CHECKSUM_ALGORITHM = 10;
+
+    // An access control list (ACL) for each object.
+    OBJECT_ACCESS_CONTROL_LIST = 11;
+
+    // The owner of the object.
+    OBJECT_OWNER = 12;
+  }
+
+  // The ID used to identify the inventory configuration.
+  string id = 1 [(required) = true];
+
+  // Contains information about where to publish the inventory results.
+  InventoryDestination destination = 2 [(required) = true];
+
+  // Object versions to include in the inventory list.
+  IncludedObjectVersions included_object_versions = 3 [(required) = true];
+
+  // Specifies whether the inventory is enabled.
+  bool is_enabled = 4;
+
+  // Specifies the schedule for generating inventory results.
+  InventorySchedule schedule = 5 [(required) = true];
+
+  // Specifies the filter for objects to include in the inventory.
+  InventoryFilter filter = 6;
+
+  // Contains the optional fields that are included in the inventory results.
+  repeated OptionalField optional_fields = 7;
+}
+
+enum Versioning {
+  // Versioning unspecified.
+  VERSIONING_UNSPECIFIED = 0;
+
+  // The bucket is unversioned, i.e. versioning has never been enabled for the bucket, including at its creation.
+  // Objects that are stored in the bucket have a version ID of `null`.
+  // To enable versioning, change status to `VERSIONING_ENABLED` via a [BucketService.Update] request. Note that this
+  // action is irreversible, and a bucket with versioning enabled can never return to `VERSIONING_DISABLED` state.
+  VERSIONING_DISABLED = 1;
+
+  // Bucket versioning is enabled, i.e. all new objects are versioned and given a unique version ID, and objects that
+  // already existed at the time versioning was enabled will be versioned and given a unique version ID when modified
+  // by future requests.
+  // To suspend versioning, change status to `VERSIONING_SUSPENDED` via a [BucketService.Update] request. You cannot
+  // disable versioning altogether for a bucket that already had it enabled; objects that had version IDs will keep
+  // them.
+  VERSIONING_ENABLED = 2;
+
+  // Bucket versioning is suspended, i.e. new objects are not versioned, but objects that already existed at the time
+  // versioning was suspended are still versioned and keep their version IDs.
+  // To resume versioning, change status to `VERSIONING_ENABLED` via a [BucketService.Update] request.
+  VERSIONING_SUSPENDED = 3;
 }

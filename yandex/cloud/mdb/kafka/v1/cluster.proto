@@ -321,6 +321,9 @@ message KafkaConfig2_8 {
 
   // The list of SASL mechanisms enabled in the Kafka server. Default: [SCRAM_SHA_512].
   repeated SaslMechanism sasl_enabled_mechanisms = 20;
+
+  // Timeout for transactional ids to expire in ms. Default: 604800000 (7 days).
+  google.protobuf.Int64Value transactional_id_expiration_ms = 21;
 }
 
 // Kafka version 3.x broker configuration.
@@ -404,6 +407,9 @@ message KafkaConfig3 {
 
   // The list of SASL mechanisms enabled in the Kafka server. Default: [SCRAM_SHA_512].
   repeated SaslMechanism sasl_enabled_mechanisms = 20;
+
+  // Timeout for transactional ids to expire in ms. Default: 604800000 (7 days).
+  google.protobuf.Int64Value transactional_id_expiration_ms = 21;
 }
 
 // Kafka version 4.x broker configuration.
@@ -485,6 +491,9 @@ message KafkaConfig4 {
 
   // The list of SASL mechanisms enabled in the Kafka server. Default: [SCRAM_SHA_512].
   repeated SaslMechanism sasl_enabled_mechanisms = 20;
+
+  // Timeout for transactional ids to expire in ms. Default: 604800000 (7 days).
+  google.protobuf.Int64Value transactional_id_expiration_ms = 21;
 }
 
 // Cluster host metadata.

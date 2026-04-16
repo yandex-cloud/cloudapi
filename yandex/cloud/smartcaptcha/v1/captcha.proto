@@ -146,7 +146,6 @@ message Condition {
       // PIRE regex not match condition.
       string pire_regex_not_match = 6 [(length) = "0-255"];
     }
-
   }
 
   // HostMatcher object.
@@ -264,7 +263,6 @@ enum CaptchaComplexity {
   FORCE_HARD = 4;
 }
 
-
 // Captcha's basic check type, see [Task types / Main task](/docs/smartcaptcha/concepts/tasks#main-task).
 enum CaptchaPreCheckType {
   CAPTCHA_PRE_CHECK_TYPE_UNSPECIFIED = 0;
@@ -275,7 +273,6 @@ enum CaptchaPreCheckType {
   // User must move the slider from left to right.
   SLIDER = 2;
 }
-
 
 // Additional task, see [Task types / Additional task](/docs/smartcaptcha/concepts/tasks#additional-task).
 enum CaptchaChallengeType {

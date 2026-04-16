@@ -49,7 +49,6 @@ message Runtime {
   oneof runtime {
     YcRuntime yc_runtime = 4;
   }
-
 }
 
 // Parallel snapshot parameters
@@ -68,7 +67,6 @@ message RegularSnapshot {
     RegularSnapshotSettings settings = 3;
     RegularSnapshotDisabled disabled = 4;
   }
-
 }
 
 // Regular snapshot disabled
@@ -140,7 +138,6 @@ message MaskFunction {
     // Hash mask function
     MaskFunctionHash mask_function_hash = 1;
   }
-
 }
 
 // Hash data using HMAC
@@ -333,7 +330,6 @@ message Transformer {
     // specified criteria remain in a changefeed.
     FilterRowsTransformer filter_rows = 14;
   }
-
 }
 
 // Transformation is converting data using special transformer functions.

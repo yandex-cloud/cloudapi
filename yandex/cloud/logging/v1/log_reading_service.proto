@@ -27,7 +27,6 @@ message ReadRequest {
     // See [Criteria] for details.
     Criteria criteria = 2;
   }
-
 }
 
 message ReadResponse {

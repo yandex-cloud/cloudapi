@@ -20,6 +20,22 @@ message BillingAccount {
     string name = 2;
 }
 
+// Represents a service instance entity
+message ServiceInstance {
+    // Identifier of the service instance entity.
+    string id = 1;
+
+    // Type of the service instance: tracker, datalens, cloud, etc.
+    string type = 2;
+
+    // Human-readable display name of the service instance.
+    string name = 3;
+
+    // Optional billing account identifier associated with this service instance
+    // for requested consumption period.
+    string billing_account_id = 4;
+}
+
 // Represents a cloud entity
 message Cloud {
     // Unique identifier of the cloud entity.
@@ -27,6 +43,9 @@ message Cloud {
 
     // Human-readable display name of the cloud.
     string name = 2;
+
+    // Optional billing account identifier associated with this cloud.
+    string billing_account_id = 3;
 }
 
 // Represents a folder entity
@@ -64,6 +83,9 @@ message SKU {
     // English-language display name
     string en_translation = 4;
 
+    // Display name in language of `accept-language` header
+    string translation = 7;
+
     // Unit of measurement for pricing (e.g., "hour", "byte", "1m*request").
     string pricing_unit = 5;
 
@@ -75,6 +97,10 @@ message SKU {
 message Resource {
     // Unique identifier of the resource entity.
     string id = 1;
+    // Human-readable display name of the resource.
+    string name = 2;
+    // Type of the service instance this resource is bound to (e.g. "cloud", "tracker", "datalens").
+    string service_instance_type = 3;
 }
 
 // Represents a key-value label pair attached to resources for custom metadata tagging.

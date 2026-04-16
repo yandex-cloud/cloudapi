@@ -76,5 +76,4 @@ message Content {
     // Docker-specific content.
     DockerContent docker = 1;
   }
-
 }

@@ -116,16 +116,16 @@ message SKUUsageReportEntityData {
 // This represents the second level in the response structure hierarchy (entity-level totals),
 // containing both summary data for the entity across the entire period and a time series breakdown.
 message ResourceUsageReportEntityData {
-    // Total cost associated with this label group.
+    // Total cost associated with this resource.
     StringDecimal cost = 1;
 
     // Total credits (discounts, grants, adjustments) applied to this label group.
     CreditDetails credit_details = 2;
 
-    // Total expense (including cost and credit) for this label group.
+    // Total expense (including cost and credit) for this resource group.
     StringDecimal expense = 3;
 
-    // Metadata for the label-based grouping.
+    // Metadata for the resource-based grouping.
     Resource resource = 4;
 
     // Time series with usage and billing details for each TimeGrouping period (e.g., daily).
@@ -148,6 +148,22 @@ message LabelUsageReportEntityData {
     // Metadata for the label-based grouping.
     Label label = 4;
 
+    // Time series with usage and billing details for each TimeGrouping period (e.g., daily).
+    repeated UsageReportPeriodicData periodic = 5;
+}
+
+// Usage and billing data for a service instance entity in the report.
+// This represents the second level in the response structure hierarchy (entity-level totals),
+// containing both summary data for the entity across the entire period and a time series breakdown.
+message ServiceInstanceUsageReportEntityData {
+    // Total cost associated with this service instance.
+    StringDecimal cost = 1;
+    // Total credits (discounts, grants, adjustments) applied to this service instance.
+    CreditDetails credit_details = 2;
+    // Total expense (including cost and credit) for this service instance.
+    StringDecimal expense = 3;
+    // Metadata for the service instance entity.
+    ServiceInstance service_instance = 4;
     // Time series with usage and billing details for each TimeGrouping period (e.g., daily).
     repeated UsageReportPeriodicData periodic = 5;
 }

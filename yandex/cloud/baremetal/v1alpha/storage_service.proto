@@ -12,25 +12,23 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 // A set of methods to retrieve information about default storages.
 service StorageService {
   // Returns the default storage for the specified configuration.
-  rpc GetDefault (GetDefaultStorageRequest) returns (DefaultStorage) {
+  rpc GetDefault(GetDefaultStorageRequest) returns (DefaultStorage) {
     option (google.api.http) = {
       get: "/baremetal/v1alpha/storages/default/{configuration_id}"
     };
-  }
+  };
 
   // Returns the default storages for the specified configurations.
-  rpc BatchGetDefault (BatchGetDefaultStoragesRequest) returns (BatchGetDefaultStoragesResponse) {
+  rpc BatchGetDefault(BatchGetDefaultStoragesRequest) returns (BatchGetDefaultStoragesResponse) {
     option (google.api.http) = {
-      post: "/baremetal/v1alpha/storages/default:batchGet"
       body: "*"
+      post: "/baremetal/v1alpha/storages/default:batchGet"
     };
-
-  }
+  };
 }
 
 message DefaultStorage {
   // ID of the configuration.
-  //
   // To get the configuration ID, use a [ConfigurationService.List] request.
   string configuration_id = 1;
 
@@ -41,16 +39,16 @@ message DefaultStorage {
 message GetDefaultStorageRequest {
   // ID of the configuration.
   string configuration_id = 1 [
-    (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
   ];
 }
 
 message BatchGetDefaultStoragesRequest {
   // List of configuration IDs.
   repeated string configuration_ids = 1 [
-    (pattern) = "[a-z][a-z0-9]*",
     (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*",
     (size) = "1-100",
     (unique) = true
   ];

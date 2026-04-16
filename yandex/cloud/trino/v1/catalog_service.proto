@@ -15,68 +15,74 @@ option java_package = "yandex.cloud.api.trino.v1";
 // A set of methods for managing Trino Cluster Catalog resources.
 service CatalogService {
   // Returns the specified Trino Catalog resource.
-  rpc Get (GetCatalogRequest) returns (Catalog) {
-    option (google.api.http) = {get: "/managed-trino/v1/clusters/{cluster_id}/catalogs/{catalog_id}"};
-  }
+  rpc Get(GetCatalogRequest) returns (Catalog) {
+    option (google.api.http) = {
+      get: "/managed-trino/v1/clusters/{cluster_id}/catalogs/{catalog_id}"
+    };
+  };
 
   // Retrieves a list of Trino Catalog resources.
-  rpc List (ListCatalogsRequest) returns (ListCatalogsResponse) {
-    option (google.api.http) = {get: "/managed-trino/v1/clusters/{cluster_id}/catalogs"};
-  }
+  rpc List(ListCatalogsRequest) returns (ListCatalogsResponse) {
+    option (google.api.http) = {
+      get: "/managed-trino/v1/clusters/{cluster_id}/catalogs"
+    };
+  };
 
   // Creates a new Trino Catalog.
-  rpc Create (CreateCatalogRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-trino/v1/clusters/{cluster_id}/catalogs"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateCatalogRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateCatalogMetadata"
       response: "Catalog"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-trino/v1/clusters/{cluster_id}/catalogs"
+    };
+  };
 
   // Updates the specified Trino Catalog.
-  rpc Update (UpdateCatalogRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/managed-trino/v1/clusters/{cluster_id}/catalogs/{catalog_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateCatalogRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateCatalogMetadata"
       response: "Catalog"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-trino/v1/clusters/{cluster_id}/catalogs/{catalog_id}"
+    };
+  };
 
   // Deletes the specified Trino Catalog.
-  rpc Delete (DeleteCatalogRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/managed-trino/v1/clusters/{cluster_id}/catalogs/{catalog_id}"};
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteCatalogRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteCatalogMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/managed-trino/v1/clusters/{cluster_id}/catalogs/{catalog_id}"
+    };
+  };
 }
 
 message GetCatalogRequest {
   // ID of the Trino Cluster resource which contains the requested catalog.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // ID of the Trino Catalog resource.
   string catalog_id = 2 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
 message ListCatalogsRequest {
   // ID of the cluster to list Trino Catalogs in.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -110,14 +116,12 @@ message ListCatalogsResponse {
 message CreateCatalogRequest {
   // ID of the Trino Cluster where the catalog should be created.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Specification of the catalog to be created.
-  CatalogSpec catalog = 2 [
-    (required) = true
-  ];
+  CatalogSpec catalog = 2 [(required) = true];
 }
 
 message CreateCatalogMetadata {
@@ -131,14 +135,14 @@ message CreateCatalogMetadata {
 message UpdateCatalogRequest {
   // ID of the Trino Cluster that contains the catalog to update.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // ID of the catalog to update.
   string catalog_id = 2 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Field mask that specifies which fields of the catalog should be updated.
@@ -159,14 +163,14 @@ message UpdateCatalogMetadata {
 message DeleteCatalogRequest {
   // ID of the Trino Cluster resource which contains the requested catalog.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // ID of the Trino Catalog resource.
   string catalog_id = 2 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 

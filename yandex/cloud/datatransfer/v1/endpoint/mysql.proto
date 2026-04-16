@@ -37,7 +37,6 @@ message MysqlConnection {
     // Get Mysql installation params and credentials from Connection Manager
     ConnectionManagerConnection connection_manager_connection = 3;
   }
-
 }
 
 message MysqlObjectTransferSettings {

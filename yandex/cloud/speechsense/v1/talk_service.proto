@@ -2,37 +2,44 @@ syntax = "proto3";
 
 package yandex.cloud.speechsense.v1;
 
-option java_package = "yandex.cloud.api.speechsense.v1";
-option java_outer_classname = "TalkServiceProto";
-option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/speechsense/v1;speechsense";
-
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/speechsense/v1/audio.proto";
-import "yandex/cloud/speechsense/v1/text.proto";
 import "yandex/cloud/speechsense/v1/search.proto";
 import "yandex/cloud/speechsense/v1/talk.proto";
+import "yandex/cloud/speechsense/v1/text.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/speechsense/v1;speechsense";
+option java_outer_classname = "TalkServiceProto";
+option java_package = "yandex.cloud.api.speechsense.v1";
 
 service TalkService {
-
   // rpc for streaming talk documents. First message should contain Talk related metadata,
   // second - audio metadata, others should contain audio bytes in chunks
   rpc UploadAsStream(stream StreamTalkRequest) returns (UploadTalkResponse);
 
   // rpc for uploading talk document as single message
   rpc Upload(UploadTalkRequest) returns (UploadTalkResponse) {
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/speechsense/v1/talks/upload"
+    };
+  };
 
   // rpc for uploading text talk document
   rpc UploadText(UploadTextRequest) returns (UploadTextResponse) {
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/speechsense/v1/talks/uploadText"
+    };
+  };
 
   // rpc for streaming document that contains combined talks. First message should contain Talk related metadata,
   // second - audio metadata, others should contain audio bytes in chunks
   rpc UploadBadge(stream StreamTalkRequest) returns (operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UploadBadgeMetadata"
       response: "UploadBadgeResponse"
     };
@@ -40,19 +47,24 @@ service TalkService {
 
   // rpc for searching talks. will return ids only
   rpc Search(SearchTalkRequest) returns (SearchTalkResponse) {
-    option (google.api.http) = { post: "/speechsense/v1/talks/search" body: "*" };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/speechsense/v1/talks/search"
+    };
+  };
 
   // rpc for bulk get
   rpc Get(GetTalkRequest) returns (GetTalkResponse) {
-    option (google.api.http) = { post: "/speechsense/v1/talks/get" body: "*" };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/speechsense/v1/talks/get"
+    };
+  };
 }
 
 // streaming request to create audio dialog
 message StreamTalkRequest {
   oneof Event {
-
     // talk document metadata containing channel id and channel field values
     TalkMetadata metadata = 1;
 
@@ -65,7 +77,6 @@ message StreamTalkRequest {
 message UploadTalkRequest {
   // talk_id, blank if initial upload request and present on metadata update
   string talk_id = 3;
-
   TalkMetadata metadata = 1;
 
   // audio payload
@@ -73,7 +84,6 @@ message UploadTalkRequest {
 }
 
 message UploadTalkResponse {
-
   // id of created talk document
   string talk_id = 1;
 }
@@ -82,9 +92,7 @@ message UploadTalkResponse {
 message UploadTextRequest {
   // talk_id, blank if initial upload request and present on metadata update
   string talk_id = 3;
-
   TalkMetadata metadata = 1;
-
   TextContent text_content = 2;
 }
 
@@ -110,15 +118,7 @@ message UserMetadata {
   map<string, string> fields = 3;
 }
 
-enum UserRole {
-  USER_ROLE_UNSPECIFIED = 0;
-  USER_ROLE_OPERATOR = 1;
-  USER_ROLE_CLIENT = 2;
-  USER_ROLE_BOT = 3;
-}
-
 message SearchTalkRequest {
-
   // id of organization
   string organization_id = 1;
 
@@ -145,7 +145,6 @@ message SearchTalkRequest {
 
   // talks sorting options
   SortData sort_data = 9;
-
 }
 
 message SearchTalkResponse {
@@ -192,6 +191,14 @@ message UploadBadgeMetadata {
 message UploadBadgeResponse {
   // id of uploaded badge
   string badge_id = 1;
+
   // id of created talks related to badge
   repeated string talk_ids = 2;
+}
+
+enum UserRole {
+  USER_ROLE_UNSPECIFIED = 0;
+  USER_ROLE_OPERATOR = 1;
+  USER_ROLE_CLIENT = 2;
+  USER_ROLE_BOT = 3;
 }

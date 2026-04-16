@@ -67,5 +67,4 @@ message DatasetStatus {
     // Error while activating dataset.
     StatusError status_error = 3;
   }
-
 }

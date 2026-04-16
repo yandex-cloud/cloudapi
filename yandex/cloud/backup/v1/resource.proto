@@ -25,6 +25,8 @@ message AgentInfo {
 }
 
 message Resource {
+  reserved 17;
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -61,8 +63,6 @@ message Resource {
     // Instance is deleted from cloud backup service.
     DELETED = 4;
   }
-
-  reserved 17;
 
   // Compute Cloud instance ID.
   string compute_instance_id = 1;
@@ -126,7 +126,6 @@ message Task {
     REVOKE_POLICY = 5;
   }
 
-
   // Status of task.
   enum Status {
     STATUS_UNSPECIFIED = 0;
@@ -136,7 +135,6 @@ message Task {
     PAUSED = 4;
     COMPLETED = 5;
   }
-
 
   // Result code of task
   enum Code {

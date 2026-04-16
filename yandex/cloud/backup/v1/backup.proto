@@ -12,6 +12,8 @@ option java_package = "yandex.cloud.api.backup.v1";
 
 // Archive is a container that holds backups of Compute Cloud instance.
 message Archive {
+  reserved 17 to 19, 21, 28 to 29;
+
   // Archive attributes.
   message ArchiveAttributes {
     // Archive attribute. Default value: `0`.
@@ -32,7 +34,6 @@ message Archive {
     AES256 = 4;
   }
 
-
   // Action with archive backup: `ACTION_UNSPECIFIED`, `REFRESH`,
   // `DELETE_BY_AGENT`.
   enum Action {
@@ -40,8 +41,6 @@ message Archive {
     REFRESH = 1;
     DELETE_BY_AGENT = 2;
   }
-
-  reserved 17 to 19, 21, 28 to 29;
 
   // ID of the backup.
   string id = 1;
@@ -139,6 +138,8 @@ message Disk {
 }
 
 message Backup {
+  reserved 12 to 13, 16 to 20;
+
   // Backup attributes.
   message BackupAttributes {
     // Backup stream name.
@@ -155,8 +156,6 @@ message Backup {
     FULL = 1;
     INCREMENTAL = 2;
   }
-
-  reserved 12 to 13, 16 to 20;
 
   // ID of the backup.
   string id = 1;

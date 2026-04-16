@@ -11,6 +11,8 @@ option java_package = "yandex.cloud.api.video.v1";
 // Episodes can be linked to either a stream or a line
 // and provide a way to reference specific portions of the corresponding content.
 message Episode {
+  reserved 11, 13 to 99, 102 to 999, 1001 to 1002;
+
   // Visibility status of the episode.
   enum VisibilityStatus {
     // The visibility status is not specified.
@@ -22,8 +24,6 @@ message Episode {
     // The episode is available only to administrators.
     UNPUBLISHED = 2;
   }
-
-  reserved 11, 13 to 99, 102 to 999, 1001 to 1002;
 
   // Specifies the episode access permission settings.
   oneof access_rights {

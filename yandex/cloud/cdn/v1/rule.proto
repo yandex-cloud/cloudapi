@@ -8,21 +8,26 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cdn/v1;cdn";
 option java_package = "yandex.cloud.api.cdn.v1";
 
-
 // Resource rule.
 message Rule {
-    // Rule ID.
-    int64 id = 1 [(value) = ">0"];
+  // Rule ID.
+  int64 id = 1 [(value) = ">0"];
 
-    // Rule name.
-    string name = 2 [(required) = true, (length) = "<=50"];
-    // Rule pattern.
-    // Must be a valid regular expression.
-    string rule_pattern = 3 [(required) = true, (length) = "<=100"];
+  // Rule name.
+  string name = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
-    ResourceOptions options = 4;
+  // Rule pattern.
+  // Must be a valid regular expression.
+  string rule_pattern = 3 [
+    (length) = "<=100",
+    (required) = true
+  ];
+  ResourceOptions options = 4;
 
-    // Rules are ordered by weight in ascending order (lower weights execute first)
-    // Weight must be between 0 and 9999 inclusive
-    int64 weight = 5;
+  // Rules are ordered by weight in ascending order (lower weights execute first)
+  // Weight must be between 0 and 9999 inclusive
+  int64 weight = 5;
 }

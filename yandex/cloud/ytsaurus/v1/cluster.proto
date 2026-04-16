@@ -132,12 +132,12 @@ message StorageSpec {
   }
 
   message SsdSpec {
+    reserved 1;
+
     message Changelogs {
       // Size of changelogs disk in GB.
       int64 size_gb = 1;
     }
-
-    reserved 1;
 
     // Size of a single SSD disk in GB.
     int64 size_gb = 2;
@@ -194,7 +194,6 @@ message ComputeSpec {
       // Scale policy that can adjust number of running exec nodes within specified range based on some criteria.
       AutoScale auto = 2;
     }
-
   }
 
   // VM configuration preset name.

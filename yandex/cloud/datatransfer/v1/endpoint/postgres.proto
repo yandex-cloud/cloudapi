@@ -108,7 +108,6 @@ message PostgresConnection {
     // Get Postgres installation params and credentials from Connection Manager
     ConnectionManagerConnection connection_manager_connection = 3;
   }
-
 }
 
 // Settings specific to the PostgreSQL source endpoint.

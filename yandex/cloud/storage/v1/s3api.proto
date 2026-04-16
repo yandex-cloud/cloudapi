@@ -513,7 +513,7 @@ message S3APIGetAclResponse {
       string display_name = 4;
       string email_address = 5;
     }
-    
+
     Grantee grantee = 1;
     string permission = 2;
   }

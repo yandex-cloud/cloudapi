@@ -5,7 +5,6 @@ package yandex.cloud.storage.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/struct.proto";
-
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -18,160 +17,169 @@ option java_package = "yandex.cloud.api.storage.v1";
 // A set of methods for managing buckets.
 service BucketService {
   // Retrieves the list of buckets in the specified folder.
-  //
   // The following fields will not be returned for buckets in the list: [Bucket.policy], [Bucket.acl], [Bucket.cors],
   // [Bucket.website_settings], [Bucket.lifecycle_rules], [Bucket.tags].
   rpc List(ListBucketsRequest) returns (ListBucketsResponse) {
-    option (google.api.http) = {get: "/storage/v1/buckets"};
-  }
+    option (google.api.http) = {
+      get: "/storage/v1/buckets"
+    };
+  };
 
   // Returns the specified bucket.
-  //
   // To get the list of all available buckets, make a [List] request.
   rpc Get(GetBucketRequest) returns (Bucket) {
-    option (google.api.http) = {get: "/storage/v1/buckets/{name}"};
-  }
+    option (google.api.http) = {
+      get: "/storage/v1/buckets/{name}"
+    };
+  };
 
   // Creates a bucket in the specified folder.
   rpc Create(CreateBucketRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/storage/v1/buckets"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateBucketMetadata"
       response: "Bucket"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/storage/v1/buckets"
+    };
+  };
 
   // Updates the specified bucket.
-  //
   // In most cases, `storage.editor` role (see [documentation](/docs/storage/security/#storage-editor)) should be enough
   // to update a bucket, subject to its [policy](/docs/storage/concepts/policy).
   rpc Update(UpdateBucketRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/storage/v1/buckets/{name}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateBucketMetadata"
       response: "Bucket"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/storage/v1/buckets/{name}"
+    };
+  };
 
   // Deletes the specified bucket.
   rpc Delete(DeleteBucketRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/storage/v1/buckets/{name}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteBucketMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/storage/v1/buckets/{name}"
+    };
+  };
 
   // Returns the statistics for the specified bucket.
   rpc GetStats(GetBucketStatsRequest) returns (BucketStats) {
-    option (google.api.http) = {get: "/storage/v1/buckets/{name}:getStats"};
-  }
+    option (google.api.http) = {
+      get: "/storage/v1/buckets/{name}:getStats"
+    };
+  };
 
   // Returns the HTTPS configuration for the specified bucket.
   rpc GetHTTPSConfig(GetBucketHTTPSConfigRequest) returns (HTTPSConfig) {
-    option (google.api.http) = {get: "/storage/v1/buckets/{name}:getHttpsConfig"};
-  }
+    option (google.api.http) = {
+      get: "/storage/v1/buckets/{name}:getHttpsConfig"
+    };
+  };
 
   // Updates the HTTPS configuration for the specified bucket.
-  //
   // The updated configuration could take up to 30 minutes to apply to the bucket.
   rpc SetHTTPSConfig(SetBucketHTTPSConfigRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/storage/v1/buckets/{name}:setHttpsConfig"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "SetBucketHTTPSConfigMetadata"
       response: "HTTPSConfig"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/storage/v1/buckets/{name}:setHttpsConfig"
+    };
+  };
 
   // Deletes the HTTPS configuration for the specified bucket.
   // (-- api-linter: yc::1705::http-method-mapping=disabled
-  //     for compatibility with old format --)
+  // for compatibility with old format --)
   rpc DeleteHTTPSConfig(DeleteBucketHTTPSConfigRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/storage/v1/buckets/{name}:deleteHttpsConfig"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteBucketHTTPSConfigMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      post: "/storage/v1/buckets/{name}:deleteHttpsConfig"
+    };
+  };
 
   // Sets access bindings for the specified bucket.
   rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/storage/v1/buckets/{resource_id}:setAccessBindings"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/storage/v1/buckets/{resource_id}:setAccessBindings"
+    };
+  };
 
   // Updates access bindings for the specified bucket.
   // (-- api-linter: yc::1705::http-method-mapping=disabled
-  //     for compatibility with old format --)  
+  // for compatibility with old format --)
   rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/storage/v1/buckets/{resource_id}:updateAccessBindings"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/storage/v1/buckets/{resource_id}:updateAccessBindings"
+    };
+  };
 
   // Lists access bindings for the specified bucket.
   rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
     option (google.api.http) = {
       get: "/storage/v1/buckets/{resource_id}:listAccessBindings"
     };
-  }
+  };
 
   // Create/Update an inventory configuration with the corresponding ID
   rpc CreateInventoryConfiguration(CreateBucketInventoryConfigurationRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/storage/v1/buckets/{bucket}/{id}:createInventoryConfiguration"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateBucketInventoryConfigurationMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/storage/v1/buckets/{bucket}/{id}:createInventoryConfiguration"
+    };
+  };
 
   // Get an inventory configuration with the corresponding ID
   rpc GetInventoryConfiguration(GetBucketInventoryConfigurationRequest) returns (InventoryConfiguration) {
     option (google.api.http) = {
-        get: "/storage/v1/buckets/{bucket}/{id}:getInventoryConfiguration"
+      get: "/storage/v1/buckets/{bucket}/{id}:getInventoryConfiguration"
     };
-  }
+  };
 
   // Delete an inventory configuration with the corresponding ID
-  rpc DeleteInventoryConfiguration(DeleteBucketInventoryConfigurationRequest) returns (operation.Operation){
-    option (google.api.http) = {
-        post: "/storage/v1/buckets/{bucket}/{id}:deleteInventoryConfiguration"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc DeleteInventoryConfiguration(DeleteBucketInventoryConfigurationRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteBucketInventoryConfigurationMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      post: "/storage/v1/buckets/{bucket}/{id}:deleteInventoryConfiguration"
+    };
+  };
 
-  // Listing inventory configurations 
+  // Listing inventory configurations
   rpc ListInventoryConfigurations(ListBucketInventoryConfigurationsRequest) returns (ListBucketInventoryConfigurationsResponse) {
     option (google.api.http) = {
-        get: "/storage/v1/buckets/{bucket}:listInventoryConfigurations"
+      get: "/storage/v1/buckets/{bucket}:listInventoryConfigurations"
     };
-  }
+  };
+
 }
 
 message GetBucketRequest {
@@ -180,13 +188,11 @@ message GetBucketRequest {
     VIEW_UNSPECIFIED = 0;
 
     // Returns basic information about a bucket.
-    //
     // The following fields will _not_ be returned: [Bucket.acl], [Bucket.cors], [Bucket.website_settings],
     // [Bucket.lifecycle_rules], [Bucket.tags].
     VIEW_BASIC = 1;
 
     // Returns basic information and access control list (ACL) for the bucket.
-    //
     // The following fields will _not_ be returned: [Bucket.cors], [Bucket.website_settings], [Bucket.lifecycle_rules],
     // [Bucket.tags].
     VIEW_ACL = 2;
@@ -196,53 +202,78 @@ message GetBucketRequest {
   }
 
   // Name of the bucket to return.
-  //
   // To get the bucket name, make a [BucketService.List] request.
   string name = 1 [(required) = true];
 
   // Scope of information about the bucket to return.
-  //
   // Access to scopes is managed via [Identity and Access Management roles](/docs/storage/security),
   // bucket [ACL](/docs/storage/concepts/acl) and [policies](/docs/storage/concepts/policy).
   View view = 2;
 }
 
 message ListBucketsRequest {
+  reserved 2;
+
   // ID of the folder to list buckets in.
-  //
   // To get the folder ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
-  reserved 2;
+
   // Indicates that the list is being continued on this bucket with a token.
   string page_token = 3;
-  // Maximum number of buckets to be returned in response. 
-  int64 page_size = 4; 
+
+  // Maximum number of buckets to be returned in response.
+  int64 page_size = 4;
 }
 
 message ListBucketsResponse {
   // List of buckets in the specified folder.
   repeated Bucket buckets = 1;
-  // Included in the response when there are more buckets that can be listed with pagination. 
-  string next_page_token = 2; 
+
+  // Included in the response when there are more buckets that can be listed with pagination.
+  string next_page_token = 2;
+}
+
+message CreateBucketMetadata {
+  // Name of the bucket that is being created.
+  string name = 1;
+}
+
+message UpdateBucketMetadata {
+  // Name of the bucket that is being updated.
+  string name = 1;
+}
+
+message DeleteBucketMetadata {
+  // Name of the bucket that is being deleted.
+  string name = 1;
+}
+
+message SetBucketHTTPSConfigMetadata {
+  // Name of the bucket the HTTPS configuration is being updated for.
+  string name = 1;
+}
+
+message DeleteBucketHTTPSConfigMetadata {
+  // Name of the bucket the HTTPS configuration is being deleted for.
+  string name = 1;
 }
 
 message CreateBucketRequest {
   reserved 3;
+
   // Name of the bucket.
-  //
   // The name must be unique within the platform. For naming limitations and rules, see
   // [documentation](/docs/storage/concepts/bucket#naming).
   string name = 1 [(required) = true];
 
   // ID of the folder to create a bucket in.
-  //
   // To get the folder ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 2 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Default storage class for objects in the bucket. Supported classes are standard storage (`STANDARD`), cold storage
@@ -277,22 +308,15 @@ message CreateBucketRequest {
   // Configuration for bucket's allowed private endpoints.
   // requires permission s3:PutBucketAllowedPrivateEndpoints
   BucketAllowedPrivateEndpoints allowed_private_endpoints = 11;
-  
+
   // An option to disable static key auth for a bucket.
   // requires permission s3:UpdateBucketStaticKeyAuthSettings
   bool disabled_statickey_auth = 12;
 }
 
-message CreateBucketMetadata {
-  // Name of the bucket that is being created.
-  string name = 1;
-}
-
 message UpdateBucketRequest {
   // Name of the bucket to update.
-  //
   // The name cannot be updated.
-  //
   // To get the bucket name, make a [BucketService.List] request.
   string name = 1 [(required) = true];
 
@@ -354,25 +378,14 @@ message UpdateBucketRequest {
 
   // An option to disable static key auth for a bucket.
   // requires permission s3:UpdateBucketStaticKeyAuthSettings
-  bool disabled_statickey_auth = 16; 
-}
-
-message UpdateBucketMetadata {
-  // Name of the bucket that is being updated.
-  string name = 1;
+  bool disabled_statickey_auth = 16;
 }
 
 // DeleteBucketRequest deletes requested bucket from the Cloud.
 message DeleteBucketRequest {
   // Name of the bucket to update.
-  //
   // To get the bucket name, make a [BucketService.List] request.
   string name = 1 [(required) = true];
-}
-
-message DeleteBucketMetadata {
-  // Name of the bucket that is being deleted.
-  string name = 1;
 }
 
 message GetBucketStatsRequest {
@@ -396,36 +409,28 @@ message SelfManagedHTTPSConfigParams {
 // A resource for a TLS certificate from Certificate Manager.
 message CertificateManagerHTTPSConfigParams {
   // ID of the certificate.
-  //
   // To get the list of all available certificates, make a [yandex.cloud.certificatemanager.v1.CertificateService.List]
   // request.
   string certificate_id = 1;
 }
 
 message SetBucketHTTPSConfigRequest {
-  // Name of the bucket to update the HTTPS configuration for.
-  string name = 1 [(required) = true];
-
   // HTTPS configuration parameters.
   oneof params {
     option (exactly_one) = true;
 
     // Your TLS certificate, uploaded directly.
-    //
     // Object Storage only supports [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail)-encoded certificates.
     SelfManagedHTTPSConfigParams self_managed = 2;
 
     // TLS certificate from Certificate Manager.
-    //
     // To create a certificate in Certificate Manager, make a
     // [yandex.cloud.certificatemanager.v1.CertificateService.Create] request.
     CertificateManagerHTTPSConfigParams certificate_manager = 3;
   }
-}
 
-message SetBucketHTTPSConfigMetadata {
-  // Name of the bucket the HTTPS configuration is being updated for.
-  string name = 1;
+  // Name of the bucket to update the HTTPS configuration for.
+  string name = 1 [(required) = true];
 }
 
 message DeleteBucketHTTPSConfigRequest {
@@ -433,18 +438,15 @@ message DeleteBucketHTTPSConfigRequest {
   string name = 1 [(required) = true];
 }
 
-message DeleteBucketHTTPSConfigMetadata {
-  // Name of the bucket the HTTPS configuration is being deleted for.
-  string name = 1;
-}
-
 message CreateBucketInventoryConfigurationRequest {
-    // Name of the bucket to update the inventory configuration for.
-    string bucket = 1 [(required) = true];
-    // ID of the inventory configuration to set.
-    string id = 2 [(required) = true];
-    // Inventory configuration.
-    InventoryConfiguration configuration = 3 [(required) = true];
+  // Name of the bucket to update the inventory configuration for.
+  string bucket = 1 [(required) = true];
+
+  // ID of the inventory configuration to set.
+  string id = 2 [(required) = true];
+
+  // Inventory configuration.
+  InventoryConfiguration configuration = 3 [(required) = true];
 }
 
 message CreateBucketInventoryConfigurationMetadata {
@@ -453,16 +455,19 @@ message CreateBucketInventoryConfigurationMetadata {
 }
 
 message GetBucketInventoryConfigurationRequest {
-    // Name of the bucket to get the inventory configuration for.
-    string bucket = 1 [(required) = true];
-    // ID of the inventory configuration to get.
-    string id = 2 [(required) = true];
+  // Name of the bucket to get the inventory configuration for.
+  string bucket = 1 [(required) = true];
+
+  // ID of the inventory configuration to get.
+  string id = 2 [(required) = true];
 }
+
 message DeleteBucketInventoryConfigurationRequest {
-    // Name of the bucket to delete the inventory configuration for.
-    string bucket = 1 [(required) = true];
-    // ID of the inventory configuration to delete.
-    string id = 2 [(required) = true];
+  // Name of the bucket to delete the inventory configuration for.
+  string bucket = 1 [(required) = true];
+
+  // ID of the inventory configuration to delete.
+  string id = 2 [(required) = true];
 }
 
 message DeleteBucketInventoryConfigurationMetadata {
@@ -471,15 +476,17 @@ message DeleteBucketInventoryConfigurationMetadata {
 }
 
 message ListBucketInventoryConfigurationsRequest {
-    // Name of the bucket to list the inventory configurations for.
-    string bucket = 1 [(required) = true];
-    // Continuation token
-    string page_token = 2;
+  // Name of the bucket to list the inventory configurations for.
+  string bucket = 1 [(required) = true];
+
+  // Continuation token
+  string page_token = 2;
 }
 
 message ListBucketInventoryConfigurationsResponse {
-    // List of inventory configurations.
-    repeated InventoryConfiguration configurations = 1;
-    // Continuation token to retrieve the next page of results.
-    string next_page_token = 2;
+  // List of inventory configurations.
+  repeated InventoryConfiguration configurations = 1;
+
+  // Continuation token to retrieve the next page of results.
+  string next_page_token = 2;
 }

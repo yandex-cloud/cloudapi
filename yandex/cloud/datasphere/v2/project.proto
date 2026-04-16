@@ -11,7 +11,11 @@ option java_package = "yandex.cloud.api.datasphere.v2";
 
 // A Project resource.
 message Project {
+  reserved 9 to 10;
+
   message Settings {
+    reserved 4, 10;
+
     enum Ide {
       IDE_UNSPECIFIED = 0;
 
@@ -31,8 +35,6 @@ message Project {
       // Setting to never automatically stop stale executions.
       NO_TIMEOUT = 3;
     }
-
-    reserved 4, 10;
 
     // ID of the service account, on whose behalf all operations with clusters will be performed.
     string service_account_id = 1;
@@ -73,8 +75,6 @@ message Project {
     // The number of units that can be spent on the one execution.
     google.protobuf.Int64Value max_units_per_execution = 2;
   }
-
-  reserved 9 to 10;
 
   // ID of the project.
   string id = 1;

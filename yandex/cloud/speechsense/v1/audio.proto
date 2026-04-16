@@ -2,24 +2,26 @@ syntax = "proto3";
 
 package yandex.cloud.speechsense.v1;
 
-option java_package = "yandex.cloud.api.speechsense.v1";
-option java_outer_classname = "AudioProto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/speechsense/v1;speechsense";
-
+option java_outer_classname = "AudioProto";
+option java_package = "yandex.cloud.api.speechsense.v1";
 
 // RAW Audio format spec (no container to infer type). Used in AudioFormat options.
 message RawAudio {
   enum AudioEncoding {
     AUDIO_ENCODING_UNSPECIFIED = 0;
+
     // Audio bit depth 16-bit signed little-endian (Linear PCM).
     AUDIO_ENCODING_LINEAR16_PCM = 1;
   }
 
-  //  Type of audio encoding
+  // Type of audio encoding
   AudioEncoding audio_encoding = 1;
-  //  PCM sample rate
+
+  // PCM sample rate
   int64 sample_rate_hertz = 2;
-  //  PCM channel count.
+
+  // PCM channel count.
   int64 audio_channel_count = 3;
 }
 
@@ -37,14 +39,14 @@ message ContainerAudio {
     // Data is encoded using MPEG-1/2 Layer III and compressed using the MP3 container format.
     CONTAINER_AUDIO_TYPE_MP3 = 3;
   }
-  //  Type of audio container.
+
+  // Type of audio container.
   ContainerAudioType container_audio_type = 1;
 }
 
 // Audio format options.
 message AudioMetadata {
   oneof AudioFormat {
-
     // Audio without container.
     RawAudio raw_audio = 1;
 
@@ -55,18 +57,15 @@ message AudioMetadata {
 
 // Data chunk with audio.
 message AudioChunk {
-
   // Bytes with audio data.
   bytes data = 1;
 }
-
 
 // Streaming audio request
 // First message should be audio metadata.
 // The next messages are audio data chunks.
 message AudioStreamingRequest {
   oneof AudioEvent {
-
     // Session options. Should be the first message from user.
     AudioMetadata audio_metadata = 1;
 

@@ -1631,6 +1631,9 @@ message ConfigSpec {
 
   // Retain period of automatically created backup in days
   google.protobuf.Int64Value backup_retain_period_days = 11;
+
+  // Configuration performance diagnostics
+  PerformanceDiagnostics performance_diagnostics = 12;
 }
 
 message ShardConfigSpec {

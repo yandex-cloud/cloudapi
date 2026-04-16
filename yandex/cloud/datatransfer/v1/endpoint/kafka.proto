@@ -24,7 +24,6 @@ message KafkaConnectionOptions {
     // Set only one of: cluster_id/on_premise/connection_manager_connection
     ConnectionManagerConnection connection_manager_connection = 3;
   }
-
 }
 
 // On-premise Kafka installation options
@@ -51,7 +50,6 @@ message KafkaAuth {
     // No authentication
     NoAuth no_auth = 2;
   }
-
 }
 
 message KafkaSaslSecurity {
@@ -127,7 +125,6 @@ message KafkaTargetTopicSettings {
     // Analogue of the Debezium setting database.server.name.
     string topic_prefix = 2;
   }
-
 }
 
 message KafkaTargetTopic {

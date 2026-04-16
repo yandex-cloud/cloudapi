@@ -92,6 +92,7 @@ message ListThumbnailRequest {
 
   // Specifies the parent resource to list thumbnails from (exactly one must be chosen).
   oneof parent_id {
+
     // ID of the episode containing the thumbnails to list.
     string episode_id = 1003 [(length) = "<=50"];
 
@@ -132,13 +133,13 @@ message CreateThumbnailRequest {
   oneof parent_id {
     option (exactly_one) = true;
 
+
     // ID of the episode to associate the thumbnail with.
     string episode_id = 1003 [(length) = "<=50"];
 
     // ID of the video to associate the thumbnail with.
     string video_id = 1004 [(length) = "<=50"];
   }
-
 }
 
 message CreateThumbnailMetadata {

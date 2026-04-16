@@ -11,6 +11,8 @@ option java_package = "yandex.cloud.api.video.v1";
 
 // Main entity representing a video in the platform.
 message Video {
+  reserved 7, 10, 14 to 15, 19 to 99, 102 to 199, 201 to 999, 1001 to 1999, 2001 to 2002;
+
   // Current processing status of the video.
   enum VideoStatus {
     reserved 3, 6;
@@ -34,7 +36,6 @@ message Video {
     ERROR = 7;
   }
 
-
   // Visibility status of the video.
   enum VisibilityStatus {
     // The visibility status is not specified.
@@ -46,8 +47,6 @@ message Video {
     // The video is available only to administrators.
     UNPUBLISHED = 2;
   }
-
-  reserved 7, 10, 14 to 15, 19 to 99, 102 to 199, 201 to 999, 1001 to 1999, 2001 to 2002;
 
   // Specifies the video upload source method (one source variant must be chosen).
   oneof source {
@@ -150,6 +149,8 @@ message VideoSignURLAccessRights {
 message VideoFeatures {
   // Contains the results of video summarization.
   message Summary {
+    reserved 2;
+
     // Contains a URL to a summarization result for a specific audio track.
     message SummaryURL {
       // URL to the summarization result file.
@@ -161,8 +162,6 @@ message VideoFeatures {
       // Source track language represented as a three-letter code according to ISO 639-2/T.
       string src_lang = 3;
     }
-
-    reserved 2;
 
     // Current status of the summarization process.
     FeatureResult result = 1;

@@ -24,7 +24,6 @@ message Parser {
     // Parse data in tskv format
     GenericParserCommon tskv_parser = 6;
   }
-
 }
 
 message GenericParserCommon {

@@ -20,115 +20,129 @@ option java_package = "yandex.cloud.api.trino.v1";
 // A set of methods for managing Trino Cluster resources.
 service ClusterService {
   // Returns the specified Trino Cluster resource.
-  rpc Get (GetClusterRequest) returns (Cluster) {
-    option (google.api.http) = {get: "/managed-trino/v1/clusters/{cluster_id}"};
-  }
+  rpc Get(GetClusterRequest) returns (Cluster) {
+    option (google.api.http) = {
+      get: "/managed-trino/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Retrieves a list of Trino Cluster resources.
-  rpc List (ListClustersRequest) returns (ListClustersResponse) {
-    option (google.api.http) = {get: "/managed-trino/v1/clusters"};
-  }
+  rpc List(ListClustersRequest) returns (ListClustersResponse) {
+    option (google.api.http) = {
+      get: "/managed-trino/v1/clusters"
+    };
+  };
 
   // Creates a Trino Cluster resource.
-  rpc Create (CreateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-trino/v1/clusters"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-trino/v1/clusters"
+    };
+  };
 
   // Updates configuration of the specified Trino cluster.
-  rpc Update (UpdateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/managed-trino/v1/clusters/{cluster_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-trino/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Deletes the specified Trino Cluster resource.
-  rpc Delete (DeleteClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/managed-trino/v1/clusters/{cluster_id}"};
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteClusterMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/managed-trino/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Start the specified Trino Cluster resource.
-  rpc Start (StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-trino/v1/clusters/{cluster_id}:start"};
-    option (yandex.cloud.api.operation) = {
+  rpc Start(StartClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      post: "/managed-trino/v1/clusters/{cluster_id}:start"
+    };
+  };
 
   // Stops the specified Trino Cluster resource.
-  rpc Stop (StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-trino/v1/clusters/{cluster_id}:stop"};
-    option (yandex.cloud.api.operation) = {
+  rpc Stop(StopClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      post: "/managed-trino/v1/clusters/{cluster_id}:stop"
+    };
+  };
 
   // Retrieves the list of Operation resources for the specified cluster.
-  rpc ListOperations (ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
-    option (google.api.http) = {get: "/managed-trino/v1/clusters/{cluster_id}/operations"};
-  }
+  rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
+    option (google.api.http) = {
+      get: "/managed-trino/v1/clusters/{cluster_id}/operations"
+    };
+  };
 
   // Retrieves a list of access bindings for the specified Trino cluster.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = { get: "/managed-trino/v1/clusters/{resource_id}:listAccessBindings" };
-  }
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/managed-trino/v1/clusters/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the specified Trino cluster.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
     option (google.api.http) = {
-      post: "/managed-trino/v1/clusters/{resource_id}:setAccessBindings"
       body: "*"
+      post: "/managed-trino/v1/clusters/{resource_id}:setAccessBindings"
     };
-    option (yandex.cloud.api.operation) = {
-        metadata: "access.SetAccessBindingsMetadata"
-        response: "access.AccessBindingsOperationResult"
-    };
-  }
+  };
 
   // Updates access bindings for the specified Trino cluster.
   // (-- api-linter: yc::1705::http-method-mapping=disabled
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
     option (google.api.http) = {
-      patch: "/managed-trino/v1/clusters/{resource_id}:updateAccessBindings"
       body: "*"
+      patch: "/managed-trino/v1/clusters/{resource_id}:updateAccessBindings"
     };
-    option (yandex.cloud.api.operation) = {
-        metadata: "access.UpdateAccessBindingsMetadata"
-        response: "access.AccessBindingsOperationResult"
-    };
-  }
+  };
 }
 
 message GetClusterRequest {
   // ID of the Trino Cluster resource to return.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
 message ListClustersRequest {
   // ID of the folder to list Trino clusters in.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -162,15 +176,15 @@ message ListClustersResponse {
 message CreateClusterRequest {
   // ID of the folder to create Trino cluster in.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Name of the Trino cluster. The name must be unique within the folder.
   string name = 2 [
-    (required) = true,
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*"
+    (pattern) = "[a-zA-Z0-9_-]*",
+    (required) = true
   ];
 
   // Description of the Trino cluster.
@@ -179,11 +193,13 @@ message CreateClusterRequest {
   // Custom labels for the Trino cluster as `` key:value `` pairs.
   // For example: {"env": "prod"}.
   map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // Configuration of Trino components.
@@ -197,8 +213,8 @@ message CreateClusterRequest {
 
   // Service account used to access Cloud resources.
   string service_account_id = 8 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Cloud logging configuration.
@@ -209,6 +225,8 @@ message CreateClusterRequest {
 }
 
 message TrinoConfigSpec {
+  reserved 5;
+
   // List of catalogs that enable integration with various data sources.
   // Each catalog defines a connection to an external data source that Trino can query.
   repeated CatalogSpec catalogs = 1;
@@ -221,8 +239,6 @@ message TrinoConfigSpec {
 
   // Configuration for retry policy, specifying the spooling storage destination and other settings.
   RetryPolicyConfig retry_policy = 4;
-
-  reserved 5;
 
   // Trino version.
   // Format: "Number".
@@ -249,25 +265,27 @@ message UpdateCoordinatorConfig {
 }
 
 message UpdateWorkerConfig {
-  // Configuration for computational resources for worker instances.
-  Resources resources = 1;
-
-  // Configuration for scaling policy for worker instances.
-  WorkerScalePolicy scale_policy = 2;
-
   message WorkerScalePolicy {
     // Defines the scaling type for worker instances.
     // Only one type of scaling can be specified at a time.
     oneof scale_type {
       option (exactly_one) = true;
+
       // A fixed scaling policy that specifies a fixed number of worker instances.
       FixedScalePolicy fixed_scale = 1;
+
       // A scaling policy that dynamically adjusts the number of worker instances
       // based on the cluster's workload. The system automatically increases or
       // decreases the number of instances within the defined range.
       AutoScalePolicy auto_scale = 2;
     }
   }
+
+  // Configuration for computational resources for worker instances.
+  Resources resources = 1;
+
+  // Configuration for scaling policy for worker instances.
+  WorkerScalePolicy scale_policy = 2;
 }
 
 message UpdateTrinoConfigSpec {
@@ -305,8 +323,8 @@ message UpdateNetworkConfigSpec {
 message UpdateClusterRequest {
   // ID of the Trino cluster.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Field mask that specifies which fields of the Trino cluster should be updated.
@@ -324,11 +342,13 @@ message UpdateClusterRequest {
   // Custom labels for the Trino cluster as `` key:value `` pairs.
   // For example: {"env": "prod"}.
   map<string, string> labels = 5 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // Deletion Protection inhibits deletion of the cluster.
@@ -358,8 +378,8 @@ message UpdateClusterMetadata {
 message DeleteClusterRequest {
   // ID of the Trino cluster that is being deleted.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -371,8 +391,8 @@ message DeleteClusterMetadata {
 message StartClusterRequest {
   // ID of the Trino cluster that is being started.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -384,8 +404,8 @@ message StartClusterMetadata {
 message StopClusterRequest {
   // ID of the Trino cluster that is being stopped.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -397,8 +417,8 @@ message StopClusterMetadata {
 message ListClusterOperationsRequest {
   // ID of the Trino Cluster resource to list operations for.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available

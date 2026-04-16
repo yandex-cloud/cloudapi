@@ -13,169 +13,165 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v1alpha;baremetal";
 option java_package = "yandex.cloud.api.baremetal.v1alpha";
 
-
 // A set of methods for managing Server resources.
 service ServerService {
   // Returns the specific Server resource.
-  //
   // To get the list of available Server resources, make a [List] request.
-  rpc Get (GetServerRequest) returns (Server) {
+  rpc Get(GetServerRequest) returns (Server) {
     option (google.api.http) = {
       get: "/baremetal/v1alpha/servers/{server_id}"
     };
-  }
+  };
 
   // Retrieves the list of Server resources in the specified folder.
-  rpc List (ListServerRequest) returns (ListServerResponse) {
+  rpc List(ListServerRequest) returns (ListServerResponse) {
     option (google.api.http) = {
       get: "/baremetal/v1alpha/servers"
     };
-  }
+  };
 
   // Creates a server in the specified folder.
-  rpc Create (CreateServerRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/baremetal/v1alpha/servers"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateServerRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateServerMetadata"
       response: "Server"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v1alpha/servers"
+    };
+  };
 
   // Creates multiple servers in the specified folder.
-  rpc BatchCreate (BatchCreateServersRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/baremetal/v1alpha/servers:batchCreate"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc BatchCreate(BatchCreateServersRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "BatchCreateServersMetadata"
       response: "BatchCreateServersResponse"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v1alpha/servers:batchCreate"
+    };
+  };
 
   // Updates the specified server.
-  rpc Update (UpdateServerRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/baremetal/v1alpha/servers/{server_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateServerRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateServerMetadata"
       response: "Server"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/baremetal/v1alpha/servers/{server_id}"
+    };
+  };
 
   // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  //     Required for backward compatibility with old clients. --)
+  // Required for backward compatibility with old clients. --)
   // Powers off the specified server.
-  rpc PowerOff (PowerOffServerRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/baremetal/v1alpha/servers/{server_id}:powerOff"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc PowerOff(PowerOffServerRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "PowerOffServerMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v1alpha/servers/{server_id}:powerOff"
+    };
+  };
 
   // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  //     Required for backward compatibility with old clients. --)
+  // Required for backward compatibility with old clients. --)
   // Powers on the specified server.
-  rpc PowerOn (PowerOnServerRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/baremetal/v1alpha/servers/{server_id}:powerOn"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc PowerOn(PowerOnServerRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "PowerOnServerMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v1alpha/servers/{server_id}:powerOn"
+    };
+  };
 
   // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  //     Required for backward compatibility with old clients. --)
+  // Required for backward compatibility with old clients. --)
   // Reboots the specified server.
-  rpc Reboot (RebootServerRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/baremetal/v1alpha/servers/{server_id}:reboot"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc Reboot(RebootServerRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "RebootServerMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v1alpha/servers/{server_id}:reboot"
+    };
+  };
 
   // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  //     Required for backward compatibility with old clients. --)
+  // Required for backward compatibility with old clients. --)
   // Reinstalls the specified server.
-  rpc Reinstall (ReinstallServerRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/baremetal/v1alpha/servers/{server_id}:reinstall"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc Reinstall(ReinstallServerRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "ReinstallServerMetadata"
       response: "google.protobuf.Empty"
     };
-  }
-
-  // Starts prolongation of the specified server.
-  rpc StartProlongation (StartProlongationRequest) returns (operation.Operation) {
     option (google.api.http) = {
-      post: "/baremetal/v1alpha/servers/{server_id}:startProlongation"
       body: "*"
+      post: "/baremetal/v1alpha/servers/{server_id}:reinstall"
     };
-    option (yandex.cloud.api.operation) = {
-      metadata: "ServerSetProlongationMetadata"
-      response: "Server"
-    };
-  }
-
-  // Stops prolongation of the specified server.
-  rpc StopProlongation (StopProlongationRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/baremetal/v1alpha/servers/{server_id}:stopProlongation"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
-      metadata: "ServerSetProlongationMetadata"
-      response: "Server"
-    };
-  }
+  };
 
   // Lists operations for the specified server.
-  rpc ListOperations (ListServerOperationsRequest) returns (ListServerOperationsResponse) {
+  rpc ListOperations(ListServerOperationsRequest) returns (ListServerOperationsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v1alpha/servers/{server_id}/operations"
     };
-  }
+  };
+
+  // Starts prolongation of the specified server.
+  rpc StartProlongation(StartProlongationRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "ServerSetProlongationMetadata"
+      response: "Server"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v1alpha/servers/{server_id}:startProlongation"
+    };
+  };
+
+  // Stops prolongation of the specified server.
+  rpc StopProlongation(StopProlongationRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "ServerSetProlongationMetadata"
+      response: "Server"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v1alpha/servers/{server_id}:stopProlongation"
+    };
+  };
+
 }
 
 message GetServerRequest {
   // ID of the Server resource to return.
-  //
   // To get the server ID, use a [ServerService.List] request.
   string server_id = 1 [
-    (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
   ];
 }
 
 message ListServerRequest {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // ID of the folder to list servers in.
-  //
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (pattern) = "[a-z][a-z0-9.-]*",
-    (length) = "<=50"
+    (length) = "<=50",
+    (pattern) = "[a-z][a-z0-9.-]*"
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -183,7 +179,7 @@ message ListServerRequest {
   // the service returns a [ListServerResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Default value is 20.
-  int64 page_size = 100 [(value) = "<=100"];
+  int64 page_size = 100 [(value) = "<=1000"];
 
   // Page token. To get the next page of results, set `page_token` to the
   // [ListServerResponse.next_page_token] returned by a previous list request.
@@ -197,7 +193,6 @@ message ListServerRequest {
 
   // A filter expression that filters resources listed in the response.
   // The expression consists of one or more conditions united by `AND` operator: `<condition1> [AND <condition2> [<...> AND <conditionN>]]`.
-  //
   // Each condition has the form `<field> <operator> <value>`, where:
   // 1. `<field>` is the field name. Currently you can use filtering only on the limited number of fields.
   // 2. `<operator>` is a logical operator, one of `=` (equal), `:` (substring).
@@ -211,7 +206,6 @@ message ListServerRequest {
 }
 
 message ListServerResponse {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // List of Server resources.
@@ -220,53 +214,47 @@ message ListServerResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // [ListServerRequest.page_size], use `next_page_token` as the value
   // for the [ListServerRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 100;
 }
 
 message CreateServerRequest {
-  reserved 6 to 10, 12 to 14;
-
-  // Reserved for future use.
-  reserved 17 to 199;
+  reserved 6 to 10, 12 to 14, 17 to 199;
 
   // ID of the folder to create server in.
-  //
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (pattern) = "[a-z][a-z0-9.-]*",
-    (length) = "<=50"
+    (length) = "<=50",
+    (pattern) = "[a-z][a-z0-9.-]*"
   ];
 
   // Name of the server.
   // The name must be unique within the folder.
   string name = 2 [
-    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?",
-    (length) = "2-56"
+    (length) = "2-56",
+    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?"
   ];
 
   // Description of the server.
   string description = 3 [(length) = "<=1024"];
 
   // ID of the hardware pool that the server belongs to.
-  //
   // To get the hardware pool ID, use a [HardwarePoolService.List] request.
   string hardware_pool_id = 4 [
-    (required) = true,  
-    (length) = "<=20"
+    (length) = "<=20",
+    (required) = true
   ];
 
   // ID of the configuration to use for the server.
-  //
   // To get the configuration ID, use a [ConfigurationService.List] request.
   string configuration_id = 5 [
+    (length) = "20",
     (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
+    (required) = false,
+    deprecated = true
   ];
 
   // A period of time for which the server is rented.
-  //
   // To get the rental period ID, use a [RentalPeriodService.List] request.
   string rental_period_id = 11 [(length) = "<=20"];
 
@@ -282,11 +270,13 @@ message CreateServerRequest {
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 200 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 }
 
@@ -296,15 +286,13 @@ message CreateServerMetadata {
 }
 
 message UpdateServerRequest {
-  // Reserved for future use.
   reserved 6 to 199;
 
   // ID of the server to update.
-  //
   // To get the server ID, use a [ServerService.List] request.
   string server_id = 1 [
-    (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
   ];
 
   // Field mask that specifies which fields of the Server resource are going to be updated.
@@ -313,8 +301,8 @@ message UpdateServerRequest {
   // Name of the server.
   // The name must be unique within the folder.
   string name = 3 [
-    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?",
-    (length) = "2-63"
+    (length) = "2-63",
+    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?"
   ];
 
   // Description of the server.
@@ -328,24 +316,20 @@ message UpdateServerRequest {
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 200 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 }
 
 // (-- api-linter: yc::1704::file-separation=disabled
-//     Required for backward compatibility with old clients. --)
+// Required for backward compatibility with old clients. --)
 message NetworkInterfaceSpec {
   reserved 2 to 6;
-
-  // ID of the network interface. Should not be specified when creating a server.
-  string id = 1 [
-    (pattern) = "([a-z][a-z0-9]*)?",
-    (length) = "<=20"
-  ];
 
   // @deprecated. Use `interface` instead.
   // Subnet specific interface params.
@@ -364,6 +348,49 @@ message NetworkInterfaceSpec {
     // Public interface.
     PublicNetworkInterface public_interface = 10;
   }
+
+  // ID of the network interface. Should not be specified when creating a server.
+  string id = 1 [
+    (length) = "<=20",
+    (pattern) = "([a-z][a-z0-9]*)?"
+  ];
+}
+
+message OsSettingsSpec {
+  reserved 3, 6 to 9;
+
+  // Root user SSH key.
+  oneof ssh_key {
+    option (exactly_one) = true;
+
+    // Public SSH key for the server.
+    string ssh_public_key = 4 [(length) = "<=20000"];
+
+    // ID of the user SSH key to use for the server.
+    // To get the user SSH key ID, use a [yandex.cloud.organizationmanager.v1.UserSshKeyService.List] request.
+    string user_ssh_id = 5 [(length) = "<=50"];
+  }
+
+  // Password for the server.
+  oneof password {
+    option (exactly_one) = true;
+
+    // Raw password.
+    string password_plain_text = 10 [(length) = ">=6"];
+
+    // Reference to the Lockbox secret used to obtain the password.
+    LockboxSecret password_lockbox_secret = 11;
+  }
+
+  // ID of the image that the server was created from.
+  string image_id = 1 [
+    (length) = "<=20",
+    (pattern) = "[a-z][a-z0-9]*"
+  ];
+
+  // List of storages to be created on the server. If not specified, the default value based on the
+  // selected configuration will be used as the field value.
+  repeated Storage storages = 2;
 }
 
 message UpdateServerMetadata {
@@ -373,11 +400,10 @@ message UpdateServerMetadata {
 
 message DeleteServerRequest {
   // ID of the server to delete.
-  //
   // To get the server ID, use a [ServerService.List] request.
   string server_id = 1 [
-    (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
   ];
 }
 
@@ -388,11 +414,10 @@ message DeleteServerMetadata {
 
 message PowerOffServerRequest {
   // ID of the server to power off.
-  //
   // To get the server ID, use a [ServerService.List] request.
   string server_id = 1 [
-    (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
   ];
 }
 
@@ -403,11 +428,10 @@ message PowerOffServerMetadata {
 
 message PowerOnServerRequest {
   // ID of the server to power on.
-  //
   // To get the server ID, use a [ServerService.List] request.
   string server_id = 1 [
-    (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
   ];
 }
 
@@ -418,11 +442,10 @@ message PowerOnServerMetadata {
 
 message RebootServerRequest {
   // ID of the server to reboot.
-  //
   // To get the server ID, use a [ServerService.List] request.
   string server_id = 1 [
-    (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
   ];
 }
 
@@ -432,17 +455,13 @@ message RebootServerMetadata {
 }
 
 message ReinstallServerRequest {
-  reserved 2 to 5, 7, 8;
-
-  // Reserved for future use.
-  reserved 6;
+  reserved 2 to 8;
 
   // ID of the server to reinstall.
-  //
   // To get the server ID, use a [ServerService.List] request.
   string server_id = 1 [
-    (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
   ];
 
   // Operating system specific settings for provisioning the server.
@@ -455,13 +474,12 @@ message ReinstallServerMetadata {
 }
 
 message ListServerOperationsRequest {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // ID of the Server resource to list operations for.
   string server_id = 1 [
-    (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -477,7 +495,6 @@ message ListServerOperationsRequest {
 }
 
 message ListServerOperationsResponse {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // List of operations for the specified Server resource.
@@ -486,53 +503,59 @@ message ListServerOperationsResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // [ListServerOperationsRequest.page_size], use `next_page_token` as the value
   // for the [ListServerOperationsRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 100;
 }
 
-message BatchCreateServersRequest {
-  reserved 6 to 10, 12 to 14;
+message LockboxSecret {
+  // The unique identifier for the lockbox secret that contains the user password.
+  string secret_id = 1 [(required) = true];
 
-  // Reserved for future use.
-  reserved 17 to 199, 201 to 299;
+  // The unique identifier for the lockbox version.
+  // If omitted, the current version of the secret will be used.
+  string version_id = 2;
+
+  // The key used to access a specific secret entry.
+  string key = 3 [(required) = true];
+}
+
+message BatchCreateServersRequest {
+  reserved 6 to 10, 12 to 14, 17 to 199, 201 to 299;
 
   // ID of the folder to list images in.
-  //
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (pattern) = "[a-z][a-z0-9.-]*",
-    (length) = "<=50"
+    (length) = "<=50",
+    (pattern) = "[a-z][a-z0-9.-]*"
   ];
 
   // Name of the server.
   // The name must be unique within the folder.
   string name = 2 [
-    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?",
-    (length) = "2-56"
+    (length) = "2-56",
+    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?"
   ];
 
   // Description of the server.
   string description = 3 [(length) = "<=1024"];
 
   // ID of the hardware pool that the server belongs to.
-  //
   // To get the hardware pool ID, use a [HardwarePoolService.List] request.
   string hardware_pool_id = 4 [
-    (required) = true,  
-    (length) = "<=20"
+    (length) = "<=20",
+    (required) = true
   ];
 
   // ID of the configuration to use for the server.
-  //
   // To get the configuration ID, use a [ConfigurationService.List] request.
   string configuration_id = 5 [
+    (length) = "20",
     (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
+    (required) = false,
+    deprecated = true
   ];
 
   // A period of time for which the server is rented.
-  //
   // To get the rental period ID, use a [RentalPeriodService.List] request.
   string rental_period_id = 11 [(length) = "<=20"];
 
@@ -548,11 +571,13 @@ message BatchCreateServersRequest {
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 200 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // Number of servers to create.
@@ -577,72 +602,21 @@ message QuarantineServerMetadata {
 message StartProlongationRequest {
   // ID of the server that is being prolonged.
   string server_id = 1 [
-    (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
   ];
 }
 
 message StopProlongationRequest {
   // ID of the server to stop prolongation for.
-  //
   // To get the server ID, use a [ServerService.List] request.
   string server_id = 1 [
-    (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
   ];
 }
 
 message ServerSetProlongationMetadata {
   // ID of the server for which the prolongation is being set.
   string server_id = 1;
-}
-
-message OsSettingsSpec {
-  reserved 3, 6 to 9;
-
-  // ID of the image that the server was created from.
-  string image_id = 1 [
-    (pattern) = "[a-z][a-z0-9]*",
-    (length) = "<=20"
-  ];
-
-  // List of storages to be created on the server. If not specified, the default value based on the
-  // selected configuration will be used as the field value.
-  repeated Storage storages = 2;
-
-  // Root user SSH key.
-  oneof ssh_key {
-    option (exactly_one) = true;
-
-    // Public SSH key for the server.
-    string ssh_public_key = 4 [(length) = "<=20000"];
-
-    // ID of the user SSH key to use for the server.
-    //
-    // To get the user SSH key ID, use a [yandex.cloud.organizationmanager.v1.UserSshKeyService.List] request.
-    string user_ssh_id = 5 [(length) = "<=50"];
-  }
-
-  // Password for the server.
-  oneof password {
-    option (exactly_one) = true;
-
-    // Raw password.
-    string password_plain_text = 10 [(length) = ">=6"];
-
-    // Reference to the Lockbox secret used to obtain the password.
-    LockboxSecret password_lockbox_secret = 11;
-  }
-}
-
-message LockboxSecret {
-  // The unique identifier for the lockbox secret that contains the user password.
-  string secret_id = 1 [ (required) = true ];
-
-  // The unique identifier for the lockbox version.
-  // If omitted, the current version of the secret will be used.
-  string version_id = 2;
-
-  // The key used to access a specific secret entry.
-  string key = 3 [ (required) = true ];
 }

@@ -12,16 +12,26 @@ option java_package = "yandex.cloud.api.iot.broker.v1";
 service BrokerDataService {
 
   // Publishes message on behalf of specified broker
-  rpc Publish (PublishBrokerDataRequest) returns (PublishBrokerDataResponse) {
-    option (google.api.http) = { post: "/iot-broker/v1/brokers/{broker_id}/publish" body: "*" };
-  }
+  rpc Publish(PublishBrokerDataRequest) returns (PublishBrokerDataResponse) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/iot-broker/v1/brokers/{broker_id}/publish"
+    };
+  };
 }
+
 message PublishBrokerDataRequest {
   // ID of broker publishing message
-  string broker_id = 1 [(required) = true, (length) = "<=50"];
+  string broker_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Topic where message should be published
-  string topic = 2 [(required) = true, (length) = "<=1024"];
+  string topic = 2 [
+    (length) = "<=1024",
+    (required) = true
+  ];
 
   // Content of the message
   bytes data = 3 [(length) = "<=262144"];

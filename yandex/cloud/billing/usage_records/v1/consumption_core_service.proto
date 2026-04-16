@@ -34,7 +34,7 @@ import "yandex/cloud/validation.proto";
 // Required permissions:
 // All methods in this service require one of the following permissions on the specified billing account:
 // - `billing.accounts.getReport`
-// 
+//
 // Rate limits:
 // This API is limited to 1 request per minute per IP address.
 service ConsumptionCoreService {
@@ -157,7 +157,8 @@ service ConsumptionCoreService {
     // entity types and aggregated at different time granularities.
     //
     // Implementation details:
-    // - Results are organized by resource, with each resource's usage, costs, and credits detailed
+    // - Results are organized by resource, with each resource's usage, costs, and credits detailed.
+    // - Each resource-id + service-instance-type unique combination results in one entry in entity data.
     // - If resource_ids are specified, only data for those resources is included (using OR logic)
     // - When no resource_ids are specified, data for all resources under the billing account is returned
     // - Other filters (cloud_ids, folder_ids, service_ids, sku_ids, labels) are always applied if present
@@ -197,6 +198,30 @@ service ConsumptionCoreService {
     // - Returns PERMISSION_DENIED if the user lacks required permissions
     // - Returns INTERNAL for internal server errors
     rpc GetLabelKeyUsageReport(UsageReportRequest) returns (LabelKeyUsageReportResponse);
+
+    // Returns aggregated usage report for the specified service instances
+    // under the specified billing account.
+    //
+    // This method provides detailed usage and cost information grouped by service instances
+    // within the specified billing account. Service instances represent individual billable
+    // entities such as cloud instances, DataLens instances, Tracker instances, Cloud Video
+    // instances, and other service-specific instances. The data can be filtered by various
+    // entity types and aggregated at different time granularities.
+    //
+    // Implementation details:
+    // - Results are organized by service instance, with each instance's usage, costs, and credits detailed
+    // - If service_instance_ids are specified, only data for those instances is included (using OR logic)
+    // - When no service_instance_ids are specified, data for all service instances under the billing account is returned
+    // - Other filters (cloud_ids, folder_ids, service_ids, sku_ids, resource_ids, labels) are always applied if present
+    // - If both cloud_ids and service_instance_ids are specified in the request, the results are filtered
+    //   by the intersection of these filters (AND logic).
+    //
+    // Error handling:
+    // - Returns INVALID_ARGUMENT if the request parameters fail validation
+    // - Returns UNAUTHENTICATED if the user is not authenticated or the billing account does not exist
+    // - Returns PERMISSION_DENIED if the user lacks required permissions
+    // - Returns INTERNAL for internal server errors
+    rpc GetServiceInstanceUsageReport(UsageReportRequest) returns (ServiceInstanceUsageReportResponse);
 }
 
 // Request for retrieving usage report data.
@@ -267,6 +292,23 @@ message UsageReportRequest {
     // and (key1 AND key2 AND ...) between different keys.
     map<string, LabelList> labels = 8;
 
+    // Optional. Controls the logic for combining different label filters.
+    // When false (default): AND logic between different label keys - resources
+    // must match ALL specified label conditions. When true: OR logic between
+    // different label keys - resources must match ANY specified label condition.
+    // Example with labels_or_filter_logic = false (AND logic):
+    // labels = {"env": ["prod"], "team": ["finance"]}
+    // Returns resources that have BOTH env=prod AND team=finance
+    //
+    // Example with labels_or_filter_logic = true (OR logic):
+    // labels = {"env": ["prod"], "team": ["finance"]}
+    // Returns resources that have EITHER env=prod OR team=finance (or both)
+    //
+    // Note: Within each label key, multiple values are always combined with OR
+    // logic. For example: {"env": ["prod", "test"]} always means env=prod OR
+    // env=test
+    bool labels_or_filter_logic = 12;
+
     // Optional. List of resource IDs to filter the data.
     // If specified, only usage data from these specific resources (e.g., individual VMs, disks) will be included.
     // If omitted, data from all resources used by the billing account will be included.
@@ -292,6 +334,12 @@ message UsageReportRequest {
     // This setting affects the time series data returned in the periodic field of each entity.
     // If omitted, the service will typically use DAY as the default granularity.
     TimeGrouping aggregation_period = 10;
+
+    // Optional. List of service instance IDs to filter the data.
+    // If specified, only usage data from these specific service instances (e.g., cloud instances,
+    // DataLens instances, Tracker instances, Cloud Video instances) will be included.
+    // If omitted, data from all service instances used by the billing account will be included.
+    repeated string service_instance_ids = 11;
 }
 
 // Response for usage report requests by billing account.
@@ -482,7 +530,7 @@ message SKUUsageReportResponse {
 // with both summary totals and detailed breakdowns for each individual resource.
 // The response includes:
 // 1. Overall totals for the entire period (cost, credits, expense)
-// 2. Entity-level totals for each resource
+// 2. Entity-level totals for each unique resource-id and service instance type combination
 // 3. Time series breakdown for each resource according to the requested aggregation period
 message ResourceUsageReportResponse {
     // Currency code (e.g., "RUB", "USD") for all monetary values in the response.
@@ -548,4 +596,38 @@ message LabelKeyUsageReportResponse {
     // 2. Time series data broken down by the specified aggregation period (day/week/month/quarter/year)
     // This represents the second and third levels in the overall three-level response structure.
     repeated LabelUsageReportEntityData entities_data = 5;
+}
+
+// Response for usage report requests by service instance.
+//
+// Contains aggregated usage, cost, and credit information organized by service instance entities,
+// with both summary totals and detailed breakdowns for each service instance. Service instances
+// represent individual billable entities such as cloud instances, DataLens instances, Tracker
+// instances, Cloud Video instances, and other service-specific instances.
+// The response includes:
+// 1. Overall totals for the entire period (cost, credits, expense)
+// 2. Entity-level totals for each service instance
+// 3. Time series breakdown for each service instance according to the requested aggregation period
+message ServiceInstanceUsageReportResponse {
+  // Currency code (e.g., "RUB", "USD") for all monetary values in the response.
+  // Determined by the billing account's settings.
+  Currency currency = 1;
+  // Total usage cost for the selected time period.
+  // This represents the raw cost before any credits or discounts are applied.
+  // Calculated based on the resource consumption and the corresponding price rates.
+  StringDecimal cost = 2;
+  // Total credits (monetary grants, volume incentives, committed use discounts, and free credits) applied in the selected period.
+  // Contains a detailed breakdown of all credit types that reduced the final billable amount.
+  CreditDetails credit_details = 3;
+  // Total expense (including cost and credit) for the selected time period.
+  // This is the final billable amount after all credits have been applied.
+  // Formula: expense = cost - sum of all credits.
+  StringDecimal expense = 4;
+  // Detailed usage and billing data for each service instance entity.
+  // This field contains a structured breakdown of costs, credits, and expenses
+  // for each individual service instance, including:
+  // 1. Entity-level totals for the entire period (cost, credits, expense)
+  // 2. Time series data broken down by the specified aggregation period (day/week/month/quarter/year)
+  // This represents the second and third levels in the overall three-level response structure.
+  repeated ServiceInstanceUsageReportEntityData entities_data = 5;
 }

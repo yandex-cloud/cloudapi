@@ -77,10 +77,6 @@ message BrokerPassword {
 }
 
 message LogOptions {
-
-  // Is logging from broker disabled.
-  bool disabled = 1;
-
   // Log entries destination.
   oneof destination {
     // Entry should be written to log group resolved by ID.
@@ -90,8 +86,10 @@ message LogOptions {
     string folder_id = 3 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
   }
 
+  // Is logging from broker disabled.
+  bool disabled = 1;
+
   // Minimum log entry level.
-  //
   // See [LogLevel.Level] for details.
-  yandex.cloud.logging.v1.LogLevel.Level min_level = 4;
+  logging.v1.LogLevel.Level min_level = 4;
 }

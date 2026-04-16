@@ -13,6 +13,7 @@ message Thumbnail {
   reserved 3 to 99, 101 to 1002;
 
   oneof parent_id {
+
     // ID of the episode which the thumbnail is associated with.
     string episode_id = 1003;
 

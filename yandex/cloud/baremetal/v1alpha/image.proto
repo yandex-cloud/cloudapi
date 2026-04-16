@@ -9,7 +9,6 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 
 // An Image resource.
 message Image {
-  // Reserved for future use.
   reserved 3, 8 to 99, 101 to 199;
 
   // Image status.

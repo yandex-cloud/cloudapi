@@ -12,6 +12,8 @@ option java_package = "yandex.cloud.api.video.v1";
 // Style presets define the appearance of players, widgets, and other UI elements
 // to ensure consistent branding and user experience.
 message StylePreset {
+  reserved 10 to 11, 18 to 19, 22 to 99;
+
   // Widget position relative to the player.
   enum WidgetLocation {
     // The widget location is not specified.
@@ -23,8 +25,6 @@ message StylePreset {
     // Position the widget below the player.
     BOTTOM = 2;
   }
-
-  reserved 10 to 11, 18 to 19, 22 to 99;
 
   // Unique identifier of the style preset.
   string id = 1;
@@ -107,5 +107,4 @@ message Widget {
     // Widget that displays detailed video description.
     Description description = 2;
   }
-
 }

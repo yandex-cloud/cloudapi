@@ -52,7 +52,6 @@ message AccessBinding {
 }
 
 message AccessPolicy {
-
   // ID of the access policy template.
   string id = 1;
 

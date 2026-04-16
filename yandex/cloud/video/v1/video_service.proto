@@ -486,6 +486,8 @@ message VideoTranslationSettings {
 }
 
 message VideoSummarizationSettings {
+  reserved 1;
+
   message SummarizationTrack {
     // Input track settings.
     InputTrack input_track = 1 [(required) = true];
@@ -504,8 +506,6 @@ message VideoSummarizationSettings {
       (pattern) = "|ara|deu|eng|fra|ita|jpn|kor|rus|spa|tur|zho"
     ];
   }
-
-  reserved 1;
 
   // Summarization settings for each track.
   repeated SummarizationTrack tracks = 2;

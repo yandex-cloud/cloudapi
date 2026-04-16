@@ -21,7 +21,6 @@ message Secret {
     // Raw secret value
     string raw = 1;
   }
-
 }
 
 message ColSchema {
@@ -52,7 +51,6 @@ message TLSMode {
     // TLS is used for the server connection
     TLSConfig enabled = 2;
   }
-
 }
 
 message TLSConfig {
@@ -68,7 +66,6 @@ message ColumnValue {
   oneof value {
     string string_value = 1;
   }
-
 }
 
 message DataTransformationOptions {
@@ -110,7 +107,6 @@ message DataSchema {
     // Description of the data schema in the array of `fields` structure
     FieldList fields = 2;
   }
-
 }
 
 // No authentication

@@ -99,6 +99,8 @@ message RefererVerificationSettings {
 // These settings control whether and how advertisements are shown
 // with content in this channel, including both videos and streams.
 message AdvertisementSettings {
+  reserved 1 to 99;
+
   // Configuration for the Yandex.Direct advertisement provider.
   // These settings are specific to the Yandex.Direct advertising platform.
   message YandexDirect {
@@ -118,8 +120,6 @@ message AdvertisementSettings {
     int64 category = 3;
   }
 
-  reserved 1 to 99;
-
   // Specifies the advertisement provider to use.
   // Only one provider can be active at a time.
   oneof provider {
@@ -127,7 +127,6 @@ message AdvertisementSettings {
     // When specified, advertisements will be served through Yandex.Direct.
     YandexDirect yandex_direct = 100;
   }
-
 }
 
 // Settings for displaying video

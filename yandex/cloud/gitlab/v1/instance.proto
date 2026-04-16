@@ -3,8 +3,8 @@ syntax = "proto3";
 package yandex.cloud.gitlab.v1;
 
 import "google/protobuf/timestamp.proto";
-import "yandex/cloud/validation.proto";
 import "yandex/cloud/gitlab/v1/maintenance.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/gitlab/v1;gitlab";
 option java_outer_classname = "GI";
@@ -12,6 +12,8 @@ option java_package = "yandex.cloud.api.gitlab.v1";
 
 // Instance represents a GitLab instance with its configuration and state.
 message Instance {
+  reserved 15, 18, 21;
+
   enum Status {
     // Default state.
     STATUS_UNSPECIFIED = 0;
@@ -98,17 +100,11 @@ message Instance {
   // Subnet ID.
   string subnet_id = 14;
 
-  // reserved for maintenance_window
-  reserved 15;
-
   // Planned maintenance operation.
-  MaintenanceOperation planned_operation = 16 [(yandex.cloud.required) = false];
+  MaintenanceOperation planned_operation = 16 [(required) = false];
 
   // How long to keep backups (days).
   int64 backup_retain_period_days = 17;
-
-  // reserved for backup_window_start
-  reserved 18;
 
   // Delete untagged resources during maintenance.
   bool maintenance_delete_untagged = 19;
@@ -116,10 +112,11 @@ message Instance {
   // Protect from accidental deletion.
   bool deletion_protection = 20;
 
-  reserved 21;
-
   // Approval rules ID.
-  string approval_rules_id = 22 [(yandex.cloud.required) = false, (yandex.cloud.length) = "<=30"];
+  string approval_rules_id = 22 [
+    (length) = "<=30",
+    (required) = false
+  ];
 
   // GitLab version of the instance.
   string gitlab_version = 23;

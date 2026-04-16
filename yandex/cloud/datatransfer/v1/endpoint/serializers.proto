@@ -41,5 +41,4 @@ message Serializer {
     // Serialize data in debezium json format
     SerializerDebezium serializer_debezium = 3;
   }
-
 }

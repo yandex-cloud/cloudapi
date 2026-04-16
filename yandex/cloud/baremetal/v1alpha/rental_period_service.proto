@@ -12,23 +12,22 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 // A set of methods to retrieve information about RentalPeriod resources.
 service RentalPeriodService {
   // Retrieves the list of RentalPeriod resources.
-  rpc List (ListRentalPeriodsRequest) returns (ListRentalPeriodsResponse) {
+  rpc List(ListRentalPeriodsRequest) returns (ListRentalPeriodsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v1alpha/rentalPeriods"
     };
-  }
+  };
 }
 
 message ListRentalPeriodsRequest {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // ID of the Configuration resource to return a Rental Period for.
-  //
   // To get the configuration ID, use a [ConfigurationService.List] request.
   string configuration_id = 1 [
+    (length) = "20",
     (pattern) = "[a-z][a-z0-9]*",
-    (length) = "20"
+    (required) = false
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -44,16 +43,14 @@ message ListRentalPeriodsRequest {
 }
 
 message ListRentalPeriodsResponse {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // List of RentalPeriod resources.
   repeated RentalPeriod rental_periods = 1;
 
- // Token for getting the next page of the list. If the number of results is greater than
+  // Token for getting the next page of the list. If the number of results is greater than
   // [ListRentalPeriodsRequest.page_size], use `next_page_token` as the value
   // for the [ListRentalPeriodsResponse.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 100;
 }

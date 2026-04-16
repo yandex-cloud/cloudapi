@@ -12,36 +12,36 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 // A set of methods to retrieve information about standard image .
 service StandardImageService {
   // Returns the specific standard Image resource.
-  //
   // To get the list of standard  resources, make a [List] request.
-  rpc Get (GetStandardImageRequest) returns (StandardImage) {
-     option (google.api.http) = {
+  rpc Get(GetStandardImageRequest) returns (StandardImage) {
+    option (google.api.http) = {
       get: "/baremetal/v1alpha/standardImages/{standard_image_id}"
     };
-  }
+  };
 
   // Retrieves the list of Image resources in the specified folder. Pass the "baremetal-standard-images" folder to get general images.
-  rpc List (ListStandardImagesRequest) returns (ListStandardImagesResponse) {
-      option (google.api.http) = {
+  rpc List(ListStandardImagesRequest) returns (ListStandardImagesResponse) {
+    option (google.api.http) = {
       get: "/baremetal/v1alpha/standardImages"
     };
-  }
+  };
 }
 
 message GetStandardImageRequest {
   // ID of the StandardImage resource to return.
-  //
   // To get the standard image ID, use a [StandardImageService.List] request.
   string standard_image_id = 1 [(length) = "<=20"];
 }
 
 message ListStandardImagesRequest {
+  reserved 1 to 99;
+
   // The maximum number of results per page to return. If the number of available
   // results is greater than `page_size`,
   // the service returns a [ListStandardImagesResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Default value is 20.
-  int64 page_size = 100 [(value) = "<=100"];
+  int64 page_size = 100 [(value) = "<=1000"];
 
   // Page token. To get the next page of results, set `page_token` to the
   // [ListStandardImagesResponse.next_page_token] returned by a previous list request.
@@ -55,7 +55,6 @@ message ListStandardImagesRequest {
 
   // A filter expression that filters resources listed in the response.
   // The expression consists of one or more conditions united by `AND` operator: `<condition1> [AND <condition2> [<...> AND <conditionN>]]`.
-  //
   // Each condition has the form `<field> <operator> <value>`, where:
   // 1. `<field>` is the field name. Currently you can use filtering only on the limited number of fields.
   // 2. `<operator>` is a logical operator, one of `=` (equal), `:` (substring).
@@ -68,16 +67,14 @@ message ListStandardImagesRequest {
   string filter = 103;
 
   // ID of the folder to return a StandardImage resource for.
-  //
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request. Pass the "baremetal-standard-images" folder to get general images.
   string folder_id = 104 [
-    (pattern) = "[a-z][a-z0-9.-]*",
-    (length) = "<=50"
+    (length) = "<=50",
+    (pattern) = "[a-z][a-z0-9.-]*"
   ];
 }
 
 message ListStandardImagesResponse {
-  // Reserved for future use.
   reserved 2 to 99;
 
   // List of StandardImage resources.
@@ -86,7 +83,6 @@ message ListStandardImagesResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // [ListStandardImagesRequest.page_size], use `next_page_token` as the value
   // for the [ListStandardImagesRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 100;
 }

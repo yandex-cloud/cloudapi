@@ -108,7 +108,6 @@ message ListEndpointsResponse {
 message CreateEndpointRequest {
   reserved 5 to 51;
 
-
   // ID of the folder to create the endpoint in.
   // To get the folder ID, make a
   // [yandex.cloud.resourcemanager.v1.FolderService.List] request.
@@ -134,7 +133,6 @@ message CreateEndpointMetadata {
 
 message UpdateEndpointRequest {
   reserved 1 to 9, 14 to 51, 53 to 59;
-
 
   // Identifier of the endpoint to be updated.
   string endpoint_id = 10;

@@ -10,8 +10,43 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 
 // A PrivateSubnet resource.
 message PrivateSubnet {
-  // Reserved for future use.
   reserved 10 to 99, 101 to 199;
+
+  // VRF options for the private subnet.
+  message VrfOptions {
+    // ID of the VRF.
+    string vrf_id = 1;
+
+    // CIDR block for the subnet.
+    string cidr = 2;
+
+    // DHCP options for the subnet.
+    DhcpOptions dhcp_options = 3;
+
+    // Gateway IP address for the subnet.
+    string gateway_ip = 4;
+  }
+
+  // Private subnet status.
+  enum Status {
+    // Unspecified private subnet status.
+    STATUS_UNSPECIFIED = 0;
+
+    // Private subnet is being created.
+    CREATING = 1;
+
+    // Private subnet is ready to use.
+    READY = 2;
+
+    // Private subnet is being updated.
+    UPDATING = 3;
+
+    // Private subnet is being deleted.
+    DELETING = 4;
+
+    // Private subnet encountered a problem and cannot operate.
+    ERROR = 5;
+  }
 
   // ID of the private subnet.
   string id = 1;
@@ -48,40 +83,4 @@ message PrivateSubnet {
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 200;
-
-  // Private subnet status.
-  enum Status {
-    // Unspecified private subnet status.
-    STATUS_UNSPECIFIED = 0;
-
-    // Private subnet is being created.
-    CREATING = 1;
-
-    // Private subnet is ready to use.
-    READY = 2;
-
-    // Private subnet is being updated.
-    UPDATING = 3;
-
-    // Private subnet is being deleted.
-    DELETING = 4;
-
-    // Private subnet encountered a problem and cannot operate.
-    ERROR = 5;
-  }
-
-  // VRF options for the private subnet.
-  message VrfOptions {
-    // ID of the VRF.
-    string vrf_id = 1;
-
-    // CIDR block for the subnet.
-    string cidr = 2;
-
-    // DHCP options for the subnet.
-    DhcpOptions dhcp_options = 3;
-
-    // Gateway IP address for the subnet.
-    string gateway_ip = 4;
-  }
 }

@@ -22,24 +22,30 @@ message QueryConfig {
 
 message ResourceGroupsConfig {
   // Root resource groups configuration.
-  repeated ResourceGroupConfig root_groups = 1 [(size)=">0"];
+  repeated ResourceGroupConfig root_groups = 1 [(size) = ">0"];
 
   // Selector rules for routing queries to resource groups.
-  repeated SelectorRuleConfig selectors = 2 [(size)=">0"];
+  repeated SelectorRuleConfig selectors = 2 [(size) = ">0"];
 
   // Period for CPU quota calculations.
   string cpu_quota_period = 3;
 }
 
 message ResourceGroupConfig {
+  reserved 10;
+
   enum SchedulingPolicy {
     SCHEDULING_POLICY_UNSPECIFIED = 0;
+
     // Queued queries processed first-in-first-out, sub-groups take turns starting queries.
     FAIR = 1;
+
     // Queries selected stochastically by priority, sub-groups selected by schedulingWeight.
     WEIGHTED = 2;
+
     // Sub-groups selected by schedulingWeight and concurrency relative to their share.
     WEIGHTED_FAIR = 3;
+
     // Queued queries selected strictly by priority.
     QUERY_PRIORITY = 4;
   }
@@ -48,13 +54,13 @@ message ResourceGroupConfig {
   string name = 1 [(required) = true];
 
   // Maximum number of queued queries.
-  int64 max_queued = 2 [(value)=">0"];
+  int64 max_queued = 2 [(value) = ">0"];
 
   // Number of concurrently running queries after which new queries only run if peer groups are below soft limits.
   int64 soft_concurrency_limit = 3;
 
   // Maximum number of queries that can run concurrently.
-  int64 hard_concurrency_limit = 4 [(value)=">0"];
+  int64 hard_concurrency_limit = 4 [(value) = ">0"];
 
   // Maximum amount of distributed memory this group can use.
   string soft_memory_limit = 5;
@@ -71,17 +77,50 @@ message ResourceGroupConfig {
   // Weight for weighted and weighted_fair scheduling policies.
   int64 scheduling_weight = 9;
 
-  reserved 10;
-
   // List of sub-groups.
   repeated ResourceGroupConfig sub_groups = 11;
 }
 
 message SelectorRuleConfig {
+  reserved 2 to 3;
+
+  enum QueryType {
+    // Query type is unspecified.
+    QUERY_TYPE_UNSPECIFIED = 0;
+
+    // SELECT query.
+    SELECT = 1;
+
+    // EXPLAIN query.
+    EXPLAIN = 2;
+
+    // DESCRIBE query.
+    DESCRIBE = 3;
+
+    // INSERT query.
+    INSERT = 4;
+
+    // UPDATE query.
+    UPDATE = 5;
+
+    // MERGE query.
+    MERGE = 6;
+
+    // DELECT query.
+    DELETE = 7;
+
+    // ANALYZE query.
+    ANALYZE = 8;
+
+    // Data definition query.
+    DATA_DEFINITION = 9;
+
+    // ALTER TABLE EXECUTE query.
+    ALTER_TABLE_EXECUTE = 10;
+  }
+
   // Regex to match against username.
   string user = 1;
-
-  reserved 2, 3;
 
   // Regex to match against user groups.
   string user_group = 4;
@@ -97,18 +136,4 @@ message SelectorRuleConfig {
 
   // Target resource group name.
   string group = 8 [(required) = true];
-
-  enum QueryType {
-    QUERY_TYPE_UNSPECIFIED = 0;
-    SELECT = 1;
-    EXPLAIN = 2;
-    DESCRIBE = 3;
-    INSERT = 4;
-    UPDATE = 5;
-    MERGE = 6;
-    DELETE = 7;
-    ANALYZE = 8;
-    DATA_DEFINITION = 9;
-    ALTER_TABLE_EXECUTE = 10;
-  }
 }
