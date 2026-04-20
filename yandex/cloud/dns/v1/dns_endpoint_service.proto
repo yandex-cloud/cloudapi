@@ -1,0 +1,258 @@
+syntax = "proto3";
+
+package yandex.cloud.dns.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/access/access.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/dns/v1/dns_endpoint.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dns/v1;dns";
+option java_package = "yandex.cloud.api.dns.v1";
+
+service DnsInboundEndpointService {
+  // Returns the specified DNS inbound endpoint.
+  // To get the list of all available DNS inbound endpoints, make a [List] request.
+  rpc Get(GetDnsInboundEndpointRequest) returns (DnsInboundEndpoint) {
+    option (google.api.http) = {
+      get: "/dns/v1/inboundEndpoints/{dns_inbound_endpoint_id}"
+    };
+  };
+
+  // Retrieves the list of DNS inbound endpoints in the specified folder.
+  rpc List(ListDnsInboundEndpointsRequest) returns (ListDnsInboundEndpointsResponse) {
+    option (google.api.http) = {
+      get: "/dns/v1/inboundEndpoints"
+    };
+  };
+
+  // Creates a DNS inbound endpoint in the specified folder.
+  rpc Create(CreateDnsInboundEndpointRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreateDnsInboundEndpointMetadata"
+      response: "DnsInboundEndpoint"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/dns/v1/inboundEndpoints"
+    };
+  };
+
+  // Updates the specified DNS inbound endpoint.
+  rpc Update(UpdateDnsInboundEndpointRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdateDnsInboundEndpointMetadata"
+      response: "DnsInboundEndpoint"
+    };
+    option (google.api.http) = {
+      body: "*"
+      patch: "/dns/v1/inboundEndpoints/{dns_inbound_endpoint_id}"
+    };
+  };
+
+  // Deletes the specified DNS inbound endpoint.
+  rpc Delete(DeleteDnsInboundEndpointRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeleteDnsInboundEndpointMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      delete: "/dns/v1/inboundEndpoints/{dns_inbound_endpoint_id}"
+    };
+  };
+
+  // Lists operations for the specified DNS inbound endpoint.
+  rpc ListOperations(ListDnsInboundEndpointOperationsRequest) returns (ListDnsInboundEndpointOperationsResponse) {
+    option (google.api.http) = {
+      get: "/dns/v1/inboundEndpoints/{dns_inbound_endpoint_id}/operations"
+    };
+  };
+
+  // Lists existing access bindings for the specified DNS inbound endpoint.
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/dns/v1/inboundEndpoints/{resource_id}:listAccessBindings"
+    };
+  };
+
+  // Sets access bindings for the specified DNS inbound endpoint.
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/dns/v1/inboundEndpoints/{resource_id}:setAccessBindings"
+    };
+  };
+
+  // Updates access bindings for the specified DNS inbound endpoint.
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/dns/v1/inboundEndpoints/{resource_id}:updateAccessBindings"
+    };
+  };
+}
+
+message GetDnsInboundEndpointRequest {
+  // ID of the DNS inbound endpoint to return.
+  string dns_inbound_endpoint_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message CreateDnsInboundEndpointRequest {
+  reserved 1;
+
+  // ID of the folder to create a DNS inbound endpoint in.
+  string folder_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the DNS inbound endpoint.
+  string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+
+  // Description of the DNS inbound endpoint.
+  string description = 4 [(length) = "<=256"];
+
+  // DNS inbound endpoint labels as `key:value` pairs.
+  map<string, string> labels = 5 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
+    },
+    (pattern) = "[-_./\\@0-9a-z]*",
+    (size) = "<=64"
+  ];
+
+  // ID of the network to create a DNS inbound endpoint in.
+  string network_id = 6 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Prevents accidental endpoint removal.
+  bool deletion_protection = 7;
+
+  // ID of the address resource.
+  string address_id = 8 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message CreateDnsInboundEndpointMetadata {
+  // ID of the DNS inbound endpoint that is being created.
+  string dns_inbound_endpoint_id = 1;
+}
+
+message UpdateDnsInboundEndpointRequest {
+  // ID of the DNS inbound endpoint to update.
+  string dns_inbound_endpoint_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Field mask that specifies which fields of the DNS inbound endpoint are going to be updated.
+  google.protobuf.FieldMask update_mask = 2;
+
+  // ID of the folder that the DNS inbound endpoint belongs to.
+  string folder_id = 3 [(length) = "<=50"];
+
+  // Name of the DNS inbound endpoint.
+  string name = 4 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+
+  // Description of the DNS inbound endpoint.
+  string description = 5 [(length) = "<=256"];
+
+  // DNS inbound endpoint labels as `key:value` pairs.
+  map<string, string> labels = 6 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
+    },
+    (pattern) = "[-_./\\@0-9a-z]*",
+    (size) = "<=64"
+  ];
+
+  // Prevents accidental endpoint removal.
+  bool deletion_protection = 7;
+}
+
+message UpdateDnsInboundEndpointMetadata {
+  // ID of the DNS inbound endpoint that is being updated.
+  string dns_inbound_endpoint_id = 1;
+}
+
+message DeleteDnsInboundEndpointRequest {
+  // ID of the DNS inbound endpoint to delete.
+  string dns_inbound_endpoint_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message DeleteDnsInboundEndpointMetadata {
+  // ID of the DNS inbound endpoint that is being deleted.
+  string dns_inbound_endpoint_id = 1;
+}
+
+message ListDnsInboundEndpointsRequest {
+  // ID of the folder to list DNS inbound endpoints in.
+  string folder_id = 1 [(length) = "<=50"];
+
+  // The maximum number of results per page to return.
+  int64 page_size = 2 [(value) = "0-1000"];
+
+  // Page token. To get the next page of results, set `page_token` to the value returned by a previous list request.
+  string page_token = 3 [(length) = "<=1000"];
+
+  // A filter expression that filters resources listed in the response.
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListDnsInboundEndpointsResponse {
+  // List of DNS inbound endpoints.
+  repeated DnsInboundEndpoint endpoints = 1;
+
+  // Token for getting the next page of the list.
+  string next_page_token = 2;
+}
+
+message ListDnsInboundEndpointOperationsRequest {
+  // ID of the DNS inbound endpoint to list operations for.
+  string dns_inbound_endpoint_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // The maximum number of results per page to return.
+  int64 page_size = 2 [(value) = "<=1000"];
+
+  // Page token. To get the next page of results, set `page_token` to the value returned by a previous list request.
+  string page_token = 3 [(length) = "<=1000"];
+
+  // A filter expression that filters operations listed in the response.
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListDnsInboundEndpointOperationsResponse {
+  // List of operations for the specified DNS inbound endpoint.
+  repeated operation.Operation operations = 1;
+
+  // Token for getting the next page of the list.
+  string next_page_token = 2;
+}

@@ -188,5 +188,7 @@ message UsageReportPeriodicData {
     StringDecimal expense = 3;
 
     // Timestamp indicating the beginning of the TimeGrouping period.
+    // For aggregation by week/month/quarter/year
+    // returns the maximum between the start date and the usage date.
     google.protobuf.Timestamp timestamp = 4;
 }

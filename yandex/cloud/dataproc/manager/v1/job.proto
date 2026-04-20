@@ -30,7 +30,6 @@ message Job {
 
   // The id of the user who created the job
   string created_by = 12;
-
   enum Status {
     STATUS_UNSPECIFIED = 0;
     PROVISIONING = 1; // Job created in metadb and is waiting agent to acquire.
@@ -41,8 +40,6 @@ message Job {
     CANCELLED = 6; // Job cancelled.
     CANCELLING = 7; // Job is waiting for cancellation.
   }
-  // Status.
-  Status status = 7;
 
   // Job specification.
   oneof job_spec {
@@ -51,6 +48,9 @@ message Job {
     PysparkJob pyspark_job = 10;
     HiveJob hive_job = 11;
   }
+
+  // Status.
+  Status status = 7;
 
   // Attributes of YARN application.
   ApplicationInfo application_info = 13;
@@ -87,7 +87,6 @@ message MapreduceJob {
 
   // A mapping of property names to values, used to configure Yandex Data Processing.
   map<string, string> properties = 5;
-
   oneof driver {
     // The HCFS URI of the jar file containing the main class.
     string main_jar_file_uri = 6;
@@ -177,11 +176,9 @@ message HiveJob {
 
   // Jar file URIs to add to the CLASSPATHs of the Hive driver and tasks.
   repeated string jar_file_uris = 4;
-
   oneof query_type {
     // URI of the script that contains Hive queries.
     string query_file_uri = 5;
-
     QueryList query_list = 6;
   }
 }
@@ -203,7 +200,6 @@ message SupportJob {
 
   // The time when the Yandex Data Processing job was finished.
   google.protobuf.Timestamp finished_at = 5;
-
   enum Status {
     STATUS_UNSPECIFIED = 0;
     PROVISIONING = 1; // Job created in metadb and is waiting agent to acquire.
@@ -214,6 +210,7 @@ message SupportJob {
     CANCELLED = 6; // Job cancelled.
     CANCELLING = 7; // Job is waiting for cancellation.
   }
+
   // Status.
   Status status = 6;
 

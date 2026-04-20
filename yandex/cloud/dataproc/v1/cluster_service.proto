@@ -18,133 +18,146 @@ option java_package = "yandex.cloud.api.dataproc.v1";
 // A set of methods for managing Yandex Data Processing clusters.
 service ClusterService {
   // Returns the specified cluster.
-  //
   // To get the list of all available clusters, make a [ClusterService.List] request.
   rpc Get(GetClusterRequest) returns (Cluster) {
-    option (google.api.http) = {get: "/dataproc/v1/clusters/{cluster_id}"};
-  }
+    option (google.api.http) = {
+      get: "/dataproc/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Retrieves the list of clusters in the specified folder.
   rpc List(ListClustersRequest) returns (ListClustersResponse) {
-    option (google.api.http) = {get: "/dataproc/v1/clusters"};
-  }
+    option (google.api.http) = {
+      get: "/dataproc/v1/clusters"
+    };
+  };
 
   // Creates a cluster in the specified folder.
   rpc Create(CreateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/dataproc/v1/clusters"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/dataproc/v1/clusters"
+    };
+  };
 
   // Updates the configuration of the specified cluster.
   rpc Update(UpdateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/dataproc/v1/clusters/{cluster_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/dataproc/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Deletes the specified cluster.
   rpc Delete(DeleteClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/dataproc/v1/clusters/{cluster_id}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteClusterMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/dataproc/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Starts the specified cluster.
   rpc Start(StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/dataproc/v1/clusters/{cluster_id}:start"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      post: "/dataproc/v1/clusters/{cluster_id}:start"
+    };
+  };
 
   // Stops the specified cluster.
   rpc Stop(StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/dataproc/v1/clusters/{cluster_id}:stop"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/dataproc/v1/clusters/{cluster_id}:stop"
+    };
+  };
 
   // Lists operations for the specified cluster.
   rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
-    option (google.api.http) = {get: "/dataproc/v1/clusters/{cluster_id}/operations"};
-  }
+    option (google.api.http) = {
+      get: "/dataproc/v1/clusters/{cluster_id}/operations"
+    };
+  };
 
   // Retrieves the list of hosts in the specified cluster.
   rpc ListHosts(ListClusterHostsRequest) returns (ListClusterHostsResponse) {
-    option (google.api.http) = {get: "/dataproc/v1/clusters/{cluster_id}/hosts"};
-  }
+    option (google.api.http) = {
+      get: "/dataproc/v1/clusters/{cluster_id}/hosts"
+    };
+  };
 
   // Retrieves a list of links to web interfaces being proxied by Yandex Data Processing UI Proxy.
   rpc ListUILinks(ListUILinksRequest) returns (ListUILinksResponse) {
-    option (google.api.http) = {get: "/dataproc/v1/clusters/{cluster_id}/ui_links"};
-  }
+    option (google.api.http) = {
+      get: "/dataproc/v1/clusters/{cluster_id}/ui_links"
+    };
+  };
 
   // Retrieves a list of access bindings for the specified cluster.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = { get: "/dataproc/v1/clusters/{resource_id}:listAccessBindings" };
-  }
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/dataproc/v1/clusters/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the specified cluster.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
     option (google.api.http) = {
-      post: "/dataproc/v1/clusters/{resource_id}:setAccessBindings"
       body: "*"
+      post: "/dataproc/v1/clusters/{resource_id}:setAccessBindings"
     };
-    option (yandex.cloud.api.operation) = {
-        metadata: "access.SetAccessBindingsMetadata"
-        response: "access.AccessBindingsOperationResult"
-    };
-  }
+  };
 
   // Updates access bindings for the specified cluster.
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
     option (google.api.http) = {
-      patch: "/dataproc/v1/clusters/{resource_id}:updateAccessBindings"
       body: "*"
+      patch: "/dataproc/v1/clusters/{resource_id}:updateAccessBindings"
     };
-    option (yandex.cloud.api.operation) = {
-        metadata: "access.UpdateAccessBindingsMetadata"
-        response: "access.AccessBindingsOperationResult"
-    };
-  }
+  };
 }
 
 message GetClusterRequest {
   // ID of the Yandex Data Processing cluster.
-  //
   // To get a cluster ID make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
 message ListClustersRequest {
   // ID of the folder to list clusters in.
-  //
   // To get the folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -158,7 +171,6 @@ message ListClustersRequest {
   string page_token = 3 [(length) = "<=100"];
 
   // A filter expression that filters clusters listed in the response.
-  //
   // The expression must specify:
   // 1. The field name. Currently you can use filtering only on [Cluster.name] field.
   // 2. An `=` operator.
@@ -174,9 +186,8 @@ message ListClustersResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListClustersRequest.page_size], use `next_page_token` as the value
   // for the [ListClustersRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
-  string next_page_token = 2;
+  string next_page_token = 2 [(length) = "<=200"];
 }
 
 message CreateSubclusterConfigSpec {
@@ -191,8 +202,8 @@ message CreateSubclusterConfigSpec {
 
   // ID of the VPC subnet used for hosts in the subcluster.
   string subnet_id = 4 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Number of hosts in the subcluster.
@@ -205,11 +216,25 @@ message CreateSubclusterConfigSpec {
   AutoscalingConfig autoscaling_config = 7;
 }
 
+message CreateClusterConfigSpec {
+  // Version of the image for cluster provisioning.
+  // All available versions are listed in the [documentation](/docs/data-proc/concepts/environment).
+  string version_id = 1;
+
+  // Yandex Data Processing specific options.
+  HadoopConfig hadoop = 2;
+
+  // Specification for creating subclusters.
+  repeated CreateSubclusterConfigSpec subclusters_spec = 3;
+}
+
 message UpdateSubclusterConfigSpec {
   // ID of the subcluster to update.
-  //
   // To get the subcluster ID make a [SubclusterService.List] request.
-  string id = 1;
+  string id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Name of the subcluster.
   string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
@@ -224,78 +249,69 @@ message UpdateSubclusterConfigSpec {
   AutoscalingConfig autoscaling_config = 5;
 }
 
-message CreateClusterConfigSpec {
-  // Version of the image for cluster provisioning.
-  //
-  // All available versions are listed in the [documentation](/docs/data-proc/concepts/environment).
-  string version_id = 1;
-
-  // Yandex Data Processing specific options.
-  HadoopConfig hadoop = 2;
-
-  // Specification for creating subclusters.
-  repeated CreateSubclusterConfigSpec subclusters_spec = 3;
-}
-
 message UpdateClusterConfigSpec {
-  // New configuration for subclusters in a cluster.
-  repeated UpdateSubclusterConfigSpec subclusters_spec = 1;
-
   // Hadoop specific options
   HadoopConfig hadoop = 2;
+
+  // New configuration for subclusters in a cluster.
+  repeated UpdateSubclusterConfigSpec subclusters_spec = 1;
 }
 
 message CreateClusterRequest {
   reserved 5;
+
   // ID of the folder to create a cluster in.
-  //
   // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Name of the cluster. The name must be unique within the folder.
   // The name can't be changed after the Yandex Data Processing cluster is created.
-  string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 2 [
+    (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]",
+    (required) = true
+  ];
 
   // Description of the cluster.
   string description = 3 [(length) = "<=256"];
 
   // Cluster labels as `key:value` pairs.
   map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // Configuration and resources for hosts that should be created with the cluster.
   CreateClusterConfigSpec config_spec = 6 [(required) = true];
 
   // ID of the availability zone where the cluster should be placed.
-  //
   // To get the list of available zones make a [yandex.cloud.compute.v1.ZoneService.List] request.
   string zone_id = 7 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
-
-  // ID of the service account to be used by the Yandex Data Processing manager agent.
-  string service_account_id = 8 [(required) = true];
 
   // Name of the Object Storage bucket to use for Yandex Data Processing jobs.
   string bucket = 9;
 
+  // ID of the service account to be used by the Yandex Data Processing manager agent.
+  string service_account_id = 8 [(required) = true];
+
   // Enable UI Proxy feature.
   bool ui_proxy = 10;
 
-  // User security groups.
-  repeated string security_group_ids = 11;
-
   // Host groups to place VMs of cluster on.
   repeated string host_group_ids = 12;
+
+  // User security groups.
+  repeated string security_group_ids = 11;
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 13;
@@ -312,14 +328,19 @@ message CreateClusterRequest {
 
 message CreateClusterMetadata {
   // ID of the cluster that is being created.
-  string cluster_id = 1;
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message UpdateClusterRequest {
   // ID of the cluster to update.
-  //
   // To get the cluster ID, make a [ClusterService.List] request.
-  string cluster_id = 1 [(length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Field mask that specifies which attributes of the cluster should be updated.
   google.protobuf.FieldMask update_mask = 2;
@@ -329,11 +350,13 @@ message UpdateClusterRequest {
 
   // A new set of cluster labels as `key:value` pairs.
   map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // Configuration and resources for hosts that should be created with the Yandex Data Processing cluster.
@@ -369,16 +392,18 @@ message UpdateClusterRequest {
 
 message UpdateClusterMetadata {
   // ID of the cluster that is being updated.
-  string cluster_id = 1;
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message DeleteClusterRequest {
   // ID of the cluster to delete.
-  //
   // To get a cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Timeout to gracefully decommission nodes. In seconds. Default value: 0
@@ -387,31 +412,35 @@ message DeleteClusterRequest {
 
 message DeleteClusterMetadata {
   // ID of the Yandex Data Processing cluster that is being deleted.
-  string cluster_id = 1;
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message StartClusterRequest {
   // ID of the cluster to start.
-  //
   // To get a cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
 message StartClusterMetadata {
   // ID of the Yandex Data Processing cluster that is being started.
-  string cluster_id = 1;
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message StopClusterRequest {
   // ID of the cluster to stop.
-  //
   // To get a cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Timeout to gracefully decommission nodes. In seconds. Default value: 0
@@ -420,14 +449,17 @@ message StopClusterRequest {
 
 message StopClusterMetadata {
   // ID of the Yandex Data Processing cluster that is being stopped.
-  string cluster_id = 1;
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListClusterOperationsRequest {
   // ID of the cluster to list operations for.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -448,16 +480,17 @@ message ListClusterOperationsResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListClusterOperationsRequest.page_size], use `next_page_token` as the value
   // for the [ListClusterOperationsRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
-  string next_page_token = 2;
+  string next_page_token = 2 [(length) = "<=200"];
 }
 
 message ListClusterHostsRequest {
   // ID of the cluster to list hosts for.
-  //
   // To get a cluster ID, make a [ClusterService.List] request.
-  string cluster_id = 1 [(length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListClusterHostsResponse.next_page_token]
@@ -470,7 +503,6 @@ message ListClusterHostsRequest {
   string page_token = 3 [(length) = "<=100"];
 
   // A filter expression that filters hosts listed in the response.
-  //
   // The expression must specify:
   // 1. The field name. Currently you can use filtering only on [Cluster.name] field.
   // 2. An `=` operator.
@@ -486,14 +518,16 @@ message ListClusterHostsResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListClusterHostsRequest.page_size], use `next_page_token` as the value
   // for the [ListClusterHostsRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
-  string next_page_token = 2;
+  string next_page_token = 2 [(length) = "<=200"];
 }
 
 message ListUILinksRequest {
   // Required. ID of the Hadoop cluster.
-  string cluster_id = 1 [(length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message UILink {

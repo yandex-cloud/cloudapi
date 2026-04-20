@@ -12,22 +12,28 @@ option java_package = "yandex.cloud.api.dataproc.v1";
 // A set of methods for managing ResourcePreset resources.
 service ResourcePresetService {
   // Returns the specified ResourcePreset resource.
-  //
   // To get the list of available ResourcePreset resources, make a [List] request.
-  rpc Get (GetResourcePresetRequest) returns (ResourcePreset) {
-    option (google.api.http) = { get: "/dataproc/v1/resourcePresets/{resource_preset_id}" };
-  }
+  rpc Get(GetResourcePresetRequest) returns (ResourcePreset) {
+    option (google.api.http) = {
+      get: "/dataproc/v1/resourcePresets/{resource_preset_id}"
+    };
+  };
 
   // Retrieves the list of available ResourcePreset resources.
-  rpc List (ListResourcePresetsRequest) returns (ListResourcePresetsResponse) {
-    option (google.api.http) = { get: "/dataproc/v1/resourcePresets" };
-  }
+  rpc List(ListResourcePresetsRequest) returns (ListResourcePresetsResponse) {
+    option (google.api.http) = {
+      get: "/dataproc/v1/resourcePresets"
+    };
+  };
 }
 
 message GetResourcePresetRequest {
   // Required. ID of the resource preset to return.
   // To get the resource preset ID, use a [ResourcePresetService.List] request.
-  string resource_preset_id = 1 [(required) = true];
+  string resource_preset_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListResourcePresetsRequest {

@@ -33,4 +33,7 @@ message ApiKey {
 
   // API key expiration timestamp.
   google.protobuf.Timestamp expires_at = 7;
+
+  // Masked value of the API key's secret part: `\*{4}[a-zA-Z0-9_]{6}`
+  string masked_secret = 9;
 }

@@ -3,18 +3,24 @@ syntax = "proto3";
 package yandex.cloud.dataproc.v1;
 
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/dataproc/v1;dataproc";
 option java_package = "yandex.cloud.api.dataproc.v1";
-option java_outer_classname = "PHJ";
 
 // A Yandex Data Processing job. For details about the concept, see [documentation](/docs/data-proc/concepts/jobs).
 message Job {
   // ID of the job. Generated at creation time.
-  string id = 1;
+  string id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // ID of the Yandex Data Processing cluster that the job belongs to.
-  string cluster_id = 2;
+  string cluster_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Creation timestamp.
   google.protobuf.Timestamp created_at = 3;
@@ -30,7 +36,6 @@ message Job {
 
   // The id of the user who created the job
   string created_by = 12;
-
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -55,9 +60,9 @@ message Job {
     // Job is waiting for cancellation.
     CANCELLING = 7;
   }
+
   // Job status.
   Status status = 7;
-
   // Specification for the job.
   oneof job_spec {
     // Specification for a MapReduce job.
@@ -95,117 +100,219 @@ message ApplicationInfo {
 
 message MapreduceJob {
   // Optional arguments to pass to the driver.
-  repeated string args = 1;
+  repeated string args = 1 [
+    (length) = "<=1024",
+    (size) = "<=32"
+  ];
 
   // JAR file URIs to add to CLASSPATH of the Yandex Data Processing driver and each task.
-  repeated string jar_file_uris = 2;
+  repeated string jar_file_uris = 2 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // URIs of resource files to be copied to the working directory of Yandex Data Processing drivers
   // and distributed Hadoop tasks.
-  repeated string file_uris = 3;
+  repeated string file_uris = 3 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // URIs of archives to be extracted to the working directory of Yandex Data Processing drivers and tasks.
-  repeated string archive_uris = 4;
+  repeated string archive_uris = 4 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // Property names and values, used to configure Yandex Data Processing and MapReduce.
-  map<string, string> properties = 5;
-
+  map<string, string> properties = 5 [
+    (length) = "<=256",
+    (map_key) = {
+      length: "1-128"
+      pattern: "[a-zA-Z][-_0-9a-zA-Z.]*"
+    },
+    (size) = "<=100"
+  ];
   oneof driver {
     // HCFS URI of the .jar file containing the driver class.
-    string main_jar_file_uri = 6;
+    string main_jar_file_uri = 6 [(length) = "<2048"];
 
     // The name of the driver class.
-    string main_class = 7;
+    string main_class = 7 [(length) = "<256"];
   }
 }
 
 message SparkJob {
   // Optional arguments to pass to the driver.
-  repeated string args = 1;
+  repeated string args = 1 [
+    (length) = "<=10000",
+    (size) = "<=256"
+  ];
 
   // JAR file URIs to add to CLASSPATH of the Yandex Data Processing driver and each task.
-  repeated string jar_file_uris = 2;
+  repeated string jar_file_uris = 2 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // URIs of resource files to be copied to the working directory of Yandex Data Processing drivers
   // and distributed Hadoop tasks.
-  repeated string file_uris = 3;
+  repeated string file_uris = 3 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // URIs of archives to be extracted to the working directory of Yandex Data Processing drivers and tasks.
-  repeated string archive_uris = 4;
+  repeated string archive_uris = 4 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // Property names and values, used to configure Yandex Data Processing and Spark.
-  map<string, string> properties = 5;
+  map<string, string> properties = 5 [
+    (length) = "<=256",
+    (map_key) = {
+      length: "1-128"
+      pattern: "[a-zA-Z][-_0-9a-zA-Z.]*"
+    },
+    (size) = "<=100"
+  ];
 
   // The HCFS URI of the JAR file containing the `main` class for the job.
-  string main_jar_file_uri = 6;
+  string main_jar_file_uri = 6 [
+    (length) = "<2048",
+    (required) = true
+  ];
 
   // The name of the driver class.
-  string main_class = 7;
+  string main_class = 7 [(length) = "<256"];
 
   // List of maven coordinates of jars to include on the driver and executor classpaths.
-  repeated string packages = 8;
+  repeated string packages = 8 [
+    (length) = "<256",
+    (size) = "<=100"
+  ];
 
   // List of additional remote repositories to search for the maven coordinates given with --packages.
-  repeated string repositories = 9;
+  repeated string repositories = 9 [
+    (length) = "<2048",
+    (size) = "<=10"
+  ];
 
   // List of groupId:artifactId, to exclude while resolving the dependencies provided in --packages to avoid dependency conflicts.
-  repeated string exclude_packages = 10;
+  repeated string exclude_packages = 10 [
+    (length) = "<256",
+    (size) = "<=100"
+  ];
 }
 
 message PysparkJob {
   // Optional arguments to pass to the driver.
-  repeated string args = 1;
+  repeated string args = 1 [
+    (length) = "<=100000",
+    (size) = "<=2500"
+  ];
 
   // JAR file URIs to add to CLASSPATH of the Yandex Data Processing driver and each task.
-  repeated string jar_file_uris = 2;
+  repeated string jar_file_uris = 2 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // URIs of resource files to be copied to the working directory of Yandex Data Processing drivers
   // and distributed Hadoop tasks.
-  repeated string file_uris = 3;
+  repeated string file_uris = 3 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // URIs of archives to be extracted to the working directory of Yandex Data Processing drivers and tasks.
-  repeated string archive_uris = 4;
+  repeated string archive_uris = 4 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // Property names and values, used to configure Yandex Data Processing and PySpark.
-  map<string, string> properties = 5;
+  map<string, string> properties = 5 [
+    (length) = "<=10000",
+    (map_key) = {
+      length: "1-128"
+      pattern: "[a-zA-Z][-_0-9a-zA-Z.]*"
+    },
+    (size) = "<=100"
+  ];
 
   // URI of the file with the driver code. Must be a .py file.
-  string main_python_file_uri = 6;
+  string main_python_file_uri = 6 [
+    (length) = "<2048",
+    (required) = true
+  ];
 
   // URIs of Python files to pass to the PySpark framework.
-  repeated string python_file_uris = 7;
+  repeated string python_file_uris = 7 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // List of maven coordinates of jars to include on the driver and executor classpaths.
-  repeated string packages = 8;
+  repeated string packages = 8 [
+    (length) = "<256",
+    (size) = "<=100"
+  ];
 
   // List of additional remote repositories to search for the maven coordinates given with --packages.
-  repeated string repositories = 9;
+  repeated string repositories = 9 [
+    (length) = "<2048",
+    (size) = "<=10"
+  ];
 
   // List of groupId:artifactId, to exclude while resolving the dependencies provided in --packages to avoid dependency conflicts.
-  repeated string exclude_packages = 10;
+  repeated string exclude_packages = 10 [
+    (length) = "<256",
+    (size) = "<=100"
+  ];
 }
 
 message QueryList {
   // List of Hive queries.
-  repeated string queries = 1;
+  repeated string queries = 1 [
+    (length) = "<10240",
+    (size) = "<=100"
+  ];
 }
 
 message HiveJob {
   // Property names and values, used to configure Yandex Data Processing and Hive.
-  map<string, string> properties = 1;
+  map<string, string> properties = 1 [
+    (length) = "<=256",
+    (map_key) = {
+      length: "1-128"
+      pattern: "[a-zA-Z][-_0-9a-zA-Z.]*"
+    },
+    (size) = "<=100"
+  ];
 
   // Flag indicating whether a job should continue to run if a query fails.
   bool continue_on_failure = 2;
 
   // Query variables and their values.
-  map<string, string> script_variables = 3;
+  map<string, string> script_variables = 3 [
+    (length) = "<=2048",
+    (map_key) = {
+      length: "1-128"
+      pattern: "[a-zA-Z][_0-9a-zA-Z]*"
+    },
+    (size) = "<=100"
+  ];
 
   // JAR file URIs to add to CLASSPATH of the Hive driver and each task.
-  repeated string jar_file_uris = 4;
-
+  repeated string jar_file_uris = 4 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
   oneof query_type {
     // URI of the script with all the necessary Hive queries.
-    string query_file_uri = 5;
+    string query_file_uri = 5 [(length) = "<2048"];
 
     // List of Hive queries to be used in the job.
     QueryList query_list = 6;
