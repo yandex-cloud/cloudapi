@@ -197,7 +197,10 @@ message GetDnsZoneRequest {
 message ListDnsZonesRequest {
   // ID of the folder to list DNS zones in.
   // To get the folder ID use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
-  string folder_id = 1 [(required) = true];
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than `page_size`, the service returns a [ListDnsZonesResponse.next_page_token]

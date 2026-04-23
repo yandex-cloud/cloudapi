@@ -1,5 +1,7 @@
 syntax = "proto3";
+
 package yandex.cloud.billing.usage_records.v1;
+
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/billing/usage_records/v1;usageRecords";
 option java_package = "yandex.cloud.api.billing.usage_records.v1";
 
@@ -33,9 +35,9 @@ enum TimeGrouping {
 
 // Enum for supported currency codes used in billing and financial reports.
 enum Currency {
-    CURRENCY_UNSPECIFIED = 0; // Unspecified or unknown currency.
-    RUB = 1;                  // Russian Ruble
-    USD = 2;                  // US Dollar
-    KZT = 3;                  // Kazakhstani Tenge
-    EUR = 4;                  // Euro
+  CURRENCY_UNSPECIFIED = 0; // Unspecified or unknown currency.
+  RUB = 1; // Russian Ruble
+  USD = 2; // US Dollar
+  KZT = 3; // Kazakhstani Tenge
+  EUR = 4; // Euro
 }

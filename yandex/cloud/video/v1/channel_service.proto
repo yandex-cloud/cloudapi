@@ -117,6 +117,7 @@ service ChannelService {
       patch: "/video/v1/channels/{resource_id}:updateAccessBindings"
     };
   };
+
 }
 
 message GetChannelRequest {

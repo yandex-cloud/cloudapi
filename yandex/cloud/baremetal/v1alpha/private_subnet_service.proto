@@ -71,6 +71,7 @@ service PrivateSubnetService {
       get: "/baremetal/v1alpha/privateSubnets/{private_subnet_id}/operations"
     };
   };
+
 }
 
 message GetPrivateSubnetRequest {

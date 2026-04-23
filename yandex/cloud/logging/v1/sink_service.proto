@@ -155,17 +155,6 @@ message ListSinksResponse {
 }
 
 message CreateSinkRequest {
-  // Logs destination
-  oneof sink {
-    option (exactly_one) = true;
-
-    // Yandex data stream
-    Sink.Yds yds = 6;
-
-    // Object storage
-    Sink.S3 s3 = 7;
-  }
-
   // ID of the folder to create a sink in.
   // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
@@ -193,6 +182,16 @@ message CreateSinkRequest {
 
   // Logs will be written to the sink on behalf of this service account
   string service_account_id = 5 [(length) = "<=64"];
+  // Logs destination
+  oneof sink {
+    option (exactly_one) = true;
+
+    // Yandex data stream
+    Sink.Yds yds = 6;
+
+    // Object storage
+    Sink.S3 s3 = 7;
+  }
 }
 
 message CreateSinkMetadata {
@@ -201,17 +200,6 @@ message CreateSinkMetadata {
 }
 
 message UpdateSinkRequest {
-  // New logs destination
-  oneof sink {
-    option (exactly_one) = true;
-
-    // Yandex data stream
-    Sink.Yds yds = 7;
-
-    // Object storage
-    Sink.S3 s3 = 8;
-  }
-
   // ID of the sink to update.
   // To get a sink ID make a [SinkService.List] request.
   string sink_id = 1 [
@@ -242,6 +230,16 @@ message UpdateSinkRequest {
 
   // new service account to use for logs writing to the sink.
   string service_account_id = 6 [(length) = "<=64"];
+  // New logs destination
+  oneof sink {
+    option (exactly_one) = true;
+
+    // Yandex data stream
+    Sink.Yds yds = 7;
+
+    // Object storage
+    Sink.S3 s3 = 8;
+  }
 }
 
 message UpdateSinkMetadata {

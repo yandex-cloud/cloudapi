@@ -88,7 +88,7 @@ message Criteria {
   // List of stream names to limit log entries to.
   // Empty list disables filter.
   repeated string stream_names = 10 [
-    (length) = "<=63",
+    (length) = "<=71",
     (size) = "<=100"
   ];
 

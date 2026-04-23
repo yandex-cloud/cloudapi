@@ -227,6 +227,9 @@ message ToStringTransformer {
 
   // List of included and excluded columns
   ColumnsFilter columns = 2;
+
+  // When true, time values keep their original timezone, otherwise time values converts (normalizes) to UTC.
+  bool skip_utc_conversion = 3;
 }
 
 message SharderTransformerTypeRandom {

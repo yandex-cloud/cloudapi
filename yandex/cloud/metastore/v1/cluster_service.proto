@@ -425,7 +425,7 @@ message ConfigSpec {
   Resources resources = 2;
 
   // Configuration of warehouse.
-  WarehouseConfig warehouse = 3;
+  WarehouseConfig warehouse = 3 [(required) = true];
 }
 
 message UpdateClusterConfigSpec {

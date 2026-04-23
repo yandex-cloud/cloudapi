@@ -10,8 +10,6 @@ import "yandex/cloud/validation.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 
-import "yandex/cloud/cic/v1/common/transceiver_type.proto";
-import "yandex/cloud/cic/v1/common/lag_allocation_settings.proto";
 import "yandex/cloud/cic/v1/trunk_connection.proto";
 import "yandex/cloud/cic/v1/private_connection.proto";
 import "yandex/cloud/cic/v1/public_connection.proto";
@@ -32,16 +30,6 @@ service TrunkConnectionService {
   // Retrieves the list of TrunkConnection resources in the specified folder.
   rpc List (ListTrunkConnectionsRequest) returns (ListTrunkConnectionsResponse) {
     option (google.api.http) = { get: "/cic/v1/trunkConnections" };
-  }
-
-  // Creates a TrunkConnection resource in the specified folder using the data specified in the request.
-  // Method starts an asynchronous operation that can be cancelled while it is in progress.
-  rpc Create (CreateTrunkConnectionRequest) returns (operation.Operation) {
-    option (yandex.cloud.api.operation) = {
-      metadata: "CreateTrunkConnectionMetadata"
-      response: "TrunkConnection"
-    };
-    option (google.api.http) = { post: "/cic/v1/trunkConnections" body: "*" };
   }
 
   // Updates a TrunkConnection resource using the data specified in the request.
@@ -132,93 +120,6 @@ message ListTrunkConnectionsResponse {
   // in the next list request. Subsequent list requests will have their own
   // [next_page_token] to continue paging through the results.
   string next_page_token = 2;
-}
-
-message CreateTrunkConnectionRequest {
-  // Name of the trunkConnection.
-  // The name must be unique within the folder.
-  // Value must match the regular expression ``\|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?``.
-  string name = 1 [(pattern) = "|[a-zA-Z]([-_a-zA-Z0-9]{0,61}[a-zA-Z0-9])?"];
-  
-  // Optional description of the trunkConnection. 0-256 characters long.
-  string description = 2 [(length) = "<=256"];
-
-  reserved 3;
-
-  // ID of the folder that the trunkConnection belongs to.
-  string folder_id = 4 [(required) = true, (length) = "<=50"];
-
-  // ID of the region that the trunkConnection belongs to.
-  string region_id = 5 [(length) = "<=50", deprecated = true];
-
-  reserved 6 to 9;
-
-  // Special trunkConnection config
-  oneof joint {
-    // Single port trunkConnection config
-    SinglePortDirectJoint single_port_direct_joint = 10;
-
-    // LAG trunkConnection config
-    LagDirectJoint lag_direct_joint = 11;
-
-    // PartnerJoint trunkConnection config
-    PartnerJoint partner_joint_info = 12;
-  }
-
-  // ID of pointOfPresence that the trunkConnection is deployed on.
-  google.protobuf.StringValue point_of_presence_id = 13 [(required) = true];
-
-  reserved 14 to 16;
-
-  // Capacity of the trunkConnection
-  TrunkConnection.Capacity capacity = 17 [(required) = true];
-
-  // Resource labels, `key:value` pairs.
-  // No more than 64 per resource.
-  // The maximum string length in characters for each value is 63.
-  // Each value must match the regular expression `[-_0-9a-z]*`.
-  // The string length in characters for each key must be 1-63.
-  // Each key must match the regular expression `[a-z][-_0-9a-z]*`.
-  map<string, string> labels = 18 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
-
-  reserved 19;
-
-  // Deletion protection flag.
-  // Optional.
-  // If set prohibits deletion of the trunkConnection.
-  bool deletion_protection = 20;
-
-  // Config of trunkConnection that is deployed on single port.
-  message SinglePortDirectJoint {
-    // Type of transceiver that the trunkConnection is deployed on.
-    common.TransceiverType transceiver_type = 1 [(required) = true];
-
-    reserved 2 to 4;
-  }
-
-  // Config of trunkConnection that is deployed on lag.
-  message LagDirectJoint {
-    // Type of transceiver that the trunkConnection is deployed on.
-    common.TransceiverType transceiver_type = 1 [(required) = true];
-
-    reserved 2;
-
-    // LAG allocation settings that the trunkConnection is deployed on.
-    common.LagAllocationSettingsRequest lag_allocation_settings = 3 [(required) = true];
-  }
-
-  // Config of trunkConnection that is deployed on partner joint.
-  message PartnerJoint {
-    reserved 1 to 3;
-    
-    // ID of partner that the trunkConnection is deployed on.
-    google.protobuf.StringValue partner_id = 4 [(required) = true];
-  }
-}
-
-message CreateTrunkConnectionMetadata {
-  // ID of the TrunkConnection resource.
-  string trunk_connection_id = 1;
 }
 
 message UpdateTrunkConnectionRequest {

@@ -25,8 +25,7 @@ message ListRentalPeriodsRequest {
   // ID of the Configuration resource to return a Rental Period for.
   // To get the configuration ID, use a [ConfigurationService.List] request.
   string configuration_id = 1 [
-    (length) = "20",
-    (pattern) = "[a-z][a-z0-9]*",
+    (pattern) = "([a-z][a-z0-9]{19})|",
     (required) = false
   ];
 

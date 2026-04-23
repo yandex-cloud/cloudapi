@@ -65,7 +65,7 @@ message AccessPolicy {
 message AccessPolicyBinding {
   // ID of the access policy template being applied.
   string access_policy_template_id = 1 [
-    (length) = "<=50",
+    (length) = "<=64",
     (required) = true
   ];
 

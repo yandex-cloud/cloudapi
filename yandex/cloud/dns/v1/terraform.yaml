@@ -1,3 +1,28 @@
+resources_and_data_sources:
+  - name: yandex_dns_dns_firewall
+    rename: yandex_dns_firewall
+
 iam_bindings:
   - name: yandex_dns_dns_zone
     rename: yandex_dns_zone
+  - name: yandex_dns_dns_firewall
+    rename: yandex_dns_firewall
+
+model_config:
+  datasource_with_resolver:
+    - yandex_dns_firewall
+  renames:
+    yandex.cloud.dns.v1.DnsFirewall.ResourceConfig:
+      fields:
+        locking_policy_enabled: lock_resources
+  options:
+    yandex.cloud.dns.v1.DnsFirewall.whitelist_fqdns:
+      set: true
+    yandex.cloud.dns.v1.DnsFirewall.blacklist_fqdns:
+      set: true
+    yandex.cloud.dns.v1.DnsFirewall.ResourceConfig.resource_ids:
+      set: true
+  custom_crud:
+    yandex_dns_dns_firewall:
+      update:
+        before_hook: beforeUpdateHook

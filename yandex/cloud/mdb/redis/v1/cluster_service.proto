@@ -673,8 +673,17 @@ message StartClusterFailoverRequest {
     (required) = true,
     (length) = "<=50"
   ];
-  // List of hostnames which should not be masters. Can be empty for sentinel clusters or can contain multiple hosts for sharded clusters.
+  // List of hostnames. Can be empty for sentinel clusters or can contain multiple hosts for sharded clusters.
   repeated string host_names = 2 [(length) = "<=253"];
+
+  enum FailoverType {
+    FAILOVER_TYPE_UNSPECIFIED = 0;
+    SWITCH_TO_HOSTNAMES = 1;
+    SWITCH_FROM_HOSTNAMES = 2;
+  }
+
+  // The type of failover request.
+  FailoverType failover_type = 3;
 }
 
 message StartClusterFailoverMetadata {
@@ -1128,9 +1137,13 @@ message ConfigSpec {
 
   // Configuration of a Redis cluster.
   oneof redis_spec {
+    // Configuration of a Redis 5.0 server.
     config.RedisConfig5_0 redis_config_5_0 = 2 [json_name = "redisConfig_5_0"];
+    // Configuration of a Redis 6.0 server.
     config.RedisConfig6_0 redis_config_6_0 = 6 [json_name = "redisConfig_6_0"];
+    // Configuration of a Redis 6.2 server.
     config.RedisConfig6_2 redis_config_6_2 = 7 [json_name = "redisConfig_6_2"];
+    // Configuration of a Redis 7.0 server.
     config.RedisConfig7_0 redis_config_7_0 = 8 [json_name = "redisConfig_7_0"];
   }
 

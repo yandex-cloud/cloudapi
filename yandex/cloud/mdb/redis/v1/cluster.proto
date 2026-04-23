@@ -366,14 +366,23 @@ message ValkeySearch {
 
   // Controls the amount of threads processing index mutations
   google.protobuf.Int64Value writer_threads = 3 [(required) = false, (value) = ">=0"];
+
+  // Module version
+  string version = 4;
 }
 
 message ValkeyJson {
   // Enable valkey-json module
   bool enabled = 1;
+
+  // Module version
+  string version = 2;
 }
 
 message ValkeyBloom {
   // Enable valkey-bloom module
   bool enabled = 1;
+
+  // Module version
+  string version = 2;
 }

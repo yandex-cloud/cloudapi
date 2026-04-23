@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.baremetal.v1alpha;
 
+import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/baremetal/v1alpha/public_prefix_pool.proto";
@@ -13,10 +14,18 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 
 service PublicPrefixPoolService {
   // Returns the specified public prefix pool.
-  rpc Get(GetPublicPrefixPoolRequest) returns (PublicPrefixPool);
+  rpc Get(GetPublicPrefixPoolRequest) returns (PublicPrefixPool) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/publicPrefixPools/{public_prefix_pool_id}"
+    };
+  };
 
   // Lists public prefix pools in the specified folder.
-  rpc List(ListPublicPrefixPoolRequest) returns (ListPublicPrefixPoolResponse);
+  rpc List(ListPublicPrefixPoolRequest) returns (ListPublicPrefixPoolResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/publicPrefixPools"
+    };
+  };
 
   // Updates the specified public prefix pool.
   rpc Update(UpdatePublicPrefixPoolRequest) returns (operation.Operation) {
@@ -24,10 +33,18 @@ service PublicPrefixPoolService {
       metadata: "UpdatePublicPrefixPoolMetadata"
       response: "PublicPrefixPool"
     };
+    option (google.api.http) = {
+      body: "*"
+      patch: "/baremetal/v1alpha/publicPrefixPools/{public_prefix_pool_id}"
+    };
   };
 
   // Lists operations for the specified public prefix pool.
-  rpc ListOperations(ListPublicPrefixPoolOperationsRequest) returns (ListPublicPrefixPoolOperationsResponse);
+  rpc ListOperations(ListPublicPrefixPoolOperationsRequest) returns (ListPublicPrefixPoolOperationsResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/publicPrefixPools/{public_prefix_pool_id}/operations"
+    };
+  };
 }
 
 message GetPublicPrefixPoolRequest {

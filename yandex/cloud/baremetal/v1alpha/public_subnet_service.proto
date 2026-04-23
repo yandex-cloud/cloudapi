@@ -180,10 +180,7 @@ message CreatePublicSubnetRequest {
 
   // @deprecated
   // Prefix length of the public subnet CIDR block.
-  int64 prefix_length = 5 [
-    (value) = "1-31",
-    deprecated = true
-  ];
+  int64 prefix_length = 5 [deprecated = true];
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 200 [

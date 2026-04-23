@@ -93,7 +93,7 @@ service MfaEnforcementService {
 message CreateMfaEnforcementRequest {
   // organization id of the MFA enforcement
   string organization_id = 1 [(required) = true, (length) = "<=50"];
-  // acr id for the MFA enforcement. one of 'any-mfa' or 'phr',
+  // acr id for the MFA enforcement. one of 'any-mfa', 'any-except-sms' or 'phr',
   // specification https://yandex.cloud/en/docs/organization/concepts/mfa?utm_referrer=https%3A%2F%2Fa.yandex-team.ru%2F#mfa-factors
   string acr_id = 2 [(required) = true, (length) = "<=50"];
   // the period during which the entered MFA factor will be considered valid and the
@@ -130,7 +130,7 @@ message CreateMfaEnforcementMetadata {
 message UpdateMfaEnforcementRequest {
   // id of the MFA enforcement
   string mfa_enforcement_id = 1 [(required) = true, (length) = "<=50"];
-  // acr id for the MFA enforcement. one of 'any-mfa' or 'phr',
+  // acr id for the MFA enforcement. one of 'any-mfa', 'any-except-sms' or 'phr',
   // specification https://yandex.cloud/en/docs/organization/concepts/mfa?utm_referrer=https%3A%2F%2Fa.yandex-team.ru%2F#mfa-factors
   string acr_id = 2 [(length) = "<=50"];
   // the period during which the entered MFA factor will be considered valid and the

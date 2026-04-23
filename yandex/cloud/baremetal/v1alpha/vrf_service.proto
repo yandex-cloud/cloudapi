@@ -71,6 +71,7 @@ service VrfService {
       get: "/baremetal/v1alpha/vrfs/{vrf_id}/operations"
     };
   };
+
 }
 
 message GetVrfRequest {

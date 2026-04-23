@@ -41,7 +41,7 @@ message LogEntry {
   google.protobuf.Struct json_payload = 8;
 
   // Entry stream name.
-  string stream_name = 9 [(length) = "<=63"];
+  string stream_name = 9 [(length) = "<=71"];
 }
 
 message IncomingLogEntry {
@@ -53,13 +53,13 @@ message IncomingLogEntry {
   LogLevel.Level level = 2;
 
   // Entry text message.
-  string message = 3 [(bytes) = "<=819200"];
+  string message = 3 [(bytes) = "<=1048576"];
 
   // Entry annotation.
-  google.protobuf.Struct json_payload = 4 [(bytes) = "<=819200"];
+  google.protobuf.Struct json_payload = 4 [(bytes) = "<=1048576"];
 
   // Entry stream name.
-  string stream_name = 5 [(length) = "<=63"];
+  string stream_name = 5 [(length) = "<=71"];
 }
 
 message LogEntryDefaults {
@@ -73,10 +73,10 @@ message LogEntryDefaults {
   // Default entry annotation.
   // Will be merged with entry annotation.
   // Any conflict will be resolved in favor of entry own annotation.
-  google.protobuf.Struct json_payload = 4 [(bytes) = "<=65536"];
+  google.protobuf.Struct json_payload = 4 [(bytes) = "<=1048576"];
 
   // Entry stream name.
-  string stream_name = 5 [(length) = "<=63"];
+  string stream_name = 5 [(length) = "<=71"];
 }
 
 message Destination {

@@ -9,30 +9,6 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/logging/v1
 option java_package = "yandex.cloud.api.logging.v1";
 
 message Sink {
-  message Yds {
-    // Fully qualified name of data stream
-    string stream_name = 1 [(length) = "<=512"];
-  }
-
-  message S3 {
-    // Object storage bucket
-    string bucket = 1 [(pattern) = "[a-zA-Z0-9][-a-zA-Z0-9.]{2,62}"];
-
-    // Prefix to use for saved log object names
-    string prefix = 2 [(length) = "<=1024"];
-  }
-
-  // Logs destination
-  oneof sink {
-    option (exactly_one) = true;
-
-    // Yandex data stream
-    Yds yds = 9;
-
-    // Object storage
-    S3 s3 = 10;
-  }
-
   // Sink ID.
   string id = 1;
 
@@ -56,4 +32,27 @@ message Sink {
 
   // Logs will be written to the sink on behalf of this service account
   string service_account_id = 8;
+  // Logs destination
+  message Yds {
+    // Fully qualified name of data stream
+    string stream_name = 1 [(length) = "<=512"];
+  }
+
+  message S3 {
+    // Object storage bucket
+    string bucket = 1 [(pattern) = "[a-zA-Z0-9][-a-zA-Z0-9.]{2,62}"];
+
+    // Prefix to use for saved log object names
+    string prefix = 2 [(length) = "<=1024"];
+  }
+
+  oneof sink {
+    option (exactly_one) = true;
+
+    // Yandex data stream
+    Yds yds = 9;
+
+    // Object storage
+    S3 s3 = 10;
+  }
 }

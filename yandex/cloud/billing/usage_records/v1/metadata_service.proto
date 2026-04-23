@@ -1,546 +1,498 @@
 syntax = "proto3";
+
 package yandex.cloud.billing.usage_records.v1;
+
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/billing/usage_records/v1/billing_types.proto";
+import "yandex/cloud/validation.proto";
+
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/billing/usage_records/v1;usageRecords";
 option java_package = "yandex.cloud.api.billing.usage_records.v1";
 
-import "google/protobuf/timestamp.proto";
-
-import "yandex/cloud/billing/usage_records/v1/billing_types.proto";
-
-import "yandex/cloud/validation.proto";
-
 // MetadataService service for retrieving metadata related to usage records
-//
 // The MetadataService provides a set of methods for retrieving metadata and reference information
 // about billing usage records within a specific billing account and date range. This metadata
 // includes information about clouds, services, SKUs, labels, and resources
 // to understand the available entity structure before building detailed usage reports.
-//
 // Required permissions:
 // All methods in this service require one of the following permissions on the specified billing account:
 // - `billing.accounts.getReport`
-//
 // Rate limits:
 // This API is limited to 1 request per minute per IP address.
 service MetadataService {
-    // GetUsage returns usage metadata including available clouds, services, SKUs, label keys, and date ranges
-    // for a specific billing account and date range.
-    //
-    // This method provides a view of all available entities
-    // that can be used for usage reporting within the specified date range
-    // for the billing account and all its sub-accounts including:
-    // - List of available clouds in provided data range
-    // - Available label keys that can be used for filtering or grouping
-    // - Available services
-    // - Available SKUs
-    // - Available billing accounts (user billing account and his sub-accounts)
-    //
-    // Implementation details:
-    // - Empty cloud_id values are translated to a "Usage is out of scope of the Cloud" designation
-    // - All data is filtered to only include items that had usage during the specified date range
-    //
-    // Error handling:
-    // - Returns INVALID_ARGUMENT if the request parameters fail validation
-    // - Returns UNAUTHENTICATED if the user is not authenticated or the billing account does not exist
-    // - Returns PERMISSION_DENIED if the user lacks required permissions
-    // - Returns INTERNAL for internal server errors
-    //
-    // This method supports additional filtering by cloud_ids, label_keys, service_ids, and sku_ids.
-    // These filters work as supplementary conditions to the primary billing_account_id and date range filters.
-    // When provided, they further narrow down the results by applying additional OR conditions for each filter type.
-    //
-    // Required permissions:
-    // - `billing.accounts.getReport` on the specified billing account
-    rpc GetUsage(GetUsageRequest) returns (GetUsageResponse);
+  // GetUsage returns usage metadata including available clouds, services, SKUs, label keys, and date ranges
+  // for a specific billing account and date range.
+  // This method provides a view of all available entities
+  // that can be used for usage reporting within the specified date range
+  // for the billing account and all its sub-accounts including:
+  // - List of available clouds in provided data range
+  // - Available label keys that can be used for filtering or grouping
+  // - Available services
+  // - Available SKUs
+  // - Available billing accounts (user billing account and his sub-accounts)
+  // Implementation details:
+  // - Empty cloud_id values are translated to a "Usage is out of scope of the Cloud" designation
+  // - All data is filtered to only include items that had usage during the specified date range
+  // Error handling:
+  // - Returns INVALID_ARGUMENT if the request parameters fail validation
+  // - Returns UNAUTHENTICATED if the user is not authenticated or the billing account does not exist
+  // - Returns PERMISSION_DENIED if the user lacks required permissions
+  // - Returns INTERNAL for internal server errors
+  // Required permissions:
+  // - `billing.accounts.getReport` on the specified billing account
+  rpc GetUsage(GetUsageRequest) returns (GetUsageResponse);
 
-    // GetServiceInstance returns service instance usage metadata for a specific billing account and date range.
-    //
-    // This method provides a view of all available service instance entities
-    // that can be used for usage reporting within the specified date range
-    // for the billing account and all its sub-accounts.
-    //
-    // Implementation details:
-    // - All data is filtered to only include items that had usage during the specified date range
-    //
-    // Error handling:
-    // - Returns INVALID_ARGUMENT if the request parameters fail validation
-    // - Returns UNAUTHENTICATED if the user is not authenticated or the billing account does not exist
-    // - Returns PERMISSION_DENIED if the user lacks required permissions
-    // - Returns INTERNAL for internal server errors
-    //
-    // This method supports additional filtering by service_instance_ids.
-    // These filters work as supplementary conditions to the primary billing_account_id and date range filters.
-    // When provided, they further narrow down the results by applying additional OR conditions for each filter type.
-    //
-    // Required permissions:
-    // - `billing.accounts.getReport` on the specified billing account
-    rpc GetServiceInstance(GetServiceInstanceRequest) returns (GetServiceInstanceResponse);
+  // GetServiceInstance returns service instance usage metadata for a specific billing account and date range.
+  // This method provides a view of all available service instance entities
+  // that can be used for usage reporting within the specified date range
+  // for the billing account and all its sub-accounts including:
+  // Implementation details:
+  // - All data is filtered to only include items that had usage during the specified date range
+  // Error handling:
+  // - Returns INVALID_ARGUMENT if the request parameters fail validation
+  // - Returns UNAUTHENTICATED if the user is not authenticated or the billing account does not exist
+  // - Returns PERMISSION_DENIED if the user lacks required permissions
+  // - Returns INTERNAL for internal server errors
+  // This method supports additional filtering by service_instance_ids.
+  // These filters work as supplementary conditions to the primary billing_account_id and date range filters.
+  // When provided, they further narrow down the results by applying additional OR conditions for each filter type.
+  // Required permissions:
+  // - `billing.accounts.getReport` or `billingInternal.accounts.getReport` on the specified billing account
+  rpc GetServiceInstance(GetServiceInstanceRequest) returns (GetServiceInstanceResponse);
 
-    // GetLabel returns available label keys and values for a specific billing account
-    // with pagination support.
-    //
-    // This method retrieves all available label values for a specified label key
-    // within the given date range. It supports filtering by label value substring
-    // and provides pagination for handling large result sets.
-    //
-    // This method can additionally filter label values by provided clouds and folders.
-    //
-    // The method can be used in several ways:
-    // - With label_key only: Returns all values for that key with pagination
-    // - With label_key and label_value: Returns array of matching labelValues with pagination
-    // - With label_key and label_value_filter: Returns all values for that key with pagination
-    //     and a separate array of labelValues from the labelValueFilters parameter
-    // - With label_key, label_value and label_value_filter: returns only an array of matching labelValues
-    //     with pagination and ignores labelValueFilters (i.e., labelValueFilters won't be returned)
-    //
-    // Implementation details:
-    // - Case-insensitive label value matching when label_value is provided
-    // - When label_value is specified, label_value_filter is ignored
-    // - Label values are sorted alphabetically
-    // - Pagination occurs when results exceed page_size
-    //
-    // Error handling:
-    // - Returns INVALID_ARGUMENT if the request parameters fail validation
-    // - Returns UNAUTHENTICATED if the user is not authenticated or the billing account does not exist
-    // - Returns PERMISSION_DENIED if the user lacks required permissions
-    // - Returns INTERNAL for internal server errors
-    //
-    // Required permissions:
-    // - `billing.accounts.getReport` on the specified billing account
-    rpc GetLabel(GetLabelRequest) returns (GetLabelResponse);
+  // GetLabel returns available label keys and values for a specific billing account
+  // with pagination support.
+  // This method retrieves all available label values for a specified label key
+  // within the given date range. It supports filtering by label value substring
+  // and provides pagination for handling large result sets.
+  // The method can be used in several ways:
+  // - With label_key only: Returns all values for that key with pagination
+  // - With label_key and label_value: Returns array of matching labelValues with pagination
+  // - With label_key and label_value_filter: Returns all values for that key with pagination
+  // and a separate array of labelValues from the labelValueFilters parameter
+  // - With label_key, label_value and label_value_filter: returns only an array of matching labelValues
+  // with pagination and ignores labelValueFilters (i.e., labelValueFilters won't be returned)
+  // Implementation details:
+  // - Case-insensitive label value matching when label_value is provided
+  // - When label_value is specified, label_value_filter is ignored
+  // - Label values are sorted alphabetically
+  // - Pagination occurs when results exceed page_size
+  // Error handling:
+  // - Returns INVALID_ARGUMENT if the request parameters fail validation
+  // - Returns UNAUTHENTICATED if the user is not authenticated or the billing account does not exist
+  // - Returns PERMISSION_DENIED if the user lacks required permissions
+  // - Returns INTERNAL for internal server errors
+  // Required permissions:
+  // - `billing.accounts.getReport` on the specified billing account
+  rpc GetLabel(GetLabelRequest) returns (GetLabelResponse);
 
-    // GetCloud returns available folders for specified clouds within a billing account
-    // with optional filtering by cloud IDs, folder IDs and pagination support.
-    //
-    // This method returns a hierarchical view of clouds and their folders that the user
-    // has access to within the specified date range. Results can be filtered by
-    // specific cloud IDs and/or folder IDs, and pagination is supported for handling
-    // large result sets.
-    //
-    // Implementation details:
-    // - The method result does not contain empty cloud id information
-    // - Filtering is done using case-insensitive substring matching
-    // - Only clouds with at least one folder are included in the response
-    // - Folder pagination is based on folder IDs, ordered alphabetically
-    // - NextPageToken is only returned when there are more results available
-    // - Base64-encoded page tokens are used for pagination state
-    //
-    // Error handling:
-    // - Returns INVALID_ARGUMENT if the request parameters fail validation
-    // - Returns UNAUTHENTICATED if the user is not authenticated or the billing account does not exist
-    // - Returns PERMISSION_DENIED if the user lacks required permissions
-    // - Returns INTERNAL for internal server errors
-    //
-    // Required permissions:
-    // - `billing.accounts.getReport` on the specified billing account
-    rpc GetCloud(GetCloudRequest) returns (GetCloudResponse);
+  // GetCloud returns available folders for specified clouds within a billing account
+  // with optional filtering by cloud IDs, folder IDs and pagination support.
+  // This method returns a hierarchical view of clouds and their folders that the user
+  // has access to within the specified date range. Results can be filtered by
+  // specific cloud IDs and/or folder IDs, and pagination is supported for handling
+  // large result sets.
+  // Implementation details:
+  // - The method result does not contain empty cloud id information
+  // - Filtering is done using case-insensitive substring matching
+  // - Only clouds with at least one folder are included in the response
+  // - Folder pagination is based on folder IDs, ordered alphabetically
+  // - NextPageToken is only returned when there are more results available
+  // - Base64-encoded page tokens are used for pagination state
+  // Error handling:
+  // - Returns INVALID_ARGUMENT if the request parameters fail validation
+  // - Returns UNAUTHENTICATED if the user is not authenticated or the billing account does not exist
+  // - Returns PERMISSION_DENIED if the user lacks required permissions
+  // - Returns INTERNAL for internal server errors
+  // Required permissions:
+  // - `billing.accounts.getReport` on the specified billing account
+  rpc GetCloud(GetCloudRequest) returns (GetCloudResponse);
 
-    // GetResources returns available resources for specified service instances within a billing account
-    // with optional filtering by service instance IDs, resource IDs and pagination support.
-    //
-    // This method returns a hierarchical view of service instances and their resources that the user
-    // has access to within the specified date range. Results can be filtered by
-    // specific service instance IDs and/or resource IDs, and pagination is supported for handling
-    // large result sets.
-    //
-    // Implementation details:
-    // - Filtering by resources is done using case-insensitive substring matching
-    // - Filtering is done using case-insensitive substring matching
-    // - Only service instances with at least one resource are included in the response
-    // - Resource pagination is based on resource IDs, ordered alphabetically
-    // - NextPageToken is only returned when there are more results available
-    // - Base64-encoded page tokens are used for pagination state
-    //
-    // Error handling:
-    // - Returns INVALID_ARGUMENT if the request parameters fail validation
-    // - Returns UNAUTHENTICATED if the user is not authenticated or the billing account does not exist
-    // - Returns PERMISSION_DENIED if the user lacks required permissions
-    // - Returns INTERNAL for internal server errors
-    //
-    // Required permissions:
-    // - `billing.accounts.getReport` on the specified billing account
-    rpc GetResources(GetResourcesRequest) returns (GetResourcesResponse);
+  // GetResources returns available resources for specified service instances within a billing account
+  // with optional filtering by service instance IDs, resource IDs and pagination support.
+  // This method returns a hierarchical view of service instances and their resources that the user
+  // has access to within the specified date range. Results can be filtered by
+  // specific service instance IDs and/or resource IDs, and pagination is supported for handling
+  // large result sets.
+  // Implementation details:
+  // - Filtering by resources is done using case-insensitive substring matching
+  // - Filtering is done using case-insensitive substring matching
+  // - Only service instances with at least one resource are included in the response
+  // - Resource pagination is based on resource IDs, ordered alphabetically
+  // - NextPageToken is only returned when there are more results available
+  // - Base64-encoded page tokens are used for pagination state
+  // Error handling:
+  // - Returns INVALID_ARGUMENT if the request parameters fail validation
+  // - Returns UNAUTHENTICATED if the user is not authenticated or the billing account does not exist
+  // - Returns PERMISSION_DENIED if the user lacks required permissions
+  // - Returns INTERNAL for internal server errors
+  // Required permissions:
+  // - `billing.accounts.getReport` or `billingInternal.accounts.getReport` on the specified billing account
+  rpc GetResources(GetResourcesRequest) returns (GetResourcesResponse);
+
 }
 
 // GetUsageRequest request for retrieving usage metadata
 message GetUsageRequest {
-    // Required. Billing account identifier.
-    // The ID of the billing account to retrieve usage metadata for.
-    // Must be a valid and accessible billing account ID.
-    string billing_account_id = 1 [(required) = true];
+  // Required. Billing account identifier.
+  // The ID of the billing account to retrieve usage metadata for.
+  // Must be a valid and accessible billing account ID.
+  string billing_account_id = 1 [(required) = true];
 
-    // Start date for data retrieval.
-    // The inclusive start of the date range for which to retrieve usage metadata.
-    // Must be specified and cannot be empty.
-    // The time portion is ignored; the date is considered to start at 00:00:00.
-    google.protobuf.Timestamp start_date = 2 [(required) = true];
+  // Start date for data retrieval.
+  // The inclusive start of the date range for which to retrieve usage metadata.
+  // Must be specified and cannot be empty.
+  // The time portion is ignored; the date is considered to start at 00:00:00.
+  google.protobuf.Timestamp start_date = 2 [(required) = true];
 
-    // End date for data retrieval.
-    // The inclusive end of the date range for which to retrieve usage metadata.
-    // Must be specified, cannot be empty, and must be greater than or equal to start_date.
-    // The time portion is ignored; the date is considered to end at 23:59:59.
-    google.protobuf.Timestamp end_date = 3 [(required) = true];
+  // End date for data retrieval.
+  // The inclusive end of the date range for which to retrieve usage metadata.
+  // Must be specified, cannot be empty, and must be greater than or equal to start_date.
+  // The time portion is ignored; the date is considered to end at 23:59:59.
+  google.protobuf.Timestamp end_date = 3 [(required) = true];
 
-    // Optional. Cloud IDs filter.
-    // Additional filter that works alongside the billing_account_id and date range.
-    // When specified, includes usage records where cloud_id matches any of the provided values.
-    // Acts as an OR condition (cloud_id IN cloud_ids).
-    // If empty, this filter is not applied.
-    repeated string cloud_ids = 4;
+  // Optional. Cloud IDs filter.
+  // Additional filter that works alongside the billing_account_id and date range.
+  // When specified, includes usage records where cloud_id matches any of the provided values.
+  // Acts as an OR condition (cloud_id IN cloud_ids).
+  // If empty, this filter is not applied.
+  repeated string cloud_ids = 4;
 
-    // Optional. Label keys filter.
-    // Additional filter that works alongside the billing_account_id and date range.
-    // When specified, includes usage records where label_key matches any of the provided values.
-    // Acts as an OR condition (label_key IN label_keys).
-    // If empty, this filter is not applied.
-    repeated string label_keys = 5;
+  // Optional. Label keys filter.
+  // Additional filter that works alongside the billing_account_id and date range.
+  // When specified, includes usage records where label_key matches any of the provided values.
+  // Acts as an OR condition (label_key IN label_keys).
+  // If empty, this filter is not applied.
+  repeated string label_keys = 5;
 
-    // Optional. Service IDs filter.
-    // Additional filter that works alongside the billing_account_id and date range.
-    // When specified, includes usage records where service_id matches any of the provided values.
-    // Acts as an OR condition (service_id IN service_ids).
-    // If empty, this filter is not applied.
-    repeated string service_ids = 6;
+  // Optional. Service IDs filter.
+  // Additional filter that works alongside the billing_account_id and date range.
+  // When specified, includes usage records where service_id matches any of the provided values.
+  // Acts as an OR condition (service_id IN service_ids).
+  // If empty, this filter is not applied.
+  repeated string service_ids = 6;
 
-    // Optional. SKU IDs filter.
-    // Additional filter that works alongside the billing_account_id and date range.
-    // When specified, includes usage records where sku_id matches any of the provided values.
-    // Acts as an OR condition (sku_id IN sku_ids).
-    // If empty, this filter is not applied.
-    repeated string sku_ids = 7;
-
+  // Optional. SKU IDs filter.
+  // Additional filter that works alongside the billing_account_id and date range.
+  // When specified, includes usage records where sku_id matches any of the provided values.
+  // Acts as an OR condition (sku_id IN sku_ids).
+  // If empty, this filter is not applied.
+  repeated string sku_ids = 7;
 }
 
 // Response for usage metadata request
 message GetUsageResponse {
-    // List of available clouds for the current user/context (billing_account_id with sub-accounts)
-    // Contains cloud entities that the user has access to within the specified date range.
-    //
-    // Note: Empty cloud_id values are considered as "consumption outside the cloud"
-    // and represented with an empty string id and name "Usage is out of scope of the Cloud"
-    // The list is sorted by cloud name in ascending order.
-    repeated Cloud clouds = 1;
+  // List of available clouds for the current user/context (billing_account_id with sub-accounts)
+  // Contains cloud entities that the user has access to within the specified date range.
+  // Note: Empty cloud_id values are considered as "consumption outside the cloud"
+  // and represented with an empty string id and name "Usage is out of scope of the Cloud"
+  repeated Cloud clouds = 1;
 
-    // List of available label keys for the current user/context (billing_account_id with sub-accounts)
-    // Contains all label keys that exist in usage records
-    // within the specified date range.
-    // These keys can be used for filtering and grouping in reports or
-    // passed to the GetLabel method to retrieve possible values.
-    // The list is sorted in ascending order.
-    repeated string label_keys = 2;
+  // List of available label keys for the current user/context (billing_account_id with sub-accounts)
+  // Contains all label keys that exist in usage records
+  // within the specified date range.
+  // These keys can be used for filtering and grouping in reports or
+  // passed to the GetLabel method to retrieve possible values.
+  repeated string label_keys = 2;
 
-    // List of available services for the current user/context (billing_account_id with sub-accounts)
-    // Contains service entities with their IDs, names and descriptions that
-    // have usage records within the specified billing account and date range.
-    // Services represent the top-level grouping of cloud offerings.
-    // The list is sorted by service name in ascending order.
-    repeated Service services = 3;
+  // List of available services for the current user/context (billing_account_id with sub-accounts)
+  // Contains service entities with their IDs, names and descriptions that
+  // have usage records within the specified billing account and date range.
+  // Services represent the top-level grouping of cloud offerings.
+  repeated Service services = 3;
 
-    // List of available SKUs for the current user/context (billing_account_id with sub-accounts)
-    // Contains SKU entities with their IDs, names, translations and pricing units
-    // that have usage records within the specified billing account and date range.
-    // SKUs represent specific service offerings
-    // The list is sorted by SKU name in ascending order.
-    repeated SKU skus = 4;
+  // List of available SKUs for the current user/context (billing_account_id with sub-accounts)
+  // Contains SKU entities with their IDs, names, translations and pricing units
+  // that have usage records within the specified billing account and date range.
+  // SKUs represent specific service offerings
+  repeated SKU skus = 4;
 
-    // List of available BillingAccounts for the current user/context (billing_account_id with sub-accounts)
-    // Contains billing account entities that the user has access to and
-    // that have usage records within the specified date range.
-    // Includes both the main account and any sub-accounts.
-    // Sub-accounts are sorted by name in ascending order.
-    // The master account is placed last in the list
-    repeated BillingAccount billing_accounts = 5;
+  // List of available BillingAccounts for the current user/context (billing_account_id with sub-accounts)
+  // Contains billing account entities that the user has access to and
+  // that have usage records within the specified date range.
+  // Includes both the main account and any sub-accounts.
+  repeated BillingAccount billing_accounts = 5;
 }
 
 // GetServiceInstanceRequest request for retrieving service instance usage metadata
 message GetServiceInstanceRequest {
-    // Required. Billing account identifier.
-    // The ID of the billing account to retrieve usage metadata for.
-    // Must be a valid and accessible billing account ID.
-    string billing_account_id = 1 [(required) = true];
+  // Required. Billing account identifier.
+  // The ID of the billing account to retrieve usage metadata for.
+  // Must be a valid and accessible billing account ID.
+  string billing_account_id = 1 [(required) = true];
 
-    // Start date for data retrieval.
-    // The inclusive start of the date range for which to retrieve usage metadata.
-    // Must be specified and cannot be empty.
-    // The time portion is ignored; the date is considered to start at 00:00:00.
-    google.protobuf.Timestamp start_date = 2 [(required) = true];
+  // Start date for data retrieval.
+  // The inclusive start of the date range for which to retrieve usage metadata.
+  // Must be specified and cannot be empty.
+  // The time portion is ignored; the date is considered to start at 00:00:00.
+  google.protobuf.Timestamp start_date = 2 [(required) = true];
 
-    // End date for data retrieval.
-    // The inclusive end of the date range for which to retrieve usage metadata.
-    // Must be specified, cannot be empty, and must be greater than or equal to start_date.
-    // The time portion is ignored; the date is considered to end at 23:59:59.
-    google.protobuf.Timestamp end_date = 3 [(required) = true];
+  // End date for data retrieval.
+  // The inclusive end of the date range for which to retrieve usage metadata.
+  // Must be specified, cannot be empty, and must be greater than or equal to start_date.
+  // The time portion is ignored; the date is considered to end at 23:59:59.
+  google.protobuf.Timestamp end_date = 3 [(required) = true];
 
-    // Optional. Service instance IDs filter.
-    // Additional filter that works alongside the billing_account_id and date range.
-    // When specified, includes usage records where service_instance_id matches any of the provided values.
-    // Acts as an OR condition (service_instance_id IN service_instance_ids).
-    // If empty, this filter is not applied.
-    repeated string service_instance_ids = 4;
+  // Optional. Service instance IDs filter.
+  // Additional filter that works alongside the billing_account_id and date range.
+  // When specified, includes usage records where service_instance_id matches any of the provided values.
+  // Acts as an OR condition (service_instance_id IN service_instance_ids).
+  // If empty, this filter is not applied.
+  repeated string service_instance_ids = 4;
 }
 
 // Response for service instance usage metadata request
 message GetServiceInstanceResponse {
-    // List of available service instances for the current user/context (billing_account_id with sub-accounts)
-    // Contains service instance entities that the user has access to within the specified date range.
-    // The list is sorted by service instance name in ascending order.
-    repeated ServiceInstance service_instances = 1;
+  // List of available service instances for the current user/context (billing_account_id with sub-accounts)
+  // Contains service instance entities that the user has access to within the specified date range.
+  repeated ServiceInstance service_instances = 1;
 }
 
 // Request for retrieving label metadata
 message GetLabelRequest {
-    // Required. Billing account identifier.
-    // The ID of the billing account to retrieve label metadata for.
-    // Must be a valid and accessible billing account ID.
-    string billing_account_id = 1 [(required) = true];
+  // Required. Billing account identifier.
+  // The ID of the billing account to retrieve label metadata for.
+  // Must be a valid and accessible billing account ID.
+  string billing_account_id = 1 [(required) = true];
 
-    // Start date for data retrieval.
-    // The inclusive start of the date range for which to retrieve label metadata.
-    // Must be specified and cannot be empty.
-    // The time portion is ignored; the date is considered to start at 00:00:00.
-    google.protobuf.Timestamp start_date = 2 [(required) = true];
+  // Start date for data retrieval.
+  // The inclusive start of the date range for which to retrieve label metadata.
+  // Must be specified and cannot be empty.
+  // The time portion is ignored; the date is considered to start at 00:00:00.
+  google.protobuf.Timestamp start_date = 2 [(required) = true];
 
-    // End date for data retrieval.
-    // The inclusive end of the date range for which to retrieve label metadata.
-    // Must be specified, cannot be empty, and must be greater than or equal to start_date.
-    // The time portion is ignored; the date is considered to end at 23:59:59.
-    google.protobuf.Timestamp end_date = 3 [(required) = true];
+  // End date for data retrieval.
+  // The inclusive end of the date range for which to retrieve label metadata.
+  // Must be specified, cannot be empty, and must be greater than or equal to start_date.
+  // The time portion is ignored; the date is considered to end at 23:59:59.
+  google.protobuf.Timestamp end_date = 3 [(required) = true];
 
-    // Optional. Cloud IDs filter.
-    // Additional filter that works alongside the billing_account_id and date range.
-    // When specified, includes labels where cloud_id matches any of the provided values.
-    // Acts as an OR condition (cloud_id IN cloud_ids).
-    // If empty, this filter is not applied.
-    repeated string cloud_ids = 9;
+  // Optional. Cloud IDs filter.
+  // Additional filter that works alongside the billing_account_id and date range.
+  // When specified, includes labels where cloud_id matches any of the provided values.
+  // Acts as an OR condition (cloud_id IN cloud_ids).
+  // If specified, will be used for addditional authorization check to provided clouds.
+  // If empty, this filter is not applied.
+  repeated string cloud_ids = 9;
 
-    // Optional. Folder IDs filter.
-    // Additional filter that works alongside the billing_account_id and date range.
-    // When specified, includes labels where folder_id matches any of the provided values.
-    // Acts as an OR condition (folder_id IN folder_ids).
-    // If empty, this filter is not applied.
-    repeated string folder_ids = 10;
+  // Optional. Folder IDs filter.
+  // Additional filter that works alongside the billing_account_id and date range.
+  // When specified, includes labels where folder_id matches any of the provided values.
+  // Acts as an OR condition (folder_id IN folder_ids).
+  // If specified, will be used for addditional authorization check to provided folders.
+  // If empty, this filter is not applied.
+  repeated string folder_ids = 10;
 
-    // Label key to filter values for. If specified, response will contain values
-    // for this specific key.
-    // Must be a non-empty string representing a valid label key.
-    string label_key = 4 [(required) = true];
+  // Label key to filter values for. If specified, response will contain values
+  // for this specific key.
+  // Must be a non-empty string representing a valid label key.
+  string label_key = 4 [(required) = true];
 
-    // Optional. If provided along with label_key, the response will return
-    // an array of matches for this label_value.
-    // Used for exact matching of label values.
-    // If specified, label_value_filter is ignored and pagination is not applied.
-    string label_value = 5;
+  // Optional. If provided along with label_key, the response will return
+  // an array of matches for this label_value.
+  // Used for exact matching of label values.
+  // If specified, label_value_filter is ignored and pagination is not applied.
+  string label_value = 5;
 
-    // Optional array of label values to filter results:
-    // Returns in response as is if label_value is not provided, otherwise returns empty label_value_filter
-    repeated string label_value_filter = 6;
+  // Optional array of label values to filter results:
+  // Returns in response as is if label_value is not provided, otherwise returns empty label_value_filter
+  repeated string label_value_filter = 6;
 
-    // Optional. Page size for paginated results.
-    // Specifies the maximum number of label values to return per page.
-    // If not specified or set to 0, defaults to 10.
-    // If greater than 10000, will be coerced down to 10000.
-    int64 page_size = 7;
+  // Optional. Page size for paginated results.
+  // Specifies the maximum number of label values to return per page.
+  // If not specified or set to 0, defaults to 10.
+  // If greater than 10000, will be coerced down to 10000.
+  int64 page_size = 7;
 
-    // Optional. Page token for paginated results.
-    // Token from a previous GetLabelResponse used to retrieve the next page.
-    // If empty, retrieves the first page.
-    string page_token = 8;
+  // Optional. Page token for paginated results.
+  // Token from a previous GetLabelResponse used to retrieve the next page.
+  // If empty, retrieves the first page.
+  string page_token = 8;
 }
 
 // Response for label metadata request
 message GetLabelResponse {
-    // List of label values matching the request criteria
-    // Contains label values that match the specified label key pattern.
-    // Values are sorted alphabetically.
-    repeated string label_values = 1;
+  // List of label values matching the request criteria
+  // Contains label values that match the specified label key pattern.
+  // Values are sorted alphabetically.
+  repeated string label_values = 1;
 
-    // List of label values from the label_value_filter in the request
-    // Contains the same values as provided in the request's label_value_filter.
-    // Included for convenience in the response.
-    // This field is only populated when label_value_filter was specified in the request
-    // and label_value was not specified.
-    repeated string label_value_filter = 2;
+  // List of label values from the label_value_filter in the request
+  // Contains the same values as provided in the request's label_value_filter.
+  // Included for convenience in the response.
+  // This field is only populated when label_value_filter was specified in the request
+  // and label_value was not specified.
+  repeated string label_value_filter = 2;
 
-    // Token for getting the next page of results.
-    // If empty, there are no more results.
-    // Use this token in a subsequent request's page_token field to retrieve
-    // the next page of results.
-    // The token encodes the pagination state.
-    //
-    // It should be passed verbatim in subsequent requests.
-    string next_page_token = 3;
+  // Token for getting the next page of results.
+  // If empty, there are no more results.
+  // Use this token in a subsequent request's page_token field to retrieve
+  // the next page of results.
+  // The token encodes the pagination state.
+  // It should be passed verbatim in subsequent requests.
+  string next_page_token = 3;
 }
 
 // Request for retrieving folder metadata
 message GetCloudRequest {
-    reserved 8, 9;
+  // Required. Billing account identifier.
+  // The ID of the billing account to retrieve cloud and folder metadata for.
+  // Must be a valid and accessible billing account ID.
+  string billing_account_id = 1 [(required) = true];
 
-    // Required. Billing account identifier.
-    // The ID of the billing account to retrieve cloud and folder metadata for.
-    // Must be a valid and accessible billing account ID.
-    string billing_account_id = 1 [(required) = true];
+  // Start date for data retrieval.
+  // The inclusive start of the date range for which to retrieve cloud and folder metadata.
+  // Must be specified and cannot be empty.
+  // The time portion is ignored; the date is considered to start at 00:00:00.
+  google.protobuf.Timestamp start_date = 2 [(required) = true];
 
-    // Start date for data retrieval.
-    // The inclusive start of the date range for which to retrieve cloud and folder metadata.
-    // Must be specified and cannot be empty.
-    // The time portion is ignored; the date is considered to start at 00:00:00.
-    google.protobuf.Timestamp start_date = 2 [(required) = true];
+  // End date for data retrieval.
+  // The inclusive end of the date range for which to retrieve cloud and folder metadata.
+  // Must be specified, cannot be empty, and must be greater than or equal to start_date.
+  // The time portion is ignored; the date is considered to end at 23:59:59.
+  google.protobuf.Timestamp end_date = 3 [(required) = true];
 
-    // End date for data retrieval.
-    // The inclusive end of the date range for which to retrieve cloud and folder metadata.
-    // Must be specified, cannot be empty, and must be greater than or equal to start_date.
-    // The time portion is ignored; the date is considered to end at 23:59:59.
-    google.protobuf.Timestamp end_date = 3 [(required) = true];
+  // Optional. List of cloud IDs to filter clouds by.
+  // Note: cloud_id filtering supports case-insensitive substring matching.
+  // No wildcards or regex patterns are supported - just simple substring matching.
+  // The filter works with partial cloud IDs, and will match any cloud where
+  // the provided substring appears anywhere in the cloud_id.
+  // For example, filter "abc" will match cloud_ids like "abc123", "123abc", or "1abc2".
+  // If empty, no filtering by cloud ID is applied.
+  repeated string cloud_ids = 4;
 
-    // Optional. List of cloud IDs to filter clouds by.
-    // Note: cloud_id filtering supports case-insensitive substring matching.
-    // No wildcards or regex patterns are supported - just simple substring matching.
-    // The filter works with partial cloud IDs, and will match any cloud where
-    // the provided substring appears anywhere in the cloud_id.
-    // For example, filter "abc" will match cloud_ids like "abc123", "123abc", or "1abc2".
-    // If empty, no filtering by cloud ID is applied.
-    repeated string cloud_ids = 4;
+  // Optional. List of folder IDs to filter folders by.
+  // Note: folder_id filtering supports case-insensitive substring matching.
+  // No wildcards or regex patterns are supported - just simple substring matching.
+  // The filter works with partial folder IDs, and will match any folder where
+  // the provided substring appears anywhere in the folder_id.
+  // For example, filter "abc" will match folder_ids like "abc123", "123abc", or "1abc2".
+  // If empty, no filtering by folder ID is applied.
+  repeated string folder_ids = 5;
 
-    // Optional. List of folder IDs to filter folders by.
-    // Note: folder_id filtering supports case-insensitive substring matching.
-    // No wildcards or regex patterns are supported - just simple substring matching.
-    // The filter works with partial folder IDs, and will match any folder where
-    // the provided substring appears anywhere in the folder_id.
-    // For example, filter "abc" will match folder_ids like "abc123", "123abc", or "1abc2".
-    // If empty, no filtering by folder ID is applied.
-    repeated string folder_ids = 5;
+  // Optional. Page size for paginated results.
+  // Specifies the maximum number of Folder objects to return per page.
+  // If not specified or set to 0, defaults to 10.
+  // If greater than 10000, will be coerced down to 10000.
+  int64 page_size = 6;
 
-    // Optional. Page size for paginated results.
-    // Specifies the maximum number of Folder objects to return per page.
-    // If not specified or set to 0, defaults to 10.
-    // If greater than 10000, will be coerced down to 10000.
-    int64 page_size = 6;
-
-    // Optional. Page token for paginated results.
-    // Token from a previous GetCloudResponse used to retrieve the next page.
-    // If empty, retrieves the first page.
-    // The token encodes the pagination state.
-    string page_token = 7;
+  // Optional. Page token for paginated results.
+  // Token from a previous GetCloudResponse used to retrieve the next page.
+  // If empty, retrieves the first page.
+  // The token encodes the pagination state.
+  string page_token = 7;
 }
 
 // Response for cloud metadata request
 message GetCloudResponse {
-    // Information about a cloud and its folders
-    message CloudInfo {
-        // Cloud information
-        Cloud cloud = 1;
+  // Information about a cloud and its folders
+  message CloudInfo {
+    // Cloud information
+    Cloud cloud = 1;
 
-        // List of folders belonging to this cloud
-        // Contains folder entities that belong to this cloud
-        // and match any folder ID filtering criteria from the request.
-        // The list is sorted by folder name in ascending order.
-        //
-        // Only folders that had usage during the specified date range are included.
-        repeated Folder folders = 2;
-    }
+    // List of folders belonging to this cloud
+    // Contains folder entities that belong to this cloud
+    // and match any folder ID filtering criteria from the request.
+    // The list is sorted by folder ID in ascending order.
+    // Only folders that had usage during the specified date range are included.
+    repeated Folder folders = 2;
+  }
 
-    // List of clouds matching the request criteria
-    // Contains CloudInfo objects for each cloud that matches the specified
-    // filtering criteria
-    // The list is sorted by cloud name in ascending order.
-    //
-    // Note: only clouds with at least one folder are included in the response.
-    repeated CloudInfo items = 1;
+  // List of clouds matching the request criteria
+  // Contains CloudInfo objects for each cloud that matches the specified
+  // filtering criteria
+  // Note: only clouds with at least one folder are included in the response.
+  repeated CloudInfo items = 1;
 
-    // Token for getting the next page of results.
-    // If empty, there are no more results.
-    // Use this token in a subsequent request's page_token field to retrieve
-    // the next page of results.
-    // The token encodes the pagination state.
-    //
-    // It should be passed verbatim in subsequent requests.
-    string next_page_token = 2;
+  // Token for getting the next page of results.
+  // If empty, there are no more results.
+  // Use this token in a subsequent request's page_token field to retrieve
+  // the next page of results.
+  // The token encodes the pagination state.
+  // It should be passed verbatim in subsequent requests.
+  string next_page_token = 2;
 }
 
 // GetResourcesRequest request for retrieving resources with associated service instances.
 // This message defines the parameters needed to fetch and filter resources
 // associated with a billing account within a date range.
 message GetResourcesRequest {
-    // Required. Billing account identifier.
-    // The ID of the billing account to retrieve resources for.
-    // Must be a valid and accessible billing account ID.
-    string billing_account_id = 1 [(required) = true];
+  // Required. Billing account identifier.
+  // The ID of the billing account to retrieve resources for.
+  // Must be a valid and accessible billing account ID.
+  string billing_account_id = 1 [(required) = true];
 
-    // Start date for data retrieval.
-    // The inclusive start of the date range for which to retrieve resources.
-    // Must be specified and cannot be empty.
-    // The time portion is ignored; the date is considered to start at 00:00:00.
-    google.protobuf.Timestamp start_date = 2 [(required) = true];
+  // Start date for data retrieval.
+  // The inclusive start of the date range for which to retrieve resources.
+  // Must be specified and cannot be empty.
+  // The time portion is ignored; the date is considered to start at 00:00:00.
+  google.protobuf.Timestamp start_date = 2 [(required) = true];
 
-    // End date for data retrieval.
-    // The inclusive end of the date range for which to retrieve resources.
-    // Must be specified, cannot be empty, and must be greater than or equal to start_date.
-    // The time portion is ignored; the date is considered to end at 23:59:59.
-    google.protobuf.Timestamp end_date = 3 [(required) = true];
+  // End date for data retrieval.
+  // The inclusive end of the date range for which to retrieve resources.
+  // Must be specified, cannot be empty, and must be greater than or equal to start_date.
+  // The time portion is ignored; the date is considered to end at 23:59:59.
+  google.protobuf.Timestamp end_date = 3 [(required) = true];
 
-    // Optional. List of service instances IDs to filter service instances by.
-    // Note: service_instances_ids filtering supports case-insensitive substring matching.
-    // No wildcards or regex patterns are supported - just simple substring matching.
-    // The filter works with partial service instances IDs, and will match any service instances where
-    // the provided substring appears anywhere in the service_instances_id.
-    // For example, filter "abc" will match service_instances_ids like "abc123", "123abc", or "1abc2".
-    // If empty, no filtering by service instance ID is applied.
-    repeated string service_instances_ids = 4;
+  // Optional. List of service instances IDs to filter service instances by.
+  // Note: service_instances_ids filtering supports case-insensitive substring matching.
+  // No wildcards or regex patterns are supported - just simple substring matching.
+  // The filter works with partial service instances IDs, and will match any service instances where
+  // the provided substring appears anywhere in the service_instances_id.
+  // For example, filter "abc" will match service_instances_ids like "abc123", "123abc", or "1abc2".
+  // If empty, no filtering by service instance ID is applied.
+  repeated string service_instances_ids = 4;
 
-    // Optional. List of resource IDs to filter resources by.
-    // Note: resource_ids filtering supports case-insensitive substring matching.
-    // No wildcards or regex patterns are supported - just simple substring matching.
-    // The filter works with partial resource IDs, and will match any resource where
-    // the provided substring appears anywhere in the resource_ids.
-    // For example, filter "abc" will match resource_ids like "abc123", "123abc", or "1abc2".
-    // If empty, no filtering by resource ID is applied.
-    repeated string resource_ids = 5;
+  // Optional. List of resource IDs to filter resources by.
+  // Note: resource_ids filtering supports case-insensitive substring matching.
+  // No wildcards or regex patterns are supported - just simple substring matching.
+  // The filter works with partial resource IDs, and will match any resource where
+  // the provided substring appears anywhere in the resource_ids.
+  // For example, filter "abc" will match resource_ids like "abc123", "123abc", or "1abc2".
+  // If empty, no filtering by resource ID is applied.
+  repeated string resource_ids = 5;
 
-    // Optional. Page size for paginated results.
-    // Specifies the maximum number of resource IDs to return per page.
-    // If not specified or set to 0, defaults to 10.
-    // If greater than 10000, will be coerced down to 10000.
-    int64 page_size = 6;
+  // Optional. Page size for paginated results.
+  // Specifies the maximum number of resource IDs to return per page.
+  // If not specified or set to 0, defaults to 10.
+  // If greater than 10000, will be coerced down to 10000.
+  int64 page_size = 6;
 
-    // Optional. Page token for paginated results.
-    // Token from a previous GetResourceIDsResponse used to retrieve the next page.
-    // If empty, retrieves the first page.
-    // The token encodes the pagination state.
-    string page_token = 7;
+  // Optional. Page token for paginated results.
+  // Token from a previous GetResourceIDsResponse used to retrieve the next page.
+  // If empty, retrieves the first page.
+  // The token encodes the pagination state.
+  string page_token = 7;
 }
 
 // The response for resources request.
 // This message contains a list of resource IDs splited by service instances that match the search criteria
 // specified in the request, along with pagination information.
 message GetResourcesResponse {
-    // Information about a service instances and its resources
-    message ServiceInstanceInfo {
-        // Service instance information
-        ServiceInstance service_instance = 1;
+  // Information about a service instances and its resources
+  message ServiceInstanceInfo {
+    // Service instance information
+    ServiceInstance service_instance = 1;
 
-        // List of resources belonging to this service instances
-        // Contains resource entities that belong to this service instance
-        // and match any resource ID filtering criteria from the request.
-        // The list is sorted by resource ID in ascending order.
-        //
-        // Only resources that had usage during the specified date range are included.
-        repeated Resource resources = 2;
-    }
+    // List of resources belonging to this service instances
+    // Contains resource entities that belong to this service instance
+    // and match any resource ID filtering criteria from the request.
+    // The list is sorted by resource ID in ascending order.
+    // Only resources that had usage during the specified date range are included.
+    repeated Resource resources = 2;
+  }
 
-    // List of service instances matching the request criteria
-    // Contains ServiceInstanceInfo objects for each service instance that matches the specified
-    // filtering criteria
-    // The list is sorted by service instance name in ascending order.
-    //
-    // Note: only service instances with at least one resource are included in the response.
-    repeated ServiceInstanceInfo items = 1;
+  // List of service instances matching the request criteria
+  // Contains ServiceInstanceInfo objects for each service instance that matches the specified
+  // filtering criteria
+  // Note: only service instances with at least one resource are included in the response.
+  repeated ServiceInstanceInfo items = 1;
 
-    // Token for getting the next page of results.
-    // If empty, there are no more results.
-    // Use this token in a subsequent request's page_token field to retrieve
-    // the next page of results.
-    // The token encodes the pagination state.
-    //
-    // It should be passed verbatim in subsequent requests.
-    string next_page_token = 2;
+  // Token for getting the next page of results.
+  // If empty, there are no more results.
+  // Use this token in a subsequent request's page_token field to retrieve
+  // the next page of results.
+  // The token encodes the pagination state.
+  // It should be passed verbatim in subsequent requests.
+  string next_page_token = 2;
 }

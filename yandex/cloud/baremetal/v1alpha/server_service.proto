@@ -248,8 +248,7 @@ message CreateServerRequest {
   // ID of the configuration to use for the server.
   // To get the configuration ID, use a [ConfigurationService.List] request.
   string configuration_id = 5 [
-    (length) = "20",
-    (pattern) = "[a-z][a-z0-9]*",
+    (pattern) = "([a-z][a-z0-9]{19})|",
     (required) = false,
     deprecated = true
   ];
@@ -549,8 +548,7 @@ message BatchCreateServersRequest {
   // ID of the configuration to use for the server.
   // To get the configuration ID, use a [ConfigurationService.List] request.
   string configuration_id = 5 [
-    (length) = "20",
-    (pattern) = "[a-z][a-z0-9]*",
+    (pattern) = "([a-z][a-z0-9]{19})|",
     (required) = false,
     deprecated = true
   ];
