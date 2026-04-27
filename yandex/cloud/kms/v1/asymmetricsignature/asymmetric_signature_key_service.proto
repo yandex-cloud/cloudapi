@@ -6,9 +6,9 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/kms/v1/asymmetricsignature/asymmetric_signature_key.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
-import "yandex/cloud/kms/v1/asymmetricsignature/asymmetric_signature_key.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/kms/v1/asymmetricsignature;kms";
 option java_package = "yandex.cloud.api.kms.v1";
@@ -18,80 +18,104 @@ service AsymmetricSignatureKeyService {
 
   // control plane
   // Creates an asymmetric KMS key in the specified folder.
-  rpc Create (CreateAsymmetricSignatureKeyRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/kms/v1/asymmetricSignatureKeys" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateAsymmetricSignatureKeyRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateAsymmetricSignatureKeyMetadata"
       response: "AsymmetricSignatureKey"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/kms/v1/asymmetricSignatureKeys"
+    };
+  };
 
   // Returns the specified asymmetric KMS key.
-  //
-  //  To get the list of available asymmetric KMS keys, make a [SymmetricKeyService.List] request.
-  rpc Get (GetAsymmetricSignatureKeyRequest) returns (AsymmetricSignatureKey) {
-    option (google.api.http) = { get: "/kms/v1/asymmetricSignatureKeys/{key_id}" };
-  }
+  // To get the list of available asymmetric KMS keys, make a [SymmetricKeyService.List] request.
+  rpc Get(GetAsymmetricSignatureKeyRequest) returns (AsymmetricSignatureKey) {
+    option (google.api.http) = {
+      get: "/kms/v1/asymmetricSignatureKeys/{key_id}"
+    };
+  };
 
   // Returns the list of asymmetric KMS keys in the specified folder.
-  rpc List (ListAsymmetricSignatureKeysRequest) returns (ListAsymmetricSignatureKeysResponse) {
-    option (google.api.http) = { get: "/kms/v1/asymmetricSignatureKeys" };
-  }
+  rpc List(ListAsymmetricSignatureKeysRequest) returns (ListAsymmetricSignatureKeysResponse) {
+    option (google.api.http) = {
+      get: "/kms/v1/asymmetricSignatureKeys"
+    };
+  };
 
   // Updates the specified asymmetric KMS key.
-  rpc Update (UpdateAsymmetricSignatureKeyRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/kms/v1/asymmetricSignatureKeys/{key_id}" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateAsymmetricSignatureKeyRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateAsymmetricSignatureKeyMetadata"
       response: "AsymmetricSignatureKey"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/kms/v1/asymmetricSignatureKeys/{key_id}"
+    };
+  };
 
   // Deletes the specified asymmetric KMS key. This action also automatically schedules
   // the destruction of all of the key's versions in 72 hours.
-  //
   // The key and its versions appear absent in [AsymmetricSignatureKeyService.Get] and [AsymmetricSignatureKeyService.List]
   // requests, but can be restored within 72 hours with a request to tech support.
-  rpc Delete (DeleteAsymmetricSignatureKeyRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/kms/v1/asymmetricSignatureKeys/{key_id}" };
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteAsymmetricSignatureKeyRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteAsymmetricSignatureKeyMetadata"
       response: "AsymmetricSignatureKey"
     };
-  }
+    option (google.api.http) = {
+      delete: "/kms/v1/asymmetricSignatureKeys/{key_id}"
+    };
+  };
 
   // Lists operations for the specified asymmetric KMS key.
-  rpc ListOperations (ListAsymmetricSignatureKeyOperationsRequest) returns (ListAsymmetricSignatureKeyOperationsResponse) {
-    option (google.api.http) = { get: "/kms/v1/asymmetricSignatureKeys/{key_id}/operations" };
-  }
+  rpc ListOperations(ListAsymmetricSignatureKeyOperationsRequest) returns (ListAsymmetricSignatureKeyOperationsResponse) {
+    option (google.api.http) = {
+      get: "/kms/v1/asymmetricSignatureKeys/{key_id}/operations"
+    };
+  };
 
   // Lists existing access bindings for the specified key.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = { get: "/kms/v1/asymmetricSignatureKeys/{resource_id}:listAccessBindings" };
-  }
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/kms/v1/asymmetricSignatureKeys/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the key.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/kms/v1/asymmetricSignatureKeys/{resource_id}:setAccessBindings" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/kms/v1/asymmetricSignatureKeys/{resource_id}:setAccessBindings"
+    };
+  };
 
   // Updates access bindings for the specified key.
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/kms/v1/asymmetricSignatureKeys/{resource_id}:updateAccessBindings" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/kms/v1/asymmetricSignatureKeys/{resource_id}:updateAccessBindings"
+    };
+  };
+
 }
 
 message CreateAsymmetricSignatureKeyRequest {
   // ID of the folder to create a asymmetric KMS key in.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Name of the key.
   string name = 2 [(length) = "<=100"];
@@ -101,7 +125,15 @@ message CreateAsymmetricSignatureKeyRequest {
 
   // Custom labels for the asymmetric KMS key as `key:value` pairs. Maximum 64 per key.
   // For example, `"project": "mvp"` or `"source": "dictionary"`.
-  map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "<=63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 
   // Asymmetric signature algorithm.
   AsymmetricSignatureAlgorithm signature_algorithm = 5;
@@ -113,18 +145,23 @@ message CreateAsymmetricSignatureKeyRequest {
 message CreateAsymmetricSignatureKeyMetadata {
   // ID of the key being created.
   string key_id = 1;
-
 }
 
 message GetAsymmetricSignatureKeyRequest {
   // ID of the asymmetric KMS key to return.
   // To get the ID of an asymmetric KMS key use a [AsymmetricSignatureKeyService.List] request.
-  string key_id = 1 [(required) = true, (length) = "<=50"];
+  string key_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListAsymmetricSignatureKeysRequest {
   // ID of the folder to list asymmetric KMS keys in.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListAsymmetricSignatureKeysResponse.next_page_token]
@@ -152,7 +189,10 @@ message ListAsymmetricSignatureKeysResponse {
 message UpdateAsymmetricSignatureKeyRequest {
   // ID of the asymmetric KMS key to update.
   // To get the ID of a asymmetric KMS key use a [AsymmetricSignatureKeyService.List] request.
-  string key_id = 1 [(required) = true, (length) = "<=50"];
+  string key_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Field mask that specifies which attributes of the asymmetric KMS key are going to be updated.
   google.protobuf.FieldMask update_mask = 2 [(required) = true];
@@ -168,7 +208,15 @@ message UpdateAsymmetricSignatureKeyRequest {
   AsymmetricSignatureKey.Status status = 5;
 
   // Custom labels for the asymmetric KMS key as `key:value` pairs. Maximum 64 per key.
-  map<string, string> labels = 6 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 6 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "<=63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 
   // Flag that inhibits deletion of the asymmetric KMS key
   bool deletion_protection = 7;
@@ -181,7 +229,10 @@ message UpdateAsymmetricSignatureKeyMetadata {
 
 message DeleteAsymmetricSignatureKeyRequest {
   // ID of the key to be deleted.
-  string key_id = 1 [(required) = true, (length) = "<=50"];
+  string key_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message DeleteAsymmetricSignatureKeyMetadata {
@@ -191,9 +242,11 @@ message DeleteAsymmetricSignatureKeyMetadata {
 
 message ListAsymmetricSignatureKeyOperationsRequest {
   // ID of the symmetric KMS key to get operations for.
-  //
   // To get the key ID, use a [AsymmetricSignatureKeyService.List] request.
-  string key_id = 1 [(required) = true, (length) = "<=50"];
+  string key_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page that should be returned. If the number of available
   // results is larger than [page_size], the service returns a [ListAsymmetricSignatureKeyOperationsResponse.next_page_token]

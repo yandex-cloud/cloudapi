@@ -7,50 +7,6 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/kms/v1/asymmetricsignature;kms";
 option java_package = "yandex.cloud.api.kms.v1";
 
-// Supported asymmetric signature algorithms.
-enum AsymmetricSignatureAlgorithm {
-  ASYMMETRIC_SIGNATURE_ALGORITHM_UNSPECIFIED = 0;
-
-  //RSA-2048 signature with PSS padding and SHA-256
-  RSA_2048_SIGN_PSS_SHA_256 = 1;
-
-  //RSA-2048 signature with PSS padding and SHA-384
-  RSA_2048_SIGN_PSS_SHA_384 = 2;
-
-  //RSA-2048 signature with PSS padding and SHA-512
-  RSA_2048_SIGN_PSS_SHA_512 = 3;
-
-  //RSA-3072 signature with PSS padding and SHA-256
-  RSA_3072_SIGN_PSS_SHA_256 = 4;
-
-  //RSA-3072 signature with PSS padding and SHA-384
-  RSA_3072_SIGN_PSS_SHA_384 = 5;
-
-  //RSA-3072 signature with PSS padding and SHA-512
-  RSA_3072_SIGN_PSS_SHA_512 = 6;
-
-  //RSA-4096 signature with PSS padding and SHA-256
-  RSA_4096_SIGN_PSS_SHA_256 = 7;
-
-  //RSA-4096 signature with PSS padding and SHA-384
-  RSA_4096_SIGN_PSS_SHA_384 = 8;
-
-  //RSA-4096 signature with PSS padding and SHA-512
-  RSA_4096_SIGN_PSS_SHA_512 = 9;
-
-  //ECDSA signature with NIST P-256 curve and SHA-256
-  ECDSA_NIST_P256_SHA_256 = 10;
-
-  //ECDSA signature with NIST P-384 curve and SHA-384
-  ECDSA_NIST_P384_SHA_384 = 11;
-
-  //ECDSA signature with NIST P-521 curve and SHA-512
-  ECDSA_NIST_P521_SHA_512 = 12;
-
-  //ECDSA signature with SECP256_K1 curve and SHA-256
-  ECDSA_SECP256_K1_SHA_256 = 13;
-}
-
 // An asymmetric KMS key that may contain several versions of the cryptographic material.
 message AsymmetricSignatureKey {
   enum Status {
@@ -94,4 +50,48 @@ message AsymmetricSignatureKey {
 
   // Flag that inhibits deletion of the key
   bool deletion_protection = 9;
+}
+
+// Supported asymmetric signature algorithms.
+enum AsymmetricSignatureAlgorithm {
+  ASYMMETRIC_SIGNATURE_ALGORITHM_UNSPECIFIED = 0;
+
+  // RSA-2048 signature with PSS padding and SHA-256
+  RSA_2048_SIGN_PSS_SHA_256 = 1;
+
+  // RSA-2048 signature with PSS padding and SHA-384
+  RSA_2048_SIGN_PSS_SHA_384 = 2;
+
+  // RSA-2048 signature with PSS padding and SHA-512
+  RSA_2048_SIGN_PSS_SHA_512 = 3;
+
+  // RSA-3072 signature with PSS padding and SHA-256
+  RSA_3072_SIGN_PSS_SHA_256 = 4;
+
+  // RSA-3072 signature with PSS padding and SHA-384
+  RSA_3072_SIGN_PSS_SHA_384 = 5;
+
+  // RSA-3072 signature with PSS padding and SHA-512
+  RSA_3072_SIGN_PSS_SHA_512 = 6;
+
+  // RSA-4096 signature with PSS padding and SHA-256
+  RSA_4096_SIGN_PSS_SHA_256 = 7;
+
+  // RSA-4096 signature with PSS padding and SHA-384
+  RSA_4096_SIGN_PSS_SHA_384 = 8;
+
+  // RSA-4096 signature with PSS padding and SHA-512
+  RSA_4096_SIGN_PSS_SHA_512 = 9;
+
+  // ECDSA signature with NIST P-256 curve and SHA-256
+  ECDSA_NIST_P256_SHA_256 = 10;
+
+  // ECDSA signature with NIST P-384 curve and SHA-384
+  ECDSA_NIST_P384_SHA_384 = 11;
+
+  // ECDSA signature with NIST P-521 curve and SHA-512
+  ECDSA_NIST_P521_SHA_512 = 12;
+
+  // ECDSA signature with SECP256_K1 curve and SHA-256
+  ECDSA_SECP256_K1_SHA_256 = 13;
 }

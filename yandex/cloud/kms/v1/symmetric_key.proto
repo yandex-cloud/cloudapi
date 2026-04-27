@@ -2,30 +2,54 @@ syntax = "proto3";
 
 package yandex.cloud.kms.v1;
 
-import "google/protobuf/timestamp.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/kms/v1;kms";
 option java_package = "yandex.cloud.api.kms.v1";
 
-// Supported symmetric encryption algorithms.
-enum SymmetricAlgorithm {
-  SYMMETRIC_ALGORITHM_UNSPECIFIED = 0;
+// Symmetric KMS key version: metadata about actual cryptographic data.
+message SymmetricKeyVersion {
+  // Possible version status.
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
 
-  // AES algorithm with 128-bit keys.
-  AES_128 = 1;
+    // The version is active and can be used for encryption and decryption.
+    ACTIVE = 1;
 
-  // AES algorithm with 192-bit keys.
-  AES_192 = 2;
+    // The version is scheduled for destruction, the time when it will be destroyed
+    // is specified in the [SymmetricKeyVersion.destroy_at] field.
+    SCHEDULED_FOR_DESTRUCTION = 2;
 
-  // AES algorithm with 256-bit keys.
-  AES_256 = 3;
+    // The version is destroyed and cannot be recovered.
+    DESTROYED = 3;
+  }
 
-  // AES algorithm with 256-bit keys hosted by HSM
-  AES_256_HSM = 4;
+  // ID of the key version.
+  string id = 1;
 
-  // GOST R 34.12-2015 Kuznyechik algorithm
-  GOST_R_3412_2015_K = 5;
+  // ID of the symmetric KMS key that the version belongs to.
+  string key_id = 2;
+
+  // Status of the key version.
+  Status status = 3;
+
+  // Encryption algorithm that should be used when using the key version to encrypt plaintext.
+  SymmetricAlgorithm algorithm = 4;
+
+  // Time when the key version was created.
+  google.protobuf.Timestamp created_at = 5;
+
+  // Indication of a primary version, that is to be used by default for all cryptographic
+  // operations that don't have a key version explicitly specified.
+  bool primary = 6;
+
+  // Time when the key version is going to be destroyed. Empty unless the status
+  // is `SCHEDULED_FOR_DESTRUCTION`.
+  google.protobuf.Timestamp destroy_at = 7;
+
+  // Indication of the version that is hosted by HSM.
+  bool hosted_by_hsm = 8;
 }
 
 // A symmetric KMS key that may contain several versions of the cryptographic material.
@@ -84,47 +108,22 @@ message SymmetricKey {
   bool deletion_protection = 12;
 }
 
+// Supported symmetric encryption algorithms.
+enum SymmetricAlgorithm {
+  SYMMETRIC_ALGORITHM_UNSPECIFIED = 0;
 
-// Symmetric KMS key version: metadata about actual cryptographic data.
-message SymmetricKeyVersion {
-  // Possible version status.
-  enum Status {
-    STATUS_UNSPECIFIED = 0;
+  // AES algorithm with 128-bit keys.
+  AES_128 = 1;
 
-    // The version is active and can be used for encryption and decryption.
-    ACTIVE = 1;
+  // AES algorithm with 192-bit keys.
+  AES_192 = 2;
 
-    // The version is scheduled for destruction, the time when it will be destroyed
-    // is specified in the [SymmetricKeyVersion.destroy_at] field.
-    SCHEDULED_FOR_DESTRUCTION = 2;
+  // AES algorithm with 256-bit keys.
+  AES_256 = 3;
 
-    // The version is destroyed and cannot be recovered.
-    DESTROYED = 3;
-  }
+  // AES algorithm with 256-bit keys hosted by HSM
+  AES_256_HSM = 4;
 
-  // ID of the key version.
-  string id = 1;
-
-  // ID of the symmetric KMS key that the version belongs to.
-  string key_id = 2;
-
-  // Status of the key version.
-  Status status = 3;
-
-  // Encryption algorithm that should be used when using the key version to encrypt plaintext.
-  SymmetricAlgorithm algorithm = 4;
-
-  // Time when the key version was created.
-  google.protobuf.Timestamp created_at = 5;
-
-  // Indication of a primary version, that is to be used by default for all cryptographic
-  // operations that don't have a key version explicitly specified.
-  bool primary = 6;
-
-  // Time when the key version is going to be destroyed. Empty unless the status
-  // is `SCHEDULED_FOR_DESTRUCTION`.
-  google.protobuf.Timestamp destroy_at = 7;
-
-  // Indication of the version that is hosted by HSM.
-  bool hosted_by_hsm = 8;
+  // GOST R 34.12-2015 Kuznyechik algorithm
+  GOST_R_3412_2015_K = 5;
 }

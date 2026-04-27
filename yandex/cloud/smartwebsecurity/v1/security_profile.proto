@@ -10,16 +10,7 @@ option java_package = "yandex.cloud.api.smartwebsecurity.v1";
 
 // A SecurityProfile resource.
 message SecurityProfile {
-  // Action to perform if none of rules matched.
-  enum DefaultAction {
-    DEFAULT_ACTION_UNSPECIFIED = 0;
-
-    // Pass request to service.
-    ALLOW = 1;
-
-    // Deny request.
-    DENY = 2;
-  }
+  reserved 9, 17 to 18;
 
   message AnalyzeRequestBody {
     // Action to perform if maximum size of body exceeded.
@@ -37,7 +28,7 @@ message SecurityProfile {
     int64 size_limit = 1 [(value) = "0,8,16,32,64,128,256,512"];
 
     // Action to perform if maximum size of body exceeded.
-    Action size_limit_action = 2;
+    Action size_limit_action = 2 [(required) = true];
   }
 
   message LogOptions {
@@ -96,10 +87,21 @@ message SecurityProfile {
     repeated Action enabled_actions = 4;
 
     // Percentage of ALLOW verdicts to discard from logging (0-100).
-    int64 discard_allow_percentage = 5 [(value)="0-100"];
+    int64 discard_allow_percentage = 5 [(value) = "0-100"];
 
     // List of log destinations: Cloud Logging and/or Audit Trails.
     repeated Output outputs = 6;
+  }
+
+  // Action to perform if none of rules matched.
+  enum DefaultAction {
+    DEFAULT_ACTION_UNSPECIFIED = 0;
+
+    // Pass request to service.
+    ALLOW = 1;
+
+    // Deny request.
+    DENY = 2;
   }
 
   // ID of the security profile.
@@ -109,10 +111,22 @@ message SecurityProfile {
   string folder_id = 2;
 
   // Labels as `` key:value `` pairs. Maximum of 64 per resource.
-  map<string, string> labels = 3 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 3 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 
   // Name of the security profile. The name is unique within the folder. 1-50 characters long.
-  string name = 4 [(required) = true, (length) = "1-50", (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*"];
+  string name = 4 [
+    (length) = "1-50",
+    (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*",
+    (required) = true
+  ];
 
   // Optional description of the security profile.
   string description = 5 [(length) = "<=512"];
@@ -126,8 +140,6 @@ message SecurityProfile {
   // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
   google.protobuf.Timestamp created_at = 8;
 
-  reserved 9;
-
   // ID of the cloud that the security profile belongs to.
   string cloud_id = 10;
 
@@ -137,11 +149,11 @@ message SecurityProfile {
   // Advanced rate limiter profile ID to use with this security profile. Set empty to use default.
   string advanced_rate_limiter_profile_id = 12;
 
-  // Parameters for request body analyzer.
-  AnalyzeRequestBody analyze_request_body = 13;
-
   // Disables the use of HTTP request data for training and improving the service's ML models.
   bool disallow_data_processing = 14;
+
+  // Parameters for request body analyzer.
+  AnalyzeRequestBody analyze_request_body = 13;
 
   // Configures logging of requests processed by SWS to Audit Trails and Cloud Logging.
   LogOptions log_options = 15;
@@ -149,49 +161,13 @@ message SecurityProfile {
   // ID of the Cloud Logging log group to write SWS logs to.
   string log_group_id = 16;
 
-  reserved 17;
-
-  reserved 18;
-
   // ID of the default custom page shown to the user when a request is denied.
   string custom_page_id = 19;
 }
 
 // A SecurityRule object, see [Rules](/docs/smartwebsecurity/concepts/rules).
 message SecurityRule {
-  // Name of the rule. The name is unique within the security profile. 1-50 characters long.
-  string name = 1 [(required) = true, (length) = "1-50", (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*"];
-
-  // Determines the priority for checking the incoming traffic.
-  // Enter an integer within the range of 1 and 999999.
-  // The rule priority must be unique within the entire security profile.
-  // A lower numeric value means a higher priority.
-  // The default_action has the lowest priority.
-  int64 priority = 2 [(value) = "1-999999"];
-
-  // This mode allows you to test your security profile or a single rule.
-  // For example, you can have the number of alarms for a specific rule displayed.
-  // Note: if this option is true, no real action affecting your traffic regarding this rule will be taken.
-  bool dry_run = 3;
-
-  oneof rule_specifier {
-    // Rule actions, see [Rule actions](/docs/smartwebsecurity/concepts/rules#rule-action).
-    RuleCondition rule_condition = 4;
-
-    // Smart Protection rule, see [Smart Protection rules](/docs/smartwebsecurity/concepts/rules#smart-protection-rules).
-    SmartProtection smart_protection = 5;
-
-    // Web Application Firewall (WAF) rule, see [WAF rules](/docs/smartwebsecurity/concepts/rules#waf-rules).
-    Waf waf = 6;
-  }
-
-  // Optional description of the rule. 0-512 characters long.
-  string description = 7 [(length) = "<=512"];
-
   reserved 8;
-
-  // ID of the custom page shown to the user when the rule denies a request.
-  string custom_page_id = 9;
 
   // RuleCondition object.
   message RuleCondition {
@@ -207,7 +183,7 @@ message SecurityRule {
     }
 
     // Action to perform if this rule matched.
-    Action action = 1;
+    Action action = 1 [(required) = true];
 
     // The condition for matching the rule.
     Condition condition = 2;
@@ -229,7 +205,7 @@ message SecurityRule {
     }
 
     // Mode of protection.
-    Mode mode = 1;
+    Mode mode = 1 [(required) = true];
 
     // The condition for matching the rule.
     Condition condition = 2;
@@ -251,7 +227,7 @@ message SecurityRule {
     }
 
     // Mode of protection.
-    Mode mode = 1;
+    Mode mode = 1 [(required) = true];
 
     // The condition for matching the rule.
     Condition condition = 2;
@@ -259,45 +235,48 @@ message SecurityRule {
     // ID of WAF profile to use in this rule.
     string waf_profile_id = 3 [(required) = true];
   }
+
+  oneof rule_specifier {
+    // Rule actions, see [Rule actions](/docs/smartwebsecurity/concepts/rules#rule-action).
+    RuleCondition rule_condition = 4;
+
+    // Smart Protection rule, see [Smart Protection rules](/docs/smartwebsecurity/concepts/rules#smart-protection-rules).
+    SmartProtection smart_protection = 5;
+
+    // Web Application Firewall (WAF) rule, see [WAF rules](/docs/smartwebsecurity/concepts/rules#waf-rules).
+    Waf waf = 6;
+  }
+
+  // Name of the rule. The name is unique within the security profile. 1-50 characters long.
+  string name = 1 [
+    (length) = "1-50",
+    (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*",
+    (required) = true
+  ];
+
+  // Determines the priority for checking the incoming traffic.
+  // Enter an integer within the range of 1 and 999999.
+  // The rule priority must be unique within the entire security profile.
+  // A lower numeric value means a higher priority.
+  // The default_action has the lowest priority.
+  int64 priority = 2 [(value) = "1-999999"];
+
+  // This mode allows you to test your security profile or a single rule.
+  // For example, you can have the number of alarms for a specific rule displayed.
+  // Note: if this option is true, no real action affecting your traffic regarding this rule will be taken.
+  bool dry_run = 3;
+
+  // Optional description of the rule. 0-512 characters long.
+  string description = 7 [(length) = "<=512"];
+
+  // ID of the custom page shown to the user when the rule denies a request.
+  string custom_page_id = 9;
 }
 
 // Condition object. AND semantics implied.
 // See [documentation](/docs/smartwebsecurity/concepts/conditions) for matchers description.
 message Condition {
-  // Match authority (Host header).
-  AuthorityMatcher authority = 1;
-
-  // Match HTTP method.
-  HttpMethodMatcher http_method = 2;
-
-  // Match Request URI.
-  RequestUriMatcher request_uri = 3;
-
-  // Match HTTP headers.
-  repeated HeaderMatcher headers = 4 [(size) = "<=20"];
-
-  // Match IP.
-  IpMatcher source_ip = 5;
-
   reserved 6;
-
-  // Match cookies.
-  repeated CookieMatcher cookies = 7 [(size) = "<=20"];
-
-  // Match bot category.
-  BotCategoryMatcher bot_category = 8;
-
-  // Match bot name.
-  BotNameMatcher bot_name = 9;
-
-  // Match bot score.
-  BotScoreMatcher bot_score = 10;
-
-  // Match verified bot.
-  VerifiedBotMatcher verified_bot = 11;
-
-  // Match fingerprint.
-  FingerPrintMatcher finger_print = 12;
 
   // StringMatcher object.
   message StringMatcher {
@@ -327,11 +306,14 @@ message Condition {
       ListsMatchers lists_matchers = 8;
     }
   }
-  
+
   // ListsMatcher object.
   message ListsMatcher {
     // List of list IDs to match against. OR semantics implied.
-    repeated string list_ids = 1;
+    repeated string list_ids = 1 [
+      (size) = "1-10",
+      (unique) = true
+    ];
   }
 
   // ListsMatchers object.
@@ -352,7 +334,10 @@ message Condition {
   // HttpMethodMatcher object.
   message HttpMethodMatcher {
     // List of HTTP methods. OR semantics implied.
-    repeated StringMatcher http_methods = 1 [(size) = "<=20", deprecated=true];
+    repeated StringMatcher http_methods = 1 [
+      (size) = "<=20",
+      deprecated = true
+    ];
 
     // HTTP method matcher.
     StringMatcher http_method_matcher = 2;
@@ -361,7 +346,10 @@ message Condition {
   // AuthorityMatcher object.
   message AuthorityMatcher {
     // List of authorities. OR semantics implied.
-    repeated StringMatcher authorities = 1 [(size) = "<=20", deprecated=true];
+    repeated StringMatcher authorities = 1 [
+      (size) = "<=20",
+      deprecated = true
+    ];
 
     // Authority matcher.
     StringMatcher authority_matcher = 2;
@@ -379,7 +367,10 @@ message Condition {
   // QueryMatcher object.
   message QueryMatcher {
     // Key of the query parameter.
-    string key = 1 [(required) = true, (length) = "1-255"];
+    string key = 1 [
+      (length) = "1-255",
+      (required) = true
+    ];
 
     // Value of the query parameter.
     StringMatcher value = 2 [(required) = true];
@@ -388,7 +379,10 @@ message Condition {
   // HeaderMatcher object.
   message HeaderMatcher {
     // Name of header (case insensitive).
-    string name = 1 [(required) = true, (length) = "1-255"];
+    string name = 1 [
+      (length) = "1-255",
+      (required) = true
+    ];
 
     // Value of the header.
     StringMatcher value = 2 [(required) = true];
@@ -429,6 +423,8 @@ message Condition {
 
   // BotCategoryMatcher object. AND semantics implied.
   message BotCategoryMatcher {
+    reserved 1 to 4;
+
     // Bot category lists to match with.
     ListsMatcher bot_category_lists_match = 5;
 
@@ -438,6 +434,8 @@ message Condition {
 
   // BotNameMatcher object. AND semantics implied.
   message BotNameMatcher {
+    reserved 1 to 4;
+
     // Bot name lists to match with.
     ListsMatcher bot_name_lists_match = 5;
 
@@ -507,10 +505,16 @@ message Condition {
   // FingerPrintMatcher object.
   message FingerPrintMatcher {
     // List of JA3 fingerprint matchers. OR semantics implied.
-    repeated StringMatcher ja3_ranges = 1 [(size) = "<=20", deprecated=true];
+    repeated StringMatcher ja3_ranges = 1 [
+      (size) = "<=20",
+      deprecated = true
+    ];
 
     // List of JA4 fingerprint matchers. OR semantics implied.
-    repeated StringMatcher ja4_ranges = 2 [(size) = "<=20", deprecated=true];
+    repeated StringMatcher ja4_ranges = 2 [
+      (size) = "<=20",
+      deprecated = true
+    ];
 
     // JA3 fingerprint matcher.
     StringMatcher ja3_matcher = 3;
@@ -522,27 +526,73 @@ message Condition {
   // IpRangesMatcher object.
   message IpRangesMatcher {
     // List of IP ranges. OR semantics implied.
-    repeated string ip_ranges = 1 [(size) = "<=10000"]; // v4/v6 - allow, exact IP == /32 or /128 range
+    repeated string ip_ranges = 1 [
+      (length) = ">0",
+      (size) = "<=10000"
+    ]; // v4/v6 - allow, exact IP == /32 or /128 range
   }
 
   // GeoIpMatcher object.
   message GeoIpMatcher {
     // ISO 3166-1 alpha 2. OR semantics implied.
-    repeated string locations = 1 [(size) = ">=1", (unique) = true, (length) = "2"];
+    repeated string locations = 1 [
+      (length) = "2",
+      (size) = ">=1",
+      (unique) = true
+    ];
   }
 
   // AsnRangesMatcher object.
   message AsnRangesMatcher {
     // List of ASN values to match against. OR semantics implied.
-    repeated int64 asn_ranges = 1 [(size) = "<=10000", (value)="0-4294967295"];
+    repeated int64 asn_ranges = 1 [
+      (size) = "<=10000",
+      (value) = "0-4294967295"
+    ];
   }
 
   // CookieMatcher object.
   message CookieMatcher {
     // Name of the cookie parametr.
-    string name = 1 [(required) = true, (length) = "1-255"];
+    string name = 1 [
+      (length) = "1-255",
+      (required) = true
+    ];
 
     // Value of the cookie parametr.
     StringMatcher value = 2 [(required) = true];
   }
+
+  // Match authority (Host header).
+  AuthorityMatcher authority = 1;
+
+  // Match HTTP method.
+  HttpMethodMatcher http_method = 2;
+
+  // Match Request URI.
+  RequestUriMatcher request_uri = 3;
+
+  // Match HTTP headers.
+  repeated HeaderMatcher headers = 4 [(size) = "<=20"];
+
+  // Match IP.
+  IpMatcher source_ip = 5;
+
+  // Match cookies.
+  repeated CookieMatcher cookies = 7 [(size) = "<=20"];
+
+  // Match bot category.
+  BotCategoryMatcher bot_category = 8;
+
+  // Match bot name.
+  BotNameMatcher bot_name = 9;
+
+  // Match bot score.
+  BotScoreMatcher bot_score = 10;
+
+  // Match verified bot.
+  VerifiedBotMatcher verified_bot = 11;
+
+  // Match fingerprint.
+  FingerPrintMatcher finger_print = 12;
 }

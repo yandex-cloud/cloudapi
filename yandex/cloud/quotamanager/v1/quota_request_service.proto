@@ -4,9 +4,9 @@ package yandex.cloud.quotamanager.v1;
 
 import "google/api/annotations.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/quotamanager/v1/quota_request.proto";
 import "yandex/cloud/quotamanager/v1/resource.proto";
-import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/quotamanager/v1;quotamanager";
@@ -15,77 +15,57 @@ option java_package = "yandex.cloud.api.quotamanager.v1";
 // A set of methods for managing quota requests.
 service QuotaRequestService {
   // Returns the specified quota request.
-  rpc Get (GetQuotaRequestRequest) returns (QuotaRequest) {
-    option (google.api.http) = {get: "/quota-manager/v1/quotaRequests/{quota_request_id}"};
-  }
-
-  // Creates a quota request in the specified resource.
-  rpc Create(CreateQuotaRequestRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/quota-manager/v1/quotaRequests" body: "*" };
-    option (yandex.cloud.api.operation) = {
-      metadata: "CreateQuotaRequestMetadata"
-      response: "QuotaRequest"
+  rpc Get(GetQuotaRequestRequest) returns (QuotaRequest) {
+    option (google.api.http) = {
+      get: "/quota-manager/v1/quotaRequests/{quota_request_id}"
     };
-  }
-
-  // Cancels quotas in the specified quota request.
-  rpc Cancel(CancelQuotaRequestRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/quota-manager/v1/quotaRequests/{quota_request_id}/cancel" body: "*" };
-    option (yandex.cloud.api.operation) = {
-      metadata: "CancelQuotaRequestMetadata"
-      response: "QuotaRequest"
-    };
-  }
+  };
 
   // Retrieves the list of quota requests in the specified resource.
   rpc List(ListQuotaRequestRequest) returns (ListQuotaRequestResponse) {
-    option (google.api.http) = {get: "/quota-manager/v1/quotaRequests"};
-  }
+    option (google.api.http) = {
+      get: "/quota-manager/v1/quotaRequests"
+    };
+  };
+
+  // Creates a quota request in the specified resource.
+  rpc Create(CreateQuotaRequestRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreateQuotaRequestMetadata"
+      response: "QuotaRequest"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/quota-manager/v1/quotaRequests"
+    };
+  };
+
+  // Cancels quotas in the specified quota request.
+  rpc Cancel(CancelQuotaRequestRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CancelQuotaRequestMetadata"
+      response: "QuotaRequest"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/quota-manager/v1/quotaRequests/{quota_request_id}/cancel"
+    };
+  };
 
   // Lists operations for the specified quota request.
   rpc ListOperations(ListQuotaRequestOperationsRequest) returns (ListQuotaRequestOperationsResponse) {
-    option (google.api.http) = {get: "/quota-manager/v1/quotaRequests/{quota_request_id}/operations"};
-  }
-
+    option (google.api.http) = {
+      get: "/quota-manager/v1/quotaRequests/{quota_request_id}/operations"
+    };
+  };
 }
 
 message GetQuotaRequestRequest {
   // ID of the quota request to return.
-  string quota_request_id = 1 [(required) = true, (length) = "<=50"];
-}
-
-message CreateQuotaRequestRequest {
-  // Resource to create a quota request in.
-  Resource resource = 1 [(required) = true];
-
-  // Desired quota limits
-  repeated DesiredQuotaLimit desired_quota_limits = 2 [(size) = "1-100"];
-
-  message DesiredQuotaLimit {
-    // ID of the quota
-    string quota_id = 1 [(required) = true, (length) = "<=64"];
-
-    // Desired limit of the quota
-    double desired_limit = 2 [(value) = "0-9223372036854775807"];
-  }
-}
-
-message CreateQuotaRequestMetadata {
-  // ID of the quota request that is being created.
-  string quota_request_id = 1;
-}
-
-message CancelQuotaRequestRequest {
-  // ID of the quota request to update.
-  string quota_request_id = 1 [(required) = true, (length) = "<=50"];
-
-  // Quota IDs that is being canceled.
-  repeated string quota_ids = 2 [(size) = "1-1000", (length) = "<=64"];
-}
-
-message CancelQuotaRequestMetadata {
-  // ID of the quota request that is being updated.
-  string quota_request_id = 1;
+  string quota_request_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListQuotaRequestRequest {
@@ -125,9 +105,55 @@ message ListQuotaRequestResponse {
   string next_page_token = 2;
 }
 
+message CreateQuotaRequestRequest {
+  message DesiredQuotaLimit {
+    // ID of the quota
+    string quota_id = 1 [
+      (length) = "<=64",
+      (required) = true
+    ];
+
+    // Desired limit of the quota
+    double desired_limit = 2 [(value) = "0-9223372036854775807"];
+  }
+
+  // Resource to create a quota request in.
+  Resource resource = 1 [(required) = true];
+
+  // Desired quota limits
+  repeated DesiredQuotaLimit desired_quota_limits = 2 [(size) = "1-100"];
+}
+
+message CreateQuotaRequestMetadata {
+  // ID of the quota request that is being created.
+  string quota_request_id = 1;
+}
+
+message CancelQuotaRequestRequest {
+  // ID of the quota request to update.
+  string quota_request_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Quota IDs that is being canceled.
+  repeated string quota_ids = 2 [
+    (length) = "<=64",
+    (size) = "1-1000"
+  ];
+}
+
+message CancelQuotaRequestMetadata {
+  // ID of the quota request that is being updated.
+  string quota_request_id = 1;
+}
+
 message ListQuotaRequestOperationsRequest {
   // ID of the quota request to list operations for.
-  string quota_request_id = 1 [(required) = true, (length) = "<=50"];
+  string quota_request_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListQuotaRequestOperationsResponse.next_page_token]

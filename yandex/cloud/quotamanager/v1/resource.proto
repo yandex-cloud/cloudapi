@@ -8,8 +8,15 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/quotamanag
 option java_package = "yandex.cloud.api.quotamanager.v1";
 
 message Resource {
-    // The id if the resource.
-    string id = 1 [(required) = true, (length) = "<=50"];
-    // The type of the resource, e.g. resource-manager.cloud, billing.account.
-    string type = 2 [(required) = true, (length) = "<=100"];
+  // The id if the resource.
+  string id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // The type of the resource, e.g. resource-manager.cloud, billing.account.
+  string type = 2 [
+    (length) = "<=100",
+    (required) = true
+  ];
 }

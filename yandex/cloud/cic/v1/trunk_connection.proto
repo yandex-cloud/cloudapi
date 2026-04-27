@@ -2,16 +2,17 @@ syntax = "proto3";
 
 package yandex.cloud.cic.v1;
 
-import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";
-import "yandex/cloud/cic/v1/common/transceiver_type.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/cic/v1/common/lag_allocation_settings.proto";
+import "yandex/cloud/cic/v1/common/transceiver_type.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cic/v1;cic";
 option java_package = "yandex.cloud.api.cic.v1";
 
 // A TrunkConnection resource.
 message TrunkConnection {
+  reserved 4, 8, 13 to 21;
 
   // ID of the trunkConnection.
   string id = 1;
@@ -24,8 +25,6 @@ message TrunkConnection {
   // Optional description of the trunkConnection. 0-256 characters long.
   string description = 3;
 
-  reserved 4;
-
   // ID of the folder that the trunkConnection belongs to.
   string folder_id = 5;
 
@@ -34,9 +33,6 @@ message TrunkConnection {
 
   // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
   google.protobuf.Timestamp created_at = 7;
-  
-  reserved 8;
-
   // Special trunkConnection config
   oneof joint {
     SinglePortDirectJoint single_port_direct_joint = 9;
@@ -46,8 +42,6 @@ message TrunkConnection {
 
   // ID of pointOfPresence that the trunkConnection is deployed on.
   google.protobuf.StringValue point_of_presence_id = 12;
-
-  reserved 13 to 21;
 
   // Capacity of the trunkConnection
   Capacity capacity = 22;
@@ -65,26 +59,23 @@ message TrunkConnection {
 
   // Deletion protection flag.
   bool deletion_protection = 25;
-
   // Config of trunkConnection that is deployed on partner joint.
   message PartnerJointInfo {
-
     reserved 1 to 2;
-
-    // Reserved for future using;
-    string service_key = 3;
 
     // ID of partner that the trunkConnection is deployed on.
     google.protobuf.StringValue partner_id = 4;
+
+    // Reserved for future using;
+    string service_key = 3;
   }
 
   // Config of trunkConnection that is deployed on single port.
   message SinglePortDirectJoint {
+    reserved 2;
 
     // Type of transceiver that the trunkConnection is deployed on.
     common.TransceiverType transceiver_type = 1;
-
-    reserved 2;
 
     // Name of port that the trunkConnection is deployed on.
     google.protobuf.StringValue port_name = 3;
@@ -95,11 +86,10 @@ message TrunkConnection {
 
   // Config of trunkConnection that is deployed on lag.
   message LagDirectJoint {
+    reserved 2;
 
     // Type of transceiver that the trunkConnection is deployed on.
     common.TransceiverType transceiver_type = 1;
-
-    reserved 2;
 
     // LAG allocation settings that the trunkConnection is deployed on.
     common.LagAllocationSettings lag_allocation_settings = 3;

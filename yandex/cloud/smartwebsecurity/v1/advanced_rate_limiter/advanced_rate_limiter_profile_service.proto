@@ -16,40 +16,53 @@ option java_package = "yandex.cloud.api.smartwebsecurity.v1.advanced_rate_limite
 service AdvancedRateLimiterProfileService {
   // Returns the specified AdvancedRateLimiterProfile resource.
   rpc Get(GetAdvancedRateLimiterProfileRequest) returns (AdvancedRateLimiterProfile) {
-    option (google.api.http) = {get: "/smartwebsecurity/v1/advancedRateLimiterProfiles/{advanced_rate_limiter_profile_id}"};
-  }
+    option (google.api.http) = {
+      get: "/smartwebsecurity/v1/advancedRateLimiterProfiles/{advanced_rate_limiter_profile_id}"
+    };
+  };
 
   // Retrieves the list of AdvancedRateLimiterProfile resources in the specified folder.
   rpc List(ListAdvancedRateLimiterProfilesRequest) returns (ListAdvancedRateLimiterProfilesResponse) {
-    option (google.api.http) = {get: "/smartwebsecurity/v1/advancedRateLimiterProfiles"};
-  }
+    option (google.api.http) = {
+      get: "/smartwebsecurity/v1/advancedRateLimiterProfiles"
+    };
+  };
 
   // Creates a ARL profile in the specified folder using the data specified in the request.
   rpc Create(CreateAdvancedRateLimiterProfileRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/smartwebsecurity/v1/advancedRateLimiterProfiles" body: "*"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateAdvancedRateLimiterProfileMetadata"
       response: "AdvancedRateLimiterProfile"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/smartwebsecurity/v1/advancedRateLimiterProfiles"
+    };
+  };
 
   // Updates the specified ARL profile.
   rpc Update(UpdateAdvancedRateLimiterProfileRequest) returns (operation.Operation) {
-    option (google.api.http) = {patch: "/smartwebsecurity/v1/advancedRateLimiterProfiles/{advanced_rate_limiter_profile_id}" body: "*"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateAdvancedRateLimiterProfileMetadata"
       response: "AdvancedRateLimiterProfile"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/smartwebsecurity/v1/advancedRateLimiterProfiles/{advanced_rate_limiter_profile_id}"
+    };
+  };
 
   // Deletes the specified ARL profile.
   rpc Delete(DeleteAdvancedRateLimiterProfileRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/smartwebsecurity/v1/advancedRateLimiterProfiles/{advanced_rate_limiter_profile_id}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteAdvancedRateLimiterProfileMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/smartwebsecurity/v1/advancedRateLimiterProfiles/{advanced_rate_limiter_profile_id}"
+    };
+  };
+
 }
 
 message GetAdvancedRateLimiterProfileRequest {

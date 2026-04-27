@@ -17,117 +17,118 @@ option java_package = "yandex.cloud.api.certificatemanager.v1";
 service CertificateService {
 
   // Returns the specified certificate.
-  //
   // To get the list of available certificates, make a [List] request.
   rpc Get(GetCertificateRequest) returns (Certificate) {
-    option (google.api.http) = {get: "/certificate-manager/v1/certificates/{certificate_id}"};
-  }
+    option (google.api.http) = {
+      get: "/certificate-manager/v1/certificates/{certificate_id}"
+    };
+  };
 
   // Returns the list of certificates in the specified folder.
   rpc List(ListCertificatesRequest) returns (ListCertificatesResponse) {
-    option (google.api.http) = {get: "/certificate-manager/v1/certificates"};
-  }
+    option (google.api.http) = {
+      get: "/certificate-manager/v1/certificates"
+    };
+  };
 
   rpc ListVersions(ListVersionsRequest) returns (ListVersionsResponse) {
-    option (google.api.http) = {get: "/certificate-manager/v1/certificates/{certificate_id}/versions"};
-  }
+    option (google.api.http) = {
+      get: "/certificate-manager/v1/certificates/{certificate_id}/versions"
+    };
+  };
 
   // Creates a certificate in the specified folder.
   rpc Create(CreateCertificateRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/certificate-manager/v1/certificates"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateCertificateMetadata"
       response: "Certificate"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/certificate-manager/v1/certificates"
+    };
+  };
 
   // Updates the specified certificate.
   rpc Update(UpdateCertificateRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/certificate-manager/v1/certificates/{certificate_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateCertificateMetadata"
       response: "Certificate"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/certificate-manager/v1/certificates/{certificate_id}"
+    };
+  };
 
   // Deletes the specified certificate.
   rpc Delete(DeleteCertificateRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/certificate-manager/v1/certificates/{certificate_id}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteCertificateMetadata"
       response: "Certificate"
     };
-  }
+    option (google.api.http) = {
+      delete: "/certificate-manager/v1/certificates/{certificate_id}"
+    };
+  };
 
   // Request a certificate in the specified folder.
   rpc RequestNew(RequestNewCertificateRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/certificate-manager/v1/certificates/requestNew"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "RequestNewCertificateMetadata"
       response: "Certificate"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/certificate-manager/v1/certificates/requestNew"
+    };
+  };
 
   // Lists operations for the specified certificate.
   rpc ListOperations(ListCertificateOperationsRequest) returns (ListCertificateOperationsResponse) {
-    option (google.api.http) = {get: "/certificate-manager/v1/certificates/{certificate_id}/operations"};
-  }
+    option (google.api.http) = {
+      get: "/certificate-manager/v1/certificates/{certificate_id}/operations"
+    };
+  };
 
   // Lists existing access bindings for the specified certificate.
   rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = {get: "/certificate-manager/v1/certificates/{resource_id}:listAccessBindings"};
-  }
+    option (google.api.http) = {
+      get: "/certificate-manager/v1/certificates/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the certificate.
   rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/certificate-manager/v1/certificates/{resource_id}:setAccessBindings"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/certificate-manager/v1/certificates/{resource_id}:setAccessBindings"
+    };
+  };
 
   // Updates access bindings for the specified certificate.
   rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/certificate-manager/v1/certificates/{resource_id}:updateAccessBindings"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
-}
-
-enum CertificateView {
-
-  // Output basic information about the certificate.
-  BASIC = 0;
-
-  // Output full information about the certificate including domain challenges.
-  FULL = 1;
+    option (google.api.http) = {
+      body: "*"
+      post: "/certificate-manager/v1/certificates/{resource_id}:updateAccessBindings"
+    };
+  };
 }
 
 message GetCertificateRequest {
   // ID of the certificate to return.
-  //
   // To get the ID of a certificate use a [CertificateService.List] request.
   string certificate_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The output type of the certificate.
@@ -136,10 +137,11 @@ message GetCertificateRequest {
 
 message ListCertificatesRequest {
   reserved 4 to 5;
+
   // ID of the folder to list certificate in.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -171,8 +173,8 @@ message ListCertificatesResponse {
 message ListVersionsRequest {
   // ID of the certificate to list versions for.
   string certificate_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Page token. To get the next page of results, set `page_token` to the
@@ -199,24 +201,23 @@ message ListVersionsResponse {
 message CreateCertificateRequest {
   // ID of the folder to create a certificate in.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Name of the certificate.
   // The name must be unique within the folder.
   string name = 2 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
 
-  // Description of the certificate.
-  string description = 3 [(length) = "<=1024"];
-
   // Labels for the certificate as `key:value` pairs.
   map<string, string> labels = 4 [
-    (size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "<=63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "<=63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // PEM-encoded certificate content of the certificate.
@@ -227,25 +228,57 @@ message CreateCertificateRequest {
 
   // PEM-encoded private key content of the certificate.
   string private_key = 7 [
-    (required) = true,
-    (length) = "1-524288"
+    (length) = "1-524288",
+    (required) = true
   ];
+
+  // Description of the certificate.
+  string description = 3 [(length) = "<=1024"];
 
   // Flag that protects deletion of the certificate
   bool deletion_protection = 8;
 }
 
-message CreateCertificateMetadata {
-  // ID of the certificate being created.
-  string certificate_id = 1;
+message RequestNewCertificateRequest {
+  // ID of the folder to create a certificate in.
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the certificate.
+  string name = 2 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+
+  // Labels for the certificate as `key:value` pairs.
+  map<string, string> labels = 4 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "<=63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+
+  // Fully qualified domain names of the certificate.
+  repeated string domains = 5;
+
+  // Type of the domain validation challenge.
+  ChallengeType challenge_type = 6;
+
+  // Description of the certificate.
+  string description = 3 [(length) = "<=1024"];
+
+  // Flag that protects deletion of the certificate
+  bool deletion_protection = 7;
 }
 
 message UpdateCertificateRequest {
   // ID of the certificate to update.
   // To get the ID of a certificate use a [CertificateService.List] request.
   string certificate_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Field mask that specifies which attributes of the certificate are going to be updated.
@@ -254,16 +287,15 @@ message UpdateCertificateRequest {
   // New name for the certificate.
   string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
 
-  // New description for the certificate.
-  string description = 4 [(length) = "<=1024"];
-
   // New labels for the certificate as `key:value` pairs.
   map<string, string> labels = 5 [
-    (size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "<=63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "<=63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // New PEM-encoded certificate content for the certificate. Used only for imported certificates.
@@ -275,8 +307,24 @@ message UpdateCertificateRequest {
   // New PEM-encoded private key content for the certificate. Used only for imported certificates.
   string private_key = 8 [(length) = "<=524288"];
 
+  // New description for the certificate.
+  string description = 4 [(length) = "<=1024"];
+
   // Flag that protects deletion of the certificate
   bool deletion_protection = 9;
+}
+
+message DeleteCertificateRequest {
+  // ID of the certificate to be deleted.
+  string certificate_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message CreateCertificateMetadata {
+  // ID of the certificate being created.
+  string certificate_id = 1;
 }
 
 message UpdateCertificateMetadata {
@@ -284,49 +332,9 @@ message UpdateCertificateMetadata {
   string certificate_id = 1;
 }
 
-message DeleteCertificateRequest {
-  // ID of the certificate to be deleted.
-  string certificate_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
-}
-
 message DeleteCertificateMetadata {
   // ID of the certificate being deleted.
   string certificate_id = 1;
-}
-
-message RequestNewCertificateRequest {
-  // ID of the folder to create a certificate in.
-  string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
-
-  // Name of the certificate.
-  string name = 2 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
-
-  // Description of the certificate.
-  string description = 3 [(length) = "<=1024"];
-
-  // Labels for the certificate as `key:value` pairs.
-  map<string, string> labels = 4 [
-    (size) = "<=64",
-    (length) = "<=63",
-    (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "<=63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
-  ];
-
-  // Fully qualified domain names of the certificate.
-  repeated string domains = 5;
-
-  // Type of the domain validation challenge.
-  ChallengeType challenge_type = 6;
-
-  // Flag that protects deletion of the certificate
-  bool deletion_protection = 7;
 }
 
 message RequestNewCertificateMetadata {
@@ -336,11 +344,10 @@ message RequestNewCertificateMetadata {
 
 message ListCertificateOperationsRequest {
   // ID of the certificate to list operations for.
-  //
   // To get the certificate ID, use a [CertificateService.List] request.
   string certificate_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page that should be returned. If the number of available
@@ -363,4 +370,13 @@ message ListCertificateOperationsResponse {
   // for the [ListCertificateOperationsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
+}
+
+enum CertificateView {
+
+  // Output basic information about the certificate.
+  BASIC = 0;
+
+  // Output full information about the certificate including domain challenges.
+  FULL = 1;
 }

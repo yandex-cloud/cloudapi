@@ -3,41 +3,14 @@ syntax = "proto3";
 package yandex.cloud.smartwebsecurity.v1.waf;
 
 import "google/protobuf/timestamp.proto";
-import "yandex/cloud/validation.proto";
 import "yandex/cloud/smartwebsecurity/v1/security_profile.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/smartwebsecurity/v1/waf;smartwebsecurity";
 option java_package = "yandex.cloud.api.smartwebsecurity.v1.waf";
 
 message WafProfile {
-  // ID of the WAF profile.
-  string id = 1 [(required) = true];
-
-  // ID of the folder that the WAF profile belongs to.
-  string folder_id = 2 [(required) = true];
-
-  // ID of the cloud that the WAF profile belongs to.
-  string cloud_id = 3 [(required) = true];
-
-  // Name of the WAF profile. The name is unique within the folder. 1-50 characters long.
-  string name = 4 [(required) = true, (length) = "1-50", (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*"];
-
-  // Optional description of the WAF profile.
-  string description = 5 [(length) = "<=512"];
-
-  // Labels as `` key:value `` pairs. Maximum of 64 per resource.
-  map<string, string> labels = 6 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
-
-  // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
-  google.protobuf.Timestamp created_at = 7;
-
   reserved 8;
-
-  // Settings for each rule in rule set.
-  repeated WafProfileRule rules = 9;
-
-  // List of exclusion rules. See [Rules](/docs/smartwebsecurity/concepts/waf#exclusion-rules).
-  repeated WafProfileExclusionRule exclusion_rules = 10;
 
   message CoreRuleSet {
     // Anomaly score.
@@ -59,23 +32,16 @@ message WafProfile {
     RuleSet rule_set = 3 [(required) = true];
   }
 
-  oneof rule_set {
-      option (exactly_one) = true;
-
-      // The parameter is deprecated. Core rule set settings.
-      CoreRuleSet core_rule_set = 11 [deprecated = true];
-  }
-
   message AnalyzeRequestBody {
     // Action to perform if maximum size of body exceeded.
     enum Action {
-        ACTION_UNSPECIFIED = 0;
+      ACTION_UNSPECIFIED = 0;
 
-        // Ignore request.
-        IGNORE = 1;
+      // Ignore request.
+      IGNORE = 1;
 
-        // Deny request.
-        DENY = 2;
+      // Deny request.
+      DENY = 2;
     }
 
     // Possible to turn analyzer on and turn if off.
@@ -88,21 +54,7 @@ message WafProfile {
     Action size_limit_action = 3;
   }
 
-  // The parameter is deprecated. Parameters for request body analyzer.
-  AnalyzeRequestBody analyze_request_body = 12 [deprecated = true];
-
   message WafProfileRuleSet {
-    // Types on actions on rule set match.
-    enum RuleSetAction {
-      RULE_SET_ACTION_UNSPECIFIED = 0;
-
-      // Deny request.
-      DENY = 1;
-
-      // Show captcha.
-      CAPTCHA = 2;
-    }
-
     message RuleGroup {
       // Types on actions on rule group match.
       enum Action {
@@ -167,6 +119,17 @@ message WafProfile {
       repeated RuleGroup rule_groups = 2;
     }
 
+    // Types on actions on rule set match.
+    enum RuleSetAction {
+      RULE_SET_ACTION_UNSPECIFIED = 0;
+
+      // Deny request.
+      DENY = 1;
+
+      // Show captcha.
+      CAPTCHA = 2;
+    }
+
     oneof rule_set {
       option (exactly_one) = true;
 
@@ -190,6 +153,55 @@ message WafProfile {
     RuleSetAction action = 6;
   }
 
+  oneof rule_set {
+    option (exactly_one) = true;
+
+    // The parameter is deprecated. Core rule set settings.
+    CoreRuleSet core_rule_set = 11 [deprecated = true];
+  }
+
+  // ID of the WAF profile.
+  string id = 1 [(required) = true];
+
+  // ID of the folder that the WAF profile belongs to.
+  string folder_id = 2 [(required) = true];
+
+  // ID of the cloud that the WAF profile belongs to.
+  string cloud_id = 3 [(required) = true];
+
+  // Name of the WAF profile. The name is unique within the folder. 1-50 characters long.
+  string name = 4 [
+    (length) = "1-50",
+    (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*",
+    (required) = true
+  ];
+
+  // Optional description of the WAF profile.
+  string description = 5 [(length) = "<=512"];
+
+  // Labels as `` key:value `` pairs. Maximum of 64 per resource.
+  map<string, string> labels = 6 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+
+  // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  google.protobuf.Timestamp created_at = 7;
+
+  // Settings for each rule in rule set.
+  repeated WafProfileRule rules = 9;
+
+  // List of exclusion rules. See [Rules](/docs/smartwebsecurity/concepts/waf#exclusion-rules).
+  repeated WafProfileExclusionRule exclusion_rules = 10;
+
+  // The parameter is deprecated. Parameters for request body analyzer.
+  AnalyzeRequestBody analyze_request_body = 12 [deprecated = true];
+
   // List of rule sets.
   repeated WafProfileRuleSet rule_sets = 13;
 
@@ -211,15 +223,6 @@ message WafProfileRule {
 
 // A WafProfileExclusionRule object. See [Exclusion rules](/docs/smartwebsecurity/concepts/waf#exclusion-rules).
 message WafProfileExclusionRule {
-  // Name of exclusion rule.
-  string name = 1 [(required) = true];
-
-  // Optional description of the rule. 0-512 characters long.
-  string description = 2 [(length) = "<=512"];
-
-  // The condition for matching traffic.
-  Condition condition = 3;
-
   // Determines list of excluded rules.
   message ExcludeRules {
     // Set this option true to exclude all rules.
@@ -228,6 +231,15 @@ message WafProfileExclusionRule {
     // List of rules to exclude.
     repeated string rule_ids = 2;
   }
+
+  // Name of exclusion rule.
+  string name = 1 [(required) = true];
+
+  // Optional description of the rule. 0-512 characters long.
+  string description = 2 [(length) = "<=512"];
+
+  // The condition for matching traffic.
+  Condition condition = 3;
 
   // Exclude rules.
   ExcludeRules exclude_rules = 4 [(required) = true];

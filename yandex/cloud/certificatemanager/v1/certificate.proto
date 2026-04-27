@@ -9,7 +9,6 @@ option java_package = "yandex.cloud.api.certificatemanager.v1";
 
 // A certificate. For details about the concept, see [documentation](/docs/certificate-manager/concepts/).
 message Certificate {
-
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -35,21 +34,21 @@ message Certificate {
   // ID of the certificate. Generated at creation time.
   string id = 1;
 
+  // Name of the certificate.
+  // The name is unique within the folder.
+  string name = 4;
+
+  // Certificate labels as `key:value` pairs.
+  map<string, string> labels = 6;
+
   // ID of the folder that the certificate belongs to.
   string folder_id = 2;
 
   // Creation timestamp.
   google.protobuf.Timestamp created_at = 3;
 
-  // Name of the certificate.
-  // The name is unique within the folder.
-  string name = 4;
-
-  // Description of the certificate.
-  string description = 5;
-
-  // Certificate labels as `key:value` pairs.
-  map<string, string> labels = 6;
+  // Time when the certificate is updated.
+  google.protobuf.Timestamp updated_at = 13;
 
   // Type of the certificate.
   CertificateType type = 7;
@@ -57,20 +56,8 @@ message Certificate {
   // Fully qualified domain names of the certificate.
   repeated string domains = 8;
 
-  // Status of the certificate.
-  Status status = 9;
-
   // [Distinguished Name](https://tools.ietf.org/html/rfc1779) of the certificate authority that issued the certificate.
   string issuer = 10;
-
-  // [Distinguished Name](https://tools.ietf.org/html/rfc1779) of the entity that is associated with the public key contained in the certificate.
-  string subject = 11;
-
-  // Serial number of the certificate.
-  string serial = 12;
-
-  // Time when the certificate is updated.
-  google.protobuf.Timestamp updated_at = 13;
 
   // Time when the certificate is issued.
   google.protobuf.Timestamp issued_at = 14;
@@ -81,8 +68,20 @@ message Certificate {
   // Time before which the certificate is not valid.
   google.protobuf.Timestamp not_before = 16;
 
+  // Serial number of the certificate.
+  string serial = 12;
+
+  // Status of the certificate.
+  Status status = 9;
+
   // Domains validation challenges of the certificate. Used only for managed certificates.
   repeated Challenge challenges = 17;
+
+  // [Distinguished Name](https://tools.ietf.org/html/rfc1779) of the entity that is associated with the public key contained in the certificate.
+  string subject = 11;
+
+  // Description of the certificate.
+  string description = 5;
 
   // Flag that protects deletion of the certificate
   bool deletion_protection = 18;
@@ -91,19 +90,27 @@ message Certificate {
   bool incomplete_chain = 19;
 }
 
-// Supported certificate types.
-enum CertificateType {
-  CERTIFICATE_TYPE_UNSPECIFIED = 0;
-
-  // The certificate is imported by user.
-  IMPORTED = 1;
-
-  // The certificate is created by service.
-  MANAGED = 2;
-}
-
 // Domain validation challenge.
 message Challenge {
+  message DnsRecord {
+    // Name of the DNS record.
+    string name = 1;
+
+    // Type of the DNS-record.
+    string type = 2;
+
+    // Value of the DNS-record.
+    string value = 3;
+  }
+
+  message HttpFile {
+    // Location of the HTTP file.
+    string url = 1;
+
+    // Content of the HTTP file.
+    string content = 2;
+  }
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -120,27 +127,6 @@ message Challenge {
     INVALID = 4;
   }
 
-  // Domain of the challenge.
-  string domain = 1;
-
-  // Type of the challenge.
-  ChallengeType type = 2;
-
-  // Time when the challenge is created.
-  google.protobuf.Timestamp created_at = 3;
-
-  // Time when the challenge is updated.
-  google.protobuf.Timestamp updated_at = 4;
-
-  // Status of the challenge.
-  Status status = 5;
-
-  // Description of the challenge.
-  string message = 6;
-
-  // Error of the challenge.
-  string error = 7;
-
   // Data of the challenge.
   oneof challenge {
     // DNS-record.
@@ -150,37 +136,26 @@ message Challenge {
     HttpFile http_challenge = 9;
   }
 
-  message DnsRecord {
+  // Time when the challenge is created.
+  google.protobuf.Timestamp created_at = 3;
 
-    // Name of the DNS record.
-    string name = 1;
+  // Time when the challenge is updated.
+  google.protobuf.Timestamp updated_at = 4;
 
-    // Type of the DNS-record.
-    string type = 2;
+  // Domain of the challenge.
+  string domain = 1;
 
-    // Value of the DNS-record.
-    string value = 3;
-  }
+  // Type of the challenge.
+  ChallengeType type = 2;
 
-  message HttpFile {
+  // Status of the challenge.
+  Status status = 5;
 
-    // Location of the HTTP file.
-    string url = 1;
+  // Description of the challenge.
+  string message = 6;
 
-    // Content of the HTTP file.
-    string content = 2;
-  }
-}
-
-// Supported domain validation types.
-enum ChallengeType {
-  CHALLENGE_TYPE_UNSPECIFIED = 0;
-
-  // Domain validation type that using DNS-records.
-  DNS = 1;
-
-  // Domain validation type that using HTTP-files.
-  HTTP = 2;
+  // Error of the challenge.
+  string error = 7;
 }
 
 // A certificate version
@@ -193,4 +168,26 @@ message Version {
 
   // Time when the version was created.
   google.protobuf.Timestamp created_at = 3;
+}
+
+// Supported certificate types.
+enum CertificateType {
+  CERTIFICATE_TYPE_UNSPECIFIED = 0;
+
+  // The certificate is imported by user.
+  IMPORTED = 1;
+
+  // The certificate is created by service.
+  MANAGED = 2;
+}
+
+// Supported domain validation types.
+enum ChallengeType {
+  CHALLENGE_TYPE_UNSPECIFIED = 0;
+
+  // Domain validation type that using DNS-records.
+  DNS = 1;
+
+  // Domain validation type that using HTTP-files.
+  HTTP = 2;
 }

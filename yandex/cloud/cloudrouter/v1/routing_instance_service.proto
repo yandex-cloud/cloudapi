@@ -24,11 +24,19 @@ service RoutingInstanceService {
 
   // Returns the RoutingInstance resource by vpcNetworkId
   // To get the list of available RoutingInstance resources, make a [List] request.
-  rpc GetByVpcNetworkId(GetRoutingInstanceByVpcNetworkIdRequest) returns (RoutingInstance);
+  rpc GetByVpcNetworkId(GetRoutingInstanceByVpcNetworkIdRequest) returns (RoutingInstance) {
+    option (google.api.http) = {
+      get: "/cloudrouter/v1/routingInstances:getByVpcNetworkId/{vpc_network_id}"
+    };
+  };
 
   // Returns the RoutingInstance resource by cicPrivateConnectionId
   // To get the list of available RoutingInstance resources, make a [List] request.
-  rpc GetByCicPrivateConnectionId(GetRoutingInstanceByCicPrivateConnectionIdRequest) returns (RoutingInstance);
+  rpc GetByCicPrivateConnectionId(GetRoutingInstanceByCicPrivateConnectionIdRequest) returns (RoutingInstance) {
+    option (google.api.http) = {
+      get: "/cloudrouter/v1/routingInstances:getByCicPrivateConnectionId/{cic_private_connection_id}"
+    };
+  };
 
   // Retrieves the list of RoutingInstance resources in the specified folder.
   rpc List(ListRoutingInstancesRequest) returns (ListRoutingInstancesResponse) {
@@ -123,6 +131,10 @@ service RoutingInstanceService {
     option (api.operation) = {
       metadata: "UpdateRoutingInstanceMetadata"
       response: "RoutingInstance"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/cloudrouter/v1/routingInstances/{routing_instance_id}:updateNetworks"
     };
   };
 

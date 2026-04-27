@@ -13,40 +13,53 @@ option java_package = "yandex.cloud.api.lockbox.v1";
 service PayloadService {
 
   // Returns the payload of the specified secret.
-  //
   // To get the list of all available secrets, make a [SecretService.List] request.
-  rpc Get (GetPayloadRequest) returns (Payload) {
-    option (google.api.http) = {get: "/lockbox/v1/secrets/{secret_id}/payload"};
-  }
+  rpc Get(GetPayloadRequest) returns (Payload) {
+    option (google.api.http) = {
+      get: "/lockbox/v1/secrets/{secret_id}/payload"
+    };
+  };
 
-  rpc GetEx (GetExRequest) returns (GetExResponse) {
+  rpc GetEx(GetExRequest) returns (GetExResponse) {
     option (google.api.http) = {
       get: "/lockbox/v1/secrets:getEx"
     };
-  }
+  };
 }
 
 message GetPayloadRequest {
   // ID of the secret.
-  string secret_id = 1 [(required) = true, (length) = "<=50"];
+  string secret_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Optional ID of the version.
   string version_id = 2 [(length) = "<=50"];
 }
 
 message GetExRequest {
+  reserved 3 to 20;
+
   oneof identifier {
     option (exactly_one) = true;
+
     string secret_id = 1 [(length) = "<=50"];
     FolderAndName folder_and_name = 2;
   }
-  reserved 3 to 20;
+
   string version_id = 21 [(length) = "<=50"];
 }
 
 message FolderAndName {
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
-  string secret_name = 2 [(required) = true, (length) = "<=100"];
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+  string secret_name = 2 [
+    (length) = "<=100",
+    (required) = true
+  ];
 }
 
 message GetExResponse {

@@ -6,91 +6,116 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/kms/v1/asymmetricencryption/asymmetric_encryption_key.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
-import "yandex/cloud/kms/v1/asymmetricencryption/asymmetric_encryption_key.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/kms/v1/asymmetricencryption;kms";
 option java_package = "yandex.cloud.api.kms.v1";
 
 // Set of methods for managing asymmetric KMS keys.
 service AsymmetricEncryptionKeyService {
+
   // control plane
   // Creates an asymmetric KMS key in the specified folder.
-  rpc Create (CreateAsymmetricEncryptionKeyRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/kms/v1/asymmetricEncryptionKeys" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateAsymmetricEncryptionKeyRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateAsymmetricEncryptionKeyMetadata"
       response: "AsymmetricEncryptionKey"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/kms/v1/asymmetricEncryptionKeys"
+    };
+  };
 
   // Returns the specified asymmetric KMS key.
-  //
-  //  To get the list of available asymmetric KMS keys, make a [SymmetricKeyService.List] request.
-  rpc Get (GetAsymmetricEncryptionKeyRequest) returns (AsymmetricEncryptionKey) {
-    option (google.api.http) = { get: "/kms/v1/asymmetricEncryptionKeys/{key_id}" };
-  }
+  // To get the list of available asymmetric KMS keys, make a [SymmetricKeyService.List] request.
+  rpc Get(GetAsymmetricEncryptionKeyRequest) returns (AsymmetricEncryptionKey) {
+    option (google.api.http) = {
+      get: "/kms/v1/asymmetricEncryptionKeys/{key_id}"
+    };
+  };
 
   // Returns the list of asymmetric KMS keys in the specified folder.
-  rpc List (ListAsymmetricEncryptionKeysRequest) returns (ListAsymmetricEncryptionKeysResponse) {
-    option (google.api.http) = { get: "/kms/v1/asymmetricEncryptionKeys" };
-  }
+  rpc List(ListAsymmetricEncryptionKeysRequest) returns (ListAsymmetricEncryptionKeysResponse) {
+    option (google.api.http) = {
+      get: "/kms/v1/asymmetricEncryptionKeys"
+    };
+  };
 
   // Updates the specified asymmetric KMS key.
-  rpc Update (UpdateAsymmetricEncryptionKeyRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/kms/v1/asymmetricEncryptionKeys/{key_id}" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateAsymmetricEncryptionKeyRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateAsymmetricEncryptionKeyMetadata"
       response: "AsymmetricEncryptionKey"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/kms/v1/asymmetricEncryptionKeys/{key_id}"
+    };
+  };
 
   // Deletes the specified asymmetric KMS key. This action also automatically schedules
   // the destruction of all of the key's versions in 72 hours.
-  //
   // The key and its versions appear absent in [AsymmetricEncryptionKeyService.Get] and [AsymmetricEncryptionKeyService.List]
   // requests, but can be restored within 72 hours with a request to tech support.
-  rpc Delete (DeleteAsymmetricEncryptionKeyRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/kms/v1/asymmetricEncryptionKeys/{key_id}" };
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteAsymmetricEncryptionKeyRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteAsymmetricEncryptionKeyMetadata"
       response: "AsymmetricEncryptionKey"
     };
-  }
+    option (google.api.http) = {
+      delete: "/kms/v1/asymmetricEncryptionKeys/{key_id}"
+    };
+  };
 
   // Lists operations for the specified asymmetric KMS key.
-  rpc ListOperations (ListAsymmetricEncryptionKeyOperationsRequest) returns (ListAsymmetricEncryptionKeyOperationsResponse) {
-    option (google.api.http) = { get: "/kms/v1/asymmetricEncryptionKeys/{key_id}/operations" };
-  }
+  rpc ListOperations(ListAsymmetricEncryptionKeyOperationsRequest) returns (ListAsymmetricEncryptionKeyOperationsResponse) {
+    option (google.api.http) = {
+      get: "/kms/v1/asymmetricEncryptionKeys/{key_id}/operations"
+    };
+  };
 
   // Lists existing access bindings for the specified key.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = { get: "/kms/v1/asymmetricEncryptionKeys/{resource_id}:listAccessBindings" };
-  }
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/kms/v1/asymmetricEncryptionKeys/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the key.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/kms/v1/asymmetricEncryptionKeys/{resource_id}:setAccessBindings" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/kms/v1/asymmetricEncryptionKeys/{resource_id}:setAccessBindings"
+    };
+  };
 
   // Updates access bindings for the specified key.
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/kms/v1/asymmetricEncryptionKeys/{resource_id}:updateAccessBindings" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/kms/v1/asymmetricEncryptionKeys/{resource_id}:updateAccessBindings"
+    };
+  };
+
 }
 
 message CreateAsymmetricEncryptionKeyRequest {
   // ID of the folder to create a asymmetric KMS key in.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Name of the key.
   string name = 2 [(length) = "<=100"];
@@ -100,7 +125,15 @@ message CreateAsymmetricEncryptionKeyRequest {
 
   // Custom labels for the asymmetric KMS key as `key:value` pairs. Maximum 64 per key.
   // For example, `"project": "mvp"` or `"source": "dictionary"`.
-  map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "<=63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 
   // Asymmetric encryption algorithm.
   AsymmetricEncryptionAlgorithm encryption_algorithm = 5;
@@ -117,12 +150,18 @@ message CreateAsymmetricEncryptionKeyMetadata {
 message GetAsymmetricEncryptionKeyRequest {
   // ID of the asymmetric KMS key to return.
   // To get the ID of an asymmetric KMS key use a [AsymmetricEncryptionKeyService.List] request.
-  string key_id = 1 [(required) = true, (length) = "<=50"];
+  string key_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListAsymmetricEncryptionKeysRequest {
   // ID of the folder to list asymmetric KMS keys in.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListAsymmetricEncryptionKeysResponse.next_page_token]
@@ -150,7 +189,10 @@ message ListAsymmetricEncryptionKeysResponse {
 message UpdateAsymmetricEncryptionKeyRequest {
   // ID of the asymmetric KMS key to update.
   // To get the ID of a asymmetric KMS key use a [AsymmetricEncryptionKeyService.List] request.
-  string key_id = 1 [(required) = true, (length) = "<=50"];
+  string key_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Field mask that specifies which attributes of the asymmetric KMS key are going to be updated.
   google.protobuf.FieldMask update_mask = 2 [(required) = true];
@@ -166,7 +208,15 @@ message UpdateAsymmetricEncryptionKeyRequest {
   AsymmetricEncryptionKey.Status status = 5;
 
   // Custom labels for the asymmetric KMS key as `key:value` pairs. Maximum 64 per key.
-  map<string, string> labels = 6 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "<=63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 6 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "<=63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 
   // Flag that inhibits deletion of the asymmetric KMS key
   bool deletion_protection = 7;
@@ -179,7 +229,10 @@ message UpdateAsymmetricEncryptionKeyMetadata {
 
 message DeleteAsymmetricEncryptionKeyRequest {
   // ID of the key to be deleted.
-  string key_id = 1 [(required) = true, (length) = "<=50"];
+  string key_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message DeleteAsymmetricEncryptionKeyMetadata {
@@ -189,9 +242,11 @@ message DeleteAsymmetricEncryptionKeyMetadata {
 
 message ListAsymmetricEncryptionKeyOperationsRequest {
   // ID of the symmetric KMS key to get operations for.
-  //
   // To get the key ID, use a [AsymmetricKeyEncryptionService.List] request.
-  string key_id = 1 [(required) = true, (length) = "<=50"];
+  string key_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page that should be returned. If the number of available
   // results is larger than [page_size], the service returns a [ListAsymmetricEncryptionKeyOperationsResponse.next_page_token]

@@ -16,40 +16,53 @@ option java_package = "yandex.cloud.api.smartwebsecurity.v1.waf";
 service WafProfileService {
   // Returns the specified WafProfile resource.
   rpc Get(GetWafProfileRequest) returns (WafProfile) {
-    option (google.api.http) = {get: "/smartwebsecurity/v1/wafProfiles/{waf_profile_id}"};
-  }
+    option (google.api.http) = {
+      get: "/smartwebsecurity/v1/wafProfiles/{waf_profile_id}"
+    };
+  };
 
   // Retrieves the list of WafProfile resources in the specified folder.
   rpc List(ListWafProfilesRequest) returns (ListWafProfilesResponse) {
-    option (google.api.http) = {get: "/smartwebsecurity/v1/wafProfiles"};
-  }
+    option (google.api.http) = {
+      get: "/smartwebsecurity/v1/wafProfiles"
+    };
+  };
 
   // Creates a WAF profile in the specified folder using the data specified in the request.
   rpc Create(CreateWafProfileRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/smartwebsecurity/v1/wafProfiles" body: "*"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateWafProfileMetadata"
       response: "WafProfile"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/smartwebsecurity/v1/wafProfiles"
+    };
+  };
 
   // Updates the specified WAF profile.
   rpc Update(UpdateWafProfileRequest) returns (operation.Operation) {
-    option (google.api.http) = {patch: "/smartwebsecurity/v1/wafProfiles/{waf_profile_id}" body: "*"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateWafProfileMetadata"
       response: "WafProfile"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/smartwebsecurity/v1/wafProfiles/{waf_profile_id}"
+    };
+  };
 
   // Deletes the specified WAF profile.
   rpc Delete(DeleteWafProfileRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/smartwebsecurity/v1/wafProfiles/{waf_profile_id}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteWafProfileMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/smartwebsecurity/v1/wafProfiles/{waf_profile_id}"
+    };
+  };
+
 }
 
 message GetWafProfileRequest {
@@ -70,6 +83,11 @@ message ListWafProfilesResponse {
 }
 
 message CreateWafProfileRequest {
+  oneof rule_set {
+    // Core rule set settings. See [Basic rule set](/docs/smartwebsecurity/concepts/waf#rules-set) for details.
+    WafProfile.CoreRuleSet core_rule_set = 7;
+  }
+
   // ID of the folder to create a WAF profile in.
   string folder_id = 1;
 
@@ -88,11 +106,6 @@ message CreateWafProfileRequest {
   // List of exclusion rules. See [Rules](/docs/smartwebsecurity/concepts/waf#exclusion-rules).
   repeated WafProfileExclusionRule exclusion_rules = 6;
 
-  oneof rule_set {
-    // Core rule set settings. See [Basic rule set](/docs/smartwebsecurity/concepts/waf#rules-set) for details.
-    WafProfile.CoreRuleSet core_rule_set = 7;
-  }
-
   // Parameters for request body analyzer.
   WafProfile.AnalyzeRequestBody analyze_request_body = 8;
 
@@ -109,6 +122,11 @@ message CreateWafProfileMetadata {
 }
 
 message UpdateWafProfileRequest {
+  oneof rule_set {
+    // Core rule set settings. See [Basic rule set](/docs/smartwebsecurity/concepts/waf#rules-set) for details.
+    WafProfile.CoreRuleSet core_rule_set = 8;
+  }
+
   // ID of the WAF profile to update.
   string waf_profile_id = 1 [(required) = true];
 
@@ -129,11 +147,6 @@ message UpdateWafProfileRequest {
 
   // List of exclusion rules. See [Rules](/docs/smartwebsecurity/concepts/waf#exclusion-rules).
   repeated WafProfileExclusionRule exclusion_rules = 7;
-
-  oneof rule_set {
-    // Core rule set settings. See [Basic rule set](/docs/smartwebsecurity/concepts/waf#rules-set) for details.
-    WafProfile.CoreRuleSet core_rule_set = 8;
-  }
 
   // Parameters for request body analyzer.
   WafProfile.AnalyzeRequestBody analyze_request_body = 9;
