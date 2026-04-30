@@ -26,7 +26,7 @@ service RoutingInstanceService {
   // To get the list of available RoutingInstance resources, make a [List] request.
   rpc GetByVpcNetworkId(GetRoutingInstanceByVpcNetworkIdRequest) returns (RoutingInstance) {
     option (google.api.http) = {
-      get: "/cloudrouter/v1/routingInstances:getByVpcNetworkId/{vpc_network_id}"
+      get: "/cloudrouter/v1/routingInstances/getByVpcNetworkId/{vpc_network_id}"
     };
   };
 
@@ -34,7 +34,7 @@ service RoutingInstanceService {
   // To get the list of available RoutingInstance resources, make a [List] request.
   rpc GetByCicPrivateConnectionId(GetRoutingInstanceByCicPrivateConnectionIdRequest) returns (RoutingInstance) {
     option (google.api.http) = {
-      get: "/cloudrouter/v1/routingInstances:getByCicPrivateConnectionId/{cic_private_connection_id}"
+      get: "/cloudrouter/v1/routingInstances/getByCicPrivateConnectionId/{cic_private_connection_id}"
     };
   };
 
@@ -255,7 +255,7 @@ message ListRoutingInstancesResponse {
 }
 
 message CreateRoutingInstanceRequest {
-  reserved 3, 8 to 11;
+  reserved 3, 5, 8 to 11;
 
   // Name of the RoutingInstance.
   // The name must be unique within the folder.
@@ -269,12 +269,6 @@ message CreateRoutingInstanceRequest {
   string folder_id = 4 [
     (length) = "<=50",
     (required) = true
-  ];
-
-  // ID of the region that the routingInstance belongs to.
-  string region_id = 5 [
-    (length) = "<=50",
-    deprecated = true
   ];
 
   // List of the info about vpcNetworks which are attached to the RoutingInstance.
@@ -301,7 +295,7 @@ message CreateRoutingInstanceRequest {
 }
 
 message UpdateRoutingInstanceRequest {
-  reserved 5 to 6, 10 to 13;
+  reserved 5 to 7, 10 to 13;
 
   // ID of the RoutingInstance resource to return.
   string routing_instance_id = 1 [
@@ -319,12 +313,6 @@ message UpdateRoutingInstanceRequest {
 
   // Optional description of the RoutingInstance. 0-256 characters long.
   string description = 4 [(length) = "<=256"];
-
-  // ID of the region that the routingInstance belongs to.
-  string region_id = 7 [
-    (length) = "<=50",
-    deprecated = true
-  ];
 
   // List of the info about vpcNetworks which are attached to the RoutingInstance.
   repeated RoutingInstance.VpcInfo vpc_info = 8 [deprecated = true];

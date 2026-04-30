@@ -124,6 +124,18 @@ service UserService {
   rpc ResolveExternalIds (ResolveExternalIdsRequest) returns (ResolveExternalIdsResponse) {
     option (google.api.http) = { post: "/organization-manager/v1/idp/users:resolveExternalIds" body: "*" };
   }
+
+  // Streams password changes for a IdentityHub sync agent to process.
+  rpc GetPasswordChanges (stream GetPasswordChangesRequest) returns (stream GetPasswordChangesResponse);
+
+  // Commits the result of a password writeback operation.
+  rpc CommitPassword (CommitPasswordRequest) returns (operation.Operation) {
+    option (google.api.http) = { post: "/organization-manager/v1/idp/users:commitPassword" body: "*" };
+    option (yandex.cloud.api.operation) = {
+      metadata: "CommitPasswordMetadata"
+      response: "google.protobuf.Empty"
+    };
+  }
 }
 
 // Request to get a user by ID.
@@ -430,4 +442,86 @@ message ResolvedUser {
 message ResolveExternalIdsResponse {
   // List of resolved users.
   repeated ResolvedUser resolved_users = 1;
+}
+
+// Error details from LDAP password writeback.
+message PasswordWritebackErrorDetails {
+  // Types of password writeback errors.
+  enum PasswordWritebackErrorCode {
+    // The error code is not specified.
+    PASSWORD_WRITEBACK_ERROR_CODE_UNSPECIFIED = 0;
+    // The IdentityHub sync agent does not have permission to set the password.
+    PERMISSION_DENIED = 1;
+    // The password does not meet the directory's password policy.
+    PASSWORD_POLICY_VIOLATION = 2;
+    // An unknown error occurred.
+    UNKNOWN_ERROR = 3;
+    // The writeback operation timed out.
+    DEADLINE_EXCEEDED = 4;
+  }
+
+  // Type of error, used for UI rendering.
+  PasswordWritebackErrorCode error_code = 1;
+  // Exact error message from LDAP, for debugging purposes.
+  string error_message = 2;
+}
+
+// Request from a IdentityHub sync agent to receive pending password changes.
+message GetPasswordChangesRequest {
+  // ID of the userpool to receive password changes for.
+  string userpool_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the IdentityHub sync agent.
+  string agent_id = 2 [(required) = true, (length) = "<=50"];
+  // Offset of the last successfully processed change.
+  int64 offset = 3;
+}
+
+// A pending password change to be processed by a IdentityHub sync agent.
+message GetPasswordChangesResponse {
+  // External identifier of the user whose password changed.
+  string external_user_id = 1;
+  // The new password to write back to the directory.
+  string password = 2;
+  // ID of the operation that triggered this password change.
+  string modifying_operation_id = 3;
+  // Whether the user must change their password on next login.
+  bool need_change = 4;
+  // Offset of this change in the stream.
+  int64 offset = 5;
+  // Timestamp when the password expires.
+  google.protobuf.Timestamp expires_at = 6;
+  // Timestamp when the writeback operation expires.
+  google.protobuf.Timestamp operation_expires_at = 7;
+  // Whether the password was system-generated.
+  bool generated = 8;
+}
+
+// Request to commit the result of a password writeback operation.
+message CommitPasswordRequest {
+  // External identifier of the user whose password was written back.
+  string external_user_id = 1 [(required) = true, (length) = "<=50"];
+  // The password that was written back.
+  string password = 2 [(required) = true, (length) = "<=128"];
+  // ID of the operation that triggered this writeback.
+  string modifying_operation_id = 3 [(required) = true, (length) = "<=50"];
+  // Whether the user must change their password on next login.
+  bool need_change = 4;
+  // Error details if the writeback failed.
+  PasswordWritebackErrorDetails error_details = 5;
+  // Timestamp when the password expires.
+  google.protobuf.Timestamp expires_at = 6;
+  // Whether the password was system-generated.
+  bool generated = 7;
+  // ID of the userpool the user belongs to.
+  string userpool_id = 8 [(required) = true, (length) = "<=50"];
+}
+
+// Metadata for the [UserService.CommitPassword] operation.
+message CommitPasswordMetadata {
+  // External identifier of the user.
+  string external_user_id = 1;
+  // ID of the operation that triggered the writeback.
+  string modifying_operation_id = 2;
+  // ID of the userpool the user belongs to.
+  string userpool_id = 3;
 }

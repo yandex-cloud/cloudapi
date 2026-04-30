@@ -7,6 +7,7 @@ option java_package = "yandex.cloud.api.quota";
 
 message QuotaMetric {
   reserved 2;
+
   string name = 1; // formatted as <domain>.<metric>.<unit>, e.g. mdb.hdd.size
   int64 limit = 3;
   double usage = 4;
@@ -18,9 +19,12 @@ message MetricLimit {
 }
 
 message QuotaFailure {
+  reserved 1;
+
   message Violation {
     QuotaMetric metric = 1;
     int64 required = 2; // new value for the MetricLimit.limit, so it is: old limit + delta
   }
+
   repeated Violation violations = 2;
 }

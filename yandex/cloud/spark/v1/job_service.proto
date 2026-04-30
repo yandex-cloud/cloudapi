@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package yandex.cloud.spark.v1;
 
-import "yandex/cloud/spark/v1/job.proto";
-import "yandex/cloud/operation/operation.proto";
-import "yandex/cloud/validation.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/spark/v1/job.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/spark/v1;spark";
 option java_package = "yandex.cloud.api.spark.v1";
@@ -13,46 +13,51 @@ option java_package = "yandex.cloud.api.spark.v1";
 // A set of methods for managing jobs for Spark cluster.
 service JobService {
   // Retrieves a list of jobs for Spark cluster.
-  rpc List (ListJobsRequest) returns (ListJobsResponse) {
-  }
+  rpc List(ListJobsRequest) returns (ListJobsResponse);
 
   // Creates a job for Spark cluster.
-  rpc Create (CreateJobRequest) returns (operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateJobRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateJobMetadata"
       response: "Job"
     };
-  }
+  };
 
   // Returns the specified Spark job.
-  rpc Get (GetJobRequest) returns (Job) {
-  }
+  rpc Get(GetJobRequest) returns (Job);
 
   // Returns a log for Spark job.
-  rpc ListLog (ListJobLogRequest) returns (ListJobLogResponse) {
-  }
+  rpc ListLog(ListJobLogRequest) returns (ListJobLogResponse);
 
   // Cancels the specified Spark job.
-  rpc Cancel (CancelJobRequest) returns (operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+  rpc Cancel(CancelJobRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateJobMetadata"
       response: "Job"
     };
-  }
-
+  };
 }
 
 message GetJobRequest {
   // ID of the Spark cluster.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // ID of the Spark job to return.
-  string job_id = 2 [(required) = true, (length) = "<=50"];
+  string job_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListJobsRequest {
   // ID of the cluster to list Spark jobs of.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page that should be returned. If the number of available
   // results is larger than `page_size`, the service returns a `next_page_token` that can be used
@@ -81,19 +86,24 @@ message ListJobsResponse {
 }
 
 message CreateJobRequest {
+  reserved 6 to 7;
+
   // ID of the cluster to create Spark job in.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Optional. Name of the job.
-  string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
-
+  string name = 2 [
+    (length) = "<256",
+    (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"
+  ];
   oneof job_spec {
     SparkJob spark_job = 3;
     PysparkJob pyspark_job = 4;
     SparkConnectJob spark_connect_job = 5;
   }
-
-  reserved 6, 7;
 
   // Service account used to access Cloud resources.
   string service_account_id = 8 [(length) = "<=50"];
@@ -101,7 +111,10 @@ message CreateJobRequest {
 
 message CreateJobMetadata {
   // ID of the Spark cluster.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // ID of the Spark job.
   string job_id = 2 [(length) = "<=50"];
@@ -109,18 +122,30 @@ message CreateJobMetadata {
 
 message CancelJobRequest {
   // ID of the Spark cluster.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // ID of the Spark job to cancel.
-  string job_id = 2 [(required) = true, (length) = "<=50"];
+  string job_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListJobLogRequest {
   // ID of the Spark cluster.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // ID of the Spark job to return.
-  string job_id = 2 [(required) = true, (length) = "<=50"];
+  string job_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum length of job output per papge that should be returned.
   // If the number of available output is larger tha `page_size`, the service returns

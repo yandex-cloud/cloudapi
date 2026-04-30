@@ -6,6 +6,13 @@ package yandex.cloud.airflow.v1;
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/airflow/v1;airflow";
 option java_package = "yandex.cloud.api.airflow.v1";
 
+message Resources {
+  reserved 1 to 2;
+
+  // ID of the preset for computational resources available to an instance (CPU, memory etc.).
+  string resource_preset_id = 3;
+}
+
 enum Health {
 
   // Cluster is in unknown state (we have no data).
@@ -19,11 +26,4 @@ enum Health {
 
   // Cluster is partially alive (it can perform some of its essential functions).
   DEGRADED = 3;
-}
-
-message Resources {
-  reserved 1 to 2;
-
-  // ID of the preset for computational resources available to an instance (CPU, memory etc.).
-  string resource_preset_id = 3;
 }

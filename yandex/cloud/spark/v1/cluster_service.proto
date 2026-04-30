@@ -5,11 +5,11 @@ package yandex.cloud.spark.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/spark/v1/cluster.proto";
 import "yandex/cloud/spark/v1/maintenance.proto";
-import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
-import "yandex/cloud/api/operation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/spark/v1;spark";
 option java_package = "yandex.cloud.api.spark.v1";
@@ -17,94 +17,103 @@ option java_package = "yandex.cloud.api.spark.v1";
 // A set of methods for managing Spark clusters.
 service ClusterService {
   // Returns the specified Spark cluster.
-  rpc Get (GetClusterRequest) returns (Cluster) {
-  }
+  rpc Get(GetClusterRequest) returns (Cluster);
 
   // Retrieves a list of Spark clusters.
-  rpc List (ListClustersRequest) returns (ListClustersResponse) {
-  }
+  rpc List(ListClustersRequest) returns (ListClustersResponse);
 
   // Creates a Spark cluster.
-  rpc Create (CreateClusterRequest) returns (operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateClusterMetadata"
       response: "Cluster"
     };
-  }
+  };
 
   // Updates configuration of the specified Spark cluster.
-  rpc Update (UpdateClusterRequest) returns (operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateClusterMetadata"
       response: "Cluster"
     };
-  }
+  };
 
   // Deletes the specified Spark cluster.
-  rpc Delete (DeleteClusterRequest) returns (operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteClusterMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+  };
 
-  // Start the specified Spark cluster.
-  rpc Start (StartClusterRequest) returns (operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+  // Start the specified Spark Cluster resource.
+  rpc Start(StartClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
     };
-  }
+  };
 
-  // Stops the specified Spark cluster
-  rpc Stop (StopClusterRequest) returns (operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+  // Stops the specified Spark Cluster resource.
+  rpc Stop(StopClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
     };
-  }
+  };
 
-  rpc ListOperations (ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
-  }
+  // Retrieves a list of all Spark clusters for Health service.
+  rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse);
 
   // Retrieves a list of access bindings for the specified Spark cluster.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = { get: "/managed-spark/v1/clusters/{resource_id}:listAccessBindings" };
-  }
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/managed-spark/v1/clusters/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the specified Spark cluster.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
     option (google.api.http) = {
-      post: "/managed-spark/v1/clusters/{resource_id}:setAccessBindings"
       body: "*"
+      post: "/managed-spark/v1/clusters/{resource_id}:setAccessBindings"
     };
-    option (yandex.cloud.api.operation) = {
-        metadata: "access.SetAccessBindingsMetadata"
-        response: "access.AccessBindingsOperationResult"
-    };
-  }
+  };
 
   // Updates access bindings for the specified Spark cluster.
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
     option (google.api.http) = {
-      patch: "/managed-spark/v1/clusters/{resource_id}:updateAccessBindings"
       body: "*"
+      patch: "/managed-spark/v1/clusters/{resource_id}:updateAccessBindings"
     };
-    option (yandex.cloud.api.operation) = {
-        metadata: "access.UpdateAccessBindingsMetadata"
-        response: "access.AccessBindingsOperationResult"
-    };
-  }
+  };
+
 }
 
+// Get Cluster Request.
 message GetClusterRequest {
   // ID of the Spark cluster to return.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
+// List Clusters Request.
 message ListClustersRequest {
   // ID of the folder to list Spark clusters in.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page that should be returned. If the number of available
   // results is larger than `page_size`, the service returns a `next_page_token` that can be used
@@ -120,6 +129,7 @@ message ListClustersRequest {
   string filter = 4 [(length) = "<=1000"];
 }
 
+// List Clusters Response.
 message ListClustersResponse {
   // Requested list of Spark clusters.
   repeated Cluster clusters = 1;
@@ -132,108 +142,181 @@ message ListClustersResponse {
   string next_page_token = 2 [(length) = "<=200"];
 }
 
+// Create Cluster Request.
 message CreateClusterRequest {
   // ID of the folder to create Spark cluster in.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Name of the Spark cluster. The name must be unique within the folder.
-  string name = 2 [(required) = true, (length) = "<=63", (pattern) = "^[a-z][-a-z0-9]{1,61}[a-z0-9]$"];
+  string name = 2 [
+    (length) = "<=63",
+    (pattern) = "^[a-z][-a-z0-9]{1,61}[a-z0-9]$",
+    (required) = true
+  ];
 
   // Description of the Spark cluster. 0-256 characters long.
   string description = 3 [(length) = "<=256"];
 
-  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  // Cluster Labels.
+  map<string, string> labels = 4 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 
+  // Configuration of the Spark cluster.
   ClusterConfig config = 5 [(required) = true];
 
+  // Cluster Network Configuration.
   NetworkConfig network = 6 [(required) = true];
 
-  // Deletion Protection inhibits deletion of the cluster
+  // Deletion Protection inhibits deletion of the cluster.
   bool deletion_protection = 7;
 
-  // Service account that will be used to access YC resources
-  string service_account_id = 8 [(required) = true, (length) = "<=50"];
+  // Service account that will be used to access YC resources.
+  string service_account_id = 8 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
-  // Cloud logging configuration
+  // Cloud logging configuration.
   LoggingConfig logging = 9;
 
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 10;
 }
 
+// Create Cluster Metadata.
 message CreateClusterMetadata {
   // ID of the creating Spark cluster.
-  string cluster_id = 1 [(required) = true];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
+// Update Cluster Request.
 message UpdateClusterRequest {
   // ID of the Spark cluster.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
+  // Cluster Update Field Mask.
   google.protobuf.FieldMask update_mask = 2;
-
   string name = 3 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
   // Description of the Spark cluster. 0-256 characters long.
   string description = 4 [(length) = "<=256"];
 
-  map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  // Cluster Labels.
+  map<string, string> labels = 5 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 
+  // Cluster Update Configuration.
   UpdateClusterConfigSpec config_spec = 6;
 
+  // Network Update Configuration.
   UpdateNetworkConfigSpec network_spec = 7;
 
-  // Deletion Protection inhibits deletion of the cluster
+  // Deletion Protection inhibits deletion of the cluster.
   bool deletion_protection = 8;
 
   // Service account used to access Cloud resources.
   string service_account_id = 9 [(length) = "<=50"];
 
-  // Cloud logging configuration
+  // Cloud logging configuration.
   LoggingConfig logging = 10;
 
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 11;
 }
 
+// Update Cluster Metadata.
 message UpdateClusterMetadata {
   // ID of the updating Spark cluster.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
+// Delete Cluster Request.
 message DeleteClusterRequest {
-  // ID of the Spark cluster to delete.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the Spark cluster that is being deleted.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
+// Delete Cluster Metadata.
 message DeleteClusterMetadata {
   // ID of the deleting Spark cluster.
-  string cluster_id = 1 [(required) = true];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
+// Start Cluster Request.
 message StartClusterRequest {
   // ID of the Spark cluster that is being started.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
+// Start Cluster Metadata.
 message StartClusterMetadata {
   // ID of the Spark cluster.
-  string cluster_id = 1;
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
+// Stop Cluster Request.
 message StopClusterRequest {
   // ID of the Spark cluster that is being stopped.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
+// Stop Cluster Metadata.
 message StopClusterMetadata {
   // ID of the Spark cluster.
-  string cluster_id = 1;
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
+// List Cluster Operations Request.
 message ListClusterOperationsRequest {
   // ID of the Spark cluster.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page that should be returned. If the number of available
   // results is larger than `page_size`, the service returns a `next_page_token` that can be used
@@ -246,7 +329,9 @@ message ListClusterOperationsRequest {
   string page_token = 3 [(length) = "<=200"];
 }
 
+// List Cluster Operations Response.
 message ListClusterOperationsResponse {
+  // List of operations.
   repeated operation.Operation operations = 1;
 
   // This token allows you to get the next page of results for ListOperations requests,

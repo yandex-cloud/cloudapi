@@ -165,7 +165,7 @@ message ListPrivateConnectionsResponse {
 }
 
 message CreatePrivateConnectionRequest {
-  reserved 3, 8 to 9, 11 to 18, 20 to 25;
+  reserved 3, 5, 8 to 9, 11 to 18, 20 to 25;
 
   // Name of the privateConnection.
   // The name must be unique within the folder.
@@ -176,27 +176,15 @@ message CreatePrivateConnectionRequest {
   string description = 2 [(length) = "<=256"];
 
   // ID of the folder that the privateConnection belongs to.
-  string folder_id = 4 [
-    (length) = "<=50",
-    (required) = true
-  ];
-
-  // ID of the region that the privateConnection belongs to.
-  string region_id = 5 [
-    (length) = "<=50",
-    deprecated = true
-  ];
+  string folder_id = 4 [(length) = "<=50"];
 
   // ID of the trunk_connection that the privateConnection belongs to.
-  string trunk_connection_id = 6 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string trunk_connection_id = 6 [(length) = "<=50"];
 
   // VLAN_ID that the privateConnection uses in multiplexing.
   // Not used in connections over partners-II
   // Value range: [1, 4095]
-  google.protobuf.Int64Value vlan_id = 7 [(value) = "1-4095"];
+  google.protobuf.Int64Value vlan_id = 7;
 
   // IPv4 peering config of connection
   Peering ipv4_peering = 10;
@@ -222,13 +210,10 @@ message CreatePrivateConnectionRequest {
 }
 
 message UpdatePrivateConnectionRequest {
-  reserved 5 to 6, 11 to 18, 20 to 25;
+  reserved 5 to 7, 11 to 18, 20 to 25;
 
   // ID of the PrivateConnection resource.
-  string private_connection_id = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string private_connection_id = 1 [(length) = "<=50"];
 
   // Field mask that specifies which fields of the PrivateConnection resource are going to be updated.
   google.protobuf.FieldMask update_mask = 2;
@@ -241,22 +226,13 @@ message UpdatePrivateConnectionRequest {
   // Optional description of the privateConnection. 0-256 characters long.
   string description = 4 [(length) = "<=256"];
 
-  // ID of the region that the privateConnection belongs to.
-  string region_id = 7 [
-    (length) = "<=50",
-    deprecated = true
-  ];
-
   // ID of the trunk_connection that the privateConnection belongs to.
-  string trunk_connection_id = 8 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string trunk_connection_id = 8 [(length) = "<=50"];
 
   // VLAN_ID that the privateConnection uses in multiplexing.
   // Not used in connections over partners-II
   // Value range: [1, 4095]
-  google.protobuf.Int64Value vlan_id = 9 [(value) = "1-4095"];
+  google.protobuf.Int64Value vlan_id = 9;
 
   // IPv4 peering config of connection
   Peering ipv4_peering = 10;
@@ -368,10 +344,7 @@ message ListPrivateConnectionOperationsResponse {
 
 message UpsertStaticRouteRequest {
   // ID of the PrivateConnection resource.
-  string private_connection_id = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string private_connection_id = 1 [(length) = "<=50"];
 
   // IPv4 StaticRoute configs to upsert
   repeated PrivateConnection.StaticRoute ipv4_static_routes = 2;
@@ -379,10 +352,7 @@ message UpsertStaticRouteRequest {
 
 message RemoveStaticRouteRequest {
   // ID of the PrivateConnection resource.
-  string private_connection_id = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string private_connection_id = 1 [(length) = "<=50"];
 
   // IPv4 StaticRoute configs to remove
   repeated PrivateConnection.StaticRoute ipv4_static_routes = 2;

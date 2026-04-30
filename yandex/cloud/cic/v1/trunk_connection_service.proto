@@ -4,7 +4,6 @@ package yandex.cloud.cic.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/cic/v1/private_connection.proto";
 import "yandex/cloud/cic/v1/public_connection.proto";
@@ -141,13 +140,10 @@ message ListTrunkConnectionsResponse {
 }
 
 message UpdateTrunkConnectionRequest {
-  reserved 5 to 6, 8 to 12, 14 to 16, 19;
+  reserved 5 to 16, 19;
 
   // ID of the TrunkConnection resource to return.
-  string trunk_connection_id = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string trunk_connection_id = 1 [(length) = "<=50"];
 
   // Field mask that specifies which fields of the TrunkConnection resource are going to be updated.
   google.protobuf.FieldMask update_mask = 2;
@@ -160,17 +156,8 @@ message UpdateTrunkConnectionRequest {
   // Optional description of the trunkConnection. 0-256 characters long.
   string description = 4 [(length) = "<=256"];
 
-  // ID of the region that the trunkConnection belongs to.
-  string region_id = 7 [
-    (length) = "<=50",
-    deprecated = true
-  ];
-
-  // ID of pointOfPresence that the trunkConnection is deployed on.
-  google.protobuf.StringValue point_of_presence_id = 13 [deprecated = true];
-
   // Capacity of the trunkConnection
-  TrunkConnection.Capacity capacity = 17 [(required) = true];
+  TrunkConnection.Capacity capacity = 17;
 
   // Resource labels, `key:value` pairs.
   // No more than 64 per resource.

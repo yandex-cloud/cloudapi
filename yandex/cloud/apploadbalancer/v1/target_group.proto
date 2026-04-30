@@ -54,4 +54,8 @@ message Target {
   // 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
   // Only one of `subnet_id` or `private_ipv4_address` should be set.
   bool private_ipv4_address = 4;
+
+  // If set, will not require `subnet_id` to validate the target.
+  // Only one of `subnet_id` or `external_address` should be set.
+  bool external_address = 5;
 }

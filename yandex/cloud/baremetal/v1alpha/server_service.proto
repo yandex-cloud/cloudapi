@@ -4,6 +4,7 @@ package yandex.cloud.baremetal.v1alpha;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/baremetal/v1alpha/server.proto";
 import "yandex/cloud/baremetal/v1alpha/storage.proto";
@@ -353,6 +354,15 @@ message NetworkInterfaceSpec {
     (length) = "<=20",
     (pattern) = "([a-z][a-z0-9]*)?"
   ];
+
+  // ID of the configuration network interface that determines the network interface configuration.
+  // The configuration network interface defines available modes (public/private) and other properties
+  // for the network interface. This field is optional. If not specified, the configuration will be
+  // chosen automatically on the server side based on availability. It is recommended to specify this
+  // field for deterministic behavior. To get the configuration interface ID, use a
+  // [ConfigurationService.ListConfigurationNetworkInterface] request or examine the `network_interfaces`
+  // field in [ConfigurationService.GetConfiguration] response.
+  google.protobuf.StringValue configuration_network_interface_id = 11;
 }
 
 message OsSettingsSpec {

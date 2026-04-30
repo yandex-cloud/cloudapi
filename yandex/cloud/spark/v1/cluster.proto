@@ -2,22 +2,22 @@ syntax = "proto3";
 
 package yandex.cloud.spark.v1;
 
+import "google/protobuf/timestamp.proto";
 import "yandex/cloud/spark/v1/maintenance.proto";
 import "yandex/cloud/validation.proto";
-import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/spark/v1;spark";
 option java_package = "yandex.cloud.api.spark.v1";
 
 // Spark cluster.
 message Cluster {
-
+  // Cluster Status Enumeration.
   enum Status {
 
-    // Cluster status is unknown
+    // Cluster status is unknown.
     STATUS_UNKNOWN = 0;
 
-    // Cluster is being created
+    // Cluster is being created.
     CREATING = 1;
 
     // Cluster is running normally.
@@ -41,7 +41,10 @@ message Cluster {
 
   // Unique ID of the Spark cluster.
   // This ID is assigned by Cloud in the process of creating a Spark cluster.
-  string id = 1 [(required) = true, (length) = "<=50"];
+  string id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // ID of the folder that the Spark cluster belongs to.
   string folder_id = 2;
@@ -56,6 +59,7 @@ message Cluster {
   // Description of the Spark cluster. 0-256 characters long.
   string description = 5;
 
+  // Cluster Labels.
   map<string, string> labels = 6;
 
   // Configuration of the Spark cluster.
@@ -64,12 +68,13 @@ message Cluster {
   // Cluster status.
   Status status = 8;
 
+  // Cluster Network Configuration.
   NetworkConfig network = 9;
 
-  // Deletion Protection inhibits deletion of the cluster
+  // Deletion Protection inhibits deletion of the cluster.
   bool deletion_protection = 10;
 
-  // Service account that will be used to access a YC resources
+  // Service account that will be used to access a YC resources.
   string service_account_id = 11 [(length) = "<=50"];
 
   // Cloud logging configuration.
@@ -78,7 +83,7 @@ message Cluster {
   // Aggregated cluster health.
   Health health = 13;
 
-  // UI URLs
+  // UI URLs.
   repeated UILink links = 14;
 
   // Window of maintenance operations.
@@ -88,105 +93,143 @@ message Cluster {
   MaintenanceOperation planned_operation = 16;
 }
 
+// Configuration of the Spark cluster.
 message ClusterConfig {
+  // Resource Pools.
   ResourcePools resource_pools = 1 [(required) = true];
 
-  // Configuration for HistoryServer
+  // Configuration for HistoryServer.
   HistoryServerConfig history_server = 2;
 
-  // Container custom environment dependencies
+  // Container custom environment dependencies.
   Dependencies dependencies = 3;
 
-  // Metastore Cluster
+  // Metastore Cluster.
   Metastore metastore = 4;
 
-  // Spark version. Format: "Major.Minor"
+  // Spark version. Format: "Major.Minor".
   string spark_version = 5;
 }
 
+// Cluster Update Configuration.
 message UpdateClusterConfigSpec {
+  // Resource Pools.
   ResourcePools resource_pools = 1;
 
-  // Configuration for HistoryServer
+  // Configuration for HistoryServer.
   HistoryServerConfig history_server = 2;
 
-  // Container custom environment dependencies
+  // Container custom environment dependencies.
   Dependencies dependencies = 3;
 
-  // Metastore Cluster
+  // Metastore Cluster.
   Metastore metastore = 4;
 
-  // Spark version. Format: "Major.Minor"
+  // Spark version. Format: "Major.Minor".
   string spark_version = 5;
 }
 
+// Configuration for HistoryServer.
 message HistoryServerConfig {
+  // History Server is enabled.
   bool enabled = 1;
 }
 
+// Cluster Network Configuration.
 message NetworkConfig {
   // IDs of VPC network subnets where instances of the cluster are attached.
   repeated string subnet_ids = 1;
 
-  // User security groups
+  // User security groups.
   repeated string security_group_ids = 2;
 }
 
+// Network Update Configuration.
 message UpdateNetworkConfigSpec {
   // User security groups.
   repeated string security_group_ids = 1;
 }
 
+// Resource Pools.
 message ResourcePools {
+  // Driver Resource Pool.
   ResourcePool driver = 1 [(required) = true];
+
+  // Executor Resource Pool.
   ResourcePool executor = 2 [(required) = true];
 }
 
+// Resource Pool.
 message ResourcePool {
   // ID of the preset for computational resources allocated to a instance (e.g., CPU, memory, etc.).
   string resource_preset_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
+  // Scale Policy.
   ScalePolicy scale_policy = 2 [(required) = true];
 }
 
+// Scale Policy.
 message ScalePolicy {
+  // Scale Type.
   oneof scale_type {
     option (exactly_one) = true;
+
+    // Fixed Scale Policy.
     FixedScale fixed_scale = 1;
+
+    // Auto Scale Policy.
     AutoScale auto_scale = 2;
   }
 
+  // Fixed Scale Policy.
   message FixedScale {
+    // Fixed Size.
     int64 size = 1 [(value) = "1-100"];
   }
 
+  // Auto Scale Policy.
   message AutoScale {
+    // Min Size.
     int64 min_size = 1 [(value) = "0-100"];
+
+    // Max Size.
     int64 max_size = 2 [(value) = "1-100"];
   }
 }
 
+// Cluster Dependencies.
 message Dependencies {
+  // Pip Packages.
   repeated string pip_packages = 1;
+
+  // Deb Packages.
   repeated string deb_packages = 2;
 }
 
+// Metastore Cluster.
 message Metastore {
+  // Cluster ID.
   string cluster_id = 1 [(length) = "<=50"];
 }
 
+// Logging Config.
 message LoggingConfig {
+  // Logging is enabled.
   bool enabled = 1;
-
+  // Destination.
   oneof destination {
+    // Folder ID.
     string folder_id = 2 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
+
+    // Logging Group ID.
     string log_group_id = 3 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
   }
 }
 
+// Cluster Health.
 enum Health {
 
   // Cluster is in unknown state (we have no data).
@@ -202,7 +245,11 @@ enum Health {
   DEGRADED = 3;
 }
 
+// UI URL.
 message UILink {
+  // Name.
   string name = 1;
+
+  // URL.
   string url = 2;
 }

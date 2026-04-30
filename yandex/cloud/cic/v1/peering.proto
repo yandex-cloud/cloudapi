@@ -10,34 +10,22 @@ option java_package = "yandex.cloud.api.cic.v1";
 message Peering {
   // PeeringSubnet.
   // It's an ip with format ipPrefix/length where address part of ipPrefix is 0.
-  string peering_subnet = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string peering_subnet = 1 [(length) = "<=50"];
 
   // PeerIp.
   // It's an ip with just an ipAddress format without mask.
-  string peer_ip = 2 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string peer_ip = 2 [(length) = "<=50"];
 
   // CloudIp.
   // It's an ip with just an ipAddress format without mask.
-  string cloud_ip = 3 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string cloud_ip = 3 [(length) = "<=50"];
 
   // PeerBgpAsn.
   // PeerAsn excluding rfc5398 (excluding 64496 - 64511 and 65536 - 65551).
-  int64 peer_bgp_asn = 4 [(value) = ">0"];
+  int64 peer_bgp_asn = 4;
 
   // CloudBgpAsn.
-  int64 cloud_bgp_asn = 5 [
-    (value) = ">0",
-    deprecated = true
-  ];
+  int64 cloud_bgp_asn = 5 [deprecated = true];
 
   // PeerBgpMd5Key.
   // Optional.

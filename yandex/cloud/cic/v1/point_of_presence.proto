@@ -7,11 +7,20 @@ option java_package = "yandex.cloud.api.cic.v1";
 
 // A PointOfPresence resource.
 message PointOfPresence {
-  reserved 2 to 5;
+  reserved 2 to 5, 7;
 
   // ID of the pointOfPresence.
   string id = 1;
 
   // ID of the region that the pointOfPresence belongs to.
   string region_id = 6;
+
+  // Name of the pointOfPresence.
+  string name = 8;
+
+  // Location address of the pointOfPresence.
+  string location_address = 9;
+
+  // Links to info about the connection points.
+  repeated string connection_points = 10;
 }

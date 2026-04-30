@@ -3,18 +3,27 @@ syntax = "proto3";
 package yandex.cloud.spark.v1;
 
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/spark/v1;spark";
 option java_package = "yandex.cloud.api.spark.v1";
 
 // Spark job.
 message Job {
+  reserved 11, 15 to 19;
+
   // Required. Unique ID of the Spark job.
   // This ID is assigned by MDB in the process of creating Spark job.
-  string id = 1;
+  string id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Required. Unique ID of the Spark cluster.
-  string cluster_id = 2;
+  string cluster_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The time when the Spark job was created.
   google.protobuf.Timestamp created_at = 3;
@@ -28,10 +37,12 @@ message Job {
   // Name of the Spark job.
   string name = 6;
 
-  // The id of the user who created the job
+  // The id of the user who created the job.
   string created_by = 7;
 
+  // Job Status enumeration.
   enum Status {
+    // Job status is unknown.
     STATUS_UNSPECIFIED = 0;
 
     // Job created and is waiting to acquire.
@@ -55,114 +66,207 @@ message Job {
     // Job is waiting for cancellation.
     CANCELLING = 7;
   }
-  // Status.
-  Status status = 8;
 
+  // Job Status.
+  Status status = 8;
   // Job specification.
   oneof job_spec {
+    // Spark Job.
     SparkJob spark_job = 9;
+
+    // Pyspark Job.
     PysparkJob pyspark_job = 10;
+
+    // Spark-connect Job.
     SparkConnectJob spark_connect_job = 20;
   }
-
-  reserved 11;
 
   // Spark UI Url.
   string ui_url = 12;
 
   // Service account used to access Cloud resources.
-  string service_account_id = 13;
+  string service_account_id = 13 [(length) = "<=50"];
 
   // Spark Connect Url.
   string connect_url = 14;
-
-  reserved 15 to 19;
 }
 
+// Spark Job.
 message SparkJob {
   // Optional arguments to pass to the driver.
-  repeated string args = 1;
+  repeated string args = 1 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // Jar file URIs to add to the CLASSPATHs of the Spark driver and tasks.
-  repeated string jar_file_uris = 2;
+  repeated string jar_file_uris = 2 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // URIs of files to be copied to the working directory of Spark drivers and distributed tasks.
-  repeated string file_uris = 3;
+  repeated string file_uris = 3 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // URIs of archives to be extracted in the working directory of Spark drivers and tasks.
-  repeated string archive_uris = 4;
+  repeated string archive_uris = 4 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // A mapping of property names to values, used to configure Spark.
-  map<string, string> properties = 5;
+  map<string, string> properties = 5 [
+    (length) = "<=256",
+    (map_key) = {
+      length: "1-128"
+      pattern: "[a-zA-Z][-_0-9a-zA-Z.]*"
+    },
+    (size) = "<=100"
+  ];
 
-  // URI of the jar file containing the main class.
-  string main_jar_file_uri = 6;
+  // The HCFS URI of the jar file containing the main class.
+  string main_jar_file_uri = 6 [
+    (length) = "<2048",
+    (required) = true
+  ];
 
   // The name of the driver's main class.
-  string main_class = 7;
+  string main_class = 7 [(length) = "<256"];
 
   // List of maven coordinates of jars to include on the driver and executor classpaths.
-  repeated string packages = 8;
+  repeated string packages = 8 [
+    (length) = "<256",
+    (size) = "<=100"
+  ];
 
   // List of additional remote repositories to search for the maven coordinates given with --packages.
-  repeated string repositories = 9;
+  repeated string repositories = 9 [
+    (length) = "<2048",
+    (size) = "<=10"
+  ];
 
   // List of groupId:artifactId, to exclude while resolving the dependencies provided in --packages to avoid dependency conflicts.
-  repeated string exclude_packages = 10;
+  repeated string exclude_packages = 10 [
+    (length) = "<256",
+    (size) = "<=100"
+  ];
 }
 
-
+// Spark-connect Job.
 message SparkConnectJob {
   // Jar file URIs to add to the CLASSPATHs of the Spark driver and tasks.
-  repeated string jar_file_uris = 1;
+  repeated string jar_file_uris = 1 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // URIs of files to be copied to the working directory of Spark drivers and distributed tasks.
-  repeated string file_uris = 2;
+  repeated string file_uris = 2 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // URIs of archives to be extracted in the working directory of Spark drivers and tasks.
-  repeated string archive_uris = 3;
+  repeated string archive_uris = 3 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // A mapping of property names to values, used to configure Spark.
-  map<string, string> properties = 4;
+  map<string, string> properties = 4 [
+    (length) = "<=256",
+    (map_key) = {
+      length: "1-128"
+      pattern: "[a-zA-Z][-_0-9a-zA-Z.]*"
+    },
+    (size) = "<=100"
+  ];
 
   // List of maven coordinates of jars to include on the driver and executor classpaths.
-  repeated string packages = 5;
+  repeated string packages = 5 [
+    (length) = "<256",
+    (size) = "<=100"
+  ];
 
   // List of additional remote repositories to search for the maven coordinates given with --packages.
-  repeated string repositories = 6;
+  repeated string repositories = 6 [
+    (length) = "<2048",
+    (size) = "<=10"
+  ];
 
   // List of groupId:artifactId, to exclude while resolving the dependencies provided in --packages to avoid dependency conflicts.
-  repeated string exclude_packages = 7;
+  repeated string exclude_packages = 7 [
+    (length) = "<256",
+    (size) = "<=100"
+  ];
 }
 
+// Pyspark Job.
 message PysparkJob {
   // Optional arguments to pass to the driver.
-  repeated string args = 1;
+  repeated string args = 1 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // Jar file URIs to add to the CLASSPATHs of the Spark driver and tasks.
-  repeated string jar_file_uris = 2;
+  repeated string jar_file_uris = 2 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // URIs of files to be copied to the working directory of Spark drivers and distributed tasks.
-  repeated string file_uris = 3;
+  repeated string file_uris = 3 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // URIs of archives to be extracted in the working directory of Spark drivers and tasks.
-  repeated string archive_uris = 4;
+  repeated string archive_uris = 4 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
   // A mapping of property names to values, used to configure Spark.
-  map<string, string> properties = 5;
+  map<string, string> properties = 5 [
+    (length) = "<=256",
+    (map_key) = {
+      length: "1-128"
+      pattern: "[a-zA-Z][-_0-9a-zA-Z.]*"
+    },
+    (size) = "<=100"
+  ];
 
   // URI of the main Python file to use as the driver. Must be a .py file.
-  string main_python_file_uri = 6;
+  string main_python_file_uri = 6 [
+    (length) = "<2048",
+    (required) = true
+  ];
 
   // URIs of Python files to pass to the PySpark framework.
-  repeated string python_file_uris = 7;
+  repeated string python_file_uris = 7 [
+    (length) = "<2048",
+    (size) = "<=100"
+  ];
 
-  // List of maven coordinates of jars to include on the driver and executor classpaths.
-  repeated string packages = 8;
+  // List of maven coordinates of jars (groupId:artifactId:version) to include on the driver and executor classpaths.
+  repeated string packages = 8 [
+    (length) = "<256",
+    (size) = "<=100"
+  ];
 
   // List of additional remote repositories to search for the maven coordinates given with --packages.
-  repeated string repositories = 9;
+  repeated string repositories = 9 [
+    (length) = "<2048",
+    (size) = "<=10"
+  ];
 
   // List of groupId:artifactId, to exclude while resolving the dependencies provided in --packages to avoid dependency conflicts.
-  repeated string exclude_packages = 10;
+  repeated string exclude_packages = 10 [
+    (length) = "<256",
+    (size) = "<=100"
+  ];
 }

@@ -70,7 +70,7 @@ message GetQuotaRequestRequest {
 
 message ListQuotaRequestRequest {
   // Resource to list quota requests in.
-  Resource resource = 1 [(required) = true];
+  Resource resource = 1;
 
   // A filter expression that filters resources listed in the response.
   // The expression must specify:
@@ -118,7 +118,7 @@ message CreateQuotaRequestRequest {
   }
 
   // Resource to create a quota request in.
-  Resource resource = 1 [(required) = true];
+  Resource resource = 1;
 
   // Desired quota limits
   repeated DesiredQuotaLimit desired_quota_limits = 2 [(size) = "1-100"];
