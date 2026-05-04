@@ -101,6 +101,14 @@ message RefererVerificationSettings {
 message AdvertisementSettings {
   reserved 1 to 99;
 
+  // Specifies the advertisement provider to use.
+  // Only one provider can be active at a time.
+  oneof provider {
+    // Yandex.Direct advertisement provider settings.
+    // When specified, advertisements will be served through Yandex.Direct.
+    YandexDirect yandex_direct = 100;
+  }
+
   // Configuration for the Yandex.Direct advertisement provider.
   // These settings are specific to the Yandex.Direct advertising platform.
   message YandexDirect {
@@ -118,14 +126,6 @@ message AdvertisementSettings {
     // This ID is used to categorize the channel's content for
     // appropriate advertisement targeting and compliance.
     int64 category = 3;
-  }
-
-  // Specifies the advertisement provider to use.
-  // Only one provider can be active at a time.
-  oneof provider {
-    // Yandex.Direct advertisement provider settings.
-    // When specified, advertisements will be served through Yandex.Direct.
-    YandexDirect yandex_direct = 100;
   }
 }
 

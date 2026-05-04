@@ -13,28 +13,6 @@ option java_package = "yandex.cloud.api.video.v1";
 message Episode {
   reserved 11, 13 to 99, 102 to 999, 1001 to 1002;
 
-  // Visibility status of the episode.
-  enum VisibilityStatus {
-    // The visibility status is not specified.
-    VISIBILITY_STATUS_UNSPECIFIED = 0;
-
-    // The episode is publicly available, subject to its access permission settings.
-    PUBLISHED = 1;
-
-    // The episode is available only to administrators.
-    UNPUBLISHED = 2;
-  }
-
-  // Specifies the episode access permission settings.
-  oneof access_rights {
-    // Allows unrestricted public access to the episode via direct link.
-    // No additional authorization or access control is applied.
-    EpisodePublicAccessRights public_access = 1000;
-
-    // Restricts episode access using URL signatures for secure time-limited access.
-    EpisodeSignURLAccessRights sign_url_access = 1003;
-  }
-
   // Unique identifier of the episode.
   string id = 1;
 
@@ -73,12 +51,33 @@ message Episode {
 
   // Identifier of the style preset used in the player during episode playback.
   string style_preset_id = 12;
+  // Specifies the episode access permission settings.
+  oneof access_rights {
+    // Allows unrestricted public access to the episode via direct link.
+    // No additional authorization or access control is applied.
+    EpisodePublicAccessRights public_access = 1000;
+
+    // Restricts episode access using URL signatures for secure time-limited access.
+    EpisodeSignURLAccessRights sign_url_access = 1003;
+  }
 
   // Timestamp when the episode was initially created in the system.
   google.protobuf.Timestamp created_at = 100;
 
   // Timestamp of the last modification to the episode or its metadata.
   google.protobuf.Timestamp updated_at = 101;
+
+  // Visibility status of the episode.
+  enum VisibilityStatus {
+    // The visibility status is not specified.
+    VISIBILITY_STATUS_UNSPECIFIED = 0;
+
+    // The episode is publicly available, subject to its access permission settings.
+    PUBLISHED = 1;
+
+    // The episode is available only to administrators.
+    UNPUBLISHED = 2;
+  }
 }
 
 // Represents public access rights for an episode.

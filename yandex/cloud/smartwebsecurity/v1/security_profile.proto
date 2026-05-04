@@ -125,7 +125,7 @@ message SecurityProfile {
   string name = 4 [
     (length) = "1-50",
     (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*",
-    (required) = true
+    (required) = false
   ];
 
   // Optional description of the security profile.

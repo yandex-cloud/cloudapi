@@ -3,11 +3,11 @@ syntax = "proto3";
 package yandex.cloud.clouddesktop.v1.api;
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/clouddesktop/v1/desktop.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
-import "google/protobuf/field_mask.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/clouddesktop/v1;clouddesktop";
 option java_package = "yandex.cloud.api.clouddesktop.v1";
@@ -15,172 +15,142 @@ option java_package = "yandex.cloud.api.clouddesktop.v1";
 // A set of methods for managing desktop resources.
 service DesktopService {
   // Returns the specified desktop resource.
-  //
   // To get the list of available desktops, make a [List] request.
   rpc Get(GetDesktopRequest) returns (Desktop) {
-    option (google.api.http) = {get: "/cloud-desktop/v1/desktops/{desktop_id}"};
-  }
+    option (google.api.http) = {
+      get: "/cloud-desktop/v1/desktops/{desktop_id}"
+    };
+  };
 
   // Returns a RDP file for the specified desktop.
   rpc GetRdpFile(GetRdpFileRequest) returns (RdpFileResponse) {
-    option (google.api.http) = {get: "/cloud-desktop/v1/desktops/{desktop_id}:getRdpFile"};
-  }
+    option (google.api.http) = {
+      get: "/cloud-desktop/v1/desktops/{desktop_id}:getRdpFile"
+    };
+  };
 
   // Retrieves the list of desktop resources.
   rpc List(ListDesktopsRequest) returns (ListDesktopsResponse) {
-    option (google.api.http) = {get: "/cloud-desktop/v1/desktops"};
-  }
+    option (google.api.http) = {
+      get: "/cloud-desktop/v1/desktops"
+    };
+  };
 
   // Returns list of the operations for the specified desktop.
   rpc ListOperations(ListDesktopOperationsRequest) returns (ListDesktopOperationsResponse) {
-    option (google.api.http) = {get: "/cloud-desktop/v1/desktops/{desktop_id}/operations"};
-  }
+    option (google.api.http) = {
+      get: "/cloud-desktop/v1/desktops/{desktop_id}/operations"
+    };
+  };
 
   // Creates desktop in the specified folder.
   rpc Create(CreateDesktopRequest) returns (operation.Operation) {
     option (google.api.http) = {
-      post: "/cloud-desktop/v1/desktops"
       body: "*"
+      post: "/cloud-desktop/v1/desktops"
     };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateDesktopMetadata"
       response: "Desktop"
     };
-  }
-
-  // Updates desktop properties.
-  rpc UpdateProperties (UpdatePropertiesRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/cloud-desktop/v1/desktops/{desktop_id}" 
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
-      metadata: "UpdateDesktopPropertiesMetadata"
-      response: "Desktop"
-    };
-  }
-
-  // Deletes the specified desktop.
-  rpc Delete(DeleteDesktopRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/cloud-desktop/v1/desktops/{desktop_id}"};
-    option (yandex.cloud.api.operation) = {
-      metadata: "DeleteDesktopMetadata"
-      response: "google.protobuf.Empty"
-    };
-  }
+  };
 
   // Reset password
   rpc ResetPassword(ResetPasswordRequest) returns (ResetPasswordResponse) {
     option (google.api.http) = {
-      post: "/cloud-desktop/v1/desktops/{desktop_id}:resetPassword"
       body: "*"
+      post: "/cloud-desktop/v1/desktops/{desktop_id}:resetPassword"
     };
-  }
+  };
 
   // Restart the specified desktop.
   rpc Restart(RestartRequest) returns (operation.Operation) {
     option (google.api.http) = {
-      post: "/cloud-desktop/v1/desktops/{desktop_id}:restart"
       body: "*"
+      post: "/cloud-desktop/v1/desktops/{desktop_id}:restart"
     };
     option (yandex.cloud.api.operation) = {
       metadata: "RestartDesktopMetadata"
       response: "Desktop"
     };
-  }
-
-  // Sync desktop with group configuration
-  rpc Update(UpdateRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/cloud-desktop/v1/desktops/{desktop_id}:update"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
-        metadata: "UpdateDesktopMetadata"
-        response: "Desktop"
-    };
-  }
+  };
 
   // Start the specified desktop.
   rpc Start(StartRequest) returns (operation.Operation) {
     option (google.api.http) = {
-      post: "/cloud-desktop/v1/desktops/{desktop_id}:start"
       body: "*"
+      post: "/cloud-desktop/v1/desktops/{desktop_id}:start"
     };
     option (yandex.cloud.api.operation) = {
-        metadata: "StartDesktopMetadata"
-        response: "Desktop"
+      metadata: "StartDesktopMetadata"
+      response: "Desktop"
     };
-  }
+  };
 
   // Stop the specified desktop.
   rpc Stop(StopRequest) returns (operation.Operation) {
     option (google.api.http) = {
-      post: "/cloud-desktop/v1/desktops/{desktop_id}:stop"
       body: "*"
+      post: "/cloud-desktop/v1/desktops/{desktop_id}:stop"
     };
     option (yandex.cloud.api.operation) = {
-        metadata: "StopDesktopMetadata"
-        response: "Desktop"
+      metadata: "StopDesktopMetadata"
+      response: "Desktop"
     };
-  }
-}
+  };
 
-message UpdatePropertiesRequest {
-  // To get the desktop ID use a [DesktopService.List] request.
-  string desktop_id = 1 [(required) = true, (length) = "<=50"];
+  // Sync desktop with group configuration
+  rpc Update(UpdateRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      body: "*"
+      patch: "/cloud-desktop/v1/desktops/{desktop_id}:update"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateDesktopMetadata"
+      response: "Desktop"
+    };
+  };
 
-  // Mask of fields that need to be update.
-  google.protobuf.FieldMask update_mask = 2;
+  // Updates desktop properties.
+  rpc UpdateProperties(UpdatePropertiesRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      body: "*"
+      patch: "/cloud-desktop/v1/desktops/{desktop_id}"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateDesktopPropertiesMetadata"
+      response: "Desktop"
+    };
+  };
 
-  // New desktop name.
-  string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])"];
+  // Deletes the specified desktop.
+  rpc Delete(DeleteDesktopRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      delete: "/cloud-desktop/v1/desktops/{desktop_id}"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "DeleteDesktopMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
 
-  // New desktop labels.
-  map<string, string> labels = 4 [
-    (size) = "<=64", 
-    (length) = "<=63", 
-    (pattern) = "[-_0-9a-z]*", 
-    (map_key).length = "1-63", 
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
-  ];
-
-  // New desktop description.
-  string description = 5 [(length) = "<=1024"];
-}
-
-message StartRequest {
-  // ID of the desktop.
-  string desktop_id = 1 [(required) = true, (length) = "<=50"];
-}
-
-message StopRequest {
-  // ID of the desktop.
-  string desktop_id = 1 [(required) = true, (length) = "<=50"];
-}
-
-message UpdateRequest {
-  // ID of the desktop.
-  string desktop_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message GetDesktopRequest {
   // ID of the desktop resource to return.
-  //
   // To get the desktop ID use a [DesktopService.List] request.
   string desktop_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
 message GetRdpFileRequest {
   // ID of the desktop resource to return.
-  //
   // To get the desktop ID use a [DesktopService.List] request.
   string desktop_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // User of the desktop.
@@ -196,13 +166,13 @@ message RdpFileResponse {
 }
 
 message ListDesktopsRequest {
-  reserved 3 to 20;
+  reserved 1, 3 to 20;
+
   // ID of the folder to create a DesktopGroup in.
-  //
   // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 2 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -230,6 +200,7 @@ message ListDesktopsRequest {
 
 message ListDesktopsResponse {
   reserved 2 to 21;
+
   // List of desktops.
   repeated Desktop desktops = 1;
 
@@ -244,10 +215,11 @@ message ListDesktopsResponse {
 
 message ListDesktopOperationsRequest {
   reserved 2 to 20;
+
   // ID of the desktop.
   string desktop_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -271,6 +243,7 @@ message ListDesktopOperationsRequest {
 
 message ListDesktopOperationsResponse {
   reserved 2 to 21;
+
   // List of operations for the specified desktop.
   repeated operation.Operation operations = 1;
 
@@ -284,33 +257,39 @@ message ListDesktopOperationsResponse {
 }
 
 message CreateDesktopRequest {
-  reserved 5 to 22;
+  reserved 1 to 2, 5 to 22;
+
   // ID of the desktop group.
   string desktop_group_id = 3 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // ID of the subnet for desktop.
-  string subnet_id = 4 [(required) = false, (length) = "<=50"];
-
-  // List of users.
-  repeated User users = 23 [(size) = ">0"];
+  string subnet_id = 4 [
+    (length) = "<=50",
+    (required) = false
+  ];
 
   // Name of the desktop.
   string name = 24 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])"];
 
   // Desktop labels.
   map<string, string> labels = 25 [
-      (size) = "<=64",
-      (length) = "<=63",
-      (pattern) = "[-_0-9a-z]*", 
-      (map_key).length = "1-63", 
-      (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
   ];
 
   // Desktop description.
   string description = 26 [(length) = "<=1024"];
+
+  // List of users.
+  repeated User users = 23 [(size) = ">0"];
 }
 
 message CreateDesktopMetadata {
@@ -321,9 +300,45 @@ message CreateDesktopMetadata {
 message DeleteDesktopRequest {
   // ID of the desktop to delete.
   string desktop_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
+}
+
+message UpdateRequest {
+  // ID of the desktop.
+  string desktop_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message UpdatePropertiesRequest {
+  // Mask of fields that need to be update.
+  google.protobuf.FieldMask update_mask = 2;
+
+  // To get the desktop ID use a [DesktopService.List] request.
+  string desktop_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // New desktop name.
+  string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])"];
+
+  // New desktop labels.
+  map<string, string> labels = 4 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+
+  // New desktop description.
+  string description = 5 [(length) = "<=1024"];
 }
 
 message DeleteDesktopMetadata {
@@ -331,36 +346,17 @@ message DeleteDesktopMetadata {
   string desktop_id = 1;
 }
 
-message ResetPasswordRequest {
-  // ID of the desktop.
-  string desktop_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
-
-  // User of the desktop.
-  User user = 2 [(required) = true];
-}
-
-message ResetPasswordResponse {
-  // Generated password
-  string password = 1;
-}
-
-message RestartRequest {
-  // ID of the desktop.
-  string desktop_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
-}
-
-message RestartDesktopMetadata {
+message UpdateDesktopMetadata {
   // ID of the desktop.
   string desktop_id = 1;
 }
 
 message UpdateDesktopPropertiesMetadata {
+  // ID of the desktop.
+  string desktop_id = 1;
+}
+
+message RestartDesktopMetadata {
   // ID of the desktop.
   string desktop_id = 1;
 }
@@ -375,7 +371,42 @@ message StopDesktopMetadata {
   string desktop_id = 1;
 }
 
-message UpdateDesktopMetadata {
+message ResetPasswordRequest {
   // ID of the desktop.
-  string desktop_id = 1;
+  string desktop_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // User of the desktop.
+  User user = 2 [(required) = true];
+}
+
+message ResetPasswordResponse {
+  // Generated password
+  string password = 1;
+}
+
+message RestartRequest {
+  // ID of the desktop.
+  string desktop_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message StartRequest {
+  // ID of the desktop.
+  string desktop_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message StopRequest {
+  // ID of the desktop.
+  string desktop_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }

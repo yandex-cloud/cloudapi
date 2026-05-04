@@ -92,7 +92,11 @@ message CreateWafProfileRequest {
   string folder_id = 1;
 
   // Name of the WAF profile. The name is unique within the folder. 1-50 characters long.
-  string name = 2;
+  string name = 2 [
+    (length) = "1-50",
+    (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*",
+    (required) = true
+  ];
 
   // Optional description of the WAF profile.
   string description = 3;
@@ -134,7 +138,11 @@ message UpdateWafProfileRequest {
   google.protobuf.FieldMask update_mask = 2;
 
   // Name of the WAF profile. The name is unique within the folder. 1-50 characters long.
-  string name = 3;
+  string name = 3 [
+    (length) = "1-50",
+    (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*",
+    (required) = false
+  ];
 
   // Optional description of the WAF profile.
   string description = 4;

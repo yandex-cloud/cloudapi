@@ -11,6 +11,14 @@ option java_package = "yandex.cloud.api.video.v1";
 message StreamLine {
   reserved 4 to 99, 102 to 199, 201 to 999, 1001, 1004 to 1999;
 
+  // ID of the line.
+  string id = 1;
+
+  // ID of the channel to which this stream line belongs.
+  string channel_id = 2;
+
+  // Title of the stream line.
+  string title = 3;
   // Specifies the input type and settings for the video signal source.
   oneof input_type {
     // Real-Time Messaging Protocol (RTMP) push input type.
@@ -31,15 +39,6 @@ message StreamLine {
     // Automatic stream control.
     AutoLine auto_line = 2001;
   }
-
-  // ID of the line.
-  string id = 1;
-
-  // ID of the channel to which this stream line belongs.
-  string channel_id = 2;
-
-  // Title of the stream line.
-  string title = 3;
 
   // Timestamp when the stream line was initially created in the system.
   google.protobuf.Timestamp created_at = 100;
@@ -90,7 +89,10 @@ message ManualLine {
 
 // Represents an automatic line type where the stream control is handled automatically.
 message AutoLine {
-  // Enum representing the status of an automatic stream line.
+  // The status of the automatic line.
+  AutoLineStatus status = 1;
+
+  // Status of an automatic stream line.
   // Indicates whether the automatic line is active or deactivated.
   enum AutoLineStatus {
     // Auto line status unspecified.
@@ -102,7 +104,4 @@ message AutoLine {
     // The automatic line is active and operational.
     ACTIVE = 2;
   }
-
-  // The status of the automatic line.
-  AutoLineStatus status = 1;
 }

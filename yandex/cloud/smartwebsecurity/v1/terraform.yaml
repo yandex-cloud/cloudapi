@@ -1,0 +1,80 @@
+resources_and_data_sources:
+  - name: yandex_smartwebsecurity_advanced_rate_limiter_advanced_rate_limiter_profile
+    rename: yandex_sws_advanced_rate_limiter_profile
+  - name: yandex_smartwebsecurity_security_profile
+    rename: yandex_sws_security_profile
+  - name: yandex_smartwebsecurity_waf_waf_profile
+    rename: yandex_sws_waf_profile
+data_sources:
+  - name: yandex_smartwebsecurity_waf_rule_set_descriptor
+    rename: yandex_sws_waf_rule_set_descriptor
+
+model_config:
+  use_list_for_struct:
+    - yandex_smartwebsecurity_advanced_rate_limiter_advanced_rate_limiter_profile
+    - yandex_smartwebsecurity_security_profile
+    - yandex_smartwebsecurity_waf_waf_profile
+    - yandex_smartwebsecurity_waf_rule_set_descriptor
+  datasource_with_resolver:
+    - yandex_smartwebsecurity_advanced_rate_limiter_advanced_rate_limiter_profile
+    - yandex_smartwebsecurity_security_profile
+    - yandex_smartwebsecurity_waf_waf_profile
+    - yandex_smartwebsecurity_waf_rule_set_descriptor
+  custom_fields:
+    yandex_smartwebsecurity_waf_waf_profile:
+      - name: name
+        type: string
+        optional: true
+  
+  renames:
+    yandex.cloud.smartwebsecurity.v1.advanced_rate_limiter.AdvancedRateLimiterProfile:
+      fields:
+        advanced_rate_limiter_rules: "advanced_rate_limiter_rule"
+    yandex.cloud.smartwebsecurity.v1.advanced_rate_limiter.AdvancedRateLimiterRule.DynamicQuota:
+      fields:
+        characteristics: characteristic
+    yandex.cloud.smartwebsecurity.v1.advanced_rate_limiter.CreateAdvancedRateLimiterProfileRequest:
+      fields:
+        advanced_rate_limiter_rules: advanced_rate_limiter_rule
+    yandex.cloud.smartwebsecurity.v1.advanced_rate_limiter.UpdateAdvancedRateLimiterProfileRequest:
+      fields:
+        advanced_rate_limiter_rules: advanced_rate_limiter_rule
+    yandex.cloud.smartwebsecurity.v1.SecurityProfile:
+      fields:
+        security_rules: security_rule
+    yandex.cloud.smartwebsecurity.v1.CreateSecurityProfileRequest:
+      fields:
+        security_rules: security_rule
+    yandex.cloud.smartwebsecurity.v1.UpdateSecurityProfileRequest:
+      fields:
+        security_rules: security_rule
+    yandex.cloud.smartwebsecurity.v1.waf.WafProfile:
+      fields:
+        exclusion_rules: exclusion_rule
+        rule_sets: rule_set
+        rules: rule
+    yandex.cloud.smartwebsecurity.v1.waf.UpdateWafProfileRequest:
+      fields:
+        exclusion_rules: exclusion_rule
+        rule_sets: rule_set
+        rules: rule
+    yandex.cloud.smartwebsecurity.v1.waf.CreateWafProfileRequest:
+      fields:
+        exclusion_rules: exclusion_rule
+        rule_sets: rule_set
+        rules: rule
+    yandex.cloud.smartwebsecurity.v1.waf.WafProfile.WafProfileRuleSet.WafProfileYaRuleSet:
+      fields:
+        rule_groups: rule_group
+
+  options:
+    yandex.cloud.smartwebsecurity.v1.advanced_rate_limiter.CreateAdvancedRateLimiterProfileRequest.folder_id:
+      force_new: true
+    yandex.cloud.smartwebsecurity.v1.CreateSecurityProfileRequest.folder_id:
+      force_new: true
+    yandex.cloud.smartwebsecurity.v1.waf.CreateWafProfileRequest.folder_id:
+      force_new: true
+    yandex.cloud.smartwebsecurity.v1.waf.RuleSet.id:
+      ordinary_field: true
+    yandex.cloud.smartwebsecurity.v1.waf.WafProfile.WafProfileRuleSet.RuleGroup.id:
+      ordinary_field: true

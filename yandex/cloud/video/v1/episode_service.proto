@@ -116,7 +116,7 @@ service EpisodeService {
   // Retrieves the manifest URLs for the episode's media content.
   // Manifests provide players with necessary information
   // for streaming the content with different quality levels and formats.
-  // Manifests and its url MUST not be cached.
+  // Manifests and their urls MUST not be cached.
   // The player MUST request a fresh manifest every time playback starts.
   rpc GetManifests(GetEpisodeManifestsRequest) returns (GetEpisodeManifestsResponse) {
     option (google.api.http) = {
@@ -220,17 +220,6 @@ message CreateEpisodeRequest {
     string line_id = 101 [(length) = "<=50"];
   }
 
-  // Episode access permission settings (exactly one must be chosen).
-  oneof access_rights {
-    option (exactly_one) = true;
-
-    // Episode is publicly available.
-    EpisodePublicAccessParams public_access = 1000;
-
-    // Access to the episode is restricted by temporarily signed links.
-    EpisodeSignURLAccessParams sign_url_access = 1003;
-  }
-
   // Episode title.
   string title = 2 [
     (length) = "<=300",
@@ -258,6 +247,16 @@ message CreateEpisodeRequest {
 
   // ID of the style preset.
   string style_preset_id = 8 [(length) = "<=50"];
+  // Episode access permission settings (exactly one must be chosen).
+  oneof access_rights {
+    option (exactly_one) = true;
+
+    // Episode is publicly available.
+    EpisodePublicAccessParams public_access = 1000;
+
+    // Access to the episode is restricted by temporarily signed links.
+    EpisodeSignURLAccessParams sign_url_access = 1003;
+  }
 }
 
 // Parameters for episode public access rights.
@@ -275,15 +274,6 @@ message CreateEpisodeMetadata {
 
 message UpdateEpisodeRequest {
   reserved 10 to 999, 1001 to 1002;
-
-  // Episode access rights.
-  oneof access_rights {
-    // Episode is publicly available.
-    EpisodePublicAccessParams public_access = 1000;
-
-    // Access to the episode is restricted by temporarily signed links.
-    EpisodeSignURLAccessParams sign_url_access = 1003;
-  }
 
   // ID of the episode.
   string episode_id = 1 [
@@ -321,6 +311,14 @@ message UpdateEpisodeRequest {
 
   // New ID of the style preset to be applied to the episode player.
   string style_preset_id = 9 [(length) = "<=50"];
+  // Episode access rights.
+  oneof access_rights {
+    // Episode is publicly available.
+    EpisodePublicAccessParams public_access = 1000;
+
+    // Access to the episode is restricted by temporarily signed links.
+    EpisodeSignURLAccessParams sign_url_access = 1003;
+  }
 }
 
 message UpdateEpisodeMetadata {

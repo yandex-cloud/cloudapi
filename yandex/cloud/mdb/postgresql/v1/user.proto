@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.mdb.postgresql.v1;
 
 import "google/protobuf/wrappers.proto";
+import "yandex/cloud/mdb/v1/connectionmanager.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
@@ -53,7 +54,10 @@ message User {
   UserPasswordEncryption user_password_encryption = 9;
 
   // Connection Manager Connection and settings associated with user. Read only field.
-  ConnectionManager connection_manager = 10;
+  ConnectionManager connection_manager = 10 [deprecated = true];
+
+  // Connection Manager Connection and settings associated with user
+  yandex.cloud.mdb.v1.UserConnectionManager user_connection_manager = 12;
 
   // Auth method for user
   AuthMethod auth_method = 11;
@@ -65,6 +69,8 @@ message Permission {
 }
 
 message ConnectionManager {
+  option deprecated = true;
+
   // ID of Connection Manager Connection
   string connection_id = 1;
 }
@@ -126,6 +132,9 @@ message UserSpec {
 
   // Auth method for user
   AuthMethod auth_method = 11;
+
+  // Connection Manager Connection and settings associated with user
+  yandex.cloud.mdb.v1.UserConnectionManager user_connection_manager = 12;
 }
 
 enum UserPasswordEncryption {

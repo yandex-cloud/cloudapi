@@ -109,6 +109,16 @@ message ListSubtitlesResponse {
 message CreateSubtitleRequest {
   reserved 3 to 999, 1001 to 1099;
 
+  // Subtitle language represented as a three-letter code according to ISO 639-2/T.
+  string language = 1 [
+    (length) = "3",
+    (pattern) = "ara|deu|eng|fra|ita|jpn|kaz|kor|rus|spa|tur|ukr|zho"
+  ];
+
+  // Contains the subtitle label (or title) that will be displayed on screen during video playback.
+  // Should provide a concise and accurate representation of the spoken content.
+  // If not provided, it will be auto-generated based on the specified language.
+  string label = 2 [(length) = "<=50"];
   oneof parent_id {
     option (exactly_one) = true;
 
@@ -123,17 +133,6 @@ message CreateSubtitleRequest {
     // Upload subtitle.
     SubtitleUploadParams upload = 1100;
   }
-
-  // Subtitle language represented as a three-letter code according to ISO 639-2/T.
-  string language = 1 [
-    (length) = "3",
-    (pattern) = "ara|deu|eng|fra|ita|jpn|kaz|kor|rus|spa|tur|ukr|zho"
-  ];
-
-  // Contains the subtitle label (or title) that will be displayed on screen during video playback.
-  // Should provide a concise and accurate representation of the spoken content.
-  // If not provided, it will be auto-generated based on the specified language.
-  string label = 2 [(length) = "<=50"];
 }
 
 message SubtitleUploadParams {

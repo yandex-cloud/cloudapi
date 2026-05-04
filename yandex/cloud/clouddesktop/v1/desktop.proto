@@ -10,8 +10,7 @@ option java_package = "yandex.cloud.api.clouddesktop.v1";
 
 // A desktop resource.
 message Desktop {
-  reserved 12 to 20;
-  reserved 6 to 10;
+  reserved 6 to 10, 12 to 20;
 
   // Desktop ID.
   string id = 1;
@@ -24,7 +23,6 @@ message Desktop {
 
   // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
   google.protobuf.Timestamp created_at = 4;
-
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -68,6 +66,12 @@ message Desktop {
   // Name of the desktop.
   string name = 11;
 
+  // Labels of the desktop.
+  map<string, string> labels = 24;
+
+  // Description of the desktop.
+  string description = 25;
+
   // Resources of the desktop.
   Resources resources = 21;
 
@@ -76,12 +80,6 @@ message Desktop {
 
   // Users of the desktop.
   repeated User users = 23;
-
-  // Labels of the desktop.
-  map<string, string> labels = 24;
-
-  // Description of the desktop.
-  string description = 25;
 }
 
 message Resources {
@@ -93,29 +91,34 @@ message Resources {
 
   // Baseline level of CPU performance with the ability to burst performance above that baseline level.
   // This field sets baseline performance for each core.
-  //
   // For example, if you need only 5% of the CPU performance, you can set core_fraction=5.
   int64 core_fraction = 3 [(value) = "0-100"];
-}
-
-message User {
-  // Identity of the access binding.
-  string subject_id = 1 [(required) = true, (length) = "<=100"];
-
-  // Type of the access binding, e.g. userAccount, serviceAccount, system.
-  string subject_type = 2 [(required) = true, (length) = "<=100"];
 }
 
 message NetworkInterface {
   // ID of the network.
   string network_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // ID of the subnet.
   string subnet_id = 2 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message User {
+  // Identity of the access binding.
+  string subject_id = 1 [
+    (length) = "<=100",
+    (required) = true
+  ];
+
+  // Type of the access binding, e.g. userAccount, serviceAccount, system.
+  string subject_type = 2 [
+    (length) = "<=100",
+    (required) = true
   ];
 }

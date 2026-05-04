@@ -34,6 +34,7 @@ import "yandex/cloud/mdb/postgresql/v1/config/postgresql17_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql18.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql18_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/maintenance.proto";
+import "yandex/cloud/mdb/v1/connectionmanager.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
@@ -248,6 +249,9 @@ message ClusterConfig {
 
   // Full version
   string full_version = 31;
+
+  // Cluster-wide Connection Manager integration configuration
+  yandex.cloud.mdb.v1.ClusterConnectionManager connection_manager = 32;
 }
 
 message ConnectionPoolerConfig {

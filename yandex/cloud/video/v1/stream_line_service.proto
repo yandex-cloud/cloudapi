@@ -205,6 +205,17 @@ message BatchGetStreamLinesResponse {
 message CreateStreamLineRequest {
   reserved 3 to 199, 201 to 999, 1001, 1004 to 1999;
 
+  // ID of the channel.
+  string channel_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Line title.
+  string title = 2 [
+    (length) = "<=300",
+    (required) = true
+  ];
   // Video signal settings.
   oneof input_params {
     option (exactly_one) = true;
@@ -220,6 +231,9 @@ message CreateStreamLineRequest {
   }
 
   // Line type.
+  // The line type selection is permanent and cannot be switched between `manual_line`
+  // and `auto_line` after creation. However, the parameters inside
+  // the existing type structure can be modified.
   oneof line_type_params {
     option (exactly_one) = true;
 
@@ -229,18 +243,6 @@ message CreateStreamLineRequest {
     // Automatic stream control.
     AutoLineParams auto_line = 2001;
   }
-
-  // ID of the channel.
-  string channel_id = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
-
-  // Line title.
-  string title = 2 [
-    (length) = "<=300",
-    (required) = true
-  ];
 
   // Custom user-defined labels as key:value pairs.
   // Maximum 64 labels per stream line.
@@ -265,18 +267,6 @@ message CreateStreamLineMetadata {
 message UpdateStreamLineRequest {
   reserved 4 to 199, 201 to 999, 1001;
 
-  // Video signal settings.
-  oneof input_params {
-    // RTMP push input type.
-    RTMPPushParams rtmp_push = 1000;
-
-    // RTMP pull input type.
-    RTMPPullParams rtmp_pull = 1002;
-
-    // SRT pull input type.
-    SRTPullParams srt_pull = 1003;
-  }
-
   // ID of the line.
   string stream_line_id = 1 [
     (length) = "<=50",
@@ -291,6 +281,17 @@ message UpdateStreamLineRequest {
 
   // Line title.
   string title = 3 [(length) = "<=300"];
+  // Video signal settings.
+  oneof input_params {
+    // RTMP push input type.
+    RTMPPushParams rtmp_push = 1000;
+
+    // RTMP pull input type.
+    RTMPPullParams rtmp_pull = 1002;
+
+    // SRT pull input type.
+    SRTPullParams srt_pull = 1003;
+  }
 
   // New custom labels for the stream line as `key:value` pairs.
   // Maximum 64 labels per stream line.
@@ -350,6 +351,11 @@ message BatchDeleteStreamLinesMetadata {
 message PerformLineActionRequest {
   reserved 2 to 999;
 
+  // ID of the stream line on which to perform the action.
+  string stream_line_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
   // Specifies which action to perform on the stream line.
   oneof action {
     option (exactly_one) = true;
@@ -362,12 +368,6 @@ message PerformLineActionRequest {
     // This is typically used for automatic stream lines.
     DeactivateAction deactivate = 1001;
   }
-
-  // ID of the stream line on which to perform the action.
-  string stream_line_id = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
 }
 
 message PerformLineActionMetadata {
@@ -391,8 +391,10 @@ message RTMPPullParams {
   ];
 }
 
+// Parameters for creating an SRT pull input type stream line.
 message SRTPullParams {
-  // URL of a SRT streaming server.
+  // The SRT URL from which to pull the video stream.
+  // Must be a valid SRT URL starting with "srt://".
   string url = 1 [
     (pattern) = "srt://.*",
     (required) = true

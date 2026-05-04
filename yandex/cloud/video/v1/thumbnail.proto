@@ -12,6 +12,11 @@ option java_package = "yandex.cloud.api.video.v1";
 message Thumbnail {
   reserved 3 to 99, 101 to 1002;
 
+  // Unique identifier of the thumbnail.
+  string id = 1;
+
+  // Identifier of the channel where the thumbnail is created and managed.
+  string channel_id = 2;
   oneof parent_id {
 
     // ID of the episode which the thumbnail is associated with.
@@ -20,12 +25,6 @@ message Thumbnail {
     // ID of the video which the thumbnail is associated with.
     string video_id = 1004;
   }
-
-  // Unique identifier of the thumbnail.
-  string id = 1;
-
-  // Identifier of the channel where the thumbnail is created and managed.
-  string channel_id = 2;
 
   // Timestamp when the thumbnail was initially created in the system.
   google.protobuf.Timestamp created_at = 100;

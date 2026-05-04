@@ -74,7 +74,7 @@ service VideoService {
   // Initiates or updates video transcoding with specified parameters.
   // Can be used to start transcoding for videos with auto_transcode=DISABLE,
   // or to re-process a completed video with new transcoding settings.
-  // Supports additional features like subtitle processing, translation, and summarization.
+  // Supports additional features like subtitle processing, translation, summarization, and speech-to-text.
   rpc Transcode(TranscodeVideoRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "TranscodeVideoMetadata"
@@ -143,7 +143,7 @@ service VideoService {
   // Retrieves the manifest URLs for a specific video.
   // Manifests are used by video players to access the video content with adaptive bitrate streaming.
   // Supports different manifest types (HLS, DASH) and configuration parameters.
-  // Manifests and its url MUST not be cached.
+  // Manifests and their urls MUST not be cached.
   // The player MUST request a fresh manifest every time playback starts.
   rpc GetManifests(GetVideoManifestsRequest) returns (GetVideoManifestsResponse) {
     option (google.api.http) = {
@@ -160,6 +160,21 @@ service VideoService {
     };
   };
 
+  // Retrieves screenshots taken during the video transcoding process.
+  rpc GetScreenshots(GetVideoScreenshotsRequest) returns (GetVideoScreenshotsResponse) {
+    option (google.api.http) = {
+      get: "/video/v1/videos/{video_id}:getScreenshots"
+    };
+  };
+
+  // Retrieves screenshots taken during the video transcoding process for a list of videos.
+  // This is more efficient than making multiple GetScreenshots requests when retrieving screenshots for several videos.
+  rpc BatchGetScreenshots(BatchGetVideoScreenshotsRequest) returns (BatchGetVideoScreenshotsResponse) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/video/v1/videos:batchGetScreenshots"
+    };
+  };
 }
 
 message GetVideoRequest {
@@ -240,26 +255,6 @@ message BatchGetVideosResponse {
 message CreateVideoRequest {
   reserved 9 to 199, 201 to 999, 1001 to 1999, 2001 to 2002;
 
-  // Specifies the video upload source method (exactly one must be chosen).
-  oneof source {
-    option (exactly_one) = true;
-
-    // Upload video using the TUS (Tus Resumable Upload Protocol) protocol.
-    // This is a push-based upload method where the client pushes data to the server.
-    VideoTUSDParams tusd = 1000;
-  }
-
-  // Video access permission settings (exactly one must be chosen).
-  oneof access_rights {
-    option (exactly_one) = true;
-
-    // Video is publicly available.
-    VideoPublicAccessParams public_access = 2000;
-
-    // Access to the video is restricted by temporarily signed links.
-    VideoSignURLAccessParams sign_url_access = 2003;
-  }
-
   // ID of the channel where the video will be created.
   string channel_id = 1 [
     (length) = "<=50",
@@ -312,15 +307,40 @@ message CreateVideoRequest {
     (pattern) = "[-_.@:/0-9a-zA-Z]*",
     (size) = "<=64"
   ];
+  // Specifies the video upload source method (exactly one must be chosen).
+  oneof source {
+    option (exactly_one) = true;
+
+    // Upload video using the TUS (Tus Resumable Upload Protocol) protocol.
+    // This is a push-based upload method where the client pushes data to the server.
+    VideoTUSDParams tusd = 1000;
+  }
+
+  // Video access permission settings (exactly one must be chosen).
+  oneof access_rights {
+    option (exactly_one) = true;
+
+    // Video is publicly available.
+    VideoPublicAccessParams public_access = 2000;
+
+    // Access to the video is restricted by temporarily signed links.
+    VideoSignURLAccessParams sign_url_access = 2003;
+  }
 }
 
 message VideoTUSDParams {
   // Total size of the file to be uploaded, in bytes.
-  int64 file_size = 1 [(value) = ">0"];
+  // MUST be positive if upload length is not deferred, otherwise MUST be 0.
+  int64 file_size = 1 [(value) = ">=0"];
 
   // Original name of the file being uploaded.
   // This is used for reference and does not affect the upload process.
   string file_name = 2;
+
+  // Defer upload file size.
+  // File size MUST be provided by first client's PATCH request.
+  // @see https://tus.io/protocols/resumable-upload#post
+  bool is_deferred = 3;
 }
 
 // Parameters for video public access rights.
@@ -338,15 +358,6 @@ message CreateVideoMetadata {
 
 message UpdateVideoRequest {
   reserved 9 to 199, 201 to 1999, 2001 to 2002;
-
-  // New access rights setting for the video.
-  oneof access_rights {
-    // Makes the video publicly accessible to anyone with the direct link.
-    VideoPublicAccessParams public_access = 2000;
-
-    // Restricts video access using URL signatures for secure time-limited access.
-    VideoSignURLAccessParams sign_url_access = 2003;
-  }
 
   // ID of the video to update.
   string video_id = 1 [
@@ -392,6 +403,14 @@ message UpdateVideoRequest {
     (pattern) = "[-_.@:/0-9a-zA-Z]*",
     (size) = "<=64"
   ];
+  // New access rights setting for the video.
+  oneof access_rights {
+    // Makes the video publicly accessible to anyone with the direct link.
+    VideoPublicAccessParams public_access = 2000;
+
+    // Restricts video access using URL signatures for secure time-limited access.
+    VideoSignURLAccessParams sign_url_access = 2003;
+  }
 }
 
 message UpdateVideoMetadata {
@@ -423,9 +442,15 @@ message TranscodeVideoRequest {
   // Settings for automatic video content summarization.
   // Defines which audio tracks should be processed to generate text summaries.
   VideoSummarizationSettings summarization_settings = 5;
+
+  // Settings for automatic speech recognition (speech-to-text).
+  // Defines which audio tracks should be transcribed to generate text transcripts.
+  VideoSpeechToTextSettings speech_to_text_settings = 6;
 }
 
 message VideoTranslationSettings {
+  // Translation settings for each track.
+  repeated TranslationTrack tracks = 1;
   message TranslationTrack {
     // Input track settings.
     InputTrack input_track = 1 [(required) = true];
@@ -480,14 +505,19 @@ message VideoTranslationSettings {
       (required) = true
     ];
   }
-
-  // Translation settings for each track.
-  repeated TranslationTrack tracks = 1;
 }
 
 message VideoSummarizationSettings {
   reserved 1;
 
+  // Summarization settings for each track.
+  repeated SummarizationTrack tracks = 2;
+
+  // Summarize all available tracks.
+  // If enabled, `tracks` parameter is ignored.
+  // Enables automatic source language deduction for each track
+  // and thus may lead to performance degradation.
+  bool process_all_tracks = 3;
   message SummarizationTrack {
     // Input track settings.
     InputTrack input_track = 1 [(required) = true];
@@ -506,15 +536,35 @@ message VideoSummarizationSettings {
       (pattern) = "|ara|deu|eng|fra|ita|jpn|kor|rus|spa|tur|zho"
     ];
   }
+}
 
-  // Summarization settings for each track.
-  repeated SummarizationTrack tracks = 2;
+message VideoSpeechToTextSettings {
+  // Speech-to-text settings for each track.
+  repeated SpeechToTextTrack tracks = 1;
 
-  // Summarize all available tracks.
+  // Recognize speech from all available tracks.
   // If enabled, `tracks` parameter is ignored.
   // Enables automatic source language deduction for each track
   // and thus may lead to performance degradation.
-  bool process_all_tracks = 3;
+  bool process_all_tracks = 2;
+  message SpeechToTextTrack {
+    // Input track settings.
+    InputTrack input_track = 1 [(required) = true];
+  }
+
+  message InputTrack {
+    // Input audio track index (one-based).
+    int64 track_index = 1 [(value) = ">=1"];
+
+    // Source track language represented as a three-letter code according to ISO 639-2/T.
+    // It will be deduced automatically if not provided.
+    // In the latter case the deduction accuracy is not guaranteed.
+    // For better performance please do specify the source track language when possible.
+    string src_lang = 2 [
+      (length) = "0,3",
+      (pattern) = "|ara|deu|eng|fra|ita|jpn|kor|rus|spa|tur|zho"
+    ];
+  }
 }
 
 message TranscodeVideoMetadata {
@@ -560,6 +610,11 @@ message BatchDeleteVideosMetadata {
 message PerformVideoActionRequest {
   reserved 2 to 999;
 
+  // ID of the video on which to perform the action.
+  string video_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
   // Specifies the action to perform on the video (exactly one must be chosen).
   oneof action {
     option (exactly_one) = true;
@@ -572,12 +627,6 @@ message PerformVideoActionRequest {
     // Changes the video's visibility status to UNPUBLISHED.
     UnpublishVideoAction unpublish = 1001;
   }
-
-  // ID of the video on which to perform the action.
-  string video_id = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
 }
 
 // Parameters for the publish action.
@@ -693,4 +742,48 @@ message GetVideoManifestsResponse {
   // List of manifests available for the video.
   // Different manifests may represent different streaming formats (e.g., HLS, DASH)
   repeated Manifest manifests = 1;
+}
+
+message GetVideoScreenshotsRequest {
+  // ID of the video for which to retrieve screenshots.
+  string video_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message GetVideoScreenshotsResponse {
+  // List of URLs to screenshots taken during the video transcoding process.
+  // These screenshots can be used for thumbnail selection or content preview.
+  // Screenshots are typically taken at regular intervals throughout the video.
+  repeated string screenshots = 1;
+}
+
+message BatchGetVideoScreenshotsRequest {
+  // ID of the channel containing the videos.
+  string channel_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // List of video IDs for which to retrieve screenshots.
+  repeated string video_ids = 2 [
+    (length) = "<=50",
+    (size) = "1-100"
+  ];
+}
+
+message BatchGetVideoScreenshotsResponse {
+  // List of screenshots for the requested videos.
+  repeated VideoScreenshots video_screenshots = 1;
+}
+
+message VideoScreenshots {
+  // ID of the video for which screenshots are retrieved.
+  string video_id = 1;
+
+  // List of URLs to screenshots taken during the video transcoding process.
+  // These screenshots can be used for thumbnail selection or content preview.
+  // Screenshots are typically taken at regular intervals throughout the video.
+  repeated string screenshots = 2;
 }

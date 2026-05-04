@@ -90,6 +90,11 @@ message GetThumbnailRequest {
 message ListThumbnailRequest {
   reserved 2 to 99, 102 to 1002;
 
+  // [Deprecated] ID of the channel.
+  string channel_id = 1 [
+    (length) = "<=50",
+    deprecated = true
+  ];
   // Specifies the parent resource to list thumbnails from (exactly one must be chosen).
   oneof parent_id {
 
@@ -99,12 +104,6 @@ message ListThumbnailRequest {
     // ID of the video containing the thumbnails to list.
     string video_id = 1004 [(length) = "<=50"];
   }
-
-  // [Deprecated] ID of the channel.
-  string channel_id = 1 [
-    (length) = "<=50",
-    deprecated = true
-  ];
 
   // The maximum number of thumbnails to return per page.
   int64 page_size = 100 [(value) = "<=100"];
@@ -168,6 +167,16 @@ message BatchGenerateDownloadURLsResponse {
 }
 
 message ThumbnailDownloadURL {
+  // ID of the thumbnail for which download URLs are provided.
+  string thumbnail_id = 1;
+
+  // URL for downloading the original, unmodified thumbnail image.
+  // This provides access to the image at its original resolution and format.
+  string original_url = 2;
+
+  // List of URLs for downloading scaled versions of the thumbnail.
+  // Different scaled versions are optimized for different display sizes and purposes.
+  repeated ScaledURL scaled_urls = 3;
   // Represents a URL for a specific scaled version of a thumbnail image.
   message ScaledURL {
     // URL for downloading this scaled version of the thumbnail.
@@ -201,17 +210,6 @@ message ThumbnailDownloadURL {
     // May not be supported on all platforms and older browsers.
     WEBP = 2;
   }
-
-  // ID of the thumbnail for which download URLs are provided.
-  string thumbnail_id = 1;
-
-  // URL for downloading the original, unmodified thumbnail image.
-  // This provides access to the image at its original resolution and format.
-  string original_url = 2;
-
-  // List of URLs for downloading scaled versions of the thumbnail.
-  // Different scaled versions are optimized for different display sizes and purposes.
-  repeated ScaledURL scaled_urls = 3;
 }
 
 message GenerateThumbnailUploadURLRequest {

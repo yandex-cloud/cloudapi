@@ -3,14 +3,14 @@ syntax = "proto3";
 package yandex.cloud.clouddesktop.v1.api;
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/clouddesktop/v1/desktop.proto";
 import "yandex/cloud/clouddesktop/v1/desktop_group.proto";
+import "yandex/cloud/clouddesktop/v1/disk.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
-import "google/protobuf/field_mask.proto";
-import "yandex/cloud/clouddesktop/v1/disk.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/clouddesktop/v1;clouddesktop";
 option java_package = "yandex.cloud.api.clouddesktop.v1";
@@ -18,108 +18,119 @@ option java_package = "yandex.cloud.api.clouddesktop.v1";
 // A set of methods for managing desktop group resources.
 service DesktopGroupService {
   // Returns the specified desktop group resource.
-  //
   // To get the list of available desktop groups, make a [List] request.
   rpc Get(GetDesktopGroupRequest) returns (DesktopGroup) {
-    option (google.api.http) = {get: "/cloud-desktop/v1/desktopGroups/{desktop_group_id}"};
-  }
+    option (google.api.http) = {
+      get: "/cloud-desktop/v1/desktopGroups/{desktop_group_id}"
+    };
+  };
 
   // Retrieves the list of desktop group resources.
   rpc List(ListDesktopGroupsRequest) returns (ListDesktopGroupsResponse) {
-    option (google.api.http) = {get: "/cloud-desktop/v1/desktopGroups"};
-  }
+    option (google.api.http) = {
+      get: "/cloud-desktop/v1/desktopGroups"
+    };
+  };
 
   // Retrieves the list of desktops resources.
   rpc ListDesktops(ListDesktopGroupDesktopsRequest) returns (ListDesktopGroupDesktopsResponse) {
-    option (google.api.http) = {get: "/cloud-desktop/v1/desktopGroups/{desktop_group_id}/desktops"};
-  }
+    option (google.api.http) = {
+      get: "/cloud-desktop/v1/desktopGroups/{desktop_group_id}/desktops"
+    };
+  };
 
   // Returns list of the operations for the specified desktop group.
   rpc ListOperations(ListDesktopGroupOperationsRequest) returns (ListDesktopGroupOperationsResponse) {
-    option (google.api.http) = {get: "/cloud-desktop/v1/desktopGroups/{desktop_group_id}/operations"};
-  }
+    option (google.api.http) = {
+      get: "/cloud-desktop/v1/desktopGroups/{desktop_group_id}/operations"
+    };
+  };
 
   // Creates desktop group in the specified folder.
   rpc Create(CreateDesktopGroupRequest) returns (operation.Operation) {
     option (google.api.http) = {
-      post: "/cloud-desktop/v1/desktopGroups"
       body: "*"
+      post: "/cloud-desktop/v1/desktopGroups"
     };
     option (yandex.cloud.api.operation) = {
       metadata: "CreateDesktopGroupMetadata"
       response: "DesktopGroup"
     };
-  }
-
-  // Updates desktop group properties
-  rpc Update (UpdateDesktopGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/cloud-desktop/v1/desktopGroups/{desktop_group_id}" 
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
-        metadata: "UpdateDesktopGroupMetadata"
-        response: "google.protobuf.Empty"
-    };
-  }
+  };
 
   // Deletes the specified desktop group.
   rpc Delete(DeleteDesktopGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/cloud-desktop/v1/desktopGroups/{desktop_group_id}"};
+    option (google.api.http) = {
+      delete: "/cloud-desktop/v1/desktopGroups/{desktop_group_id}"
+    };
     option (yandex.cloud.api.operation) = {
       metadata: "DeleteDesktopGroupMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+  };
+
+  // Updates desktop group properties
+  rpc Update(UpdateDesktopGroupRequest) returns (operation.Operation) {
+    option (google.api.http) = {
+      body: "*"
+      patch: "/cloud-desktop/v1/desktopGroups/{desktop_group_id}"
+    };
+    option (yandex.cloud.api.operation) = {
+      metadata: "UpdateDesktopGroupMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
 
   // Returns a list of the access bindings for the specified desktop group.
   rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = {get: "/cloud-desktop/v1/desktopGroups/{resource_id}:listAccessBindings"};
-  }
+    option (google.api.http) = {
+      get: "/cloud-desktop/v1/desktopGroups/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the specified desktop group.
   rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = {
-      post: "/cloud-desktop/v1/desktopGroups/{resource_id}:setAccessBindings"
       body: "*"
+      post: "/cloud-desktop/v1/desktopGroups/{resource_id}:setAccessBindings"
     };
     option (yandex.cloud.api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+  };
 
   // Updates access bindings of the specified desktop group.
   rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
     option (google.api.http) = {
-      post: "/cloud-desktop/v1/desktopGroups/{resource_id}:updateAccessBindings"
       body: "*"
+      post: "/cloud-desktop/v1/desktopGroups/{resource_id}:updateAccessBindings"
     };
     option (yandex.cloud.api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+  };
+
 }
 
 message GetDesktopGroupRequest {
   // ID of the desktop group resource to return.
-  //
   // To get the desktop group ID use a [DesktopGroupService.List] request.
   string desktop_group_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
 message ListDesktopGroupsRequest {
   reserved 2 to 20;
+
   // ID of the folder to list desktop groups in.
-  //
   // To get the folder ID use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -147,6 +158,7 @@ message ListDesktopGroupsRequest {
 
 message ListDesktopGroupsResponse {
   reserved 2 to 21;
+
   // List of desktop groups.
   repeated DesktopGroup desktop_groups = 1;
 
@@ -161,10 +173,11 @@ message ListDesktopGroupsResponse {
 
 message ListDesktopGroupDesktopsRequest {
   reserved 2 to 20;
+
   // ID of the desktop group.
   string desktop_group_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -192,6 +205,7 @@ message ListDesktopGroupDesktopsRequest {
 
 message ListDesktopGroupDesktopsResponse {
   reserved 2 to 21;
+
   // List of desktops.
   repeated Desktop desktops = 1;
 
@@ -206,10 +220,11 @@ message ListDesktopGroupDesktopsResponse {
 
 message ListDesktopGroupOperationsRequest {
   reserved 2 to 20;
+
   // ID of the desktop group.
   string desktop_group_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -230,6 +245,7 @@ message ListDesktopGroupOperationsRequest {
 
 message ListDesktopGroupOperationsResponse {
   reserved 2 to 21;
+
   // List of operations for the specified desktop group.
   repeated operation.Operation operations = 1;
 
@@ -242,13 +258,91 @@ message ListDesktopGroupOperationsResponse {
   string next_page_token = 22;
 }
 
+message CreateDesktopGroupRequest {
+  reserved 1, 4 to 10, 13 to 20;
+
+  // ID of the folder to create a DesktopGroup in.
+  // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // An image used to create a desktop boot disk
+  string desktop_image_id = 3 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the DesktopGroup.
+  // The name must be unique within the folder.
+  string name = 11 [(pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])"];
+
+  // Description of the DesktopGroup.
+  string description = 12 [(length) = "<=1024"];
+
+  // Desktop group labels.
+  map<string, string> labels = 26 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+
+  // Resource specification of the desktop group.
+  ResourcesSpec resources_spec = 21;
+
+  // Network interface specification of the desktop group.
+  NetworkInterfaceSpec network_interface_spec = 22;
+
+  // Boot disk specification of the desktop group.
+  DiskSpec boot_disk_spec = 23;
+
+  // Data disk specification of the desktop group.
+  DiskSpec data_disk_spec = 24;
+
+  // Configuration of the desktop group.
+  DesktopGroupConfiguration group_config = 25;
+}
+
+message CreateDesktopGroupMetadata {
+  // ID of the desktop group that is being created.
+  string desktop_group_id = 1;
+}
+
+message DeleteDesktopGroupRequest {
+  // ID of the desktop group to delete.
+  // To get a desktop group ID make a [DesktopGroupService.List] request.
+  string desktop_group_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message DeleteDesktopGroupMetadata {
+  // ID of the desktop group that is being deleted.
+  string desktop_group_id = 1;
+}
+
+message UpdateDesktopGroupMetadata {
+  // ID of the desktop group that is being updated.
+  string desktop_group_id = 1;
+}
+
 message UpdateDesktopGroupRequest {
   reserved 8 to 9;
-  // ID of the desktop group to update.
-  string desktop_group_id = 1 [(required) = true, (length) = "<=50"];
 
   // Field mask that specifies which fields of the desktop group should be updated.
   google.protobuf.FieldMask update_mask = 2;
+
+  // ID of the desktop group to update.
+  string desktop_group_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // New desktop image ID.
   string desktop_image_id = 3 [(length) = "<=50"];
@@ -261,18 +355,17 @@ message UpdateDesktopGroupRequest {
 
   // New desktop group labels.
   map<string, string> labels = 6 [
-    (size) = "<=64", 
-    (length) = "<=63", 
-    (pattern) = "[-_0-9a-z]*", 
-    (map_key).length = "1-63", 
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
   ];
 
   // Resources specification of the desktop group.
   ResourcesSpec resources_spec = 7;
-
-  // Configuration of the desktop group.
-  DesktopGroupConfiguration group_config = 10;
 
   // Boot disk specification of the desktop group.
   DiskSpec boot_disk_spec = 11;
@@ -280,7 +373,9 @@ message UpdateDesktopGroupRequest {
   // Data disk specification of the desktop group.
   DiskSpec data_disk_spec = 12;
 
-  // Update policy of the desktop group. 
+  // Configuration of the desktop group.
+  DesktopGroupConfiguration group_config = 10;
+  // Update policy of the desktop group.
   oneof update_policy {
     // Update automatically
     AutoUpdatePolicy auto_update_policy = 13;
@@ -288,78 +383,4 @@ message UpdateDesktopGroupRequest {
     // Update manually
     ManualUpdatePolicy manual_update_policy = 14;
   }
-}
-
-message CreateDesktopGroupRequest {
-  reserved 13 to 20;
-  reserved 4 to 10;
-  // ID of the folder to create a DesktopGroup in.
-  //
-  // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
-  string folder_id = 2 [
-    (required) = true,
-    (length) = "<=50"
-  ];
-
-  // An image used to create a desktop boot disk
-  string desktop_image_id = 3 [
-    (required) = true,
-    (length) = "<=50"
-  ];
-
-  // Name of the DesktopGroup.
-  // The name must be unique within the folder.
-  string name = 11 [(pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])"];
-
-  // Description of the DesktopGroup.
-  string description = 12 [(length) = "<=1024"];
-
-  // Resource specification of the desktop group.
-  ResourcesSpec resources_spec = 21;
-
-  // Network interface specification of the desktop group.
-  NetworkInterfaceSpec network_interface_spec = 22;
-
-  // Boot disk specification of the desktop group.
-  DiskSpec boot_disk_spec = 23;
-  
-  // Data disk specification of the desktop group.
-  DiskSpec data_disk_spec = 24;
-
-  // Configuration of the desktop group.
-  DesktopGroupConfiguration group_config = 25;
-
-  // Desktop group labels.
-  map<string, string> labels = 26 [
-      (size) = "<=64",
-      (length) = "<=63",
-      (pattern) = "[-_0-9a-z]*", 
-      (map_key).length = "1-63", 
-      (map_key).pattern = "[a-z][-_0-9a-z]*"
-  ];
-}
-
-message CreateDesktopGroupMetadata {
-  // ID of the desktop group that is being created.
-  string desktop_group_id = 1;
-}
-
-message DeleteDesktopGroupRequest {
-  // ID of the desktop group to delete.
-  //
-  // To get a desktop group ID make a [DesktopGroupService.List] request.
-  string desktop_group_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
-}
-
-message DeleteDesktopGroupMetadata {
-  // ID of the desktop group that is being deleted.
-  string desktop_group_id = 1;
-}
-
-message UpdateDesktopGroupMetadata {
-  // ID of the desktop group that is being updated.
-  string desktop_group_id = 1;
 }

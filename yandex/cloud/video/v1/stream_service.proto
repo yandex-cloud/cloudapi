@@ -188,19 +188,6 @@ message BatchGetStreamsResponse {
 message CreateStreamRequest {
   reserved 7 to 199, 201 to 999;
 
-  // Specifies the stream scheduling type (exactly one must be chosen).
-  oneof stream_type {
-    option (exactly_one) = true;
-
-    // On-demand stream that starts immediately when a video signal appears.
-    // This type of stream has no predetermined start or end time.
-    OnDemandParams on_demand = 1000;
-
-    // Scheduled stream that starts and finishes at specified time.
-    // This type of stream has predetermined start and end time.
-    ScheduleParams schedule = 1001;
-  }
-
   // ID of the channel where the stream will be created.
   string channel_id = 1 [
     (length) = "<=50",
@@ -246,6 +233,18 @@ message CreateStreamRequest {
     (pattern) = "[-_.@:/0-9a-zA-Z]*",
     (size) = "<=64"
   ];
+  // Specifies the stream scheduling type (exactly one must be chosen).
+  oneof stream_type {
+    option (exactly_one) = true;
+
+    // On-demand stream that starts immediately when a video signal appears.
+    // This type of stream has no predetermined start or end time.
+    OnDemandParams on_demand = 1000;
+
+    // Scheduled stream that starts and finishes at specified time.
+    // This type of stream has predetermined start and end time.
+    ScheduleParams schedule = 1001;
+  }
 }
 
 // On-demand streams start automatically when a video signal is detected
@@ -272,17 +271,6 @@ message CreateStreamMetadata {
 
 message UpdateStreamRequest {
   reserved 3, 8 to 199, 201 to 999;
-
-  // Stream type.
-  oneof stream_type {
-    // On demand stream.
-    // It starts immediately when a signal appears.
-    OnDemandParams on_demand = 1000;
-
-    // Scheduled stream.
-    // It starts and finishes at specified time.
-    ScheduleParams schedule = 1001;
-  }
 
   // ID of the stream.
   string stream_id = 1 [
@@ -321,6 +309,16 @@ message UpdateStreamRequest {
     (pattern) = "[-_.@:/0-9a-zA-Z]*",
     (size) = "<=64"
   ];
+  // Stream type.
+  oneof stream_type {
+    // On demand stream.
+    // It starts immediately when a signal appears.
+    OnDemandParams on_demand = 1000;
+
+    // Scheduled stream.
+    // It starts and finishes at specified time.
+    ScheduleParams schedule = 1001;
+  }
 }
 
 message UpdateStreamMetadata {
@@ -367,6 +365,11 @@ message BatchDeleteStreamsMetadata {
 message PerformStreamActionRequest {
   reserved 2 to 999, 1001;
 
+  // ID of the stream on which to perform the action.
+  string stream_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
   // Specifies which action to perform on the stream (exactly one must be chosen).
   oneof action {
     option (exactly_one) = true;
@@ -379,12 +382,6 @@ message PerformStreamActionRequest {
     // This terminates the streaming session and releases resources.
     StopAction stop = 1002;
   }
-
-  // ID of the stream on which to perform the action.
-  string stream_id = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
 }
 
 // Parameters for the publish action.

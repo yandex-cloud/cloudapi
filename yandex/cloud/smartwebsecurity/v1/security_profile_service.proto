@@ -90,7 +90,11 @@ message CreateSecurityProfileRequest {
   map<string, string> labels = 2;
 
   // Name of the security profile. The name is unique within the folder. 1-50 characters long.
-  string name = 3;
+  string name = 3 [
+    (length) = "1-50",
+    (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*",
+    (required) = true
+  ];
 
   // Optional description of the security profile.
   string description = 4;
@@ -127,7 +131,11 @@ message UpdateSecurityProfileRequest {
   map<string, string> labels = 3;
 
   // Name of the security profile. The name is unique within the folder. 1-50 characters long.
-  string name = 4;
+  string name = 4 [
+    (length) = "1-50",
+    (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*",
+    (required) = false
+  ];
 
   // Optional description of the security profile.
   string description = 5;

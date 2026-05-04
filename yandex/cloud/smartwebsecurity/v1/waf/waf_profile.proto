@@ -173,7 +173,7 @@ message WafProfile {
   string name = 4 [
     (length) = "1-50",
     (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*",
-    (required) = true
+    (required) = false
   ];
 
   // Optional description of the WAF profile.
@@ -232,6 +232,48 @@ message WafProfileExclusionRule {
     repeated string rule_ids = 2;
   }
 
+  message RequestCondition {
+    message StringMatcher {
+      // String value to match against.
+      string value = 1;
+
+      // Whether the match is case sensitive.
+      bool case_sensitive = 2;
+    }
+
+    message RequestParamMatcher {
+      // List of request query parameter names to match. Up to 20 entries.
+      repeated StringMatcher param_names = 1 [(size) = "<=20"];
+    }
+
+    message HeaderMatcher {
+      // List of request header names to match. Up to 20 entries.
+      repeated StringMatcher header_names = 1 [(size) = "<=20"];
+    }
+
+    message CookieMatcher {
+      // List of cookie names to match. Up to 20 entries.
+      repeated StringMatcher cookie_names = 1 [(size) = "<=20"];
+    }
+
+    message BodyMatcher {
+      // List of request body values to match. Up to 20 entries.
+      repeated StringMatcher body_values = 1 [(size) = "<=20"];
+    }
+
+    // Matcher for request query parameters.
+    RequestParamMatcher param_matcher = 1;
+
+    // Matcher for request headers.
+    HeaderMatcher header_matcher = 2;
+
+    // Matcher for request cookies.
+    CookieMatcher cookie_matcher = 3;
+
+    // Matcher for request body.
+    BodyMatcher body_matcher = 4;
+  }
+
   // Name of exclusion rule.
   string name = 1 [(required) = true];
 
@@ -246,6 +288,9 @@ message WafProfileExclusionRule {
 
   // Records the fact that an exception rule is triggered.
   bool log_excluded = 5;
+
+  // Additional condition applied to specific parts of the request to refine when the exclusion is triggered.
+  RequestCondition request_condition = 6;
 }
 
 // A RuleSet object. Determines name and version of rule set.

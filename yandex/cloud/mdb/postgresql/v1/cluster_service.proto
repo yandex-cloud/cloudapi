@@ -44,6 +44,7 @@ import "yandex/cloud/mdb/postgresql/v1/database.proto";
 import "yandex/cloud/mdb/postgresql/v1/backup_retention_policy.proto";
 import "yandex/cloud/mdb/postgresql/v1/maintenance.proto";
 import "yandex/cloud/mdb/postgresql/v1/user.proto";
+import "yandex/cloud/mdb/v1/connectionmanager.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -1007,6 +1008,7 @@ message ConfigSpec {
   reserved 14;
   reserved 20;
   reserved 26;
+  reserved 31;
   // Version of PostgreSQL used in the cluster.
   // Possible values: `11`, `12`, `13`, `13_1c`, `14`, `14_1c`, `15`, `15_1c`, `16`, `16_1c`, `17`, `17_1c`, `18`, `18_1c`
   string version = 1;
@@ -1079,6 +1081,9 @@ message ConfigSpec {
 
   // Disk size autoscaling
   DiskSizeAutoscaling disk_size_autoscaling = 23;
+
+  // Cluster-wide Connection Manager integration configuration
+  yandex.cloud.mdb.v1.ClusterConnectionManager connection_manager = 32;
 }
 
 message ConfigHostSpec {
