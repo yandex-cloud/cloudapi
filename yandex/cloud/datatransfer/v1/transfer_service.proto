@@ -55,6 +55,7 @@ service TransferService {
   };
 
   // Returns the specified transfer.
+  //
   // To get the list of all available transfers, make a [List] request.
   rpc Get(GetTransferRequest) returns (Transfer) {
     option (google.api.http) = {
@@ -63,6 +64,7 @@ service TransferService {
   };
 
   // Deactivates the specified transfer.
+  //
   // To get the list of all available transfers, make a [List] request.
   rpc Deactivate(DeactivateTransferRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -76,6 +78,7 @@ service TransferService {
   };
 
   // Activates the specified transfer.
+  //
   // To get the list of all available transfers, make a [List] request.
   rpc Activate(ActivateTransferRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -103,6 +106,7 @@ message CreateTransferRequest {
   string description = 3;
 
   // ID of the folder to create the transfer in.
+  //
   // To get the folder ID, make a
   // [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 4;
@@ -113,6 +117,7 @@ message CreateTransferRequest {
   string name = 7;
 
   // Transfer labels as `key:value` pairs.
+  //
   // For details about the concept, see [documentation]({{ api-url-prefix
   // }}/resource-manager/concepts/labels).
   map<string, string> labels = 8;
@@ -147,6 +152,7 @@ message UpdateTransferRequest {
   google.protobuf.FieldMask update_mask = 5;
 
   // Transfer labels as `key:value` pairs.
+  //
   // For details about the concept, see [documentation]({{ api-url-prefix
   // }}/resource-manager/concepts/labels).
   map<string, string> labels = 6;
@@ -173,6 +179,7 @@ message ListTransfersRequest {
   reserved 1;
 
   // Identifier of the folder containing the transfers to be listed.
+  //
   // To get the folder ID, make a
   // [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 2;
@@ -209,12 +216,14 @@ message ListTransfersResponse {
 
 message GetTransferRequest {
   // Identifier of the transfer to be returned.
+  //
   // To get the list of all available transfers, make a [List] request.
   string transfer_id = 1;
 }
 
 message DeactivateTransferRequest {
   // Identifier of the transfer to be deactivated.
+  //
   // To get the list of all available transfers, make a [List] request.
   string transfer_id = 1;
 }
@@ -225,6 +234,7 @@ message DeactivateTransferMetadata {
 
 message ActivateTransferRequest {
   // Identifier of the transfer to be activated.
+  //
   // To get the list of all available transfers, make a [List] request.
   string transfer_id = 1;
 }

@@ -10,70 +10,87 @@ option java_package = "yandex.cloud.api.datatransfer.v1.endpoint";
 
 message PostgresObjectTransferSettings {
   // Sequences
+  //
   // CREATE SEQUENCE ...
   ObjectTransferStage sequence = 1;
 
   // Owned sequences
+  //
   // CREATE SEQUENCE ... OWNED BY ...
   ObjectTransferStage sequence_owned_by = 2;
 
   // Tables
+  //
   // CREATE TABLE ...
   ObjectTransferStage table = 3;
 
   // Primary keys
+  //
   // ALTER TABLE ... ADD PRIMARY KEY ...
   ObjectTransferStage primary_key = 4;
 
   // Foreign keys
+  //
   // ALTER TABLE ... ADD FOREIGN KEY ...
   ObjectTransferStage fk_constraint = 5;
 
   // Default values
+  //
   // ALTER TABLE ... ALTER COLUMN ... SET DEFAULT ...
   ObjectTransferStage default_values = 6;
 
   // Constraints
+  //
   // ALTER TABLE ... ADD CONSTRAINT ...
   ObjectTransferStage constraint = 7;
 
   // Indexes
+  //
   // CREATE INDEX ...
   ObjectTransferStage index = 8;
 
   // Views
+  //
   // CREATE VIEW ...
   ObjectTransferStage view = 9;
 
   // Functions
+  //
   // CREATE FUNCTION ...
   ObjectTransferStage function = 10;
 
   // Triggers
+  //
   // CREATE TRIGGER ...
   ObjectTransferStage trigger = 11;
 
   // Types
+  //
   // CREATE TYPE ...
   ObjectTransferStage type = 12;
 
   // Rules
+  //
   // CREATE RULE ...
   ObjectTransferStage rule = 13;
 
   // Collations
+  //
   // CREATE COLLATION ...
   ObjectTransferStage collation = 14;
 
   // Policies
+  //
   // CREATE POLICY ...
   ObjectTransferStage policy = 15;
 
   // Casts
+  //
   // CREATE CAST ...
   ObjectTransferStage cast = 16;
 
   // Materialized views
+  //
   // CREATE MATERIALIZED VIEW ...
   ObjectTransferStage materialized_view = 17;
   ObjectTransferStage sequence_set = 18;

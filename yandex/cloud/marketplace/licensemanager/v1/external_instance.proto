@@ -7,32 +7,34 @@ option java_package = "yandex.cloud.api.marketplace.licensemanager.v1";
 
 // ExternalInstance attachment to external service subscription.
 message ExternalInstance {
-    // Optional external subscription name.
-    string name = 1;
+  reserved 2 to 20;
 
-    reserved 2 to 20;
+  // Optional external subscription name.
+  string name = 1;
 
-    // Mapping of vendor defined properties in key, value format.
-    map<string,string> properties = 21;
-
-    oneof vendor {
-        ExternalSubscription subscription = 22;
-        ExternalLicense           license = 23;
-    }
+  // Mapping of vendor defined properties in key, value format.
+  map<string, string> properties = 21;
+  oneof vendor {
+    ExternalSubscription subscription = 22;
+    ExternalLicense license = 23;
+  }
 }
 
 message ExternalSubscription {
-    // External subscription id.
-    string subscription_id = 1;
-    // Optional: paired license id for external subscription.
-    string license_id      = 2;
-    // Optional: default activation key for external subscription.
-    string activation_key  = 3;
+  // External subscription id.
+  string subscription_id = 1;
+
+  // Optional: paired license id for external subscription.
+  string license_id = 2;
+
+  // Optional: default activation key for external subscription.
+  string activation_key = 3;
 }
 
 message ExternalLicense {
-    // External license bound to subscription instance. 
-    string     license_id = 1;
-    // License (vendor specific) payload. 
-    bytes         payload = 2;
+  // External license bound to subscription instance.
+  string license_id = 1;
+
+  // License (vendor specific) payload.
+  bytes payload = 2;
 }

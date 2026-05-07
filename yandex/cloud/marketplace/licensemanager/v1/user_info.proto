@@ -6,12 +6,15 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/marketplac
 option java_package = "yandex.cloud.api.marketplace.licensemanager.v1";
 
 message UserInfo {
-    // ID, reserved field
-    string id = 1;
-    // Name of legal person
-    string name = 2;
-    // INN of legal person
-    string inn = 3;
-    // KPP of legal person
-    string kpp = 4;
+  // ID, reserved field
+  string id = 1;
+
+  // Name of legal person
+  string name = 2;
+
+  // INN of legal person
+  string inn = 3;
+
+  // KPP of legal person
+  string kpp = 4;
 }

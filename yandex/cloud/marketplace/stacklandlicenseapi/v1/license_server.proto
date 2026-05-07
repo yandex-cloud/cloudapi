@@ -17,10 +17,16 @@ message LicenseServerMetadata {
 // Request to register a license server
 message RegisterRequest {
   // Organization ID
-  string organization_id = 1 [(required) = true, (length) = "<=50"];
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Billing account ID
-  string billing_account_id = 2 [(required) = true, (length) = "<=50"];
+  string billing_account_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Optional metadata for the license server
   LicenseServerMetadata metadata = 3;
@@ -48,6 +54,7 @@ message LicenseServer {
 message RegisterLicenseServerMetadata {
   // Organization ID
   string organization_id = 1;
+
   // Billing account ID
   string billing_account_id = 2;
 }

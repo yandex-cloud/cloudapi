@@ -116,6 +116,7 @@ service EpisodeService {
   // Retrieves the manifest URLs for the episode's media content.
   // Manifests provide players with necessary information
   // for streaming the content with different quality levels and formats.
+  //
   // Manifests and their urls MUST not be cached.
   // The player MUST request a fresh manifest every time playback starts.
   rpc GetManifests(GetEpisodeManifestsRequest) returns (GetEpisodeManifestsResponse) {
@@ -166,10 +167,13 @@ message ListEpisodesRequest {
   // Expressions consist of terms connected by logical operators.
   // Values containing spaces or quotes must be enclosed in quotes (`'` or `"`)
   // with inner quotes being backslash-escaped.
+  //
   // Supported logical operators: ["AND", "OR"].
   // Supported comparison operators: ["=", "!=", ":"] where ":" enables substring matching.
   // Parentheses can be used to group logical expressions.
+  //
   // Example: `title:'highlight' AND id='episode-1'`
+  //
   // Filterable fields: ["id", "title"].
   // Both snake_case and camelCase field names are supported.
   string filter = 103 [(length) = "<=1000"];
@@ -304,6 +308,7 @@ message UpdateEpisodeRequest {
 
   // Enables episode DVR mode.
   // Determines how many last seconds of the stream are available.
+  //
   // Possible values:
   // * `0`: infinite dvr size, the full length of the stream allowed to display
   // * `>0`: size of dvr window in seconds, the minimum value is 30s

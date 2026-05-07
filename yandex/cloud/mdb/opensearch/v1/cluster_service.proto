@@ -99,6 +99,8 @@ service ClusterService {
     };
   }
 
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // False positive. "Reschedule" is a verb. --)
   // Reschedules a planned maintenance operation.
   rpc RescheduleMaintenance(RescheduleMaintenanceRequest) returns (operation.Operation) {
     option (google.api.http) = {
@@ -152,6 +154,10 @@ service ClusterService {
     option (google.api.http) = {get: "/managed-opensearch/v1/clusters/{cluster_id}:logs"};
   }
 
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // False positive. "Stream" is a verb. --)
+  // (-- api-linter: yc::1705::http-method-mapping=disabled
+  // Backend already works using GET. --)
   // Same as ListLogs but using server-side streaming. Also allows for 'tail -f' semantics.
   rpc StreamLogs(StreamClusterLogsRequest) returns (stream StreamLogRecord) {
     option (google.api.http) = {get: "/managed-opensearch/v1/clusters/{cluster_id}:stream_logs"};
@@ -167,6 +173,8 @@ service ClusterService {
     option (google.api.http) = {get: "/managed-opensearch/v1/clusters/{cluster_id}/hosts"};
   }
 
+  // (-- api-linter: yc::1705::custom-method-colon=disabled
+  // Required for backward compatibility with old clients. --)
   // Creates an OpenSearch type host group.
   rpc AddOpenSearchNodeGroup(AddOpenSearchNodeGroupRequest) returns (operation.Operation) {
     option (google.api.http) = {
@@ -200,6 +208,8 @@ service ClusterService {
     };
   }
 
+  // (-- api-linter: yc::1705::custom-method-colon=disabled
+  // Required for backward compatibility with old clients. --)
   // Creates a Dashboards type host group.
   rpc AddDashboardsNodeGroup(AddDashboardsNodeGroupRequest) returns (operation.Operation) {
     option (google.api.http) = {
@@ -250,6 +260,8 @@ service ClusterService {
     };
   }
 
+  // (-- api-linter: yc::1705::custom-method-colon=disabled
+  // Required for backward compatibility with old clients. --)
   // Restarts OpenSearch on specified host.
   rpc RestartOpenSearch(RestartOpenSearchRequest) returns (operation.Operation) {
     option (google.api.http) = {post: "/managed-opensearch/v1/clusters/{cluster_id}/host/{host}"};
@@ -259,6 +271,8 @@ service ClusterService {
     };
   }
 
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // False positive. "Switch" is a verb. --)
   // Switches current master or ensures that master not on specified hosts.
   rpc SwitchMaster(SwitchMasterRequest) returns (operation.Operation) {
     option (google.api.http) = {
@@ -778,8 +792,11 @@ message ConfigCreateSpec {
   // Access policy for external services.
   Access access = 5;
 
-  // Snapshot management configuration
+  // Snapshot management configuration.
   SnapshotManagement snapshot_management = 6;
+
+  // Audit log settings.
+  AuditLog audit_log = 7;
 }
 
 // Single keystore entry.
@@ -836,6 +853,7 @@ message OpenSearchCreateSpec {
   repeated NodeGroup node_groups = 2;
 
   oneof config {
+    // OpenSearch server configuration settings.
     config.OpenSearchConfig2 opensearch_config_2 = 3 [json_name = "opensearchConfig_2"];
   }
 
@@ -895,8 +913,11 @@ message ConfigUpdateSpec {
   // Access policy for external services.
   Access access = 5;
 
-  // Snapshot management configuration
+  // Snapshot management configuration.
   SnapshotManagement snapshot_management = 6;
+
+  // Audit log settings.
+  AuditLog audit_log = 7;
 }
 
 message OpenSearchClusterUpdateSpec {
@@ -904,6 +925,7 @@ message OpenSearchClusterUpdateSpec {
   repeated string plugins = 1;
 
   oneof config {
+    // OpenSearch server configuration settings.
     config.OpenSearchConfig2 opensearch_config_2 = 2 [json_name = "opensearchConfig_2"];
   }
 

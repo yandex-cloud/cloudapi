@@ -12,14 +12,19 @@ option java_package = "yandex.cloud.api.marketplace.stacklandlicenseapi.v1";
 enum ProductType {
   // Unspecified product type.
   PRODUCT_TYPE_UNSPECIFIED = 0;
+
   // Stackland product.
   PRODUCT_TYPE_STACKLAND = 1;
+
   // DataLens product.
   PRODUCT_TYPE_DATALENS = 2;
+
   // AI Studio product.
   PRODUCT_TYPE_AI_STUDIO = 3;
+
   // SpeechSense product.
   PRODUCT_TYPE_SPEECHSENSE = 4;
+
   // Robotics AI product.
   PRODUCT_TYPE_ROBOTICS_AI = 5;
 }
@@ -27,13 +32,19 @@ enum ProductType {
 // Usage data entry for a single installation
 message UsageEntry {
   // Installation ID
-  string installation_id = 1 [(required) = true, (length) = "<=100"];
+  string installation_id = 1 [
+    (length) = "<=100",
+    (required) = true
+  ];
 
   // Product type
   ProductType product_type = 2;
 
   // Usage metric type (e.g., "stackland.vcpu.cores")
-  string type = 3 [(required) = true, (length) = "<=100"];
+  string type = 3 [
+    (length) = "<=100",
+    (required) = true
+  ];
 
   // Usage value
   int64 usage = 4;
@@ -45,7 +56,10 @@ message UsageEntry {
   string hardware_fingerprint = 6 [(length) = "<=500"];
 
   // License ID this usage applies to
-  string license_id = 7 [(required) = true, (length) = "<=100"];
+  string license_id = 7 [
+    (length) = "<=100",
+    (required) = true
+  ];
 
   // Requested license limit value (optional)
   int64 requested_value = 8;
@@ -54,13 +68,22 @@ message UsageEntry {
   google.protobuf.Timestamp server_timestamp = 9 [(required) = true];
 
   // Previous record's hash in the chain (64 hex characters)
-  string prev_record_hash = 10 [(required) = true, (length) = "64"];
+  string prev_record_hash = 10 [
+    (length) = "64",
+    (required) = true
+  ];
 
   // SHA-256 hash of this record (64 hex characters)
-  string record_hash = 11 [(required) = true, (length) = "64"];
+  string record_hash = 11 [
+    (length) = "64",
+    (required) = true
+  ];
 
   // RSA-PSS signature of the record hash (base64-encoded)
-  string signature = 12 [(required) = true, (length) = "<=1000"];
+  string signature = 12 [
+    (length) = "<=1000",
+    (required) = true
+  ];
 }
 
 // License limit for a specific metric type
@@ -103,10 +126,13 @@ message License {
 enum SyncStatus {
   // Unspecified sync status.
   SYNC_STATUS_UNSPECIFIED = 0;
+
   // Sync completed successfully.
   OK = 1;
+
   // Sync completed with warnings.
   WARNING = 2;
+
   // Sync failed with errors.
   ERROR = 3;
 }
@@ -114,13 +140,22 @@ enum SyncStatus {
 // Request to synchronize licenses and submit usage data
 message SyncRequest {
   // Organization ID
-  string organization_id = 1 [(required) = true, (length) = "<=50"];
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Billing account ID
-  string billing_account_id = 2 [(required) = true, (length) = "<=50"];
+  string billing_account_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // License server ID
-  string license_server_id = 3 [(required) = true, (length) = "<=100"];
+  string license_server_id = 3 [
+    (length) = "<=100",
+    (required) = true
+  ];
 
   // Usage data for audit
   repeated UsageEntry usage = 4 [(size) = "<=1000"];
@@ -142,8 +177,10 @@ message SyncUsageResult {
 message SyncUsageMetadata {
   // Organization ID
   string organization_id = 1;
+
   // Billing account ID
   string billing_account_id = 2;
+
   // License server ID
   string license_server_id = 3;
 }

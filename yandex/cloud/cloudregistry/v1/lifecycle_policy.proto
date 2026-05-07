@@ -68,6 +68,9 @@ message LifecycleRule {
 
   // Regular expression pattern to match package version or docker tag.
   string version_regexp = 7;
+
+  // Description of the lifecycle policy rule
+  string description = 8;
 }
 
 // Docker-specific filters for lifecycle rules.

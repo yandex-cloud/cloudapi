@@ -11,142 +11,204 @@ option java_package = "yandex.cloud.api.mdb.mysql.v1.config";
 // Options and structure of `MysqlConfig8_4` reflects MySQL 8.4 configuration file
 message MysqlConfig8_4 {
   enum SQLMode {
+
+    // Unspecified.
     SQLMODE_UNSPECIFIED = 0;
 
+    // Allow dates where the day or month part is 0. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_allow_invalid_dates).
     ALLOW_INVALID_DATES = 1;
 
+    // Treat `"` as an identifier quote character (like the `` ` `` quote character) rather than as a string quote character. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_ansi_quotes).
     ANSI_QUOTES = 2;
 
+    // Produce an error for divisions by zero. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_error_for_division_by_zero).
     ERROR_FOR_DIVISION_BY_ZERO = 3;
 
+    // Give `NOT` higher precedence in negation than it has in non-high-precedence mode. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_high_not_precedence).
     HIGH_NOT_PRECEDENCE = 4;
 
+    // Allow spaces between a function name and the `(` character. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_ignore_space).
     IGNORE_SPACE = 5;
 
+    // Do not reset the AUTO_INCREMENT column to 0 when inserting 0 into it. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_no_auto_value_on_zero).
     NO_AUTO_VALUE_ON_ZERO = 6;
 
+    // Disable the use of the backslash character (`\`) as an escape character within strings. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_no_backslash_escapes).
     NO_BACKSLASH_ESCAPES = 7;
 
+    // Do not substitute the default storage engine when a statement specifies a storage engine that is disabled or not compiled in. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_no_engine_substitution).
     NO_ENGINE_SUBSTITUTION = 8;
 
+    // Disable unsigned subtraction so that subtraction results are always signed. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_no_unsigned_subtraction).
     NO_UNSIGNED_SUBTRACTION = 9;
 
+    // Disable the MySQL-specific date `0000-00-00`. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_no_zero_date).
     NO_ZERO_DATE = 10;
 
+    // Disable month or day parts of `0` in dates. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_no_zero_in_date).
     NO_ZERO_IN_DATE = 11;
 
+    // Reject queries for which the select list, `HAVING` condition, or `ORDER BY` list refer to non-aggregated columns that are not named in the `GROUP BY` clause. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_only_full_group_by).
     ONLY_FULL_GROUP_BY = 15;
 
+    // Pad `CHAR` column values with spaces to the full column length when retrieving them. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_pad_char_to_full_length).
     PAD_CHAR_TO_FULL_LENGTH = 16;
 
+    // Treat `||` as a string concatenation operator rather than as `OR`. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_pipes_as_concat).
     PIPES_AS_CONCAT = 17;
 
+    // Treat `REAL` as a synonym for `FLOAT` rather than `DOUBLE`. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_real_as_float).
     REAL_AS_FLOAT = 18;
 
+    // Strict mode for all storage engines. Invalid data values cause errors, not warnings. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_strict_all_tables).
     STRICT_ALL_TABLES = 19;
 
+    // Strict mode for transactional storage engines. Invalid data values cause errors, not warnings. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_strict_trans_tables).
     STRICT_TRANS_TABLES = 20;
 
+    // Causes fractional seconds to be truncated rather than rounded when inserting into a column that has a data type with a fractional seconds part. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_time_truncate_fractional).
     TIME_TRUNCATE_FRACTIONAL = 21;
 
+    // Equivalent to `REAL_AS_FLOAT`, `PIPES_AS_CONCAT`, `ANSI_QUOTES`, `IGNORE_SPACE`, and `ONLY_FULL_GROUP_BY`. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_ansi).
     ANSI = 22;
 
+    // Equivalent to `STRICT_TRANS_TABLES`, `STRICT_ALL_TABLES`, `NO_ZERO_IN_DATE`, `NO_ZERO_DATE`, `ERROR_FOR_DIVISION_BY_ZERO`, and `NO_ENGINE_SUBSTITUTION`. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_traditional).
     TRADITIONAL = 23;
 
+    // Prevent the use of `..` in directory paths in `CREATE TABLE` statements. See [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html#sqlmode_no_dir_in_create).
     NO_DIR_IN_CREATE = 24;
   }
 
   enum AuthPlugin {
+    // Unspecified.
     AUTH_PLUGIN_UNSPECIFIED = 0;
 
+    // Using [Native Pluggable Authentication](https://dev.mysql.com/doc/refman/8.4/en/native-pluggable-authentication.html).
     MYSQL_NATIVE_PASSWORD = 1;
 
+    // Using [Caching SHA-2 Pluggable Authentication](https://dev.mysql.com/doc/refman/8.4/en/caching-sha2-pluggable-authentication.html).
     CACHING_SHA2_PASSWORD = 2;
 
+    // Using [SHA-256 Pluggable Authentication](https://dev.mysql.com/doc/refman/8.4/en/sha256-pluggable-authentication.html).
     SHA256_PASSWORD = 3;
 
+    // Use [MYSQL_NO_LOGIN Pluggable Authentication](https://dev.mysql.com/doc/refman/8.4/en/no-login-pluggable-authentication.html).
     MYSQL_NO_LOGIN = 4;
 
+    // Use [IAM Pluggable Authentication](https://yandex.cloud/en/docs/iam/concepts/authorization/).
     MDB_IAMPROXY_AUTH = 5;
   }
 
   enum TransactionIsolation {
+    // Unspecified.
     TRANSACTION_ISOLATION_UNSPECIFIED = 0;
 
+    // Read committed isolation level. A consistent read within the same transaction reads the snapshot established by the first read.
     READ_COMMITTED = 1;
 
+    // Repeatable read isolation level. All consistent reads within the same transaction read the snapshot established by the first read.
     REPEATABLE_READ = 2;
 
+    // Serializable isolation level. All statements implicitly convert to SELECT ... FOR SHARE if autocommit is disabled.
     SERIALIZABLE = 3;
   }
 
   enum BinlogRowImage {
-      BINLOG_ROW_IMAGE_UNSPECIFIED = 0;
+    // Unspecified.
+    BINLOG_ROW_IMAGE_UNSPECIFIED = 0;
 
-      FULL = 1;
+    // Log all columns (full row image).
+    FULL = 1;
 
-      MINIMAL = 2;
+    // Log only changed columns and columns needed to identify the row.
+    MINIMAL = 2;
 
-      NOBLOB = 3;
+    // Log all columns except BLOB and TEXT columns.
+    NOBLOB = 3;
   }
 
   enum SlaveParallelType {
-      SLAVE_PARALLEL_TYPE_UNSPECIFIED = 0;
+    // Unspecified.
+    SLAVE_PARALLEL_TYPE_UNSPECIFIED = 0;
 
-      DATABASE = 1;
+    // Transactions are parallelized per database (schema).
+    DATABASE = 1;
 
-      LOGICAL_CLOCK = 2;
+    // Transactions are parallelized using the logical clock algorithm based on the binary log group commit.
+    LOGICAL_CLOCK = 2;
   }
 
   enum LogSlowRateType {
+    // Unspecified.
     LOG_SLOW_RATE_TYPE_UNSPECIFIED = 0;
 
+    // Logging is controlled per session.
     SESSION = 1;
 
+    // Logging is controlled per query.
     QUERY = 2;
   }
 
   enum LogSlowFilterType {
+    // Unspecified.
     LOG_SLOW_FILTER_TYPE_UNSPECIFIED = 0;
 
+    // Queries that perform a full table scan.
     FULL_SCAN = 1;
 
+    // Queries that perform a full join (a join without indexes).
     FULL_JOIN = 2;
 
+    // Queries that create an implicit internal temporary table.
     TMP_TABLE = 3;
 
+    // Queries that create an implicit internal temporary table on disk.
     TMP_TABLE_ON_DISK = 4;
 
+    // Queries that use a filesort.
     FILESORT = 5;
 
+    // Queries that use a filesort on disk.
     FILESORT_ON_DISK = 6;
   }
 
   enum AuditLogPolicy {
+    // Unspecified.
     AUDIT_LOG_POLICY_UNSPECIFIED = 0;
 
+    // Log all events.
     ALL = 1;
 
+    // Log only login events.
     LOGINS = 2;
 
+    // Log only query events.
     QUERIES = 3;
 
+    // Do not log events.
     NONE = 4;
   }
 
   enum InnodbChangeBuffering {
+    // Unspecified.
     INNODB_CHANGE_BUFFERING_UNSPECIFIED = 0;
 
+    // Do not buffer any operations.
     INNODB_CHANGE_BUFFERING_NONE = 1;
 
+    // Buffer insert operations.
     INNODB_CHANGE_BUFFERING_INSERTS = 2;
 
+    // Buffer delete-marking operations.
     INNODB_CHANGE_BUFFERING_DELETES = 3;
 
+    // Buffer insert and delete-marking operations.
     INNODB_CHANGE_BUFFERING_CHANGES = 4;
 
+    // Buffer operations where undo log records are discarded.
     INNODB_CHANGE_BUFFERING_PURGES = 5;
 
+    // Buffer all types of eligible operations.
     INNODB_CHANGE_BUFFERING_ALL = 6;
   }
 
@@ -307,7 +369,7 @@ message MysqlConfig8_4 {
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.4/en/server-system-variables.html#sysvar_thread_stack).
   google.protobuf.Int64Value thread_stack = 32 [(value) = "131072-16777216"];
 
-  // The minimum size of the buffer that is used for plain index scans, range index scans, and joins that do not use indexes and thus perform full table scans.
+  // The minimum size of the buffer that is used for plain index scans, range index scans, and joins that don't use indexes and thus perform full table scans.
   //
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.4/en/server-system-variables.html#sysvar_join_buffer_size).
   google.protobuf.Int64Value join_buffer_size = 33 [(value) = "1024-16777216"];
@@ -592,6 +654,11 @@ message MysqlConfig8_4 {
   //
   // For details, see [Percona documentation for the variable](https://dev.mysql.com/doc/refman/8.4/en/server-system-variables.html#sysvar_max_write_lock_count).
   google.protobuf.Int64Value max_write_lock_count = 91 [(value) = ">=1"];
+
+  // Partitions the adaptive hash index search system.
+  //
+  // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.4/en/innodb-parameters.html#sysvar_innodb_adaptive_hash_index_parts)
+  google.protobuf.Int64Value innodb_adaptive_hash_index_parts = 92 [(value) = "1-512"];
 }
 
 message MysqlConfigSet8_4 {

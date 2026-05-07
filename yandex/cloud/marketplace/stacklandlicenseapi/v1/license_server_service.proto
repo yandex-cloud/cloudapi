@@ -15,25 +15,25 @@ option java_package = "yandex.cloud.api.marketplace.stacklandlicenseapi.v1";
 service LicenseServerService {
   // Register a new license server
   rpc Register(RegisterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/marketplace/stackland-license/v1/licenseServers:register"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "RegisterLicenseServerMetadata"
       response: "LicenseServer"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/marketplace/stackland-license/v1/licenseServers:register"
+    };
+  };
 
   // Synchronize: get license limits and submit usage data
   rpc SyncUsage(SyncRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/marketplace/stackland-license/v1/licenseServers:syncUsage"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "SyncUsageMetadata"
       response: "SyncUsageResult"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/marketplace/stackland-license/v1/licenseServers:syncUsage"
+    };
+  };
 }

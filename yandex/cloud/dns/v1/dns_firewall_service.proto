@@ -217,6 +217,7 @@ message CreateDnsFirewallMetadata {
 
 message UpdateDnsFirewallRequest {
   // ID of the DNS firewall to update.
+  //
   // To get the DNS firewall ID, make a [DnsFirewallService.List] request.
   string dns_firewall_id = 1 [(required) = true];
 

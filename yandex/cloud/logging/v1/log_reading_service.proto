@@ -11,6 +11,7 @@ option java_package = "yandex.cloud.api.logging.v1";
 
 // A set of methods for reading from log groups.
 service LogReadingService {
+
   // Read log entries from the specified log group.
   rpc Read(ReadRequest) returns (ReadResponse);
 

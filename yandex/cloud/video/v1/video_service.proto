@@ -143,6 +143,7 @@ service VideoService {
   // Retrieves the manifest URLs for a specific video.
   // Manifests are used by video players to access the video content with adaptive bitrate streaming.
   // Supports different manifest types (HLS, DASH) and configuration parameters.
+  //
   // Manifests and their urls MUST not be cached.
   // The player MUST request a fresh manifest every time playback starts.
   rpc GetManifests(GetVideoManifestsRequest) returns (GetVideoManifestsResponse) {
@@ -212,10 +213,13 @@ message ListVideoRequest {
   // Expressions consist of terms connected by logical operators.
   // Values containing spaces or quotes must be enclosed in quotes (`'` or `"`)
   // with inner quotes being backslash-escaped.
+  //
   // Supported logical operators: ["AND", "OR"].
   // Supported comparison operators: ["=", "!=", ":"] where ":" enables substring matching.
   // Parentheses can be used to group logical expressions.
+  //
   // Example: `title:'sample' AND (status='READY' OR visibilityStatus='PUBLISHED')`
+  //
   // Filterable fields: ["id", "title", "status", "visibilityStatus"].
   // Both snake_case and camelCase field names are supported.
   string filter = 103 [(length) = "<=1000"];

@@ -13,14 +13,18 @@ option java_package = "yandex.cloud.api.marketplace.licensemanager.saas.v1";
 // A set of methods for managing subscription instances.
 service InstanceService {
   // Returns the specified subscription instance.
-  rpc Get(GetInstanceRequest) returns (licensemanager.v1.Instance) {
-    option (google.api.http) = { get: "/marketplace/license-manager/saas/v1/instances/{instance_id}" };
-  }
+  rpc Get(GetInstanceRequest) returns (yandex.cloud.marketplace.licensemanager.v1.Instance) {
+    option (google.api.http) = {
+      get: "/marketplace/license-manager/saas/v1/instances/{instance_id}"
+    };
+  };
 
   // Returns information about legal person (Russia only) who owns this subscription instance.
-  rpc GetUserInfo(GetUserInfoRequest) returns (licensemanager.v1.UserInfo) {
-    option (google.api.http) = { get: "/marketplace/license-manager/saas/v1/instances/{instance_id}/user_info" };
-  }
+  rpc GetUserInfo(GetUserInfoRequest) returns (yandex.cloud.marketplace.licensemanager.v1.UserInfo) {
+    option (google.api.http) = {
+      get: "/marketplace/license-manager/saas/v1/instances/{instance_id}/user_info"
+    };
+  };
 }
 
 message GetInstanceRequest {

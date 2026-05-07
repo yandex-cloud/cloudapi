@@ -282,6 +282,7 @@ message CreateDnsZoneMetadata {
 
 message UpdateDnsZoneRequest {
   // ID of the DNS zone to update.
+  //
   // To get the DNS zone ID, make a [DnsZoneService.List] request.
   string dns_zone_id = 1 [(length) = "<=255"];
 
@@ -414,6 +415,7 @@ message ListDnsZoneRecordSetsResponse {
 
 message UpdateRecordSetsRequest {
   // ID of the DNS zone to update record sets in.
+  //
   // To get a DNS zone ID, make a [DnsZoneService.List] request.
   string dns_zone_id = 1 [(length) = "<=255"];
 
@@ -429,6 +431,7 @@ message UpdateRecordSetsMetadata {
 
 message UpsertRecordSetsRequest {
   // ID of the DNS zone to upsert record sets to.
+  //
   // To get a DNS zone ID, make a [DnsZoneService.List] request.
   string dns_zone_id = 1 [(length) = "<=255"];
 

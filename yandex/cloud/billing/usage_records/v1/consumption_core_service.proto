@@ -30,6 +30,7 @@ option java_package = "yandex.cloud.api.billing.usage_records.v1";
 // Required permissions:
 // All methods in this service require one of the following permissions on the specified billing account:
 // - `billing.accounts.getReport`
+//
 // Rate limits:
 // This API is limited to 1 request per minute per IP address.
 service ConsumptionCoreService {

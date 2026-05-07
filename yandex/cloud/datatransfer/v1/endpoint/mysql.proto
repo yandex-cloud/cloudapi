@@ -41,14 +41,17 @@ message MysqlConnection {
 
 message MysqlObjectTransferSettings {
   // Views
+  //
   // CREATE VIEW ...
   ObjectTransferStage view = 1;
 
   // Routines
+  //
   // CREATE PROCEDURE ... ; CREATE FUNCTION ... ;
   ObjectTransferStage routine = 2;
 
   // Triggers
+  //
   // CREATE TRIGGER ...
   ObjectTransferStage trigger = 3;
   ObjectTransferStage tables = 4;
@@ -62,6 +65,7 @@ message MysqlSource {
   MysqlConnection connection = 1;
 
   // Name of the database to transfer
+  //
   // You can leave it empty, then it will be possible to transfer tables from several
   // databases at the same time from this source.
   string database = 2;
@@ -73,6 +77,7 @@ message MysqlSource {
   Secret password = 4;
 
   // Database timezone
+  //
   // Is used for parsing timestamps for saving source timezones. Accepts values from
   // IANA timezone database. Default: local timezone.
   string timezone = 8;
@@ -111,6 +116,7 @@ message MysqlTarget {
   MysqlConnection connection = 1;
 
   // Database name
+  //
   // Allowed to leave it empty, then the tables will be created in databases with the
   // same names as on the source. If this field is empty, then you must fill below db
   // schema for service table.
@@ -136,6 +142,7 @@ message MysqlTarget {
   bool skip_constraint_checks = 6;
 
   // Database timezone
+  //
   // Is used for parsing timestamps for saving source timezones. Accepts values from
   // IANA timezone database. Default: local timezone.
   string timezone = 7;
