@@ -66,6 +66,18 @@ model_config:
     yandex.cloud.smartwebsecurity.v1.waf.WafProfile.WafProfileRuleSet.WafProfileYaRuleSet:
       fields:
         rule_groups: rule_group
+    yandex.cloud.smartwebsecurity.v1.waf.WafProfileExclusionRule.RequestCondition.RequestParamMatcher:
+      fields:
+        param_names: param_name
+    yandex.cloud.smartwebsecurity.v1.waf.WafProfileExclusionRule.RequestCondition.HeaderMatcher:
+      fields:
+        header_names: header_name
+    yandex.cloud.smartwebsecurity.v1.waf.WafProfileExclusionRule.RequestCondition.CookieMatcher:
+      fields:
+        cookie_names: cookie_name
+    yandex.cloud.smartwebsecurity.v1.waf.WafProfileExclusionRule.RequestCondition.BodyMatcher:
+      fields:
+        body_values: body_value
 
   options:
     yandex.cloud.smartwebsecurity.v1.advanced_rate_limiter.CreateAdvancedRateLimiterProfileRequest.folder_id:

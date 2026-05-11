@@ -16,26 +16,26 @@ message Service {
     // The service is enabled.
     ENABLED = 1;
 
-    // The service is paused.
-    PAUSED = 2;
-
     // The service is disabled.
     DISABLED = 3;
 
     // The service is being enabled.
     ENABLING = 4;
 
-    // The service is being resumed.
-    RESUMING = 5;
-
-    // The service is being paused.
-    PAUSING = 6;
-
     // The service is being disabled.
     DISABLING = 7;
 
     // The service is in error state.
     ERROR = 8;
+
+    // The service is paused.
+    PAUSED = 2;
+
+    // The service is being paused.
+    PAUSING = 6;
+
+    // The service is being resumed.
+    RESUMING = 5;
 
     // The service could be auto enabled.
     DEFAULT = 9;

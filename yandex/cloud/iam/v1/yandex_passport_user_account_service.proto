@@ -12,12 +12,18 @@ option java_package = "yandex.cloud.api.iam.v1";
 // A set of methods for managing YandexPassportUserAccount resources.
 service YandexPassportUserAccountService {
   // Returns the specified YandexPassportUserAccount resource.
-  rpc GetByLogin (GetUserAccountByLoginRequest) returns (UserAccount) {
-    option (google.api.http) = { get: "/iam/v1/yandexPassportUserAccounts:byLogin" };
-  }
+  rpc GetByLogin(GetUserAccountByLoginRequest) returns (UserAccount) {
+    option (google.api.http) = {
+      get: "/iam/v1/yandexPassportUserAccounts:byLogin"
+    };
+  };
+
 }
 
 message GetUserAccountByLoginRequest {
   // Login of the YandexPassportUserAccount resource to return.
-  string login = 1 [(required) = true];
+  string login = 1 [
+    (length) = "<=100",
+    (required) = true
+  ];
 }

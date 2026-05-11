@@ -15,54 +15,107 @@ option java_package = "yandex.cloud.api.iam.v1";
 // A set of methods for managing Service resources.
 service ServiceControlService {
   // Returns the Service information in the specified resource container.
-  //
   // To get the list of available Services, make a [List] request.
-  rpc Get (GetServiceRequest) returns (Service) {
-    option (google.api.http) = { get: "/iam/v1/services/{service_id}" };
-  }
+  rpc Get(GetServiceRequest) returns (Service) {
+    option (google.api.http) = {
+      get: "/iam/v1/services/{service_id}"
+    };
+  };
 
   // Retrieves the list of Service in the specified resource container.
-  rpc List (ListServicesRequest) returns (ListServicesResponse) {
-    option (google.api.http) = { get: "/iam/v1/services" };
-  }
+  rpc List(ListServicesRequest) returns (ListServicesResponse) {
+    option (google.api.http) = {
+      get: "/iam/v1/services"
+    };
+  };
 
   // Enable a service in the specified resource container.
-  rpc Enable (EnableServiceRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/iam/v1/service/{service_id}:enable" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Enable(EnableServiceRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "EnableServiceMetadata"
       response: "Service"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/iam/v1/service/{service_id}:enable"
+    };
+  };
 
   // Disable a service in the specified resource container.
-  rpc Disable (DisableServiceRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/iam/v1/service/{service_id}:disable" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Disable(DisableServiceRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DisableServiceMetadata"
       response: "Service"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/iam/v1/service/{service_id}:disable"
+    };
+  };
 
   // Resolve agent service account for the service in the specified resource container.
-  rpc ResolveAgent (ResolveServiceAgentRequest) returns (ServiceAgent) {
-    option (google.api.http) = { get: "/iam/v1/service/{service_id}/microservice/{microservice_id}" };
+  rpc ResolveAgent(ResolveServiceAgentRequest) returns (ServiceAgent) {
+    option (google.api.http) = {
+      get: "/iam/v1/service/{service_id}/microservice/{microservice_id}"
+    };
   };
+
 }
 
 message GetServiceRequest {
   // ID of the Service.
-  string service_id = 1 [(required) = true, (length) = "<=50"];
+  string service_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Resource container to get a service information in.
-  //
   // It is supported only resource-manager.cloud resource container now.
   Resource resource = 2 [(required) = true];
 }
 
+message EnableServiceRequest {
+  // ID of the Service.
+  string service_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Resource container to enable a service in.
+  // It is supported only resource-manager.cloud resource container now.
+  Resource resource = 2 [(required) = true];
+}
+
+message EnableServiceMetadata {
+  // ID of the Service.
+  string service_id = 1;
+
+  // Resource container.
+  Resource resource = 2;
+}
+
+message DisableServiceRequest {
+  // ID of the Service.
+  string service_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Resource container to disable a service in.
+  // It is supported only resource-manager.cloud resource container now.
+  Resource resource = 2 [(required) = true];
+}
+
+message DisableServiceMetadata {
+  // ID of the Service.
+  string service_id = 1;
+
+  // Resource container.
+  Resource resource = 2;
+}
+
 message ListServicesRequest {
   // Resource container to list a services.
-  //
   // It is supported only resource-manager.cloud resource container now.
   Resource resource = 1 [(required) = true];
 
@@ -92,45 +145,12 @@ message ListServicesResponse {
   string next_page_token = 2;
 }
 
-message EnableServiceRequest {
-  // ID of the Service.
-  string service_id = 1 [(required) = true, (length) = "<=50"];
-
-  // Resource container to enable a service in.
-  //
-  // It is supported only resource-manager.cloud resource container now.
-  Resource resource = 2 [(required) = true];
-}
-
-message EnableServiceMetadata {
-  // ID of the Service.
-  string service_id = 1;
-
-  // Resource container.
-  Resource resource = 2;
-}
-
-message DisableServiceRequest {
-  // ID of the Service.
-  string service_id = 1 [(required) = true, (length) = "<=50"];
-
-  // Resource container to disable a service in.
-  //
-  // It is supported only resource-manager.cloud resource container now.
-  Resource resource = 2 [(required) = true];
-}
-
-message DisableServiceMetadata {
-  // ID of the Service.
-  string service_id = 1;
-
-  // Resource container.
-  Resource resource = 2;
-}
-
 message ResolveServiceAgentRequest {
   // ID of the Service.
-  string service_id = 1 [(required) = true, (length) = "<=50"];
+  string service_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // ID of the Microservice.
   string microservice_id = 2 [(length) = "<=50"];

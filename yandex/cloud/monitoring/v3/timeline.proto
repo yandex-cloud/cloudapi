@@ -6,9 +6,9 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/monitoring
 option java_package = "yandex.cloud.api.monitoring.v3";
 
 message Timeline {
-    // default time window
-    string period = 1;
+  // default time window
+  string period = 1;
 
-    // default refresh interval
-    optional int64 refresh_interval = 2;
+  // default refresh interval
+  optional int64 refresh_interval = 2;
 }

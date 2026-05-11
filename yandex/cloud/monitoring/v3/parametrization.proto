@@ -9,9 +9,11 @@ option java_package = "yandex.cloud.api.monitoring.v3";
 
 // Label values parameter.
 message LabelValuesParameter {
-  reserved 3 to 18;
+  reserved 1, 3 to 18;
+
   // Container id
   oneof container {
+
     // Required. Folder ID.
     string folder_id = 2;
   }
@@ -73,16 +75,17 @@ message TextValuesParameter {
 
 // Workspace parameter.
 message WorkspaceParameter {
-    // Container id
-    oneof container {
-        // Required. Project ID.
-        string project_id = 1;
-        // Required. Folder ID.
-        string folder_id = 2;
-    }
+  // Container id
+  oneof container {
+    // Required. Project ID.
+    string project_id = 1;
 
-    // Default value
-    string default_workspace_id = 3;
+    // Required. Folder ID.
+    string folder_id = 2;
+  }
+
+  // Default value
+  string default_workspace_id = 3;
 }
 
 // User-defined query parameter.
@@ -96,13 +99,12 @@ message QueryParameterCustomItem {
 
 // Regex to search and replace in label values.
 message RelabelItem {
-  /**
-   * Search regex
-   */
+  // *
+  // Search regex
   string find = 1;
-  /**
-   * Replace regex
-   */
+
+  // *
+  // Replace regex
   string replace = 2;
 }
 
@@ -143,11 +145,11 @@ message QueryParameter {
 
   // List of regex for search and replace in label values.
   repeated RelabelItem relabel_items = 4;
-
   // Query parameter datasource settings
   oneof data_source {
     // Monitoring source for QueryParameter.
     MonitoringQuerySource monitoring = 5;
+
     // Prometheus source for QueryParameter.
     PrometheusQuerySource prometheus = 6;
   }
@@ -155,12 +157,13 @@ message QueryParameter {
 
 // Parameter.
 message Parameter {
+  reserved 11 to 13;
+
   // Parameter identifier.
   string name = 1;
 
   // UI-visible title of the parameter.
   string title = 2;
-
   // Parameter data.
   oneof data {
     // Label values parameter.
@@ -193,8 +196,6 @@ message Parameter {
 
   // Parameter description.
   string description = 10;
-
-  reserved 11 to 13;
 
   // Is parameter grouped.
   bool grouped = 14 [deprecated = true];

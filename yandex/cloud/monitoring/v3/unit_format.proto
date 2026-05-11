@@ -6,367 +6,335 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/monitoring
 option java_package = "yandex.cloud.api.monitoring.v3";
 
 enum UnitFormat {
-    UNIT_FORMAT_UNSPECIFIED = 0;
+  UNIT_FORMAT_UNSPECIFIED = 0;
 
-    // Misc.
+  // None (show tick values as-is).
+  UNIT_NONE = 1;
 
-    // None (show tick values as-is).
-    UNIT_NONE = 1;
+  // Count.
+  UNIT_COUNT = 2;
 
-    // Count.
-    UNIT_COUNT = 2;
+  // Percent (0-100).
+  UNIT_PERCENT = 3;
 
-    // Percent (0-100).
-    UNIT_PERCENT = 3;
+  // Percent (0-1).
+  UNIT_PERCENT_UNIT = 4;
 
-    // Percent (0-1).
-    UNIT_PERCENT_UNIT = 4;
+  // Nanoseconds (ns).
+  UNIT_NANOSECONDS = 5;
 
-    // Time.
+  // Microseconds (µs).
+  UNIT_MICROSECONDS = 6;
 
-    // Nanoseconds (ns).
-    UNIT_NANOSECONDS = 5;
+  // Milliseconds (ms).
+  UNIT_MILLISECONDS = 7;
 
-    // Microseconds (µs).
-    UNIT_MICROSECONDS = 6;
+  // Seconds (s).
+  UNIT_SECONDS = 8;
 
-    // Milliseconds (ms).
-    UNIT_MILLISECONDS = 7;
+  // Minutes (m).
+  UNIT_MINUTES = 9;
 
-    // Seconds (s).
-    UNIT_SECONDS = 8;
+  // Hours (h).
+  UNIT_HOURS = 10;
 
-    // Minutes (m).
-    UNIT_MINUTES = 9;
+  // Days (d).
+  UNIT_DAYS = 11;
 
-    // Hours (h).
-    UNIT_HOURS = 10;
+  // Bits (SI).
+  UNIT_BITS_SI = 12;
 
-    // Days (d).
-    UNIT_DAYS = 11;
+  // Bytes (SI).
+  UNIT_BYTES_SI = 13;
 
-    // Data (SI).
+  // Kilobytes (KB).
+  UNIT_KILOBYTES = 14;
 
-    // Bits (SI).
-    UNIT_BITS_SI = 12;
+  // Megabytes (MB).
+  UNIT_MEGABYTES = 15;
 
-    // Bytes (SI).
-    UNIT_BYTES_SI = 13;
+  // Gigabytes (GB).
+  UNIT_GIGABYTES = 16;
 
-    // Kilobytes (KB).
-    UNIT_KILOBYTES = 14;
+  // Terabytes (TB)
+  UNIT_TERABYTES = 17;
 
-    // Megabytes (MB).
-    UNIT_MEGABYTES = 15;
+  // Petabytes (PB).
+  UNIT_PETABYTES = 18;
 
-    // Gigabytes (GB).
-    UNIT_GIGABYTES = 16;
+  // Exabytes (EB).
+  UNIT_EXABYTES = 19;
 
-    // Terabytes (TB)
-    UNIT_TERABYTES = 17;
+  // Bits (IEC).
+  UNIT_BITS_IEC = 20;
 
-    // Petabytes (PB).
-    UNIT_PETABYTES = 18;
+  // Bytes (IEC).
+  UNIT_BYTES_IEC = 21;
 
-    // Exabytes (EB).
-    UNIT_EXABYTES = 19;
+  // Kibibytes (KiB).
+  UNIT_KIBIBYTES = 22;
 
-    // Data (IEC).
+  // Mebibytes (MiB).
+  UNIT_MEBIBYTES = 23;
 
-    // Bits (IEC).
-    UNIT_BITS_IEC = 20;
+  // Gigibytes (GiB).
+  UNIT_GIBIBYTES = 24;
 
-    // Bytes (IEC).
-    UNIT_BYTES_IEC = 21;
+  // Tebibytes (TiB).
+  UNIT_TEBIBYTES = 25;
 
-    // Kibibytes (KiB).
-    UNIT_KIBIBYTES = 22;
+  // Pebibytes (PiB).
+  UNIT_PEBIBYTES = 26;
 
-    // Mebibytes (MiB).
-    UNIT_MEBIBYTES = 23;
+  // Exbibytes (EiB).
+  UNIT_EXBIBYTES = 27;
 
-    // Gigibytes (GiB).
-    UNIT_GIBIBYTES = 24;
+  // Requests per second (reqps).
+  UNIT_REQUESTS_PER_SECOND = 28;
 
-    // Tebibytes (TiB).
-    UNIT_TEBIBYTES = 25;
+  // Operations per second (ops).
+  UNIT_OPERATIONS_PER_SECOND = 29;
 
-    // Pebibytes (PiB).
-    UNIT_PEBIBYTES = 26;
+  // Writes per second (wps).
+  UNIT_WRITES_PER_SECOND = 30;
 
-    // Exbibytes (EiB).
-    UNIT_EXBIBYTES = 27;
+  // Reads per second (rps).
+  UNIT_READS_PER_SECOND = 31;
 
-    // Throughput.
+  // Packets per second (pps).
+  UNIT_PACKETS_PER_SECOND = 32;
 
-    // Requests per second (reqps).
-    UNIT_REQUESTS_PER_SECOND = 28;
+  // IO operations per second (iops).
+  UNIT_IO_OPERATIONS_PER_SECOND = 33;
 
-    // Operations per second (ops).
-    UNIT_OPERATIONS_PER_SECOND = 29;
+  // Counts per second (counts/sec).
+  UNIT_COUNTS_PER_SECOND = 34;
 
-    // Writes per second (wps).
-    UNIT_WRITES_PER_SECOND = 30;
+  // Bits (SI) per second (bits/sec).
+  UNIT_BITS_SI_PER_SECOND = 35;
 
-    // Reads per second (rps).
-    UNIT_READS_PER_SECOND = 31;
+  // Bytes (SI) per second (bytes/sec).
+  UNIT_BYTES_SI_PER_SECOND = 36;
 
-    // Packets per second (pps).
-    UNIT_PACKETS_PER_SECOND = 32;
+  // Kilobits per second (KBits/sec).
+  UNIT_KILOBITS_PER_SECOND = 37;
 
-    // IO operations per second (iops).
-    UNIT_IO_OPERATIONS_PER_SECOND = 33;
+  // Kilobytes per second (KB/sec).
+  UNIT_KILOBYTES_PER_SECOND = 38;
 
-    // Counts per second (counts/sec).
-    UNIT_COUNTS_PER_SECOND = 34;
+  // Megabits per second (MBits/sec).
+  UNIT_MEGABITS_PER_SECOND = 39;
 
-    // Data Rate (SI).
+  // Megabytes per second (MB/sec).
+  UNIT_MEGABYTES_PER_SECOND = 40;
 
-    // Bits (SI) per second (bits/sec).
-    UNIT_BITS_SI_PER_SECOND = 35;
+  // Gigabits per second (GBits/sec).
+  UNIT_GIGABITS_PER_SECOND = 41;
 
-    // Bytes (SI) per second (bytes/sec).
-    UNIT_BYTES_SI_PER_SECOND = 36;
+  // Gigabytes per second (GB/sec).
+  UNIT_GIGABYTES_PER_SECOND = 42;
 
-    // Kilobits per second (KBits/sec).
-    UNIT_KILOBITS_PER_SECOND = 37;
+  // Terabits per second (TBits/sec).
+  UNIT_TERABITS_PER_SECOND = 43;
 
-    // Kilobytes per second (KB/sec).
-    UNIT_KILOBYTES_PER_SECOND = 38;
+  // Terabytes per second (TB/sec).
+  UNIT_TERABYTES_PER_SECOND = 44;
 
-    // Megabits per second (MBits/sec).
-    UNIT_MEGABITS_PER_SECOND = 39;
+  // Petabits per second (Pbits/sec).
+  UNIT_PETABITS_PER_SECOND = 45;
 
-    // Megabytes per second (MB/sec).
-    UNIT_MEGABYTES_PER_SECOND = 40;
+  // Petabytes per second (PB/sec).
+  UNIT_PETABYTES_PER_SECOND = 46;
 
-    // Gigabits per second (GBits/sec).
-    UNIT_GIGABITS_PER_SECOND = 41;
+  // Bits (IEC) per second (bits/sec).
+  UNIT_BITS_IEC_PER_SECOND = 47;
 
-    // Gigabytes per second (GB/sec).
-    UNIT_GIGABYTES_PER_SECOND = 42;
+  // Bytes (IEC) per second (bytes/sec).
+  UNIT_BYTES_IEC_PER_SECOND = 48;
 
-    // Terabits per second (TBits/sec).
-    UNIT_TERABITS_PER_SECOND = 43;
+  // Kibibits per second (KiBits/sec).
+  UNIT_KIBIBITS_PER_SECOND = 49;
 
-    // Terabytes per second (TB/sec).
-    UNIT_TERABYTES_PER_SECOND = 44;
+  // Kibibytes per second (KiB/sec).
+  UNIT_KIBIBYTES_PER_SECOND = 50;
 
-    // Petabits per second (Pbits/sec).
-    UNIT_PETABITS_PER_SECOND = 45;
+  // Mebibits per second (MiBits/sec).
+  UNIT_MEBIBITS_PER_SECOND = 51;
 
-    // Petabytes per second (PB/sec).
-    UNIT_PETABYTES_PER_SECOND = 46;
+  // Mebibytes per second (MiB/sec).
+  UNIT_MEBIBYTES_PER_SECOND = 52;
 
-    // Data Rate (IEC).
+  // Gibibits per second (GiBits/sec).
+  UNIT_GIBIBITS_PER_SECOND = 53;
 
-    // Bits (IEC) per second (bits/sec).
-    UNIT_BITS_IEC_PER_SECOND = 47;
+  // Gibibytes per second (GiB/sec).
+  UNIT_GIBIBYTES_PER_SECOND = 54;
 
-    // Bytes (IEC) per second (bytes/sec).
-    UNIT_BYTES_IEC_PER_SECOND = 48;
+  // Tebibits per second (TiBits/sec).
+  UNIT_TEBIBITS_PER_SECOND = 55;
 
-    // Kibibits per second (KiBits/sec).
-    UNIT_KIBIBITS_PER_SECOND = 49;
+  // Tebibytes per second (TiB/sec).
+  UNIT_TEBIBYTES_PER_SECOND = 56;
 
-    // Kibibytes per second (KiB/sec).
-    UNIT_KIBIBYTES_PER_SECOND = 50;
+  // Pebibits per second (PiBits/sec).
+  UNIT_PEBIBITS_PER_SECOND = 57;
 
-    // Mebibits per second (MiBits/sec).
-    UNIT_MEBIBITS_PER_SECOND = 51;
+  // Pebibytes per second (PiB/sec).
+  UNIT_PEBIBYTES_PER_SECOND = 58;
 
-    // Mebibytes per second (MiB/sec).
-    UNIT_MEBIBYTES_PER_SECOND = 52;
+  // Datetime (UTC).
+  UNIT_DATETIME_UTC = 59;
 
-    // Gibibits per second (GiBits/sec).
-    UNIT_GIBIBITS_PER_SECOND = 53;
+  // Datetime (local).
+  UNIT_DATETIME_LOCAL = 60;
 
-    // Gibibytes per second (GiB/sec).
-    UNIT_GIBIBYTES_PER_SECOND = 54;
+  // Hertz (Hz).
+  UNIT_HERTZ = 61;
 
-    // Tebibits per second (TiBits/sec).
-    UNIT_TEBIBITS_PER_SECOND = 55;
+  // Kilohertz (KHz).
+  UNIT_KILOHERTZ = 62;
 
-    // Tebibytes per second (TiB/sec).
-    UNIT_TEBIBYTES_PER_SECOND = 56;
+  // Megahertz (MHz).
+  UNIT_MEGAHERTZ = 63;
 
-    // Pebibits per second (PiBits/sec).
-    UNIT_PEBIBITS_PER_SECOND = 57;
+  // Gigahertz (GHz).
+  UNIT_GIGAHERTZ = 64;
 
-    // Pebibytes per second (PiB/sec).
-    UNIT_PEBIBYTES_PER_SECOND = 58;
+  // Dollar.
+  UNIT_DOLLAR = 65;
 
-    // Date & time.
+  // Euro.
+  UNIT_EURO = 66;
 
-    // Datetime (UTC).
-    UNIT_DATETIME_UTC = 59;
+  // Rouble.
+  UNIT_ROUBLE = 67;
 
-    // Datetime (local).
-    UNIT_DATETIME_LOCAL = 60;
+  // Celsius (°C).
+  UNIT_CELSIUS = 68;
 
-    // Frequency.
+  // Fahrenheit (°F).
+  UNIT_FAHRENHEIT = 69;
 
-    // Hertz (Hz).
-    UNIT_HERTZ = 61;
+  // Kelvin (K).
+  UNIT_KELVIN = 70;
 
-    // Kilohertz (KHz).
-    UNIT_KILOHERTZ = 62;
+  // Flop per second (FLOP/sec).
+  UNIT_FLOP_PER_SECOND = 71;
 
-    // Megahertz (MHz).
-    UNIT_MEGAHERTZ = 63;
+  // Kiloflop per second (KFLOP/sec).
+  UNIT_KILOFLOP_PER_SECOND = 72;
 
-    // Gigahertz (GHz).
-    UNIT_GIGAHERTZ = 64;
+  // Megaflop per second (MFLOP/sec).
+  UNIT_MEGAFLOP_PER_SECOND = 73;
 
-    // Currency.
+  // Gigaflop per second (GFLOP/sec).
+  UNIT_GIGAFLOP_PER_SECOND = 74;
 
-    // Dollar.
-    UNIT_DOLLAR = 65;
+  // Petaflop per second (PFLOP/sec).
+  UNIT_PETAFLOP_PER_SECOND = 75;
 
-    // Euro.
-    UNIT_EURO = 66;
+  // Exaflop per second (EFLOP/sec).
+  UNIT_EXAFLOP_PER_SECOND = 76;
 
-    // Rouble.
-    UNIT_ROUBLE = 67;
+  // Meters per second (m/sec).
+  UNIT_METERS_PER_SECOND = 77;
 
-    // Temperature.
+  // Kilometers per hour (km/h).
+  UNIT_KILOMETERS_PER_HOUR = 78;
 
-    // Celsius (°C).
-    UNIT_CELSIUS = 68;
+  // Miles per hour (mi/h).
+  UNIT_MILES_PER_HOUR = 79;
 
-    // Fahrenheit (°F).
-    UNIT_FAHRENHEIT = 69;
+  // Millimeter.
+  UNIT_MILLIMETER = 80;
 
-    // Kelvin (K).
-    UNIT_KELVIN = 70;
+  // Centimeter.
+  UNIT_CENTIMETER = 81;
 
-    // Computation.
+  // Meter.
+  UNIT_METER = 82;
 
-    // Flop per second (FLOP/sec).
-    UNIT_FLOP_PER_SECOND = 71;
+  // Kilometer.
+  UNIT_KILOMETER = 83;
 
-    // Kiloflop per second (KFLOP/sec).
-    UNIT_KILOFLOP_PER_SECOND = 72;
+  // Mile.
+  UNIT_MILE = 84;
 
-    // Megaflop per second (MFLOP/sec).
-    UNIT_MEGAFLOP_PER_SECOND = 73;
+  // Parts per million (ppm).
+  UNIT_PPM = 85;
 
-    // Gigaflop per second (GFLOP/sec).
-    UNIT_GIGAFLOP_PER_SECOND = 74;
+  // Events per second
+  UNIT_EVENTS_PER_SECOND = 86;
 
-    // Petaflop per second (PFLOP/sec).
-    UNIT_PETAFLOP_PER_SECOND = 75;
+  // Packets
+  UNIT_PACKETS = 87;
 
-    // Exaflop per second (EFLOP/sec).
-    UNIT_EXAFLOP_PER_SECOND = 76;
+  // dBm (dbm)
+  UNIT_DBM = 88;
 
-    // Velocity.
+  // Virtual CPU cores based on CPU time (vcpu)
+  UNIT_VIRTUAL_CPU = 89;
 
-    // Meters per second (m/sec).
-    UNIT_METERS_PER_SECOND = 77;
+  // Messages per second (mps)
+  UNIT_MESSAGES_PER_SECOND = 90;
 
-    // Kilometers per hour (km/h).
-    UNIT_KILOMETERS_PER_HOUR = 78;
+  // == UNIT_VIRTUAL_CPU
+  UNIT_NANOCORE_CPU = 91;
 
-    // Miles per hour (mi/h).
-    UNIT_MILES_PER_HOUR = 79;
+  // == 1000 UNIT_NANOCORE_CPU
+  UNIT_MICROCORE_CPU = 92;
 
-    // Length.
+  // == 1000 UNIT_MICROCORE_CPU
+  UNIT_MILLICORE_CPU = 93;
 
-    // Millimeter.
-    UNIT_MILLIMETER = 80;
+  // == 1000 UNIT_MILLICORE_CPU
+  UNIT_CORE_CPU = 94;
 
-    // Centimeter.
-    UNIT_CENTIMETER = 81;
+  // Ampere (A).
+  UNIT_AMPERE = 95;
 
-    // Meter.
-    UNIT_METER = 82;
+  // Kiloampere (kA).
+  UNIT_KILOAMPERE = 96;
 
-    // Kilometer.
-    UNIT_KILOMETER = 83;
+  // Megaampere (MA).
+  UNIT_MEGAAMPERE = 97;
 
-    // Mile.
-    UNIT_MILE = 84;
+  // Gigaampere (GA).
+  UNIT_GIGAAMPERE = 98;
 
-    // Concentration.
+  // Volt (V).
+  UNIT_VOLT = 99;
 
-    // Parts per million (ppm).
-    UNIT_PPM = 85;
+  // Kilovolt (kV).
+  UNIT_KILOVOLT = 100;
 
-    // Events per second
-    UNIT_EVENTS_PER_SECOND = 86;
+  // Megavolt (MV).
+  UNIT_MEGAVOLT = 101;
 
-    // Packets
-    UNIT_PACKETS = 87;
+  // Gigavolt (GV).
+  UNIT_GIGAVOLT = 102;
 
-    // dBm (dbm)
-    UNIT_DBM = 88;
+  // Watt (W).
+  UNIT_WATT = 103;
 
-    // Virtual CPU cores based on CPU time (vcpu)
-    UNIT_VIRTUAL_CPU = 89;
+  // Kilowatt (kW).
+  UNIT_KILOWATT = 104;
 
-    // Messages per second (mps)
-    UNIT_MESSAGES_PER_SECOND = 90;
+  // Megawatt (MW).
+  UNIT_MEGAWATT = 105;
 
-    // == UNIT_VIRTUAL_CPU
-    UNIT_NANOCORE_CPU = 91;
+  // Gigawatt (GW).
+  UNIT_GIGAWATT = 106;
 
-    // == 1000 UNIT_NANOCORE_CPU
-    UNIT_MICROCORE_CPU = 92;
+  // Ohm (Ohm).
+  UNIT_OHM = 107;
 
-    // == 1000 UNIT_MICROCORE_CPU
-    UNIT_MILLICORE_CPU = 93;
+  // Kiloohm (kOhm).
+  UNIT_KILOOHM = 108;
 
-    // == 1000 UNIT_MILLICORE_CPU
-    UNIT_CORE_CPU = 94;
-	
-    // Electricity.
+  // Megaohm (MOhm).
+  UNIT_MEGAOHM = 109;
 
-    // Ampere (A).
-    UNIT_AMPERE = 95;
-
-    // Kiloampere (kA).
-    UNIT_KILOAMPERE = 96;
-
-    // Megaampere (MA).
-    UNIT_MEGAAMPERE = 97;
-
-    // Gigaampere (GA).
-    UNIT_GIGAAMPERE = 98;
-
-    // Volt (V).
-    UNIT_VOLT = 99;
-
-    // Kilovolt (kV).
-    UNIT_KILOVOLT = 100;
-
-    // Megavolt (MV).
-    UNIT_MEGAVOLT = 101;
-
-    // Gigavolt (GV).
-    UNIT_GIGAVOLT = 102;
-
-    // Watt (W).
-    UNIT_WATT = 103;
-
-    // Kilowatt (kW).
-    UNIT_KILOWATT = 104;
-
-    // Megawatt (MW).
-    UNIT_MEGAWATT = 105;
-
-    // Gigawatt (GW).
-    UNIT_GIGAWATT = 106;
-
-    // Ohm (Ohm).
-    UNIT_OHM = 107;
-
-    // Kiloohm (kOhm).
-    UNIT_KILOOHM = 108;
-
-    // Megaohm (MOhm).
-    UNIT_MEGAOHM = 109;
-
-    // Gigaohm (GOhm).
-    UNIT_GIGAOHM = 110;
+  // Gigaohm (GOhm).
+  UNIT_GIGAOHM = 110;
 }

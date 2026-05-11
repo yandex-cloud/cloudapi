@@ -5,10 +5,10 @@ package yandex.cloud.resourcemanager.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
-import "yandex/cloud/resourcemanager/v1/cloud.proto";
-import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/access/access.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/resourcemanager/v1/cloud.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/resourcemanager/v1;resourcemanager";
@@ -17,115 +17,145 @@ option java_package = "yandex.cloud.api.resourcemanager.v1";
 // A set of methods for managing Cloud resources.
 service CloudService {
   // Returns the specified Cloud resource.
-  //
   // To get the list of available Cloud resources, make a [List] request.
-  rpc Get (GetCloudRequest) returns (Cloud) {
-    option (google.api.http) = { get: "/resource-manager/v1/clouds/{cloud_id}" };
-  }
+  rpc Get(GetCloudRequest) returns (Cloud) {
+    option (google.api.http) = {
+      get: "/resource-manager/v1/clouds/{cloud_id}"
+    };
+  };
 
   // Retrieves the list of Cloud resources.
-  rpc List (ListCloudsRequest) returns (ListCloudsResponse) {
-    option (google.api.http) = { get: "/resource-manager/v1/clouds" };
-  }
+  rpc List(ListCloudsRequest) returns (ListCloudsResponse) {
+    option (google.api.http) = {
+      get: "/resource-manager/v1/clouds"
+    };
+  };
 
   // Creates a cloud in the specified organization.
-  rpc Create (CreateCloudRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/resource-manager/v1/clouds" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateCloudRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateCloudMetadata"
       response: "Cloud"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/resource-manager/v1/clouds"
+    };
+  };
 
   // Updates the specified cloud.
-  rpc Update (UpdateCloudRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/resource-manager/v1/clouds/{cloud_id}" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateCloudRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateCloudMetadata"
       response: "Cloud"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/resource-manager/v1/clouds/{cloud_id}"
+    };
+  };
 
   // Deletes the specified cloud.
-  rpc Delete (DeleteCloudRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/resource-manager/v1/clouds/{cloud_id}" };
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteCloudRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteCloudMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/resource-manager/v1/clouds/{cloud_id}"
+    };
+  };
 
   // Lists operations for the specified cloud.
-  rpc ListOperations (ListCloudOperationsRequest) returns (ListCloudOperationsResponse) {
-    option (google.api.http) = { get: "/resource-manager/v1/clouds/{cloud_id}/operations" };
-  }
-
-  //access
+  rpc ListOperations(ListCloudOperationsRequest) returns (ListCloudOperationsResponse) {
+    option (google.api.http) = {
+      get: "/resource-manager/v1/clouds/{cloud_id}/operations"
+    };
+  };
 
   // Lists access bindings for the specified cloud.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = { get: "/resource-manager/v1/clouds/{resource_id}:listAccessBindings" };
-  }
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/resource-manager/v1/clouds/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the specified cloud.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/resource-manager/v1/clouds/{resource_id}:setAccessBindings" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "access.AccessBindingsOperationResult"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/resource-manager/v1/clouds/{resource_id}:setAccessBindings"
+    };
+  };
 
   // Updates access bindings for the specified cloud.
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/resource-manager/v1/clouds/{resource_id}:updateAccessBindings" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "access.AccessBindingsOperationResult"
     };
-  }
-
-  //
-  // Access policies
-  //
+    option (google.api.http) = {
+      body: "*"
+      post: "/resource-manager/v1/clouds/{resource_id}:updateAccessBindings"
+    };
+  };
 
   // Returns list of access policy bindings for the cloud.
-  rpc ListAccessPolicyBindings (access.ListAccessPolicyBindingsRequest) returns (access.ListAccessPolicyBindingsResponse) {
-    option (google.api.http) = { get: "/resource-manager/v1/clouds/{resource_id}:listAccessPolicyBindings" };
-  }
+  rpc ListAccessPolicyBindings(access.ListAccessPolicyBindingsRequest) returns (access.ListAccessPolicyBindingsResponse) {
+    option (google.api.http) = {
+      get: "/resource-manager/v1/clouds/{resource_id}:listAccessPolicyBindings"
+    };
+  };
 
   // Binds the access policy template to the cloud.
-  rpc BindAccessPolicy (access.BindAccessPolicyRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/resource-manager/v1/clouds/{resource_id}:bindAccessPolicy" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc BindAccessPolicy(access.BindAccessPolicyRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.BindAccessPolicyMetadata"
       response: "access.BindAccessPolicyResponse"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/resource-manager/v1/clouds/{resource_id}:bindAccessPolicy"
+    };
+  };
 
   // Unbinds the access policy template from the cloud.
-  rpc UnbindAccessPolicy (access.UnbindAccessPolicyRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/resource-manager/v1/clouds/{resource_id}:unbindAccessPolicy" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc UnbindAccessPolicy(access.UnbindAccessPolicyRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.UnbindAccessPolicyMetadata"
       response: "access.UnbindAccessPolicyResponse"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/resource-manager/v1/clouds/{resource_id}:unbindAccessPolicy"
+    };
+  };
 
   // Updates the access policy binding parameters for the cloud.
-  rpc UpdateAccessPolicyBindingParameters (access.UpdateAccessPolicyBindingParametersRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/resource-manager/v1/clouds/{resource_id}:updateAccessPolicyBindingParameters" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc UpdateAccessPolicyBindingParameters(access.UpdateAccessPolicyBindingParametersRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.UpdateAccessPolicyBindingParametersMetadata"
       response: "access.UpdateAccessPolicyBindingParametersResponse"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/resource-manager/v1/clouds/{resource_id}:updateAccessPolicyBindingParameters"
+    };
+  };
+
 }
 
 message GetCloudRequest {
   // ID of the Cloud resource to return.
   // To get the cloud ID, use a [CloudService.List] request.
-  string cloud_id = 1 [(required) = true, (length) = "<=50"];
+  string cloud_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListCloudsRequest {
@@ -167,18 +197,32 @@ message ListCloudsResponse {
 }
 
 message CreateCloudRequest {
-  // ID of the organization to create a cloud in.
-  // To get the organization ID, use a [yandex.cloud.organizationmanager.v1.OrganizationService.List] request.
-  string organization_id = 1 [(required) = true, (length) = "<=50"];
-
   // Name of the cloud.
-  string name = 2 [(required) = true, (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 2 [
+    (pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?",
+    (required) = true
+  ];
 
   // Description of the cloud.
   string description = 3 [(length) = "<=256"];
 
+  // ID of the organization to create a cloud in.
+  // To get the organization ID, use a [yandex.cloud.organizationmanager.v1.OrganizationService.List] request.
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // Resource labels as `` key:value `` pairs.
-  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 }
 
 message CreateCloudMetadata {
@@ -186,9 +230,75 @@ message CreateCloudMetadata {
   string cloud_id = 1;
 }
 
+message UpdateCloudRequest {
+  // ID of the cloud to update.
+  // To get the cloud ID, use a [CloudService.List] request.
+  string cloud_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Field mask that specifies which fields of the cloud are going to be updated.
+  google.protobuf.FieldMask update_mask = 2;
+
+  // Name of the cloud.
+  string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+
+  // Description of the cloud.
+  string description = 4 [(length) = "<=256"];
+
+  // Resource labels as `` key:value `` pairs.
+  map<string, string> labels = 5 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+}
+
+message UpdateCloudMetadata {
+  // ID of the cloud that is being updated.
+  string cloud_id = 1;
+}
+
+message DeleteCloudRequest {
+  // ID of the cloud to delete.
+  // To get the cloud ID, use a [CloudService.List] request.
+  string cloud_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // The timestamp after which the process of deleting the cloud should begin.
+  // Until this timestamp, the cloud goes into the PENDING_DELETION state and all resources in this
+  // cloud are stopped. In this state, it is possible to cancel the delete operation without any loss.
+  // After this timestamp, the status of the cloud will become DELETING and the process of deleting
+  // all the resources  of the cloud will be started. If [delete_after] is not specified it will be
+  // (now + 24 hours). To initiate an immediate deletion [delete_after] must be <= now.
+  google.protobuf.Timestamp delete_after = 2 [(value) = "19700101T000000.000000000-21051231T235959.999999999"];
+}
+
+message DeleteCloudMetadata {
+  // ID of the cloud that is being deleted.
+  string cloud_id = 1;
+
+  // The timestamp after which the process of deleting the cloud should begin.
+  google.protobuf.Timestamp delete_after = 2;
+
+  // Information about operation cancellation
+  string cancelled_by = 3;
+  google.protobuf.Timestamp cancelled_at = 4;
+}
+
 message ListCloudOperationsRequest {
   // ID of the Cloud resource to list operations for.
-  string cloud_id = 1 [(required) = true, (length) = "<=50"];
+  string cloud_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListCloudOperationsResponse.next_page_token]
@@ -211,51 +321,4 @@ message ListCloudOperationsResponse {
   // for the [ListCloudOperationsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
-}
-
-message UpdateCloudRequest {
-  // ID of the cloud to update.
-  // To get the cloud ID, use a [CloudService.List] request.
-  string cloud_id = 1 [(required) = true, (length) = "<=50"];
-
-  // Field mask that specifies which fields of the cloud are going to be updated.
-  google.protobuf.FieldMask update_mask = 2;
-
-  // Name of the cloud.
-  string name = 3 [(pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
-
-  // Description of the cloud.
-  string description = 4 [(length) = "<=256"];
-
-  // Resource labels as `` key:value `` pairs.
-  map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
-}
-
-message UpdateCloudMetadata {
-  // ID of the cloud that is being updated.
-  string cloud_id = 1;
-}
-
-message DeleteCloudRequest {
-  // ID of the cloud to delete.
-  // To get the cloud ID, use a [CloudService.List] request.
-  string cloud_id = 1 [(required) = true, (length) = "<=50"];
-
-  // The timestamp after which the process of deleting the cloud should begin.
-  // Until this timestamp, the cloud goes into the PENDING_DELETION state and all resources in this
-  // cloud are stopped. In this state, it is possible to cancel the delete operation without any loss.
-  // After this timestamp, the status of the cloud will become DELETING and the process of deleting
-  // all the resources  of the cloud will be started. If [delete_after] is not specified it will be
-  // (now + 24 hours). To initiate an immediate deletion [delete_after] must be <= now.
-  google.protobuf.Timestamp delete_after = 2;
-}
-
-message DeleteCloudMetadata {
-  // ID of the cloud that is being deleted.
-  string cloud_id = 1;
-  // The timestamp after which the process of deleting the cloud should begin.
-  google.protobuf.Timestamp delete_after = 2;
-  // Information about operation cancellation
-  string cancelled_by = 3;
-  google.protobuf.Timestamp cancelled_at = 4;
 }

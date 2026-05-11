@@ -11,12 +11,17 @@ option java_package = "yandex.cloud.api.iam.v1";
 
 service AccessPolicyTemplateService {
   // Returns list of available access policy templates.
-  rpc List (ListAccessPolicyTemplatesRequest) returns (ListAccessPolicyTemplatesResponse) {
-    option (google.api.http) = {get: "/iam/v1/accessPolicyTemplates"};
-  }
+  rpc List(ListAccessPolicyTemplatesRequest) returns (ListAccessPolicyTemplatesResponse) {
+    option (google.api.http) = {
+      get: "/iam/v1/accessPolicyTemplates"
+    };
+  };
+
 }
 
 message ListAccessPolicyTemplatesRequest {
+  reserved 1 to 2;
+
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size],
   // the service returns a [ListAccessPolicyTemplatesResponse.next_page_token]

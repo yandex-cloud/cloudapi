@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-import "yandex/cloud/iam/v1/oauth_client.proto";
+package yandex.cloud.iam.v1;
+
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/iam/v1/oauth_client.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
-
-package yandex.cloud.iam.v1;
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/iam/v1;iam";
 option java_package = "yandex.cloud.api.iam.v1";
@@ -15,50 +15,55 @@ option java_package = "yandex.cloud.api.iam.v1";
 // A set of methods for managing OAuthClient resources.
 service OAuthClientService {
   // Returns the sepcified OAuthClient resource.
-  //
   // To get the list of available OAuthClient resources, make a [List] request.
-  rpc Get (GetOAuthClientRequest) returns (OAuthClient) {
-    option (google.api.http) = { get: "/iam/v1/oauthClients/{oauth_client_id}" };
-  }
+  rpc Get(GetOAuthClientRequest) returns (OAuthClient) {
+    option (google.api.http) = {
+      get: "/iam/v1/oauthClients/{oauth_client_id}"
+    };
+  };
 
   // Retrieves the list of OAuthClient resources views in the specified folder
-  rpc List (ListOAuthClientsRequest) returns (ListOAuthClientsResponse) {
-    option (google.api.http) = { get: "/iam/v1/oauthClients" };
-  }
+  rpc List(ListOAuthClientsRequest) returns (ListOAuthClientsResponse) {
+    option (google.api.http) = {
+      get: "/iam/v1/oauthClients"
+    };
+  };
 
   // Creates an oauth client in the specified folder.
-  rpc Create (CreateOAuthClientRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/iam/v1/oauthClients" body: "*" };
-    option (yandex.cloud.api.operation) = {
-      response: "OAuthClient"
+  rpc Create(CreateOAuthClientRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateOAuthClientMetadata"
+      response: "OAuthClient"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/iam/v1/oauthClients"
+    };
+  };
 
   // Updates the specified oauth client.
-  rpc Update (UpdateOAuthClientRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/iam/v1/oauthClients/{oauth_client_id}" body: "*" };
-    option (yandex.cloud.api.operation) = {
-      response: "OAuthClient"
+  rpc Update(UpdateOAuthClientRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateOAuthClientMetadata"
+      response: "OAuthClient"
     };
-  }
-
+    option (google.api.http) = {
+      body: "*"
+      patch: "/iam/v1/oauthClients/{oauth_client_id}"
+    };
+  };
 
   // Deletes the specified oauth client with all its secrets.
-  rpc Delete (DeleteOAuthClientRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/iam/v1/oauthClients/{oauth_client_id}" };
-    option (yandex.cloud.api.operation) = {
-      response: "google.protobuf.Empty"
+  rpc Delete(DeleteOAuthClientRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteOAuthClientMetadata"
+      response: "google.protobuf.Empty"
     };
-  }
-}
+    option (google.api.http) = {
+      delete: "/iam/v1/oauthClients/{oauth_client_id}"
+    };
+  };
 
-message GetOAuthClientRequest {
-  // ID of the OAuthClient resource to return.
-  // To get the oauth client ID, use a [OAuthClientService.List] request.
-  string oauth_client_id = 1 [(required) = true, (length) = "<=50"];
 }
 
 message ListOAuthClientsRequest {
@@ -74,7 +79,10 @@ message ListOAuthClientsRequest {
 
   // ID of the folder to list oauth clients for
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
-  string folder_id = 3 [(required) = true, (length) = "<=50"];
+  string folder_id = 3 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListOAuthClientsResponse {
@@ -90,12 +98,26 @@ message ListOAuthClientsResponse {
   string next_page_token = 2;
 }
 
+message GetOAuthClientRequest {
+  // ID of the OAuthClient resource to return.
+  // To get the oauth client ID, use a [OAuthClientService.List] request.
+  string oauth_client_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
 message OAuthClientListView {
-   // ID of the OAuthClient resource.
+  // ID of the OAuthClient resource.
   string id = 1;
 
-   // Name of the OAuthClient resource.
+  // Name of the OAuthClient resource.
   string name = 2;
+}
+
+message CreateOAuthClientMetadata {
+  // ID of the oauth client that is being created
+  string oauth_client_id = 1;
 }
 
 message UpdateOAuthClientMetadata {
@@ -111,45 +133,69 @@ message DeleteOAuthClientMetadata {
 message CreateOAuthClientRequest {
   // Name of the oauth client.
   // The name must be unique within folder.
-  string name = 1 [(required) = true, (pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 1 [
+    (pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?",
+    (required) = true
+  ];
 
   // List of redirect uries allowed for the oauth client.
-  repeated string redirect_uris = 2 [(size) = "<=1000", (length) = "<=1000"];
+  repeated string redirect_uris = 2 [
+    (length) = "<=1000",
+    (size) = "<=1000"
+  ];
 
   // List of oauth scopes requested by the oauth client.
-  repeated string scopes = 3 [(size) = "<=1000", (length) = "<=255"];
+  repeated string scopes = 3 [
+    (length) = "<=255",
+    (pattern) = "[!#-\\[\\]-~]+",
+    (size) = "<=1000"
+  ];
 
   // ID of the folder to create an oauth client in.
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
-  string folder_id = 4 [(required) = true, (length) = "<=255"];
-}
-
-message CreateOAuthClientMetadata {
-  // ID of the oauth client that is being created
-  string oauth_client_id = 1;
+  string folder_id = 4 [
+    (length) = "<=255",
+    (required) = true
+  ];
 }
 
 message UpdateOAuthClientRequest {
   // ID of the OAuthClient resource to update.
   // To get the oauth client ID, use a [OAuthClientService.List] request.
-  string oauth_client_id = 1 [(required) = true];
+  string oauth_client_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Field mask that specifies which fields of the OAuthClient resource are going to be updated.
   google.protobuf.FieldMask update_mask = 2;
 
   // Name of the oauth client.
   // The name must be unique within folder.
-  string name = 3 [(required) = true, (pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 3 [
+    (pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?",
+    (required) = true
+  ];
 
   // List of redirect uries allowed for the oauth client.
-  repeated string redirect_uris = 4 [(size) = "<=1000", (length) = "<=1000"];
+  repeated string redirect_uris = 4 [
+    (length) = "<=1000",
+    (size) = "<=1000"
+  ];
 
   // List of oauth scopes requested by the oauth client.
-  repeated string scopes = 5 [(size) = "<=1000", (length) = "<=255"];
+  repeated string scopes = 5 [
+    (length) = "<=255",
+    (pattern) = "[!#-\\[\\]-~]+",
+    (size) = "<=1000"
+  ];
 }
 
 message DeleteOAuthClientRequest {
   // ID of the oauth client to delete.
   // To get the oauth client ID, use [OAuthClientService.list] request.
-  string oauth_client_id = 1 [(required) = true, (length) = "<=50"];
+  string oauth_client_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }

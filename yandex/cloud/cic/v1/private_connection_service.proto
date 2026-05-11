@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
-import "yandex/cloud/cic/v1/peering.proto";
+import "yandex/cloud/cic/v1/peering_request.proto";
 import "yandex/cloud/cic/v1/private_connection.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -187,7 +187,7 @@ message CreatePrivateConnectionRequest {
   google.protobuf.Int64Value vlan_id = 7;
 
   // IPv4 peering config of connection
-  Peering ipv4_peering = 10;
+  PeeringRequest ipv4_peering = 10;
 
   // IPv4 StaticRoute config of connection
   repeated PrivateConnection.StaticRoute ipv4_static_routes = 19;
@@ -235,7 +235,7 @@ message UpdatePrivateConnectionRequest {
   google.protobuf.Int64Value vlan_id = 9;
 
   // IPv4 peering config of connection
-  Peering ipv4_peering = 10;
+  PeeringRequest ipv4_peering = 10;
 
   // IPv4 StaticRoute config of connection
   repeated PrivateConnection.StaticRoute ipv4_static_routes = 19;

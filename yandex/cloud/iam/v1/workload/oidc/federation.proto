@@ -9,7 +9,6 @@ option java_package = "yandex.cloud.api.iam.v1.workload.oidc";
 
 // A OIDC workload identity federation.
 message Federation {
-
   // Id of the OIDC workload identity federation.
   string id = 1;
 

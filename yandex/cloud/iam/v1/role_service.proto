@@ -3,8 +3,8 @@ syntax = "proto3";
 package yandex.cloud.iam.v1;
 
 import "google/api/annotations.proto";
-import "yandex/cloud/validation.proto";
 import "yandex/cloud/iam/v1/role.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/iam/v1;iam";
 option java_package = "yandex.cloud.api.iam.v1";
@@ -12,22 +12,29 @@ option java_package = "yandex.cloud.api.iam.v1";
 // A set of methods for managing Role resources.
 service RoleService {
   // Returns the specified Role resource.
-  //
   // To get the list of available Role resources, make a [List] request.
-  rpc Get (GetRoleRequest) returns (Role) {
-    option (google.api.http) = {get: "/iam/v1/roles/{role_id}"};
-  }
+  rpc Get(GetRoleRequest) returns (Role) {
+    option (google.api.http) = {
+      get: "/iam/v1/roles/{role_id}"
+    };
+  };
 
   // Retrieves the list of Role resources.
-  rpc List (ListRolesRequest) returns (ListRolesResponse) {
-    option (google.api.http) = {get: "/iam/v1/roles"};
-  }
+  rpc List(ListRolesRequest) returns (ListRolesResponse) {
+    option (google.api.http) = {
+      get: "/iam/v1/roles"
+    };
+  };
+
 }
 
 message GetRoleRequest {
   // ID of the Role resource to return.
   // To get the role ID, use a [RoleService.List] request.
-  string role_id = 1  [(required) = true, (length) = "<=50"];
+  string role_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListRolesRequest {
@@ -36,7 +43,7 @@ message ListRolesRequest {
   // the service returns a [ListRolesResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Default value: 100.
-  int64 page_size = 1 [(value) = "<=1000"];
+  int64 page_size = 1 [(value) = "0-1000"];
 
   // Page token. To get the next page of results, set [page_token]
   // to the [ListRolesResponse.next_page_token]

@@ -10,6 +10,8 @@ option java_package = "yandex.cloud.api.iam.v1.awscompatibility";
 // An access key.
 // For more information, see [AWS-compatible access keys](/docs/iam/concepts/authorization/access-key).
 message AccessKey {
+  reserved 6;
+
   // ID of the AccessKey resource.
   // It is used to manage secret credentials: an access key ID and a secret access key.
   string id = 1;
@@ -26,8 +28,6 @@ message AccessKey {
   // ID of the access key.
   // The key is AWS compatible.
   string key_id = 5;
-
-  reserved 6;
 
   // Timestamp for the last authentication using this Access key.
   google.protobuf.Timestamp last_used_at = 7;

@@ -12,12 +12,18 @@ option java_package = "yandex.cloud.api.iam.v1";
 // A set of methods for managing user accounts. Currently applicable only for [Yandex accounts](/docs/iam/concepts/users/accounts#passport).
 service UserAccountService {
   // Returns the specified UserAccount resource.
-  rpc Get (GetUserAccountRequest) returns (UserAccount) {
-    option (google.api.http) = { get: "/iam/v1/userAccounts/{user_account_id}" };
-  }
+  rpc Get(GetUserAccountRequest) returns (UserAccount) {
+    option (google.api.http) = {
+      get: "/iam/v1/userAccounts/{user_account_id}"
+    };
+  };
+
 }
 
 message GetUserAccountRequest {
   // ID of the UserAccount resource to return.
-  string user_account_id = 1 [(required) = true, (length) = "<=50"];
+  string user_account_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }

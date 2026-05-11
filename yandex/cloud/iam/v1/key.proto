@@ -9,6 +9,8 @@ option java_package = "yandex.cloud.api.iam.v1";
 
 // A Key resource. For more information, see [Authorized keys](/docs/iam/concepts/authorization/key).
 message Key {
+  reserved 8;
+
   enum Algorithm {
     ALGORITHM_UNSPECIFIED = 0;
 
@@ -21,7 +23,6 @@ message Key {
 
   // ID of the Key resource.
   string id = 1;
-
   oneof subject {
     // ID of the user account that the Key resource belongs to.
     string user_account_id = 2;
@@ -41,8 +42,6 @@ message Key {
 
   // A public key of the Key resource.
   string public_key = 7;
-
-  reserved 8;
 
   // Timestamp for the last use of this key.
   google.protobuf.Timestamp last_used_at = 9;

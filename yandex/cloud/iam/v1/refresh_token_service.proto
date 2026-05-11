@@ -13,23 +13,24 @@ option java_package = "yandex.cloud.api.iam.v1";
 
 // A set of methods for managing Refresh Tokens.
 service RefreshTokenService {
-
   // List subjects Refresh Tokens.
-  rpc List (ListRefreshTokensRequest) returns (ListRefreshTokensResponse){
-    option (google.api.http) = { get: "/iam/v1/refreshTokens" };
+  rpc List(ListRefreshTokensRequest) returns (ListRefreshTokensResponse) {
+    option (google.api.http) = {
+      get: "/iam/v1/refreshTokens"
+    };
   };
 
   // Revoke Refresh Tokens. Several Refresh Tokens can be revoked by one request.
-  rpc Revoke (RevokeRefreshTokenRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/iam/v1/refreshTokens:revoke"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc Revoke(RevokeRefreshTokenRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "RevokeRefreshTokenMetadata"
       response: "RevokeRefreshTokenResponse"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/iam/v1/refreshTokens:revoke"
+    };
+  };
 }
 
 message RevokeRefreshTokenMetadata {
@@ -40,7 +41,7 @@ message RevokeRefreshTokenMetadata {
 }
 
 message ListRefreshTokensRequest {
-  reserved 2, 3;
+  reserved 2 to 3;
 
   string subject_id = 1 [(length) = "<=50"];
 
@@ -57,13 +58,11 @@ message ListRefreshTokensRequest {
   string page_token = 5 [(length) = "<=2000"];
 
   // A filter expression that filters refresh tokens listed in the response.
-  //
   // The expression must specify:
   // 1. The field name. Currently you can use filtering only on [RefreshToken.client_instance_info], [RefreshToken.client_id] or [RefreshToken.protection_level] fields.
   // 2. The operator. An `=` operator can be used for all fields. An 'IN' operator can be used for [RefreshToken.protection_level].
   // 3. The value. The value must be in double quotes (`"`). Must be 3-63 characters long and match the regular expression `[a-zA-Z][_-a-zA-Z0-9]{1,61}[a-z0-9]`.
   // Example of a filter: `client_instance_info="clientInstanceInfo" AND protection_level IN ("INSECURE_KEY_DPOP", "SECURE_KEY_DPOP")`.
-  //
   string filter = 6 [(length) = "<=1000"];
 }
 

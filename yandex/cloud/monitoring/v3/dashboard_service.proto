@@ -6,12 +6,12 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/monitoring/v3/dashboard.proto";
+import "yandex/cloud/monitoring/v3/link_item.proto";
 import "yandex/cloud/monitoring/v3/parametrization.proto";
+import "yandex/cloud/monitoring/v3/timeline.proto";
 import "yandex/cloud/monitoring/v3/widget.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
-import "yandex/cloud/monitoring/v3/timeline.proto";
-import "yandex/cloud/monitoring/v3/link_item.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/monitoring/v3;monitoring";
 option java_package = "yandex.cloud.api.monitoring.v3";
@@ -20,70 +20,78 @@ option java_package = "yandex.cloud.api.monitoring.v3";
 service DashboardService {
   // Returns the specified dashboard.
   rpc Get(GetDashboardRequest) returns (Dashboard) {
-    option (google.api.http) = {get: "/monitoring/v3/dashboards/{dashboard_id}"};
-  }
+    option (google.api.http) = {
+      get: "/monitoring/v3/dashboards/{dashboard_id}"
+    };
+  };
 
   // Retrieves the list of dashboards in the specified folder.
   rpc List(ListDashboardsRequest) returns (ListDashboardsResponse) {
-    option (google.api.http) = {get: "/monitoring/v3/dashboards"};
-  }
+    option (google.api.http) = {
+      get: "/monitoring/v3/dashboards"
+    };
+  };
 
   // Creates a new dashboard in the specified folder.
   rpc Create(CreateDashboardRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/monitoring/v3/dashboards"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateDashboardMetadata"
       response: "Dashboard"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/monitoring/v3/dashboards"
+    };
+  };
 
   // Updates the specified dashboard.
   rpc Update(UpdateDashboardRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/monitoring/v3/dashboards/{dashboard_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateDashboardMetadata"
       response: "Dashboard"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/monitoring/v3/dashboards/{dashboard_id}"
+    };
+  };
 
   // Deletes the specified dashboard.
   rpc Delete(DeleteDashboardRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/monitoring/v3/dashboards/{dashboard_id}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteDashboardMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/monitoring/v3/dashboards/{dashboard_id}"
+    };
+  };
 
   // Lists operations for the specified dashboard.
   rpc ListOperations(ListDashboardOperationsRequest) returns (ListDashboardOperationsResponse) {
-    option (google.api.http) = {get: "/monitoring/v3/dashboards/{dashboard_id}/operations"};
-  }
+    option (google.api.http) = {
+      get: "/monitoring/v3/dashboards/{dashboard_id}/operations"
+    };
+  };
+
 }
 
 message GetDashboardRequest {
   // Required. Dashboard ID.
   string dashboard_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
 message ListDashboardsRequest {
-  reserved 3 to 18;
+  reserved 1, 3 to 18;
+
   // Container id
   oneof container {
+
     // Required. Folder ID.
-    string folder_id = 2 [
-      (required) = true,
-      (length) = "<=50"
-    ];
+    string folder_id = 2;
   }
 
   // The maximum number of dashboards to return.
@@ -97,7 +105,7 @@ message ListDashboardsRequest {
 
   // Text substring to find in any of dashboard fields: id, name, etc
   // result will include dashboards that meet BOTH filter and selector (see below) criteria
-  string filter = 21  [(length) = "<=1000"];
+  string filter = 21 [(length) = "<=1000"];
 
   // Selector string to match dashboard fields:
   // id, name, description, managed_by, etc, format: FIELDNAME PREDICATE VALUE, FIELDNAME PREDICATE VALUE, ...
@@ -120,30 +128,32 @@ message ListDashboardsResponse {
 }
 
 message CreateDashboardRequest {
-  reserved 3 to 18;
-  reserved 30 to 33;
+  reserved 1, 3 to 18, 25, 30 to 33;
+
   // Container id
   oneof container {
+
     // Required. Folder ID.
     string folder_id = 2 [
-      (required) = true,
-      (length) = "<=50"
+      (length) = "<=50",
+      (required) = true
     ];
   }
 
   // Required. Dashboard name.
-  string name = 19 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 19;
 
   // Dashboard description.
-  string description = 20 [(length) = "<=256"];
+  string description = 20;
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 21 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
-    (pattern) = "[-_./\\@0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
+    },
+    (size) = "<=64"
   ];
 
   // Dashboard title.
@@ -154,8 +164,6 @@ message CreateDashboardRequest {
 
   // Dashboard parametrization.
   Parametrization parametrization = 24;
-
-  reserved 25;
 
   // Entity that controls dashboard
   // Must match the regular expression "[\w \-]{1,100}"
@@ -178,28 +186,29 @@ message CreateDashboardMetadata {
 }
 
 message UpdateDashboardRequest {
-  reserved 30 to 33;
+  reserved 9 to 25;
+
   // Required. Dashboard ID.
   string dashboard_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Required. Dashboard name.
-  string name = 2 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 2;
 
   // Dashboard description.
-  string description = 3 [(length) = "<=256"];
+  string description = 3;
 
   // Resource labels as `key:value` pairs.
-  //
   // Existing set of `labels` is completely replaced by the provided set.
   map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
-    (pattern) = "[-_./\\@0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
+    },
+    (size) = "<=64"
   ];
 
   // Dashboard title.
@@ -213,8 +222,6 @@ message UpdateDashboardRequest {
 
   // The current etag of the dashboard.
   string etag = 8;
-
-  reserved 9 to 25;
 
   // Entity that controls dashboard
   // Must match the regular expression "[\w \-]{1,100}"
@@ -239,8 +246,8 @@ message UpdateDashboardMetadata {
 message DeleteDashboardRequest {
   // Required. Dashboard ID.
   string dashboard_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The current etag of the dashboard.
@@ -255,8 +262,8 @@ message DeleteDashboardMetadata {
 message ListDashboardOperationsRequest {
   // ID of the dashboard to list operations for.
   string dashboard_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -282,8 +289,10 @@ message ListDashboardOperationsResponse {
 
 message ListDashboardLabelNamesRequest {
   string project_id = 1;
+
   // Contains substring of name(aka key). All label names containing this string will be returned
   string text = 2;
+
   // Filters alerts by this selectors.
   string selectors = 3;
   int64 page_size = 4;
@@ -296,10 +305,13 @@ message ListDashboardLabelNamesResponse {
 
 message ListDashboardLabelValuesRequest {
   string project_id = 1;
+
   // Filters alerts by this selectors.
   string selectors = 2;
+
   // Contains full name (aka key), for which existing values are gathered.
   string label_name = 3;
+
   // Contains substring of value. All label values containing this string will be returned
   string text = 4;
   int64 page_size = 5;

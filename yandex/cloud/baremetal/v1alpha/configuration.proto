@@ -38,7 +38,7 @@ message DiskDriveConfiguration {
 }
 
 message Configuration {
-  reserved 7;
+  reserved 7, 9 to 25;
 
   // ID of the configuration.
   string id = 1;
@@ -60,4 +60,18 @@ message Configuration {
 
   // Number of cpu.
   int64 cpu_num = 8;
+
+  // Indicates whether the mounting option is available or not for this configuration.
+  MountingAvailability mounting_availability = 26;
+}
+
+enum MountingAvailability {
+  // Unspecified mounting availability.
+  MOUNTING_AVAILABILITY_UNSPECIFIED = 0;
+
+  // Mounting is available.
+  AVAILABLE = 1;
+
+  // Mounting is unavailable.
+  UNAVAILABLE = 2;
 }

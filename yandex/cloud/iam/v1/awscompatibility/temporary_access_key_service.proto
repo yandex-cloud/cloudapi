@@ -12,12 +12,13 @@ option java_package = "yandex.cloud.api.iam.v1.awscompatibility";
 
 // A set of methods for managing temporary and ephemeral access keys.
 service TemporaryAccessKeyService {
-
   // Creates an ephemeral access key for the specified subject.
-  rpc CreateEphemeral (CreateEphemeralAccessKeyRequest) returns (CreateEphemeralAccessKeyResponse) {
-    option (google.api.http) = {post: "/iam/aws-compatibility/v1/ephemeralAccessKeys" body: "*"};
-  }
-
+  rpc CreateEphemeral(CreateEphemeralAccessKeyRequest) returns (CreateEphemeralAccessKeyResponse) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/iam/aws-compatibility/v1/ephemeralAccessKeys"
+    };
+  };
 }
 
 message CreateEphemeralAccessKeyRequest {
@@ -27,14 +28,17 @@ message CreateEphemeralAccessKeyRequest {
 
   // Use the session name to uniquely identify a session when the same SA is impersonated by different principals or for different reasons
   // Pattern: [\w+=,.@-]*
-  string session_name = 2 [(required) = true, (length) = "1-64"];
+  string session_name = 2 [
+    (length) = "1-64",
+    (required) = true
+  ];
 
   // AWS-compatible policy in JSON format that you want to use as an inline session policy.
   string policy = 3 [(length) = "<=2048"];
 
   // Duration, which specifies the duration of the ephemeral access key,
   // but duration won't be longer than the lifetime of the authentication token that made the request
-  google.protobuf.Duration duration = 4 [(value) = ">=15m"];
+  google.protobuf.Duration duration = 4 [(value) = "15m-8760h"];
 }
 
 message CreateEphemeralAccessKeyResponse {

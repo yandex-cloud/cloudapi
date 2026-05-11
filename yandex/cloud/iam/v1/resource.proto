@@ -10,8 +10,14 @@ option java_package = "yandex.cloud.api.iam.v1";
 // A Resource. For more information, see [Resource](/docs/iam/concepts/access-control/resources-with-access-control).
 message Resource {
   // ID of the resource.
-  string id = 1 [(required) = true, (length) = "<=50"];
+  string id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The type of the resource, e.g. resource-manager.folder, billing.account, compute.snapshot, etc.
-  string type = 2 [(required) = true, (length) = "<=64"];
+  string type = 2 [
+    (length) = "<=64",
+    (required) = true
+  ];
 }

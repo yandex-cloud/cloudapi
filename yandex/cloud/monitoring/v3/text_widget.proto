@@ -7,6 +7,6 @@ option java_package = "yandex.cloud.api.monitoring.v3";
 
 // Text widget.
 message TextWidget {
-    // Text.
-    string text = 1;
+  // Text.
+  string text = 1;
 }

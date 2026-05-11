@@ -4,8 +4,8 @@ package yandex.cloud.iam.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/cloud/iam/v1/key.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/iam/v1/key.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -15,50 +15,66 @@ option java_package = "yandex.cloud.api.iam.v1";
 // A set of methods for managing Key resources.
 service KeyService {
   // Returns the specified Key resource.
-  //
   // To get the list of available Key resources, make a [List] request.
-  rpc Get (GetKeyRequest) returns (Key) {
-    option (google.api.http) = { get: "/iam/v1/keys/{key_id}" };
-  }
+  rpc Get(GetKeyRequest) returns (Key) {
+    option (google.api.http) = {
+      get: "/iam/v1/keys/{key_id}"
+    };
+  };
 
   // Retrieves the list of Key resources for the specified service account.
-  rpc List (ListKeysRequest) returns (ListKeysResponse) {
-    option (google.api.http) = { get: "/iam/v1/keys" };
-  }
+  rpc List(ListKeysRequest) returns (ListKeysResponse) {
+    option (google.api.http) = {
+      get: "/iam/v1/keys"
+    };
+  };
 
   // Creates a key pair for the specified service account.
-  rpc Create (CreateKeyRequest) returns (CreateKeyResponse) {
-    option (google.api.http) = { post: "/iam/v1/keys" body: "*" };
-  }
+  rpc Create(CreateKeyRequest) returns (CreateKeyResponse) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/iam/v1/keys"
+    };
+  };
 
   // Updates the specified key pair.
-  rpc Update (UpdateKeyRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/iam/v1/keys/{key_id}" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateKeyRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateKeyMetadata"
       response: "Key"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/iam/v1/keys/{key_id}"
+    };
+  };
 
   // Deletes the specified key pair.
-  rpc Delete (DeleteKeyRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/iam/v1/keys/{key_id}" };
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteKeyRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteKeyMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/iam/v1/keys/{key_id}"
+    };
+  };
 
   // Lists operations for the specified key.
-  rpc ListOperations (ListKeyOperationsRequest) returns (ListKeyOperationsResponse) {
-    option (google.api.http) = { get: "/iam/v1/keys/{key_id}/operations" };
-  }
+  rpc ListOperations(ListKeyOperationsRequest) returns (ListKeyOperationsResponse) {
+    option (google.api.http) = {
+      get: "/iam/v1/keys/{key_id}/operations"
+    };
+  };
 }
 
 message GetKeyRequest {
   // ID of the Key resource to return.
   // To get the ID use a [KeyService.List] request.
-  string key_id = 1 [(required) = true, (length) = "<=50"];
+  string key_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Output format of the key.
   KeyFormat format = 2;
@@ -78,7 +94,7 @@ message ListKeysRequest {
   // the service returns a [ListKeysResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Default value: 100.
-  int64 page_size = 3 [(value) = "<=1000"];
+  int64 page_size = 3 [(value) = "0-1000"];
 
   // Page token. To get the next page of results, set [page_token] to the
   // [ListKeysResponse.next_page_token] returned by a previous list request.
@@ -126,7 +142,10 @@ message CreateKeyResponse {
 message UpdateKeyRequest {
   // ID of the Key resource to update.
   // To get key pair ID, use a [KeyService.List] request.
-  string key_id = 1 [(required) = true, (length) = "<=50"];
+  string key_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Field mask that specifies which fields of the Key resource are going to be updated.
   google.protobuf.FieldMask update_mask = 2;
@@ -143,7 +162,10 @@ message UpdateKeyMetadata {
 message DeleteKeyRequest {
   // ID of the key to delete.
   // To get key ID use a [KeyService.List] request.
-  string key_id = 1 [(required) = true, (length) = "<=50"];
+  string key_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message DeleteKeyMetadata {
@@ -153,7 +175,10 @@ message DeleteKeyMetadata {
 
 message ListKeyOperationsRequest {
   // ID of the key to list operations for.
-  string key_id = 1 [(required) = true, (length) = "<=50"];
+  string key_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size],
