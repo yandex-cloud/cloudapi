@@ -13,57 +13,86 @@ option java_package = "yandex.cloud.api.organizationmanager.v1";
 
 service OsLoginService {
   // OsLogin settings
-  rpc GetSettings (GetOsLoginSettingsRequest) returns (OsLoginSettings) {
-    option (google.api.http) = { get: "/organization-manager/v1/organizations/{organization_id}/osLoginSettings" };
-  }
-  rpc UpdateSettings (UpdateOsLoginSettingsRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/organization-manager/v1/organizations/{organization_id}/osLoginSettings" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc GetSettings(GetOsLoginSettingsRequest) returns (OsLoginSettings) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/organizations/{organization_id}/osLoginSettings"
+    };
+  };
+
+  rpc UpdateSettings(UpdateOsLoginSettingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateOsLoginSettingsMetadata"
       response: "OsLoginSettings"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/organization-manager/v1/organizations/{organization_id}/osLoginSettings"
+    };
+  };
 
   // OsLogin Profiles
-  rpc GetProfile (GetOsLoginProfileRequest) returns (OsLoginProfile) {
-    option (google.api.http) = { get: "/organization-manager/v1/osLoginProfiles/{os_login_profile_id}" };
-  }
-  rpc ListProfiles (ListOsLoginProfilesRequest) returns (ListOsLoginProfilesResponse) {
-    option (google.api.http) = { get: "/organization-manager/v1/osLoginProfiles" };
-  }
-  rpc CreateProfile (CreateOsLoginProfileRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/osLoginProfiles" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc GetProfile(GetOsLoginProfileRequest) returns (OsLoginProfile) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/osLoginProfiles/{os_login_profile_id}"
+    };
+  };
+
+  rpc ListProfiles(ListOsLoginProfilesRequest) returns (ListOsLoginProfilesResponse) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/osLoginProfiles"
+    };
+  };
+
+  rpc CreateProfile(CreateOsLoginProfileRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateOsLoginProfileMetadata"
       response: "OsLoginProfile"
     };
-  }
-  rpc UpdateProfile (UpdateOsLoginProfileRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/organization-manager/v1/osLoginProfiles/{os_login_profile_id}" body: "*" };
-    option (yandex.cloud.api.operation) = {
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/osLoginProfiles"
+    };
+  };
+
+  rpc UpdateProfile(UpdateOsLoginProfileRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateOsLoginProfileMetadata"
       response: "OsLoginProfile"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/organization-manager/v1/osLoginProfiles/{os_login_profile_id}"
+    };
+  };
+
   // Sets a profile as a default for the subject assigned to this profile
-  rpc SetDefaultProfile (SetDefaultOsLoginProfileRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/osLoginProfiles/{os_login_profile_id}:setDefault" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc SetDefaultProfile(SetDefaultOsLoginProfileRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "SetDefaultOsLoginProfileMetadata"
       response: "OsLoginProfile"
     };
-  }
-  rpc DeleteProfile (DeleteOsLoginProfileRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/organization-manager/v1/osLoginProfiles/{id}" };
-    option (yandex.cloud.api.operation) = {
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/osLoginProfiles/{os_login_profile_id}:setDefault"
+    };
+  };
+
+  rpc DeleteProfile(DeleteOsLoginProfileRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteOsLoginProfileMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/organization-manager/v1/osLoginProfiles/{id}"
+    };
+  };
 }
 
 message GetOsLoginSettingsRequest {
-  string organization_id = 1 [(required) = true, (length) = "<=50"];
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message OsLoginSettings {
@@ -81,11 +110,13 @@ message SshCertificateSettings {
 }
 
 message UpdateOsLoginSettingsRequest {
-  string organization_id = 1 [(required) = true, (length) = "<=50"];
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
   UserSshKeySettings user_ssh_key_settings = 2;
   SshCertificateSettings ssh_certificate_settings = 3;
   google.protobuf.FieldMask update_mask = 4;
-
   message UserSshKeySettings {
     bool enabled = 1;
     bool allow_manage_own_keys = 2;
@@ -97,15 +128,24 @@ message UpdateOsLoginSettingsRequest {
 }
 
 message SetDefaultOsLoginProfileRequest {
-  string os_login_profile_id = 1 [(required) = true, (length) = "<=50"];
+  string os_login_profile_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message GetOsLoginProfileRequest {
-  string os_login_profile_id = 1 [(required) = true, (length) = "<=50"];
+  string os_login_profile_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListOsLoginProfilesRequest {
-  string organization_id = 1 [(required) = true, (length) = "<=50"];
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
   int64 page_size = 2 [(value) = "0-1000"];
   string page_token = 3 [(length) = "<=2000"];
 
@@ -135,25 +175,42 @@ message OsLoginProfile {
 }
 
 message UpdateOsLoginProfileRequest {
-  string os_login_profile_id = 1 [(required) = true, (length) = "<=50"];
-  string login = 2 [(required) = true, (length) = "<=32", (pattern)="^[^.]*?[^~.]$"]; // must not contain . or end in ~
+  string os_login_profile_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+  string login = 2 [
+    (length) = "<=32",
+    (pattern) = "^[a-zA-Z0-9_][a-zA-Z0-9_-]{0,31}$",
+    (required) = true
+  ]; // must not contain . or end in ~
   int64 uid = 3 [(value) = "1000-9223372036854775807"]; // 1000 - 2^63 - 1
   string home_directory = 4 [(length) = "<=255"];
-  string shell = 5 [(length)="<=255"];
+  string shell = 5 [(length) = "<=255"];
   google.protobuf.FieldMask update_mask = 6;
 }
 
 message DeleteOsLoginProfileRequest {
-  string id = 1 [(required) = true, (length) = "<=50"];
+  string id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message CreateOsLoginProfileRequest {
-  string organization_id = 1 [(required) = true, (length) = "<=50"];
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
   string subject_id = 2 [(length) = "<=50"];
-  string login = 3 [(required) = true, (length) = "<=32", (pattern)="^[^.]*?[^~.]$"]; // must not contain . or end in ~
+  string login = 3 [
+    (length) = "<=32",
+    (pattern) = "^[a-zA-Z0-9_][a-zA-Z0-9_-]{0,31}$",
+    (required) = true
+  ]; // must not contain . or end in ~
   int64 uid = 4 [(value) = "1000-9223372036854775807"]; // 1000 - 2^63 - 1
   string home_directory = 5 [(length) = "<=255"];
-  string shell = 6 [(length)="<=255"];
+  string shell = 6 [(length) = "<=255"];
 }
 
 message UpdateOsLoginProfileMetadata {
@@ -170,11 +227,11 @@ message CreateOsLoginProfileMetadata {
   string subject_id = 3;
 }
 
-message UpdateOsLoginSettingsMetadata{
+message UpdateOsLoginSettingsMetadata {
   string organization_id = 1;
 }
 
-message SetDefaultOsLoginProfileMetadata{
+message SetDefaultOsLoginProfileMetadata {
   string previous_default_profile_id = 1;
   string current_default_profile_id = 2;
 }

@@ -18,140 +18,189 @@ option java_package = "yandex.cloud.api.organizationmanager.v1.idp";
 // A set of methods for managing users in the Identity Provider system.
 service UserService {
   // Returns the specified user.
-  //
   // To get the list of available users, make a [List] request.
-  rpc Get (GetUserRequest) returns (User) {
-    option (google.api.http) = { get: "/organization-manager/v1/idp/users/{user_id}" };
-  }
+  rpc Get(GetUserRequest) returns (User) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/idp/users/{user_id}"
+    };
+  };
 
   // Retrieves the list of users in the specified userpool.
-  rpc List (ListUsersRequest) returns (ListUsersResponse) {
-    option (google.api.http) = { get: "/organization-manager/v1/idp/users" };
-  }
+  rpc List(ListUsersRequest) returns (ListUsersResponse) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/idp/users"
+    };
+  };
 
   // Creates a user in the specified userpool.
-  rpc Create (CreateUserRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/idp/users" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateUserRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateUserMetadata"
       response: "User"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/idp/users"
+    };
+  };
 
   // Updates the specified user.
-  rpc Update (UpdateUserRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/organization-manager/v1/idp/users/{user_id}" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateUserRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateUserMetadata"
       response: "User"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/organization-manager/v1/idp/users/{user_id}"
+    };
+  };
 
   // Deletes the specified user.
-  rpc Delete (DeleteUserRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/organization-manager/v1/idp/users/{user_id}" };
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteUserRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteUserMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/organization-manager/v1/idp/users/{user_id}"
+    };
+  };
 
   // Sets the password for the authenticated user.
-  rpc SetOwnPassword (SetOwnPasswordRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/idp/users:setOwnPassword" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc SetOwnPassword(SetOwnPasswordRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "SetOwnPasswordMetadata"
       response: "SetOwnPasswordResponse"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/idp/users:setOwnPassword"
+    };
+  };
 
   // Sets the password for another user.
-  rpc SetOthersPassword (SetOthersPasswordRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/idp/users/{user_id}:setOthersPassword" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc SetOthersPassword(SetOthersPasswordRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "SetOthersPasswordMetadata"
       response: "SetOthersPasswordResponse"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/idp/users/{user_id}:setOthersPassword"
+    };
+  };
 
   // Suspends the specified user.
-  rpc Suspend (SuspendUserRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/idp/users/{user_id}:suspend" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Suspend(SuspendUserRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "SuspendUserMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/idp/users/{user_id}:suspend"
+    };
+  };
 
   // Reactivates a previously suspended user.
-  rpc Reactivate (ReactivateUserRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/idp/users/{user_id}:reactivate" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Reactivate(ReactivateUserRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "ReactivateUserMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/idp/users/{user_id}:reactivate"
+    };
+  };
 
   // Generates a new password.
-  rpc GeneratePassword (GeneratePasswordRequest) returns (GeneratePasswordResponse) {
-    option (google.api.http) = { post: "/organization-manager/v1/idp/users:generatePassword" body: "*" };
-  }
+  rpc GeneratePassword(GeneratePasswordRequest) returns (GeneratePasswordResponse) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/idp/users:generatePassword"
+    };
+  };
 
   // Returns metadata about the authenticated user's password.
-  rpc GetSelfPasswordMetadata (google.protobuf.Empty) returns (PasswordMetadata) {
-    option (google.api.http) = { get: "/organization-manager/v1/idp/users:getSelfPasswordMetadata" };
-  }
+  rpc GetSelfPasswordMetadata(google.protobuf.Empty) returns (PasswordMetadata) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/idp/users:getSelfPasswordMetadata"
+    };
+  };
 
   // Converts a user to use external authentication.
-  rpc ConvertToExternal (ConvertToExternalUserRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/idp/users/{user_id}:convertToExternal" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc ConvertToExternal(ConvertToExternalUserRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "ConvertToExternalUserMetadata"
       response: "User"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/idp/users/{user_id}:convertToExternal"
+    };
+  };
 
   // Sets a password hash for the specified user.
-  rpc SetPasswordHash (SetPasswordHashRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/idp/users/{user_id}:setPasswordHash" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc SetPasswordHash(SetPasswordHashRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "SetPasswordHashMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/idp/users/{user_id}:setPasswordHash"
+    };
+  };
 
   // Resolves external IDs to internal user IDs.
-  rpc ResolveExternalIds (ResolveExternalIdsRequest) returns (ResolveExternalIdsResponse) {
-    option (google.api.http) = { post: "/organization-manager/v1/idp/users:resolveExternalIds" body: "*" };
-  }
+  rpc ResolveExternalIds(ResolveExternalIdsRequest) returns (ResolveExternalIdsResponse) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/idp/users:resolveExternalIds"
+    };
+  };
 
   // Streams password changes for a IdentityHub sync agent to process.
-  rpc GetPasswordChanges (stream GetPasswordChangesRequest) returns (stream GetPasswordChangesResponse);
+  rpc GetPasswordChanges(stream GetPasswordChangesRequest) returns (stream GetPasswordChangesResponse);
 
   // Commits the result of a password writeback operation.
-  rpc CommitPassword (CommitPasswordRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/idp/users:commitPassword" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc CommitPassword(CommitPasswordRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CommitPasswordMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/idp/users:commitPassword"
+    };
+  };
 }
 
 // Request to get a user by ID.
 message GetUserRequest {
   // ID of the user to return.
-  string user_id = 1 [(required) = true, (length) = "<=50"];
+  string user_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 // Request to list users in a userpool.
 message ListUsersRequest {
   // ID of the userpool to list users in.
-  string userpool_id = 1 [(required) = true, (length) = "<=50"];
+  string userpool_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // The maximum number of results per page to return.
   int64 page_size = 2 [(value) = "0-1000"];
+
   // Page token for pagination.
   string page_token = 3 [(length) = "<=2000"];
+
   // A filter expression that filters resources listed in the response.
   string filter = 4 [(length) = "<=1000"];
 }
@@ -160,50 +209,74 @@ message ListUsersRequest {
 message ListUsersResponse {
   // List of users.
   repeated User users = 1;
+
   // Token for getting the next page of the list.
   string next_page_token = 2;
 }
 
 // Request to create a new user.
 message CreateUserRequest {
-  // ID of the userpool to create the user in.
-  string userpool_id = 1 [(required) = true, (length) = "<=50"];
-  // Username for the new user.
-  string username = 2 [(required) = true, (length) = "<=254", (pattern) = "[a-z0-9A-Z\\._-]{1,64}@.{1,256}"];
-  // Full name of the user.
-  string full_name = 4 [(required) = true, (length) = "<=256"];
-  // First name of the user.
-  string given_name = 5 [(length) = "<=256"];
-  // Last name of the user.
-  string family_name = 6 [(length) = "<=256"];
-  // Email address of the user.
-  string email = 7 [(length) = "<=254", (pattern) = "|(.{3,254})"];
-  // Phone number of the user.
-  string phone_number = 8 [(length) = "<=50"];
-
   reserved 3;
 
+  // ID of the userpool to create the user in.
+  string userpool_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Username for the new user.
+  string username = 2 [
+    (length) = "<=254",
+    (pattern) = "[a-z0-9A-Z\\._-]{1,64}@.{1,256}",
+    (required) = true
+  ];
+
+  // Full name of the user.
+  string full_name = 4 [
+    (length) = "<=256",
+    (required) = true
+  ];
+
+  // First name of the user.
+  string given_name = 5 [(length) = "<=256"];
+
+  // Last name of the user.
+  string family_name = 6 [(length) = "<=256"];
+
+  // Email address of the user.
+  string email = 7 [
+    (length) = "<=254",
+    (pattern) = "|(.{3,254})"
+  ];
+
+  // Phone number of the user.
+  string phone_number = 8 [(length) = "<=50"];
   // User credentials.
   oneof credentials {
     option (exactly_one) = true;
 
     // Password specification. Credentials type. Exactly one of credentials type must be specified.
     PasswordSpec password_spec = 9;
+
     // Password hash. Credentials type. Exactly one of credentials type must be specified.
     PasswordHash password_hash = 11;
   }
 
   // Whether the user is active. Default is true.
   google.protobuf.BoolValue is_active = 10;
+
   // External identifier for the user.
   string external_id = 12 [(length) = "<=256"];
 
   // User's company name.
   string company_name = 13 [(length) = "<=256"];
+
   // User's department.
   string department = 14 [(length) = "<=256"];
+
   // User's job title.
   string job_title = 15 [(length) = "<=256"];
+
   // User's employee ID
   string employee_id = 16 [(length) = "<=256"];
 }
@@ -216,32 +289,52 @@ message CreateUserMetadata {
 
 // Request to update an existing user.
 message UpdateUserRequest {
+  reserved 4;
+
   // ID of the user to update.
-  string user_id = 1 [(required) = true, (length) = "<=50"];
+  string user_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // Field mask that specifies which fields of the user are going to be updated.
   google.protobuf.FieldMask update_mask = 2;
+
   // New username for the user.
-  string username = 3 [(length) = "<=254", (pattern) = "|[a-z0-9A-Z\\._-]{1,64}@.{1,256}"];
+  string username = 3 [
+    (length) = "<=254",
+    (pattern) = "|[a-z0-9A-Z\\._-]{1,64}@.{1,256}"
+  ];
+
   // New full name for the user.
   string full_name = 5 [(length) = "<=256"];
+
   // New first name for the user.
   string given_name = 6 [(length) = "<=256"];
+
   // New last name for the user.
   string family_name = 7 [(length) = "<=256"];
+
   // New email address for the user.
-  string email = 8 [(length) = "<=254", (pattern) = "|(.{3,254})"];
+  string email = 8 [
+    (length) = "<=254",
+    (pattern) = "|(.{3,254})"
+  ];
+
   // New phone number for the user.
   string phone_number = 9 [(length) = "<=50"];
+
   // New company name for the user.
   string company_name = 10 [(length) = "<=256"];
+
   // New department for the user.
   string department = 11 [(length) = "<=256"];
+
   // New job title for the user.
   string job_title = 12 [(length) = "<=256"];
+
   // New employee ID for the user.
   string employee_id = 13 [(length) = "<=256"];
-
-  reserved 4;
 }
 
 // Metadata for the [UserService.Update] operation.
@@ -253,7 +346,10 @@ message UpdateUserMetadata {
 // Request to delete a user.
 message DeleteUserRequest {
   // ID of the user to delete.
-  string user_id = 1 [(required) = true, (length) = "<=50"];
+  string user_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 // Metadata for the [UserService.Delete] operation.
@@ -265,9 +361,16 @@ message DeleteUserMetadata {
 // Request to suspend a user.
 message SuspendUserRequest {
   // ID of the user to suspend.
-  string user_id = 1  [(required) = true, (length) = "<=50"];
+  string user_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // Reason for suspending the user.
-  string reason = 2 [(required) = false, (length) = "<=256"];
+  string reason = 2 [
+    (length) = "<=256",
+    (required) = false
+  ];
 }
 
 // Metadata for the [UserService.Suspend] operation.
@@ -279,7 +382,10 @@ message SuspendUserMetadata {
 // Request to reactivate a suspended user.
 message ReactivateUserRequest {
   // ID of the user to reactivate.
-  string user_id = 1  [(required) = true, (length) = "<=50"];
+  string user_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 // Metadata for the [UserService.Reactivate] operation.
@@ -292,8 +398,12 @@ message ReactivateUserMetadata {
 message SetOwnPasswordRequest {
   // New password specification.
   PasswordSpec password_spec = 1 [(required) = true];
+
   // Current password for verification.
-  string old_password = 2 [(required) = true, (length) = "<=128"];
+  string old_password = 2 [
+    (length) = "<=128",
+    (required) = true
+  ];
 }
 
 // Metadata for the [UserService.SetOwnPassword] operation.
@@ -309,7 +419,11 @@ message SetOwnPasswordResponse {
 // Request to set another user's password.
 message SetOthersPasswordRequest {
   // ID of the user whose password to set.
-  string user_id = 1  [(required) = true, (length) = "<=50"];
+  string user_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // New password specification.
   PasswordSpec password_spec = 2 [(required) = true];
 }
@@ -337,7 +451,11 @@ message GeneratePasswordResponse {
 // Password specification.
 message PasswordSpec {
   // The password string.
-  string password = 1 [(required) = true, (length) = "<=128"];
+  string password = 1 [
+    (length) = "<=128",
+    (required) = true
+  ];
+
   // Proof that the password was generated by the system.
   string generation_proof = 2 [(length) = "<=128"];
 }
@@ -346,12 +464,16 @@ message PasswordSpec {
 message PasswordMetadata {
   // Unique identifier of the password.
   string id = 1;
+
   // Type of the password.
   PasswordType type = 2;
+
   // Timestamp when the password was created.
   google.protobuf.Timestamp created_at = 3;
+
   // Timestamp when the password expires.
   google.protobuf.Timestamp expires_at = 4;
+
   // Information about the last usage of the password.
   PasswordUsage last_usage = 5;
 
@@ -359,8 +481,10 @@ message PasswordMetadata {
   enum PasswordType {
     // The password type is not specified.
     PASSWORD_TYPE_UNSPECIFIED = 0;
+
     // Temporary password that must be changed on first use.
     TEMPORARY = 1;
+
     // Permanent password.
     PERMANENT = 2;
   }
@@ -369,6 +493,7 @@ message PasswordMetadata {
   message PasswordUsage {
     // Timestamp when the password was last used.
     google.protobuf.Timestamp used_at = 1;
+
     // IP address from which the password was used.
     string ip_address = 2;
   }
@@ -377,15 +502,23 @@ message PasswordMetadata {
 // Request to convert a user to use external authentication.
 message ConvertToExternalUserRequest {
   // ID of the user to convert.
-  string user_id = 1 [(required) = true, (length) = "<=50"];
+  string user_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // External identifier to associate with the user.
-  string external_id = 2 [(required) = true, (length) = "<=256"];
+  string external_id = 2 [
+    (length) = "<=256",
+    (required) = true
+  ];
 }
 
 // Metadata for the [UserService.ConvertToExternal] operation.
 message ConvertToExternalUserMetadata {
   // ID of the user being converted.
   string user_id = 1;
+
   // External identifier being associated with the user.
   string external_id = 2;
 }
@@ -393,7 +526,11 @@ message ConvertToExternalUserMetadata {
 // Request to set a password hash for a user.
 message SetPasswordHashRequest {
   // ID of the user to set the password hash for.
-  string user_id = 1 [(required) = true, (length) = "<=50"];
+  string user_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // Password hash to set.
   PasswordHash hash = 2;
 }
@@ -407,7 +544,11 @@ message SetPasswordHashMetadata {
 // Password hash information.
 message PasswordHash {
   // The password hash string.
-  string password_hash = 1 [(required) = true, (length) = "<=128"];
+  string password_hash = 1 [
+    (length) = "<=128",
+    (required) = true
+  ];
+
   // Type of the password hash.
   PasswordHashType password_hash_type = 2 [(required) = true];
 
@@ -415,6 +556,7 @@ message PasswordHash {
   enum PasswordHashType {
     // The password hash type is not specified.
     PASSWORD_HASH_TYPE_UNSPECIFIED = 0;
+
     // Microsoft Active Directory MD4 hash.
     AD_MD4 = 1;
   }
@@ -423,17 +565,26 @@ message PasswordHash {
 // Request to resolve external IDs to internal user IDs.
 message ResolveExternalIdsRequest {
   // ID of the userpool to resolve external IDs in.
-  string userpool_id = 1 [(required) = true, (length) = "<=50"];
+  string userpool_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // List of external IDs to resolve.
-  repeated string external_ids = 2 [(size) = "1-1000", (length) = "<=256"];
+  repeated string external_ids = 2 [
+    (length) = "<=256",
+    (size) = "1-1000"
+  ];
 }
 
 // Information about a resolved user.
 message ResolvedUser {
   // Internal user ID.
   string user_id = 1;
+
   // External identifier.
   string external_id = 2;
+
   // ID of the userpool the user belongs to.
   string userpool_id = 3;
 }
@@ -450,18 +601,23 @@ message PasswordWritebackErrorDetails {
   enum PasswordWritebackErrorCode {
     // The error code is not specified.
     PASSWORD_WRITEBACK_ERROR_CODE_UNSPECIFIED = 0;
+
     // The IdentityHub sync agent does not have permission to set the password.
     PERMISSION_DENIED = 1;
+
     // The password does not meet the directory's password policy.
     PASSWORD_POLICY_VIOLATION = 2;
+
     // An unknown error occurred.
     UNKNOWN_ERROR = 3;
+
     // The writeback operation timed out.
     DEADLINE_EXCEEDED = 4;
   }
 
   // Type of error, used for UI rendering.
   PasswordWritebackErrorCode error_code = 1;
+
   // Exact error message from LDAP, for debugging purposes.
   string error_message = 2;
 }
@@ -469,9 +625,17 @@ message PasswordWritebackErrorDetails {
 // Request from a IdentityHub sync agent to receive pending password changes.
 message GetPasswordChangesRequest {
   // ID of the userpool to receive password changes for.
-  string userpool_id = 1 [(required) = true, (length) = "<=50"];
+  string userpool_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // ID of the IdentityHub sync agent.
-  string agent_id = 2 [(required) = true, (length) = "<=50"];
+  string agent_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // Offset of the last successfully processed change.
   int64 offset = 3;
 }
@@ -480,18 +644,25 @@ message GetPasswordChangesRequest {
 message GetPasswordChangesResponse {
   // External identifier of the user whose password changed.
   string external_user_id = 1;
+
   // The new password to write back to the directory.
   string password = 2;
+
   // ID of the operation that triggered this password change.
   string modifying_operation_id = 3;
+
   // Whether the user must change their password on next login.
   bool need_change = 4;
+
   // Offset of this change in the stream.
   int64 offset = 5;
+
   // Timestamp when the password expires.
   google.protobuf.Timestamp expires_at = 6;
+
   // Timestamp when the writeback operation expires.
   google.protobuf.Timestamp operation_expires_at = 7;
+
   // Whether the password was system-generated.
   bool generated = 8;
 }
@@ -499,29 +670,50 @@ message GetPasswordChangesResponse {
 // Request to commit the result of a password writeback operation.
 message CommitPasswordRequest {
   // External identifier of the user whose password was written back.
-  string external_user_id = 1 [(required) = true, (length) = "<=50"];
+  string external_user_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // The password that was written back.
-  string password = 2 [(required) = true, (length) = "<=128"];
+  string password = 2 [
+    (length) = "<=128",
+    (required) = true
+  ];
+
   // ID of the operation that triggered this writeback.
-  string modifying_operation_id = 3 [(required) = true, (length) = "<=50"];
+  string modifying_operation_id = 3 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // Whether the user must change their password on next login.
   bool need_change = 4;
+
   // Error details if the writeback failed.
   PasswordWritebackErrorDetails error_details = 5;
+
   // Timestamp when the password expires.
   google.protobuf.Timestamp expires_at = 6;
+
   // Whether the password was system-generated.
   bool generated = 7;
+
   // ID of the userpool the user belongs to.
-  string userpool_id = 8 [(required) = true, (length) = "<=50"];
+  string userpool_id = 8 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 // Metadata for the [UserService.CommitPassword] operation.
 message CommitPasswordMetadata {
   // External identifier of the user.
   string external_user_id = 1;
+
   // ID of the operation that triggered the writeback.
   string modifying_operation_id = 2;
+
   // ID of the userpool the user belongs to.
   string userpool_id = 3;
 }

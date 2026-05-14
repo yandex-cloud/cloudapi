@@ -10,27 +10,27 @@ option java_package = "yandex.cloud.api.organizationmanager.v1";
 // A Group resource.
 // For more information, see [Groups](/docs/organization/operations/manage-groups).
 message Group {
-    // ID of the group.
-    string id = 1;
+  // ID of the group.
+  string id = 1;
 
-    // ID of the organization that the group belongs to.
-    string organization_id = 2;
+  // ID of the organization that the group belongs to.
+  string organization_id = 2;
 
-    // Creation timestamp.
-    google.protobuf.Timestamp created_at = 3;
+  // Creation timestamp.
+  google.protobuf.Timestamp created_at = 3;
 
-    // Name of the group.
-    string name = 4;
+  // Name of the group.
+  string name = 4;
 
-    // Description of the group.
-    string description = 5;
+  // Description of the group.
+  string description = 5;
 
-    // Id of the subject container that external group belongs to. It is set if group is external.
-    string subject_container_id = 6;
-    
-    // Id of the group from external system. It is set if group is external.
-    string external_id = 7;
+  // Id of the subject container that external group belongs to. It is set if group is external.
+  string subject_container_id = 6;
 
-    // Resource labels as `key:value` pairs.
-    map<string, string> labels = 8;
+  // Id of the group from external system. It is set if group is external.
+  string external_id = 7;
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 8;
 }

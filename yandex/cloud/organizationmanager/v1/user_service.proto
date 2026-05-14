@@ -14,23 +14,31 @@ option java_package = "yandex.cloud.api.organizationmanager.v1";
 // A set of methods for managing Organization users.
 service UserService {
   // List organization active members.
-  rpc ListMembers (ListMembersRequest) returns (ListMembersResponse) {
-    option (google.api.http) = {get: "/organization-manager/v1/organizations/{organization_id}/users"};
-  }
+  rpc ListMembers(ListMembersRequest) returns (ListMembersResponse) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/organizations/{organization_id}/users"
+    };
+  };
 
   // Delete user membership.
-  rpc DeleteMembership (DeleteMembershipRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/organization-manager/v1/organizations/{organization_id}/users/{subject_id}"};
-    option (yandex.cloud.api.operation) = {
+  rpc DeleteMembership(DeleteMembershipRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteMembershipMetadata"
       response: "DeleteMembershipResponse"
     };
-  }
+    option (google.api.http) = {
+      delete: "/organization-manager/v1/organizations/{organization_id}/users/{subject_id}"
+    };
+  };
+
 }
 
 message ListMembersRequest {
   // ID of the Organization resource to list members for.
-  string organization_id = 1 [(required) = true, (length) = "<=50"];
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListMembersResponse.next_page_token]
@@ -53,16 +61,18 @@ message ListMembersResponse {
   // for the [ListMembersRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
-
   message OrganizationUser {
     // OpenID standard claims with additional Cloud Organization claims.
-    yandex.cloud.oauth.SubjectClaims subject_claims = 1;
+    oauth.SubjectClaims subject_claims = 1;
   }
 }
 
 message DeleteMembershipRequest {
   // ID of the organization to delete membership.
-  string organization_id = 1 [(required) = true, (length) = "<=50"];
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // ID of the subject that is being deleted from organization.
   // By default equals to authenticated subject.
@@ -71,16 +81,28 @@ message DeleteMembershipRequest {
 
 message DeleteMembershipMetadata {
   // ID of the organization to delete membership.
-  string organization_id = 1 [(required) = true, (length) = "<=50"];
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // ID of the subject that is being deleted from organization.
-  string subject_id = 2 [(required) = true, (length) = "<=50"];
+  string subject_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message DeleteMembershipResponse {
   // ID of the organization to delete membership.
-  string organization_id = 1 [(required) = true, (length) = "<=50"];
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // ID of the subject that is being deleted from organization.
-  string subject_id = 2 [(required) = true, (length) = "<=50"];
+  string subject_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }

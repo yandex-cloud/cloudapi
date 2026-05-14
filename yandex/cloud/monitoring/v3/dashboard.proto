@@ -5,6 +5,7 @@ package yandex.cloud.monitoring.v3;
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/monitoring/v3/link_item.proto";
 import "yandex/cloud/monitoring/v3/parametrization.proto";
+import "yandex/cloud/monitoring/v3/preset_item.proto";
 import "yandex/cloud/monitoring/v3/timeline.proto";
 import "yandex/cloud/monitoring/v3/widget.proto";
 
@@ -13,7 +14,7 @@ option java_package = "yandex.cloud.api.monitoring.v3";
 
 // Dashboard resource.
 message Dashboard {
-  reserved 2, 4 to 19, 31;
+  reserved 2, 4 to 19, 31, 36;
 
   // Dashboard ID.
   string id = 1;
@@ -70,4 +71,7 @@ message Dashboard {
 
   // Dashboard links
   repeated LinkItem links = 35;
+
+  // Parameters / Infra events / Logs overlays presets list
+  repeated PresetItem preset_items = 37;
 }

@@ -12,26 +12,35 @@ option java_package = "yandex.cloud.api.organizationmanager.v1";
 message MfaEnforcement {
   // id of the MFA enforcement
   string id = 1;
+
   // organization id of the MFA enforcement
   string organization_id = 2;
+
   // acr id of the MFA enforcement
   string acr_id = 3;
-  // the period during which the entered MFA factor is considered valid and the 
+
+  // the period during which the entered MFA factor is considered valid and the
   // corresponding acr is regarded as satisfied
   google.protobuf.Duration ttl = 4;
+
   // MFA enforcement status
   MfaEnforcementStatus status = 5;
+
   // the MFA enforcement application start time.
   google.protobuf.Timestamp apply_at = 6;
-  // the time window during which the user is allowed to create an MFA profile. 
+
+  // the time window during which the user is allowed to create an MFA profile.
   // this window is measured relative to the MFA enforcement application start time
-  // and the user's most recent successful authentication that falls under the rule 
+  // and the user's most recent successful authentication that falls under the rule
   // (or the user's creation time, if there has been no authentication).
   google.protobuf.Duration enroll_window = 7;
+
   // name of the MFA enforcement
   string name = 8;
+
   // description of the MFA enforcement
   string description = 9;
+
   // creation timestamp
   google.protobuf.Timestamp created_at = 10;
 }

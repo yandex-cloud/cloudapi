@@ -10,9 +10,16 @@ option java_package = "yandex.cloud.api.organizationmanager.v1";
 // Group mapping represents which external (federated) groups should match which internal (cloud) groups
 message GroupMappingItem {
   // External group id (received from identity provider)
-  string external_group_id = 1 [(required) = true, (length) = "<=1000"];
+  string external_group_id = 1 [
+    (length) = "<=1000",
+    (required) = true
+  ];
+
   // Internal cloud group id
-  string internal_group_id = 2 [(required) = true, (length) = "<=50"];
+  string internal_group_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 // Group synchronization status for a specific federation
@@ -20,6 +27,7 @@ message GroupMappingItem {
 message GroupMapping {
   // Federation id
   string federation_id = 1;
+
   // Flag to show whether group synchronization should be enabled for this federation.
   bool enabled = 2;
 }

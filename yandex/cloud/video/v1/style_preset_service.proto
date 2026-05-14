@@ -69,6 +69,7 @@ service StylePresetService {
       delete: "/video/v1/stylePresets/{style_preset_id}"
     };
   };
+
 }
 
 message GetStylePresetRequest {

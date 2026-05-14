@@ -176,10 +176,12 @@ message Connectivity {
   string network_id = 1;
 
   // Complete list of subnets (from the same network) the version can be attached to.
-  // It's essential to specify at least one subnet for each availability zones.
+  //
+  // Deprecated, it is sufficient to specify only network_id, without the list of subnet_ids.
   repeated string subnet_id = 2 [
     (length) = ">0",
-    (unique) = true
+    (unique) = true,
+    deprecated = true
   ];
 }
 
@@ -278,7 +280,9 @@ message Mount {
   reserved 4 to 9;
   enum Mode {
     MODE_UNSPECIFIED = 0;
+    // Mount is available for read access only.
     READ_ONLY = 1;
+    // Mount is available for both read and write access.
     READ_WRITE = 2;
   }
 

@@ -11,8 +11,11 @@ option java_package = "yandex.cloud.api.organizationmanager.v1";
 service SshCertificateService {
   // Members of an organization can generate certificates for themselves
   // Signing certificates for other users requires a special permission
-  rpc Generate (GenerateSshCertificateRequest) returns (GenerateSshCertificateResponse) {
-    option (google.api.http) = { post: "/organization-manager/v1/sshCertificates:generate" body: "*" };
+  rpc Generate(GenerateSshCertificateRequest) returns (GenerateSshCertificateResponse) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/sshCertificates:generate"
+    };
   };
 }
 
@@ -29,7 +32,10 @@ message GenerateSshCertificateRequest {
     string os_login = 4 [(length) = "<=32"]; // specify os_login for a specific login
   }
 
-  string public_key = 5 [(required) = true, (length) = "<=15000"];
+  string public_key = 5 [
+    (length) = "<=15000",
+    (required) = true
+  ];
 }
 
 message GenerateSshCertificateResponse {

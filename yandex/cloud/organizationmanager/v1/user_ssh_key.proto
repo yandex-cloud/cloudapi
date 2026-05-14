@@ -15,6 +15,7 @@ message UserSshKey {
   string fingerprint = 5;
   string organization_id = 6;
   google.protobuf.Timestamp created_at = 7;
+
   // Used for temporary keys, if empty the key doesn't expire
   google.protobuf.Timestamp expires_at = 8;
 }

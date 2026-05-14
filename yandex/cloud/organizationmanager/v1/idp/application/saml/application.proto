@@ -15,12 +15,16 @@ message Application {
   enum Status {
     // The status is not specified.
     STATUS_UNSPECIFIED = 0;
+
     // The application is in the process of being created.
     CREATING = 1;
+
     // The application is active and can be used for authentication.
     ACTIVE = 2;
+
     // The application is suspended. I.e. authentication via this application is disabled.
     SUSPENDED = 3;
+
     // The application is in the process of being deleted.
     DELETING = 4;
   }
@@ -83,7 +87,10 @@ message IdentityProviderMetadata {
 // Service provider configuration for SAML applications.
 message ServiceProvider {
   // Service provider entity ID.
-  string entity_id = 1 [(required) = true, (length) = "<=8000"];
+  string entity_id = 1 [
+    (length) = "<=8000",
+    (required) = true
+  ];
 
   // Assertion Consumer Service URLs.
   repeated AssertionConsumerServiceURL acs_urls = 2 [(size) = "1-100"];
@@ -95,7 +102,10 @@ message ServiceProvider {
 // Assertion Consumer Service URL configuration.
 message AssertionConsumerServiceURL {
   // The URL where SAML responses are sent.
-  string url = 1 [(required) = true, (length) = "<=8000"];
+  string url = 1 [
+    (length) = "<=8000",
+    (required) = true
+  ];
 
   // Optional index for the assertion consumer service.
   google.protobuf.Int64Value index = 2;
@@ -107,14 +117,19 @@ message SingleLogoutServiceURL {
   enum ProtocolBinding {
     // The protocol binding is not specified.
     PROTOCOL_BINDING_UNSPECIFIED = 0;
+
     // HTTP POST binding.
     HTTP_POST = 1;
+
     // HTTP Redirect binding.
     HTTP_REDIRECT = 2;
   }
 
   // The URL where logout requests are sent.
-  string url = 1 [(required) = true, (length) = "<=8000"];
+  string url = 1 [
+    (length) = "<=8000",
+    (required) = true
+  ];
 
   // Optional separate URL for logout responses.
   string response_url = 2 [(length) = "<=8000"];
@@ -129,10 +144,13 @@ message SecuritySettings {
   enum SignatureMode {
     // The signature mode is not specified.
     SIGNATURE_MODE_UNSPECIFIED = 0;
+
     // Sign individual assertions.
     ASSERTIONS = 1;
+
     // Sign the entire response.
     RESPONSE = 2;
+
     // Sign both the response and individual assertions.
     RESPONSE_AND_ASSERTIONS = 3;
   }
@@ -148,6 +166,7 @@ message SecuritySettings {
 message AttributeMapping {
   // NameID configuration for the SAML application.
   NameId name_id = 1 [(required) = true];
+
   // List of attribute mappings.
   repeated Attribute attributes = 2 [(size) = "<=50"];
 }
@@ -156,6 +175,7 @@ message AttributeMapping {
 message NameId {
   // Format of the NameID.
   Format format = 1 [(required) = true];
+
   // Value of the NameID.
   string value = 2;
 
@@ -163,9 +183,11 @@ message NameId {
   enum Format {
     // The NameID format is not specified.
     FORMAT_UNSPECIFIED = 0;
+
     // Persistent NameID format.
     // This provides a stable, opaque identifier for the user.
     PERSISTENT = 1;
+
     // Email NameID format.
     // This uses the user's email address as the identifier.
     EMAIL = 2;
@@ -175,15 +197,23 @@ message NameId {
 // Attribute mapping for SAML applications.
 message Attribute {
   // Name of the SAML attribute.
-  string name = 1 [(required) = true, (length) = "<=8000"];
+  string name = 1 [
+    (length) = "<=8000",
+    (required) = true
+  ];
+
   // Value of the SAML attribute.
-  string value = 2 [(required) = true, (length) = "<=50"];
+  string value = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 // Group claims settings for SAML applications.
 message GroupClaimsSettings {
   // Distribution type for group claims.
   GroupDistributionType group_distribution_type = 1;
+
   // Name of the SAML attribute that contains group information.
   string group_attribute_name = 2 [(length) = "<=8000"];
 }
@@ -192,10 +222,13 @@ message GroupClaimsSettings {
 enum GroupDistributionType {
   // The group distribution type is not specified.
   GROUP_DISTRIBUTION_TYPE_UNSPECIFIED = 0;
+
   // No groups are provided to the application.
   NONE = 1;
+
   // Only assigned groups are provided to the application.
   ASSIGNED_GROUPS = 2;
+
   // All groups are provided to the application.
   ALL_GROUPS = 3;
 }

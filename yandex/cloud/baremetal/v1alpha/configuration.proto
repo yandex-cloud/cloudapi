@@ -38,7 +38,7 @@ message DiskDriveConfiguration {
 }
 
 message Configuration {
-  reserved 7, 9 to 25;
+  reserved 7, 9 to 24;
 
   // ID of the configuration.
   string id = 1;
@@ -61,8 +61,50 @@ message Configuration {
   // Number of cpu.
   int64 cpu_num = 8;
 
+  // Network interfaces of the configuration.
+  repeated ConfigurationNetworkInterface network_interfaces = 25;
+
   // Indicates whether the mounting option is available or not for this configuration.
   MountingAvailability mounting_availability = 26;
+}
+
+message ConfigurationNetworkInterface {
+  // Id of the network interface
+  // Not used while creating interfaces
+  string id = 1;
+
+  // Name of the network interface
+  string name = 2;
+
+  // Id of the configuration
+  string configuration_id = 3;
+
+  // Link speed in gigabits per second
+  int64 link_speed_gbps = 4;
+
+  // Available modes for the network interface
+  repeated InterfaceMode available_modes = 5;
+
+  // MC-LAG configuration options for aggregated interfaces
+  MCLagAggregationOptions mc_lag_options = 6;
+
+  // Mode of the network interface.
+  enum InterfaceMode {
+    // Unspecified interface mode.
+    INTERFACE_MODE_UNSPECIFIED = 0;
+
+    // Private network interface mode.
+    PRIVATE = 1;
+
+    // Public network interface mode.
+    PUBLIC = 2;
+  }
+
+  // MC-LAG aggregation options for the network interface.
+  message MCLagAggregationOptions {
+    // Number of interfaces in the MC-LAG aggregation.
+    int64 interface_count = 1;
+  }
 }
 
 enum MountingAvailability {

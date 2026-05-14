@@ -27,6 +27,9 @@ enum ProductType {
 
   // Robotics AI product.
   PRODUCT_TYPE_ROBOTICS_AI = 5;
+
+  // S3 product.
+  PRODUCT_TYPE_S3 = 6;
 }
 
 // Usage data entry for a single installation

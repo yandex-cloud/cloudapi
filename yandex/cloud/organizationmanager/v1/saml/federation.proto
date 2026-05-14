@@ -12,15 +12,20 @@ option java_package = "yandex.cloud.api.organizationmanager.v1.saml";
 // A federation.
 // For more information, see [SAML-compatible identity federations](/docs/iam/concepts/federations).
 message Federation {
-
   // ID of the federation.
-  string id = 1 [(required) = true, (length) = "<=50"];
+  string id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // ID of the organization that the federation belongs to.
   string organization_id = 2;
 
   // Name of the federation.
-  string name = 3 [(required) = true, (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  string name = 3 [
+    (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]",
+    (required) = true
+  ];
 
   // Description of the federation.
   string description = 4 [(length) = "<=256"];
@@ -36,24 +41,28 @@ message Federation {
   // Add new users automatically on successful authentication.
   // The user becomes member of the organization automatically,
   // but you need to grant other roles to them.
-  //
   // If the value is `false`, users who aren't added to the organization
   // can't log in, even if they have authenticated on your server.
   bool auto_create_account_on_login = 7;
 
   // ID of the IdP server to be used for authentication.
   // The IdP server also responds to IAM with this ID after the user authenticates.
-  string issuer = 8 [(required) = true, (length) = "<=8000"];
+  string issuer = 8 [
+    (length) = "<=8000",
+    (required) = true
+  ];
 
   // Single sign-on endpoint binding type. Most Identity Providers support the `POST` binding type.
-  //
   // SAML Binding is a mapping of a SAML protocol message onto standard messaging
   // formats and/or communications protocols.
   BindingType sso_binding = 9;
 
   // Single sign-on endpoint URL.
   // Specify the link to the IdP login page here.
-  string sso_url = 10 [(required) = true, (length) = "<=8000"];
+  string sso_url = 10 [
+    (length) = "<=8000",
+    (required) = true
+  ];
 
   // Federation security settings.
   FederationSecuritySettings security_settings = 11;
@@ -76,7 +85,6 @@ enum BindingType {
 
   // HTTP artifact binding.
   ARTIFACT = 3;
-
 }
 
 // Federation security settings.
@@ -90,10 +98,8 @@ message FederationSecuritySettings {
 
 // A domain.
 message Domain {
-
   // Status of the domain.
   enum Status {
-
     STATUS_UNSPECIFIED = 0;
 
     // Domain requires ownership validation.
@@ -110,7 +116,6 @@ message Domain {
 
     // Domain is being deleted.
     DELETING = 5;
-
   }
 
   // Domain name
@@ -135,20 +140,16 @@ message Domain {
 
 // A domain validation challenge.
 message DomainChallenge {
-
   // Type of validation challenge.
   enum Type {
-
     TYPE_UNSPECIFIED = 0;
 
     // DNS TXT record validation method.
     DNS_TXT = 1;
-
   }
 
   // Status of the validation challenge.
   enum Status {
-
     STATUS_UNSPECIFIED = 0;
 
     // Challenge is awaiting completion.
@@ -162,7 +163,6 @@ message DomainChallenge {
 
     // Challenge verification failed.
     INVALID = 4;
-
   }
 
   // Timestamp of challenge creation.
@@ -176,7 +176,6 @@ message DomainChallenge {
 
   // Current status of the challenge.
   Status status = 4;
-
   // Validation challenge payload. Currently supports only DNS records.
   oneof challenge {
     // DNS record configuration for domain verification.
@@ -185,15 +184,12 @@ message DomainChallenge {
 
   // DNS record data for validation challenges.
   message DnsRecord {
-
     // Type of DNS record.
     enum Type {
-
       TYPE_UNSPECIFIED = 0;
 
       // TXT record type.
       TXT = 1;
-
     }
 
     // Fully qualified domain name for the record.

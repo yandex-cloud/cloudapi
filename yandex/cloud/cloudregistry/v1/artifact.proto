@@ -34,6 +34,9 @@ message Artifact {
 
     // Artifact status is being deleted.
     DELETING = 3;
+
+    // Artifact status is deleted.
+    DELETED = 4;
   }
 
   // Output only. ID of the artifact.

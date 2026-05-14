@@ -4,10 +4,10 @@ package yandex.cloud.organizationmanager.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/cloud/api/operation.proto";
-import "yandex/cloud/organizationmanager/v1/group.proto";
 import "yandex/cloud/access/access.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/organizationmanager/v1/group.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/organizationmanager/v1;organizationmanager";
@@ -16,152 +16,202 @@ option java_package = "yandex.cloud.api.organizationmanager.v1";
 // A set of methods for managing groups.
 service GroupService {
   // Returns the specified Group resource.
-  //
   // To get the list of available Group resources, make a [List] request.
-  rpc Get (GetGroupRequest) returns (Group) {
-    option (google.api.http) = { get: "/organization-manager/v1/groups/{group_id}" };
-  }
+  rpc Get(GetGroupRequest) returns (Group) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/groups/{group_id}"
+    };
+  };
 
   // Returns external group by subject container and external id
-  rpc ResolveExternal (ResolveExternalGroupRequest) returns (Group) {
-    option (google.api.http) = { get: "/organization-manager/v1/external_groups/{subject_container_id}/{external_id}" };
-  }
+  rpc ResolveExternal(ResolveExternalGroupRequest) returns (Group) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/external_groups/{subject_container_id}/{external_id}"
+    };
+  };
 
   // Retrieves the list of group resources.
-  rpc List (ListGroupsRequest) returns (ListGroupsResponse) {
-    option (google.api.http) = { get: "/organization-manager/v1/groups" };
-  }
+  rpc List(ListGroupsRequest) returns (ListGroupsResponse) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/groups"
+    };
+  };
 
   // Retrieves the list of external group linked subject container
-  rpc ListExternal (ListExternalGroupsRequest) returns (ListExternalGroupsResponse) {
-    option (google.api.http) = { get: "/organization-manager/v1/external_groups" };
+  rpc ListExternal(ListExternalGroupsRequest) returns (ListExternalGroupsResponse) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/external_groups"
+    };
   };
 
   // Creates a group in the specified organization.
-  rpc Create (CreateGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/groups" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateGroupRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateGroupMetadata"
       response: "Group"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/groups"
+    };
+  };
 
   // Creates an external group.
-  rpc CreateExternal (CreateExternalGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/external_groups" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc CreateExternal(CreateExternalGroupRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateExternalGroupMetadata"
       response: "Group"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/external_groups"
+    };
+  };
 
   // Updates the specified group.
-  rpc Update (UpdateGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/organization-manager/v1/groups/{group_id}" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateGroupRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateGroupMetadata"
       response: "Group"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/organization-manager/v1/groups/{group_id}"
+    };
+  };
 
   // Converts single basic (not external) group to external. Precondition: group must be basic.
-  rpc ConvertToExternal (ConvertToExternalGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/groups/{group_id}:convertToExternal" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc ConvertToExternal(ConvertToExternalGroupRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "ConvertToExternalGroupMetadata"
       response: "Group"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/groups/{group_id}:convertToExternal"
+    };
+  };
 
   // Converts all groups that belongs to subject container from external to basic (not external).
-  rpc ConvertAllToBasic (ConvertAllToBasicGroupsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/external_groups:convertAllToBasic" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc ConvertAllToBasic(ConvertAllToBasicGroupsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "ConvertAllToBasicGroupsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/external_groups:convertAllToBasic"
+    };
+  };
 
   // Deletes the specified group.
-  rpc Delete (DeleteGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/organization-manager/v1/groups/{group_id}" };
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteGroupRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteGroupMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/organization-manager/v1/groups/{group_id}"
+    };
+  };
 
   // Lists operations for the specified group.
-  rpc ListOperations (ListGroupOperationsRequest) returns (ListGroupOperationsResponse) {
-    option (google.api.http) = { get: "/organization-manager/v1/groups/{group_id}/operations" };
-  }
-
-  // members
+  rpc ListOperations(ListGroupOperationsRequest) returns (ListGroupOperationsResponse) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/groups/{group_id}/operations"
+    };
+  };
 
   // List group active members.
-  rpc ListMembers (ListGroupMembersRequest) returns (ListGroupMembersResponse) {
-    option (google.api.http) = { get: "/organization-manager/v1/groups/{group_id}:listMembers" };
-  }
+  rpc ListMembers(ListGroupMembersRequest) returns (ListGroupMembersResponse) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/groups/{group_id}:listMembers"
+    };
+  };
 
   // Update group members.
-  rpc UpdateMembers (UpdateGroupMembersRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/groups/{group_id}:updateMembers" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc UpdateMembers(UpdateGroupMembersRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateGroupMembersMetadata"
       response: "google.protobuf.Empty"
     };
-  }
-
-  // access
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/groups/{group_id}:updateMembers"
+    };
+  };
 
   // Lists access bindings for the specified group.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = { get: "/organization-manager/v1/groups/{resource_id}:listAccessBindings" };
-  }
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/groups/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the specified group.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/groups/{resource_id}:setAccessBindings" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "access.AccessBindingsOperationResult"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/groups/{resource_id}:setAccessBindings"
+    };
+  };
 
   // Updates access bindings for the specified group.
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/organization-manager/v1/groups/{resource_id}:updateAccessBindings" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "access.AccessBindingsOperationResult"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/groups/{resource_id}:updateAccessBindings"
+    };
+  };
 
   // Returns groups that the subject belongs to within a specific organization.
   rpc ListEffective(ListEffectiveRequest) returns (ListEffectiveResponse) {
-    option (google.api.http) = { get: "/organization-manager/v1/groups:listEffective" };
+    option (google.api.http) = {
+      get: "/organization-manager/v1/groups:listEffective"
+    };
   };
 }
 
 message GetGroupRequest {
   // ID of the Group resource to return.
   // To get the group ID, use a [GroupService.List] request.
-  string group_id = 1 [(required) = true, (length) = "<=50"];
+  string group_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ResolveExternalGroupRequest {
   // Id of the subject container that external group belongs to
   // To get subject container, use a [yandex.cloud.organizationmanager.v1.saml.FederationService.List] request
   // or [yandex.cloud.organizationmanager.v1.idp.UserpoolService.List] request.
-  string subject_container_id = 1 [(required) = true, (length) = "<=50"];
+  string subject_container_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // Id of the group from external system
-  string external_id = 2 [(required) = true];
+  string external_id = 2 [
+    (length) = "<=1024",
+    (required) = true
+  ];
 }
 
 message ListGroupsRequest {
   // ID of the organization to list groups in.
   // To get the organization ID, use a [yandex.cloud.organizationmanager.v1.OrganizationService.List] request.
-  string organization_id = 1 [(required) = true, (length) = "<=50"];
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size],
@@ -200,17 +250,23 @@ message ListExternalGroupsRequest {
   // Id of the subject container that external group belongs to.
   // To get subject container, use a [yandex.cloud.organizationmanager.v1.saml.FederationService.List] request
   // or [yandex.cloud.organizationmanager.v1.idp.UserpoolService.List] request.
-  string subject_container_id = 1 [(required) = true, (length) = "<=50"];
+  string subject_container_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size],
   // the service returns a [ListExternalGroupsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Default value: 100.
   int64 page_size = 2 [(value) = "0-1000"];
+
   // Page token. Set [page_token]
   // to the [ListExternalGroupsResponse.next_page_token]
   // returned by a previous list external request to get the next page of results.
   string page_token = 3 [(length) = "<=2000"];
+
   // A filter expression that filters resources listed in the response.
   // The expression must specify:
   // 1. The fields name or id. Currently you can use filtering only on the [Group.name] or [Group.id] fields.
@@ -235,17 +291,31 @@ message ListExternalGroupsResponse {
 message CreateGroupRequest {
   // ID of the organization to create a group in.
   // To get the organization ID, use a [yandex.cloud.organizationmanager.v1.OrganizationService.List] request.
-  string organization_id = 1 [(required) = true, (length) = "<=50"];
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Name of the group.
   // The name must be unique within the organization.
-  string name = 2 [(required) = true, (pattern) = "[a-zA-Z]([-a-zA-Z0-9._-]{0,61}[a-zA-Z0-9])?"];
+  string name = 2 [
+    (pattern) = "[a-zA-Z]([-a-zA-Z0-9._-]{0,61}[a-zA-Z0-9])?",
+    (required) = true
+  ];
 
   // Description of the group.
   string description = 3 [(length) = "<=256"];
 
   // Resource labels as `key:value` pairs.
-  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 4 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 }
 
 message CreateGroupMetadata {
@@ -256,37 +326,68 @@ message CreateGroupMetadata {
 message CreateExternalGroupRequest {
   // ID of the organization to create a group in.
   // To get the organization ID, use a [yandex.cloud.organizationmanager.v1.OrganizationService.List] request.
-  string organization_id = 1 [(required) = true, (length) = "<=50"];
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // Name of the group.
   // The name must be unique within the organization.
-  string name = 2 [(required) = true, (pattern) = "[a-zA-Z]([-a-zA-Z0-9._-]{0,61}[a-zA-Z0-9])?"];
+  string name = 2 [
+    (pattern) = "[a-zA-Z]([-a-zA-Z0-9._-]{0,61}[a-zA-Z0-9])?",
+    (required) = true
+  ];
+
   // Description of the group.
   string description = 3 [(length) = "<=256"];
+
   // Id of the subject container that external group belongs to.
   // Combination of subject_container_id and external_id must be unique.
   // To get subject container, use a [yandex.cloud.organizationmanager.v1.saml.FederationService.List] request
   // or [yandex.cloud.organizationmanager.v1.idp.UserpoolService.List] request.
-  string subject_container_id = 4 [(required) = true, (length) = "<=50"];
+  string subject_container_id = 4 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // Id of the group from external system.
   // Combination of subject_container_id and external_id must be unique
-  string external_id = 5 [(required) = true];
+  string external_id = 5 [
+    (length) = "<=1024",
+    (required) = true
+  ];
+
   // If true, then creator of group will be assigned to role that allows modification of group as external group.
   bool make_editor = 6;
+
   // Resource labels as `key:value` pairs.
-  map<string, string> labels = 7 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 7 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 }
 
 message CreateExternalGroupMetadata {
   // ID of the group that is being created.
   string group_id = 1;
+
   // ID of the organization that the group belongs to.
   string organization_id = 2;
+
   // Name of the group.
   string group_name = 3;
+
   // Id of the subject container that created external group belongs to.
   string subject_container_id = 4;
+
   // Id of the created group from external system.
   string external_id = 5;
+
   // If true, then creator of group was assigned to role that allows modification of group as external group.
   bool make_editor = 6;
 }
@@ -294,7 +395,10 @@ message CreateExternalGroupMetadata {
 message UpdateGroupRequest {
   // ID of the Group resource to update.
   // To get the group ID, use a [GroupService.List] request.
-  string group_id = 1 [(required) = true, (length) = "<=50"];
+  string group_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Field mask that specifies which fields of the Group resource are going to be updated.
   google.protobuf.FieldMask update_mask = 2;
@@ -307,7 +411,15 @@ message UpdateGroupRequest {
   string description = 4 [(length) = "<=256"];
 
   // Resource labels as `key:value` pairs.
-  map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 5 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 }
 
 message UpdateGroupMetadata {
@@ -318,15 +430,27 @@ message UpdateGroupMetadata {
 message ConvertToExternalGroupRequest {
   // ID of the Group resource to convert to external.
   // To get the group ID, use a [GroupService.List] request.
-  string group_id = 1 [(required) = true, (length) = "<=50"];
+  string group_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // Id of the subject container that external group belongs to.
   // Combination of subject_container_id and external_id must be unique.
   // To get subject container, use a [yandex.cloud.organizationmanager.v1.saml.FederationService.List] request
   // or [yandex.cloud.organizationmanager.v1.idp.UserpoolService.List] request.
-  string subject_container_id = 2 [(required) = true, (length) = "<=50"];
+  string subject_container_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // Id of the group from external system.
   // Combination of subject_container_id and external_id must be unique
-  string external_id = 3 [(required) = true];
+  string external_id = 3 [
+    (length) = "<=1024",
+    (required) = true
+  ];
+
   // If true, then subject that performs conversion of group will be assigned to role that allows modification of group as external group.
   bool make_editor = 4;
 }
@@ -334,10 +458,13 @@ message ConvertToExternalGroupRequest {
 message ConvertToExternalGroupMetadata {
   // ID of the Group resource that is being converted to external.
   string group_id = 1;
+
   // Id of the subject container that created external group belongs to.
   string subject_container_id = 2;
+
   // Id of the created group from external system.
   string external_id = 3;
+
   // If true, then subject that performed conversion of group was assigned to role that allows modification of group as external group.
   bool make_editor = 4;
 }
@@ -346,7 +473,10 @@ message ConvertAllToBasicGroupsRequest {
   // Id of the subject container for which all external groups will be converted to basic (not external) groups.
   // To get subject container, use a [yandex.cloud.organizationmanager.v1.saml.FederationService.List] request
   // or [yandex.cloud.organizationmanager.v1.idp.UserpoolService.List] request.
-  string subject_container_id = 1 [(required) = true, (length) = "<=50"];
+  string subject_container_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ConvertAllToBasicGroupsMetadata {
@@ -357,7 +487,10 @@ message ConvertAllToBasicGroupsMetadata {
 message DeleteGroupRequest {
   // ID of the group to delete.
   // To get the group ID, use a [GroupService.List] request.
-  string group_id = 1 [(required) = true, (length) = "<=50"];
+  string group_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message DeleteGroupMetadata {
@@ -367,7 +500,10 @@ message DeleteGroupMetadata {
 
 message ListGroupOperationsRequest {
   // ID of the Group resource to list operations for.
-  string group_id = 1 [(required) = true, (length) = "<=50"];
+  string group_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListGroupOperationsResponse.next_page_token]
@@ -394,7 +530,10 @@ message ListGroupOperationsResponse {
 
 message ListGroupMembersRequest {
   // ID of the Group resource to list members for.
-  string group_id = 1 [(required) = true, (length) = "<=50"];
+  string group_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListGroupMembersResponse.next_page_token]
@@ -424,7 +563,6 @@ message GroupMember {
   string subject_id = 1;
 
   // Type of the subject.
-  //
   // It can contain one of the following values:
   // * `userAccount`: An account on Yandex, added to Yandex Cloud.
   // * `federatedUser`: A federated account. This type represents a user from an identity federation, like Active Directory.
@@ -434,7 +572,10 @@ message GroupMember {
 message UpdateGroupMembersRequest {
   // ID of the group to update.
   // To get the group ID, use a [GroupService.List] request.
-  string group_id = 1 [(required) = true, (length) = "<=50"];
+  string group_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Updates to group members.
   repeated MemberDelta member_deltas = 2 [(size) = "1-1000"];
@@ -450,12 +591,13 @@ message MemberDelta {
   MemberAction action = 1 [(required) = true];
 
   // ID of the subject that is being added or removed from a group.
-  //
   // Subject type can be one of following values:
   // * `userAccount`: An account on Yandex, added to Yandex Cloud.
   // * `federatedUser`: A federated account. This type represents a user from an identity federation, like Active Directory.
-  string subject_id = 2 [(required) = true, (length) = "<=50"];
-
+  string subject_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
   enum MemberAction {
     MEMBER_ACTION_UNSPECIFIED = 0;
 
@@ -469,7 +611,10 @@ message MemberDelta {
 
 message ListEffectiveRequest {
   // ID of the subject to list groups for.
-  string subject_id = 1 [(required) = true, (length) = "<=50"];
+  string subject_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The ID of the organization to scope the group search to.
   // If omitted and the subject belongs to a single organization,
@@ -493,11 +638,9 @@ message ListEffectiveRequest {
   // - `IN` for multiple values: `id IN ('id1', 'id2')`
   // - `contains` for domain substring search: `name contains 'example'`
   // - `AND` for combining conditions: `name contains 'my-group' AND name contains 'name'`
-  //
   // Available fields for filtering:
   // - `id` - group ID
   // - `name` - group name
-  //
   // Must be 1-1000 characters long.
   string filter = 5 [(length) = "<=1000"];
 }

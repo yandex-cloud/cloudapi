@@ -46,12 +46,16 @@ message Application {
 enum Status {
   // The status is not specified.
   STATUS_UNSPECIFIED = 0;
+
   // The apllication is in the process of being created.
   CREATING = 1;
+
   // The apllication is active and operational.
   ACTIVE = 2;
+
   // The apllication is suspended. I.e. authentication via this application is disabled.
   SUSPENDED = 3;
+
   // The apllication is in the process of being deleted.
   DELETING = 4;
 }
@@ -66,20 +70,29 @@ message GroupClaimsSettings {
 enum GroupDistributionType {
   // The distribution type is unspecified
   GROUP_DISTRIBUTION_TYPE_UNSPECIFIED = 0;
+
   // No groups are visible for the application users
   NONE = 1;
+
   // Only assigned groups are visible for the application users
   ASSIGNED_GROUPS = 2;
+
   // All groups are visible for the application users
   ALL_GROUPS = 3;
 }
 
 // Represents connection to the OAuth client with specified scopes
 message ClientGrant {
-
   // OAuth client id
-  string client_id = 1 [(required) = true, (length) = "<=50"];
+  string client_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // List of authorized client scopes by the application
-  repeated string authorized_scopes = 2 [(size) = "1-1000", (length) = "<=255"];
+  repeated string authorized_scopes = 2 [
+    (length) = "<=255",
+    (pattern) = "[!#-\\[\\]-~]+",
+    (size) = "1-1000"
+  ];
 }

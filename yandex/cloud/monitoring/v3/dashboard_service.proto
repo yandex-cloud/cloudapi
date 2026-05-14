@@ -8,6 +8,7 @@ import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/monitoring/v3/dashboard.proto";
 import "yandex/cloud/monitoring/v3/link_item.proto";
 import "yandex/cloud/monitoring/v3/parametrization.proto";
+import "yandex/cloud/monitoring/v3/preset_item.proto";
 import "yandex/cloud/monitoring/v3/timeline.proto";
 import "yandex/cloud/monitoring/v3/widget.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -178,6 +179,9 @@ message CreateDashboardRequest {
 
   // Dashboard links
   repeated LinkItem links = 29;
+
+  // Parameters / Infra events / Logs overlays presets list
+  repeated PresetItem preset_items = 34;
 }
 
 message CreateDashboardMetadata {
@@ -186,7 +190,7 @@ message CreateDashboardMetadata {
 }
 
 message UpdateDashboardRequest {
-  reserved 9 to 25;
+  reserved 9 to 25, 30 to 31;
 
   // Required. Dashboard ID.
   string dashboard_id = 1 [
@@ -236,6 +240,9 @@ message UpdateDashboardRequest {
 
   // Dashboard links
   repeated LinkItem links = 29;
+
+  // Parameters / Infra events / Logs overlays presets list
+  repeated PresetItem preset_items = 32;
 }
 
 message UpdateDashboardMetadata {
@@ -288,6 +295,7 @@ message ListDashboardOperationsResponse {
 }
 
 message ListDashboardLabelNamesRequest {
+  // Project ID
   string project_id = 1;
 
   // Contains substring of name(aka key). All label names containing this string will be returned
@@ -295,15 +303,21 @@ message ListDashboardLabelNamesRequest {
 
   // Filters alerts by this selectors.
   string selectors = 3;
+
+  // Page size
   int64 page_size = 4;
 }
 
 message ListDashboardLabelNamesResponse {
+  // List of label names
   repeated string label_names = 1;
+
+  // Is truncated
   bool truncated = 2;
 }
 
 message ListDashboardLabelValuesRequest {
+  // Project ID
   string project_id = 1;
 
   // Filters alerts by this selectors.
@@ -314,10 +328,15 @@ message ListDashboardLabelValuesRequest {
 
   // Contains substring of value. All label values containing this string will be returned
   string text = 4;
+
+  // Page size
   int64 page_size = 5;
 }
 
 message ListDashboardLabelValuesResponse {
+  // List of label values
   repeated string label_values = 1;
+
+  // Is truncated
   bool truncated = 2;
 }

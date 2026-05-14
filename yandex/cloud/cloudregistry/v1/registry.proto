@@ -52,8 +52,15 @@ message Registry {
 
     // Registry type is local.
     LOCAL = 1;
+
+    // Registry type is remote.
     REMOTE = 2;
+
+    // Registry type is virtual.
     VIRTUAL = 3;
+
+    // Registry type is transitional.
+    TRANSITIONAL = 4;
   }
 
   // Output only. ID of the registry.

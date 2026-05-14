@@ -13,8 +13,10 @@ message SignatureCertificate {
   enum Status {
     // The status is not specified.
     STATUS_UNSPECIFIED = 0;
+
     // The certificate is active and can be used for signing.
     ACTIVE = 1;
+
     // The certificate is inactive and cannot be used for signing.
     INACTIVE = 2;
   }

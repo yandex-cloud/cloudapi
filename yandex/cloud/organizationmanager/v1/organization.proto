@@ -10,6 +10,7 @@ option java_package = "yandex.cloud.api.organizationmanager.v1";
 // An Organization resource. For more information, see [Organization](/docs/organization/enable-org).
 message Organization {
   reserved 5;
+
   // ID of the organization.
   string id = 1;
 
