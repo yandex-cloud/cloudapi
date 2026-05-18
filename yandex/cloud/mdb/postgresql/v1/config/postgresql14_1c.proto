@@ -219,6 +219,9 @@ message PostgresqlConfig14_1C {
 
     // Required for the [pgaudit](https://www.pgaudit.org/) extension.
     SHARED_PRELOAD_LIBRARIES_PGAUDIT = 8;
+
+    // Required for the [spqrguard](https://github.com/pg-sharding/spqrguard) extension.
+    SHARED_PRELOAD_LIBRARIES_SPQRGUARD = 9;
   }
 
   enum SynchronousCommit {

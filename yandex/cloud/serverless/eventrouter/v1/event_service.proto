@@ -12,10 +12,11 @@ option java_package = "yandex.cloud.api.serverless.eventrouter.v1";
 // Service for put events to bus for serverless eventrouter.
 service EventService {
   // Puts event to bus.
-  rpc Put (PutEventRequest) returns (google.protobuf.Empty);
+  rpc Put(PutEventRequest) returns (google.protobuf.Empty);
 
   // Send events to bus.
-  rpc Send (SendEventsRequest) returns (google.protobuf.Empty);
+  rpc Send(SendEventsRequest) returns (google.protobuf.Empty);
+
 }
 
 message PutEventRequest {
@@ -23,7 +24,10 @@ message PutEventRequest {
   string bus_id = 1 [(required) = true];
 
   // Event body.
-  string body = 2 [(required) = true, (length) = "<=262144"];
+  string body = 2 [
+    (length) = "<=262144",
+    (required) = true
+  ];
 }
 
 message SendEventsRequest {
@@ -31,5 +35,8 @@ message SendEventsRequest {
   string connector_id = 1 [(required) = true];
 
   // Batch of events bodies.
-  repeated string message = 2 [(size) = "1-100", (length) = "<=262144"];
+  repeated string message = 2 [
+    (length) = "<=262144",
+    (size) = "1-100"
+  ];
 }

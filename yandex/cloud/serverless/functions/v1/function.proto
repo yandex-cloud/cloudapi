@@ -43,7 +43,7 @@ message Function {
   string name = 4 [(length) = "3-63"];
 
   // Description of the function.
-  string description = 5 [(length) = "0-256"];
+  string description = 5 [(length) = "0-600"];
 
   // Function labels as `key:value` pairs.
   map<string, string> labels = 6 [(size) = "<=64"];
@@ -82,18 +82,16 @@ message Version {
   string function_id = 2;
 
   // Description of the version.
-  string description = 3 [(length) = "0-256"];
+  string description = 3 [(length) = "0-600"];
 
   // Creation timestamp for the version.
   google.protobuf.Timestamp created_at = 5;
 
   // ID of the runtime environment for the function.
-  //
   // Supported environments and their identifiers are listed in the [Runtime environments](/docs/functions/concepts/runtime).
   string runtime = 6;
 
   // Entrypoint for the function: the name of the function to be called as the handler.
-  //
   // Specified in the format `<function file name>.<handler name>`, for example, `index.myFunction`.
   string entrypoint = 7;
 
@@ -101,7 +99,6 @@ message Version {
   Resources resources = 8;
 
   // Timeout for the execution of the version.
-  //
   // If the timeout is exceeded, Cloud Functions responds with a 504 HTTP code.
   google.protobuf.Duration execution_timeout = 9;
 
@@ -120,11 +117,14 @@ message Version {
   // Environment settings for the version.
   map<string, string> environment = 16;
 
-  // Network access. If specified the version will be attached to specified network/subnet(s).
-  Connectivity connectivity = 17;
-
   // Additional service accounts to be used by the version.
   map<string, string> named_service_accounts = 18;
+
+  // The maximum number of requests processed by a function instance at the same time
+  int64 concurrency = 24 [(value) = "0-16"];
+
+  // Network access. If specified the version will be attached to specified network/subnet(s).
+  Connectivity connectivity = 17;
 
   // Yandex Lockbox secrets to be used by the version.
   repeated Secret secrets = 19;
@@ -141,14 +141,52 @@ message Version {
   // Optional size of in-memory mounted /tmp directory in bytes.
   int64 tmpfs_size = 23;
 
-  // The maximum number of requests processed by a function instance at the same time
-  int64 concurrency = 24 [(value) = "0-16"];
-
   // Mounts to be used by the version.
   repeated Mount mounts = 25;
 
   // Metadata options for the version.
   MetadataOptions metadata_options = 26;
+}
+
+message AsyncInvocationConfig {
+  // Target to which a result of an invocation will be sent
+  message ResponseTarget {
+    oneof target {
+      option (exactly_one) = true;
+
+      // Target to ignore a result
+      EmptyTarget empty_target = 1;
+
+      // Target to send a result to ymq
+      YMQTarget ymq_target = 2;
+    }
+  }
+
+  // Number of retries of version invocation
+  int64 retries_count = 1 [(value) = "0-100"];
+
+  // Target for successful result of the version's invocation
+  ResponseTarget success_target = 2 [(required) = true];
+
+  // Target for unsuccessful result, if all retries failed
+  ResponseTarget failure_target = 3 [(required) = true];
+
+  // Service account which can invoke version
+  string service_account_id = 4;
+}
+
+message YMQTarget {
+  // Queue ARN
+  string queue_arn = 1 [(required) = true];
+
+  // Service account which has write permission on the queue.
+  string service_account_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message EmptyTarget {
 }
 
 // Resources allocated to a version.
@@ -223,7 +261,6 @@ message Secret {
 
   // Key in secret's payload, which value to be delivered into function environment.
   string key = 3;
-
   oneof reference {
     // environment variable in which secret's value to be delivered.
     string environment_variable = 4;
@@ -233,7 +270,6 @@ message Secret {
 message LogOptions {
   // Is logging from function disabled.
   bool disabled = 1;
-
   // Log entries destination.
   oneof destination {
     // Entry should be written to log group resolved by ID.
@@ -244,20 +280,18 @@ message LogOptions {
   }
 
   // Minimum log entry level.
-  //
   // See [LogLevel.Level] for details.
-  yandex.cloud.logging.v1.LogLevel.Level min_level = 4;
+  logging.v1.LogLevel.Level min_level = 4;
 }
 
 message StorageMount {
-  // Use function.proto:Mount.ObjectStorage instead
   option deprecated = true;
 
   // S3 bucket name for mounting.
   string bucket_id = 1 [
-    (required) = true,
     (length) = "3-63",
-    (pattern) = "[-.0-9a-zA-Z]*"
+    (pattern) = "[-.0-9a-zA-Z]*",
+    (required) = true
   ];
 
   // S3 bucket prefix for mounting.
@@ -265,9 +299,9 @@ message StorageMount {
 
   // Mount point directory name (not path) for mounting.
   string mount_point_name = 3 [
-    (required) = true,
     (length) = "1-100",
-    (pattern) = "[-_0-9a-zA-Z]*"
+    (pattern) = "[-_0-9a-zA-Z]*",
+    (required) = true
   ];
 
   // Is mount read only.
@@ -276,26 +310,27 @@ message StorageMount {
 
 // Mount contains an information about version's external storage mount
 message Mount {
-  reserved 2;
-  reserved 4 to 9;
+  reserved 2, 4 to 9;
+
   enum Mode {
     MODE_UNSPECIFIED = 0;
+
     // Mount is available for read access only.
     READ_ONLY = 1;
+
     // Mount is available for both read and write access.
     READ_WRITE = 2;
   }
 
   // Unique mount point name. Device will be mounted into /function/storage/<name>
   string name = 1 [
-    (required) = true,
     (length) = "1-100",
-    (pattern) = "[-_0-9a-zA-Z]*"
+    (pattern) = "[-_0-9a-zA-Z]*",
+    (required) = true
   ];
 
   // Mount's mode
   Mode mode = 3;
-
   // Target mount option
   oneof target {
     option (exactly_one) = true;
@@ -311,9 +346,9 @@ message Mount {
   message ObjectStorage {
     // ObjectStorage bucket name for mounting.
     string bucket_id = 1 [
-      (required) = true,
       (length) = "3-63",
-      (pattern) = "[-.0-9a-zA-Z]*"
+      (pattern) = "[-.0-9a-zA-Z]*",
+      (required) = true
     ];
 
     // ObjectStorage bucket prefix for mounting.
@@ -330,47 +365,10 @@ message Mount {
   }
 }
 
-message AsyncInvocationConfig {
-  // Target to which a result of an invocation will be sent
-  message ResponseTarget {
-    oneof target {
-      option (exactly_one) = true;
-      // Target to ignore a result
-      EmptyTarget empty_target = 1;
-      // Target to send a result to ymq
-      YMQTarget ymq_target = 2;
-    }
-  }
-
-  // Number of retries of version invocation
-  int64 retries_count = 1 [(value) = "0-100"];
-
-  // Target for successful result of the version's invocation
-  ResponseTarget success_target = 2 [(required) = true];
-
-  // Target for unsuccessful result, if all retries failed
-  ResponseTarget failure_target = 3 [(required) = true];
-
-  // Service account which can invoke version
-  string service_account_id = 4;
-}
-
-message YMQTarget {
-  // Queue ARN
-  string queue_arn = 1 [(required) = true];
-
-  // Service account which has write permission on the queue.
-  string service_account_id = 2 [
-    (required) = true,
-    (length) = "<=50"
-  ];
-}
-
-message EmptyTarget {}
-
 message MetadataOptions {
   // Enabled access to GCE flavored metadata
   MetadataOption gce_http_endpoint = 1;
+
   // Enabled access to AWS flavored metadata (IMDSv1)
   MetadataOption aws_v1_http_endpoint = 2;
 }

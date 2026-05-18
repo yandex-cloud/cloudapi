@@ -3,64 +3,66 @@ syntax = "proto3";
 package yandex.cloud.k8s.marketplace.v1;
 
 import "google/api/annotations.proto";
-
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/k8s/marketplace/v1/helm_release.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
-import "yandex/cloud/k8s/marketplace/v1/helm_release.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/k8s/marketplace/v1;k8s_marketplace";
 option java_package = "yandex.cloud.api.k8s.marketplace.v1";
 
 // A set of methods for managing Helm release.
 service HelmReleaseService {
-
   // Retrieves the list of Helm releases in the specified Kubernetes Cluster.
-  rpc List (ListHelmReleasesRequest) returns (ListHelmReleasesResponse) {
-    option (google.api.http) = {get: "/managed-kubernetes/marketplace/v1/helm-releases"};
-  }
+  rpc List(ListHelmReleasesRequest) returns (ListHelmReleasesResponse) {
+    option (google.api.http) = {
+      get: "/managed-kubernetes/marketplace/v1/helm-releases"
+    };
+  };
 
   // Returns the specified Helm release.
-  rpc Get (GetHelmReleaseRequest) returns (HelmRelease) {
-    option (google.api.http) = {get: "/managed-kubernetes/marketplace/v1/helm-releases/{id}"};
-  }
-
-  // Installs helm release into specified Kubernetes Cluster.
-  rpc Install (InstallHelmReleaseRequest) returns (operation.Operation) {
+  rpc Get(GetHelmReleaseRequest) returns (HelmRelease) {
     option (google.api.http) = {
-      post: "/managed-kubernetes/marketplace/v1/helm-releases:install"
-      body: "*"
+      get: "/managed-kubernetes/marketplace/v1/helm-releases/{id}"
     };
+  };
 
-    option (yandex.cloud.api.operation) = {
+  // Installs Helm release into specified Kubernetes Cluster.
+  rpc Install(InstallHelmReleaseRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "InstallHelmReleaseMetadata"
       response: "HelmRelease"
     };
-  }
-
-  // Updates helm release.
-  rpc Update (UpdateHelmReleaseRequest) returns (operation.Operation) {
     option (google.api.http) = {
-      patch: "/managed-kubernetes/marketplace/v1/helm-releases/{id}"
       body: "*"
+      post: "/managed-kubernetes/marketplace/v1/helm-releases:install"
     };
-    option (yandex.cloud.api.operation) = {
+  };
+
+  // Updates Helm release.
+  rpc Update(UpdateHelmReleaseRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateHelmReleaseMetadata"
       response: "HelmRelease"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-kubernetes/marketplace/v1/helm-releases/{id}"
+    };
+  };
 
-  // Uninstalls helm release.
-  rpc Uninstall (UninstallHelmReleaseRequest) returns (operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+  // Uninstalls Helm release.
+  rpc Uninstall(UninstallHelmReleaseRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UninstallHelmReleaseMetadata"
       response: "google.protobuf.Empty"
     };
     option (google.api.http) = {
-      post: "/managed-kubernetes/marketplace/v1/helm-releases/uninstall/{id}:uninstall"
       body: "*"
+      post: "/managed-kubernetes/marketplace/v1/helm-releases/uninstall/{id}:uninstall"
     };
-  }
+  };
+
 }
 
 message ListHelmReleasesRequest {
@@ -132,7 +134,7 @@ message UpdateHelmReleaseMetadata {
 }
 
 message UninstallHelmReleaseRequest {
-  // The ID of the Helm release to retrieve.
+  // The ID of the Helm release to uninstall.
   string id = 1 [(required) = true];
 }
 

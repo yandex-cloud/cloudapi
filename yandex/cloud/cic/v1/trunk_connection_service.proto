@@ -24,6 +24,12 @@ service TrunkConnectionService {
     };
   };
 
+  rpc BatchGet(BatchGetTrunkConnectionsRequest) returns (BatchGetTrunkConnectionsResponse) {
+    option (google.api.http) = {
+      get: "/cic/v1/trunkConnections:batchGet"
+    };
+  };
+
   // Retrieves the list of TrunkConnection resources in the specified folder.
   rpc List(ListTrunkConnectionsRequest) returns (ListTrunkConnectionsResponse) {
     option (google.api.http) = {
@@ -100,6 +106,17 @@ message GetTrunkConnectionRequest {
   ];
 }
 
+message BatchGetTrunkConnectionsRequest {
+  // IDs of TrunkConnection resources to return.
+  // To get the trunkConnection ID use a [TrunkConnectionService.List] request.
+  repeated string trunk_connection_ids = 1 [(length) = "<=1000"];
+}
+
+message BatchGetTrunkConnectionsResponse {
+  // List of TrunkConnection resources.
+  repeated TrunkConnection trunk_connections = 1;
+}
+
 message ListTrunkConnectionsRequest {
   // ID of the folder to list TrunkConnection resources.
   // To get the folder ID use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
@@ -140,7 +157,7 @@ message ListTrunkConnectionsResponse {
 }
 
 message UpdateTrunkConnectionRequest {
-  reserved 5 to 16, 19;
+  reserved 5 to 17, 19;
 
   // ID of the TrunkConnection resource to return.
   string trunk_connection_id = 1 [(length) = "<=50"];
@@ -155,9 +172,6 @@ message UpdateTrunkConnectionRequest {
 
   // Optional description of the trunkConnection. 0-256 characters long.
   string description = 4 [(length) = "<=256"];
-
-  // Capacity of the trunkConnection
-  TrunkConnection.Capacity capacity = 17;
 
   // Resource labels, `key:value` pairs.
   // No more than 64 per resource.

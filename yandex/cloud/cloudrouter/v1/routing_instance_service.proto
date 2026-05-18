@@ -255,7 +255,7 @@ message ListRoutingInstancesResponse {
 }
 
 message CreateRoutingInstanceRequest {
-  reserved 3, 5, 8 to 11;
+  reserved 3, 5, 8 to 11, 13 to 16;
 
   // Name of the RoutingInstance.
   // The name must be unique within the folder.
@@ -292,10 +292,11 @@ message CreateRoutingInstanceRequest {
     (pattern) = "[-_0-9a-z]*",
     (size) = "<=64"
   ];
+  bool deletion_protection = 17;
 }
 
 message UpdateRoutingInstanceRequest {
-  reserved 5 to 7, 10 to 13;
+  reserved 5 to 7, 10 to 13, 15 to 18;
 
   // ID of the RoutingInstance resource to return.
   string routing_instance_id = 1 [
@@ -335,6 +336,7 @@ message UpdateRoutingInstanceRequest {
     (pattern) = "[-_0-9a-z]*",
     (size) = "<=64"
   ];
+  bool deletion_protection = 19;
 }
 
 message UpsertPrefixesRequest {

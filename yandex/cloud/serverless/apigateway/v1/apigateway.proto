@@ -12,6 +12,7 @@ option java_package = "yandex.cloud.api.serverless.apigateway.v1";
 
 message ApiGateway {
   reserved 6;
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -82,12 +83,16 @@ message ApiGateway {
 
 message AttachedDomain {
   reserved 4;
+
   // ID of the domain.
   string domain_id = 1;
+
   // ID of the domain certificate.
   string certificate_id = 2;
+
   // Enabling flag.
   bool enabled = 3;
+
   // Name of the domain.
   string domain = 5;
 }
@@ -106,7 +111,6 @@ message Connectivity {
 message LogOptions {
   // Is logging from API gateway disabled.
   bool disabled = 1;
-
   // Log entries destination.
   oneof destination {
     // Entry should be written to log group resolved by ID.
@@ -117,9 +121,8 @@ message LogOptions {
   }
 
   // Minimum log entry level.
-  //
   // See [LogLevel.Level] for details.
-  yandex.cloud.logging.v1.LogLevel.Level min_level = 4;
+  logging.v1.LogLevel.Level min_level = 4;
 }
 
 message Canary {

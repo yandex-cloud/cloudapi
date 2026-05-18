@@ -227,6 +227,9 @@ message PostgresqlConfig17_1C {
 
     // Required for the [age](https://age.apache.org/) extension.
     SHARED_PRELOAD_LIBRARIES_AGE = 10;
+
+    // Required for the [spqrguard](https://github.com/pg-sharding/spqrguard) extension.
+    SHARED_PRELOAD_LIBRARIES_SPQRGUARD = 11;
   }
 
   enum SynchronousCommit {

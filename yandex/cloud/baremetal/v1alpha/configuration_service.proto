@@ -48,7 +48,7 @@ message GetConfigurationRequest {
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 2 [
     (length) = "<=50",
-    (pattern) = "[a-z][a-z0-9.-]*"
+    (pattern) = "([a-z][a-z0-9.-]*)|"
   ];
 }
 

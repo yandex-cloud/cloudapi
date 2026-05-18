@@ -11,21 +11,26 @@ option java_outer_classname = "PERR";
 option java_package = "yandex.cloud.api.serverless.eventrouter.v1";
 
 message Rule {
+  reserved 9 to 10;
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
+
     // Rule creation in progress, rule is not enabled yet
     CREATING = 1;
+
     // Rule is operating
     ENABLED = 2;
+
     // Rule update in progress, rule is disabled during update
     UPDATING = 3;
+
     // Rule is explicitly disabled by the user
     DISABLED = 4;
+
     // Rule deletion in progress
     DELETING = 5;
   }
-
-  reserved 9, 10;
 
   // ID of the rule.
   string id = 1;
@@ -59,6 +64,7 @@ message Rule {
 
   // Flag that disallow deletion of the rule.
   bool deletion_protection = 13;
+
   // Rule status
   Status status = 14;
 }
@@ -66,8 +72,8 @@ message Rule {
 message Filter {
   oneof condition {
     option (exactly_one) = true;
-    
-    // JQ filter for matching events. 
+
+    // JQ filter for matching events.
     string jq_filter = 1 [(length) = "<=1024"];
   }
 }
@@ -87,6 +93,7 @@ message Target {
   // Status of the target.
   enum Status {
     STATUS_UNSPECIFIED = 0;
+
     // Target is enabled.
     ENABLED = 1;
 
@@ -105,6 +112,7 @@ message Target {
 
   oneof target {
     option (exactly_one) = true;
+
     YdsTarget yds = 1;
     YmqTarget ymq = 2;
     FunctionTarget function = 3;
@@ -119,11 +127,10 @@ message Target {
 
   // Retry settings of the target.
   RetrySettings retry_settings = 51;
-
   // Dead letter settings of the target.
   oneof dead_letter {
-      // Dead letter queue.
-      PutQueueMessage dead_letter_queue = 52;
+    // Dead letter queue.
+    PutQueueMessage dead_letter_queue = 52;
   }
 
   // Status of the target.
@@ -136,9 +143,12 @@ message YdsTarget {
 
   // Full stream name, like /ru-central1/aoegtvhtp8ob********/cc8004q4lbo6********/test.
   string stream_name = 2 [(required) = true];
-  
+
   // Service account, which has write permission on the stream.
-  string service_account_id = 3 [(required) = true, (length) = "<=50"];
+  string service_account_id = 3 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message YmqTarget {
@@ -147,12 +157,18 @@ message YmqTarget {
   string queue_arn = 1 [(required) = true];
 
   // Service account which has write access to the queue.
-  string service_account_id = 2 [(required) = true, (length) = "<=50"];
+  string service_account_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message FunctionTarget {
   // Function ID.
-  string function_id = 1 [(required) = true, (length) = "<=50"];
+  string function_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Function tag, optional.
   string function_tag = 2;
@@ -166,7 +182,10 @@ message FunctionTarget {
 
 message ContainerTarget {
   // Container ID.
-  string container_id = 1  [(required) = true, (length) = "<=50"];
+  string container_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Container revision ID.
   string container_revision_id = 2;
@@ -183,13 +202,19 @@ message ContainerTarget {
 
 message GatewayWebsocketBroadcastTarget {
   // Gateway ID.
-  string gateway_id = 1 [(required) = true, (length) = "<=50"];
+  string gateway_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Path.
   string path = 2 [(required) = true];
 
   // Service account which has permission for writing to websockets.
-  string service_account_id = 3 [(required) = true, (length) = "<=50"];
+  string service_account_id = 3 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Batch settings.
   BatchSettings batch_settings = 4;
@@ -199,22 +224,32 @@ message LoggingTarget {
   // Log group ID or folder ID.
   oneof destination {
     option (exactly_one) = true;
+
     string log_group_id = 1 [(length) = "<=63"];
     string folder_id = 2 [(length) = "<=63"];
   }
 
   // Service account which has permission for writing logs.
-  string service_account_id = 3 [(required) = true, (length) = "<=50"];
+  string service_account_id = 3 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message WorkflowTarget {
-  reserved 2, 3;
+  reserved 2 to 3;
 
   // Workflow ID.
-  string workflow_id = 1  [(required) = true, (length) = "<=50"];
- 
+  string workflow_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
   // SA which should be used to start workflow.
-  string service_account_id = 4 [(required) = true, (length) = "<=50"];
+  string service_account_id = 4 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Batch settings.
   BatchSettings batch_settings = 5;
@@ -233,7 +268,10 @@ message PutQueueMessage {
   string queue_arn = 1;
 
   // Service account which has write permission on the queue.
-  string service_account_id = 2 [(required) = true, (length) = "<=50"];
+  string service_account_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message BatchSettings {
@@ -244,5 +282,8 @@ message BatchSettings {
   int64 max_bytes = 2 [(value) = "0-262144"];
 
   // Maximum batch size: trigger will send a batch if its lifetime exceeds this value.
-  google.protobuf.Duration cutoff = 3 [(required) = true, (value) = "<=1m"];
+  google.protobuf.Duration cutoff = 3 [
+    (required) = true,
+    (value) = "<=1m"
+  ];
 }

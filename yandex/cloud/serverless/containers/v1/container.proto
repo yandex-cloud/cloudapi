@@ -12,6 +12,7 @@ option java_package = "yandex.cloud.api.serverless.containers.v1";
 
 message Container {
   reserved 7;
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -86,7 +87,6 @@ message Revision {
   Resources resources = 6;
 
   // Timeout for the execution of the revision.
-  //
   // If the timeout is exceeded, Serverless Containers responds with a 504 HTTP code.
   google.protobuf.Duration execution_timeout = 7;
 
@@ -99,22 +99,21 @@ message Revision {
   // Status of the revision.
   Status status = 10;
 
-  // Yandex Lockbox secrets to be used by the revision.
-  repeated Secret secrets = 11;
-
   // Network access. If specified the revision will be attached to specified network/subnet(s).
   Connectivity connectivity = 12;
 
   // Policy for provisioning instances of the revision.
-  //
   // The policy is only applied when the revision is ACTIVE.
   ProvisionPolicy provision_policy = 13;
 
-  // Policy for scaling instances of the revision.
-  ScalingPolicy scaling_policy = 14;
+  // Yandex Lockbox secrets to be used by the revision.
+  repeated Secret secrets = 11;
 
   // Options for logging from the container.
   LogOptions log_options = 15;
+
+  // Policy for scaling instances of the revision.
+  ScalingPolicy scaling_policy = 14;
 
   // S3 mounts to be used by the revision.
   repeated StorageMount storage_mounts = 16;
@@ -130,6 +129,25 @@ message Revision {
 
   // Config for asynchronous invocations of the revision.
   AsyncInvocationConfig async_invocation_config = 20;
+}
+
+// The container's execution mode
+message Runtime {
+  oneof type {
+    option (exactly_one) = true;
+
+    // The classic one. You need to run an HTTP server inside the container.
+    Http http = 1;
+
+    // We run a process from ENTRYPOINT inside the container for each user request.
+    Task task = 2;
+  }
+
+  message Http {
+  }
+
+  message Task {
+  }
 }
 
 // Revision image specification.
@@ -149,7 +167,9 @@ message Image {
   // Additional environment for the container.
   map<string, string> environment = 5 [
     (length) = "<=4096",
-    (map_key).pattern = "[a-zA-Z][a-zA-Z0-9_]*"
+    (map_key) = {
+      pattern: "[a-zA-Z][a-zA-Z0-9_]*"
+    }
   ];
 
   // Override for the image's WORKDIR.
@@ -158,7 +178,6 @@ message Image {
 
 message Command {
   // Command that will override ENTRYPOINT of an image.
-  //
   // Commands will be executed as is. The runtime will not substitute environment
   // variables or execute shell commands. If one wants to do that, they should
   // invoke shell interpreter with an appropriate shell script.
@@ -167,7 +186,6 @@ message Command {
 
 message Args {
   // Arguments that will override CMD of an image.
-  //
   // Arguments will be passed as is. The runtime will not substitute environment
   // variables or execute shell commands. If one wants to do that, they should
   // invoke shell interpreter with an appropriate shell script.
@@ -185,6 +203,20 @@ message Resources {
   // Specifies baseline performance for a core in percent, multiple of 5%.
   // Should be 100% for cores > 1.
   int64 core_fraction = 3 [(value) = "0-100"];
+}
+
+// Revision connectivity specification.
+message Connectivity {
+  // Network the revision will have access to.
+  string network_id = 1;
+
+  // The list of subnets (from the same network) the revision can be attached to.
+  // Deprecated, it is sufficient to specify only network_id, without the list of subnet_ids.
+  repeated string subnet_ids = 2 [
+    (length) = ">0",
+    (unique) = true,
+    deprecated = true
+  ];
 }
 
 message ProvisionPolicy {
@@ -209,25 +241,9 @@ message Secret {
   }
 }
 
-// Revision connectivity specification.
-message Connectivity {
-  // Network the revision will have access to.
-  string network_id = 1;
-
-  // Complete list of subnets (from the same network) the revision can be attached to.
-  //
-  // Deprecated, it is sufficient to specify only network_id, without the list of subnet_ids.
-  repeated string subnet_ids = 2 [
-    (length) = ">0",
-    (unique) = true,
-    deprecated = true
-  ];
-}
-
 message LogOptions {
   // Is logging from container disabled.
   bool disabled = 1;
-
   // Log entries destination.
   oneof destination {
     // Entry should be written to log group resolved by ID.
@@ -238,9 +254,8 @@ message LogOptions {
   }
 
   // Minimum log entry level.
-  //
   // See [LogLevel.Level] for details.
-  yandex.cloud.logging.v1.LogLevel.Level min_level = 4;
+  logging.v1.LogLevel.Level min_level = 4;
 }
 
 message ScalingPolicy {
@@ -254,57 +269,54 @@ message ScalingPolicy {
 }
 
 message StorageMount {
-  // Use container.proto:Mount.ObjectStorage instead
   option deprecated = true;
+
+  reserved 3;
 
   // S3 bucket name for mounting.
   string bucket_id = 1 [
-    (required) = true,
     (length) = "3-63",
-    (pattern) = "[-.0-9a-zA-Z]*"
+    (pattern) = "[-.0-9a-zA-Z]*",
+    (required) = true
   ];
 
   // S3 bucket prefix for mounting.
   string prefix = 2;
-
-  // Reserved for mount_point_name (optional unique mount point name for synchronization)
-  reserved 3;
 
   // Is mount read only.
   bool read_only = 4;
 
   // Mount point path inside the container for mounting.
   string mount_point_path = 5 [
-    (required) = true,
     (length) = "1-300",
-    (pattern) = "[-_0-9a-zA-Z/]*"
+    (pattern) = "[-_0-9a-zA-Z/]*",
+    (required) = true
   ];
 }
 
 // Mount contains an information about version's external storage mount
 message Mount {
-  reserved 4 to 9;
+  reserved 1, 4 to 9;
+
   enum Mode {
     MODE_UNSPECIFIED = 0;
+
     // Mount is available for read access only.
     READ_ONLY = 1;
+
     // Mount is available for both read and write access.
     READ_WRITE = 2;
   }
 
-  /// Reserved for name (optional unique mount point name for synchronization)
-  reserved 1;
-
   // The absolute mount point path inside the container for mounting.
   string mount_point_path = 2 [
-    (required) = true,
     (length) = "1-300",
-    (pattern) = "[-_0-9a-zA-Z/]*"
+    (pattern) = "[-_0-9a-zA-Z/]*",
+    (required) = true
   ];
 
   // Mount's mode
   Mode mode = 3;
-
   // Target mount option
   oneof target {
     option (exactly_one) = true;
@@ -320,9 +332,9 @@ message Mount {
   message ObjectStorage {
     // ObjectStorage bucket name for mounting.
     string bucket_id = 1 [
-      (required) = true,
       (length) = "3-63",
-      (pattern) = "[-.0-9a-zA-Z]*"
+      (pattern) = "[-.0-9a-zA-Z]*",
+      (required) = true
     ];
 
     // ObjectStorage bucket prefix for mounting.
@@ -339,25 +351,10 @@ message Mount {
   }
 }
 
-// The container's execution mode
-message Runtime {
-  oneof type {
-    option (exactly_one) = true;
-
-    // The classic one. You need to run an HTTP server inside the container.
-    Http http = 1;
-
-    // We run a process from ENTRYPOINT inside the container for each user request.
-    Task task = 2;
-  }
-
-  message Http {}
-  message Task {}
-}
-
 message MetadataOptions {
   // Enabled access to GCE flavored metadata
   MetadataOption gce_http_endpoint = 1;
+
   // Enabled access to AWS flavored metadata (IMDSv1)
   MetadataOption aws_v1_http_endpoint = 2;
 }

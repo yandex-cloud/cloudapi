@@ -222,6 +222,9 @@ message PostgresqlConfig15 {
 
     // Required for the [postgresql_anonymizer](https://postgresql-anonymizer.readthedocs.io/en/stable/) extension.
     SHARED_PRELOAD_LIBRARIES_ANON = 9;
+
+    // Required for the [spqrguard](https://github.com/pg-sharding/spqrguard) extension.
+    SHARED_PRELOAD_LIBRARIES_SPQRGUARD = 10;
   }
 
   enum SynchronousCommit {

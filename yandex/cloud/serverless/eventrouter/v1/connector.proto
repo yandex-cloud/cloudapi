@@ -15,18 +15,24 @@ message Connector {
   enum Status {
     STATUS_UNSPECIFIED = 0;
     RUNNING = 1;
-    // disabled by user
-    STOPPED = 2;
-    // source does not exist
-    RESOURCE_NOT_FOUND = 3;
-    // service account does not have read permission on source
-    PERMISSION_DENIED = 4;
-    // service account not found
-    SUBJECT_NOT_FOUND = 5;
-    // deletion in progress
-    DELETING = 7;
+
     // creation in progress
     CREATING = 8;
+
+    // disabled by user
+    STOPPED = 2;
+
+    // source does not exist
+    RESOURCE_NOT_FOUND = 3;
+
+    // service account does not have read permission on source
+    PERMISSION_DENIED = 4;
+
+    // service account not found
+    SUBJECT_NOT_FOUND = 5;
+
+    // deletion in progress
+    DELETING = 7;
   }
 
   // ID of the connector.
@@ -66,19 +72,19 @@ message Connector {
 message Source {
   oneof source {
     option (exactly_one) = true;
+
     DataStream data_stream = 1;
     MessageQueue message_queue = 2;
-    Timer timer = 3;
     EventServiceSource event_service_source = 4;
+    Timer timer = 3;
     AuditTrails audit_trails = 5;
   }
 }
 
 message DataStream {
-  // Stream database. 
+  // Stream database.
   // example: /ru-central1/aoegtvhtp8ob********/cc8004q4lbo6********
   string database = 1 [(required) = true];
-
 
   // Stream name, absolute or relative.
   string stream_name = 2 [(required) = true];
@@ -96,14 +102,17 @@ message MessageQueue {
   string queue_arn = 1 [(required) = true];
 
   // Service account which has read access to the queue.
-  string service_account_id = 2 [(required) = true, (length) = "<=50"];
+  string service_account_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Queue visibility timeout override.
   google.protobuf.Duration visibility_timeout = 3 [(value) = "<=12h"];
 
   // Batch size for polling.
   int64 batch_size = 4 [(value) = "<=10"];
- 
+
   // Queue polling timeout.
   google.protobuf.Duration polling_timeout = 5 [(value) = "<=20s"];
 }
@@ -112,13 +121,16 @@ message EventServiceSource {
 }
 
 message Timer {
-  // cron expression, with second precision
-  string cron_expression = 1 [(required) = true, (length) = "<=100"];
-
-  // time zone, e.g. Europe/Moscow 
-  string time_zone = 2;
-
   reserved 3;
+
+  // cron expression, with second precision
+  string cron_expression = 1 [
+    (length) = "<=100",
+    (required) = true
+  ];
+
+  // time zone, e.g. Europe/Moscow
+  string time_zone = 2;
 
   // payload to send to target
   string payload = 4 [(length) = "<=4096"];

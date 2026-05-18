@@ -357,3 +357,13 @@ message RemoveStaticRouteRequest {
   // IPv4 StaticRoute configs to remove
   repeated PrivateConnection.StaticRoute ipv4_static_routes = 2;
 }
+
+message BatchGetPrivateConnectionsRequest {
+  // List of IDs of the PrivateConnection resources to return.
+  repeated string private_connection_ids = 1;
+}
+
+message BatchGetPrivateConnectionsResponse {
+  // List of PrivateConnections
+  repeated PrivateConnection private_connections = 1;
+}

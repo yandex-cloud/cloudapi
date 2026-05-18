@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package yandex.cloud.serverless.triggers.v1;
 
-import "google/protobuf/field_mask.proto";
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
-import "yandex/cloud/serverless/triggers/v1/trigger.proto";
 import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/serverless/triggers/v1/trigger.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/triggers/v1;triggers";
@@ -15,86 +15,102 @@ option java_package = "yandex.cloud.api.serverless.triggers.v1";
 // A set of methods for managing triggers for serverless functions.
 service TriggerService {
   // Returns the specified trigger.
-  //
   // To get the list of all available triggers, make a [List] request.
-  rpc Get (GetTriggerRequest) returns (Trigger) {
-    option (google.api.http) = { get: "/triggers/v1/triggers/{trigger_id}" };
-  }
+  rpc Get(GetTriggerRequest) returns (Trigger) {
+    option (google.api.http) = {
+      get: "/triggers/v1/triggers/{trigger_id}"
+    };
+  };
 
   // Retrieves the list of triggers in the specified folder.
-  rpc List (ListTriggersRequest) returns (ListTriggersResponse) {
-    option (google.api.http) = { get: "/triggers/v1/triggers" };
-  }
+  rpc List(ListTriggersRequest) returns (ListTriggersResponse) {
+    option (google.api.http) = {
+      get: "/triggers/v1/triggers"
+    };
+  };
 
   // Creates a trigger in the specified folder.
-  rpc Create (CreateTriggerRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/triggers/v1/triggers" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateTriggerRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateTriggerMetadata"
       response: "Trigger"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/triggers/v1/triggers"
     };
   };
 
   // Updates the specified trigger.
-  rpc Update (UpdateTriggerRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/triggers/v1/triggers/{trigger_id}" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateTriggerRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateTriggerMetadata"
       response: "Trigger"
+    };
+    option (google.api.http) = {
+      body: "*"
+      patch: "/triggers/v1/triggers/{trigger_id}"
     };
   };
 
   // Deletes the specified trigger.
-  rpc Delete (DeleteTriggerRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/triggers/v1/triggers/{trigger_id}" };
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteTriggerRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteTriggerMetadata"
       response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      delete: "/triggers/v1/triggers/{trigger_id}"
     };
   };
 
   // Pauses the specified trigger.
-  rpc Pause (PauseTriggerRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/triggers/v1/triggers/{trigger_id}:pause" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Pause(PauseTriggerRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "PauseTriggerMetadata"
       response: "Trigger"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/triggers/v1/triggers/{trigger_id}:pause"
     };
   };
 
   // Restarts the specified trigger.
-  rpc Resume (ResumeTriggerRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/triggers/v1/triggers/{trigger_id}:resume" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Resume(ResumeTriggerRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "ResumeTriggerMetadata"
       response: "Trigger"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/triggers/v1/triggers/{trigger_id}:resume"
     };
   };
 
   // Lists operations for the specified trigger.
-  rpc ListOperations (ListTriggerOperationsRequest) returns (ListTriggerOperationsResponse) {
-    option (google.api.http) = { get: "/triggers/v1/triggers/{trigger_id}/operations" };
-  }
+  rpc ListOperations(ListTriggerOperationsRequest) returns (ListTriggerOperationsResponse) {
+    option (google.api.http) = {
+      get: "/triggers/v1/triggers/{trigger_id}/operations"
+    };
+  };
 
 }
 
 message GetTriggerRequest {
   // ID of the trigger to return.
-  //
   // To get a trigger ID make a [TriggerService.List] request.
   string trigger_id = 1 [(required) = true];
 }
 
 message ListTriggersRequest {
   // ID of the folder to list triggers in.
-  //
   // To get a folder ID use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [(required) = true];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than `pageSize`, the service returns a [ListTriggersResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  //
   // Default value: 100.
   int64 page_size = 2;
 
@@ -103,7 +119,6 @@ message ListTriggersRequest {
   string page_token = 3;
 
   // A filter expression that filters triggers listed in the response.
-  //
   // The expression must specify:
   // 1. The field name. Currently filtering can only be applied to the [Trigger.name] field.
   // 2. An `=` operator.
@@ -119,14 +134,12 @@ message ListTriggersResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListTriggersRequest.page_size], use `nextPageToken` as the value
   // for the [ListTriggersRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `nextPageToken` to continue paging through the results.
   string next_page_token = 2;
 }
 
 message CreateTriggerRequest {
   // ID of the folder to create a trigger in.
-  //
   // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [(required) = true];
 
@@ -135,10 +148,18 @@ message CreateTriggerRequest {
   string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
   // Description of the trigger.
-  string description = 3 [(length) = "<=256"];
+  string description = 3 [(length) = "<=500"];
 
   // Resource labels as `key:value` pairs.
-  map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+  map<string, string> labels = 4 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
+    },
+    (pattern) = "[-_./\\@0-9a-z]*",
+    (size) = "<=64"
+  ];
 
   // Trigger type.
   Trigger.Rule rule = 5 [(required) = true];
@@ -151,7 +172,6 @@ message CreateTriggerMetadata {
 
 message UpdateTriggerRequest {
   // ID of the trigger to update.
-  //
   // To get a trigger ID make a [TriggerService.List] request.
   string trigger_id = 1 [(required) = true];
 
@@ -163,13 +183,20 @@ message UpdateTriggerRequest {
   string name = 3 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
   // New description of the trigger.
-  string description = 4 [(length) = "<=256"];
+  string description = 4 [(length) = "<=500"];
 
   // Trigger labels as `key:value` pairs.
-  //
   // Existing set of labels is completely replaced by the provided set, so if you just want
   // to add or remove a label, request the current set of labels with a [TriggerService.Get] request.
-  map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+  map<string, string> labels = 5 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
+    },
+    (pattern) = "[-_./\\@0-9a-z]*",
+    (size) = "<=64"
+  ];
 
   // New parameters for trigger.
   Trigger.Rule rule = 6;
@@ -182,7 +209,6 @@ message UpdateTriggerMetadata {
 
 message DeleteTriggerRequest {
   // ID of the trigger to delete.
-  //
   // To get a trigger ID make a [TriggerService.List] request.
   string trigger_id = 1 [(required) = true];
 }
@@ -194,7 +220,6 @@ message DeleteTriggerMetadata {
 
 message PauseTriggerRequest {
   // ID of the trigger to pause
-  //
   // To get a trigger ID make a [TriggerService.List] request.
   string trigger_id = 1 [(required) = true];
 }
@@ -206,7 +231,6 @@ message PauseTriggerMetadata {
 
 message ResumeTriggerRequest {
   // ID of the trigger to pause
-  //
   // To get a trigger ID make a [TriggerService.List] request.
   string trigger_id = 1 [(required) = true];
 }
@@ -223,7 +247,6 @@ message ListTriggerOperationsRequest {
   // The maximum number of results per page that should be returned. If the number of available
   // results is larger than `pageSize`, the service returns a [ListTriggerOperationsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  //
   // Default value: 100.
   int64 page_size = 2 [(value) = "0-1000"];
 
@@ -231,9 +254,7 @@ message ListTriggerOperationsRequest {
   // [ListTriggerOperationsResponse.next_page_token] returned by a previous list request.
   string page_token = 3 [(length) = "<=100"];
 
-
   // A filter expression that filters resources listed in the response.
-  //
   // The expression must specify:
   // 1. The field name. Currently filtering can only be applied to the [Trigger.name] field.
   // 2. An `=` operator.
@@ -249,7 +270,6 @@ message ListTriggerOperationsResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListTriggerOperationsRequest.page_size], use `nextPageToken` as the value
   // for the [ListTriggerOperationsRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `nextPageToken` to continue paging through the results.
   string next_page_token = 2;
 }

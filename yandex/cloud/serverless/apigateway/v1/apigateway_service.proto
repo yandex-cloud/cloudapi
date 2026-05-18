@@ -3,10 +3,10 @@ syntax = "proto3";
 package yandex.cloud.serverless.apigateway.v1;
 
 import "google/api/annotations.proto";
-import "google/protobuf/field_mask.proto";
 import "google/protobuf/duration.proto";
-import "yandex/cloud/api/operation.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/serverless/apigateway/v1/apigateway.proto";
 import "yandex/cloud/validation.proto";
@@ -18,155 +18,164 @@ option java_package = "yandex.cloud.api.serverless.apigateway.v1";
 service ApiGatewayService {
   // Returns the specified API gateway. Note that only API gateway basic attributes are returned.
   // To get associated openapi specification, make a [GetOpenapiSpec] request.
-  //
   // To get the list of all available API gateways, make a [List] request.
   rpc Get(GetApiGatewayRequest) returns (ApiGateway) {
-    option (google.api.http) = {get: "/apigateways/v1/apigateways/{api_gateway_id}"};
-  }
+    option (google.api.http) = {
+      get: "/apigateways/v1/apigateways/{api_gateway_id}"
+    };
+  };
 
   // Retrieves the list of API gateways in the specified folder.
   rpc List(ListApiGatewayRequest) returns (ListApiGatewayResponse) {
-    option (google.api.http) = {get: "/apigateways/v1/apigateways"};
-  }
+    option (google.api.http) = {
+      get: "/apigateways/v1/apigateways"
+    };
+  };
 
   // Creates an API gateway in the specified folder.
   rpc Create(CreateApiGatewayRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/apigateways/v1/apigateways"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateApiGatewayMetadata"
       response: "ApiGateway"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/apigateways/v1/apigateways"
+    };
+  };
 
   // Updates the specified API gateway.
   rpc Update(UpdateApiGatewayRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/apigateways/v1/apigateways/{api_gateway_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateApiGatewayMetadata"
       response: "ApiGateway"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/apigateways/v1/apigateways/{api_gateway_id}"
+    };
+  };
 
   // Deletes the specified API gateway.
   rpc Delete(DeleteApiGatewayRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/apigateways/v1/apigateways/{api_gateway_id}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteApiGatewayMetadata"
       response: "google.protobuf.Empty"
     };
-  }
-
-  // Resumes the specified API gateway.
-  rpc Resume(ResumeApiGatewayRequest) returns (operation.Operation) {
     option (google.api.http) = {
-      post: "/apigateways/v1/apigateways/{api_gateway_id}:resume"
-      body: "*"
+      delete: "/apigateways/v1/apigateways/{api_gateway_id}"
     };
-    option (yandex.cloud.api.operation) = {
-      metadata: "ResumeApiGatewayMetadata"
-      response: "ApiGateway"
-    };
-  }
+  };
 
   // Stops the specified API gateway.
   rpc Stop(StopApiGatewayRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/apigateways/v1/apigateways/{api_gateway_id}:stop"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "StopApiGatewayMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/apigateways/v1/apigateways/{api_gateway_id}:stop"
+    };
+  };
+
+  // Resumes the specified API gateway.
+  rpc Resume(ResumeApiGatewayRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "ResumeApiGatewayMetadata"
+      response: "ApiGateway"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/apigateways/v1/apigateways/{api_gateway_id}:resume"
+    };
+  };
 
   // Attaches domain to the specified API gateway.
   rpc AddDomain(AddDomainRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/apigateways/v1/apigateways/{api_gateway_id}:addDomain"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "AddDomainMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/apigateways/v1/apigateways/{api_gateway_id}:addDomain"
+    };
+  };
 
   // Detaches domain from the specified API gateway.
   rpc RemoveDomain(RemoveDomainRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/apigateways/v1/apigateways/{api_gateway_id}:removeDomain"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "RemoveDomainMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/apigateways/v1/apigateways/{api_gateway_id}:removeDomain"
+    };
+  };
 
   // Returns the OpenAPI specification of specified API gateway.
   rpc GetOpenapiSpec(GetOpenapiSpecRequest) returns (GetOpenapiSpecResponse) {
-    option (google.api.http) = {get: "/apigateways/v1/apigateways/{api_gateway_id}:spec"};
-  }
+    option (google.api.http) = {
+      get: "/apigateways/v1/apigateways/{api_gateway_id}:spec"
+    };
+  };
 
   // Lists operations for the specified API gateway.
   rpc ListOperations(ListOperationsRequest) returns (ListOperationsResponse) {
-    option (google.api.http) = {get: "/apigateways/v1/apigateways/{api_gateway_id}/operations"};
-  }
+    option (google.api.http) = {
+      get: "/apigateways/v1/apigateways/{api_gateway_id}/operations"
+    };
+  };
 
   // Lists existing access bindings for the specified API gateway.
   rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = {get: "/apigateways/v1/apigateways/{resource_id}:listAccessBindings"};
-  }
+    option (google.api.http) = {
+      get: "/apigateways/v1/apigateways/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the specified API gateway.
   rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/apigateways/v1/apigateways/{resource_id}:setAccessBindings"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/apigateways/v1/apigateways/{resource_id}:setAccessBindings"
+    };
+  };
 
   // Updates access bindings for the specified API gateway.
   rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/apigateways/v1/apigateways/{resource_id}:updateAccessBindings"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/apigateways/v1/apigateways/{resource_id}:updateAccessBindings"
+    };
+  };
+
 }
 
 message GetApiGatewayRequest {
   // ID of the API gateway to return.
-  //
   // To get a API gateway ID make a [ApiGatewayService.List] request.
   string api_gateway_id = 1 [(required) = true];
 }
 
 message ListApiGatewayRequest {
   // ID of the folder to list API gateways in.
-  //
   // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [(required) = true];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than `pageSize`, the service returns a [ListApiGatewayResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  //
   // Default value: 100.
   int64 page_size = 2;
 
@@ -175,7 +184,6 @@ message ListApiGatewayRequest {
   string page_token = 3;
 
   // A filter expression that filters functions listed in the response.
-  //
   // The expression must specify:
   // 1. The field name. Currently filtering can only be applied to the [ApiGateway.name](index) field.
   // 2. An `=` operator.
@@ -191,14 +199,12 @@ message ListApiGatewayResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListApiGatewayRequest.page_size], use `nextPageToken` as the value
   // for the [ListApiGatewayRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `nextPageToken` to continue paging through the results.
   string next_page_token = 2;
 }
 
 message CreateApiGatewayRequest {
   // ID of the folder to create an API gateway in.
-  //
   // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [(required) = true];
 
@@ -211,13 +217,14 @@ message CreateApiGatewayRequest {
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 4 [
-    (size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
+    },
     (pattern) = "[-_./\\@0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+    (size) = "<=64"
   ];
-
   // OpenAPI specification of API gateway.
   oneof spec {
     option (exactly_one) = true;
@@ -244,7 +251,6 @@ message CreateApiGatewayRequest {
 
 message UpdateApiGatewayRequest {
   // ID of the API gateway to update.
-  //
   // To get a API gateway ID make a [ApiGatewayService.List] request.
   string api_gateway_id = 1 [(required) = true];
 
@@ -259,17 +265,17 @@ message UpdateApiGatewayRequest {
   string description = 4 [(length) = "<=256"];
 
   // API gateway labels as `key:value` pairs.
-  //
   // Existing set of labels is completely replaced by the provided set, so if you just want
   // to add or remove a label, request the current set of labels with a [yandex.cloud.serverless.apigateway.v1.ApiGatewayService.Get] request.
   map<string, string> labels = 5 [
-    (size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
+    },
     (pattern) = "[-_./\\@0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+    (size) = "<=64"
   ];
-
   // New OpenAPI specification of API gateway.
   oneof spec {
     option (exactly_one) = true;
@@ -296,31 +302,31 @@ message UpdateApiGatewayRequest {
 
 message DeleteApiGatewayRequest {
   // ID of the API gateway to update.
-  //
-  // To get a API gateway ID make a [ApiGatewayService.List] request.
-  string api_gateway_id = 1 [(required) = true];
-}
-
-message ResumeApiGatewayRequest {
-  // ID of the API gateway to update.
-  //
   // To get a API gateway ID make a [ApiGatewayService.List] request.
   string api_gateway_id = 1 [(required) = true];
 }
 
 message StopApiGatewayRequest {
   // ID of the API gateway to update.
-  //
+  // To get a API gateway ID make a [ApiGatewayService.List] request.
+  string api_gateway_id = 1 [(required) = true];
+}
+
+message ResumeApiGatewayRequest {
+  // ID of the API gateway to update.
   // To get a API gateway ID make a [ApiGatewayService.List] request.
   string api_gateway_id = 1 [(required) = true];
 }
 
 message AddDomainRequest {
   reserved 2;
+
   // ID of the API gateway that the domain is attached to.
   string api_gateway_id = 1 [(required) = true];
+
   // Name of the attaching domain.
   string domain_name = 3;
+
   // ID of certificate for the attaching domain.
   string certificate_id = 4;
 }
@@ -328,6 +334,7 @@ message AddDomainRequest {
 message RemoveDomainRequest {
   // ID of the API gateway from which the domain is being detached.
   string api_gateway_id = 1 [(required) = true];
+
   // ID of the detaching domain.
   string domain_id = 2 [(required) = true];
 }
@@ -347,23 +354,26 @@ message DeleteApiGatewayMetadata {
   string api_gateway_id = 1;
 }
 
-message ResumeApiGatewayMetadata {
-  // ID of the API gateway that is being resumed.
+message StopApiGatewayMetadata {
+  // ID of the API gateway that is being stopped.
   string api_gateway_id = 1;
 }
 
-message StopApiGatewayMetadata {
-  // ID of the API gateway that is being stopped.
+message ResumeApiGatewayMetadata {
+  // ID of the API gateway that is being resumed.
   string api_gateway_id = 1;
 }
 
 message AddDomainMetadata {
   // ID of the API gateway that the domain is attached to.
   string api_gateway_id = 1;
+
   // ID of the attached domain.
   string domain_id = 2;
+
   // Name of the attaching domain.
   string domain_name = 3;
+
   // ID of the certificate for provided domain.
   string certificate_id = 4;
 }
@@ -371,6 +381,7 @@ message AddDomainMetadata {
 message RemoveDomainMetadata {
   // ID of the API gateway from which the domain is being detached.
   string api_gateway_id = 1;
+
   // ID of the detaching domain.
   string domain_id = 2;
 }
@@ -382,7 +393,6 @@ message ListOperationsRequest {
   // The maximum number of results per page that should be returned. If the number of available
   // results is larger than `pageSize`, the service returns a [ListOperationsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  //
   // Default value: 100.
   int64 page_size = 2 [(value) = "0-1000"];
 
@@ -391,7 +401,6 @@ message ListOperationsRequest {
   string page_token = 3 [(length) = "<=100"];
 
   // A filter expression that filters resources listed in the response.
-  //
   // The expression must specify:
   // 1. The field name. Currently filtering can be applied to the [operation.Operation.done], [operation.Operation.created_by] field.
   // 2. An `=` operator.
@@ -407,7 +416,6 @@ message ListOperationsResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListOperationsRequest.page_size], use `nextPageToken` as the value
   // for the [ListOperationsRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `nextPageToken` to continue paging through the results.
   string next_page_token = 2;
 }
@@ -418,6 +426,7 @@ message GetOpenapiSpecRequest {
     JSON = 1;
     YAML = 2;
   }
+
   // ID of the API gateway to get specification from.
   string api_gateway_id = 1 [(required) = true];
 

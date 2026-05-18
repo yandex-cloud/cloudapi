@@ -9,70 +9,106 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless
 option java_package = "yandex.cloud.api.serverless.mdbproxy.v1";
 
 message Proxy {
-    // ID of the proxy.
-    string id = 1;
+  // ID of the proxy.
+  string id = 1;
 
-    // ID of the folder that the proxy belongs to.
-    string folder_id = 2 [(required) = true, (length) = "<=50"];
+  // ID of the folder that the proxy belongs to.
+  string folder_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
-    // Creation timestamp for the proxy.
-    google.protobuf.Timestamp created_at = 3;
+  // Creation timestamp for the proxy.
+  google.protobuf.Timestamp created_at = 3;
 
-    // Name of the proxy.
-    string name = 4 [(required) = true, (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  // Name of the proxy.
+  string name = 4 [
+    (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]",
+    (required) = true
+  ];
 
-    // Description of the proxy.
-    string description = 5;
+  // Description of the proxy.
+  string description = 5;
 
-    // Resource labels as `key:value` pairs.
-    map<string, string> labels = 6 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 6 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
+    },
+    (pattern) = "[-_./\\@0-9a-z]*",
+    (size) = "<=64"
+  ];
 
-    // MDB specific settings.
-    Target target = 7;
+  // MDB specific settings.
+  Target target = 7;
 }
 
 message Target {
-    oneof mdb {
-        option (exactly_one) = true;
+  oneof mdb {
+    option (exactly_one) = true;
 
-        // Clickhouse settings for proxy.
-        ClickHouse clickhouse = 1;
+    // Clickhouse settings for proxy.
+    ClickHouse clickhouse = 1;
 
-        // PostgreSQL settings for proxy.
-        PostgreSQL postgresql = 2;
-    }
+    // PostgreSQL settings for proxy.
+    PostgreSQL postgresql = 2;
+  }
 
-    message PostgreSQL {
-        // Cluster identifier for postgresql.
-        string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  message ClickHouse {
+    // Cluster identifier for clickhouse.
+    string cluster_id = 1 [
+      (length) = "<=50",
+      (required) = true
+    ];
 
-        // PostgreSQL user.
-        string user = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+    // Clickhouse user.
+    string user = 2 [
+      (length) = "<=63",
+      (pattern) = "[a-zA-Z0-9_]*",
+      (required) = true
+    ];
 
-        // PostgreSQL password, input only field.
-        string password = 3;
+    // Clickhouse password, input only field.
+    string password = 3;
 
-        // PostgreSQL database name.
-        string db = 4 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+    // Clickhouse database name.
+    string db = 4 [
+      (length) = "<=63",
+      (pattern) = "[a-zA-Z0-9_-]*",
+      (required) = true
+    ];
 
-        // PostgreSQL proxy-host for connection, output only field.
-        string endpoint = 5;
-    }
+    // Clickhouse proxy-host for connection, output only field.
+    string endpoint = 5;
+  }
 
-    message ClickHouse {
-        // Cluster identifier for clickhouse.
-        string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  message PostgreSQL {
+    // Cluster identifier for postgresql.
+    string cluster_id = 1 [
+      (length) = "<=50",
+      (required) = true
+    ];
 
-        // Clickhouse user.
-        string user = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+    // PostgreSQL user.
+    string user = 2 [
+      (length) = "<=63",
+      (pattern) = "[a-zA-Z0-9_-]*",
+      (required) = true
+    ];
 
-        // Clickhouse password, input only field.
-        string password = 3;
+    // PostgreSQL password, input only field.
+    string password = 3;
 
-        // Clickhouse database name.
-        string db = 4 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+    // PostgreSQL database name.
+    string db = 4 [
+      (length) = "<=63",
+      (pattern) = "[a-zA-Z0-9_-]*",
+      (required) = true
+    ];
 
-        // Clickhouse proxy-host for connection, output only field.
-        string endpoint = 5;
-    }
+    // PostgreSQL proxy-host for connection, output only field.
+    string endpoint = 5;
+  }
 }

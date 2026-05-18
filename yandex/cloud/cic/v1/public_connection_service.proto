@@ -40,6 +40,11 @@ service PublicConnectionService {
     };
   };
 
+  rpc ListOperations(ListPublicConnectionOperationsRequest) returns (ListPublicConnectionOperationsResponse) {
+    option (google.api.http) = {
+      get: "/cic/v1/publicConnections/{public_connection_id}/operations"
+    };
+  };
 }
 
 message GetPublicConnectionRequest {
@@ -109,4 +114,18 @@ message MovePublicConnectionRequest {
 message MovePublicConnectionMetadata {
   // ID of the publicConnection that is being moved.
   string public_connection_id = 1;
+}
+
+message ListPublicConnectionOperationsRequest {
+  string public_connection_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+  int64 page_size = 2;
+  string page_token = 3;
+}
+
+message ListPublicConnectionOperationsResponse {
+  repeated operation.Operation operations = 1;
+  string next_page_token = 2;
 }

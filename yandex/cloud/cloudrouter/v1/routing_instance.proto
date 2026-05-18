@@ -9,7 +9,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cloudroute
 option java_package = "yandex.cloud.api.cloudrouter.v1";
 
 message RoutingInstance {
-  reserved 4, 10, 12 to 23;
+  reserved 4, 12 to 23;
 
   // ID of the routingInstance.
   string id = 1;
@@ -36,6 +36,7 @@ message RoutingInstance {
 
   // Status of the routingInstance.
   Status status = 9;
+  bool deletion_protection = 10;
 
   // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
   google.protobuf.Timestamp created_at = 11;

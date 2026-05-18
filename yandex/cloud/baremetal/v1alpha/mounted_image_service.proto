@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.baremetal.v1alpha;
 
+import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/validation.proto";
@@ -12,13 +13,26 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 // A set of methods for managing Image mounting.
 service MountedImageService {
   // Mount user image.
-  rpc Create(CreateMountedImageRequest) returns (google.protobuf.Empty);
+  rpc Create(CreateMountedImageRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v1alpha/mountedImages"
+    };
+  };
 
   // Unmount user image.
-  rpc Delete(DeleteMountedImageRequest) returns (google.protobuf.Empty);
+  rpc Delete(DeleteMountedImageRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/baremetal/v1alpha/mountedImages/{server_id}"
+    };
+  };
 
   // Get mounted user image.
-  rpc Get(GetMountedImageRequest) returns (GetMountedImageResponse);
+  rpc Get(GetMountedImageRequest) returns (GetMountedImageResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v1alpha/mountedImages/{server_id}"
+    };
+  };
 }
 
 message CreateMountedImageRequest {

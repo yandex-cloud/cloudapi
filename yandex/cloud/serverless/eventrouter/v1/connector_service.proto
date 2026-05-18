@@ -4,10 +4,10 @@ package yandex.cloud.serverless.eventrouter.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/access/access.proto";
-import "yandex/cloud/serverless/eventrouter/v1/connector.proto";
+import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/serverless/eventrouter/v1/connector.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/eventrouter/v1;eventrouter";
@@ -18,93 +18,114 @@ option java_package = "yandex.cloud.api.serverless.eventrouter.v1";
 service ConnectorService {
   // Returns the specified bus.
   // To get the list of all available connectors, make a [List] request.
-  rpc Get (GetConnectorRequest) returns (Connector) {
-      option (google.api.http) = {get: "/eventrouter/v1/connectors/{connector_id}"};
-  }
+  rpc Get(GetConnectorRequest) returns (Connector) {
+    option (google.api.http) = {
+      get: "/eventrouter/v1/connectors/{connector_id}"
+    };
+  };
 
   // Retrieves the list of connectors in the specified folder.
-  rpc List (ListConnectorsRequest) returns (ListConnectorsResponse) {
-     option (google.api.http) = { get: "/eventrouter/v1/connectors" };
-  }
+  rpc List(ListConnectorsRequest) returns (ListConnectorsResponse) {
+    option (google.api.http) = {
+      get: "/eventrouter/v1/connectors"
+    };
+  };
 
   // Creates a connector in the specified folder.
-  rpc Create (CreateConnectorRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/eventrouter/v1/connectors" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateConnectorRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateConnectorMetadata"
       response: "Connector"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/eventrouter/v1/connectors"
     };
   };
 
   // Updates the specified connector.
-  rpc Update (UpdateConnectorRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/eventrouter/v1/connectors/{connector_id}" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateConnectorRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateConnectorMetadata"
       response: "Connector"
+    };
+    option (google.api.http) = {
+      body: "*"
+      patch: "/eventrouter/v1/connectors/{connector_id}"
     };
   };
 
   // Deletes the specified connector.
-  rpc Delete (DeleteConnectorRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/eventrouter/v1/connectors/{connector_id}" };
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteConnectorRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteConnectorMetadata"
       response: "google.protobuf.Empty"
     };
+    option (google.api.http) = {
+      delete: "/eventrouter/v1/connectors/{connector_id}"
+    };
   };
 
-   // Starts the specified connector.
-  rpc Start (StartConnectorRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/eventrouter/v1/connectors/{connector_id}:start"};
-    option (yandex.cloud.api.operation) = {
+  // Starts the specified connector.
+  rpc Start(StartConnectorRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "StartConnectorMetadata"
       response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      post: "/eventrouter/v1/connectors/{connector_id}:start"
     };
   };
 
   // Stops the specified connector.
-  rpc Stop (StopConnectorRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/eventrouter/v1/connectors/{connector_id}:stop"};
-    option (yandex.cloud.api.operation) = {
+  rpc Stop(StopConnectorRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "StopConnectorMetadata"
       response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      post: "/eventrouter/v1/connectors/{connector_id}:stop"
     };
   };
 
   // Lists existing access bindings for the specified bus.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = {get: "/eventrouter/v1/connectors/{resource_id}:listAccessBindings"};
-  }
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/eventrouter/v1/connectors/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the connector.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/eventrouter/v1/connectors/{resource_id}:setAccessBindings"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/eventrouter/v1/connectors/{resource_id}:setAccessBindings"
+    };
+  };
 
   // Updates access bindings for the specified connector.
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/eventrouter/v1/connectors/{resource_id}:updateAccessBindings"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/eventrouter/v1/connectors/{resource_id}:updateAccessBindings"
+    };
+  };
 
   // Lists operations for the specified connector.
-  rpc ListOperations (ListConnectorOperationsRequest) returns (ListConnectorOperationsResponse) {
-    option (google.api.http) = { get: "/eventrouter/v1/connectors/{connector_id}/operations" };
-  }
+  rpc ListOperations(ListConnectorOperationsRequest) returns (ListConnectorOperationsResponse) {
+    option (google.api.http) = {
+      get: "/eventrouter/v1/connectors/{connector_id}/operations"
+    };
+  };
+
 }
 
 message GetConnectorRequest {
@@ -116,8 +137,10 @@ message ListConnectorsRequest {
   // ID of the folder or bus to list connectors in.
   oneof container_id {
     option (exactly_one) = true;
+
     // ID of the bus to list connectors in.
     string bus_id = 1;
+
     // ID of the folder to list connectors in.
     string folder_id = 2;
   }
@@ -130,14 +153,15 @@ message ListConnectorsRequest {
   string page_token = 4;
 
   // Supported fields for filter:
-  //   name
-  //   created_at
+  // name
+  // created_at
   string filter = 5;
 }
 
 message ListConnectorsResponse {
   // List of connectors.
   repeated Connector connectors = 1;
+
   // Token for getting the next page of the list of results.
   string next_page_token = 2;
 }
@@ -148,13 +172,21 @@ message CreateConnectorRequest {
 
   // Name of the connector.
   string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
-  
+
   // Description of the connector.
   string description = 3 [(length) = "<=256"];
 
   // Labels for the connector.
-  map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
-  
+  map<string, string> labels = 4 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+
   // Source of the connector.
   Source source = 5;
 
@@ -184,8 +216,16 @@ message UpdateConnectorRequest {
   string description = 4 [(length) = "<=256"];
 
   // New labels of the connector.
-  map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
-  
+  map<string, string> labels = 5 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+
   // New flag that disallow deletion of the connector.
   bool deletion_protection = 6;
 }
@@ -217,11 +257,11 @@ message ListConnectorOperationsRequest {
   string page_token = 3 [(length) = "<=100"];
 
   // Supported attributes for filter:
-  //   description
-  //   created_at
-  //   modified_at
-  //   created_by
-  //   done
+  // description
+  // created_at
+  // modified_at
+  // created_by
+  // done
   string filter = 4 [(length) = "<=1000"];
 }
 

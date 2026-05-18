@@ -11,7 +11,7 @@ option java_package = "yandex.cloud.api.cic.v1";
 
 // A PublicConnection resource.
 message PublicConnection {
-  reserved 4, 10, 12, 14 to 17, 20;
+  reserved 4, 6, 10, 12, 14 to 17, 20;
 
   // ID of the publicConnection.
   string id = 1;
@@ -26,9 +26,6 @@ message PublicConnection {
 
   // ID of the folder that the publicConnection belongs to.
   string folder_id = 5;
-
-  // ID of the region that the publicConnection belongs to.
-  string region_id = 6;
 
   // ID of the trunk_connection that the publicConnection belongs to.
   string trunk_connection_id = 7;

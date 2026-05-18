@@ -12,26 +12,35 @@ option java_package = "yandex.cloud.api.serverless.functions.v1";
 // A set of methods for managing VPC networks connected to serverless resources.
 service NetworkService {
   // Returns the specified network used in serverless resources.
-  rpc GetUsed (GetUsedNetworkRequest) returns (UsedNetwork) {
-    option (google.api.http) = { get: "/functions/v1/networks/used/{network_id}" };
-  }
+  rpc GetUsed(GetUsedNetworkRequest) returns (UsedNetwork) {
+    option (google.api.http) = {
+      get: "/functions/v1/networks/used/{network_id}"
+    };
+  };
 
   // Retrieves the list of networks in the specified scope that are used in serverless resources.
-  rpc ListUsed (ListUsedNetworksRequest) returns (ListUsedNetworksResponse) {
-    option (google.api.http) = { get: "/functions/v1/networks/used" };
-  }
+  rpc ListUsed(ListUsedNetworksRequest) returns (ListUsedNetworksResponse) {
+    option (google.api.http) = {
+      get: "/functions/v1/networks/used"
+    };
+  };
 
   // Retrieves the list of serverless resources connected to any network from the specified scope.
-  rpc ListConnectedResources (ListConnectedResourcesRequest) returns (ListConnectedResourcesResponse) {
-    option (google.api.http) = { get: "/functions/v1/networks/connections" };
-  }
+  rpc ListConnectedResources(ListConnectedResourcesRequest) returns (ListConnectedResourcesResponse) {
+    option (google.api.http) = {
+      get: "/functions/v1/networks/connections"
+    };
+  };
 
   // Forces obsolete used network to start cleanup process as soon as possible.
   // Invocation does not wait for start or end of the cleanup process.
   // Second invocation with the same network does nothing until network is completely cleaned-up.
   rpc TriggerUsedCleanup(TriggerUsedNetworkCleanupRequest) returns (TriggerUsedNetworkCleanupResponse) {
-    option (google.api.http) = { post: "/functions/v1/networks/used/{network_id}:triggerCleanup" body: "*" };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/functions/v1/networks/used/{network_id}:triggerCleanup"
+    };
+  };
 }
 
 // A VPC network used in serverless resources.
@@ -78,14 +87,12 @@ message ListUsedNetworksRequest {
   // The maximum number of results per page to return. If the number of available
   // results is larger than `pageSize`, the service returns a [ListUsedNetworksResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  //
   // Default value: 100.
   int64 page_size = 1 [(value) = "<=1000"];
 
   // Page token. To get the next page of results, set `pageToken` to the
   // [ListUsedNetworksResponse.next_page_token] returned by a previous list request.
   string page_token = 2 [(length) = "<=100"];
-
   oneof scope {
     option (exactly_one) = true;
 
@@ -104,7 +111,6 @@ message ListUsedNetworksResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListUsedNetworksRequest.page_size], use `nextPageToken` as the value
   // for the [ListUsedNetworksRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `nextPageToken` to continue paging through the results.
   string next_page_token = 2;
 }
@@ -113,14 +119,12 @@ message ListConnectedResourcesRequest {
   // The maximum number of results per page to return. If the number of available
   // results is larger than `pageSize`, the service returns a [ListConnectedResourcesResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  //
   // Default value: 100.
   int64 page_size = 1 [(value) = "<=1000"];
 
   // Page token. To get the next page of results, set `pageToken` to the
   // [ListConnectedResourcesResponse.next_page_token] returned by a previous list request.
   string page_token = 2 [(length) = "<=100"];
-
   oneof network_scope {
     option (exactly_one) = true;
 
@@ -142,10 +146,8 @@ message ListConnectedResourcesResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListConnectedResourcesRequest.page_size], use `nextPageToken` as the value
   // for the [ListConnectedResourcesRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `nextPageToken` to continue paging through the results.
   string next_page_token = 2;
-
   // Serverless resource connected to VPC network.
   message ConnectedResource {
     // ID of the network to which the resource is connected.

@@ -11,22 +11,24 @@ option java_outer_classname = "PERB";
 option java_package = "yandex.cloud.api.serverless.eventrouter.v1";
 
 message LogOptions {
-
   // Log entries destination.
   oneof destination {
     // Entry will be written to log group resolved by ID.
-    string log_group_id = 1 [(length) = "<=50"];
+    string log_group_id = 1 [
+      (length) = "<=50",
+      (pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"
+    ];
 
     // Entry will be written to default log group for specified folder.
-    string folder_id = 2 [(length) = "<=50"];
+    string folder_id = 2 [
+      (length) = "<=50",
+      (pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"
+    ];
   }
 
   // Minimum log entry level.
-  //
   // See [LogLevel.Level] for details.
-  yandex.cloud.logging.v1.LogLevel.Level min_level = 3;
-
-  reserved 4;
+  logging.v1.LogLevel.Level min_level = 3;
 }
 
 message Bus {

@@ -14,7 +14,7 @@ message HelmRelease {
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
-    // Helm release status is unknown
+    // Helm release status is unknown.
     UNKNOWN = 1;
 
     // Helm release deployed.
@@ -42,7 +42,7 @@ message HelmRelease {
     PENDING_ROLLBACK = 9;
   }
 
-  // ID of a helm release.
+  // ID of a Helm release.
   string id = 1;
 
   // ID of the Kubernetes cluster.
@@ -54,7 +54,7 @@ message HelmRelease {
   // Namespace of the application.
   string app_namespace = 4;
 
-  // Kubernetes marketplace product id.
+  // Kubernetes marketplace product ID.
   string product_id = 5;
 
   // Kubernetes marketplace product name.
@@ -63,7 +63,7 @@ message HelmRelease {
   // Kubernetes marketplace product version.
   string product_version = 10;
 
-  // Status of a helm release.
+  // Status of the Helm release.
   Status status = 7;
 
   // Creation timestamp.
