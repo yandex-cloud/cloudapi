@@ -42,7 +42,7 @@ message Subject {
 message AccessBinding {
   // ID of the [yandex.cloud.iam.v1.Role] that is assigned to the [subject].
   string role_id = 1 [
-    (length) = "<=50",
+    (length) = "<=64",
     (required) = true
   ];
 

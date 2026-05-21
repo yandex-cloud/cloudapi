@@ -7,11 +7,11 @@ option java_package = "yandex.cloud.api.ai.foundation_models.v1";
 
 // Enum representing the status of a batch inference.
 enum BatchInferenceTaskStatus {
-    BATCH_INFERENCE_TASK_STATUS_UNSPECIFIED = 0;
-    CREATED = 1;
-    PENDING = 2;
-    IN_PROGRESS = 3;
-    COMPLETED = 4;
-    FAILED = 5;
-    CANCELED = 6;
+  BATCH_INFERENCE_TASK_STATUS_UNSPECIFIED = 0;
+  CREATED = 1;
+  PENDING = 2;
+  IN_PROGRESS = 3;
+  COMPLETED = 4;
+  FAILED = 5;
+  CANCELED = 6;
 }

@@ -40,6 +40,9 @@ message SynchronizationSettings {
 
   // Domain replacement configuration.
   string replacement_domain = 10;
+
+  // Enables password writeback feature.
+  bool enable_password_writeback = 11;
 }
 
 // Filter configuration for synchronization.

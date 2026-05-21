@@ -52,6 +52,9 @@ message PrivateEndpoint {
     ObjectStorage object_storage = 11;
   }
 
+  // List of private endpoint dns records.
+  repeated DnsRecord dns_records = 12;
+
   // Status of the private endpoint.
   enum Status {
     STATUS_UNSPECIFIED = 0;
@@ -79,5 +82,10 @@ message PrivateEndpoint {
     string address = 2;
     // ID of the private endpoint address.
     string address_id = 3;
+  }
+
+  message DnsRecord {
+    // Name of the dns record.
+    string name = 1;
   }
 }

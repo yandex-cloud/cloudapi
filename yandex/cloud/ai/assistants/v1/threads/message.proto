@@ -59,6 +59,15 @@ message MessageContent {
   repeated ContentPart content = 1;
 }
 
+// ContentPart represents an individual part of the message content, which can be of various types.
+message ContentPart {
+  // Specifies the type of content that the part contains.
+  oneof PartType {
+    // Text content of the message part.
+    Text text = 1;
+  }
+}
+
 // Represents the data required to create or initialize a message in a thread.
 // This message is used, for example, to initialize a thread with some messages upon its creation.
 message MessageData {
@@ -78,15 +87,6 @@ message Text {
   string content = 1;
 }
 
-// ContentPart represents an individual part of the message content, which can be of various types.
-message ContentPart {
-  // Specifies the type of content that the part contains.
-  oneof PartType {
-    // Text content of the message part.
-    Text text = 1;
-  }
-}
-
 // Author of the message, containing details about the message's creator.
 message Author {
   // Unique identifier of the author. This could be either the user's ID or the assistant's ID, depending on the role.
@@ -98,6 +98,8 @@ message Author {
 
 // Represents a citation used for generating a message.
 message Citation {
+  reserved 1 to 3;
+
   // List of sources for citation.
   repeated Source sources = 4;
 }
@@ -114,10 +116,10 @@ message Source {
 // FileChunk represents a chunk of a file used as a source.
 message FileChunk {
   // Search index associated with the file chunk.
-  yandex.cloud.ai.assistants.v1.searchindex.SearchIndex search_index = 1;
+  searchindex.SearchIndex search_index = 1;
 
   // The original file from which the chunk is derived.
-  yandex.cloud.ai.files.v1.File source_file = 2;
+  files.v1.File source_file = 2;
 
   // Content of the file chunk.
   ChunkContent content = 3;

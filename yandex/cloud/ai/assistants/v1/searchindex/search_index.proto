@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package yandex.cloud.ai.assistants.v1.searchindex;
 
-import "yandex/cloud/ai/common/common.proto";
-import "yandex/cloud/ai/assistants/v1/searchindex/common.proto";
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/ai/assistants/v1/searchindex/common.proto";
+import "yandex/cloud/ai/common/common.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1/searchindex;searchindex";
 option java_package = "yandex.cloud.api.ai.assistants.v1.searchindex";
@@ -36,14 +36,13 @@ message SearchIndex {
   google.protobuf.Timestamp updated_at = 8;
 
   // Configuration for the expiration of the search index, defining when and how the search index will expire.
-  yandex.cloud.ai.common.ExpirationConfig expiration_config = 9;
+  common.ExpirationConfig expiration_config = 9;
 
   // Timestamp representing when the search index will expire.
   google.protobuf.Timestamp expires_at = 10;
 
   // Set of key-value pairs that can be used to organize and categorize the search index.
   map<string, string> labels = 11;
-
   // Type of the search index. It can be either a traditional keyword-based text search or a vector-based search.
   oneof IndexType {
     // Keyword-based text search index configuration.
@@ -65,13 +64,13 @@ message TextSearchIndex {
   // Chunking strategy used to split text into smaller chunks before indexing.
   // In the case of text search, tokens are individual text characters.
   ChunkingStrategy chunking_strategy = 1;
-
   // Tokenizer type used for text search. The tokenizer determines how the
   // input text is broken down into tokens before indexing.
   // If not specified, the default tokenizer configuration is applied.
   oneof TextTokenizer {
     // Tokenizer that generates n-grams.
     NgramTokenizer ngram_tokenizer = 2 [deprecated = true];
+
     // Tokenizer that generates words.
     StandardTokenizer standard_tokenizer = 3;
   }
@@ -82,7 +81,7 @@ message TextSearchIndex {
   oneof TextAnalyzer {
     // Standard analyzer that performs common text processing operations to normalize text.
     StandardAnalyzer standard_analyzer = 4;
-    
+
     // Specialized analyzer that uses Yandex's lemmatization technology,
     // particularly effective for Russian and other Slavic languages.
     YandexLemmerAnalyzer yandex_lemmer_analyzer = 5;

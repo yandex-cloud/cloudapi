@@ -8,17 +8,21 @@ option java_package = "yandex.cloud.api.ai.vision.v1";
 message ImageCopySearchAnnotation {
   // Number of image copies
   int64 copy_count = 1;
+
   // Top relevance result of image copy search
   repeated CopyMatch top_results = 2;
 }
 
 message CopyMatch {
-  //url of image
+  // url of image
   string image_url = 1;
-  //url of page that contains image
+
+  // url of page that contains image
   string page_url = 2;
-  //page title that contains image
+
+  // page title that contains image
   string title = 3;
-  //image description
+
+  // image description
   string description = 4;
 }

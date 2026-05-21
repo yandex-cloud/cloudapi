@@ -8,7 +8,6 @@ import "google/protobuf/wrappers.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/foundation_models/v1;foundation_models";
 option java_package = "yandex.cloud.api.ai.foundation_models.v1";
 
-
 // Defines the options for completion generation.
 message CompletionOptions {
   // Enables streaming of partially generated text.
@@ -52,13 +51,14 @@ message Message {
   // * `assistant`: A role used by the model to generate responses.
   // * `user`: A role used by the user to describe requests to the model.
   string role = 1;
-
   // Message content.
   oneof Content {
     // Textual content of the message.
     string text = 2;
+
     // List of tool calls made by the model as part of the response generation.
     ToolCallList tool_call_list = 3;
+
     // List of tool results returned from external tools that were invoked by the model.
     ToolResultList tool_result_list = 4;
   }
@@ -140,13 +140,26 @@ message Tool {
 message FunctionTool {
   // The name of the function.
   string name = 1;
+
   // A description of the function's purpose or behavior.
   string description = 2;
+
   // A JSON Schema that defines the expected parameters for the function.
   // The schema should describe the required fields, their types, and any constraints or default values.
   google.protobuf.Struct parameters = 3;
+
   // Enforces strict adherence to the function schema, ensuring only defined parameters are used.
   bool strict = 4;
+}
+
+// Represents the invocation of a function with specific arguments.
+message FunctionCall {
+  // The name of the function being called.
+  string name = 1;
+
+  // The structured arguments passed to the function.
+  // These arguments must adhere to the JSON Schema defined in the corresponding function's parameters.
+  google.protobuf.Struct arguments = 2;
 }
 
 // Represents a call to a tool.
@@ -157,27 +170,10 @@ message ToolCall {
   }
 }
 
-// Represents the invocation of a function with specific arguments.
-message FunctionCall {
-  // The name of the function being called.
-  string name = 1;
-  // The structured arguments passed to the function.
-  // These arguments must adhere to the JSON Schema defined in the corresponding function's parameters.
-  google.protobuf.Struct arguments = 2;
-}
-
 // Represents a list of tool calls.
 message ToolCallList {
   // A list of tool calls to be executed.
   repeated ToolCall tool_calls = 1;
-}
-
-// Represents the result of a tool call.
-message ToolResult {
-  oneof ToolResultType {
-    // Represents the result of a function call.
-    FunctionResult function_result = 1;
-  }
 }
 
 // Represents the result of a function call.
@@ -188,6 +184,14 @@ message FunctionResult {
     // The result of the function call, represented as a string.
     // This field can be used to store the output of the function.
     string content = 2;
+  }
+}
+
+// Represents the result of a tool call.
+message ToolResult {
+  oneof ToolResultType {
+    // Represents the result of a function call.
+    FunctionResult function_result = 1;
   }
 }
 
@@ -209,11 +213,14 @@ message ToolChoice {
   enum ToolChoiceMode {
     // The server will choose the default behavior, which is AUTO.
     TOOL_CHOICE_MODE_UNSPECIFIED = 0;
+
     // The model will not call any tool and will generate a standard text response.
     NONE = 1;
+
     // The model can choose between generating a text response or calling one or more tools.
     // This is the default behavior.
     AUTO = 2;
+
     // The model is required to call one or more tools.
     REQUIRED = 3;
   }
@@ -221,6 +228,7 @@ message ToolChoice {
   oneof ToolChoice {
     // Specifies the overall tool-calling mode.
     ToolChoiceMode mode = 1;
+
     // Forces the model to call a specific function.
     // The provided string must match the name of a function in the API request.
     string function_name = 2;

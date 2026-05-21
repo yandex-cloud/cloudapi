@@ -120,6 +120,9 @@ message CreateSynchronizationSettingsRequest {
 
   // Group attribute mappings.
   repeated GroupAttributeMapping group_attribute_mappings = 9 [(size) = "<=50"];
+
+  // Enables password writeback feature.
+  bool enable_password_writeback = 10;
 }
 
 // Metadata for the [SynchronizationService.CreateSynchronizationSettings] operation.
@@ -162,6 +165,9 @@ message UpdateSynchronizationSettingsRequest {
 
   // Field mask that specifies which fields are going to be updated.
   google.protobuf.FieldMask update_mask = 10;
+
+  // Enables password writeback feature.
+  bool enable_password_writeback = 11;
 }
 
 // Metadata for the [SynchronizationService.UpdateSynchronizationSettings] operation.

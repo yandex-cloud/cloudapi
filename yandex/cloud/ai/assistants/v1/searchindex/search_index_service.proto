@@ -2,13 +2,13 @@ syntax = "proto3";
 
 package yandex.cloud.ai.assistants.v1.searchindex;
 
-import "yandex/cloud/ai/common/common.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/ai/assistants/v1/searchindex/search_index.proto";
+import "yandex/cloud/ai/common/common.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
-import "google/api/annotations.proto";
-import "google/protobuf/field_mask.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1/searchindex;searchindex";
 option java_package = "yandex.cloud.api.ai.assistants.v1.searchindex";
@@ -17,31 +17,44 @@ option java_package = "yandex.cloud.api.ai.assistants.v1.searchindex";
 service SearchIndexService {
   // Create a new search index in [asynchronous mode](/docs/foundation-models/concepts/#working-mode).
   rpc Create(CreateSearchIndexRequest) returns (operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       response: "SearchIndex"
     };
-    option (google.api.http) = {post: "/assistants/v1/searchIndex" body: "*"};
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/assistants/v1/searchIndex"
+    };
+  };
 
   // Retrieve details of a specific search index by its ID.
   rpc Get(GetSearchIndexRequest) returns (SearchIndex) {
-    option (google.api.http) = {get: "/assistants/v1/searchIndex/{search_index_id}"};
-  }
+    option (google.api.http) = {
+      get: "/assistants/v1/searchIndex/{search_index_id}"
+    };
+  };
 
   // Update an existing search index.
   rpc Update(UpdateSearchIndexRequest) returns (SearchIndex) {
-    option (google.api.http) = {patch: "/assistants/v1/searchIndex/{search_index_id}" body: "*"};
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/assistants/v1/searchIndex/{search_index_id}"
+    };
+  };
 
   // Delete a search index by its ID.
   rpc Delete(DeleteSearchIndexRequest) returns (DeleteSearchIndexResponse) {
-    option (google.api.http) = {delete: "/assistants/v1/searchIndex/{search_index_id}"};
-  }
+    option (google.api.http) = {
+      delete: "/assistants/v1/searchIndex/{search_index_id}"
+    };
+  };
 
   // List search indexes in a specific folder.
   rpc List(ListSearchIndicesRequest) returns (ListSearchIndicesResponse) {
-    option (google.api.http) = {get: "/assistants/v1/searchIndex"};
-  }
+    option (google.api.http) = {
+      get: "/assistants/v1/searchIndex"
+    };
+  };
+
 }
 
 // Request to create a new search index.
@@ -58,11 +71,10 @@ message CreateSearchIndexRequest {
   string description = 4;
 
   // Expiration configuration for the search index.
-  yandex.cloud.ai.common.ExpirationConfig expiration_config = 5;
+  common.ExpirationConfig expiration_config = 5;
 
   // Set of key-value pairs to label the search index.
   map<string, string> labels = 6;
-
   oneof IndexType {
     // Configuration for a traditional keyword-based text search index.
     TextSearchIndex text_search_index = 7;
@@ -96,7 +108,7 @@ message UpdateSearchIndexRequest {
   string description = 4;
 
   // New expiration configuration for the search index.
-  yandex.cloud.ai.common.ExpirationConfig expiration_config = 5;
+  common.ExpirationConfig expiration_config = 5;
 
   // New set of labels for the search index.
   map<string, string> labels = 6;

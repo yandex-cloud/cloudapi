@@ -15,6 +15,7 @@ message PromptTruncationOptions {
   message AutoStrategy {
     // No specific parameters are required for this strategy.
     // The system will handle truncation in a way that aims to preserve the most relevant context.
+
   }
 
   // Truncates the prompt by retaining only the last `num_messages` messages in the thread.
@@ -28,7 +29,6 @@ message PromptTruncationOptions {
   // If the prompt exceeds this limit, the thread messages will be truncated.
   // Default max_prompt_tokens: 7000
   google.protobuf.Int64Value max_prompt_tokens = 1;
-
   // Specifies the truncation strategy to use when the prompt exceeds the token limit.
   oneof TruncationStrategy {
     AutoStrategy auto_strategy = 2;
@@ -41,6 +41,8 @@ message PromptTruncationOptions {
 
 // Defines the options for completion generation.
 message CompletionOptions {
+  reserved 1;
+
   // The limit on the number of tokens used for single completion generation.
   // Must be greater than zero. This maximum allowed parameter value may depend on the model being used.
   google.protobuf.Int64Value max_tokens = 2;
@@ -117,7 +119,8 @@ message SearchIndexTool {
 // Defines when the assistant uses the search tool.
 message CallStrategy {
   // Always includes retrieved search results in the prompt.
-  message AlwaysCall {}
+  message AlwaysCall {
+  }
 
   // Exposes the tool as a callable function.
   // The model decides when to trigger search based on the instruction.
@@ -141,8 +144,10 @@ message CallStrategy {
 message FunctionTool {
   // The name of the function.
   string name = 1;
+
   // A description of the function's purpose or behavior.
   string description = 2;
+
   // A JSON Schema that defines the expected parameters for the function.
   // The schema should describe the required fields, their types, and any constraints or default values.
   google.protobuf.Struct parameters = 3;
@@ -152,6 +157,7 @@ message FunctionTool {
 message FunctionCall {
   // The name of the function being called.
   string name = 1;
+
   // The structured arguments passed to the function.
   // These arguments must adhere to the JSON Schema defined in the corresponding function's parameters.
   google.protobuf.Struct arguments = 2;
@@ -166,12 +172,6 @@ message FunctionResult {
     // This field can be used to store the output of the function.
     string content = 2;
   }
-}
-
-// Options for configuring the rephrasing the last user message for search using context from previous conversation.
-message RephraserOptions {
-  // The ID of the model used to rephrase the last user message for search.
-  string rephraser_uri = 1 [(required) = true];
 }
 
 // Represents the expected structure of the model's response using a JSON Schema.
@@ -201,20 +201,35 @@ message GenSearchTool {
   string description = 2 [(required) = true];
 }
 
+// Options for configuring the rephrasing the last user message for search using context from previous conversation.
+message RephraserOptions {
+  // The ID of the model used to rephrase the last user message for search.
+  string rephraser_uri = 1 [(required) = true];
+}
+
 message GenSearchOptions {
   // Restricts the search to the specific websites.
   message SiteOption {
-    repeated string site = 1 [(length) = "<=1024", (size) = "<=100"];
+    repeated string site = 1 [
+      (length) = "<=1024",
+      (size) = "<=100"
+    ];
   }
 
   // Restricts the search to the specific pages.
   message UrlOption {
-    repeated string url = 1 [(length) = "<=1024", (size) = "<=100"];
+    repeated string url = 1 [
+      (length) = "<=1024",
+      (size) = "<=100"
+    ];
   }
 
   // Restricts the search to the specific hosts.
   message HostOption {
-    repeated string host = 1 [(length) = "<=1024", (size) = "<=100"];
+    repeated string host = 1 [
+      (length) = "<=1024",
+      (size) = "<=100"
+    ];
   }
 
   message SearchFilter {
@@ -236,8 +251,10 @@ message GenSearchOptions {
     oneof filter_options {
       // Restrict by document date
       string date = 1 [(length) = "<=25"];
+
       // Restrict by document language. Use ISO 639-1 language codes.
       string lang = 2 [(length) = "2"];
+
       // Restrict by document format.
       DocFormat format = 3;
     }
@@ -250,8 +267,10 @@ message GenSearchOptions {
     HostOption host = 2;
     UrlOption url = 3;
   }
+
   // Use the documents inaccessible from the front page.
   bool enable_nrfm_docs = 4;
+
   // Restricts the search by date, document formats or language.
   repeated SearchFilter search_filters = 5 [(size) = "<=10"];
 }

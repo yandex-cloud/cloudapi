@@ -11,15 +11,17 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/stt/v2;
 option java_package = "yandex.cloud.api.ai.stt.v2";
 
 service SttService {
-  rpc LongRunningRecognize (LongRunningRecognitionRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/speech/stt/v2/longRunningRecognize" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc LongRunningRecognize(LongRunningRecognitionRequest) returns (operation.Operation) {
+    option (api.operation) = {
       response: "LongRunningRecognitionResponse"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/speech/stt/v2/longRunningRecognize"
+    };
+  };
 
-  rpc StreamingRecognize (stream StreamingRecognitionRequest) returns (stream StreamingRecognitionResponse) {
-  }
+  rpc StreamingRecognize(stream StreamingRecognitionRequest) returns (stream StreamingRecognitionResponse);
 }
 
 message LongRunningRecognitionRequest {
@@ -39,9 +41,9 @@ message StreamingRecognitionRequest {
 }
 
 message StreamingRecognitionResponse {
-  repeated SpeechRecognitionChunk chunks = 1;
-  reserved 2;
   reserved "end_of_single_utterance";
+
+  repeated SpeechRecognitionChunk chunks = 1;
 }
 
 message RecognitionAudio {
@@ -57,19 +59,18 @@ message RecognitionConfig {
 }
 
 message RecognitionSpec {
+  reserved 6;
+
   enum AudioEncoding {
     AUDIO_ENCODING_UNSPECIFIED = 0;
 
     // 16-bit signed little-endian (Linear PCM)
     LINEAR16_PCM = 1;
-
     OGG_OPUS = 2;
 
     // transcription only
     MP3 = 3;
   }
-
-  reserved 6;
 
   AudioEncoding audio_encoding = 1;
 
@@ -78,7 +79,6 @@ message RecognitionSpec {
 
   // code in BCP-47
   string language_code = 3;
-
   bool profanity_filter = 4;
   string model = 5;
 
@@ -86,7 +86,6 @@ message RecognitionSpec {
   // If false or omitted, only final=true result(s) are returned.
   // Makes sense only for StreamingRecognize requests.
   bool partial_results = 7;
-
   bool single_utterance = 8;
 
   // Used only for long running recognize.
@@ -101,8 +100,10 @@ message RecognitionSpec {
 
 message SpeechRecognitionChunk {
   repeated SpeechRecognitionAlternative alternatives = 1;
+
   // This flag shows that the received chunk contains a part of the recognized text that won't be changed.
   bool final = 2;
+
   // This flag shows that the received chunk is the end of an utterance.
   bool end_of_utterance = 3;
 }
@@ -114,7 +115,9 @@ message SpeechRecognitionResult {
 
 message SpeechRecognitionAlternative {
   string text = 1;
-  float confidence = 2;
+  float confidence = 2 [
+    }
+  ];
   repeated WordInfo words = 3;
 }
 
@@ -122,5 +125,7 @@ message WordInfo {
   google.protobuf.Duration start_time = 1;
   google.protobuf.Duration end_time = 2;
   string word = 3;
-  float confidence = 4;
+  float confidence = 4 [
+    }
+  ];
 }

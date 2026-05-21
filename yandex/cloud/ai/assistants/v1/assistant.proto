@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package yandex.cloud.ai.assistants.v1;
 
-import "yandex/cloud/ai/common/common.proto";
-import "yandex/cloud/ai/assistants/v1/common.proto";
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/ai/assistants/v1/common.proto";
+import "yandex/cloud/ai/common/common.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1;assistants";
 option java_package = "yandex.cloud.api.ai.assistants.v1";
@@ -36,7 +36,7 @@ message Assistant {
   google.protobuf.Timestamp updated_at = 8;
 
   // Configuration for the expiration of the assistant, defining when and how the assistant will expire.
-  yandex.cloud.ai.common.ExpirationConfig expiration_config = 9;
+  common.ExpirationConfig expiration_config = 9;
 
   // Timestamp representing when the assistant will expire.
   google.protobuf.Timestamp expires_at = 10;

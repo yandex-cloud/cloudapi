@@ -32,7 +32,7 @@ message GetRoleRequest {
   // ID of the Role resource to return.
   // To get the role ID, use a [RoleService.List] request.
   string role_id = 1 [
-    (length) = "<=50",
+    (length) = "<=64",
     (required) = true
   ];
 }

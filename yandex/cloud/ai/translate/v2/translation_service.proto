@@ -3,30 +3,38 @@ syntax = "proto3";
 package yandex.cloud.ai.translate.v2;
 
 import "google/api/annotations.proto";
-import "yandex/cloud/validation.proto";
 import "yandex/cloud/ai/translate/v2/translation.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/translate/v2;translate";
 option java_package = "yandex.cloud.api.ai.translate.v2";
 
 // A set of methods for the Translate service.
-//
 // Make sure you send your [authentication](/docs/translate/api-ref/authentication) credentials in the `Authorization` header of each request.
 service TranslationService {
   // Translates the text to the specified language.
-  rpc Translate (TranslateRequest) returns (TranslateResponse) {
-    option (google.api.http) = { post: "/translate/v2/translate" body: "*" };
-  }
+  rpc Translate(TranslateRequest) returns (TranslateResponse) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/translate/v2/translate"
+    };
+  };
 
   // Detects the language of the text.
-  rpc DetectLanguage (DetectLanguageRequest) returns (DetectLanguageResponse) {
-    option (google.api.http) = { post: "/translate/v2/detect" body: "*" };
-  }
+  rpc DetectLanguage(DetectLanguageRequest) returns (DetectLanguageResponse) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/translate/v2/detect"
+    };
+  };
 
   // Retrieves the list of supported languages.
-  rpc ListLanguages (ListLanguagesRequest) returns (ListLanguagesResponse) {
-    option (google.api.http) = { post: "/translate/v2/languages" body: "*" };
-  }
+  rpc ListLanguages(ListLanguagesRequest) returns (ListLanguagesResponse) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/translate/v2/languages"
+    };
+  };
 }
 
 message TranslateRequest {
@@ -42,13 +50,15 @@ message TranslateRequest {
 
   // The text language to translate from.
   // Most languages are specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` ru ``), but the field are not limited to it.
-  //
   // Required for translating with [glossary](/docs/translate/concepts/glossary).
   string source_language_code = 1 [(length) = "<=3"];
 
   // The target language to translate the text.
   // Most languages are specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` ru ``), but the field are not limited to it.
-  string target_language_code = 2 [(required) = true, (length) = "<=3"];
+  string target_language_code = 2 [
+    (length) = "<=3",
+    (required) = true
+  ];
 
   // Format of the text to be translated.
   Format format = 3;
@@ -67,6 +77,7 @@ message TranslateRequest {
 
   // Glossary to be applied for the translation. For more information, see [Glossaries](/docs/translate/concepts/glossary).
   TranslateGlossaryConfig glossary_config = 7;
+
   // Enable spell checking.
   bool speller = 8;
 }
@@ -74,6 +85,7 @@ message TranslateRequest {
 message TranslateGlossaryConfig {
   oneof glossary_source {
     option (exactly_one) = true;
+
     // Pass glossary data in the request. Currently, the only way to pass glossary.
     GlossaryData glossary_data = 1;
   }
@@ -81,7 +93,6 @@ message TranslateGlossaryConfig {
 
 message GlossaryData {
   // Array of text pairs.
-  //
   // The maximum total length of all source texts is 10000 characters.
   // The maximum total length of all translated texts is 10000 characters.
   repeated GlossaryPair glossary_pairs = 1 [(size) = "1-50"];
@@ -105,13 +116,18 @@ message TranslateResponse {
 
 message DetectLanguageRequest {
   // The text to detect the language for.
-  string text = 1 [(required) = true, (length) = "<=1000"];
+  string text = 1 [
+    (length) = "<=1000",
+    (required) = true
+  ];
 
   // List of the most likely languages. These languages will be given preference when detecting the text language.
   // Most languages are specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` ru ``), but the field are not limited to it.
-  //
   // To get the list of supported languages, use a [TranslationService.ListLanguages] request.
-  repeated string language_code_hints = 2 [(size) = "<=10", (length) = "<=3"];
+  repeated string language_code_hints = 2 [
+    (length) = "<=3",
+    (size) = "<=10"
+  ];
 
   // ID of the folder to which you have access.
   // Required for authorization with a user account.
@@ -121,7 +137,6 @@ message DetectLanguageRequest {
 
 message DetectLanguageResponse {
   // Most languages are specified in [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format (for example, `` ru ``), but the field are not limited to it.
-  //
   // To get the language name, use a [TranslationService.ListLanguages] request.
   string language_code = 1;
 }

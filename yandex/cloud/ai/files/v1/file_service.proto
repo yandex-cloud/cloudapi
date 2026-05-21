@@ -2,47 +2,60 @@ syntax = "proto3";
 
 package yandex.cloud.ai.files.v1;
 
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/ai/common/common.proto";
 import "yandex/cloud/ai/files/v1/file.proto";
 import "yandex/cloud/validation.proto";
-import "google/api/annotations.proto";
-import "google/protobuf/field_mask.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/files/v1;files";
 option java_package = "yandex.cloud.api.ai.files.v1";
-
 
 // FileService provides operations for managing files.
 service FileService {
   // Create a new file.
   rpc Create(CreateFileRequest) returns (File) {
-    option (google.api.http) = {post: "/files/v1/files" body: "*"};
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/files/v1/files"
+    };
+  };
 
   // Retrieve details of a specific file by its ID.
   rpc Get(GetFileRequest) returns (File) {
-    option (google.api.http) = {get: "/files/v1/files/{file_id}"};
-  }
+    option (google.api.http) = {
+      get: "/files/v1/files/{file_id}"
+    };
+  };
 
   // Retrieve a URL for accessing or downloading a specific file.
   rpc GetUrl(GetFileUrlRequest) returns (GetFileUrlResponse) {
-    option (google.api.http) = {get: "/files/v1/files:getUrl"};
-  }
+    option (google.api.http) = {
+      get: "/files/v1/files:getUrl"
+    };
+  };
 
   // Update an existing file.
   rpc Update(UpdateFileRequest) returns (File) {
-    option (google.api.http) = {patch: "/files/v1/files/{file_id}" body: "*"};
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/files/v1/files/{file_id}"
+    };
+  };
 
   // Delete a file by its ID.
   rpc Delete(DeleteFileRequest) returns (DeleteFileResponse) {
-    option (google.api.http) = {delete: "/files/v1/files/{file_id}"};
-  }
+    option (google.api.http) = {
+      delete: "/files/v1/files/{file_id}"
+    };
+  };
 
   // List files in a specific folder.
   rpc List(ListFilesRequest) returns (ListFilesResponse) {
-    option (google.api.http) = {get: "/files/v1/files"};
-  }
+    option (google.api.http) = {
+      get: "/files/v1/files"
+    };
+  };
 }
 
 // Request message for creating a new file.
@@ -66,7 +79,7 @@ message CreateFileRequest {
   map<string, string> labels = 6;
 
   // Expiration configuration for the file.
-  yandex.cloud.ai.common.ExpirationConfig expiration_config = 7;
+  common.ExpirationConfig expiration_config = 7;
 }
 
 // Request message for retrieving a file by ID.
@@ -102,7 +115,7 @@ message UpdateFileRequest {
   string description = 4;
 
   // New expiration configuration for the file.
-  yandex.cloud.ai.common.ExpirationConfig expiration_config = 5;
+  common.ExpirationConfig expiration_config = 5;
 
   // New set of labels for the file.
   map<string, string> labels = 6;

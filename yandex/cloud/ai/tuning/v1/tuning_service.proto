@@ -2,64 +2,71 @@ syntax = "proto3";
 
 package yandex.cloud.ai.tuning.v1;
 
-import "yandex/cloud/validation.proto";
-import "yandex/cloud/api/operation.proto";
-import "yandex/cloud/operation/operation.proto";
-import "yandex/cloud/ai/tuning/v1/tuning_task.proto";
-import "yandex/cloud/ai/tuning/v1/tuning_types.proto";
+import "yandex/cloud/ai/tuning/v1/tuning_error.proto";
 import "yandex/cloud/ai/tuning/v1/tuning_optimizers.proto";
 import "yandex/cloud/ai/tuning/v1/tuning_schedulers.proto";
-import "yandex/cloud/ai/tuning/v1/tuning_error.proto";
+import "yandex/cloud/ai/tuning/v1/tuning_task.proto";
+import "yandex/cloud/ai/tuning/v1/tuning_types.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/tuning/v1;fomo";
 option java_package = "yandex.cloud.api.ai.tuning.v1";
 
 service TuningService {
-  rpc Tune (TuningRequest) returns (yandex.cloud.operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+  rpc Tune(TuningRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "TuningMetadata"
       response: "TuningResponse"
     };
-  }
+  };
 
   rpc List(ListTuningsRequest) returns (ListTuningsResponse);
+
   rpc Describe(DescribeTuningRequest) returns (DescribeTuningResponse);
+
   rpc Cancel(CancelTuningRequest) returns (CancelTuningResponse);
+
   rpc GetMetricsUrl(GetMetricsUrlRequest) returns (GetMetricsUrlResponse);
+
   rpc GetOptions(GetOptionsRequest) returns (GetOptionsResponse);
+
   rpc ListErrors(ListErrorsRequest) returns (ListErrorsResponse);
 
   // Unimplemented
   rpc CreateDraft(CreateTuningDraftRequest) returns (CreateTuningDraftResponse);
+
   // Unimplemented
   rpc UpdateDraft(UpdateTuningDraftRequest) returns (UpdateTuningDraftResponse);
+
   // Unimplemented
   rpc DeleteDraft(DeleteTuningDraftRequest) returns (DeleteTuningDraftResponse);
+
   // Unimplemented
-  rpc TuneDraft(TuneDraftRequest) returns (yandex.cloud.operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+  rpc TuneDraft(TuneDraftRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "TuningMetadata"
       response: "TuningResponse"
     };
-  }
+  };
 
-  rpc Archive(ArchiveTuningRequest) returns (yandex.cloud.operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+  rpc Archive(ArchiveTuningRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "ArchiveTuningMetadata"
       response: "ArchiveTuningResponse"
     };
-  }
+  };
 
-  rpc EnableBilling(EnableBillingRequest) returns (yandex.cloud.operation.Operation) {
-    option (yandex.cloud.api.operation) = {
+  rpc EnableBilling(EnableBillingRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "EnableBillingMetadata"
       response: "EnableBillingResponse"
     };
-  }
+  };
 }
 
 message ListTuningsRequest {
-
   // Required field. ID of the folder to list tunings in.
   string folder_id = 1 [(required) = true];
 
@@ -68,7 +75,6 @@ message ListTuningsRequest {
 
   // Token to retrieve the next page of results.
   string page_token = 3;
-
   TuningTask.Status status = 4;
 }
 
@@ -97,13 +103,11 @@ message CancelTuningResponse {
 }
 
 message TuningResponse {
+  reserved 1 to 2;
+
   string tuning_task_id = 3;
-
   TuningTask.Status status = 4;
-
   string target_model_uri = 5;
-
-  reserved 1, 2;
 }
 
 message TuningMetadata {
@@ -114,20 +118,22 @@ message TuningMetadata {
 }
 
 message TuningRequest {
+  reserved 6 to 99, 105 to 199;
+
   // Format like a `gpt://{folder_id}/yandex-gpt/latest`
   string base_model_uri = 1 [(required) = true];
-
-  repeated WeightedDataset train_datasets = 2 [(size)=">0"];
+  repeated WeightedDataset train_datasets = 2 [(size) = ">0"];
   repeated WeightedDataset validation_datasets = 3 [deprecated = true];
   WeightedDataset validation_dataset = 4;
   repeated WeightedDataset test_datasets = 5;
-
   oneof tuning_params {
     TextToTextCompletionTuningParams text_to_text_completion = 100;
     TextClassificationMultilabelParams text_classification_multilabel = 101;
     TextClassificationMulticlassParams text_classification_multiclass = 102;
+
     // TextEmbeddingPairParams  is unimplemented
     TextEmbeddingPairParams text_embedding_pair_params = 103;
+
     // TextEmbeddingTripletParams  is unimplemented
     TextEmbeddingTripletParams text_embedding_triplet_params = 104;
   }
@@ -135,20 +141,19 @@ message TuningRequest {
   string name = 200;
   string description = 201;
   map<string, string> labels = 202;
-
   message WeightedDataset {
     string dataset_id = 1 [(required) = true];
     double weight = 2;
   }
-  reserved 6 to 99, 105 to 199;
 }
 
 message TextToTextCompletionTuningParams {
+  reserved 4 to 6, 8 to 99, 102 to 199;
+
   int64 seed = 1;
   double lr = 2;
   int64 n_samples = 3;
   string additional_arguments = 7;
-
   oneof tuning_type {
     TuningTypeLora lora = 100;
     TuningTypePromptTune prompt_tune = 101;
@@ -156,15 +161,16 @@ message TextToTextCompletionTuningParams {
 
   Scheduler scheduler = 200;
   Optimizer optimizer = 201;
-
   message Scheduler {
+    reserved 4 to 100;
+
     oneof type {
       SchedulerLinear linear = 1;
       SchedulerConstant constant = 2;
       SchedulerCosine cosine = 3;
     }
+
     double warmup_ratio = 101;
-    reserved 4 to 100;
   }
 
   message Optimizer {
@@ -172,15 +178,15 @@ message TextToTextCompletionTuningParams {
       OptimizerAdamw adamw = 1;
     }
   }
-  reserved 4 to 6, 8 to 99, 102 to 199;
 }
 
 message TextClassificationMultilabelParams {
+  reserved 4 to 6, 8 to 99, 102 to 199;
+
   int64 seed = 1;
   double lr = 2;
   int64 n_samples = 3;
   string additional_arguments = 7;
-
   oneof tuning_type {
     TuningTypeLora lora = 100;
     TuningTypePromptTune prompt_tune = 101;
@@ -188,15 +194,16 @@ message TextClassificationMultilabelParams {
 
   Scheduler scheduler = 200;
   Optimizer optimizer = 201;
-
   message Scheduler {
+    reserved 4 to 100;
+
     oneof type {
       SchedulerLinear linear = 1;
       SchedulerConstant constant = 2;
       SchedulerCosine cosine = 3;
     }
+
     double warmup_ratio = 101;
-    reserved 4 to 100;
   }
 
   message Optimizer {
@@ -204,15 +211,15 @@ message TextClassificationMultilabelParams {
       OptimizerAdamw adamw = 1;
     }
   }
-  reserved 4 to 6, 8 to 99, 102 to 199;
 }
 
 message TextClassificationMulticlassParams {
+  reserved 4 to 6, 8 to 99, 102 to 199;
+
   int64 seed = 1;
   double lr = 2;
   int64 n_samples = 3;
   string additional_arguments = 7;
-
   oneof tuning_type {
     TuningTypeLora lora = 100;
     TuningTypePromptTune prompt_tune = 101;
@@ -220,15 +227,16 @@ message TextClassificationMulticlassParams {
 
   Scheduler scheduler = 200;
   Optimizer optimizer = 201;
-
   message Scheduler {
+    reserved 4 to 100;
+
     oneof type {
       SchedulerLinear linear = 1;
       SchedulerConstant constant = 2;
       SchedulerCosine cosine = 3;
     }
+
     double warmup_ratio = 101;
-    reserved 4 to 100;
   }
 
   message Optimizer {
@@ -236,16 +244,16 @@ message TextClassificationMulticlassParams {
       OptimizerAdamw adamw = 1;
     }
   }
-  reserved 4 to 6, 8 to 99, 102 to 199;
 }
 
 message TextEmbeddingPairParams {
+  reserved 4 to 6, 9 to 99, 102 to 199;
+
   int64 seed = 1;
   double lr = 2;
   int64 n_samples = 3;
   string additional_arguments = 7;
   repeated int64 embedding_dims = 8;
-
   oneof tuning_type {
     TuningTypeLora lora = 100;
     TuningTypePromptTune prompt_tune = 101;
@@ -253,17 +261,18 @@ message TextEmbeddingPairParams {
 
   Scheduler scheduler = 200;
   Optimizer optimizer = 201;
-
   message Scheduler {
+    reserved 4 to 100;
+
     oneof type {
       SchedulerLinear linear = 1;
       SchedulerConstant constant = 2;
       SchedulerCosine cosine = 3;
     }
+
     oneof optional_warmup_ratio {
       double warmup_ratio = 101;
     }
-    reserved 4 to 100;
   }
 
   message Optimizer {
@@ -271,16 +280,16 @@ message TextEmbeddingPairParams {
       OptimizerAdamw adamw = 1;
     }
   }
-  reserved 4 to 6, 9 to 99, 102 to 199;
 }
 
 message TextEmbeddingTripletParams {
+  reserved 4 to 6, 9 to 99, 102 to 199;
+
   int64 seed = 1;
   double lr = 2;
   int64 n_samples = 3;
   string additional_arguments = 7;
   repeated int64 embedding_dims = 8;
-
   oneof tuning_type {
     TuningTypeLora lora = 100;
     TuningTypePromptTune prompt_tune = 101;
@@ -288,17 +297,18 @@ message TextEmbeddingTripletParams {
 
   Scheduler scheduler = 200;
   Optimizer optimizer = 201;
-
   message Scheduler {
+    reserved 4 to 100;
+
     oneof type {
       SchedulerLinear linear = 1;
       SchedulerConstant constant = 2;
       SchedulerCosine cosine = 3;
     }
+
     oneof optional_warmup_ratio {
       double warmup_ratio = 101;
     }
-    reserved 4 to 100;
   }
 
   message Optimizer {
@@ -306,7 +316,6 @@ message TextEmbeddingTripletParams {
       OptimizerAdamw adamw = 1;
     }
   }
-  reserved 4 to 6, 9 to 99, 102 to 199;
 }
 
 message GetMetricsUrlRequest {
@@ -322,12 +331,12 @@ message GetOptionsRequest {
 }
 
 message GetOptionsResponse {
+  reserved 5 to 99;
+
   string task_id = 1;
   string base_model_uri = 2;
-
   repeated TuningRequest.WeightedDataset train_datasets = 3;
-  repeated TuningRequest.WeightedDataset validation_datasets = 4;
-
+  repeated TuningRequest.WeightedDataset validation_datasets = 4 [deprecated = true];
   oneof tuning_params {
     TextToTextCompletionTuningParams text_to_text_completion = 100;
     TextClassificationMultilabelParams text_classification_multilabel = 101;
@@ -335,8 +344,6 @@ message GetOptionsResponse {
     TextEmbeddingPairParams text_embedding_pair_params = 103;
     TextEmbeddingTripletParams text_embedding_triplet_params = 104;
   }
-
-  reserved 5 to 99;
 }
 
 message ListErrorsRequest {
@@ -348,11 +355,11 @@ message ListErrorsResponse {
 }
 
 message CreateTuningDraftRequest {
+  reserved 4 to 99, 105 to 199;
+
   string base_model_uri = 1 [(required) = true];
-
-  repeated TuningRequest.WeightedDataset train_datasets = 2 [(size)=">0"];
-  repeated TuningRequest.WeightedDataset validation_datasets = 3;
-
+  repeated TuningRequest.WeightedDataset train_datasets = 2 [(size) = ">0"];
+  repeated TuningRequest.WeightedDataset validation_datasets = 3 [deprecated = true];
   oneof tuning_params {
     TextToTextCompletionTuningParams text_to_text_completion = 100;
     TextClassificationMultilabelParams text_classification_multilabel = 101;
@@ -364,8 +371,6 @@ message CreateTuningDraftRequest {
   string name = 200 [(pattern) = "^[A-Za-z0-9 _-]{3,100}$"];
   string description = 201;
   map<string, string> labels = 202;
-
-  reserved 4 to 99, 105 to 199;
 }
 
 message CreateTuningDraftResponse {
@@ -373,12 +378,12 @@ message CreateTuningDraftResponse {
 }
 
 message UpdateTuningDraftRequest {
-  string tuning_task_id = 1 [(required) = true];
+  reserved 5 to 99, 105 to 199;
 
+  string tuning_task_id = 1 [(required) = true];
   string base_model_uri = 2;
   repeated TuningRequest.WeightedDataset train_datasets = 3;
-  repeated TuningRequest.WeightedDataset validation_datasets = 4;
-
+  repeated TuningRequest.WeightedDataset validation_datasets = 4 [deprecated = true];
   oneof tuning_params {
     TextToTextCompletionTuningParams text_to_text_completion = 100;
     TextClassificationMultilabelParams text_classification_multilabel = 101;
@@ -390,8 +395,6 @@ message UpdateTuningDraftRequest {
   string name = 200;
   string description = 201;
   map<string, string> labels = 202;
-
-  reserved 5 to 99, 105 to 199;
 }
 
 message UpdateTuningDraftResponse {
@@ -415,7 +418,6 @@ message ArchiveTuningRequest {
 }
 
 message ArchiveTuningMetadata {
-
 }
 
 message ArchiveTuningResponse {
@@ -431,5 +433,4 @@ message EnableBillingResponse {
 }
 
 message EnableBillingMetadata {
-  
 }

@@ -9,7 +9,6 @@ option java_package = "yandex.cloud.api.ai.vision.v1";
 
 message TextAnnotation {
   // Pages of the recognized file.
-  //
   // For JPEG and PNG files contains only 1 page.
   repeated Page pages = 1;
 }
@@ -64,7 +63,6 @@ message Word {
 
   // Confidence of the OCR results for the word. Range [0, 1].
   double confidence = 3;
-
   message DetectedLanguage {
     // Detected language code.
     string language_code = 1;

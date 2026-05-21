@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.baremetal.v1alpha;
 
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/baremetal/v1alpha/configuration.proto";
 import "yandex/cloud/baremetal/v1alpha/disk.proto";
 import "yandex/cloud/baremetal/v1alpha/storage.proto";
 import "yandex/cloud/validation.proto";
@@ -12,7 +13,7 @@ option java_package = "yandex.cloud.api.baremetal.v1alpha";
 
 // A Server resource.
 message Server {
-  reserved 8, 11 to 17, 19, 22 to 99, 101 to 199;
+  reserved 8, 11 to 17, 19, 22 to 23, 26 to 99, 101 to 199;
 
   // Server status.
   enum Status {
@@ -53,6 +54,15 @@ message Server {
 
     // Server is running normaly
     RUNNING = 14;
+  }
+
+  // Configuration of the server.
+  oneof configuration {
+    // Custom configuration.
+    Configuration custom_configuration = 24;
+
+    // ID of the stock configuration.
+    string stock_configuration_id = 25;
   }
 
   // ID of the server.

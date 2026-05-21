@@ -131,7 +131,7 @@ message CreateCertificateRequest {
 
   // Name of the certificate.
   // The name must be unique within the federation.
-  string name = 2 [(pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  string name = 2 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
 
   // Description of the certificate.
   string description = 3 [(length) = "<=256"];

@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package yandex.cloud.ai.assistants.v1.users;
 
-import "yandex/cloud/ai/common/common.proto";
-import "yandex/cloud/ai/assistants/v1/users/user.proto";
-import "yandex/cloud/validation.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "yandex/cloud/ai/assistants/v1/users/user.proto";
+import "yandex/cloud/ai/common/common.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/assistants/v1/users;users";
 option java_package = "yandex.cloud.api.ai.assistants.v1.users";
@@ -15,28 +15,40 @@ option java_package = "yandex.cloud.api.ai.assistants.v1.users";
 service UserService {
   // Create a new user.
   rpc Create(CreateUserRequest) returns (User) {
-    option (google.api.http) = {post: "/users/v1/users" body: "*"};
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/users/v1/users"
+    };
+  };
 
   // Retrieve details of a specific user by its ID.
   rpc Get(GetUserRequest) returns (User) {
-    option (google.api.http) = {get: "/users/v1/users/{user_id}"};
-  }
+    option (google.api.http) = {
+      get: "/users/v1/users/{user_id}"
+    };
+  };
 
   // Update an existing user.
   rpc Update(UpdateUserRequest) returns (User) {
-    option (google.api.http) = {patch: "/users/v1/users/{user_id}" body: "*"};
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/users/v1/users/{user_id}"
+    };
+  };
 
   // Delete a user by its ID.
   rpc Delete(DeleteUserRequest) returns (DeleteUserResponse) {
-    option (google.api.http) = {delete: "/users/v1/users/{user_id}"};
-  }
+    option (google.api.http) = {
+      delete: "/users/v1/users/{user_id}"
+    };
+  };
 
   // List users in a specific folder.
   rpc List(ListUsersRequest) returns (ListUsersResponse) {
-    option (google.api.http) = {get: "/users/v1/users"};
-  }
+    option (google.api.http) = {
+      get: "/users/v1/users"
+    };
+  };
 }
 
 // Request message for creating a new user.
@@ -48,11 +60,10 @@ message CreateUserRequest {
 
   // Description of the user.
   string description = 3;
-
   string source = 4;
 
   // Expiration configuration for the user.
-  yandex.cloud.ai.common.ExpirationConfig expiration_config = 5;
+  common.ExpirationConfig expiration_config = 5;
 
   // Set of key-value pairs to label the user.
   map<string, string> labels = 6;
@@ -79,7 +90,7 @@ message UpdateUserRequest {
   string description = 4;
 
   // New expiration configuration for the user.
-  yandex.cloud.ai.common.ExpirationConfig expiration_config = 5;
+  common.ExpirationConfig expiration_config = 5;
 
   // New set of labels for the user.
   map<string, string> labels = 6;
