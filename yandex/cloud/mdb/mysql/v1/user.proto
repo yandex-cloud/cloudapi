@@ -3,17 +3,15 @@ syntax = "proto3";
 package yandex.cloud.mdb.mysql.v1;
 
 import "google/protobuf/wrappers.proto";
-import "yandex/cloud/validation.proto";
 import "yandex/cloud/mdb/mysql/v1/deletion_protection.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mysql/v1;mysql";
 option java_package = "yandex.cloud.api.mdb.mysql.v1";
 
 // An object that represents MySQL user.
-//
 // See [the documentation](/docs/managed-mysql/operations/cluster-users) for details.
 message User {
-
   // Name of the user.
   string name = 1;
 
@@ -36,7 +34,6 @@ message User {
   ConnectionManager connection_manager = 7;
 
   // Deletion Protection inhibits deletion of the user
-  //
   // Default value: `DELETION_PROTECTION_MODE_DISABLED` (protection is disabled)
   DeletionProtectionMode deletion_protection_mode = 8;
 }
@@ -88,9 +85,7 @@ message Permission {
     LOCK_TABLES = 14;
 
     // Selecting rows from tables.
-    //
     // Some `SELECT` statements can be allowed without the `SELECT` privilege. All statements that read column values require the `SELECT` privilege.
-    //
     // See [MySQL documentation](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select) for details.
     SELECT = 15;
 
@@ -111,7 +106,6 @@ message Permission {
   string database_name = 1;
 
   // Roles granted to the user within the database.
-  //
   // See [the documentation](/docs/managed-mysql/operations/grant) for details.
   repeated Privilege roles = 2 [(size) = ">=1"];
 }
@@ -127,7 +121,6 @@ enum GlobalPermission {
   REPLICATION_SLAVE = 2;
 
   // Enables display of information about the the statements currently being performed by sessions (the set of threads executing within the server).
-  //
   // The privilege enables use of `SHOW PROCESSLIST` or `mysqladmin` processlist to see threads belonging to other users.
   // You can always see your own threads. The `PROCESS` privilege also enables use of `SHOW ENGINE`.
   PROCESS = 3;
@@ -148,7 +141,6 @@ enum GlobalPermission {
 }
 
 message ConnectionLimits {
-
   // The maximum permitted number of user questions per hour.
   google.protobuf.Int64Value max_questions_per_hour = 1 [(value) = ">=0"];
 
@@ -182,21 +174,26 @@ enum AuthPlugin {
 }
 
 message ConnectionManager {
-    // ID of Connection Manager Connection
-    string connection_id = 1;
+  // ID of Connection Manager Connection
+  string connection_id = 1;
 }
 
 message UserSpec {
-
   // Name of the user.
-  string name = 1 [(required) = true, (length) = "<=32", (pattern) = "[a-zA-Z0-9_-]*"];
+  string name = 1 [
+    (length) = "<=32",
+    (pattern) = "[a-zA-Z0-9_-]*",
+    (required) = true
+  ];
 
   // Password of the user.
-  string password = 2 [(required) = true, (length) = "8-128"];
+  string password = 2 [
+    (length) = "8-128",
+    (required) = true
+  ];
 
   // Set of permissions granted to the user to access specific databases.
   // One permission per database.
-  //
   // When a permission for a database is set, the user will have access to the database.
   repeated Permission permissions = 3;
 
@@ -213,7 +210,6 @@ message UserSpec {
   google.protobuf.BoolValue generate_password = 7;
 
   // Deletion Protection inhibits deletion of the user
-  //
   // Default value: `DELETION_PROTECTION_MODE_DISABLED` (protection is disabled)
   DeletionProtectionMode deletion_protection_mode = 8;
 }

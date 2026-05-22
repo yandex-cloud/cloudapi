@@ -142,6 +142,9 @@ message CreatePrivateEndpointRequest {
     option (exactly_one) = true;
     // Yandex Cloud Object Storage.
     PrivateEndpoint.ObjectStorage object_storage = 9;
+
+    // Yandex Cloud service name.
+    string service_name = 10;
   }
 }
 

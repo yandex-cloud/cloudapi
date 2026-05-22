@@ -92,6 +92,7 @@ message GetResourceRequest {
   ];
 }
 
+// A request to list resources.
 message ListResourcesRequest {
   // ID of the folder to request listing for.
   string folder_id = 1 [

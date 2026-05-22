@@ -51,7 +51,7 @@ message MongodConfig5_0_enterprise {
       // Collection configuration for WiredTiger.
       CollectionConfig collection_config = 2;
 
-      //Index configuration for WiredTiger
+      // Index configuration for WiredTiger
       IndexConfig index_config = 3;
     }
 
@@ -109,9 +109,10 @@ message MongodConfig5_0_enterprise {
         // The [zstd](https://docs.mongodb.com/v4.2/reference/glossary/#term-zstd) compression.
         ZSTD = 3;
 
-        //No compression
+        // No compression
         DISABLED = 4;
       }
+
       // Specifies the default compressor(s) to use for communication between this mongod or mongos instance and:
       // - other members of the deployment if the instance is part of a replica set or a sharded cluster
       // - mongosh
@@ -131,18 +132,23 @@ message MongodConfig5_0_enterprise {
     message KMIP {
       // KMIP server name
       string server_name = 1;
+
       // KMIP server port
       google.protobuf.Int64Value port = 2;
+
       // KMIP Server CA
       string server_ca = 3;
+
       // KMIP client certificate + private key (unencrypted)
       string client_certificate = 4;
+
       // KMIP Key identifier (if any)
       string key_identifier = 5;
     }
 
     // If encryption at rest should be enabled or not
     google.protobuf.BoolValue enable_encryption = 1;
+
     // `kmip` section of mongod security config
     KMIP kmip = 2;
   }
@@ -150,6 +156,7 @@ message MongodConfig5_0_enterprise {
   message AuditLog {
     // Audit filter
     string filter = 1;
+
     // Allows runtime configuration of audit filter and auditAuthorizationSuccess
     google.protobuf.BoolValue runtime_configuration = 2;
   }
@@ -230,6 +237,7 @@ message MongoCfgConfig5_0_enterprise {
     // The maximum number of simultaneous connections that mongocfg will accept.
     google.protobuf.Int64Value max_incoming_connections = 1 [(value) = "10-32768"];
   }
+
   // `storage` section of mongocfg configuration.
   Storage storage = 1;
 
@@ -255,9 +263,10 @@ message MongosConfig5_0_enterprise {
         // The [zstd](https://docs.mongodb.com/v4.2/reference/glossary/#term-zstd) compression.
         ZSTD = 3;
 
-        //No compression
+        // No compression
         DISABLED = 4;
       }
+
       // Specifies the default compressor(s) to use for communication between this mongod or mongos instance and:
       // - other members of the deployment if the instance is part of a replica set or a sharded cluster
       // - mongosh

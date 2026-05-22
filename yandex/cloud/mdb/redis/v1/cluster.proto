@@ -5,13 +5,13 @@ package yandex.cloud.mdb.redis.v1;
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
-import "yandex/cloud/validation.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis5_0.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis6_0.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis6_2.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis7_0.proto";
 import "yandex/cloud/mdb/redis/v1/maintenance.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/redis/v1;redis";
 option java_package = "yandex.cloud.api.mdb.redis.v1";
@@ -74,24 +74,30 @@ message Cluster {
   }
 
   enum PersistenceMode {
-    ON = 0; // cluster persistence mode on
-    OFF = 1; // cluster persistence mode off
-    ON_REPLICAS = 2; // cluster persistence on replicas only
+
+    // Cluster persistence mode is on.
+    ON = 0;
+
+    // Cluster persistence mode is off.
+    OFF = 1;
+
+    // Cluster persistence is on for replicas only.
+    ON_REPLICAS = 2;
   }
 
   // ID of the Redis cluster.
   // This ID is assigned by MDB at creation time.
-  string id = 1;
+  string id = 1 [(required) = true];
 
   // ID of the folder that the Redis cluster belongs to.
-  string folder_id = 2;
+  string folder_id = 2 [(required) = true];
 
   // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
-  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp created_at = 3 [(required) = true];
 
   // Name of the Redis cluster.
   // The name is unique within the folder. 3-63 characters long.
-  string name = 4;
+  string name = 4 [(required) = true];
 
   // Description of the Redis cluster. 0-256 characters long.
   string description = 5;
@@ -101,27 +107,28 @@ message Cluster {
   map<string, string> labels = 6;
 
   // Deployment environment of the Redis cluster.
-  Environment environment = 7;
+  Environment environment = 7 [(required) = true];
 
   // Description of monitoring systems relevant to the Redis cluster.
   repeated Monitoring monitoring = 8;
 
   // Configuration of the Redis cluster.
-  ClusterConfig config = 9;
+  ClusterConfig config = 9 [(required) = true];
 
-  string network_id = 10;
+  // ID of the network that the cluster belongs to.
+  string network_id = 10 [(required) = true];
 
   // Aggregated cluster health.
-  Health health = 11;
+  Health health = 11 [(required) = true];
 
   // Cluster status.
-  Status status = 12;
+  Status status = 12 [(required) = true];
 
   // Redis cluster mode on/off.
   bool sharded = 13;
 
   // Maintenance window for the cluster.
-  MaintenanceWindow maintenance_window = 14;
+  MaintenanceWindow maintenance_window = 14 [(required) = true];
 
   // Planned maintenance operation to be started for the cluster within the nearest [maintenance_window].
   MaintenanceOperation planned_operation = 15;
@@ -150,43 +157,49 @@ message Cluster {
 
 message Monitoring {
   // Name of the monitoring system.
-  string name = 1;
+  string name = 1 [(required) = true];
 
   // Description of the monitoring system.
   string description = 2;
 
   // Link to the monitoring system charts for the Redis cluster.
-  string link = 3;
+  string link = 3 [(required) = true];
 }
 
 message ClusterConfig {
-  reserved 11,12;
+  reserved 11 to 12;
+
   // Version of Redis server software.
   string version = 1;
-
   // Configuration for Redis servers in the cluster.
   oneof redis_config {
     // Configuration of a Redis 5.0 server.
-    config.RedisConfigSet5_0 redis_config_5_0 = 2 [json_name="redisConfig_5_0"];
+    config.RedisConfigSet5_0 redis_config_5_0 = 2 [json_name = "redisConfig_5_0"];
+
     // Configuration of a Redis 6.0 server.
-    config.RedisConfigSet6_0 redis_config_6_0 = 6 [json_name="redisConfig_6_0"];
+    config.RedisConfigSet6_0 redis_config_6_0 = 6 [json_name = "redisConfig_6_0"];
+
     // Configuration of a Redis 6.2 server.
-    config.RedisConfigSet6_2 redis_config_6_2 = 7 [json_name="redisConfig_6_2"];
+    config.RedisConfigSet6_2 redis_config_6_2 = 7 [json_name = "redisConfig_6_2"];
+
     // Configuration of a Redis 7.0 server.
-    config.RedisConfigSet7_0 redis_config_7_0 = 8 [json_name="redisConfig_7_0"];
+    config.RedisConfigSet7_0 redis_config_7_0 = 8 [json_name = "redisConfig_7_0"];
   }
 
   // Resources allocated to Redis hosts.
-  Resources resources = 3;
+  Resources resources = 3 [(required) = true];
 
   // Time to start the daily backup, in the UTC timezone.
-  google.type.TimeOfDay backup_window_start = 4;
+  google.type.TimeOfDay backup_window_start = 4 [(required) = true];
 
   // Access policy to DB
-  Access access = 5;
+  Access access = 5 [(required) = true];
 
   // Unified configuration of a Redis cluster.
-  config.RedisConfigSet redis = 9;
+  config.RedisConfigSet redis = 9 [
+    (required) = true,
+    json_name = "redis"
+  ];
 
   // Disk size autoscaling settings
   DiskSizeAutoscaling disk_size_autoscaling = 10;
@@ -204,14 +217,13 @@ message ClusterConfig {
 message Shard {
   // Name of the Redis shard. The shard name is assigned by user at creation time, and cannot be changed.
   // 1-63 characters long.
-  string name = 1;
+  string name = 1 [(required) = true];
 
   // ID of the Redis cluster the shard belongs to. The ID is assigned by MDB at creation time.
-  string cluster_id = 2;
+  string cluster_id = 2 [(required) = true];
 }
 
 message Host {
-
   enum Role {
 
     // Role of the host in the cluster is unknown. Default value.
@@ -241,31 +253,31 @@ message Host {
 
   // Name of the Redis host. The host name is assigned by MDB at creation time, and cannot be changed.
   // 1-63 characters long.
-  //
   // The name is unique across all MDB hosts that exist on the platform, as it defines the FQDN of the host.
-  string name = 1;
+  string name = 1 [(required) = true];
 
   // ID of the Redis cluster. The ID is assigned by MDB at creation time.
-  string cluster_id = 2;
+  string cluster_id = 2 [(required) = true];
 
   // ID of the availability zone where the Redis host resides.
-  string zone_id = 3;
+  string zone_id = 3 [(required) = true];
 
   // ID of the subnet that the host belongs to.
   string subnet_id = 4;
 
   // Resources allocated to the Redis host.
-  Resources resources = 5;
+  Resources resources = 5 [(required) = true];
 
   // Role of the host in the cluster. If the field has default value, it is not returned in the response.
-  Role role = 6;
+  Role role = 6 [(required) = true];
 
   // Aggregated health of the host. If the field has default value, it is not returned in the response.
-  Health health = 7;
+  Health health = 7 [(required) = true];
 
   // Services provided by the host.
   repeated Service services = 8;
 
+  // Name of the shard that the host belongs to.
   string shard_name = 9;
 
   // A replica with a low priority number is considered better for promotion.
@@ -278,7 +290,6 @@ message Host {
 }
 
 message Service {
-
   enum Type {
     // Service type of the host is unspecified. Default value.
     TYPE_UNSPECIFIED = 0;
@@ -309,13 +320,13 @@ message Service {
   Type type = 1;
 
   // Aggregated health of the service. If the field has default value, it is not returned in the response.
-  Health health = 2;
+  Health health = 2 [(required) = true];
 }
 
 message Resources {
   // ID of the preset for computational resources available to a host (CPU, memory etc.).
   // All available presets are listed in the [documentation](/docs/managed-redis/concepts/instance-types).
-  string resource_preset_id = 1;
+  string resource_preset_id = 1 [(required) = true];
 
   // Volume of the storage available to a host, in bytes.
   int64 disk_size = 2;
@@ -337,10 +348,16 @@ message Access {
 
 message DiskSizeAutoscaling {
   // Amount of used storage for automatic disk scaling in the maintenance window, 0 means disabled, in percent.
-  google.protobuf.Int64Value planned_usage_threshold = 1 [(required) = false, (value) = "0-100"];
+  google.protobuf.Int64Value planned_usage_threshold = 1 [
+    (required) = false,
+    (value) = "0-100"
+  ];
 
   // Amount of used storage for immediately  automatic disk scaling, 0 means disabled, in percent.
-  google.protobuf.Int64Value emergency_usage_threshold = 2 [(required) = false, (value) = "0-100"];
+  google.protobuf.Int64Value emergency_usage_threshold = 2 [
+    (required) = false,
+    (value) = "0-100"
+  ];
 
   // Limit on how large the storage for database instances can automatically grow, in bytes.
   google.protobuf.Int64Value disk_size_limit = 3;
@@ -362,10 +379,16 @@ message ValkeySearch {
   bool enabled = 1;
 
   // Controls the amount of threads executing queries
-  google.protobuf.Int64Value reader_threads = 2 [(required) = false, (value) = ">=0"];
+  google.protobuf.Int64Value reader_threads = 2 [
+    (required) = false,
+    (value) = ">=0"
+  ];
 
   // Controls the amount of threads processing index mutations
-  google.protobuf.Int64Value writer_threads = 3 [(required) = false, (value) = ">=0"];
+  google.protobuf.Int64Value writer_threads = 3 [
+    (required) = false,
+    (value) = ">=0"
+  ];
 
   // Module version
   string version = 4;

@@ -14,25 +14,30 @@ option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
 // A set of methods for managing ClickHouse Backup resources.
 service BackupService {
   // Returns the specified ClickHouse Backup resource.
-  //
   // To get the list of available ClickHouse Backup resources, make a [List] request.
-  rpc Get (GetBackupRequest) returns (Backup) {
-    option (google.api.http) = { get: "/managed-clickhouse/v1/backups/{backup_id}" };
-  }
+  rpc Get(GetBackupRequest) returns (Backup) {
+    option (google.api.http) = {
+      get: "/managed-clickhouse/v1/backups/{backup_id}"
+    };
+  };
 
   // Retrieves the list of Backup resources available for the specified folder.
-  rpc List (ListBackupsRequest) returns (ListBackupsResponse) {
-    option (google.api.http) = { get: "/managed-clickhouse/v1/backups" };
-  }
+  rpc List(ListBackupsRequest) returns (ListBackupsResponse) {
+    option (google.api.http) = {
+      get: "/managed-clickhouse/v1/backups"
+    };
+  };
 
   // Deletes the specified ClickHouse Backup.
-  rpc Delete (DeleteBackupRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/managed-clickhouse/v1/backups/{backup_id}" };
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteBackupRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteBackupMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/managed-clickhouse/v1/backups/{backup_id}"
+    };
+  };
 }
 
 message GetBackupRequest {
@@ -44,7 +49,10 @@ message GetBackupRequest {
 message ListBackupsRequest {
   // ID of the folder to list backups in.
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListBackupsResponse.next_page_token]
@@ -68,13 +76,14 @@ message ListBackupsResponse {
 }
 
 message DeleteBackupRequest {
-    // Required. ID of the backup to delete.
-    string backup_id = 1 [(required) = true];
+  // Required. ID of the backup to delete.
+  string backup_id = 1 [(required) = true];
 }
 
 message DeleteBackupMetadata {
-    // Required. ID of the ClickHouse backup that is currently being deleted.
-    string backup_id = 1;
-    // ID of the ClickHouse backup that is being deleted.
-    string cluster_id = 2;
+  // Required. ID of the ClickHouse backup that is currently being deleted.
+  string backup_id = 1;
+
+  // ID of the ClickHouse backup that is being deleted.
+  string cluster_id = 2;
 }

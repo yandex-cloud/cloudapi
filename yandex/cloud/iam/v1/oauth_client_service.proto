@@ -79,10 +79,7 @@ message ListOAuthClientsRequest {
 
   // ID of the folder to list oauth clients for
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
-  string folder_id = 3 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string folder_id = 3 [(length) = "<=50"];
 }
 
 message ListOAuthClientsResponse {

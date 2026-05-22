@@ -42,15 +42,22 @@ message Permissions {
 
   // SanitizePayload parameter.
   google.protobuf.StringValue sanitize_payload = 5;
-
 }
 
 message UserSpec {
   // Name of the Redis user.
-  string name = 1 [(required) = true, (length) = "<=32", (pattern) = "^[a-zA-Z0-9_][a-zA-Z0-9_-]*$"];
+  string name = 1 [
+    (length) = "<=32",
+    (pattern) = "^[a-zA-Z0-9_][a-zA-Z0-9_@.-]*$",
+    (required) = true
+  ];
 
   // Password of the Redis user.
-  repeated string passwords = 2 [(size) = "1", (unique) = true, (pattern) = "^[a-zA-Z0-9@=+?*.,!&#$^<>_-]*$"];
+  repeated string passwords = 2 [
+    (pattern) = "^[a-zA-Z0-9@=+?*.,!&#$^<>_-]*$",
+    (size) = "1",
+    (unique) = true
+  ];
 
   // Set of permissions to grant to the user.
   Permissions permissions = 3;

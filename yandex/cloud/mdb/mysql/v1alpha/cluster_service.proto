@@ -21,140 +21,159 @@ option java_package = "yandex.cloud.api.mdb.mysql.v1alpha";
 // A set of methods for managing MySQL clusters.
 service ClusterService {
   // Returns the specified MySQL cluster.
-  //
   // To get the list of available MySQL clusters, make a [List] request.
   rpc Get(GetClusterRequest) returns (Cluster) {
-    option (google.api.http) = {get: "/managed-mysql/v1alpha/clusters/{cluster_id}"};
-  }
+    option (google.api.http) = {
+      get: "/mdb/mysql/v1alpha/clusters/{cluster_id}"
+    };
+  };
 
   // Retrieves the list of MySQL clusters that belong to the specified folder.
   rpc List(ListClustersRequest) returns (ListClustersResponse) {
-    option (google.api.http) = {get: "/managed-mysql/v1alpha/clusters"};
-  }
+    option (google.api.http) = {
+      get: "/mdb/mysql/v1alpha/clusters"
+    };
+  };
 
   // Creates a MySQL cluster in the specified folder.
   rpc Create(CreateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-mysql/v1alpha/clusters"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/mdb/mysql/v1alpha/clusters"
+    };
+  };
 
   // Modifies the specified MySQL cluster.
   rpc Update(UpdateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/managed-mysql/v1alpha/clusters/{cluster_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/mdb/mysql/v1alpha/clusters/{cluster_id}"
+    };
+  };
 
   // Deletes the specified MySQL cluster.
   rpc Delete(DeleteClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/managed-mysql/v1alpha/clusters/{cluster_id}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteClusterMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/mdb/mysql/v1alpha/clusters/{cluster_id}"
+    };
+  };
 
   // Starts the specified MySQL cluster.
   rpc Start(StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-mysql/v1alpha/clusters/{cluster_id}:start"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      post: "/mdb/mysql/v1alpha/clusters/{cluster_id}:start"
+    };
+  };
 
   // Stops the specified MySQL cluster.
   rpc Stop(StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-mysql/v1alpha/clusters/{cluster_id}:stop"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      post: "/mdb/mysql/v1alpha/clusters/{cluster_id}:stop"
+    };
+  };
 
   // Creates a backup for the specified MySQL cluster.
   rpc Backup(BackupClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-mysql/v1alpha/clusters/{cluster_id}:backup"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "BackupClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      post: "/mdb/mysql/v1alpha/clusters/{cluster_id}:backup"
+    };
+  };
 
   // Creates a new MySQL cluster using the specified backup.
   rpc Restore(RestoreClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-mysql/v1alpha/clusters:restore"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "RestoreClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/mdb/mysql/v1alpha/clusters:restore"
+    };
+  };
 
   // Retrieves logs for the specified MySQL cluster.
   rpc ListLogs(ListClusterLogsRequest) returns (ListClusterLogsResponse) {
-    option (google.api.http) = {get: "/managed-mysql/v1alpha/clusters/{cluster_id}:logs"};
-  }
+    option (google.api.http) = {
+      get: "/mdb/mysql/v1alpha/clusters/{cluster_id}:logs"
+    };
+  };
 
   // Retrieves the list of operations for the specified MySQL cluster.
   rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
-    option (google.api.http) = {get: "/managed-mysql/v1alpha/clusters/{cluster_id}/operations"};
-  }
+    option (google.api.http) = {
+      get: "/mdb/mysql/v1alpha/clusters/{cluster_id}/operations"
+    };
+  };
 
   // Retrieves the list of available backups for the specified MySQL cluster.
   rpc ListBackups(ListClusterBackupsRequest) returns (ListClusterBackupsResponse) {
-    option (google.api.http) = {get: "/managed-mysql/v1alpha/clusters/{cluster_id}/backups"};
-  }
+    option (google.api.http) = {
+      get: "/mdb/mysql/v1alpha/clusters/{cluster_id}/backups"
+    };
+  };
 
   // Retrieves a list of hosts for the specified MySQL cluster.
   rpc ListHosts(ListClusterHostsRequest) returns (ListClusterHostsResponse) {
-    option (google.api.http) = {get: "/managed-mysql/v1alpha/clusters/{cluster_id}/hosts"};
-  }
+    option (google.api.http) = {
+      get: "/mdb/mysql/v1alpha/clusters/{cluster_id}/hosts"
+    };
+  };
 
   // Creates new hosts for a cluster.
   rpc AddHosts(AddClusterHostsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-mysql/v1alpha/clusters/{cluster_id}/hosts:batchCreate"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "AddClusterHostsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/mdb/mysql/v1alpha/clusters/{cluster_id}/hosts:batchCreate"
+    };
+  };
 
   // Deletes the specified hosts for a cluster.
   rpc DeleteHosts(DeleteClusterHostsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-mysql/v1alpha/clusters/{cluster_id}/hosts:batchDelete"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteClusterHostsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/mdb/mysql/v1alpha/clusters/{cluster_id}/hosts:batchDelete"
+    };
+  };
 }
 
 message GetClusterRequest {
   // ID of the MySQL cluster to return.
   // To get the cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -162,8 +181,8 @@ message ListClustersRequest {
   // ID of the folder to list MySQL clusters in.
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -197,15 +216,15 @@ message ListClustersResponse {
 message CreateClusterRequest {
   // ID of the folder to create the MySQL cluster in.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Name of the MySQL cluster. The name must be unique within the folder.
   string name = 2 [
-    (required) = true,
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*"
+    (pattern) = "[a-zA-Z0-9_-]*",
+    (required) = true
   ];
 
   // Description of the MySQL cluster.
@@ -214,11 +233,13 @@ message CreateClusterRequest {
   // Custom labels for the MySQL cluster as `key:value` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
   map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // Deployment environment of the MySQL cluster.
@@ -249,8 +270,8 @@ message UpdateClusterRequest {
   // ID of the MySQL cluster to update.
   // To get the MySQL cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Field mask that specifies which settings of the MySQL cluster should be updated.
@@ -261,15 +282,16 @@ message UpdateClusterRequest {
 
   // Custom labels for the MySQL cluster as `key:value` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
-  //
   // The new set of labels will completely replace the old ones. To add a label, request the current
   // set with the [ClusterService.Get] method, then send an [ClusterService.Update] request with the new label added to the set.
   map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // New configuration and resources for hosts in the cluster.
@@ -291,8 +313,8 @@ message DeleteClusterRequest {
   // ID of the MySQL cluster to delete.
   // To get the MySQL cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -305,8 +327,8 @@ message BackupClusterRequest {
   // ID of the MySQL cluster to back up.
   // To get the MySQL cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -317,6 +339,7 @@ message BackupClusterMetadata {
 
 message RestoreClusterRequest {
   reserved 3;
+
   // ID of the backup to create a cluster from.
   // To get the backup ID, use a [ClusterService.ListBackups] request.
   string backup_id = 1 [(required) = true];
@@ -326,8 +349,8 @@ message RestoreClusterRequest {
 
   // Name of the new MySQL cluster. The name must be unique within the folder.
   string name = 4 [
-    (required) = true,
-    (pattern) = "[a-zA-Z0-9_-]*"
+    (pattern) = "[a-zA-Z0-9_-]*",
+    (required) = true
   ];
 
   // Description of the new MySQL cluster.
@@ -336,11 +359,13 @@ message RestoreClusterRequest {
   // Custom labels for the MySQL cluster as `key:value` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
   map<string, string> labels = 6 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // Deployment environment of the new MySQL cluster.
@@ -377,8 +402,8 @@ message ListClusterLogsRequest {
   // ID of the MySQL cluster to request logs for.
   // To get the MySQL cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Columns from the logs table to request.
@@ -387,7 +412,6 @@ message ListClusterLogsRequest {
 
   // Type of the service to request logs about.
   ServiceType service_type = 3;
-
   enum ServiceType {
     SERVICE_TYPE_UNSPECIFIED = 0;
 
@@ -428,8 +452,8 @@ message ListClusterLogsResponse {
 message ListClusterOperationsRequest {
   // ID of the MySQL cluster to list operations for.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -457,8 +481,8 @@ message ListClusterBackupsRequest {
   // ID of the MySQL cluster.
   // To get the MySQL cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -486,8 +510,8 @@ message ListClusterHostsRequest {
   // ID of the MySQL cluster.
   // To get the MySQL cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return. If the number of available
@@ -515,8 +539,8 @@ message AddClusterHostsRequest {
   // ID of the MySQL cluster to add hosts to.
   // To get the MySQL cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Configurations for MySQL hosts that should be added to the cluster.
@@ -535,14 +559,14 @@ message DeleteClusterHostsRequest {
   // ID of the MySQL cluster to remove hosts from.
   // To get the MySQL cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Names of hosts to delete.
   repeated string host_names = 2 [
-    (size) = ">0",
-    (length) = "<=253"
+    (length) = "<=253",
+    (size) = ">0"
   ];
 }
 
@@ -557,8 +581,8 @@ message DeleteClusterHostsMetadata {
 message StartClusterRequest {
   // ID of the MySQL cluster to start.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -570,8 +594,8 @@ message StartClusterMetadata {
 message StopClusterRequest {
   // ID of the MySQL cluster to stop.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -599,10 +623,8 @@ message HostSpec {
   string subnet_id = 2 [(length) = "<=50"];
 
   // Whether the host should get a public IP address on creation.
-  //
   // After a host has been created, this setting cannot be changed. To remove an assigned public IP, or to assign
   // a public IP to a host without one, recreate the host with [assign_public_ip] set as needed.
-  //
   // Possible values:
   // * false - don't assign a public IP to the host.
   // * true - the host should have a public IP address.
@@ -614,7 +636,6 @@ message ConfigSpec {
   // Possible values:
   // * 5.7
   string version = 1; // No formal validation, a list of supported versions should suffice.
-
   // Configuration of a MySQL cluster.
   oneof mysql_config {
     // Configuration for a MySQL 5.7 cluster.

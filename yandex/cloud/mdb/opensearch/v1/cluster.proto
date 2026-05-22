@@ -176,7 +176,7 @@ message OpenSearch {
     // Manager nodes perform cluster coordination.
     MANAGER = 2;
 
-    // Warm nodes provide access to searchable snapshots and store search cache.
+    // Warm nodes provide access to searchable snapshots and manage search cache for these snapshots.
     WARM = 3;
 
     // Ingest nodes provides indexed data processing.

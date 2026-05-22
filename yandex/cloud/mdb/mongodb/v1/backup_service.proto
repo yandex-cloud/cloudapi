@@ -4,9 +4,9 @@ package yandex.cloud.mdb.mongodb.v1;
 
 import "google/api/annotations.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/mdb/mongodb/v1/backup.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
-import "yandex/cloud/mdb/mongodb/v1/backup.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1;mongodb";
 option java_package = "yandex.cloud.api.mdb.mongodb.v1";
@@ -14,25 +14,30 @@ option java_package = "yandex.cloud.api.mdb.mongodb.v1";
 // A set of methods for managing MongoDB Backup resources.
 service BackupService {
   // Returns the specified MongoDB backup.
-  //
   // To get the list of available MongoDB backups, make a [List] request.
-  rpc Get (GetBackupRequest) returns (Backup) {
-    option (google.api.http) = { get: "/managed-mongodb/v1/backups/{backup_id}" };
-  }
+  rpc Get(GetBackupRequest) returns (Backup) {
+    option (google.api.http) = {
+      get: "/managed-mongodb/v1/backups/{backup_id}"
+    };
+  };
 
   // Retrieves the list of backups available for the specified folder.
-  rpc List (ListBackupsRequest) returns (ListBackupsResponse) {
-    option (google.api.http) = { get: "/managed-mongodb/v1/backups" };
-  }
+  rpc List(ListBackupsRequest) returns (ListBackupsResponse) {
+    option (google.api.http) = {
+      get: "/managed-mongodb/v1/backups"
+    };
+  };
 
   // Returns the list of available backups for the specified MongoDB cluster.
-  rpc Delete (DeleteBackupRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/managed-mongodb/v1/backups/{backup_id}" };
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteBackupRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteBackupMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/managed-mongodb/v1/backups/{backup_id}"
+    };
+  };
 }
 
 message GetBackupRequest {
@@ -44,14 +49,17 @@ message GetBackupRequest {
 message ListBackupsRequest {
   // ID of the folder to list backups in.
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListBackupsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   int64 page_size = 2 [(value) = "<=1000"];
 
-  // Page token. To get the next page of results, set [page_token] to the 
+  // Page token. To get the next page of results, set [page_token] to the
   // [ListBackupsResponse.next_page_token] returned by the previous list request.
   string page_token = 3 [(length) = "<=100"];
 }

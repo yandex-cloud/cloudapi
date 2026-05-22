@@ -16,8 +16,11 @@ message Database {
   string cluster_id = 2;
 }
 
-
 message DatabaseSpec {
   // Name of the MySQL database.
-  string name = 1 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+  string name = 1 [
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_-]*",
+    (required) = true
+  ];
 }

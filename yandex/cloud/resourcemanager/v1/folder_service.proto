@@ -171,7 +171,7 @@ message ListFoldersRequest {
   // the service returns a [ListFoldersResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Default value: 100.
-  int64 page_size = 2 [(value) = "<=1000"];
+  int64 page_size = 2 [(value) = "0-1000"];
 
   // Page token. Set [page_token]
   // to the [ListFoldersResponse.next_page_token]
@@ -247,10 +247,7 @@ message UpdateFolderRequest {
 
   // Name of the folder.
   // The name must be unique within the cloud.
-  string name = 3 [
-    (pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?",
-    (required) = true
-  ];
+  string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
 
   // Description of the folder.
   string description = 4 [(length) = "<=256"];
@@ -312,7 +309,7 @@ message ListFolderOperationsRequest {
   // results is larger than [page_size], the service returns a [ListFolderOperationsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Default value: 100.
-  int64 page_size = 2 [(value) = "<=1000"];
+  int64 page_size = 2 [(value) = "0-1000"];
 
   // Page token. Set [page_token]
   // to the [ListFolderOperationsResponse.next_page_token]

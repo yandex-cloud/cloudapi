@@ -5,20 +5,20 @@ package yandex.cloud.mdb.mysql.v1;
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
-import "yandex/cloud/validation.proto";
 import "yandex/cloud/mdb/mysql/v1/config/mysql5_7.proto";
 import "yandex/cloud/mdb/mysql/v1/config/mysql8_0.proto";
 import "yandex/cloud/mdb/mysql/v1/config/mysql8_4.proto";
 import "yandex/cloud/mdb/mysql/v1/maintenance.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mysql/v1;mysql";
 option java_package = "yandex.cloud.api.mdb.mysql.v1";
 
 // An object that represents MySQL cluster.
-//
 // See [the documentation](/docs/managed-mysql/concepts) for details.
 message Cluster {
   reserved 18;
+
   enum Environment {
     ENVIRONMENT_UNSPECIFIED = 0;
 
@@ -75,7 +75,6 @@ message Cluster {
   }
 
   // ID of the cluster.
-  //
   // This ID is assigned by the platform at the time of creation.
   string id = 1;
 
@@ -133,7 +132,6 @@ message Cluster {
 
 // Cluster-related monitoring system data.
 message Monitoring {
-
   // Name of the monitoring system.
   string name = 1;
 
@@ -145,21 +143,18 @@ message Monitoring {
 }
 
 message ClusterConfig {
-
   // Version of MySQL used in the cluster.
   string version = 1;
-
   // Cluster-wide MySQL configuration.
   oneof mysql_config {
-
     // Configuration of a MySQL 5.7 server.
-    config.MysqlConfigSet5_7 mysql_config_5_7 = 2 [json_name="mysqlConfig_5_7"];
+    config.MysqlConfigSet5_7 mysql_config_5_7 = 2 [json_name = "mysqlConfig_5_7"];
 
     // Configuration of a MySQL 8.0 server.
-    config.MysqlConfigSet8_0 mysql_config_8_0 = 6 [json_name="mysqlConfig_8_0"];
+    config.MysqlConfigSet8_0 mysql_config_8_0 = 6 [json_name = "mysqlConfig_8_0"];
 
     // Configuration of a MySQL 8.4 server.
-    config.MysqlConfigSet8_4 mysql_config_8_4 = 10 [json_name="mysqlConfig_8_4"];
+    config.MysqlConfigSet8_4 mysql_config_8_4 = 10 [json_name = "mysqlConfig_8_4"];
   }
 
   // Resource preset for the cluster hosts.
@@ -185,7 +180,6 @@ message ClusterConfig {
 }
 
 message Host {
-
   enum Role {
 
     // Role of the host is unknown. Default value.
@@ -217,7 +211,6 @@ message Host {
   }
 
   // Name of the host.
-  //
   // This name is assigned by the platform at the time of creation.
   // The name is unique across all MDB hosts that exist on the platform, as it defines the FQDN of the host.
   string name = 1;
@@ -256,9 +249,7 @@ message Host {
   int64 priority = 12 [(value) = "0-100"];
 }
 
-
 message Service {
-
   enum Type {
     // Service type of the host is unspecified. Default value.
     TYPE_UNSPECIFIED = 0;
@@ -291,9 +282,7 @@ message Service {
 
 // Cluster resource preset.
 message Resources {
-
   // ID of the resource preset that defines available computational resources (vCPU, RAM, etc.) for a cluster host.
-  //
   // All available presets are listed in [the documentation](/docs/managed-mysql/concepts/instance-types).
   string resource_preset_id = 1;
 
@@ -301,26 +290,21 @@ message Resources {
   int64 disk_size = 2;
 
   // Type of the storage.
-  //
   // Possible values:
   // * `network-hdd` - standard network storage
   // * `network-ssd` - fast network storage
   // * `network-ssd-nonreplicated` - fast network nonreplicated storage
   // * `local-ssd` - fast local storage.
-  //
   // See [the documentation](/docs/managed-mysql/concepts/storage) for details.
   string disk_type_id = 3;
 }
 
 message Access {
-
   // Allows access from DataLens.
-  //
   // See [the documentation](/docs/managed-mysql/operations/datalens-connect) for details.
   bool data_lens = 1;
 
   // Allows SQL queries to the cluster databases from management console.
-  //
   // See [the documentation](/docs/managed-mysql/operations/web-sql-query) for details.
   bool web_sql = 2;
 
@@ -332,7 +316,6 @@ message Access {
 }
 
 message PerformanceDiagnostics {
-
   // Flag that shows if performance statistics gathering is enabled for the cluster.
   bool enabled = 1;
 
@@ -343,14 +326,19 @@ message PerformanceDiagnostics {
   int64 statements_sampling_interval = 3 [(value) = "1-86400"];
 }
 
-
 message DiskSizeAutoscaling {
-    // Amount of used storage for automatic disk scaling in the maintenance window, 0 means disabled, in percent.
-    int64 planned_usage_threshold = 1 [(required) = false, (value) = "0-100"];
+  // Amount of used storage for automatic disk scaling in the maintenance window, 0 means disabled, in percent.
+  int64 planned_usage_threshold = 1 [
+    (required) = false,
+    (value) = "0-100"
+  ];
 
-    // Amount of used storage for immediately  automatic disk scaling, 0 means disabled, in percent.
-    int64 emergency_usage_threshold = 2 [(required) = false, (value) = "0-100"];
+  // Amount of used storage for immediately  automatic disk scaling, 0 means disabled, in percent.
+  int64 emergency_usage_threshold = 2 [
+    (required) = false,
+    (value) = "0-100"
+  ];
 
-    // Limit on how large the storage for database instances can automatically grow, in bytes.
-    int64 disk_size_limit = 3;
+  // Limit on how large the storage for database instances can automatically grow, in bytes.
+  int64 disk_size_limit = 3;
 }

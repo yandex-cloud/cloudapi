@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package yandex.cloud.mdb.clickhouse.v1;
 
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
-import "google/protobuf/duration.proto";
 import "yandex/cloud/mdb/clickhouse/v1/config/clickhouse.proto";
 import "yandex/cloud/mdb/clickhouse/v1/maintenance.proto";
 import "yandex/cloud/validation.proto";
@@ -17,6 +17,7 @@ option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
 // [Cluster](/docs/managed-clickhouse/concepts) section in the Developer's Guide.
 message Cluster {
   reserved 18;
+
   enum Environment {
     ENVIRONMENT_UNSPECIFIED = 0;
 
@@ -73,7 +74,7 @@ message Cluster {
 
   // ID of the ClickHouse cluster.
   // This ID is assigned by MDB at creation time.
-  string id = 1;
+  string id = 1 [(required) = true];
 
   // ID of the folder that the ClickHouse cluster belongs to.
   string folder_id = 2;
@@ -174,7 +175,6 @@ message ClusterConfig {
 
   // Access policy for external services.
   Access access = 5;
-
   CloudStorage cloud_storage = 6;
 
   // Whether database management through SQL commands is enabled.
@@ -189,11 +189,11 @@ message ClusterConfig {
   // Retain period of automatically created backup in days
   google.protobuf.Int64Value backup_retain_period_days = 10;
 
-  // Full version
-  string full_version = 11;
-
   // Configuration performance diagnostics
   PerformanceDiagnostics performance_diagnostics = 12;
+
+  // Full version
+  string full_version = 11;
 }
 
 message Shard {
@@ -234,6 +234,7 @@ message ShardConfig {
     Resources resources = 2;
 
     // Relative weight of a shard considered when writing data to the cluster.
+    //
     // For details, see [ClickHouse documentation](https://clickhouse.com/docs/en/operations/table_engines/distributed/).
     google.protobuf.Int64Value weight = 3;
 
@@ -283,12 +284,11 @@ message Host {
 
   // Name of the ClickHouse host. The host name is assigned by MDB at creation time, and cannot be changed.
   // 1-63 characters long.
-  //
   // The name is unique across all MDB hosts that exist on the platform, as it defines the FQDN of the host.
-  string name = 1;
+  string name = 1 [(required) = true];
 
   // ID of the ClickHouse host. The ID is assigned by MDB at creation time.
-  string cluster_id = 2;
+  string cluster_id = 2 [(required) = true];
 
   // ID of the availability zone where the ClickHouse host resides.
   string zone_id = 3;
@@ -310,7 +310,6 @@ message Host {
 
   // Flag showing public IP assignment status to this host.
   bool assign_public_ip = 9;
-
   string shard_name = 10;
 }
 
@@ -375,12 +374,10 @@ message Access {
   bool data_lens = 1;
 
   // Allow SQL queries to the cluster databases from the management console.
-  //
   // See [SQL queries in the management console](/docs/managed-clickhouse/operations/web-sql-query) for more details.
   bool web_sql = 2;
 
   // Allow to import data from Yandex Metrica and AppMetrica to the cluster.
-  //
   // See [AppMetrica documentation](https://appmetrica.yandex.com/docs/cloud/index.html) for more details.
   bool metrika = 3;
 
@@ -397,22 +394,24 @@ message Access {
 message CloudStorage {
   // Whether to use Object Storage for storing ClickHouse data.
   bool enabled = 1;
-
   google.protobuf.DoubleValue move_factor = 2 [(value) = "0-1"];
-
   google.protobuf.BoolValue data_cache_enabled = 3;
-
   google.protobuf.Int64Value data_cache_max_size = 4;
-
   google.protobuf.BoolValue prefer_not_to_merge = 5;
 }
 
 message DiskSizeAutoscaling {
   // Amount of used storage for automatic disk scaling in the maintenance window, 0 means disabled, in percent.
-  google.protobuf.Int64Value planned_usage_threshold = 1 [(required) = false, (value) = "0-100"];
+  google.protobuf.Int64Value planned_usage_threshold = 1 [
+    (required) = false,
+    (value) = "0-100"
+  ];
 
   // Amount of used storage for immediately  automatic disk scaling, 0 means disabled, in percent.
-  google.protobuf.Int64Value emergency_usage_threshold = 2 [(required) = false, (value) = "0-100"];
+  google.protobuf.Int64Value emergency_usage_threshold = 2 [
+    (required) = false,
+    (value) = "0-100"
+  ];
 
   // Limit on how large the storage for database instances can automatically grow, in bytes.
   google.protobuf.Int64Value disk_size_limit = 3;

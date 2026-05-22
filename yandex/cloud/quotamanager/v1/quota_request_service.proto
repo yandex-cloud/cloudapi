@@ -121,7 +121,7 @@ message CreateQuotaRequestRequest {
   Resource resource = 1;
 
   // Desired quota limits
-  repeated DesiredQuotaLimit desired_quota_limits = 2 [(size) = "1-100"];
+  repeated DesiredQuotaLimit desired_quota_limits = 2 [(size) = "1-1000"];
 }
 
 message CreateQuotaRequestMetadata {

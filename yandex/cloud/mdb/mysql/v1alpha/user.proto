@@ -66,7 +66,6 @@ message Permission {
     LOCK_TABLES = 14;
 
     // Selecting rows from tables.
-    //
     // Some SELECT statements can be allowed without the SELECT privilege. All statements that read column values require the SELECT privilege. See details in [MySQL documentation](https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html#priv_select).
     SELECT = 15;
 
@@ -89,10 +88,17 @@ message Permission {
 
 message UserSpec {
   // Name of the MySQL user.
-  string name = 1 [(required) = true, (length) = "<=32", (pattern) = "[a-zA-Z0-9_]*"];
+  string name = 1 [
+    (length) = "<=32",
+    (pattern) = "[a-zA-Z0-9_]*",
+    (required) = true
+  ];
 
   // Password of the MySQL user.
-  string password = 2 [(required) = true, (length) = "8-128"];
+  string password = 2 [
+    (length) = "8-128",
+    (required) = true
+  ];
 
   // Set of permissions to grant to the user.
   repeated Permission permissions = 3;

@@ -27,254 +27,268 @@ option java_package = "yandex.cloud.api.mdb.mysql.v1";
 service ClusterService {
   // Retrieves information about a cluster.
   rpc Get(GetClusterRequest) returns (Cluster) {
-    option (google.api.http) = {get: "/managed-mysql/v1/clusters/{cluster_id}"};
-  }
+    option (google.api.http) = {
+      get: "/managed-mysql/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Retrieves the list of clusters in a folder.
   rpc List(ListClustersRequest) returns (ListClustersResponse) {
-    option (google.api.http) = {get: "/managed-mysql/v1/clusters"};
-  }
+    option (google.api.http) = {
+      get: "/managed-mysql/v1/clusters"
+    };
+  };
 
   // Creates a cluster in a folder.
   rpc Create(CreateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-mysql/v1/clusters"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-mysql/v1/clusters"
+    };
+  };
 
   // Updates a cluster.
   rpc Update(UpdateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/managed-mysql/v1/clusters/{cluster_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-mysql/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Deletes a cluster.
   rpc Delete(DeleteClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/managed-mysql/v1/clusters/{cluster_id}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteClusterMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/managed-mysql/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Starts a cluster.
   rpc Start(StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-mysql/v1/clusters/{cluster_id}:start"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      post: "/managed-mysql/v1/clusters/{cluster_id}:start"
+    };
+  };
 
   // Stops a cluster.
   rpc Stop(StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-mysql/v1/clusters/{cluster_id}:stop"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      post: "/managed-mysql/v1/clusters/{cluster_id}:stop"
+    };
+  };
 
   // Moves a cluster to a folder.
   rpc Move(MoveClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-mysql/v1/clusters/{cluster_id}:move"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "MoveClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-mysql/v1/clusters/{cluster_id}:move"
+    };
+  };
 
   // Creates a backup for a cluster.
-  //
   // To get information about a backup, make a [BackupService.Get] request.
   rpc Backup(BackupClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-mysql/v1/clusters/{cluster_id}:backup"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "BackupClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      post: "/managed-mysql/v1/clusters/{cluster_id}:backup"
+    };
+  };
 
   // Restores a backup to a new cluster.
-  //
   // See [the documentation](/docs/managed-mysql/concepts/backup) for details.
   rpc Restore(RestoreClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-mysql/v1/clusters:restore"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "RestoreClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-mysql/v1/clusters:restore"
+    };
+  };
 
   // Reschedules planned maintenance operation.
   rpc RescheduleMaintenance(RescheduleMaintenanceRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-mysql/v1/clusters/{cluster_id}:rescheduleMaintenance"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "RescheduleMaintenanceMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-mysql/v1/clusters/{cluster_id}:rescheduleMaintenance"
+    };
+  };
 
   // Starts a manual failover for a cluster.
   rpc StartFailover(StartClusterFailoverRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-mysql/v1/clusters/{cluster_id}:startFailover"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "StartClusterFailoverMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-mysql/v1/clusters/{cluster_id}:startFailover"
+    };
+  };
 
   // Retrieves logs for a cluster.
-  //
   // Alternatively, logs can be streamed using [StreamLogs].
   rpc ListLogs(ListClusterLogsRequest) returns (ListClusterLogsResponse) {
-    option (google.api.http) = {get: "/managed-mysql/v1/clusters/{cluster_id}:logs"};
-  }
+    option (google.api.http) = {
+      get: "/managed-mysql/v1/clusters/{cluster_id}:logs"
+    };
+  };
 
   // Retrieves a log stream for a cluster.
-  //
   // This method is similar to [ListLogs], but uses server-side streaming, which allows for the `tail -f` command semantics.
   rpc StreamLogs(StreamClusterLogsRequest) returns (stream StreamLogRecord) {
-    option (google.api.http) = {get: "/managed-mysql/v1/clusters/{cluster_id}:stream_logs"};
-  }
+    option (google.api.http) = {
+      get: "/managed-mysql/v1/clusters/{cluster_id}:stream_logs"
+    };
+  };
 
   // Retrieves a list of operations for a cluster.
   rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
-    option (google.api.http) = {get: "/managed-mysql/v1/clusters/{cluster_id}/operations"};
-  }
+    option (google.api.http) = {
+      get: "/managed-mysql/v1/clusters/{cluster_id}/operations"
+    };
+  };
 
   // Retrieves a list of backups for a cluster.
-  //
   // To list all backups in a folder, make a [BackupService.List] request.
   rpc ListBackups(ListClusterBackupsRequest) returns (ListClusterBackupsResponse) {
-    option (google.api.http) = {get: "/managed-mysql/v1/clusters/{cluster_id}/backups"};
-  }
+    option (google.api.http) = {
+      get: "/managed-mysql/v1/clusters/{cluster_id}/backups"
+    };
+  };
 
   // Retrieves a list of hosts for a cluster.
   rpc ListHosts(ListClusterHostsRequest) returns (ListClusterHostsResponse) {
-    option (google.api.http) = {get: "/managed-mysql/v1/clusters/{cluster_id}/hosts"};
-  }
+    option (google.api.http) = {
+      get: "/managed-mysql/v1/clusters/{cluster_id}/hosts"
+    };
+  };
 
   // Adds new hosts in a cluster.
   rpc AddHosts(AddClusterHostsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-mysql/v1/clusters/{cluster_id}/hosts:batchCreate"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "AddClusterHostsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-mysql/v1/clusters/{cluster_id}/hosts:batchCreate"
+    };
+  };
 
   // Updates the specified hosts.
   rpc UpdateHosts(UpdateClusterHostsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-mysql/v1/clusters/{cluster_id}/hosts:batchUpdate"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateClusterHostsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-mysql/v1/clusters/{cluster_id}/hosts:batchUpdate"
+    };
+  };
 
   // Deletes the specified hosts for a cluster.
   rpc DeleteHosts(DeleteClusterHostsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-mysql/v1/clusters/{cluster_id}/hosts:batchDelete"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteClusterHostsMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-mysql/v1/clusters/{cluster_id}/hosts:batchDelete"
+    };
+  };
 
   // Retrieves a list of access bindings for the specified MySQL cluster.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = { get: "/managed-mysql/v1/clusters/{resource_id}:listAccessBindings" };
-  }
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/managed-mysql/v1/clusters/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the specified MySQL cluster.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
     option (google.api.http) = {
-      post: "/managed-mysql/v1/clusters/{resource_id}:setAccessBindings"
       body: "*"
+      post: "/managed-mysql/v1/clusters/{resource_id}:setAccessBindings"
     };
-    option (yandex.cloud.api.operation) = {
-        metadata: "access.SetAccessBindingsMetadata"
-        response: "access.AccessBindingsOperationResult"
-    };
-  }
+  };
 
   // Updates access bindings for the specified MySQL cluster.
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
     option (google.api.http) = {
-      patch: "/managed-mysql/v1/clusters/{resource_id}:updateAccessBindings"
       body: "*"
+      patch: "/managed-mysql/v1/clusters/{resource_id}:updateAccessBindings"
     };
-    option (yandex.cloud.api.operation) = {
-        metadata: "access.UpdateAccessBindingsMetadata"
-        response: "access.AccessBindingsOperationResult"
-    };
-  }
+  };
 }
 
 message GetClusterRequest {
   // ID of the cluster to return information about.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
 message ListClustersRequest {
   // ID of the folder to list clusters in.
-  //
   // To get this ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return.
-  //
   // If the number of available results is larger than [page_size], the API returns a [ListClustersResponse.next_page_token] that can be used to get the next page of results in the subsequent [ClusterService.List] requests.
   int64 page_size = 2 [(value) = "0-1000"];
 
   // Page token that can be used to iterate through multiple pages of results.
-  //
   // To get the next page of results, set [page_token] to the [ListClustersResponse.next_page_token] returned by the previous [ClusterService.List] request.
   string page_token = 3 [(length) = "<=100"];
 
   // A filter expression that selects clusters listed in the response.
-  //
   // The expression must specify:
   // 1. The field name. Currently you can only use filtering with the [Cluster.name] field.
   // 2. An `=` operator.
@@ -287,28 +301,26 @@ message ListClustersResponse {
   repeated Cluster clusters = 1;
 
   // The token that can be used to get the next page of results.
-  //
   // If the number of results is larger than [ListClustersRequest.page_size], use the [next_page_token] as the value for the [ListClustersRequest.page_token] in the subsequent [ClusterService.List] request to iterate through multiple pages of results.
-  //
   // Each of the subsequent [ClusterService.List] requests should use the [next_page_token] value returned by the previous request to continue paging through the results.
   string next_page_token = 2;
 }
 
 message CreateClusterRequest {
   reserved 15;
+
   // ID of the folder to create the cluster in.
-  //
   // To get this ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Name of the cluster. The name must be unique within the folder.
   string name = 2 [
-    (required) = true,
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*"
+    (pattern) = "[a-zA-Z0-9_-]*",
+    (required) = true
   ];
 
   // Description of the cluster.
@@ -316,11 +328,13 @@ message CreateClusterRequest {
 
   // Custom labels for the cluster as `key:value` pairs.
   map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // Deployment environment of the MySQL cluster.
@@ -364,12 +378,12 @@ message CreateClusterMetadata {
 
 message UpdateClusterRequest {
   reserved 10;
+
   // ID of the cluster to update.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Field mask that specifies which settings of the cluster should be updated.
@@ -379,15 +393,16 @@ message UpdateClusterRequest {
   string description = 3 [(length) = "<=256"];
 
   // New set of custom labels for the cluster as `key:value` pairs.
-  //
   // This set will completely replace the current one.
   // To add a label, request the current label set with the [ClusterService.Get] request, then send an [ClusterService.Update] request with the new label added to the current set.
   map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // New configuration of the cluster.
@@ -408,9 +423,6 @@ message UpdateClusterRequest {
   // This option prevents unintended deletion of the cluster.
   bool deletion_protection = 9;
 
-  // Host groups hosting VMs of the cluster.
-  //repeated string host_group_ids = 10;
-
   // ID of the network to move the cluster to.
   string network_id = 11 [(length) = "<=50"];
 }
@@ -422,11 +434,10 @@ message UpdateClusterMetadata {
 
 message DeleteClusterRequest {
   // ID of the cluster to delete.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -437,17 +448,17 @@ message DeleteClusterMetadata {
 
 message BackupClusterRequest {
   // ID of the cluster to back up.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
 message BackupClusterMetadata {
   // ID of the cluster that is being backed up.
   string cluster_id = 1;
+
   // ID of the MySQL backup that is created.
   string backup_id = 2;
 }
@@ -456,7 +467,6 @@ message RestoreClusterRequest {
   reserved 3, 16;
 
   // ID of the backup to restore from.
-  //
   // To get this ID, make a [BackupService.List] request (lists all backups in a folder) or a [ClusterService.ListBackups] request (lists all backups for an existing cluster).
   string backup_id = 1 [(required) = true];
 
@@ -465,8 +475,8 @@ message RestoreClusterRequest {
 
   // Name of the new MySQL cluster the backup will be restored to. The name must be unique within the folder.
   string name = 4 [
-    (required) = true,
-    (pattern) = "[a-zA-Z0-9_-]*"
+    (pattern) = "[a-zA-Z0-9_-]*",
+    (required) = true
   ];
 
   // Description of the new cluster.
@@ -474,11 +484,13 @@ message RestoreClusterRequest {
 
   // Custom labels for the new cluster as `key:value` pairs.
   map<string, string> labels = 6 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // Deployment environment of the new cluster.
@@ -520,36 +532,13 @@ message RestoreClusterMetadata {
   string backup_id = 2;
 }
 
-message StartClusterFailoverRequest {
-  // ID of the cluster to start failover for.
-  //
-  // To get this ID, make a [ClusterService.List] request.
-  string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
-
-  // Host name to switch master role to.
-  // If not provided, then the master role is switched to the most up-to-date replica host.
-  //
-  // To get this name, make a [ClusterService.ListHosts] request.
-  string host_name = 2 [(length) = "<=253"];
-}
-
-message StartClusterFailoverMetadata {
-  // ID of the cluster that is being failovered.
-  string cluster_id = 1;
-}
-
 message RescheduleMaintenanceRequest {
   // ID of the cluster to reschedule the maintenance operation for.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
-
   enum RescheduleType {
     RESCHEDULE_TYPE_UNSPECIFIED = 0;
 
@@ -582,6 +571,25 @@ message RescheduleMaintenanceMetadata {
   google.protobuf.Timestamp delayed_until = 4;
 }
 
+message StartClusterFailoverRequest {
+  // ID of the cluster to start failover for.
+  // To get this ID, make a [ClusterService.List] request.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Host name to switch master role to.
+  // If not provided, then the master role is switched to the most up-to-date replica host.
+  // To get this name, make a [ClusterService.ListHosts] request.
+  string host_name = 2 [(length) = "<=253"];
+}
+
+message StartClusterFailoverMetadata {
+  // ID of the cluster that is being failovered.
+  string cluster_id = 1;
+}
+
 // A single log record.
 message LogRecord {
   // Timestamp of the log record.
@@ -593,11 +601,10 @@ message LogRecord {
 
 message ListClusterLogsRequest {
   // ID of the cluster to request logs for.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Columns from the logs table to request.
@@ -606,7 +613,6 @@ message ListClusterLogsRequest {
 
   // The log type.
   ServiceType service_type = 3;
-
   enum ServiceType {
     SERVICE_TYPE_UNSPECIFIED = 0;
 
@@ -632,12 +638,10 @@ message ListClusterLogsRequest {
   google.protobuf.Timestamp to_time = 5;
 
   // The maximum number of results per page to return.
-  //
   // If the number of available results is larger than [page_size], the API returns a [ListClusterLogsResponse.next_page_token] that can be used to get the next page of results in the subsequent [ClusterService.ListLogs] requests.
   int64 page_size = 6 [(value) = "0-1000"];
 
   // Page token that can be used to iterate through multiple pages of results.
-  //
   // To get the next page of results, set [page_token] to the [ListClusterLogsResponse.next_page_token] returned by the previous [ClusterService.ListLogs] request.
   string page_token = 7 [(length) = "<=100"];
 
@@ -651,11 +655,8 @@ message ListClusterLogsResponse {
   repeated LogRecord logs = 1;
 
   // The token that can be used to get the next page of results.
-  //
   // If the number of results is larger than [ListClusterLogsRequest.page_size], use the [next_page_token] as the value for the [ListClusterLogsRequest.page_token] in the subsequent [ClusterService.ListLogs] request to iterate through multiple pages of results.
-  //
   // Each of the subsequent [ClusterService.ListLogs] requests should use the [next_page_token] value returned by the previous request to continue paging through the results.
-  //
   // This value is interchangeable with [StreamLogRecord.next_record_token] from [ClusterService.StreamLogs] method.
   string next_page_token = 2;
 }
@@ -667,18 +668,16 @@ message StreamLogRecord {
 
   // The token that can be used to continue streaming logs starting from the exact same record.
   // To continue streaming, specify value of [next_record_token] as the [StreamClusterLogsRequest.record_token] value in the next [ClusterService.StreamLogs] request.
-  //
   // This value is interchangeable with [ListClusterLogsResponse.next_page_token] from [ClusterService.ListLogs] method.
   string next_record_token = 2;
 }
 
 message StreamClusterLogsRequest {
   // ID of the cluster to stream logs for.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Columns from the logs table to request.
@@ -687,7 +686,6 @@ message StreamClusterLogsRequest {
 
   // The log type.
   ServiceType service_type = 3;
-
   enum ServiceType {
     SERVICE_TYPE_UNSPECIFIED = 0;
 
@@ -709,17 +707,14 @@ message StreamClusterLogsRequest {
 
   // End timestamp for the logs request.
   // If this field is not set, all existing log records beginning from [from_time] will be returned first, and then the new records will be returned as they appear.
-  //
   // In essence it has `tail -f` command semantics.
   google.protobuf.Timestamp to_time = 5;
 
   // Record token that can be used to control logs streaming.
-  //
   // Set [record_token] to the [StreamLogRecord.next_record_token], returned by the previous [ClusterService.StreamLogs] request to start streaming from the next log record.
   string record_token = 6 [(length) = "<=100"];
 
   // A filter expression that selects clusters logs listed in the response.
-  //
   // The expression must specify:
   // 1. The field name. Currently filtering can be applied to the [LogRecord.logs.hostname] field.
   // 2. An `=` operator.
@@ -730,20 +725,17 @@ message StreamClusterLogsRequest {
 
 message ListClusterOperationsRequest {
   // ID of the cluster to list operations for.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return.
-  //
   // If the number of available results is larger than [page_size], the API returns a [ListClusterOperationsResponse.next_page_token] that can be used to get the next page of results in the subsequent [ClusterService.ListOperations] requests.
   int64 page_size = 2 [(value) = "0-1000"];
 
   // Page token that can be used to iterate through multiple pages of results.
-  //
   // To get the next page of results, set [page_token] to the [ListClusterOperationsResponse.next_page_token] returned by the previous [ClusterService.ListOperations] request.
   string page_token = 3 [(length) = "<=100"];
 }
@@ -753,29 +745,24 @@ message ListClusterOperationsResponse {
   repeated operation.Operation operations = 1;
 
   // The token that can be used to get the next page of results.
-  //
   // If the number of results is larger than [ListClusterOperationsRequest.page_size], use the [next_page_token] as the value for the [ListClusterOperationsRequest.page_token] in the subsequent [ClusterService.ListOperations] request to iterate through multiple pages of results.
-  //
   // Each of the subsequent [ClusterService.ListOperations] requests should use the [next_page_token] value returned by the previous request to continue paging through the results.
   string next_page_token = 2;
 }
 
 message ListClusterBackupsRequest {
   // ID of the cluster to list backups for.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return.
-  //
   // If the number of available results is larger than [page_size], the API returns a [ListClusterBackupsResponse.next_page_token] that can be used to get the next page of results in the subsequent [ClusterService.ListBackups] requests.
   int64 page_size = 2 [(value) = "<=1000"];
 
   // Page token that can be used to iterate through multiple pages of results.
-  //
   // To get the next page of results, set [page_token] to the [ListClusterBackupsResponse.next_page_token] returned by the previous [ClusterService.ListBackups] request.
   string page_token = 3 [(length) = "<=100"];
 }
@@ -785,29 +772,24 @@ message ListClusterBackupsResponse {
   repeated Backup backups = 1;
 
   // The token that can be used to get the next page of results.
-  //
   // If the number of results is larger than [ListClusterBackupsRequest.page_size], use the [next_page_token] as the value for the [ListClusterBackupsRequest.page_token] in the subsequent [ClusterService.ListBackups] request to iterate through multiple pages of results.
-  //
   // Each of the subsequent [ClusterService.ListBackups] requests should use the [next_page_token] value returned by the previous request to continue paging through the results.
   string next_page_token = 2;
 }
 
 message ListClusterHostsRequest {
   // ID of the cluster to list hosts for.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return.
-  //
   // If the number of available results is larger than [page_size], the API returns a [ListClusterHostsResponse.next_page_token] that can be used to get the next page of results in the subsequent [ClusterService.ListHosts] requests.
   int64 page_size = 2 [(value) = "0-1000"];
 
   // Page token that can be used to iterate through multiple pages of results.
-  //
   // To get the next page of results, set [page_token] to the [ListClusterHostsResponse.next_page_token] returned by the previous [ClusterService.ListHosts] request.
   string page_token = 3 [(length) = "<=100"];
 }
@@ -817,20 +799,17 @@ message ListClusterHostsResponse {
   repeated Host hosts = 1;
 
   // The token that can be used to get the next page of results.
-  //
   // If the number of results is larger than [ListClusterHostsRequest.page_size], use the [next_page_token] as the value for the [ListClusterHostsRequest.page_token] in the subsequent [ClusterService.ListHosts] request to iterate through multiple pages of results.
-  //
   // Each of the subsequent [ClusterService.ListHosts] requests should use the [next_page_token] value returned by the previous request to continue paging through the results.
   string next_page_token = 2;
 }
 
 message AddClusterHostsRequest {
   // ID of the cluster to add hosts to.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Configuration of the newly added hosts.
@@ -847,19 +826,17 @@ message AddClusterHostsMetadata {
 
 message DeleteClusterHostsRequest {
   // ID of the cluster to delete hosts from.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Names of hosts to delete.
-  //
   // To get these names, make a [ClusterService.ListHosts] request.
   repeated string host_names = 2 [
-    (size) = ">0",
-    (length) = "<=253"
+    (length) = "<=253",
+    (size) = ">0"
   ];
 }
 
@@ -873,11 +850,10 @@ message DeleteClusterHostsMetadata {
 
 message StartClusterRequest {
   // ID of the cluster to start.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -888,11 +864,10 @@ message StartClusterMetadata {
 
 message StopClusterRequest {
   // ID of the cluster to stop.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -903,19 +878,17 @@ message StopClusterMetadata {
 
 message MoveClusterRequest {
   // ID of the cluster to move.
-  //
   // To get this ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // ID of the destination folder.
-  //
   // To get this ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string destination_folder_id = 2 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -934,8 +907,8 @@ message UpdateClusterHostsRequest {
   // ID of the MySQL cluster to update hosts in.
   // To get the MySQL cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // New configurations to apply to hosts.
@@ -974,20 +947,16 @@ message UpdateHostSpec {
 
 message HostSpec {
   // ID of the availability zone where the host resides.
-  //
   // To get a list of available zones, make the [yandex.cloud.compute.v1.ZoneService.List] request.
   string zone_id = 1 [(length) = "<=50"];
 
   // ID of the subnet to assign to the host.
-  //
   // This subnet should be a part of the cluster network (the network ID is specified in the [ClusterService.CreateClusterRequest.network_id]).
   string subnet_id = 2 [(length) = "<=50"];
 
   // Option that enables public IP address for the host so that the host can be accessed from the internet.
-  //
   // After a host has been created, this setting cannot be changed.
   // To remove an assigned public IP address, or to assign a public IP address to a host without one, recreate the host with the appropriate [assign_public_ip] value set.
-  //
   // Possible values:
   // * `false` - don't assign a public IP address to the host.
   // * `true` - assign a public IP address to the host.
@@ -1005,10 +974,8 @@ message HostSpec {
 
 message ConfigSpec {
   // Version of MySQL used in the cluster.
-  //
   // Possible values: `5.7`, `8.0`, `8.4`.
   string version = 1; // No formal validation, a list of supported versions should suffice.
-
   // Cluster-wide MySQL configuration.
   oneof mysql_config {
     // Configuration for a MySQL 5.7 cluster.
@@ -1028,7 +995,6 @@ message ConfigSpec {
   google.type.TimeOfDay backup_window_start = 4;
 
   // Access policy for external services.
-  //
   // If the specific services need to access the cluster, then set the necessary values in this policy.
   Access access = 5;
 

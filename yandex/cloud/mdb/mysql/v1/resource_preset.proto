@@ -7,10 +7,8 @@ option java_package = "yandex.cloud.api.mdb.mysql.v1";
 
 // An object that represents MySQL resource preset.
 // A resource preset defines hardware configuration for cluster hosts.
-//
 // See [the documentation](/docs/managed-mysql/concepts/instance-types) for details.
 message ResourcePreset {
-
   // ID of the resource preset that defines available computational resources (vCPU, RAM, etc.) for a cluster host.
   string id = 1;
 

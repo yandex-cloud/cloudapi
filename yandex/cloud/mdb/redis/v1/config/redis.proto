@@ -42,12 +42,14 @@ message RedisConfig {
   }
 
   message ClientOutputBufferLimit {
-    reserved 4;
-    reserved 2;
+    reserved 2, 4;
+
     // Total limit in bytes.
     google.protobuf.Int64Value hard_limit = 1 [(value) = ">=0"];
+
     // Limit in bytes during certain time period.
     google.protobuf.Int64Value soft_limit = 3 [(value) = ">=0"];
+
     // Seconds for soft limit.
     google.protobuf.Int64Value soft_seconds = 5 [(value) = ">=0"];
   }
@@ -55,13 +57,12 @@ message RedisConfig {
   // Redis key eviction policy for a dataset that reaches maximum memory,
   // available to the host. Redis maxmemory setting depends on Managed
   // Service for Redis [host class](/docs/managed-redis/concepts/instance-types).
-  //
   // All policies are described in detail in [Redis documentation](https://redis.io/topics/lru-cache).
   MaxmemoryPolicy maxmemory_policy = 1;
 
   // Time that Redis keeps the connection open while the client is idle.
   // If no new command is sent during that time, the connection is closed.
-  google.protobuf.Int64Value timeout = 2;
+  google.protobuf.Int64Value timeout = 2 [(value) = ">=0"];
 
   // Authentication password.
   string password = 3 [(pattern) = "[a-zA-Z0-9@=+?*.,!&#$^<>_-]{8,128}"];
@@ -114,7 +115,7 @@ message RedisConfig {
   // Allows some data to be lost in favor of faster switchover/restart
   google.protobuf.BoolValue allow_data_loss = 19;
 
-    // Use JIT for lua scripts and functions
+  // Use JIT for lua scripts and functions
   google.protobuf.BoolValue use_luajit = 20;
 
   // Allow redis to use io-threads

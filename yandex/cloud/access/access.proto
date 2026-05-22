@@ -84,7 +84,7 @@ message BindAccessPolicyRequest {
   // ID of the resource for which access policy bindings are being set.
   // To get the resource ID, use a corresponding List request.
   string resource_id = 1 [
-    (length) = "<=50",
+    (length) = "<=64",
     (required) = true
   ];
 
@@ -108,7 +108,7 @@ message ListAccessBindingsRequest {
   // To get the resource ID, use a corresponding List request.
   // For example, use the [yandex.cloud.resourcemanager.v1.CloudService.List] request to get the Cloud resource ID.
   string resource_id = 1 [
-    (length) = "<=50",
+    (length) = "<=64",
     (required) = true
   ];
 
@@ -117,7 +117,7 @@ message ListAccessBindingsRequest {
   // the service returns a [ListAccessBindingsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Default value: 100.
-  int64 page_size = 2 [(value) = "<=1000"];
+  int64 page_size = 2 [(value) = "0-1000"];
 
   // Page token. Set [page_token]
   // to the [ListAccessBindingsResponse.next_page_token]
@@ -143,7 +143,7 @@ message ListAccessPolicyBindingsRequest {
   // To get the resource ID, use a corresponding List request.
   // For example, use the [yandex.cloud.resourcemanager.v1.CloudService.List] request to get the Cloud resource ID.
   string resource_id = 1 [
-    (length) = "<=50",
+    (length) = "<=64",
     (required) = true
   ];
 
@@ -178,7 +178,7 @@ message UnbindAccessPolicyRequest {
   // ID of the resource for which access policy bindings are being removed.
   // To get the resource ID, use a corresponding List request.
   string resource_id = 1 [
-    (length) = "<=50",
+    (length) = "<=64",
     (required) = true
   ];
 
@@ -200,7 +200,7 @@ message UnbindAccessPolicyResponse {
 message UpdateAccessPolicyBindingParametersRequest {
   // ID of the resource for which access policy bindings are being updated.
   string resource_id = 1 [
-    (length) = "<=50",
+    (length) = "<=64",
     (required) = true
   ];
 
@@ -223,7 +223,7 @@ message SetAccessBindingsRequest {
   // ID of the resource for which access bindings are being set.
   // To get the resource ID, use a corresponding List request.
   string resource_id = 1 [
-    (length) = "<=50",
+    (length) = "<=64",
     (required) = true
   ];
 
@@ -239,7 +239,7 @@ message SetAccessBindingsMetadata {
 message UpdateAccessBindingsRequest {
   // ID of the resource for which access bindings are being updated.
   string resource_id = 1 [
-    (length) = "<=50",
+    (length) = "<=64",
     (required) = true
   ];
 

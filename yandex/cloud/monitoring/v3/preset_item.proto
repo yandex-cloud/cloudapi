@@ -17,7 +17,7 @@ message ParameterPresetValue {
   string parameter_name = 1;
 
   // Parameter value.
-  string value = 2;
+  repeated string value = 2;
 }
 
 // Selected logs overlay

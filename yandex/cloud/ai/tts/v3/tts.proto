@@ -77,6 +77,17 @@ message AudioVariable {
   int64 variable_length_ms = 3;
 }
 
+message WordTiming {
+  // A word from a normalized text for synthesis.
+  string word = 1;
+
+  // Start of the word in milliseconds, relative to the beginning of the full audio stream.
+  int64 start_ms = 2;
+
+  // Length of the word in milliseconds.
+  int64 length_ms = 3;
+}
+
 message UtteranceSynthesisResponse {
   // Part of synthesized audio.
   AudioChunk audio_chunk = 1;
@@ -89,6 +100,9 @@ message UtteranceSynthesisResponse {
 
   // Length of the audio chunk in milliseconds.
   int64 length_ms = 4;
+
+  // Per-word timings for this audio chunk.
+  repeated WordTiming word_timings = 5;
 }
 
 message AudioTemplate {
@@ -283,4 +297,7 @@ message StreamSynthesisResponse {
 
   // Length of the audio chunk in milliseconds.
   int64 length_ms = 4;
+
+  // Per-word timings for this audio chunk (milliseconds from stream start).
+  repeated WordTiming word_timings = 5;
 }

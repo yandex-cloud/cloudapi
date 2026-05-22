@@ -51,7 +51,7 @@ message MongodConfig5_0 {
       // Collection configuration for WiredTiger.
       CollectionConfig collection_config = 2;
 
-      //Index configuration for WiredTiger
+      // Index configuration for WiredTiger
       IndexConfig index_config = 3;
     }
 
@@ -109,9 +109,10 @@ message MongodConfig5_0 {
         // The [zstd](https://docs.mongodb.com/v4.2/reference/glossary/#term-zstd) compression.
         ZSTD = 3;
 
-        //No compression
+        // No compression
         DISABLED = 4;
       }
+
       // Specifies the default compressor(s) to use for communication between this mongod or mongos instance and:
       // - other members of the deployment if the instance is part of a replica set or a sharded cluster
       // - mongosh
@@ -220,9 +221,10 @@ message MongosConfig5_0 {
         // The [zstd](https://docs.mongodb.com/v4.2/reference/glossary/#term-zstd) compression.
         ZSTD = 3;
 
-        //No compression
+        // No compression
         DISABLED = 4;
       }
+
       // Specifies the default compressor(s) to use for communication between this mongod or mongos instance and:
       // - other members of the deployment if the instance is part of a replica set or a sharded cluster
       // - mongosh

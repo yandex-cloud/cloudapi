@@ -132,8 +132,8 @@ message CreateFederationRequest {
 
   // List of trusted values for aud claim.
   repeated string audiences = 6 [
-    (length) = "<=255",
-    (size) = "<=100"
+    (length) = "1-255",
+    (size) = "1-100"
   ];
 
   // URL of the external IdP server to be used for authentication.
@@ -181,8 +181,8 @@ message UpdateFederationRequest {
 
   // List of trusted values for aud claim.
   repeated string audiences = 6 [
-    (length) = "<=255",
-    (size) = "<=100"
+    (length) = "1-255",
+    (size) = "1-100"
   ];
 
   // URL reference to trusted keys in format of JSON Web Key Set.

@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.cdn.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/cdn/v1/resource.proto";
 import "yandex/cloud/cdn/v1/rule.proto";
@@ -22,7 +23,7 @@ service ResourceRulesService {
     };
   };
 
-  // Create new resource rule with specified unique name and rule patter.
+  // Create new resource rule with specified unique name and rule pattern.
   rpc Create(CreateResourceRuleRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "CreateResourceRuleMetadata"
@@ -65,6 +66,7 @@ service ResourceRulesService {
   };
 }
 
+// A request to list resource rules.
 message ListResourceRulesRequest {
   // ID of resource.
   string resource_id = 1 [
@@ -73,11 +75,13 @@ message ListResourceRulesRequest {
   ];
 }
 
+// A response to list resource rules.
 message ListResourceRulesResponse {
   // List of the resource rules.
   repeated Rule rules = 1;
 }
 
+// A request to create a resource rule.
 message CreateResourceRuleRequest {
   // ID of resource.
   string resource_id = 1 [
@@ -96,13 +100,22 @@ message CreateResourceRuleRequest {
     (length) = "<=100",
     (required) = true
   ];
+
+  // Resource options.
   ResourceOptions options = 4;
 
   // Rules are ordered by weight in ascending order (lower weights execute first)
   // Weight must be between 0 and 9999 inclusive
   int64 weight = 5;
+
+  // ID of origins group. Specify non zero value to override parent origin group.
+  int64 origins_group_id = 6;
+
+  // Protocol used for communication with origin. Required if origins_group_id is specified.
+  OriginProtocol origin_protocol = 7;
 }
 
+// A metadata for create resource rule operation.
 message CreateResourceRuleMetadata {
   // ID of resource.
   string resource_id = 1 [
@@ -114,6 +127,7 @@ message CreateResourceRuleMetadata {
   int64 rule_id = 2 [(value) = ">0"];
 }
 
+// A request to get a resource rule.
 message GetResourceRuleRequest {
   // ID of resource.
   string resource_id = 1 [
@@ -125,6 +139,7 @@ message GetResourceRuleRequest {
   int64 rule_id = 2 [(value) = ">0"];
 }
 
+// A request to update a resource rule.
 message UpdateResourceRuleRequest {
   // Rules are ordered by weight in ascending order (lower weights execute first)
   // Weight must be between 0 and 9999 inclusive
@@ -144,9 +159,20 @@ message UpdateResourceRuleRequest {
 
   // Resource rule pattern.
   string rule_pattern = 4 [(length) = "<=100"];
+
+  // Resource options.
   ResourceOptions options = 5;
+
+  // ID of origins group.
+  // Set non zero value to override parent origin group, `0` to use parent origin group and `null` to make no changes.
+  google.protobuf.Int64Value origins_group_id = 7;
+
+  // Protocol used for communication with origin.
+  // Required if enabling origins_group_id.
+  OriginProtocol origin_protocol = 8;
 }
 
+// A metadata for update resource rule operation.
 message UpdateResourceRuleMetadata {
   // ID of resource.
   string resource_id = 1 [
@@ -158,6 +184,7 @@ message UpdateResourceRuleMetadata {
   int64 rule_id = 2 [(value) = ">0"];
 }
 
+// A request to delete a resource rule.
 message DeleteResourceRuleRequest {
   // ID of resource.
   string resource_id = 1 [
@@ -169,6 +196,7 @@ message DeleteResourceRuleRequest {
   int64 rule_id = 2 [(value) = ">0"];
 }
 
+// A metadata for delete resource rule operation.
 message DeleteResourceRuleMetadata {
   // ID of resource.
   string resource_id = 1 [

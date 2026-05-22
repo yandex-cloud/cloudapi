@@ -2,14 +2,13 @@ syntax = "proto3";
 
 package yandex.cloud.mdb.mysql.v1;
 
-import "yandex/cloud/validation.proto";
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mysql/v1;mysql";
 option java_package = "yandex.cloud.api.mdb.mysql.v1";
 
 // An object that represents MySQL backup.
-//
 // See [the documentation](/docs/managed-mysql/concepts/backup) for details.
 message Backup {
   enum BackupCreationType {
@@ -21,6 +20,7 @@ message Backup {
     // Backup created by user request
     MANUAL = 2;
   }
+
   enum BackupStatus {
     BACKUP_STATUS_UNSPECIFIED = 0;
 
@@ -30,6 +30,7 @@ message Backup {
     // Backup is creating
     CREATING = 2;
   }
+
   // ID of the backup.
   string id = 1 [(required) = true];
 

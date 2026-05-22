@@ -72,7 +72,6 @@ message Cluster {
 
   // ID of the folder that the MySQL cluster belongs to.
   string folder_id = 2;
-
   google.protobuf.Timestamp created_at = 3;
 
   // Name of the MySQL cluster.
@@ -120,11 +119,10 @@ message Monitoring {
 message ClusterConfig {
   // Version of MySQL server software.
   string version = 1;
-
   // Configuration for MySQL servers in the cluster.
   oneof mysql_config {
     // Configuration of a MySQL 5.7 server.
-    config.MysqlConfigSet5_7 mysql_config_5_7 = 2 [json_name="mysqlConfig_5_7"];
+    config.MysqlConfigSet5_7 mysql_config_5_7 = 2 [json_name = "mysqlConfig_5_7"];
   }
 
   // Resources allocated to MySQL hosts.
@@ -135,7 +133,6 @@ message ClusterConfig {
 }
 
 message Host {
-
   enum Role {
 
     // Role of the host in the cluster is unknown.
@@ -165,7 +162,6 @@ message Host {
 
   // Name of the MySQL host. The host name is assigned by Managed Service for MySQL
   // at creation time, and cannot be changed. 1-63 characters long.
-  //
   // The name is unique across all database hosts that exist on the platform,
   // as it defines the FQDN of the host.
   string name = 1;
@@ -196,9 +192,7 @@ message Host {
   bool assign_public_ip = 9;
 }
 
-
 message Service {
-
   enum Type {
     TYPE_UNSPECIFIED = 0;
 
@@ -232,7 +226,6 @@ message Service {
 }
 
 message Resources {
-
   // ID of the preset for computational resources available to a host (CPU, memory etc.).
   // All available presets are listed in the [documentation](/docs/managed-mysql/concepts/instance-types).
   string resource_preset_id = 1;

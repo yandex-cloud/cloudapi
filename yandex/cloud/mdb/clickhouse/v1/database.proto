@@ -11,10 +11,10 @@ option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
 // [Developer's Guide](/docs/managed-clickhouse/concepts).
 message Database {
   // Name of the database.
-  string name = 1;
+  string name = 1 [(required) = true];
 
   // ID of the ClickHouse cluster that the database belongs to.
-  string cluster_id = 2;
+  string cluster_id = 2 [(required) = true];
 
   // Database engine. For details, see [ClickHouse documentation](https://clickhouse.com/docs/engines/database-engines).
   DatabaseEngine engine = 3;
@@ -28,7 +28,11 @@ enum DatabaseEngine {
 
 message DatabaseSpec {
   // Name of the ClickHouse database. 1-63 characters long.
-  string name = 1 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+  string name = 1 [
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_-]*",
+    (required) = true
+  ];
 
   // Database engine. For details, see [ClickHouse documentation](https://clickhouse.com/docs/engines/database-engines).
   DatabaseEngine engine = 2;

@@ -50,6 +50,9 @@ message PrivateEndpoint {
   oneof service {
     // Yandex Cloud Object Storage.
     ObjectStorage object_storage = 11;
+
+    // Yandex Cloud service name.
+    string service_name = 13;
   }
 
   // List of private endpoint dns records.
