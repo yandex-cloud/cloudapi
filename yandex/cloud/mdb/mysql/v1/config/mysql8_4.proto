@@ -392,7 +392,7 @@ message MysqlConfig8_4 {
 
   // The number of replica acknowledgments the source must receive per transaction before proceeding.
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.4/en/replication-options-master.html#sysvar_rpl_semi_sync_master_wait_for_slave_count).
-  google.protobuf.Int64Value rpl_semi_sync_master_wait_for_slave_count = 46 [(value) = "1-2"];
+  google.protobuf.Int64Value rpl_semi_sync_master_wait_for_slave_count = 46 [(value) = ">=1"];
 
   // When using a multithreaded replica, this variable specifies the policy used to decide which transactions are allowed to execute in parallel on the replica.
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.4/en/replication-options-replica.html#sysvar_slave_parallel_type).
@@ -430,7 +430,7 @@ message MysqlConfig8_4 {
 
   // The limit in bytes on the size of the temporary log files used during online DDL operations
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.4/en/innodb-parameters.html#sysvar_innodb_online_alter_log_max_size).
-  google.protobuf.Int64Value innodb_online_alter_log_max_size = 56 [(value) = "60-107374182400"];
+  google.protobuf.Int64Value innodb_online_alter_log_max_size = 56 [(value) = "65536-107374182400"];
 
   // Minimum length of words that are stored in an InnoDB FULLTEXT index
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.4/en/innodb-parameters.html#sysvar_innodb_ft_min_token_size).
@@ -474,7 +474,7 @@ message MysqlConfig8_4 {
 
   // Specifies the page size for InnoDB tablespaces.
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.4/en/innodb-parameters.html#sysvar_innodb_page_size).
-  google.protobuf.Int64Value innodb_page_size = 67 [(value) = "1-65536"];
+  google.protobuf.Int64Value innodb_page_size = 67 [(value) = "4096-65536"];
 
   // The number of times that any given stored procedure may be called recursively.
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.4/en/server-system-variables.html#sysvar_max_sp_recursion_depth).
@@ -506,7 +506,7 @@ message MysqlConfig8_4 {
 
   // The maximum number of bytes of memory reserved per session for computation of normalized statement digests.
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.4/en/server-system-variables.html#sysvar_max_digest_length).
-  google.protobuf.Int64Value max_digest_length = 75 [(value) = "1024-8192"];
+  google.protobuf.Int64Value max_digest_length = 75 [(value) = "1024-1048576"];
 
   // This variable specifies the timeout in seconds for attempts to acquire metadata locks
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/8.4/en/server-system-variables.html#sysvar_lock_wait_timeout).

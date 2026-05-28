@@ -1,16 +1,21 @@
 resources_and_data_sources:
   - name: yandex_dns_dns_firewall
     rename: yandex_dns_firewall
+  - name: yandex_dns_dns_inbound_endpoint
+    rename: yandex_dns_inbound_endpoint
 
 iam_bindings:
   - name: yandex_dns_dns_zone
     rename: yandex_dns_zone
   - name: yandex_dns_dns_firewall
     rename: yandex_dns_firewall
+  - name: yandex_dns_dns_inbound_endpoint
+    rename: yandex_dns_inbound_endpoint
 
 model_config:
   datasource_with_resolver:
     - yandex_dns_firewall
+    - yandex_dns_inbound_endpoint
   renames:
     yandex.cloud.dns.v1.DnsFirewall.ResourceConfig:
       fields:
@@ -22,6 +27,10 @@ model_config:
       set: true
     yandex.cloud.dns.v1.DnsFirewall.ResourceConfig.resource_ids:
       set: true
+    yandex.cloud.dns.v1.DnsInboundEndpoint.address_id:
+      force_new: true
+    yandex.cloud.dns.v1.DnsInboundEndpoint.network_id:
+      force_new: true
   custom_crud:
     yandex_dns_dns_firewall:
       update:

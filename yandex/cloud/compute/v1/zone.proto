@@ -7,7 +7,6 @@ option java_package = "yandex.cloud.api.compute.v1";
 
 // Availability zone. For more information, see [Availability zones](/docs/overview/concepts/geo-scope).
 message Zone {
-
   enum Status {
     STATUS_UNSPECIFIED = 0;
 

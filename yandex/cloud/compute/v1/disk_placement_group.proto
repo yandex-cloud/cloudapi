@@ -9,6 +9,7 @@ option java_package = "yandex.cloud.api.compute.v1";
 
 message DiskPlacementGroup {
   reserved 10;
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
     CREATING = 1;
@@ -40,7 +41,6 @@ message DiskPlacementGroup {
 
   // Current status of the placement group
   Status status = 11;
-
   // Placement strategy.
   oneof placement_strategy {
     // Distribute disks over distinct failure domains.
@@ -51,7 +51,8 @@ message DiskPlacementGroup {
   }
 }
 
-message DiskSpreadPlacementStrategy {}
+message DiskSpreadPlacementStrategy {
+}
 
 message DiskPartitionPlacementStrategy {
   int64 partitions = 1;

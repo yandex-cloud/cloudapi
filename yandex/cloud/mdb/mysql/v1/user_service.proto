@@ -103,7 +103,7 @@ message GetUserRequest {
   // To get this name, make a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
+    (pattern) = "[a-zA-Z0-9_@.-]*",
     (required) = true
   ];
 }
@@ -167,7 +167,7 @@ message UpdateUserRequest {
   // To get this name, make a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
+    (pattern) = "[a-zA-Z0-9_@.-]*",
     (required) = true
   ];
 
@@ -175,7 +175,7 @@ message UpdateUserRequest {
   google.protobuf.FieldMask update_mask = 3;
 
   // New password for the user.
-  string password = 4 [(length) = "8-128"];
+  string password = 4 [(length) = "0-128"];
 
   // A new set of permissions that should be granted to the user.
   repeated Permission permissions = 5;
@@ -217,7 +217,7 @@ message DeleteUserRequest {
   // To get this name, make a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
+    (pattern) = "[a-zA-Z0-9_@.-]*",
     (required) = true
   ];
 }
@@ -242,7 +242,7 @@ message GrantUserPermissionRequest {
   // To get this name, make a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
+    (pattern) = "[a-zA-Z0-9_@.-]*",
     (required) = true
   ];
 
@@ -270,7 +270,7 @@ message RevokeUserPermissionRequest {
   // To get this name, make a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
+    (pattern) = "[a-zA-Z0-9_@.-]*",
     (required) = true
   ];
 

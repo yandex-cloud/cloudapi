@@ -30,15 +30,14 @@ message GpuCluster {
 
   // ID of the folder that the GPU cluster belongs to.
   string folder_id = 2;
-  
+
   // Creation timestamp.
   google.protobuf.Timestamp created_at = 3;
 
   // Name of the GPU cluster.
-  //
   // The name is unique within the folder.
   string name = 4;
-  
+
   // Description of the GPU cluster.
   string description = 5;
 
@@ -53,7 +52,6 @@ message GpuCluster {
 
   // Type of interconnect used for this GPU cluster.
   GpuInterconnectType interconnect_type = 9;
-
 }
 
 enum GpuInterconnectType {

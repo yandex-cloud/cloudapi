@@ -4,9 +4,9 @@ package yandex.cloud.compute.v1;
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
-import "yandex/cloud/compute/v1/kek.proto";
 import "yandex/cloud/compute/v1/application.proto";
 import "yandex/cloud/compute/v1/hardware_generation.proto";
+import "yandex/cloud/compute/v1/kek.proto";
 import "yandex/cloud/compute/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1;compute";
@@ -14,7 +14,6 @@ option java_package = "yandex.cloud.api.compute.v1";
 
 // An Instance resource. For more information, see [Instances](/docs/compute/concepts/vm).
 message Instance {
-
   reserved 15, 25;
 
   enum Status {
@@ -82,15 +81,10 @@ message Instance {
   Status status = 10;
 
   // The metadata `key:value` pairs assigned to this instance. This includes custom metadata and predefined keys.
-  //
   // For example, you may use the metadata in order to provide your public SSH key to the instance.
   // For more information, see [Metadata](/docs/compute/concepts/vm-metadata).
-  //
   // **The `metadata` field is currently omitted from response for the [yandex.cloud.compute.v1.InstanceService.List] request.**
   map<string, string> metadata = 11;
-
-  // Options allow user to configure access to instance's metadata
-  MetadataOptions metadata_options = 23;
 
   // Boot disk that is attached to the instance.
   AttachedDisk boot_disk = 12;
@@ -98,20 +92,8 @@ message Instance {
   // Array of secondary disks that are attached to the instance.
   repeated AttachedDisk secondary_disks = 13;
 
-  // Array of local disks that are attached to the instance.
-  repeated AttachedLocalDisk local_disks = 22;
-
-  // Array of filesystems that are attached to the instance.
-  repeated AttachedFilesystem filesystems = 21;
-
   // Array of network interfaces that are attached to the instance.
   repeated NetworkInterface network_interfaces = 14;
-
-  // Serial port settings
-  SerialPortSettings serial_port_settings = 24;
-
-  // GPU settings
-  GpuSettings gpu_settings = 26;
 
   // A domain name of the instance. FQDN is defined by the server
   // in the format `<hostname>.<region_id>.internal` when the instance is created.
@@ -137,20 +119,35 @@ message Instance {
   // ID of the dedicated host that the instance belongs to.
   string host_id = 28;
 
+  // Array of filesystems that are attached to the instance.
+  repeated AttachedFilesystem filesystems = 21;
+
+  // Array of local disks that are attached to the instance.
+  repeated AttachedLocalDisk local_disks = 22;
+
+  // GPU settings
+  GpuSettings gpu_settings = 26;
+
   // Behaviour on maintenance events
   MaintenancePolicy maintenance_policy = 29;
 
   // Time between notification via metadata service and maintenance
   google.protobuf.Duration maintenance_grace_period = 30;
 
+  // Options allow user to configure access to instance's metadata
+  MetadataOptions metadata_options = 23;
+
+  // Serial port settings
+  SerialPortSettings serial_port_settings = 24;
+
   // This feature set is inherited from the image/disk used as a boot one at the creation of the instance.
   HardwareGeneration hardware_generation = 31;
 
-  // ID of the reserved instance pool that the instance belongs to.
-  string reserved_instance_pool_id = 32;
-
   // Instance application settings.
   Application application = 33;
+
+  // ID of the reserved instance pool that the instance belongs to.
+  string reserved_instance_pool_id = 32;
 }
 
 message Resources {
@@ -184,7 +181,6 @@ message AttachedDisk {
 
   // Serial number that is reflected into the /dev/disk/by-id/ tree
   // of a Linux operating system running within the instance.
-  //
   // This value can be used to reference the device for mounting, resizing, and so on, from within the instance.
   string device_name = 2;
 
@@ -201,10 +197,8 @@ message AttachedLocalDisk {
 
   // Serial number that is reflected into the /dev/disk/by-id/ tree
   // of a Linux operating system running within the instance.
-  //
   // This value can be used to reference the device for mounting, resizing, and so on, from within the instance.
   string device_name = 2;
-
   oneof type {
     // Local disk configuration
     PhysicalLocalDisk physical_local_disk = 3;
@@ -231,7 +225,6 @@ message AttachedFilesystem {
   Mode mode = 1;
 
   // Name of the device representing the filesystem on the instance.
-  //
   // The name should be used for referencing the filesystem from within the instance
   // when it's being mounted, resized etc.
   string device_name = 2;
@@ -330,26 +323,25 @@ message NetworkSettings {
   Type type = 1;
 }
 
-message GpuSettings {
-  // Attach instance to specified GPU cluster.
-  string gpu_cluster_id = 1;
-}
-
 message PlacementPolicy {
   // Affinity definition
   message HostAffinityRule {
     enum Operator {
       OPERATOR_UNSPECIFIED = 0;
+
       // Include action
       IN = 1;
+
       // Exclude action
       NOT_IN = 2;
     }
 
     // Affinity label or one of reserved values - 'yc.hostId', 'yc.hostGroupId'
     string key = 1;
+
     // Include or exclude action
     Operator op = 2;
+
     // Affinity value or host ID or host group ID
     repeated string values = 3;
   }
@@ -357,11 +349,16 @@ message PlacementPolicy {
   // Placement group ID.
   string placement_group_id = 1;
 
-  // List of affinity rules. Scheduler will attempt to allocate instances according to order of rules.
-  repeated HostAffinityRule host_affinity_rules = 2;
-
   // Placement group partition
   int64 placement_group_partition = 3;
+
+  // List of affinity rules. Scheduler will attempt to allocate instances according to order of rules.
+  repeated HostAffinityRule host_affinity_rules = 2;
+}
+
+message GpuSettings {
+  // Attach instance to specified GPU cluster.
+  string gpu_cluster_id = 1;
 }
 
 message MetadataOptions {

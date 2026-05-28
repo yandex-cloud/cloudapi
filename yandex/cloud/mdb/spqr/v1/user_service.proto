@@ -3,12 +3,12 @@ syntax = "proto3";
 package yandex.cloud.mdb.spqr.v1;
 
 import "google/api/annotations.proto";
-import "yandex/cloud/api/operation.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/wrappers.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/mdb/spqr/v1/user.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
-import "google/protobuf/wrappers.proto";
-import "yandex/cloud/mdb/spqr/v1/user.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/spqr/v1;spqr";
 option java_package = "yandex.cloud.api.mdb.spqr.v1";
@@ -16,59 +16,80 @@ option java_package = "yandex.cloud.api.mdb.spqr.v1";
 // A set of methods for managing SPQR User resources.
 service UserService {
   // Returns the specified SPQR User resource.
-  //
   // To get the list of available SPQR User resources, make a [List] request.
-  rpc Get (GetUserRequest) returns (User) {
-    option (google.api.http) = { get: "/managed-spqr/v1/clusters/{cluster_id}/users/{user_name}" };
-  }
+  rpc Get(GetUserRequest) returns (User) {
+    option (google.api.http) = {
+      get: "/managed-spqr/v1/clusters/{cluster_id}/users/{user_name}"
+    };
+  };
 
   // Retrieves the list of SPQR User resources in the specified cluster.
-  rpc List (ListUsersRequest) returns (ListUsersResponse) {
-    option (google.api.http) = { get: "/managed-spqr/v1/clusters/{cluster_id}/users" };
-  }
+  rpc List(ListUsersRequest) returns (ListUsersResponse) {
+    option (google.api.http) = {
+      get: "/managed-spqr/v1/clusters/{cluster_id}/users"
+    };
+  };
 
   // Creates a SPQR user in the specified cluster.
-  rpc Create (CreateUserRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/managed-spqr/v1/clusters/{cluster_id}/users" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateUserRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateUserMetadata"
       response: "User"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-spqr/v1/clusters/{cluster_id}/users"
+    };
+  };
 
   // Updates the specified SPQR user.
-  rpc Update (UpdateUserRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/managed-spqr/v1/clusters/{cluster_id}/users/{user_name}" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateUserRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateUserMetadata"
       response: "User"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-spqr/v1/clusters/{cluster_id}/users/{user_name}"
+    };
+  };
 
   // Deletes the specified SPQR user.
-  rpc Delete (DeleteUserRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/managed-spqr/v1/clusters/{cluster_id}/users/{user_name}" };
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteUserRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteUserMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/managed-spqr/v1/clusters/{cluster_id}/users/{user_name}"
+    };
+  };
 }
 
 message GetUserRequest {
   // ID of the SPQR cluster the user belongs to.
   // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Name of the SPQR User resource to return.
   // To get the name of the user, use a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+  string user_name = 2 [
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_]*",
+    (required) = true
+  ];
 }
 
 message ListUsersRequest {
   // ID of the cluster to list SPQR users in.
   // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListUsersResponse.next_page_token]
@@ -94,7 +115,10 @@ message ListUsersResponse {
 message CreateUserRequest {
   // ID of the SPQR cluster to create a user in.
   // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Properties of the user to be created.
   UserSpec user_spec = 2;
@@ -111,11 +135,18 @@ message CreateUserMetadata {
 message UpdateUserRequest {
   // ID of the SPQR cluster the user belongs to.
   // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Name of the user to be updated.
   // To get the name of the user, use a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+  string user_name = 2 [
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_]*",
+    (required) = true
+  ];
 
   // Field mask that specifies which fields of the SPQR User resource should be updated.
   google.protobuf.FieldMask update_mask = 3;
@@ -130,7 +161,10 @@ message UpdateUserRequest {
   UserSettings settings = 6;
 
   // New user grants
-  repeated string grants = 7 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
+  repeated string grants = 7 [
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_-]*"
+  ];
 
   // Deletion Protection inhibits deletion of the user
   google.protobuf.BoolValue deletion_protection = 8;
@@ -147,11 +181,18 @@ message UpdateUserMetadata {
 message DeleteUserRequest {
   // ID of the SPQR cluster the user belongs to.
   // To get the cluster ID, use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Name of the user to delete.
   // To get the name of the user use a [UserService.List] request.
-  string user_name = 2 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+  string user_name = 2 [
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_]*",
+    (required) = true
+  ];
 }
 
 message DeleteUserMetadata {

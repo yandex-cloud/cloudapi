@@ -10,7 +10,6 @@ option java_package = "yandex.cloud.api.compute.v1";
 
 // Represents group of dedicated hosts
 message HostGroup {
-
   enum Status {
     STATUS_UNSPECIFIED = 0;
     CREATING = 1;

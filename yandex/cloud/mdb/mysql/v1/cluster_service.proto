@@ -331,9 +331,9 @@ message CreateClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "1-63"
-      pattern: "[a-z][-_0-9a-z]*"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
     },
-    (pattern) = "[-_0-9a-z]*",
+    (pattern) = "[-_./\\@0-9a-z]*",
     (size) = "<=64"
   ];
 
@@ -399,9 +399,9 @@ message UpdateClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "1-63"
-      pattern: "[a-z][-_0-9a-z]*"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
     },
-    (pattern) = "[-_0-9a-z]*",
+    (pattern) = "[-_./\\@0-9a-z]*",
     (size) = "<=64"
   ];
 
@@ -487,9 +487,9 @@ message RestoreClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "1-63"
-      pattern: "[a-z][-_0-9a-z]*"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
     },
-    (pattern) = "[-_0-9a-z]*",
+    (pattern) = "[-_./\\@0-9a-z]*",
     (size) = "<=64"
   ];
 
@@ -813,7 +813,7 @@ message AddClusterHostsRequest {
   ];
 
   // Configuration of the newly added hosts.
-  repeated HostSpec host_specs = 2 [(size) = ">0"];
+  repeated HostSpec host_specs = 2 [(size) = "1"];
 }
 
 message AddClusterHostsMetadata {
@@ -836,7 +836,7 @@ message DeleteClusterHostsRequest {
   // To get these names, make a [ClusterService.ListHosts] request.
   repeated string host_names = 2 [
     (length) = "<=253",
-    (size) = ">0"
+    (size) = "1"
   ];
 }
 
@@ -912,7 +912,7 @@ message UpdateClusterHostsRequest {
   ];
 
   // New configurations to apply to hosts.
-  repeated UpdateHostSpec update_host_specs = 2 [(size) = ">0"];
+  repeated UpdateHostSpec update_host_specs = 2 [(size) = "1"];
 }
 
 message UpdateClusterHostsMetadata {

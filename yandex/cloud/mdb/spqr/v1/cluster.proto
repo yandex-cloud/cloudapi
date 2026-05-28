@@ -143,7 +143,6 @@ message ClusterConfig {
 
   // Access policy to DB
   Access access = 4;
-
   google.protobuf.BoolValue sox_audit = 5;
 }
 

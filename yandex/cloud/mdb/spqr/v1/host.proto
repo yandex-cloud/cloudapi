@@ -10,10 +10,9 @@ option java_package = "yandex.cloud.api.mdb.spqr.v1";
 
 message Host {
   enum Type {
-    TYPE_UNSPECIFIED = 0;
+    reserved 1;
 
-    // accidentally missed a value
-    reserved 1; 
+    TYPE_UNSPECIFIED = 0;
 
     // A SPQR Router host.
     ROUTER = 2;
@@ -67,32 +66,31 @@ message Host {
     DEGRADED = 3;
   }
 
-    message CPUMetric {
-        int64 timestamp = 1;
-        double used = 2;
-    }
+  message CPUMetric {
+    int64 timestamp = 1;
+    double used = 2;
+  }
 
-    message MemoryMetric {
-        int64 timestamp = 1;
-        int64 used = 2;
-        int64 total = 3;
-    }
+  message MemoryMetric {
+    int64 timestamp = 1;
+    int64 used = 2;
+    int64 total = 3;
+  }
 
-    message DiskMetric {
-        int64 timestamp = 1;
-        int64 used = 2;
-        int64 total = 3;
-    }
+  message DiskMetric {
+    int64 timestamp = 1;
+    int64 used = 2;
+    int64 total = 3;
+  }
 
-    message SystemMetrics {
-        CPUMetric cpu = 1;
-        MemoryMetric memory = 2;
-        DiskMetric disk = 3;
-    }
+  message SystemMetrics {
+    CPUMetric cpu = 1;
+    MemoryMetric memory = 2;
+    DiskMetric disk = 3;
+  }
 
   // Name of the SPQR host. The host name is assigned by MDB at creation time, and cannot be changed.
   // 1-63 characters long.
-  //
   // The name is unique across all MDB hosts that exist on the platform, as it defines the FQDN of the host.
   string name = 1;
 
@@ -138,10 +136,9 @@ message Host {
 
 message Service {
   enum Type {
-    TYPE_UNSPECIFIED = 0;
+    reserved 1;
 
-    // accidentally missed a value
-    reserved 1; 
+    TYPE_UNSPECIFIED = 0;
 
     // The host is running a SPQR Router.
     ROUTER = 2;
@@ -192,10 +189,8 @@ message HostSpec {
   string subnet_id = 2 [(length) = "<=50"];
 
   // Whether the host should get a public IP address on creation.
-  //
   // After a host has been created, this setting cannot be changed. To remove an assigned public IP, or to assign
   // a public IP to a host without one, recreate the host with [assign_public_ip] set as needed.
-  //
   // Possible values:
   // * false - don't assign a public IP to the host.
   // * true - the host should have a public IP address.
@@ -206,7 +201,9 @@ message HostSpec {
 
   // Name of the shard that the host belongs to.
   // If empty, host doesn't belong to any shard
-  string shard_name = 5 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
-
+  string shard_name = 5 [
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_-]*"
+  ];
   MDBPostgreSQL mdb_postgresql = 6;
 }

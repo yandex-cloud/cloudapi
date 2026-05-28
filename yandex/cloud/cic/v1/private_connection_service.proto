@@ -114,6 +114,8 @@ service PrivateConnectionService {
     };
   };
 
+  // Get list of PrivateConnections by their IDs
+  rpc BatchGet(BatchGetPrivateConnectionsRequest) returns (BatchGetPrivateConnectionsResponse);
 }
 
 message GetPrivateConnectionRequest {

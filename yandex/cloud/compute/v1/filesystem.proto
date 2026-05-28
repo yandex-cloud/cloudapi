@@ -10,7 +10,6 @@ option java_package = "yandex.cloud.api.compute.v1";
 // A filesystem resource.
 // For details about the concept, see [documentation](/docs/compute/concepts/filesystem).
 message Filesystem {
-
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -47,12 +46,10 @@ message Filesystem {
   map<string, string> labels = 6;
 
   // ID of the filesystem type.
-  //
   // To get a list of available filesystem types, make a [yandex.cloud.compute.v1.DiskTypeService.List] request.
   string type_id = 7;
 
   // ID of the availability zone where the filesystem resides.
-  //
   // A filesystem can be attached only to instances residing in the same availability zone.
   string zone_id = 8;
 

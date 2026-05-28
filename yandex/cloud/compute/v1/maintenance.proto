@@ -7,8 +7,10 @@ option java_package = "yandex.cloud.api.compute.v1";
 
 enum MaintenancePolicy {
   MAINTENANCE_POLICY_UNSPECIFIED = 0;
+
   // Restart instance to move it to another host during maintenance
   RESTART = 1;
+
   // Use live migration to move instance to another host during maintenance
   MIGRATE = 2;
 }

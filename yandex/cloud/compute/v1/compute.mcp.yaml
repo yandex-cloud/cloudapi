@@ -171,6 +171,12 @@ services:
         disabled: true
       - method: UpdateAccessBindings
 
+  # yandex/cloud/priv/compute/v1/platform_service.proto
+  - name: PlatformService
+    tools:
+      - method: List
+        description: Lists available instance platforms.
+
   - name: ReservedInstancePoolService
     tools:
       - method: Get

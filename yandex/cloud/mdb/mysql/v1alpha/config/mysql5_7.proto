@@ -16,7 +16,7 @@ message MysqlConfig5_7 {
 
   // The maximum permitted number of simultaneous client connections.
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_max_connections).
-  google.protobuf.Int64Value max_connections = 2 [(value) = "10-10000"];
+  google.protobuf.Int64Value max_connections = 2 [(value) = "10-100000"];
 
   // Time that it takes to process a query before it is considered slow.
   // For details, see [MySQL documentation for the variable](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_long_query_time).

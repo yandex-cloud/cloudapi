@@ -533,6 +533,9 @@ message SetPasswordHashRequest {
 
   // Password hash to set.
   PasswordHash hash = 2;
+
+  // Whether the user must change their password on next login.
+  bool need_change = 3;
 }
 
 // Metadata for the [UserService.SetPasswordHash] operation.

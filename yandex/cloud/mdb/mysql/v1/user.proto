@@ -182,15 +182,12 @@ message UserSpec {
   // Name of the user.
   string name = 1 [
     (length) = "<=32",
-    (pattern) = "[a-zA-Z0-9_-]*",
+    (pattern) = "[a-zA-Z0-9_@.-]*",
     (required) = true
   ];
 
   // Password of the user.
-  string password = 2 [
-    (length) = "8-128",
-    (required) = true
-  ];
+  string password = 2 [(length) = "0-128"];
 
   // Set of permissions granted to the user to access specific databases.
   // One permission per database.

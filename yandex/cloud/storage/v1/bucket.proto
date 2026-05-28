@@ -788,6 +788,9 @@ message InventoryConfiguration {
 
     // The owner of the object.
     OBJECT_OWNER = 12;
+
+    // The S3 Intelligent-Tiering access tier of the object.
+    INTELLIGENT_TIERING_ACCESS_TIER = 13;
   }
 
   // The ID used to identify the inventory configuration.
