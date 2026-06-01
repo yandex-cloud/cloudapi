@@ -65,19 +65,19 @@ message RedisConfig {
   google.protobuf.Int64Value timeout = 2 [(value) = ">=0"];
 
   // Authentication password.
-  string password = 3 [(pattern) = "[a-zA-Z0-9@=+?*.,!&#$^<>_-]{8,128}"];
+  string password = 3;
 
   // Number of database buckets on a single redis-server process.
-  google.protobuf.Int64Value databases = 4 [(value) = ">0"];
+  google.protobuf.Int64Value databases = 4 [(value) = "1-1024"];
 
   // Threshold for logging slow requests to server in microseconds (log only slower than it).
-  google.protobuf.Int64Value slowlog_log_slower_than = 5 [(value) = ">=0"];
+  google.protobuf.Int64Value slowlog_log_slower_than = 5 [(value) = ">=10"];
 
   // Max slow requests number to log.
   google.protobuf.Int64Value slowlog_max_len = 6 [(value) = ">=0"];
 
   // String setting for pub\sub functionality.
-  string notify_keyspace_events = 7 [(pattern) = "[KEg$lshzxeAtm]{0,13}"];
+  string notify_keyspace_events = 7;
 
   // Redis connection output buffers limits for pubsub operations.
   ClientOutputBufferLimit client_output_buffer_limit_pubsub = 8;
@@ -89,10 +89,10 @@ message RedisConfig {
   google.protobuf.Int64Value maxmemory_percent = 10 [(value) = "1-75"];
 
   // Maximum time in milliseconds for Lua scripts, 0 - disabled mechanism
-  google.protobuf.Int64Value lua_time_limit = 11 [(value) = ">=0"];
+  google.protobuf.Int64Value lua_time_limit = 11 [(value) = "0-5000"];
 
   // Replication backlog size as a percentage of flavor maxmemory
-  google.protobuf.Int64Value repl_backlog_size_percent = 12 [(value) = ">0"];
+  google.protobuf.Int64Value repl_backlog_size_percent = 12 [(value) = "1-75"];
 
   // Controls whether all hash slots must be covered by nodes
   google.protobuf.BoolValue cluster_require_full_coverage = 13;
@@ -104,10 +104,10 @@ message RedisConfig {
   google.protobuf.BoolValue cluster_allow_pubsubshard_when_down = 15;
 
   // The time, in minutes, that must elapse in order for the key counter to be divided by two (or decremented if it has a value less <= 10)
-  google.protobuf.Int64Value lfu_decay_time = 16 [(value) = ">=0"];
+  google.protobuf.Int64Value lfu_decay_time = 16 [(value) = "0-100000"];
 
   // Determines how the frequency counter represents key hits.
-  google.protobuf.Int64Value lfu_log_factor = 17 [(value) = ">=0"];
+  google.protobuf.Int64Value lfu_log_factor = 17 [(value) = "0-1000"];
 
   // Allows to turn before switchover in RDSync
   google.protobuf.BoolValue turn_before_switchover = 18;
@@ -129,6 +129,9 @@ message RedisConfig {
 
   // Enable active (online) memory defragmentation
   google.protobuf.BoolValue activedefrag = 24;
+
+  // Enable/disable audit logs for Valkey
+  google.protobuf.BoolValue audit_log = 25;
 }
 
 message RedisConfigSet {

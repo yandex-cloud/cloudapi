@@ -400,10 +400,8 @@ message SetOwnPasswordRequest {
   PasswordSpec password_spec = 1 [(required) = true];
 
   // Current password for verification.
-  string old_password = 2 [
-    (length) = "<=128",
-    (required) = true
-  ];
+  // Optional for one time passwords
+  string old_password = 2 [(length) = "<=128"];
 }
 
 // Metadata for the [UserService.SetOwnPassword] operation.

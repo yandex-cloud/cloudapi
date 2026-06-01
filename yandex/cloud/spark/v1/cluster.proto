@@ -9,6 +9,70 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/spark/v1;spark";
 option java_package = "yandex.cloud.api.spark.v1";
 
+message DetailedHealthCheck {
+  enum Status {
+    // Check status is unknown.
+    STATUS_UNSPECIFIED = 0;
+
+    // Check succeeded.
+    SUCCESS = 1;
+
+    // Check failed.
+    FAIL = 2;
+  }
+
+  // Check slug.
+  string slug = 1;
+
+  // Check status.
+  Status status = 2;
+
+  // Additional check details.
+  map<string, string> details = 3;
+}
+
+message HealthDetail {
+  enum Status {
+    // Health status is unknown.
+    STATUS_UNSPECIFIED = 0;
+
+    // Cluster is alive and operates properly.
+    ALIVE = 1;
+
+    // Cluster is partially alive.
+    DEGRADED = 2;
+
+    // Cluster is inoperable.
+    DEAD = 3;
+  }
+
+  enum CauseType {
+    // Cause type is unknown.
+    CAUSE_TYPE_UNSPECIFIED = 0;
+
+    // Health issue is caused by user actions.
+    USER = 1;
+
+    // Health issue is caused by the service.
+    SERVICE = 2;
+
+    // Health issue is caused by infrastructure.
+    INFRA = 3;
+  }
+
+  // Health detail slug.
+  string slug = 1;
+
+  // Health detail status.
+  Status status = 2;
+
+  // Health detail cause type.
+  CauseType cause_type = 3;
+
+  // Health detail checks.
+  repeated DetailedHealthCheck checks = 4;
+}
+
 // Spark cluster.
 message Cluster {
   // Cluster Status Enumeration.

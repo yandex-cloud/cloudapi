@@ -141,7 +141,7 @@ message SetClusterExtensionsRequest {
     (length) = "<=50",
     (required) = true
   ];
-  repeated ExtensionSpec extension_specs = 2 [(size) = ">0"];
+  repeated ExtensionSpec extension_specs = 2;
 }
 
 message SetClusterExtensionsMetadata {

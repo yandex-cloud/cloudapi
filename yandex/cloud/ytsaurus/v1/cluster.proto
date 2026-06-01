@@ -5,6 +5,7 @@ package yandex.cloud.ytsaurus.v1;
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/validation.proto";
+import "yandex/cloud/ytsaurus/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ytsaurus/v1;ytsaurus";
 option java_package = "yandex.cloud.api.ytsaurus.v1";
@@ -113,6 +114,9 @@ message Cluster {
 
   // Endpoints of the cluster.
   Endpoints endpoints = 16;
+
+  // Maintenance window of the cluster.
+  MaintenanceWindow maintenance_window = 18;
 }
 
 message CidrBlocks {
@@ -169,6 +173,9 @@ message ComputeSpec {
 
     // Locations on a disk.
     repeated string locations = 3;
+
+    // Quotas for each location. Must be the same length as locations or empty. Zero value will disable quota for location.
+    repeated int64 location_quotas_gb = 4;
   }
 
   message ScalePolicy {
@@ -183,6 +190,16 @@ message ComputeSpec {
 
       // Maximum amount of exec nodes.
       int64 max_size = 2;
+
+      // Initial amount of exec nodes.
+      int64 initial_size = 3;
+      oneof strategy {
+        option (exactly_one) = true;
+
+
+        // Linear scaling strategy.
+        LinearScalingStrategy linear = 4;
+      }
     }
 
     oneof policy {
@@ -207,6 +224,20 @@ message ComputeSpec {
 
   // Name for exec pool.
   string name = 4;
+}
+
+message LinearScalingStrategy {
+  // Cooldown interval.
+  google.protobuf.Duration cooldown_interval = 1;
+
+  // Statistics interval.
+  google.protobuf.Duration statistics_interval = 2;
+
+  // Overload coefficient.
+  double overload_coefficient = 3;
+
+  // Underload coefficient.
+  double underload_coefficient = 4;
 }
 
 message HttpProxySpec {

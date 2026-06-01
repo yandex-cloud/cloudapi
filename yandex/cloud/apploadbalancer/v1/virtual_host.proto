@@ -50,6 +50,11 @@ message VirtualHost {
 
   // RateLimit is a rate limit configuration applied for a whole virtual host.
   RateLimit rate_limit = 7;
+
+  // VirtualHost's labels as `key:value` pairs.
+  map<string, string> labels = 8 [(yandex.cloud.size) = "<=16", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  // Description of the virtual host.
+  string description = 9 [(length) = "<=256"];
 }
 
 message RouteOptions {

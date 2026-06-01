@@ -7,7 +7,6 @@ option java_package = "yandex.cloud.api.mdb.opensearch.v1";
 
 // A preset of resources for hardware configuration of the OpenSearch hosts.
 message ResourcePreset {
-
   // ID of the resource preset.
   string id = 1;
 

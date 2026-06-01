@@ -495,7 +495,7 @@ message CreateClusterRequest {
   // Name of the ClickHouse cluster. The name must be unique within the folder.
   string name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
+    (pattern) = "[a-zA-Z_][a-zA-Z0-9_-]*",
     (required) = true
   ];
 
@@ -508,9 +508,9 @@ message CreateClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "<=63"
-      pattern: "[a-z][-_0-9a-z]*"
+      pattern: "[a-z][0-9a-z_-]*"
     },
-    (pattern) = "[-_0-9a-z]*",
+    (pattern) = "[0-9a-z_-]*",
     (size) = "<=64"
   ];
 
@@ -518,22 +518,19 @@ message CreateClusterRequest {
   Cluster.Environment environment = 5 [(required) = true];
 
   // Configuration and resources for hosts that should be created for the ClickHouse cluster.
-  ConfigSpec config_spec = 6 [(required) = true];
+  ConfigSpec config_spec = 6;
 
   // Descriptions of databases to be created in the ClickHouse cluster.
-  repeated DatabaseSpec database_specs = 7 [(size) = ">0"];
+  repeated DatabaseSpec database_specs = 7;
 
   // Descriptions of database users to be created in the ClickHouse cluster.
-  repeated UserSpec user_specs = 8 [(size) = ">0"];
+  repeated UserSpec user_specs = 8;
 
   // Individual configurations for hosts that should be created for the ClickHouse cluster.
   repeated HostSpec host_specs = 9 [(size) = ">0"];
 
   // ID of the network to create the cluster in.
-  string network_id = 10 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string network_id = 10 [(length) = "<=50"];
 
   // Name of the first shard in cluster. If not set, defaults to the value 'shard1'.
   string shard_name = 11 [
@@ -587,9 +584,9 @@ message UpdateClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "<=63"
-      pattern: "[a-z][-_0-9a-z]*"
+      pattern: "[a-z][0-9a-z_-]*"
     },
-    (pattern) = "[-_0-9a-z]*",
+    (pattern) = "[0-9a-z_-]*",
     (size) = "<=64"
   ];
 
@@ -745,8 +742,7 @@ message RestoreClusterRequest {
   // Name of the new ClickHouse cluster. The name must be unique within the folder.
   string name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
-    (required) = true
+    (pattern) = "[a-zA-Z0-9_-]*"
   ];
 
   // Description of the new ClickHouse cluster.
@@ -758,27 +754,24 @@ message RestoreClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "<=63"
-      pattern: "[a-z][-_0-9a-z]*"
+      pattern: "[a-z][0-9a-z_-]*"
     },
-    (pattern) = "[-_0-9a-z]*",
+    (pattern) = "[0-9a-z_-]*",
     (size) = "<=64"
   ];
 
   // Deployment environment of the new ClickHouse cluster.
-  Cluster.Environment environment = 5 [(required) = true];
+  Cluster.Environment environment = 5;
 
   // Configuration for the ClickHouse cluster to be created.
-  ConfigSpec config_spec = 6 [(required) = true];
+  ConfigSpec config_spec = 6;
 
   // Configurations for ClickHouse hosts that should be created for
   // the cluster that is being created from the backup.
-  repeated HostSpec host_specs = 7 [(size) = ">0"];
+  repeated HostSpec host_specs = 7;
 
   // ID of the network to create the ClickHouse cluster in.
-  string network_id = 8 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string network_id = 8 [(length) = "<=50"];
 
   // ID of the folder to create the ClickHouse cluster in.
   string folder_id = 9 [(length) = "<=50"];
@@ -824,11 +817,6 @@ message RestoreClusterMetadata {
 }
 
 message RescheduleMaintenanceRequest {
-  // ID of the ClickHouse cluster to reschedule the maintenance operation for.
-  string cluster_id = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
   enum RescheduleType {
     RESCHEDULE_TYPE_UNSPECIFIED = 0;
 
@@ -841,6 +829,12 @@ message RescheduleMaintenanceRequest {
     // Start the maintenance operation at the specific time.
     SPECIFIC_TIME = 3;
   }
+
+  // ID of the ClickHouse cluster to reschedule the maintenance operation for.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The type of reschedule request.
   RescheduleType reschedule_type = 2 [(required) = true];
@@ -869,6 +863,16 @@ message LogRecord {
 }
 
 message ListClusterLogsRequest {
+  enum ServiceType {
+    SERVICE_TYPE_UNSPECIFIED = 0;
+
+    // Logs of ClickHouse activity.
+    CLICKHOUSE = 1;
+
+    // Logs of ClickHouse Keeper activity.
+    CLICKHOUSE_KEEPER = 2;
+  }
+
   // ID of the ClickHouse cluster to request logs for.
   // To get the ClickHouse cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
@@ -882,15 +886,6 @@ message ListClusterLogsRequest {
 
   // Type of the service to request logs about.
   ServiceType service_type = 3 [(required) = true];
-  enum ServiceType {
-    SERVICE_TYPE_UNSPECIFIED = 0;
-
-    // Logs of ClickHouse activity.
-    CLICKHOUSE = 1;
-
-    // Logs of ClickHouse Keeper activity.
-    CLICKHOUSE_KEEPER = 2;
-  }
 
   // Start timestamp for the logs request, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
   google.protobuf.Timestamp from_time = 4;
@@ -932,15 +927,6 @@ message StreamLogRecord {
 }
 
 message StreamClusterLogsRequest {
-  // Required. ID of the ClickHouse cluster.
-  string cluster_id = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
-
-  // Columns from logs table to get in the response.
-  repeated string column_filter = 2;
-  ServiceType service_type = 3 [(required) = true];
   enum ServiceType {
     SERVICE_TYPE_UNSPECIFIED = 0;
 
@@ -950,6 +936,16 @@ message StreamClusterLogsRequest {
     // Logs of ClickHouse Keeper activity.
     CLICKHOUSE_KEEPER = 2;
   }
+
+  // Required. ID of the ClickHouse cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Columns from logs table to get in the response.
+  repeated string column_filter = 2;
+  ServiceType service_type = 3 [(required) = true];
 
   // Start timestamp for the logs request.
   google.protobuf.Timestamp from_time = 4;
@@ -1173,7 +1169,6 @@ message GetClusterShardRequest {
   // To get the name of a shard, use a [ClusterService.ListShards] request.
   string shard_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 }
@@ -1218,7 +1213,7 @@ message AddClusterShardRequest {
   // Name for the new shard.
   string shard_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
+    (pattern) = "[a-zA-Z0-9_][a-zA-Z0-9_-]*",
     (required) = true
   ];
 
@@ -1226,7 +1221,7 @@ message AddClusterShardRequest {
   ShardConfigSpec config_spec = 3;
 
   // Configurations for ClickHouse hosts that should be created with the shard.
-  repeated HostSpec host_specs = 4 [(size) = ">0"];
+  repeated HostSpec host_specs = 4;
 
   // Whether to copy schema to hosts of the shard to be created. The schema is copied from hosts of an existing shard.
   google.protobuf.BoolValue copy_schema = 5;
@@ -1284,7 +1279,6 @@ message UpdateClusterShardRequest {
   // To get the name of a shard, use a [ClusterService.ListShards] request.
   string shard_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 
@@ -1320,7 +1314,6 @@ message DeleteClusterShardRequest {
   // To get the name of a shard, use a [ClusterService.ListShards] request.
   string shard_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 }
@@ -1337,7 +1330,6 @@ message DeleteClusterShardsRequest {
   // To get the name of a shard, use a [ClusterService.ListShards] request.
   repeated string shard_names = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
     (size) = ">0"
   ];
 }
@@ -1370,7 +1362,6 @@ message GetClusterShardGroupRequest {
   // To get the name of a shard group, make a [ClusterService.ListShardGroups] request.
   string shard_group_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 }
@@ -1413,7 +1404,7 @@ message CreateClusterShardGroupRequest {
   // Name for the new shard group.
   string shard_group_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
+    (pattern) = "[a-zA-Z_][a-zA-Z0-9_-]*",
     (required) = true
   ];
 
@@ -1445,9 +1436,10 @@ message UpdateClusterShardGroupRequest {
   // To get the name, make a [ClusterService.ListShardGroups] request.
   string shard_group_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
+
+  // Field mask that specifies which attributes of the ClickHouse shard group should be updated.
   google.protobuf.FieldMask update_mask = 3;
 
   // Updated description of the shard group. 0-256 characters long.
@@ -1477,7 +1469,6 @@ message DeleteClusterShardGroupRequest {
   // To get the name, make a [ClusterService.ListShardGroups] request.
   string shard_group_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 }
@@ -1639,6 +1630,8 @@ message ConfigSpec {
   // Access policy for external services.
   // If you want a specific service to access the ClickHouse cluster, then set the necessary values in this policy.
   Access access = 5;
+
+  // Cloud storage configuration.
   CloudStorage cloud_storage = 6;
 
   // Whether database management through SQL commands is enabled.
@@ -1685,7 +1678,7 @@ message ShardSpec {
   // Name of the shard to be created.
   string name = 1 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
+    (pattern) = "[a-zA-Z0-9_][a-zA-Z0-9_-]*",
     (required) = true
   ];
 

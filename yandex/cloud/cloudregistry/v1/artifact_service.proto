@@ -83,6 +83,7 @@ service ArtifactService {
       post: "/cloud-registry/v1/registries/{registry_id}/artifacts:upsertFolder"
     };
   };
+
 }
 
 message GetArtifactRequest {
@@ -99,6 +100,10 @@ message DeleteArtifactRequest {
     (length) = "<=50",
     (required) = true
   ];
+
+  // Also removes artifact history.
+  // This allows rewriting artifacts in registries with enabled immutable artifact policy.
+  bool with_history = 2 [(required) = false];
 }
 
 message DeleteArtifactMetadata {

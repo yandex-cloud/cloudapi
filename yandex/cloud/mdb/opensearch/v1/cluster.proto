@@ -4,10 +4,10 @@ package yandex.cloud.mdb.opensearch.v1;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
-import "yandex/cloud/validation.proto";
-import "yandex/cloud/mdb/opensearch/v1/config/opensearch.proto";
 import "yandex/cloud/mdb/opensearch/v1/backup.proto";
+import "yandex/cloud/mdb/opensearch/v1/config/opensearch.proto";
 import "yandex/cloud/mdb/opensearch/v1/maintenance.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/opensearch/v1;opensearch";
 option java_package = "yandex.cloud.api.mdb.opensearch.v1";
@@ -155,10 +155,10 @@ message ClusterConfig {
   // Access policy for external services.
   Access access = 4;
 
-  // Snapshot management configuration.
+  // Snapshot management configuration
   SnapshotManagement snapshot_management = 5;
 
-  // Full version.
+  // Full version
   string full_version = 6;
 
   // Audit log settings.
@@ -210,7 +210,7 @@ message OpenSearch {
     repeated GroupRole roles = 7;
 
     // Disk size autoscaling settings
-    DiskSizeAutoscaling disk_size_autoscaling =  9;
+    DiskSizeAutoscaling disk_size_autoscaling = 9;
   }
 
   // Names of the cluster plugins.
@@ -218,9 +218,7 @@ message OpenSearch {
 
   // Host groups of the OpenSearch type.
   repeated NodeGroup node_groups = 2;
-
   oneof config {
-    // OpenSearch server configuration settings.
     config.OpenSearchConfigSet2 opensearch_config_set_2 = 3 [json_name = "opensearchConfigSet_2"];
   }
 
@@ -230,6 +228,8 @@ message OpenSearch {
 
 // The Dashboards host group type configuration.
 message Dashboards {
+  reserved 1;
+
   message NodeGroup {
     reserved 7 to 8;
 
@@ -252,7 +252,7 @@ message Dashboards {
     bool assign_public_ip = 6;
 
     // Disk size autoscaling settings
-    DiskSizeAutoscaling disk_size_autoscaling =  9;
+    DiskSizeAutoscaling disk_size_autoscaling = 9;
   }
 
   // Host groups of the Dashboards type.
@@ -262,13 +262,13 @@ message Dashboards {
 // A list of computational resources allocated to a host.
 message Resources {
   // ID of the preset for computational resources allocated to a host.
-  string resource_preset_id = 1;
+  string resource_preset_id = 1 [(required) = true];
 
   // Volume of the storage used by the host, in bytes.
-  int64 disk_size = 2;
+  int64 disk_size = 2 [(value) = ">0"];
 
   // Type of the storage used by the host: `network-hdd`, `network-ssd` or `local-ssd`.
-  string disk_type_id = 3;
+  string disk_type_id = 3 [(required) = true];
 }
 
 // An OpenSearch cluster host resource.
@@ -365,7 +365,7 @@ message Host {
   // Type of the host. If the field has default value, it is not returned in the response.
   Type type = 5;
 
-  // Aggregated health of the host. If the field has default value, it is not returned in the response.
+  // Aggregated host health.
   Health health = 6;
 
   // ID of the subnet that the host belongs to.
@@ -374,13 +374,13 @@ message Host {
   // Determines whether a public IP is assigned to the host.
   bool assign_public_ip = 9;
 
-  // Resources used by the host.
+  // System metrics.
   SystemMetrics system = 10;
 
-  // Name of the host group that the host belongs to.
+  // Which node group the host belongs to.
   string node_group = 11;
 
-  // Roles of the host.
+  // Roles of the nodes in the group.
   repeated OpenSearch.GroupRole roles = 12;
 }
 
@@ -420,13 +420,20 @@ message AuditLog {
   google.protobuf.BoolValue log_backup_operations = 8;
 }
 
+// Disk size autoscaling settings.
 message DiskSizeAutoscaling {
-    // Amount of used storage for automatic disk scaling in the maintenance window, 0 means disabled, in percent.
-    int64 planned_usage_threshold = 1 [(required) = false, (value) = "0-100"];
+  // Amount of used storage for automatic disk scaling in the maintenance window, 0 means disabled, in percent.
+  int64 planned_usage_threshold = 1 [
+    (required) = false,
+    (value) = "0-100"
+  ];
 
-    // Amount of used storage for immediately  automatic disk scaling, 0 means disabled, in percent.
-    int64 emergency_usage_threshold = 2 [(required) = false, (value) = "0-100"];
+  // Amount of used storage for immediately  automatic disk scaling, 0 means disabled, in percent.
+  int64 emergency_usage_threshold = 2 [
+    (required) = false,
+    (value) = "0-100"
+  ];
 
-    // Limit on how large the storage for database instances can automatically grow, in bytes.
-    int64 disk_size_limit = 3;
+  // Limit on how large the storage for database instances can automatically grow, in bytes.
+  int64 disk_size_limit = 3;
 }

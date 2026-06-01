@@ -21,7 +21,7 @@ message DatabaseSpec {
   // Name of the MongoDB database. 1-63 characters long.
   string name = 1 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]{1,63}",
+    (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 }

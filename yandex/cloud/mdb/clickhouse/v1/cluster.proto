@@ -175,6 +175,8 @@ message ClusterConfig {
 
   // Access policy for external services.
   Access access = 5;
+
+  // Cloud storage configuration.
   CloudStorage cloud_storage = 6;
 
   // Whether database management through SQL commands is enabled.
@@ -208,6 +210,7 @@ message Shard {
 }
 
 message Shards {
+  // List of shards.
   repeated Shard shards = 1;
 }
 
@@ -310,6 +313,8 @@ message Host {
 
   // Flag showing public IP assignment status to this host.
   bool assign_public_ip = 9;
+
+  // Name of the shard that the host belongs to.
   string shard_name = 10;
 }
 
@@ -342,7 +347,7 @@ message Service {
     // The service is read-only.
     READONLY = 3;
 
-    // The service is restoring from backup or syncronzing from other replica.
+    // The service is restoring from backup or synchronizing from other replica.
     RESTORING = 4;
   }
 
@@ -394,9 +399,22 @@ message Access {
 message CloudStorage {
   // Whether to use Object Storage for storing ClickHouse data.
   bool enabled = 1;
+
+  // The share of available free space on local storage. If the space becomes less, the data will start transferring
+  // to Object Storage. For transfer, chunks are sorted by size from larger to smaller (descending) and chunks whose
+  // total size is sufficient to meet the move_factor condition are selected, if the total size of all chunks is
+  // insufficient, all chunks will be moved.
+  //
+  // Default value: **0.01**.
   google.protobuf.DoubleValue move_factor = 2 [(value) = "0-1"];
+
+  // Enables or disables caching Object Storage data on file system.
   google.protobuf.BoolValue data_cache_enabled = 3;
+
+  // Limits the maximum size of Object Storage data cache.
   google.protobuf.Int64Value data_cache_max_size = 4;
+
+  // Disables or enables merging date parts storing in Object Storage.
   google.protobuf.BoolValue prefer_not_to_merge = 5;
 }
 

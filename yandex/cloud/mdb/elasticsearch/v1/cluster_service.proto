@@ -21,182 +21,200 @@ option java_package = "yandex.cloud.api.mdb.elasticsearch.v1";
 // A set of methods for managing Elasticsearch clusters.
 service ClusterService {
   // Returns the specified Elasticsearch cluster.
-  //
   // To get the list of available Elasticsearch clusters, make a [List] request.
   rpc Get(GetClusterRequest) returns (Cluster) {
-    option (google.api.http) = {get: "/managed-elasticsearch/v1/clusters/{cluster_id}"};
-  }
+    option (google.api.http) = {
+      get: "/managed-elasticsearch/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Retrieves the list of Elasticsearch clusters that belong to the specified folder.
   rpc List(ListClustersRequest) returns (ListClustersResponse) {
-    option (google.api.http) = {get: "/managed-elasticsearch/v1/clusters"};
-  }
+    option (google.api.http) = {
+      get: "/managed-elasticsearch/v1/clusters"
+    };
+  };
 
   // Creates a new Elasticsearch cluster in the specified folder.
   rpc Create(CreateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-elasticsearch/v1/clusters"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-elasticsearch/v1/clusters"
+    };
+  };
 
   // Updates the specified Elasticsearch cluster.
   rpc Update(UpdateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/managed-elasticsearch/v1/clusters/{cluster_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-elasticsearch/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Deletes the specified Elasticsearch cluster.
   rpc Delete(DeleteClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/managed-elasticsearch/v1/clusters/{cluster_id}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteClusterMetadata"
       response: "google.protobuf.Empty"
     };
-  }
-
-  // Moves the specified Elasticsearch cluster to the specified folder.
-  rpc Move(MoveClusterRequest) returns (operation.Operation) {
     option (google.api.http) = {
-      post: "/managed-elasticsearch/v1/clusters/{cluster_id}:move"
-      body: "*"
+      delete: "/managed-elasticsearch/v1/clusters/{cluster_id}"
     };
-    option (yandex.cloud.api.operation) = {
-      metadata: "MoveClusterMetadata"
-      response: "Cluster"
-    };
-  }
-
-  // Starts the specified Elasticsearch cluster.
-  rpc Start(StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-elasticsearch/v1/clusters/{cluster_id}:start"};
-    option (yandex.cloud.api.operation) = {
-      metadata: "StartClusterMetadata"
-      response: "Cluster"
-    };
-  }
-
-  // Stops the specified Elasticsearch cluster.
-  rpc Stop(StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-elasticsearch/v1/clusters/{cluster_id}:stop"};
-    option (yandex.cloud.api.operation) = {
-      metadata: "StopClusterMetadata"
-      response: "Cluster"
-    };
-  }
+  };
 
   // Create a backup for the specified ElasticSearch cluster.
   rpc Backup(BackupClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-elasticsearch/v1/clusters/{cluster_id}:backup"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "BackupClusterMetadata"
       response: "Cluster"
     };
-  }
-
-  // Returns the list of available backups for the specified Elasticsearch cluster.
-  rpc ListBackups(ListClusterBackupsRequest) returns (ListClusterBackupsResponse) {
-    option (google.api.http) = {get: "/managed-elasticsearch/v1/clusters/{cluster_id}/backups"};
-  }
+    option (google.api.http) = {
+      post: "/managed-elasticsearch/v1/clusters/{cluster_id}:backup"
+    };
+  };
 
   // Creates a new ElasticSearch cluster from the specified backup.
   rpc Restore(RestoreClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-elasticsearch/v1/clusters:restore"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "RestoreClusterMetadata"
       response: "Cluster"
     };
-  }
-
-  // Retrieves logs for the specified Elasticsearch cluster.
-  //
-  // For more information about logs, see the [Logs](/docs/managed-elasticsearch/operations/cluster-logs) section in the documentation.
-  rpc ListLogs(ListClusterLogsRequest) returns (ListClusterLogsResponse) {
-    option (google.api.http) = {get: "/managed-elasticsearch/v1/clusters/{cluster_id}:logs"};
-  }
-
-  // Same as [ListLogs] but using server-side streaming. Also supports `tail -f` semantics.
-  rpc StreamLogs(StreamClusterLogsRequest) returns (stream StreamLogRecord) {
-    option (google.api.http) = {get: "/managed-elasticsearch/v1/clusters/{cluster_id}:stream_logs"};
-  }
-
-  // Retrieves the list of operations for the specified Elasticsearch cluster.
-  rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
-    option (google.api.http) = {get: "/managed-elasticsearch/v1/clusters/{cluster_id}/operations"};
-  }
-
-  // Retrieves a list of hosts for the specified Elasticsearch cluster.
-  rpc ListHosts(ListClusterHostsRequest) returns (ListClusterHostsResponse) {
-    option (google.api.http) = {get: "/managed-elasticsearch/v1/clusters/{cluster_id}/hosts"};
-  }
-
-  // Adds new hosts to the specified Elasticsearch cluster.
-  rpc AddHosts(AddClusterHostsRequest) returns (operation.Operation) {
     option (google.api.http) = {
-      post: "/managed-elasticsearch/v1/clusters/{cluster_id}/hosts:batchCreate"
       body: "*"
+      post: "/managed-elasticsearch/v1/clusters:restore"
     };
-    option (yandex.cloud.api.operation) = {
-      metadata: "AddClusterHostsMetadata"
-      response: "google.protobuf.Empty"
-    };
-  }
-
-  // Deletes specified hosts from the specified Elasticsearch cluster.
-  rpc DeleteHosts(DeleteClusterHostsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-elasticsearch/v1/clusters/{cluster_id}/hosts:batchDelete"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
-      metadata: "DeleteClusterHostsMetadata"
-      response: "google.protobuf.Empty"
-    };
-  }
+  };
 
   // Reschedule planned maintenance operation.
   rpc RescheduleMaintenance(RescheduleMaintenanceRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-elasticsearch/v1/clusters/{cluster_id}:rescheduleMaintenance"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "RescheduleMaintenanceMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-elasticsearch/v1/clusters/{cluster_id}:rescheduleMaintenance"
+    };
+  };
+
+  // Returns the list of available backups for the specified Elasticsearch cluster.
+  rpc ListBackups(ListClusterBackupsRequest) returns (ListClusterBackupsResponse) {
+    option (google.api.http) = {
+      get: "/managed-elasticsearch/v1/clusters/{cluster_id}/backups"
+    };
+  };
+
+  // Moves the specified Elasticsearch cluster to the specified folder.
+  rpc Move(MoveClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "MoveClusterMetadata"
+      response: "Cluster"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-elasticsearch/v1/clusters/{cluster_id}:move"
+    };
+  };
+
+  // Starts the specified Elasticsearch cluster.
+  rpc Start(StartClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "StartClusterMetadata"
+      response: "Cluster"
+    };
+    option (google.api.http) = {
+      post: "/managed-elasticsearch/v1/clusters/{cluster_id}:start"
+    };
+  };
+
+  // Stops the specified Elasticsearch cluster.
+  rpc Stop(StopClusterRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "StopClusterMetadata"
+      response: "Cluster"
+    };
+    option (google.api.http) = {
+      post: "/managed-elasticsearch/v1/clusters/{cluster_id}:stop"
+    };
+  };
+
+  // Retrieves logs for the specified Elasticsearch cluster.
+  // For more information about logs, see the [Logs](/docs/managed-elasticsearch/operations/cluster-logs) section in the documentation.
+  rpc ListLogs(ListClusterLogsRequest) returns (ListClusterLogsResponse) {
+    option (google.api.http) = {
+      get: "/managed-elasticsearch/v1/clusters/{cluster_id}:logs"
+    };
+  };
+
+  // Same as [ListLogs] but using server-side streaming. Also supports `tail -f` semantics.
+  rpc StreamLogs(StreamClusterLogsRequest) returns (stream StreamLogRecord) {
+    option (google.api.http) = {
+      get: "/managed-elasticsearch/v1/clusters/{cluster_id}:stream_logs"
+    };
+  };
+
+  // Retrieves the list of operations for the specified Elasticsearch cluster.
+  rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
+    option (google.api.http) = {
+      get: "/managed-elasticsearch/v1/clusters/{cluster_id}/operations"
+    };
+  };
+
+  // Retrieves a list of hosts for the specified Elasticsearch cluster.
+  rpc ListHosts(ListClusterHostsRequest) returns (ListClusterHostsResponse) {
+    option (google.api.http) = {
+      get: "/managed-elasticsearch/v1/clusters/{cluster_id}/hosts"
+    };
+  };
+
+  // Adds new hosts to the specified Elasticsearch cluster.
+  rpc AddHosts(AddClusterHostsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "AddClusterHostsMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-elasticsearch/v1/clusters/{cluster_id}/hosts:batchCreate"
+    };
+  };
+
+  // Deletes specified hosts from the specified Elasticsearch cluster.
+  rpc DeleteHosts(DeleteClusterHostsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeleteClusterHostsMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-elasticsearch/v1/clusters/{cluster_id}/hosts:batchDelete"
+    };
+  };
 }
 
 message GetClusterRequest {
   // ID of the Elasticsearch cluster to return.
-  //
   // To get the cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
 message ListClustersRequest {
   // ID of the folder to list Elasticsearch clusters in.
-  //
   // To get the folder ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return.
@@ -208,12 +226,10 @@ message ListClustersRequest {
   string page_token = 3 [(length) = "<=100"];
 
   // A filter expression that filters resources listed in the response.
-  //
   // The expression must specify:
   // 1. The field name to filter by. Currently you can only use filtering with the [Cluster.name] field.
   // 2. An `=` operator.
   // 3. The value in double quotes (`"`). Must be 1-63 characters long and match the regular expression `[a-zA-Z0-9_-]+`.
-  //
   // Example of a filter: `name NOT IN 'test,beta'`.
   string filter = 4 [(length) = "<=1000"];
 }
@@ -223,40 +239,41 @@ message ListClustersResponse {
   repeated Cluster clusters = 1;
 
   // Token that allows you to get the next page of results for list requests.
-  //
   // If the number of results is larger than [ListClustersRequest.page_size], use `next_page_token` as the value
   // for the [ListClustersRequest.page_token] parameter in the next list request.
-  //Each subsequent list request will have its own `next_page_token` to continue paging through the results.
+  // Each subsequent list request will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
 }
 
 message CreateClusterRequest {
   reserved 7;
+
   // ID of the folder to create the Elasticsearch cluster in.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Name of the Elasticsearch cluster. The name must be unique within the folder.
   string name = 2 [
-    (required) = true,
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*"
+    (pattern) = "[a-zA-Z0-9_-]*",
+    (required) = true
   ];
 
   // Description of the Elasticsearch cluster.
   string description = 3 [(length) = "<=256"];
 
   // Custom labels for the Elasticsearch cluster as `key:value` pairs.
-  //
   // For example, "project": "mvp" or "source": "dictionary".
   map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // Deployment environment of the Elasticsearch cluster.
@@ -273,8 +290,8 @@ message CreateClusterRequest {
 
   // ID of the network to create the Elasticsearch cluster in.
   string network_id = 10 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // User security groups
@@ -288,7 +305,6 @@ message CreateClusterRequest {
 
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 14;
-
   repeated ExtensionSpec extension_specs = 15; // optional
 }
 
@@ -299,34 +315,31 @@ message CreateClusterMetadata {
 
 message UpdateClusterRequest {
   // ID of the Elasticsearch cluster to update.
-  //
   // To get the Elasticsearch cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
-
   google.protobuf.FieldMask update_mask = 2;
 
   // New description of the Elasticsearch cluster.
   string description = 3 [(length) = "<=256"];
 
   // Custom labels for the Elasticsearch cluster as `key:value` pairs.
-  //
   // For example, "project": "mvp" or "source": "dictionary".
-  //
   // The new set of labels will completely replace the old ones.
   // To add a label, request the current set with the [ClusterService.Get] method, then send an [ClusterService.Update] request with the new label added to the set.
   map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
     (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // New configuration and resources for hosts in the Elasticsearch cluster.
-  //
   // Use [update_mask] to prevent reverting all cluster settings that are not listed in `config_spec` to their default values.
   ConfigSpecUpdate config_spec = 5;
 
@@ -359,11 +372,10 @@ message UpdateClusterMetadata {
 
 message DeleteClusterRequest {
   // ID of the Elasticsearch cluster to delete.
-  //
   // To get the Elasticsearch cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -374,15 +386,13 @@ message DeleteClusterMetadata {
 
 message ListClusterLogsRequest {
   // ID of the Elasticsearch cluster to request logs for.
-  //
   // To get the Elasticsearch cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Columns from the logs table to request.
-  //
   // If no columns are specified, full log records are returned.
   repeated string column_filter = 2;
 
@@ -393,33 +403,27 @@ message ListClusterLogsRequest {
   google.protobuf.Timestamp to_time = 4;
 
   // The maximum number of results per page to return.
-  //
   // If the number of available results is larger than `page_size`, the service returns a [ListClusterLogsResponse.next_page_token] that can be used to get the next page of results in subsequent list requests.
   int64 page_size = 5 [(value) = "<=1000"];
 
   // Page token.
-  //
   // To get the next page of results, set `page_token` to the [ListClusterLogsResponse.next_page_token] returned by the previous list request.
   string page_token = 6 [(length) = "<=100"];
 
   // The flag that defines behavior of providing the next page token.
-  //
   // If this flag is set to `true`, this API method will always return [ListClusterLogsResponse.next_page_token], even if current page is empty.
   bool always_next_page_token = 7;
 
   // A filter expression that filters resources listed in the response.
-  //
   // The expression must specify:
   // 1. The field name to filter by. Currently filtering can be applied to the `hostname` field.
   // 2. An `=` operator.
   // 3. The value in double quotes (`"`). Must be 1-63 characters long and match the regular expression `[a-z0-9.-]{1,61}`.
-  //
   // Example of a filter: `message.hostname='node1.db.cloud.yandex.net'`
   string filter = 8 [(length) = "<=1000"];
 
   // Type of the service to request logs about.
   ServiceType service_type = 9;
-
   enum ServiceType {
     SERVICE_TYPE_UNSPECIFIED = 0;
     ELASTICSEARCH = 1;
@@ -441,10 +445,8 @@ message ListClusterLogsResponse {
   repeated LogRecord logs = 1;
 
   // Token that allows you to get the next page of results for list requests.
-  //
   // If the number of results is larger than [ListClusterLogsRequest.page_size], use `next_page_token` as the value for the [ListClusterLogsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own `next_page_token` to continue paging through the results.
-  //
   // This value is interchangeable with [StreamLogRecord.next_record_token] from StreamLogs method.
   string next_page_token = 2;
 }
@@ -454,24 +456,20 @@ message StreamLogRecord {
   LogRecord record = 1;
 
   // This token allows you to continue streaming logs starting from the exact same record.
-  //
   // To continue streaming, specify value of `next_record_token` as value for [StreamClusterLogsRequest.record_token] parameter in the next StreamLogs request.
-  //
   // This value is interchangeable with [ListClusterLogsResponse.next_page_token] from ListLogs method.
   string next_record_token = 2;
 }
 
 message StreamClusterLogsRequest {
   // ID of the Elasticsearch cluster.
-  //
   // To get the Elasticsearch cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Columns from logs table to get in the response.
-  //
   // If no columns are specified, full log records are returned.
   repeated string column_filter = 2;
 
@@ -479,29 +477,24 @@ message StreamClusterLogsRequest {
   google.protobuf.Timestamp from_time = 3;
 
   // End timestamp for the logs request.
-  //
   // If this field is not set, all existing logs will be sent and then the new ones asthey appear.
   // In essence it has `tail -f` semantics.
   google.protobuf.Timestamp to_time = 4;
 
   // Record token.
-  //
   // Set `record_token` to the [StreamLogRecord.next_record_token] returned by a previous [ClusterService.StreamLogs] request to start streaming from next log record.
   string record_token = 5 [(length) = "<=100"];
 
   // A filter expression that filters resources listed in the response.
-  //
   // The expression must specify:
   // 1. The field name to filter by. Currently filtering can be applied to the `hostname` field.
   // 2. An `=` operator.
   // 3. The value in double quotes (`"`). Must be 3-63 characters long and match the regular expression `[a-z][-a-z0-9]{1,61}[a-z0-9]`.
-  //
   // Example of a filter: `message.hostname='node1.db.cloud.yandex.net'`
   string filter = 6 [(length) = "<=1000"];
 
   // Type of the service to request logs about.
   ServiceType service_type = 7;
-
   enum ServiceType {
     SERVICE_TYPE_UNSPECIFIED = 0;
     ELASTICSEARCH = 1;
@@ -511,20 +504,17 @@ message StreamClusterLogsRequest {
 
 message ListClusterOperationsRequest {
   // ID of the Elasticsearch cluster to list operations for.
-  //
   // To get the Elasticsearch cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return.
-  //
   // If the number of available results is larger than `page_size`, the service returns a [ListClusterOperationsResponse.next_page_token] that can be used to get the next page of results in subsequent list requests.
   int64 page_size = 2 [(value) = "<=1000"];
 
   // Page token.
-  //
   // To get the next page of results, set `page_token` to the [ListClusterOperationsResponse.next_page_token] returned by the previous list request.
   string page_token = 3 [(length) = "<=100"];
 }
@@ -534,7 +524,6 @@ message ListClusterOperationsResponse {
   repeated operation.Operation operations = 1;
 
   // Token that allows you to get the next page of results for list requests.
-  //
   // If the number of results is larger than [ListClusterOperationsRequest.page_size], use the `next_page_token` as the value for the [ListClusterOperationsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
@@ -542,20 +531,17 @@ message ListClusterOperationsResponse {
 
 message ListClusterHostsRequest {
   // ID of the Elasticsearch cluster.
-  //
   // To get the Elasticsearch cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return.
-  //
   // If the number of available results is larger than `page_size`, the service returns a [ListClusterHostsResponse.next_page_token] that can be used to get the next page of results in subsequent list requests.
   int64 page_size = 2 [(value) = "<=1000"];
 
   // Page token.
-  //
   // To get the next page of results, set `page_token` to the [ListClusterHostsResponse.next_page_token] returned by the previous list request.
   string page_token = 3 [(length) = "<=100"];
 }
@@ -565,7 +551,6 @@ message ListClusterHostsResponse {
   repeated Host hosts = 1;
 
   // Token that allows you to get the next page of results for list requests.
-  //
   // If the number of results is larger than [ListClusterHostsRequest.page_size], use the `next_page_token` as the value for the [ListClusterHostsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
@@ -573,17 +558,16 @@ message ListClusterHostsResponse {
 
 message MoveClusterRequest {
   // ID of the Elasticsearch cluster to move.
-  //
   // To get the Elasticsearch cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // ID of the destination folder.
   string destination_folder_id = 2 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -600,11 +584,10 @@ message MoveClusterMetadata {
 
 message StartClusterRequest {
   // ID of the Elasticsearch cluster to start.
-  //
   // To get the Elasticsearch cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -615,11 +598,10 @@ message StartClusterMetadata {
 
 message StopClusterRequest {
   // ID of the Elasticsearch cluster to stop.
-  //
   // To get the Elasticsearch cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -636,7 +618,6 @@ message HostSpec {
   string subnet_id = 2 [(length) = "<=50"];
 
   // The flag that defines whether a public IP address is assigned to the host.
-  //
   // If the value is `true`, then this host is available on the Internet via it's public IP address.
   bool assign_public_ip = 3;
 
@@ -656,6 +637,7 @@ message ElasticsearchSpec {
     oneof config {
       config.ElasticsearchConfig7 elasticsearch_config_7 = 1 [json_name = "elasticsearchConfig_7"];
     }
+
     // Resources allocated to Elasticsearch data nodes.
     Resources resources = 2;
   }
@@ -703,13 +685,123 @@ message ConfigSpecUpdate {
   string admin_password = 4;
 }
 
+message BackupClusterRequest {
+  // Required. ID of the ElasticSearch cluster to back up.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message BackupClusterMetadata {
+  // ID of the ElasticSearch cluster.
+  string cluster_id = 1;
+}
+
+message RestoreClusterRequest {
+  reserved 7 to 8;
+
+  // Required. ID of the backup to restore from.
+  string backup_id = 1 [(required) = true];
+
+  // Name of the ElasticSearch cluster. The name must be unique within the folder.
+  string name = 2 [
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_-]*",
+    (required) = true
+  ];
+
+  // Description of the ElasticSearch cluster.
+  string description = 3 [(length) = "<=256"];
+
+  // Custom labels for the ElasticSearch cluster as `` key:value `` pairs. Maximum 64 per resource.
+  // For example, "project": "mvp" or "source": "dictionary".
+  map<string, string> labels = 4 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+
+  // Deployment environment of the ElasticSearch cluster.
+  Cluster.Environment environment = 5;
+
+  // Configuration and resources for hosts that should be created for the ElasticSearch cluster.
+  ConfigSpec config_spec = 6 [(required) = true];
+
+  // Required. Configuration of ElasticSearch hosts.
+  repeated HostSpec host_specs = 9 [(size) = ">0"];
+
+  // ID of the network to create the cluster in.
+  string network_id = 10 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // User security groups
+  repeated string security_group_ids = 11;
+
+  // ID of the service account used for access to Object Storage.
+  string service_account_id = 12;
+
+  // Deletion Protection inhibits deletion of the cluster
+  bool deletion_protection = 13;
+
+  // ID of the folder to create the ElasticSearch cluster in.
+  string folder_id = 14 [
+    (length) = "<=50",
+    (required) = true
+  ];
+  repeated ExtensionSpec extension_specs = 15; // optional
+}
+
+message RestoreClusterMetadata {
+  // Required. ID of the new ElasticSearch cluster.
+  string cluster_id = 1;
+
+  // Required. ID of the backup used for recovery.
+  string backup_id = 2;
+}
+
+message RescheduleMaintenanceRequest {
+  // Required. ID of the Elasticsearch cluster to maintenance reschedule.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+  enum RescheduleType {
+    RESCHEDULE_TYPE_UNSPECIFIED = 0;
+    IMMEDIATE = 1;
+    NEXT_AVAILABLE_WINDOW = 2;
+    SPECIFIC_TIME = 3;
+  }
+
+  // Required. The type of reschedule request.
+  RescheduleType reschedule_type = 2 [(required) = true];
+
+  // The time for SPECIFIC_TIME reschedule. Limited by two weeks since first time scheduled.
+  google.protobuf.Timestamp delayed_until = 3;
+}
+
+message RescheduleMaintenanceMetadata {
+  reserved 2 to 3;
+
+  // Required. ID of the Elasticsearch cluster.
+  string cluster_id = 1;
+
+  // Required. New time of the planned maintenance. Can be in the past for rescheduled to "IMMEDIATE".
+  google.protobuf.Timestamp delayed_until = 4;
+}
+
 message AddClusterHostsRequest {
   // ID of the Elasticsearch cluster.
-  //
   // To get the Elasticsearch cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // One or more configurations of hosts to be added to the Elasticsearch cluster.
@@ -726,17 +818,16 @@ message AddClusterHostsMetadata {
 
 message DeleteClusterHostsRequest {
   // ID of the Elasticsearch cluster.
-  //
   // To get the Elasticsearch cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Names of the hosts to delete.
   repeated string host_names = 2 [
-    (size) = ">0",
-    (length) = "<=253"
+    (length) = "<=253",
+    (size) = ">0"
   ];
 }
 
@@ -748,119 +839,11 @@ message DeleteClusterHostsMetadata {
   repeated string host_names = 2;
 }
 
-message RescheduleMaintenanceRequest {
-  // Required. ID of the Elasticsearch cluster to maintenance reschedule.
-  string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
-
-  enum RescheduleType {
-    RESCHEDULE_TYPE_UNSPECIFIED = 0;
-    IMMEDIATE = 1;
-    NEXT_AVAILABLE_WINDOW = 2;
-    SPECIFIC_TIME = 3;
-  }
-  // Required. The type of reschedule request.
-  RescheduleType reschedule_type = 2 [(required) = true];
-
-  // The time for SPECIFIC_TIME reschedule. Limited by two weeks since first time scheduled.
-  google.protobuf.Timestamp delayed_until = 3;
-}
-
-message RescheduleMaintenanceMetadata {
-  reserved 2 to 3;
-  // Required. ID of the Elasticsearch cluster.
-  string cluster_id = 1;
-
-  // Required. New time of the planned maintenance. Can be in the past for rescheduled to "IMMEDIATE".
-  google.protobuf.Timestamp delayed_until = 4;
-}
-
-message RestoreClusterRequest {
-  reserved 7 to 8;
-  // Required. ID of the backup to restore from.
-  string backup_id = 1 [(required) = true];
-
-  // Name of the ElasticSearch cluster. The name must be unique within the folder.
-  string name = 2 [
-    (required) = true,
-    (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*"
-  ];
-
-  // Description of the ElasticSearch cluster.
-  string description = 3 [(length) = "<=256"];
-
-  // Custom labels for the ElasticSearch cluster as `` key:value `` pairs. Maximum 64 per resource.
-  // For example, "project": "mvp" or "source": "dictionary".
-  map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
-    (length) = "<=63",
-    (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
-  ];
-
-  // Deployment environment of the ElasticSearch cluster.
-  Cluster.Environment environment = 5;
-
-  // Configuration and resources for hosts that should be created for the ElasticSearch cluster.
-  ConfigSpec config_spec = 6 [(required) = true];
-
-  // Required. Configuration of ElasticSearch hosts.
-  repeated HostSpec host_specs = 9 [(size) = ">0"];
-
-  // ID of the network to create the cluster in.
-  string network_id = 10 [
-    (required) = true,
-    (length) = "<=50"
-  ];
-
-  // User security groups
-  repeated string security_group_ids = 11;
-
-  // ID of the service account used for access to Object Storage.
-  string service_account_id = 12;
-
-  // Deletion Protection inhibits deletion of the cluster
-  bool deletion_protection = 13;
-
-  // ID of the folder to create the ElasticSearch cluster in.
-  string folder_id = 14 [
-    (required) = true,
-    (length) = "<=50"
-  ];
-
-  repeated ExtensionSpec extension_specs = 15; // optional
-}
-
-message RestoreClusterMetadata {
-  // Required. ID of the new ElasticSearch cluster.
-  string cluster_id = 1;
-
-  // Required. ID of the backup used for recovery.
-  string backup_id = 2;
-}
-
-message BackupClusterRequest {
-  // Required. ID of the ElasticSearch cluster to back up.
-  string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
-}
-
-message BackupClusterMetadata {
-  // ID of the ElasticSearch cluster.
-  string cluster_id = 1;
-}
-
 message ListClusterBackupsRequest {
   // Required. ID of the Elasticsearch cluster.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page that should be returned. If the number of available

@@ -129,7 +129,7 @@ message PostgresConnection {
 
 // Settings specific to the PostgreSQL source endpoint.
 message PostgresSource {
-  reserved 7, 10 to 12;
+  reserved 7, 11 to 12;
 
   // Database connection settings
   PostgresConnection connection = 1;
@@ -164,6 +164,9 @@ message PostgresSource {
   // will be created (__consumer_keeper, __data_transfer_mole_finder).
   // Empty `service_schema` implies schema `public`
   string service_schema = 9;
+
+  // Will collapse pg_inherit table into one big table in replication process
+  bool collapse_inherit_table = 10;
 
   // Defines which database schema objects should be transferred, e.g. views,
   // functions, etc.

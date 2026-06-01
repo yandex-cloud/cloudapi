@@ -95,6 +95,70 @@ message Cluster {
   MaintenanceOperation planned_operation = 17;
 }
 
+message DetailedHealthCheck {
+  enum Status {
+    // Check status is unknown.
+    STATUS_UNSPECIFIED = 0;
+
+    // Check succeeded.
+    SUCCESS = 1;
+
+    // Check failed.
+    FAIL = 2;
+  }
+
+  // Check slug.
+  string slug = 1;
+
+  // Check status.
+  Status status = 2;
+
+  // Additional check details.
+  map<string, string> details = 3;
+}
+
+message HealthDetail {
+  enum Status {
+    // Health status is unknown.
+    STATUS_UNSPECIFIED = 0;
+
+    // Cluster is alive and operates properly.
+    ALIVE = 1;
+
+    // Cluster is partially alive.
+    DEGRADED = 2;
+
+    // Cluster is inoperable.
+    DEAD = 3;
+  }
+
+  enum CauseType {
+    // Cause type is unknown.
+    CAUSE_TYPE_UNSPECIFIED = 0;
+
+    // Health issue is caused by user actions.
+    USER = 1;
+
+    // Health issue is caused by the service.
+    SERVICE = 2;
+
+    // Health issue is caused by infrastructure.
+    INFRA = 3;
+  }
+
+  // Health detail slug.
+  string slug = 1;
+
+  // Health detail status.
+  Status status = 2;
+
+  // Health detail cause type.
+  CauseType cause_type = 3;
+
+  // Health detail checks.
+  repeated DetailedHealthCheck checks = 4;
+}
+
 // Monitoring system.
 message Monitoring {
   // Name of the monitoring system.
@@ -237,11 +301,19 @@ message ExchangeManagerStorage {
   message ServiceS3 {
   }
 
+  message S3 {
+    // Name of the bucket to be used as the spool destination for exchange manager.
+    string bucket = 1 [(required) = true];
+  }
+
   oneof type {
     option (exactly_one) = true;
 
-    // Use service side s3 bucket for exchange manager.
+    // Use a service side S3 bucket for exchange manager.
     ServiceS3 service_s3 = 1;
+
+    // Use an S3 bucket for exchange manager.
+    S3 s3 = 2;
   }
 }
 

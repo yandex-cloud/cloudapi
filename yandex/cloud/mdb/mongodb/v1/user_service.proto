@@ -117,7 +117,7 @@ message ListUsersRequest {
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListUsersResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  int64 page_size = 2 [(value) = "<=1000"];
+  int64 page_size = 2 [(value) = "0-1000"];
 
   // Page token. To get the next page of results, set [page_token] to the
   // [ListUsersResponse.next_page_token] returned by the previous list request.
@@ -167,7 +167,7 @@ message UpdateUserRequest {
   // To get the name of the user, use a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_]*",
+    (pattern) = "^[a-zA-Z0-9_][a-zA-Z0-9_@.-]*$",
     (required) = true
   ];
 
@@ -175,7 +175,7 @@ message UpdateUserRequest {
   google.protobuf.FieldMask update_mask = 3;
 
   // New password for the user.
-  string password = 4 [(length) = "8-128"];
+  string password = 4 [(length) = "<=128"];
 
   // New set of permissions for the user.
   repeated Permission permissions = 5;

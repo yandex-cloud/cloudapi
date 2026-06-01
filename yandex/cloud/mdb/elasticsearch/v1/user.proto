@@ -18,8 +18,15 @@ message User {
 
 message UserSpec {
   // Name of the Elasticsearch user.
-  string name = 1 [(required) = true, (length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+  string name = 1 [
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_]*",
+    (required) = true
+  ];
 
   // Password of the Elasticsearch user.
-  string password = 2 [(required) = true, (length) = "8-128"];
+  string password = 2 [
+    (length) = "8-128",
+    (required) = true
+  ];
 }

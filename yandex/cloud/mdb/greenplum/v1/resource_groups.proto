@@ -10,6 +10,27 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/greenplum/v1;greenplum";
 option java_package = "yandex.cloud.api.mdb.greenplum.v1";
 
+// ResourceGroup defines a resource group configuration shared between Greenplum and Apache Cloudberry,
+// but the two engines use different sets of fields.
+//
+// Greenplum fields:
+// * concurrency
+// * cpu_rate_limit
+// * memory_limit
+// * memory_shared_quota
+// * memory_spill_ratio
+//
+// Apache Cloudberry fields:
+// * concurrency
+// * cpu_max_percent
+// * cpu_weight
+// * memory_quota
+// * min_cost
+// * io_limit
+//
+// The sets partially overlap (concurrency is common to both). Passing Greenplum-specific
+// fields to a CloudBerry cluster or vice versa is not rejected at the proto level -
+// field validation is performed at runtime by the service.
 message ResourceGroup {
     string name = 1 [(required) = true, (length) = "3-200", (pattern) = "^[^\\|/*?.,;\"'<>]+$"];
     google.protobuf.BoolValue is_user_defined = 2;
@@ -24,4 +45,21 @@ message ResourceGroup {
     google.protobuf.Int64Value memory_shared_quota = 6 [(value) = "0-100"];
     // References to MEMORY_SPILL_RATIO from gp resource group parameter
     google.protobuf.Int64Value memory_spill_ratio = 7 [(value) = "0-100"];
+
+    // References to CPU_MAX_PERCENT from Apache Cloudberry resource group parameter:
+    //   The maximum percentage of CPU resources the group can use.
+    google.protobuf.Int64Value cpu_max_percent = 8 [(value) = "-1-100"];
+    // References to CPU_WEIGHT from Apache Cloudberry resource group parameter:
+    //   The scheduling priority of the resource group.
+    google.protobuf.Int64Value cpu_weight = 9 [(value) = "1-500"];
+    // References to MEMORY_QUOTA from Apache Cloudberry resource group parameter:
+    //   The memory limit (Mb) specified for the resource group.
+    google.protobuf.Int64Value memory_quota = 10 [(value) = ">=-1"];
+    // References to MIN_COST from Apache Cloudberry resource group parameter:
+    //   The minimum cost of a query plan to be included in the resource group.
+    google.protobuf.Int64Value min_cost = 11;
+    // References to IO_LIMIT from Apache Cloudberry resource group parameter:
+    //   The limit for the maximum read/write disk I/O throughput, and maximum read/write I/O operations per second.
+    //   Set the value on a per-tablespace basis.
+    google.protobuf.Int64Value io_limit = 12 [(value) = ">=-1"];
 }

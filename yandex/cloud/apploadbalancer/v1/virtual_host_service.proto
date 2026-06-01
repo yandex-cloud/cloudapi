@@ -174,7 +174,12 @@ message CreateVirtualHostRequest {
   RouteOptions route_options = 8;
 
   // RateLimit is a rate limit configuration applied for a whole virtual host.
-  RateLimit rate_limit = 9;  
+  RateLimit rate_limit = 9;
+
+  // VirtualHost's labels as `key:value` pairs.
+  map<string, string> labels = 10 [(yandex.cloud.size) = "<=16", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];  
+  // Description of the virtual host.
+  string description = 11 [(length) = "<=256"];  
 }
 
 message CreateVirtualHostMetadata {
@@ -248,6 +253,11 @@ message UpdateVirtualHostRequest {
 
   // RateLimit is a rate limit configuration applied for a whole virtual host.
   RateLimit rate_limit = 10;
+
+  // VirtualHost's labels as `key:value` pairs.
+  map<string, string> labels = 11 [(yandex.cloud.size) = "<=16", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  // Description of the virtual host.
+  string description = 12 [(length) = "<=256"];
 }
 
 message UpdateVirtualHostMetadata {

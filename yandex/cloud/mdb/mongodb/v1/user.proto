@@ -37,10 +37,7 @@ message UserSpec {
   ];
 
   // Password of the MongoDB user.
-  string password = 2 [
-    (length) = "8-128",
-    (required) = true
-  ];
+  string password = 2 [(length) = "<=128"];
 
   // Set of permissions to grant to the user.
   repeated Permission permissions = 3;

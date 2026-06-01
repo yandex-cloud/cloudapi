@@ -25,6 +25,7 @@ import "yandex/cloud/mdb/mongodb/v1/database.proto";
 import "yandex/cloud/mdb/mongodb/v1/maintenance.proto";
 import "yandex/cloud/mdb/mongodb/v1/user.proto";
 import "yandex/cloud/mdb/operationlog/v1/operation_log.proto";
+import "yandex/cloud/mdb/v1/backup_retention_policy.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -418,9 +419,9 @@ message CreateClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "<=63"
-      pattern: "[a-z][-_0-9a-z]*"
+      pattern: "^[a-z][-_./\\@0-9a-z]*$"
     },
-    (pattern) = "[-_0-9a-z]*",
+    (pattern) = "^[-_./\\@0-9a-z]*$",
     (size) = "<=64"
   ];
 
@@ -431,19 +432,16 @@ message CreateClusterRequest {
   ConfigSpec config_spec = 6 [(required) = true];
 
   // Descriptions of databases to be created in the MongoDB cluster.
-  repeated DatabaseSpec database_specs = 7 [(size) = ">0"];
+  repeated DatabaseSpec database_specs = 7;
 
   // Descriptions of database users to be created in the MongoDB cluster.
-  repeated UserSpec user_specs = 8 [(size) = ">0"];
+  repeated UserSpec user_specs = 8;
 
   // Individual configurations for hosts that should be created for the MongoDB cluster.
   repeated HostSpec host_specs = 9 [(size) = ">0"];
 
   // ID of the network to create the cluster in.
-  string network_id = 10 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string network_id = 10 [(length) = "<=150"];
 
   // User security groups
   repeated string security_group_ids = 11;
@@ -456,6 +454,9 @@ message CreateClusterRequest {
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 14;
+
+  // Backup long-term retention policies setting.
+  repeated yandex.cloud.mdb.v1.BackupRetentionPolicySpec retention_policies = 15;
 }
 
 message CreateClusterMetadata {
@@ -488,9 +489,9 @@ message UpdateClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "<=63"
-      pattern: "[a-z][-_0-9a-z]*"
+      pattern: "^[a-z][-_./\\@0-9a-z]*$"
     },
-    (pattern) = "[-_0-9a-z]*",
+    (pattern) = "[-_./\\@0-9a-z]*$",
     (size) = "<=64"
   ];
 
@@ -513,7 +514,7 @@ message UpdateClusterRequest {
   bool deletion_protection = 9;
 
   // ID of the network to move the cluster to.
-  string network_id = 10 [(length) = "<=50"];
+  string network_id = 10 [(length) = "<=150"];
 }
 
 message UpdateClusterMetadata {
@@ -625,9 +626,9 @@ message RestoreClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "<=63"
-      pattern: "[a-z][-_0-9a-z]*"
+      pattern: "^[a-z][-_./\\@0-9a-z]*$"
     },
-    (pattern) = "[-_0-9a-z]*",
+    (pattern) = "^[-_./\\@0-9a-z]*$",
     (size) = "<=64"
   ];
 
@@ -642,10 +643,7 @@ message RestoreClusterRequest {
   repeated HostSpec host_specs = 7 [(size) = ">0"];
 
   // ID of the network to create the MongoDB cluster in.
-  string network_id = 8 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string network_id = 8 [(length) = "<=150"];
 
   // Required. ID of the folder to create the MongoDB cluster in.
   string folder_id = 9 [(length) = "<=50"];

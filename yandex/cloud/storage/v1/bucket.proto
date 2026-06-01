@@ -338,6 +338,10 @@ message LifecycleRule {
     // Time period, in number of days since the version of an object was classified as non-current, after which the
     // version expires.
     google.protobuf.Int64Value noncurrent_days = 1;
+
+    // Specifies how many noncurrent versions S3 will retain.
+    // S3 will permanently delete any additional noncurrent versions beyond this specified number.
+    google.protobuf.Int64Value newer_noncurrent_versions = 2;
   }
 
   // List of transition rules for non-current versions of objects in a bucket with versioning enabled
@@ -352,6 +356,10 @@ message LifecycleRule {
     // The only supported class is cold storage (`COLD`, `STANDARD_IA`, `NEARLINE` all synonyms). Transitions from cold
     // to standard storage and transitions to or from ice storage are not allowed.
     string storage_class = 2 [(required) = true];
+
+    // Specifies how many noncurrent versions S3 will retain.
+    // S3 will permanently delete any additional noncurrent versions beyond this specified number.
+    google.protobuf.Int64Value newer_noncurrent_versions = 3;
   }
 
   // List of transition rules.

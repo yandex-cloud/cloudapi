@@ -407,9 +407,9 @@ message CreateClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "<=63"
-      pattern: "[a-z][-_0-9a-z]*"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
     },
-    (pattern) = "[-_0-9a-z]*",
+    (pattern) = "[-_./\\@0-9a-z]*",
     (size) = "<=64"
   ];
 
@@ -423,10 +423,7 @@ message CreateClusterRequest {
   repeated HostSpec host_specs = 7 [(size) = ">0"];
 
   // ID of the network to create the cluster in.
-  string network_id = 10 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string network_id = 10 [(length) = "<=150"];
 
   // Redis cluster mode on/off.
   bool sharded = 11;
@@ -486,9 +483,9 @@ message UpdateClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "<=63"
-      pattern: "[a-z][-_0-9a-z]*"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
     },
-    (pattern) = "[-_0-9a-z]*",
+    (pattern) = "[-_./\\@0-9a-z]*",
     (size) = "<=64"
   ];
 
@@ -514,7 +511,7 @@ message UpdateClusterRequest {
   Cluster.PersistenceMode persistence_mode = 10;
 
   // ID of the network to move the cluster to.
-  string network_id = 11 [(length) = "<=50"];
+  string network_id = 11 [(length) = "<=150"];
 
   // Enable FQDN instead of ip
   bool announce_hostnames = 12;
@@ -648,9 +645,9 @@ message RestoreClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "<=63"
-      pattern: "[a-z][-_0-9a-z]*"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
     },
-    (pattern) = "[-_0-9a-z]*",
+    (pattern) = "[-_./\\@0-9a-z]*",
     (size) = "<=64"
   ];
 
@@ -665,10 +662,7 @@ message RestoreClusterRequest {
   repeated HostSpec host_specs = 7;
 
   // ID of the network to create the Redis cluster in.
-  string network_id = 8 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string network_id = 8 [(length) = "<=150"];
 
   // ID of the folder to create the Redis cluster in.
   string folder_id = 9 [(length) = "<=50"];
