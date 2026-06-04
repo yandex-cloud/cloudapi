@@ -347,7 +347,7 @@ message UpdateIpPermissionsMetadata {
 
 message ListArtifactsRequest {
   // ID of the registry artifact to list repositories in.
-  // To get the registry ID use a [ArtifactService.List] request.
+  // To get the registry ID use a [RegistryService.List] request.
   string registry_id = 1 [(length) = "<=50"];
 
   // The path to a specific node where the registry artifact is located.

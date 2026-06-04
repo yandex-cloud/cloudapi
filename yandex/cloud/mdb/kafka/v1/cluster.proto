@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package yandex.cloud.mdb.kafka.v1;
 
-import "google/protobuf/descriptor.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "yandex/cloud/mdb/kafka/v1/common.proto";
@@ -123,13 +122,14 @@ message Cluster {
 
   // Scheduled maintenance operation.
   MaintenanceOperation planned_operation = 17;
-
   message KafkaUI {
     // URL for connection to kafka ui
     string url = 1;
   }
+
   // KafkaUI state.
   KafkaUI kafka_ui = 18;
+
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 19;
 }
@@ -152,15 +152,16 @@ message ConfigSpec {
 
     // Resources allocated to Kafka brokers.
     Resources resources = 1;
-
     // Kafka broker configuration.
     oneof kafka_config {
       // Configuration of an Apache Kafka® 2.8 broker.
       KafkaConfig2_8 kafka_config_2_8 = 4 [json_name = "kafkaConfig_2_8"];
+
       // Configuration of an Apache Kafka® 3.x broker.
       KafkaConfig3 kafka_config_3 = 5 [json_name = "kafkaConfig_3"];
+
       // Configuration of an Apache Kafka® 4.x broker.
-      KafkaConfig4 kafka_config_4 = 6 [json_name="kafkaConfig_4"];
+      KafkaConfig4 kafka_config_4 = 6 [json_name = "kafkaConfig_4"];
     }
   }
 
@@ -202,7 +203,6 @@ message ConfigSpec {
 
   // Access policy for external services.
   Access access = 9;
-
   message RestAPIConfig {
     // Is REST API enabled for this cluster.
     bool enabled = 1;
@@ -211,12 +211,11 @@ message ConfigSpec {
   // Configuration of REST API.
   RestAPIConfig rest_api_config = 10;
 
-  // DiskSizeAutoscaling settings
-  DiskSizeAutoscaling disk_size_autoscaling = 11;
-
   // Configuration and resource allocation for KRaft-controller hosts.
   KRaft kraft = 12;
 
+  // DiskSizeAutoscaling settings
+  DiskSizeAutoscaling disk_size_autoscaling = 11;
   message KafkaUIConfig {
     // Is Kafka UI enabled for this cluster.
     bool enabled = 1;
@@ -224,6 +223,7 @@ message ConfigSpec {
 
   // Configuration of Kafka UI.
   KafkaUIConfig kafka_ui_config = 13;
+
   // Patch or release version ex. 3.9.1, 4.0.1 etc
   string patch_version = 14;
 }
@@ -246,13 +246,11 @@ message KafkaConfig2_8 {
   CompressionType compression_type = 1;
 
   // The number of messages accumulated on a log partition before messages are flushed to disk.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_8.flush_messages] setting.
   google.protobuf.Int64Value log_flush_interval_messages = 2;
 
   // The maximum time (in milliseconds) that a message in any topic is kept in memory before flushed to disk.
   // If not set, the value of [log_flush_scheduler_interval_ms] is used.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_8.flush_ms] setting.
   google.protobuf.Int64Value log_flush_interval_ms = 3;
 
@@ -262,7 +260,6 @@ message KafkaConfig2_8 {
 
   // Partition size limit; Kafka will discard old log segments to free up space if `delete` [TopicConfig2_8.cleanup_policy] is in effect.
   // This setting is helpful if you need to control the size of a log due to limited disk space.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_8.retention_bytes] setting.
   google.protobuf.Int64Value log_retention_bytes = 5;
 
@@ -270,24 +267,19 @@ message KafkaConfig2_8 {
   google.protobuf.Int64Value log_retention_hours = 6;
 
   // The number of minutes to keep a log segment file before deleting it.
-  //
   // If not set, the value of [log_retention_hours] is used.
   google.protobuf.Int64Value log_retention_minutes = 7;
 
   // The number of milliseconds to keep a log segment file before deleting it.
-  //
   // If not set, the value of [log_retention_minutes] is used.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_8.retention_ms] setting.
   google.protobuf.Int64Value log_retention_ms = 8;
 
   // The maximum size of a single log file.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_8.segment_bytes] setting.
   google.protobuf.Int64Value log_segment_bytes = 9;
 
   // Should pre allocate file when create new segment?
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig2_8.preallocate] setting.
   // Deprecated. Feature useless for Yandex Cloud.
   google.protobuf.BoolValue log_preallocate = 10 [deprecated = true];
@@ -332,13 +324,11 @@ message KafkaConfig3 {
   CompressionType compression_type = 1;
 
   // The number of messages accumulated on a log partition before messages are flushed to disk.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig3.flush_messages] setting.
   google.protobuf.Int64Value log_flush_interval_messages = 2;
 
   // The maximum time (in milliseconds) that a message in any topic is kept in memory before flushed to disk.
   // If not set, the value of [log_flush_scheduler_interval_ms] is used.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig3.flush_ms] setting.
   google.protobuf.Int64Value log_flush_interval_ms = 3;
 
@@ -348,7 +338,6 @@ message KafkaConfig3 {
 
   // Partition size limit; Kafka will discard old log segments to free up space if `delete` [TopicConfig3.cleanup_policy] is in effect.
   // This setting is helpful if you need to control the size of a log due to limited disk space.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig3.retention_bytes] setting.
   google.protobuf.Int64Value log_retention_bytes = 5;
 
@@ -356,24 +345,19 @@ message KafkaConfig3 {
   google.protobuf.Int64Value log_retention_hours = 6;
 
   // The number of minutes to keep a log segment file before deleting it.
-  //
   // If not set, the value of [log_retention_hours] is used.
   google.protobuf.Int64Value log_retention_minutes = 7;
 
   // The number of milliseconds to keep a log segment file before deleting it.
-  //
   // If not set, the value of [log_retention_minutes] is used.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig3.retention_ms] setting.
   google.protobuf.Int64Value log_retention_ms = 8;
 
   // The maximum size of a single log file.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig3.segment_bytes] setting.
   google.protobuf.Int64Value log_segment_bytes = 9;
 
   // Should pre allocate file when create new segment?
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig3.preallocate] setting.
   // Deprecated. Feature useless for Yandex Cloud.
   google.protobuf.BoolValue log_preallocate = 10 [deprecated = true];
@@ -420,13 +404,11 @@ message KafkaConfig4 {
   CompressionType compression_type = 1;
 
   // The number of messages accumulated on a log partition before messages are flushed to disk.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig3.flush_messages] setting.
   google.protobuf.Int64Value log_flush_interval_messages = 2;
 
   // The maximum time (in milliseconds) that a message in any topic is kept in memory before flushed to disk.
   // If not set, the value of [log_flush_scheduler_interval_ms] is used.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig4.flush_ms] setting.
   google.protobuf.Int64Value log_flush_interval_ms = 3;
 
@@ -436,7 +418,6 @@ message KafkaConfig4 {
 
   // Partition size limit; Kafka will discard old log segments to free up space if `delete` [TopicConfig4.cleanup_policy] is in effect.
   // This setting is helpful if you need to control the size of a log due to limited disk space.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig3.retention_bytes] setting.
   google.protobuf.Int64Value log_retention_bytes = 5;
 
@@ -444,23 +425,17 @@ message KafkaConfig4 {
   google.protobuf.Int64Value log_retention_hours = 6;
 
   // The number of minutes to keep a log segment file before deleting it.
-  //
   // If not set, the value of [log_retention_hours] is used.
   google.protobuf.Int64Value log_retention_minutes = 7;
 
   // The number of milliseconds to keep a log segment file before deleting it.
-  //
   // If not set, the value of [log_retention_minutes] is used.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig4.retention_ms] setting.
   google.protobuf.Int64Value log_retention_ms = 8;
 
   // The maximum size of a single log file.
-  //
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig4.segment_bytes] setting.
   google.protobuf.Int64Value log_segment_bytes = 9;
-
-  // NOTE: log_preallocate was removed in Kafka 4.x.
 
   // The SO_SNDBUF buffer of the socket server sockets. If the value is -1, the OS default will be used.
   google.protobuf.Int64Value socket_send_buffer_bytes = 11;
@@ -499,6 +474,7 @@ message KafkaConfig4 {
 // Cluster host metadata.
 message Host {
   reserved 7;
+
   enum Role {
     // Role of the host is unspecified. Default value.
     ROLE_UNSPECIFIED = 0;
@@ -550,7 +526,6 @@ message Host {
   string subnet_id = 8;
 
   // The flag that defines whether a public IP address is assigned to the node.
-  //
   // If the value is `true`, then this node is available on the Internet via it's public IP address.
   bool assign_public_ip = 9;
 }

@@ -21,170 +21,184 @@ option java_package = "yandex.cloud.api.mdb.kafka.v1";
 // A set of methods for managing Apache Kafka® clusters.
 service ClusterService {
   // Returns the specified Apache Kafka® cluster.
-  //
   // To get the list of available Apache Kafka® clusters, make a [List] request.
   rpc Get(GetClusterRequest) returns (Cluster) {
-    option (google.api.http) = {get: "/managed-kafka/v1/clusters/{cluster_id}"};
-  }
+    option (google.api.http) = {
+      get: "/managed-kafka/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Retrieves the list of Apache Kafka® clusters that belong to the specified folder.
   rpc List(ListClustersRequest) returns (ListClustersResponse) {
-    option (google.api.http) = {get: "/managed-kafka/v1/clusters"};
-  }
+    option (google.api.http) = {
+      get: "/managed-kafka/v1/clusters"
+    };
+  };
 
   // Creates a new Apache Kafka® cluster in the specified folder.
   rpc Create(CreateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-kafka/v1/clusters"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-kafka/v1/clusters"
+    };
+  };
 
   // Updates the specified Apache Kafka® cluster.
   rpc Update(UpdateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/managed-kafka/v1/clusters/{cluster_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-kafka/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Deletes the specified Apache Kafka® cluster.
   rpc Delete(DeleteClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/managed-kafka/v1/clusters/{cluster_id}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteClusterMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/managed-kafka/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Moves the specified Apache Kafka® cluster to the specified folder.
   rpc Move(MoveClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-kafka/v1/clusters/{cluster_id}:move"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "MoveClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-kafka/v1/clusters/{cluster_id}:move"
+    };
+  };
 
   // Starts the specified Apache Kafka® cluster.
   rpc Start(StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-kafka/v1/clusters/{cluster_id}:start"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      post: "/managed-kafka/v1/clusters/{cluster_id}:start"
+    };
+  };
 
   // Stops the specified Apache Kafka® cluster.
   rpc Stop(StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/managed-kafka/v1/clusters/{cluster_id}:stop"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      post: "/managed-kafka/v1/clusters/{cluster_id}:stop"
+    };
+  };
 
   // Reschedule planned maintenance operation.
   rpc RescheduleMaintenance(RescheduleMaintenanceRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-kafka/v1/clusters/{cluster_id}:rescheduleMaintenance"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "RescheduleMaintenanceMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-kafka/v1/clusters/{cluster_id}:rescheduleMaintenance"
+    };
+  };
 
   // Retrieves logs for the specified Apache Kafka® cluster.
-  //
   // For more information about logs, see the [Logs](/docs/managed-kafka/operations/cluster-logs) section in the documentation.
   rpc ListLogs(ListClusterLogsRequest) returns (ListClusterLogsResponse) {
-    option (google.api.http) = {get: "/managed-kafka/v1/clusters/{cluster_id}:logs"};
-  }
+    option (google.api.http) = {
+      get: "/managed-kafka/v1/clusters/{cluster_id}:logs"
+    };
+  };
 
   // Same as [ListLogs] but using server-side streaming. Also allows for `tail -f` semantics.
   rpc StreamLogs(StreamClusterLogsRequest) returns (stream StreamLogRecord) {
-    option (google.api.http) = {get: "/managed-kafka/v1/clusters/{cluster_id}:stream_logs"};
-  }
+    option (google.api.http) = {
+      get: "/managed-kafka/v1/clusters/{cluster_id}:stream_logs"
+    };
+  };
 
   // Retrieves the list of operations for the specified Apache Kafka® cluster.
   rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
-    option (google.api.http) = {get: "/managed-kafka/v1/clusters/{cluster_id}/operations"};
-  }
+    option (google.api.http) = {
+      get: "/managed-kafka/v1/clusters/{cluster_id}/operations"
+    };
+  };
 
   // Retrieves a list of hosts for the specified Apache Kafka® cluster.
   rpc ListHosts(ListClusterHostsRequest) returns (ListClusterHostsResponse) {
-    option (google.api.http) = {get: "/managed-kafka/v1/clusters/{cluster_id}/hosts"};
-  }
+    option (google.api.http) = {
+      get: "/managed-kafka/v1/clusters/{cluster_id}/hosts"
+    };
+  };
 
   // Retrieves a list of access bindings for the specified Apache Kafka® cluster.
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = { get: "/managed-kafka/v1/clusters/{resource_id}:listAccessBindings" };
-  }
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/managed-kafka/v1/clusters/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets access bindings for the specified Apache Kafka® cluster.
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
     option (google.api.http) = {
-      post: "/managed-kafka/v1/clusters/{resource_id}:setAccessBindings"
       body: "*"
+      post: "/managed-kafka/v1/clusters/{resource_id}:setAccessBindings"
     };
-    option (yandex.cloud.api.operation) = {
-        metadata: "access.SetAccessBindingsMetadata"
-        response: "access.AccessBindingsOperationResult"
-    };
-  }
+  };
 
   // Updates access bindings for the specified Apache Kafka® cluster.
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
     option (google.api.http) = {
-      patch: "/managed-kafka/v1/clusters/{resource_id}:updateAccessBindings"
       body: "*"
+      patch: "/managed-kafka/v1/clusters/{resource_id}:updateAccessBindings"
     };
-    option (yandex.cloud.api.operation) = {
-        metadata: "access.UpdateAccessBindingsMetadata"
-        response: "access.AccessBindingsOperationResult"
-    };
-  }
+  };
 }
 
 message GetClusterRequest {
   // ID of the Apache Kafka® Cluster resource to return.
-  //
   // To get the cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
 message ListClustersRequest {
   // ID of the folder to list Apache Kafka® clusters in.
-  //
   // To get the folder ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return.
-  //
   // If the number of available results is larger than [page_size], the service returns a [ListClustersResponse.next_page_token] that can be used to get the next page of results in subsequent list requests.
   int64 page_size = 2 [(value) = "<=1000"];
 
   // Page token.
-  //
   // To get the next page of results, set [page_token] to the [ListClustersResponse.next_page_token] returned by the previous list request.
   string page_token = 3 [(length) = "<=100"];
 
@@ -197,7 +211,6 @@ message ListClustersResponse {
   repeated Cluster clusters = 1;
 
   // Token that allows you to get the next page of results for list requests.
-  //
   // If the number of results is larger than [ListClustersRequest.page_size], use [next_page_token] as the value for the [ListClustersRequest.page_token] parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
@@ -205,33 +218,34 @@ message ListClustersResponse {
 
 message CreateClusterRequest {
   reserved 9;
+
   // ID of the folder to create the Apache Kafka® cluster in.
-  //
   // To get the folder ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Name of the Apache Kafka® cluster. The name must be unique within the folder.
   string name = 2 [
-    (required) = true,
-    (length) = "1-63",
-    (pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?"
+    (length) = "<=63",
+    (pattern) = "[a-zA-Z0-9_-]*",
+    (required) = true
   ];
 
   // Description of the Apache Kafka® cluster.
   string description = 3 [(length) = "<=256"];
 
   // Custom labels for the Apache Kafka® cluster as `key:value` pairs.
-  //
   // For example, "project": "mvp" or "source": "dictionary".
   map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
+    },
     (pattern) = "[-_./\\@0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // Deployment environment of the Apache Kafka® cluster.
@@ -263,6 +277,7 @@ message CreateClusterRequest {
 
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 15;
+
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 16;
 }
@@ -274,11 +289,10 @@ message CreateClusterMetadata {
 
 message UpdateClusterRequest {
   // ID of the Apache Kafka® cluster to update.
-  //
   // To get the Apache Kafka® cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Field mask that specifies which fields of the Kafka cluster resource should be updated.
@@ -288,21 +302,20 @@ message UpdateClusterRequest {
   string description = 3 [(length) = "<=256"];
 
   // Custom labels for the Apache Kafka® cluster as `key:value` pairs.
-  //
   // For example, "project": "mvp" or "source": "dictionary".
-  //
   // The new set of labels will completely replace the old ones.
   // To add a label, request the current set with the [ClusterService.Get] method, then send an [ClusterService.Update] request with the new label added to the set.
   map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
     (length) = "<=63",
-    (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
+    },
+    (pattern) = "[-_./\\@0-9a-z]*",
+    (size) = "<=64"
   ];
 
   // New configuration and resources for hosts in the Apache Kafka® cluster.
-  //
   // Use [update_mask] to prevent reverting all cluster settings that are not listed in [config_spec] to their default values.
   ConfigSpec config_spec = 5;
 
@@ -335,11 +348,10 @@ message UpdateClusterMetadata {
 
 message DeleteClusterRequest {
   // ID of the Apache Kafka® cluster to delete.
-  //
   // To get the Apache Kafka® cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -350,15 +362,13 @@ message DeleteClusterMetadata {
 
 message ListClusterLogsRequest {
   // ID of the Apache Kafka® cluster to request logs for.
-  //
   // To get the Apache Kafka® cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Columns from the logs table to request.
-  //
   // If no columns are specified, full log records are returned.
   repeated string column_filter = 2;
 
@@ -369,27 +379,22 @@ message ListClusterLogsRequest {
   google.protobuf.Timestamp to_time = 4;
 
   // The maximum number of results per page to return.
-  //
   // If the number of available results is larger than [page_size], the service returns a [ListClusterLogsResponse.next_page_token] that can be used to get the next page of results in subsequent list requests.
   int64 page_size = 5 [(value) = "<=1000"];
 
   // Page token.
-  //
   // To get the next page of results, set [page_token] to the [ListClusterLogsResponse.next_page_token] returned by the previous list request.
   string page_token = 6 [(length) = "<=100"];
 
   // The flag that defines behavior of providing the next page token.
-  //
   // If this flag is set to `true`, this API method will always return [ListClusterLogsResponse.next_page_token], even if current page is empty.
   bool always_next_page_token = 7;
 
   // A filter expression that filters resources listed in the response.
-  //
   // The expression must specify:
   // 1. The field name to filter by. Currently filtering can be applied to the `hostname` field.
   // 2. An `=` operator.
   // 3. The value in double quotes (`"`). Must be 1-63 characters long and match the regular expression `[a-z0-9.-]{1,61}`.
-  //
   // Example of a filter: `message.hostname='node1.db.cloud.yandex.net'`
   string filter = 8 [(length) = "<=1000"];
 }
@@ -408,7 +413,6 @@ message ListClusterLogsResponse {
   repeated LogRecord logs = 1;
 
   // Token that allows you to get the next page of results for list requests.
-  //
   // If the number of results is larger than [ListClusterLogsRequest.page_size], use [next_page_token] as the value for the [ListClusterLogsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   // This value is interchangeable with [StreamLogRecord.next_record_token] from StreamLogs method.
@@ -420,24 +424,20 @@ message StreamLogRecord {
   LogRecord record = 1;
 
   // This token allows you to continue streaming logs starting from the exact same record.
-  //
   // To continue streaming, specify value of [next_record_token] as value for [StreamClusterLogsRequest.record_token] parameter in the next StreamLogs request.
-  //
   // This value is interchangeable with [ListClusterLogsResponse.next_page_token] from ListLogs method.
   string next_record_token = 2;
 }
 
 message StreamClusterLogsRequest {
   // ID of the Apache Kafka® cluster.
-  //
   // To get the Apache Kafka® cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // Columns from logs table to get in the response.
-  //
   // If no columns are specified, full log records are returned.
   repeated string column_filter = 2;
 
@@ -445,23 +445,19 @@ message StreamClusterLogsRequest {
   google.protobuf.Timestamp from_time = 3;
 
   // End timestamp for the logs request.
-  //
   // If this field is not set, all existing logs will be sent and then the new ones as they appear.
   // In essence it has `tail -f` semantics.
   google.protobuf.Timestamp to_time = 4;
 
   // Record token.
-  //
   // Set [record_token] to the [StreamLogRecord.next_record_token] returned by a previous [ClusterService.StreamLogs] request to start streaming from next log record.
   string record_token = 5 [(length) = "<=100"];
 
   // A filter expression that filters resources listed in the response.
-  //
   // The expression must specify:
   // 1. The field name to filter by. Currently filtering can be applied to the `hostname` field.
   // 2. An `=` operator.
   // 3. The value in double quotes (`"`). Must be 3-63 characters long and match the regular expression `[a-z][-a-z0-9]{1,61}[a-z0-9]`.
-  //
   // Example of a filter: `message.hostname='node1.db.cloud.yandex.net'`
   string filter = 6 [(length) = "<=1000"];
 }
@@ -469,17 +465,15 @@ message StreamClusterLogsRequest {
 message ListClusterOperationsRequest {
   // ID of the Apache Kafka® cluster to list operations for.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return.
-  //
   // If the number of available results is larger than [page_size], the service returns a [ListClusterOperationsResponse.next_page_token] that can be used to get the next page of results in subsequent list requests.
   int64 page_size = 2 [(value) = "<=1000"];
 
   // Page token.
-  //
   // To get the next page of results, set [page_token] to the [ListClusterOperationsResponse.next_page_token] returned by the previous list request.
   string page_token = 3 [(length) = "<=100"];
 }
@@ -489,7 +483,6 @@ message ListClusterOperationsResponse {
   repeated operation.Operation operations = 1;
 
   // Token that allows you to get the next page of results for list requests.
-  //
   // If the number of results is larger than [ListClusterOperationsRequest.page_size], use [next_page_token] as the value for the [ListClusterOperationsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
@@ -497,20 +490,17 @@ message ListClusterOperationsResponse {
 
 message ListClusterHostsRequest {
   // ID of the Apache Kafka® cluster.
-  //
   // To get the Apache Kafka® cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The maximum number of results per page to return.
-  //
   // If the number of available results is larger than [page_size], the service returns a [ListClusterHostsResponse.next_page_token] that can be used to get the next page of results in subsequent list requests.
   int64 page_size = 2 [(value) = "<=1000"];
 
   // Page token.
-  //
   // To get the next page of results, set [page_token] to the [ListClusterHostsResponse.next_page_token] returned by the previous list request.
   string page_token = 3 [(length) = "<=100"];
 }
@@ -520,7 +510,6 @@ message ListClusterHostsResponse {
   repeated Host hosts = 1;
 
   // Token that allows you to get the next page of results for list requests.
-  //
   // If the number of results is larger than [ListClusterHostsRequest.page_size], use the [next_page_token] as the value for the [ListClusterHostsRequest.page_token] query parameter in the next list request.
   // Each subsequent list request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
@@ -528,17 +517,16 @@ message ListClusterHostsResponse {
 
 message MoveClusterRequest {
   // ID of the Apache Kafka® cluster to move.
-  //
   // To get the Apache Kafka® cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // ID of the destination folder.
   string destination_folder_id = 2 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -555,11 +543,10 @@ message MoveClusterMetadata {
 
 message StartClusterRequest {
   // ID of the Apache Kafka® cluster to start.
-  //
   // To get the Apache Kafka® cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -570,11 +557,10 @@ message StartClusterMetadata {
 
 message StopClusterRequest {
   // ID of the Apache Kafka® cluster to stop.
-  //
   // To get the Apache Kafka® cluster ID, make a [ClusterService.List] request.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -586,10 +572,9 @@ message StopClusterMetadata {
 message RescheduleMaintenanceRequest {
   // ID of the Kafka cluster to reschedule the maintenance operation for.
   string cluster_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
-
   enum RescheduleType {
     // Unspecified reschedule type.
     RESCHEDULE_TYPE_UNSPECIFIED = 0;
@@ -613,6 +598,7 @@ message RescheduleMaintenanceRequest {
 
 message RescheduleMaintenanceMetadata {
   reserved 2 to 3;
+
   // ID of the Kafka cluster.
   string cluster_id = 1;
 

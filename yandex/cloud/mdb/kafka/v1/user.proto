@@ -14,7 +14,6 @@ message User {
   string name = 1;
 
   // ID of the Apache Kafka® cluster the user belongs to.
-  //
   // To get the Apache Kafka® cluster ID, make a [ClusterService.List] request.
   string cluster_id = 2;
 
@@ -25,15 +24,15 @@ message User {
 message UserSpec {
   // Name of the Kafka user.
   string name = 1 [
-    (required) = true,
     (length) = "1-256",
-    (pattern) = "[a-zA-Z0-9_]*"
+    (pattern) = "[a-zA-Z0-9_][a-zA-Z0-9_-]*",
+    (required) = true
   ];
 
   // Password of the Kafka user.
   string password = 2 [
-    (required) = true,
-    (length) = "8-128"
+    (length) = "8-128",
+    (required) = true
   ];
 
   // Set of permissions granted to the user.
@@ -42,6 +41,8 @@ message UserSpec {
 
 message Permission {
   reserved 3;
+  reserved "host";
+
   enum AccessRole {
     ACCESS_ROLE_UNSPECIFIED = 0;
 
@@ -56,19 +57,14 @@ message Permission {
 
     // Admin permissions on topics role for the user.
     ACCESS_ROLE_TOPIC_ADMIN = 4;
-
     ACCESS_ROLE_TOPIC_PRODUCER = 5;
-
     ACCESS_ROLE_TOPIC_CONSUMER = 6;
-
     ACCESS_ROLE_SCHEMA_READER = 7;
-
     ACCESS_ROLE_SCHEMA_WRITER = 8;
   }
 
   // Name or prefix-pattern with wildcard for the topic that the permission grants access to.
   // With roles SCHEMA_READER and SCHEMA_WRITER: string that contains set of schema registry subjects, separated by ';'.
-  //
   // To get the topic name, make a [TopicService.List] request.
   string topic_name = 1;
 
@@ -78,7 +74,6 @@ message Permission {
   // Lists hosts allowed for this permission.
   // Only ip-addresses allowed as value of single host.
   // When not defined, access from any host is allowed.
-  //
   // Bare in mind that the same host might appear in multiple permissions at the same time,
   // hence removing individual permission doesn't automatically restricts access from the [allow_hosts] of the permission.
   // If the same host(s) is listed for another permission of the same principal/topic, the host(s) remains allowed.

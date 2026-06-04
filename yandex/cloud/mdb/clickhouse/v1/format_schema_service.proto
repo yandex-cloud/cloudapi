@@ -76,7 +76,6 @@ message GetFormatSchemaRequest {
   // To get a format schema name, use the [FormatSchemaService.List] method.
   string format_schema_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 }
@@ -154,9 +153,10 @@ message UpdateFormatSchemaRequest {
   // To get a format schema name, use the [FormatSchemaService.List] method.
   string format_schema_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
+
+  // Field mask that specifies which attributes of the format schema should be updated.
   google.protobuf.FieldMask update_mask = 3;
 
   // [Link to the file](/docs/managed-clickhouse/operations/s3-access#get-link-to-object) of a format schema in Yandex Object Storage. Managed Service for ClickHouse works only with format schemas imported to Object Storage.
@@ -183,7 +183,6 @@ message DeleteFormatSchemaRequest {
   // To get a format schema name, use the [FormatSchemaService.List] method.
   string format_schema_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 }

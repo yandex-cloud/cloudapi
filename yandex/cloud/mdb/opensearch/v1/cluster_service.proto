@@ -11,6 +11,7 @@ import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/mdb/opensearch/v1/auth.proto";
 import "yandex/cloud/mdb/opensearch/v1/backup.proto";
 import "yandex/cloud/mdb/opensearch/v1/cluster.proto";
+import "yandex/cloud/mdb/opensearch/v1/config/audit_log.proto";
 import "yandex/cloud/mdb/opensearch/v1/config/opensearch.proto";
 import "yandex/cloud/mdb/opensearch/v1/maintenance.proto";
 import "yandex/cloud/mdb/operationlog/v1/operation_log.proto";
@@ -167,6 +168,8 @@ service ClusterService {
     };
   };
 
+  // (-- api-linter: yc::1705::http-method-mapping=disabled
+  // Backend implementation uses GET already. --)
   // Same as ListLogs but using server-side streaming. Also allows for 'tail -f' semantics.
   rpc StreamLogs(StreamClusterLogsRequest) returns (stream StreamLogRecord) {
     option (google.api.http) = {
@@ -188,6 +191,8 @@ service ClusterService {
     };
   };
 
+  // (-- api-linter: yc::1705::custom-method-colon=disabled
+  // Required for backward compatibility with old clients. --)
   // Creates an OpenSearch type host group.
   rpc AddOpenSearchNodeGroup(AddOpenSearchNodeGroupRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -223,6 +228,8 @@ service ClusterService {
     };
   };
 
+  // (-- api-linter: yc::1705::custom-method-colon=disabled
+  // Required for backward compatibility with old clients. --)
   // Creates a Dashboards type host group.
   rpc AddDashboardsNodeGroup(AddDashboardsNodeGroupRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -277,6 +284,8 @@ service ClusterService {
     };
   };
 
+  // (-- api-linter: yc::1705::custom-method-colon=disabled
+  // Required for backward compatibility with old clients. --)
   // Restarts OpenSearch on specified host.
   rpc RestartOpenSearch(RestartOpenSearchRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -288,6 +297,7 @@ service ClusterService {
     };
   };
 
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   // Switches current master or ensures that master not on specified hosts.
   rpc SwitchMaster(SwitchMasterRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -776,11 +786,11 @@ message ConfigCreateSpec {
   // Access policy for external services.
   Access access = 5;
 
-  // Snapshot management configuration
+  // Snapshot management configuration.
   SnapshotManagement snapshot_management = 6;
 
-  // Audit log settings
-  AuditLog audit_log = 7;
+  // Audit log settings.
+  config.AuditLog audit_log = 7;
 }
 
 // Single keystore entry.
@@ -837,6 +847,7 @@ message OpenSearchCreateSpec {
   // OpenSearch type host groups of the cluster.
   repeated NodeGroup node_groups = 2;
   oneof config {
+    // OpenSearch server configuration settings.
     config.OpenSearchConfig2 opensearch_config_2 = 3 [json_name = "opensearchConfig_2"];
   }
 
@@ -905,13 +916,14 @@ message ConfigUpdateSpec {
   SnapshotManagement snapshot_management = 6;
 
   // Audit log settings
-  AuditLog audit_log = 7;
+  config.AuditLog audit_log = 7;
 }
 
 message OpenSearchClusterUpdateSpec {
   // Names of the cluster plugins.
   repeated string plugins = 1;
   oneof config {
+    // OpenSearch server configuration settings.
     config.OpenSearchConfig2 opensearch_config_2 = 2 [json_name = "opensearchConfig_2"];
   }
 

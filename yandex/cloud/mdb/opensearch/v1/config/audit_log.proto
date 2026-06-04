@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.opensearch.v1.config;
+
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/opensearch/v1/config;opensearch";
+option java_package = "yandex.cloud.api.api.mdb.opensearch.v1";
+
+// OpenSearch audit logs settings.
+message AuditLog {
+  // Enables audit logging on changes to a security index, such as changes to roles mappings and role creation or deletion.
+  //
+  // For details, see [OpenSearch documentation](https://docs.opensearch.org/latest/security/audit-logs/index/#audit-user-account-manipulation).
+  google.protobuf.BoolValue compliance_enabled = 1;
+
+  // Includes the body of the request (if available) for both REST and the transport layer.
+  //
+  // For details, see [OpenSearch documentation](https://docs.opensearch.org/latest/security/audit-logs/index/#disable-request-body-logging).
+  google.protobuf.BoolValue log_request_body = 2;
+
+  // Enables indices data read requests logging.
+  google.protobuf.BoolValue log_search_queries = 3;
+
+  // Enables indices data write request logging.
+  google.protobuf.BoolValue log_data_modifications = 4;
+
+  // Enables indices metadata requests logging.
+  google.protobuf.BoolValue log_index_metadata_access = 5;
+
+  // Enables monitoring data requests logging.
+  google.protobuf.BoolValue log_monitoring_checks = 6;
+
+  // Enables indices maintenance requests logging, such as indices refreshes, flushes and merges.
+  google.protobuf.BoolValue log_index_maintenance = 7;
+
+  // Enables snapshots and repositories requests logging.
+  google.protobuf.BoolValue log_backup_operations = 8;
+}

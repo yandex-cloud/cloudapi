@@ -5,6 +5,7 @@ package yandex.cloud.mdb.opensearch.v1;
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "yandex/cloud/mdb/opensearch/v1/backup.proto";
+import "yandex/cloud/mdb/opensearch/v1/config/audit_log.proto";
 import "yandex/cloud/mdb/opensearch/v1/config/opensearch.proto";
 import "yandex/cloud/mdb/opensearch/v1/maintenance.proto";
 import "yandex/cloud/validation.proto";
@@ -162,7 +163,7 @@ message ClusterConfig {
   string full_version = 6;
 
   // Audit log settings.
-  AuditLog audit_log = 7;
+  config.AuditLog audit_log = 7;
 }
 
 // The OpenSearch host group type configuration.
@@ -209,7 +210,7 @@ message OpenSearch {
     // Roles of the host group.
     repeated GroupRole roles = 7;
 
-    // Disk size autoscaling settings
+    // Disk size autoscaling settings.
     DiskSizeAutoscaling disk_size_autoscaling = 9;
   }
 
@@ -219,6 +220,7 @@ message OpenSearch {
   // Host groups of the OpenSearch type.
   repeated NodeGroup node_groups = 2;
   oneof config {
+    // OpenSearch server configuration settings.
     config.OpenSearchConfigSet2 opensearch_config_set_2 = 3 [json_name = "opensearchConfigSet_2"];
   }
 
@@ -391,33 +393,6 @@ message Access {
 
   // Determines whether the access to Serverless is allowed.
   bool serverless = 2;
-}
-
-// Audit log settings.
-message AuditLog {
-  // Enable compliance audit logging.
-  google.protobuf.BoolValue compliance_enabled = 1;
-
-  // Log request body in audit logs.
-  google.protobuf.BoolValue log_request_body = 2;
-
-  // Log search queries in audit logs.
-  google.protobuf.BoolValue log_search_queries = 3;
-
-  // Log data modifications in audit logs.
-  google.protobuf.BoolValue log_data_modifications = 4;
-
-  // Log index metadata access in audit logs.
-  google.protobuf.BoolValue log_index_metadata_access = 5;
-
-  // Log monitoring checks in audit logs.
-  google.protobuf.BoolValue log_monitoring_checks = 6;
-
-  // Log index maintenance operations in audit logs.
-  google.protobuf.BoolValue log_index_maintenance = 7;
-
-  // Log backup operations in audit logs.
-  google.protobuf.BoolValue log_backup_operations = 8;
 }
 
 // Disk size autoscaling settings.

@@ -42,8 +42,10 @@ enum SaslMechanism {
 enum MessageTimestampType {
   // Message timestamp type is unspecified.
   MESSAGE_TIMESTAMP_TYPE_UNSPECIFIED = 0;
-  // Message timestamp type is create time. 
+
+  // Message timestamp type is create time.
   MESSAGE_TIMESTAMP_TYPE_CREATE_TIME = 1;
+
   // Message timestamp type is log append time.
   MESSAGE_TIMESTAMP_TYPE_LOG_APPEND_TIME = 2;
 }

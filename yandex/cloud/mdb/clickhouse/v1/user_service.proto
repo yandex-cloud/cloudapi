@@ -103,7 +103,6 @@ message GetUserRequest {
   // To get the name of the user, use a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_]*",
     (required) = true
   ];
 }
@@ -169,7 +168,6 @@ message UpdateUserRequest {
   // To get the name of the user, use a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_]*",
     (required) = true
   ];
 
@@ -212,7 +210,6 @@ message DeleteUserRequest {
   // To get the name of the user, use a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_]*",
     (required) = true
   ];
 }
@@ -237,7 +234,6 @@ message GrantUserPermissionRequest {
   // To get the name of the user, use a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_]*",
     (required) = true
   ];
 
@@ -265,14 +261,12 @@ message RevokeUserPermissionRequest {
   // To get the name of the user, use a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_]*",
     (required) = true
   ];
 
   // Name of the database that the user should lose access to.
   string database_name = 3 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 }

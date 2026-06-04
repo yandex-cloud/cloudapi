@@ -65,7 +65,6 @@ message GetDatabaseRequest {
   // To get the name of the database, use a [DatabaseService.List] request.
   string database_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 }
@@ -134,7 +133,6 @@ message DeleteDatabaseRequest {
   // To get the name of the database, use a [DatabaseService.List] request.
   string database_name = 2 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 }
