@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package yandex.cloud.vpc.v1.privatelink;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/vpc/v1/privatelink;privatelink";
 option java_package = "yandex.cloud.api.vpc.v1.privatelink";
-
-import "google/protobuf/timestamp.proto";
 
 message PrivateEndpoint {
   // ID of the private endpoint. Generated at creation time.
@@ -45,7 +45,6 @@ message PrivateEndpoint {
 
   // Private endpoint dns options.
   DnsOptions dns_options = 10;
-
   // Service to connect with via private endpoint.
   oneof service {
     // Yandex Cloud Object Storage.
@@ -61,16 +60,20 @@ message PrivateEndpoint {
   // Status of the private endpoint.
   enum Status {
     STATUS_UNSPECIFIED = 0;
+
     // Private endpoint is still creating / updating.
     PENDING = 1;
+
     // Private endpoint is available.
     AVAILABLE = 2;
+
     // Private endpoint is deleting.
     DELETING = 3;
   }
 
   // Yandex Cloud Object Storage.
-  message ObjectStorage {}
+  message ObjectStorage {
+  }
 
   message DnsOptions {
     // If enabled - vpc will create private dns records for specified service.
@@ -81,8 +84,10 @@ message PrivateEndpoint {
   message EndpointAddress {
     // ID of the subnet that the private endpoint address belongs to.
     string subnet_id = 1;
+
     // IP address of the private endpoint.
     string address = 2;
+
     // ID of the private endpoint address.
     string address_id = 3;
   }

@@ -7,7 +7,6 @@ import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/loadbalancer/v1/target_group.proto";
 import "yandex/cloud/operation/operation.proto";
-import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/loadbalancer/v1;loadbalancer";
 option java_package = "yandex.cloud.api.loadbalancer.v1";
@@ -16,111 +15,121 @@ option java_package = "yandex.cloud.api.loadbalancer.v1";
 service TargetGroupService {
   // Returns the specified TargetGroup resource.
   rpc Get(GetTargetGroupRequest) returns (TargetGroup) {
-    option (google.api.http) = {get: "/load-balancer/v1/targetGroups/{target_group_id}"};
-  }
+    option (google.api.http) = {
+      get: "/load-balancer/v1/targetGroups/{target_group_id}"
+    };
+  };
 
   // Retrieves the list of TargetGroup resources in the specified folder.
   rpc List(ListTargetGroupsRequest) returns (ListTargetGroupsResponse) {
-    option (google.api.http) = {get: "/load-balancer/v1/targetGroups"};
-  }
+    option (google.api.http) = {
+      get: "/load-balancer/v1/targetGroups"
+    };
+  };
 
   // Creates a target group in the specified folder and adds the specified targets to it.
   rpc Create(CreateTargetGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/load-balancer/v1/targetGroups"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateTargetGroupMetadata"
       response: "TargetGroup"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/load-balancer/v1/targetGroups"
+    };
+  };
 
   // Updates the specified target group.
   rpc Update(UpdateTargetGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/load-balancer/v1/targetGroups/{target_group_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateTargetGroupMetadata"
       response: "TargetGroup"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/load-balancer/v1/targetGroups/{target_group_id}"
+    };
+  };
 
   // Deletes the specified target group.
   rpc Delete(DeleteTargetGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/load-balancer/v1/targetGroups/{target_group_id}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteTargetGroupMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/load-balancer/v1/targetGroups/{target_group_id}"
+    };
+  };
 
   // Adds targets to the target group.
   rpc AddTargets(AddTargetsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/load-balancer/v1/targetGroups/{target_group_id}:addTargets"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "AddTargetsMetadata"
       response: "TargetGroup"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/load-balancer/v1/targetGroups/{target_group_id}/addTargets"
+    };
+  };
 
   // Removes targets from the target group.
   rpc RemoveTargets(RemoveTargetsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/load-balancer/v1/targetGroups/{target_group_id}:removeTargets"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "RemoveTargetsMetadata"
       response: "TargetGroup"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/load-balancer/v1/targetGroups/{target_group_id}/removeTargets"
+    };
+  };
 
   // Lists operations for the specified target group.
   rpc ListOperations(ListTargetGroupOperationsRequest) returns (ListTargetGroupOperationsResponse) {
-    option (google.api.http) = {get: "/load-balancer/v1/targetGroups/{target_group_id}/operations"};
-  }
+    option (google.api.http) = {
+      get: "/load-balancer/v1/targetGroups/{target_group_id}/operations"
+    };
+  };
+
 }
 
 message GetTargetGroupRequest {
   // ID of the TargetGroup resource to return.
   // To get the target group ID, use a [TargetGroupService.List] request.
-  string target_group_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string target_group_id = 1;
 }
 
 message ListTargetGroupsRequest {
   // ID of the folder to list target groups in.
   // To get the folder ID, use a [TargetGroupService.List] request.
-  string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string folder_id = 1;
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size],
   // the service returns a [ListTargetGroupsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Default value: 100.
-  int64 page_size = 2 [(value) = "<=1000"];
+  // The value must be less than or equal to 1000.
+  int64 page_size = 2;
 
   // Page token. To get the next page of results, set [page_token] to the
   // [ListTargetGroupsResponse.next_page_token] returned by a previous list request.
-  string page_token = 3 [(length) = "<=100"];
+  // The length must be less than or equal to 100.
+  string page_token = 3;
 
   // A filter expression that filters resources listed in the response.
   // The expression must specify:
   // 1. The field name. Currently you can only filter by the [TargetGroup.name] field.
   // 2. An `=` operator.
   // 3. The value in double quotes (`"`). Must be 3-63 characters long and match the regular expression `[a-z][-a-z0-9]{1,61}[a-z0-9]`.
-  string filter = 4 [(length) = "<=1000"];
+  // The length must be less than or equal to 1000.
+  string filter = 4;
 }
 
 message ListTargetGroupsResponse {
@@ -138,31 +147,33 @@ message ListTargetGroupsResponse {
 
 message CreateTargetGroupRequest {
   reserved 6;
+
   // ID of the folder to list target groups in.
   // To get the folder ID, use a [TargetGroupService.List] request.
-  string folder_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string folder_id = 1;
 
   // Name of the target group.
   // The name must be unique within the folder.
-  string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  // The value must match the regular expression: `|[a-z][-a-z0-9]{1,61}[a-z0-9]`.
+  string name = 2;
 
   // Description of the target group.
-  string description = 3 [(length) = "<=256"];
+  // The length must be less than or equal to 256.
+  string description = 3;
 
   // Resource labels as `` key:value `` pairs.
-  map<string, string> labels = 4 [
-    (yandex.cloud.size) = "<=64",
-    (length) = "<=63",
-    (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
-  ];
+  // Each map key must match the regular expression: `[a-z][-_0-9a-z]*`.
+  // Each map value must match the regular expression: `[-_0-9a-z]*`.
+  // The length of each map key must be between 1 and 63.
+  // The length of each map value must be less than or equal to 63.
+  // The number of elements must be less than or equal to 64.
+  map<string, string> labels = 4;
 
   // ID of the availability zone where the target group resides.
-  string region_id = 5 [(length) = "<=50"];
+  // The length must be less than or equal to 50.
+  string region_id = 5;
 
   // List of targets within the target group.
   repeated Target targets = 7;
@@ -176,31 +187,30 @@ message CreateTargetGroupMetadata {
 message UpdateTargetGroupRequest {
   // ID of the TargetGroup resource to update.
   // To get the target group ID, use a [TargetGroupService.List] request.
-  string target_group_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string target_group_id = 1;
 
   // Field mask that specifies which fields of the TargetGroup resource are going to be updated.
   google.protobuf.FieldMask update_mask = 2;
 
   // Name of the target group.
   // The name must be unique within the folder.
-  string name = 3 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
+  // The value must match the regular expression: `|[a-z][-a-z0-9]{1,61}[a-z0-9]`.
+  string name = 3;
 
   // Description of the target group.
-  string description = 4 [(length) = "<=256"];
+  // The length must be less than or equal to 256.
+  string description = 4;
 
   // Resource labels as `` key:value `` pairs.
-  //
   // The existing set of `` labels `` is completely replaced with the provided set.
-  map<string, string> labels = 5 [
-    (yandex.cloud.size) = "<=64",
-    (length) = "<=63",
-    (pattern) = "[-_0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_0-9a-z]*"
-  ];
+  // Each map key must match the regular expression: `[a-z][-_0-9a-z]*`.
+  // Each map value must match the regular expression: `[-_0-9a-z]*`.
+  // The length of each map key must be between 1 and 63.
+  // The length of each map value must be less than or equal to 63.
+  // The number of elements must be less than or equal to 64.
+  map<string, string> labels = 5;
 
   // A new list of targets for this target group.
   repeated Target targets = 6;
@@ -214,10 +224,9 @@ message UpdateTargetGroupMetadata {
 message DeleteTargetGroupRequest {
   // ID of the target group to delete.
   // To get the target group ID, use a [TargetGroupService.List] request.
-  string target_group_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string target_group_id = 1;
 }
 
 message DeleteTargetGroupMetadata {
@@ -228,13 +237,13 @@ message DeleteTargetGroupMetadata {
 message AddTargetsRequest {
   // ID of the TargetGroup resource to add targets to.
   // To get the target group ID, use a [TargetGroupService.List] request.
-  string target_group_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string target_group_id = 1;
 
   // List of targets to add to the target group.
-  repeated Target targets = 2 [(size) = ">=1"];
+  // The number of elements must be greater than or equal to 1.
+  repeated Target targets = 2;
 }
 
 message AddTargetsMetadata {
@@ -245,13 +254,13 @@ message AddTargetsMetadata {
 message RemoveTargetsRequest {
   // ID of the target group to remove targets from.
   // To get the target group ID, use a [TargetGroupService.List] request.
-  string target_group_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string target_group_id = 1;
 
   // List of targets to remove from the target group.
-  repeated Target targets = 2 [(size) = ">=1"];
+  // The number of elements must be greater than or equal to 1.
+  repeated Target targets = 2;
 }
 
 message RemoveTargetsMetadata {
@@ -262,20 +271,21 @@ message RemoveTargetsMetadata {
 message ListTargetGroupOperationsRequest {
   // ID of the TargetGroup resource to update.
   // To get the target group ID, use a [TargetGroupService.List] request.
-  string target_group_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string target_group_id = 1;
 
   // The maximum number of results per page that should be returned. If the number of available
   // results is larger than [page_size], the service returns a [ListTargetGroupOperationsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Default value: 100.
-  int64 page_size = 2 [(value) = "<=1000"];
+  // The value must be less than or equal to 1000.
+  int64 page_size = 2;
 
   // Page token. To get the next page of results, set [page_token] to the
   // [ListTargetGroupOperationsResponse.next_page_token] returned by a previous list request.
-  string page_token = 3 [(length) = "<=100"];
+  // The length must be less than or equal to 100.
+  string page_token = 3;
 }
 
 message ListTargetGroupOperationsResponse {

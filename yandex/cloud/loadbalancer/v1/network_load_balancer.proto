@@ -4,7 +4,6 @@ package yandex.cloud.loadbalancer.v1;
 
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/loadbalancer/v1/health_check.proto";
-import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/loadbalancer/v1;loadbalancer";
 option java_package = "yandex.cloud.api.loadbalancer.v1";
@@ -23,7 +22,8 @@ enum IpVersion {
 
 // A NetworkLoadBalancer resource. For more information, see [Network Load Balancer](/docs/network-load-balancer/concepts).
 message NetworkLoadBalancer {
-  reserved 8, 16, 17;
+  reserved 8, 16 to 17;
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -119,14 +119,14 @@ message NetworkLoadBalancer {
 // An AttachedTargetGroup resource. For more information, see [Targets and groups](/docs/network-load-balancer/concepts/target-resources).
 message AttachedTargetGroup {
   // ID of the target group.
-  string target_group_id = 1 [
-    (required) = true,
-    (length) = "<=50"
-  ];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string target_group_id = 1;
 
   // A health check to perform on the target group.
   // For now we accept only one health check per AttachedTargetGroup.
-  repeated HealthCheck health_checks = 2 [(size) = "1"];
+  // The number of elements must be exactly 1.
+  repeated HealthCheck health_checks = 2;
 }
 
 // A Listener resource. For more information, see [Listener](/docs/network-load-balancer/concepts/listener)
@@ -150,14 +150,14 @@ message Listener {
   // Network protocol for incoming traffic.
   Protocol protocol = 4;
 
+  // IP version of the external address.
+  IpVersion ip_version = 7;
+
   // Port of a target.
   int64 target_port = 5;
 
   // ID of the subnet.
   string subnet_id = 6;
-
-  // IP version of the external address.
-  IpVersion ip_version = 7;
 }
 
 // State of the target that was returned after the last health check.
@@ -198,7 +198,8 @@ message TargetState {
 // Status of the disabled zone.
 message DisableZoneStatus {
   // ID of zone.
-  string zone_id = 1 [(required) = true];
+  // This field is required.
+  string zone_id = 1;
 
   // Timestamp until which the zone will be disabled.
   // If not present then zone will be disabled until it is removed through a separate call.

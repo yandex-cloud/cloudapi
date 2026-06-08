@@ -168,9 +168,15 @@ message Cluster {
 
 message ClusterConfigSet {
   reserved 1, 2, 4, 5, 7;
+  // Deprecated: use dbms_config_set instead
+  //
+  // Configuration set for the Greenplum Database.
   oneof greenplum_config {
-    GreenplumConfigSet6 greenplum_config_set_6 = 9 [json_name = "greenplumConfigSet_6"];
+    GreenplumConfigSet6 greenplum_config_set_6 = 9 [json_name = "greenplumConfigSet_6", deprecated=true];
   }
+
+  // Configuration set for the Greenplum & Cloudberry.
+  DBMSConfigSet dbms_config_set = 10 [json_name="dbmsConfigSet"];
 
   // Odyssey® pool settings.
   ConnectionPoolerConfigSet pool = 3;

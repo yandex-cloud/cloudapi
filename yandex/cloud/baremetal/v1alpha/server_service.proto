@@ -449,6 +449,19 @@ message PowerOnServerMetadata {
   string server_id = 1;
 }
 
+enum RebootMode {
+  REBOOT_MODE_UNSPECIFIED = 0;
+
+  // Reboot server via network (PXE).
+  NETWORK = 1;
+
+  // Reboot server via CD-ROM.
+  CDROM = 2;
+
+  // Reboot server via BIOS.
+  BIOS = 3;
+}
+
 message RebootServerRequest {
   // ID of the server to reboot.
   // To get the server ID, use a [ServerService.List] request.
@@ -456,6 +469,9 @@ message RebootServerRequest {
     (length) = "20",
     (pattern) = "[a-z][a-z0-9]*"
   ];
+
+  // Optional parameter to specify in what mode to boot after successfull reboot.
+  RebootMode reboot_mode = 2;
 }
 
 message RebootServerMetadata {

@@ -348,9 +348,13 @@ message CreateClusterRequest {
 
 message ConfigSpec {
   reserved 1, 2, 4, 5, 7;
+  // Deprecated: use dbms_config instead
   oneof greenplum_config {
-    GreenplumConfig6 greenplum_config_6 = 9 [json_name = "greenplumConfig_6"];
+    GreenplumConfig6 greenplum_config_6 = 9 [json_name = "greenplumConfig_6", deprecated=true];
   }
+
+  // Configuration set for the Greenplum & Cloudberry.
+  DBMSConfig dbms_config = 10 [json_name = "dbmsConfig"];
 
   // Odyssey® pool settings.
   ConnectionPoolerConfig pool = 3;

@@ -52,7 +52,7 @@ message Image {
   // and create the disk from this image.
   string family = 7;
 
-  // The size of the image, specified in bytes.
+  // The storage size of the image, specified in bytes.
   int64 storage_size = 8;
 
   // Minimum size of the disk which will be created from this image.

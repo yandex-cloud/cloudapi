@@ -6,7 +6,6 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
-import "yandex/cloud/validation.proto";
 import "yandex/cloud/vpc/v1/gateway.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/vpc/v1;vpc";
@@ -14,90 +13,110 @@ option java_package = "yandex.cloud.api.vpc.v1";
 
 service GatewayService {
   // Returns the specified Gateway resource.
-  //
   // To get the list of all available Gateway resources, make a [List] request.
-  rpc Get (GetGatewayRequest) returns (Gateway) {
-    option (google.api.http) = {get: "/vpc/v1/gateways/{gateway_id}"};
-  }
+  rpc Get(GetGatewayRequest) returns (Gateway) {
+    option (google.api.http) = {
+      get: "/vpc/v1/gateways/{gateway_id}"
+    };
+  };
 
   // Retrieves the list of Gateway resources in the specified folder.
-  rpc List (ListGatewaysRequest) returns (ListGatewaysResponse) {
-    option (google.api.http) = {get: "/vpc/v1/gateways"};
-  }
+  rpc List(ListGatewaysRequest) returns (ListGatewaysResponse) {
+    option (google.api.http) = {
+      get: "/vpc/v1/gateways"
+    };
+  };
 
   // Creates a gateway in the specified folder.
-  rpc Create (CreateGatewayRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/vpc/v1/gateways" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateGatewayRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "CreateGatewayMetadata"
       response: "Gateway"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/vpc/v1/gateways"
     };
   };
 
   // Updates the specified gateway.
-  rpc Update (UpdateGatewayRequest) returns (operation.Operation) {
-    option (google.api.http) = {patch: "/vpc/v1/gateways/{gateway_id}" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateGatewayRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "UpdateGatewayMetadata"
       response: "Gateway"
+    };
+    option (google.api.http) = {
+      body: "*"
+      patch: "/vpc/v1/gateways/{gateway_id}"
     };
   };
 
   // Deletes the specified gateway.
-  rpc Delete (DeleteGatewayRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/vpc/v1/gateways/{gateway_id}"};
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteGatewayRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "DeleteGatewayMetadata"
       response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      delete: "/vpc/v1/gateways/{gateway_id}"
     };
   };
 
   // List operations for the specified gateway.
-  rpc ListOperations (ListGatewayOperationsRequest) returns (ListGatewayOperationsResponse) {
-    option (google.api.http) = {get: "/vpc/v1/gateways/{gateway_id}/operations"};
-  }
+  rpc ListOperations(ListGatewayOperationsRequest) returns (ListGatewayOperationsResponse) {
+    option (google.api.http) = {
+      get: "/vpc/v1/gateways/{gateway_id}/operations"
+    };
+  };
 
   // Move a gateway to another folder
-  rpc Move (MoveGatewayRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/vpc/v1/gateways/{gateway_id}:move" body: "*"};
-    option (yandex.cloud.api.operation) = {
+  rpc Move(MoveGatewayRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "MoveGatewayMetadata"
       response: "Gateway"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/vpc/v1/gateways/{gateway_id}:move"
+    };
+  };
 }
 
 message GetGatewayRequest {
   // ID of the Gateway resource to return.
-  //
   // To get Gateway resource ID make a [GatewayService.List] request.
-  string gateway_id = 1 [(required) = true, (length) = "<=50"];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string gateway_id = 1;
 }
 
 message ListGatewaysRequest {
   // ID of the folder to list gateways in.
-  //
   // To get the folder ID use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string folder_id = 1;
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than `page_size`, the service returns a [ListGatewaysResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Default value: 100.
-  int64 page_size = 2 [(value) = "<=1000"];
+  // The value must be less than or equal to 1000.
+  int64 page_size = 2;
 
   // Page token. To get the next page of results, set `page_token` to the
   // [ListGatewaysResponse.next_page_token] returned by a previous list request.
-  string page_token = 3 [(length) = "<=100"];
+  // The length must be less than or equal to 100.
+  string page_token = 3;
 
   // A filter expression that filters Gateway listed in the response.
-  //
   // The expression must specify:
   // 1. The field name. Currently you can use filtering only on [Gateway.name] field.
   // 2. An `=` operator.
   // 3. The value in double quotes (`"`). Must be 3-63 characters long and match the regular expression `[a-z][-a-z0-9]{1,61}[a-z0-9]`.
   // Example of a filter: `name=my-gateway`.
-  string filter = 4 [(length) = "<=1000"];
+  // The length must be less than or equal to 1000.
+  string filter = 4;
 }
 
 message ListGatewaysResponse {
@@ -107,26 +126,28 @@ message ListGatewaysResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListGatewaysRequest.page_size], use `next_page_token` as the value
   // for the [ListGatewaysRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
 }
 
 message ListGatewayOperationsRequest {
   // ID of the gateway to list operations for.
-  //
   // To get a gateway ID make a [GatewayService.List] request.
-  string gateway_id = 1 [(required) = true, (length) = "<=50"];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string gateway_id = 1;
 
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListGatewayOperationsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Default value: 100.
-  int64 page_size = 2 [(value) = "0-1000"];
+  // The value must be between 0 and 1000.
+  int64 page_size = 2;
 
   // Page token. To get the next page of results, set [page_token] to the
   // [ListGatewayOperationsResponse.next_page_token] returned by a previous list request.
-  string page_token = 3 [(length) = "<=100"];
+  // The length must be less than or equal to 100.
+  string page_token = 3;
 }
 
 message ListGatewayOperationsResponse {
@@ -136,7 +157,6 @@ message ListGatewayOperationsResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListGatewayOperationsRequest.page_size], use `next_page_token` as the value
   // for the [ListGatewayOperationsRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
 }
@@ -146,20 +166,27 @@ message SharedEgressGatewaySpec {
 
 message CreateGatewayRequest {
   // ID of the folder to create a gateway in.
-  //
   // To get a folder ID make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
-  string folder_id = 1 [(required) = true, (length) = "<=50"];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string folder_id = 1;
 
   // Name of the gateway.
   // The name must be unique within the folder.
-  string name = 2 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  // The value must match the regular expression: `|[a-z]([-a-z0-9]{0,61}[a-z0-9])?`.
+  string name = 2;
 
   // Description of the gateway.
-  string description = 3 [(length) = "<=256"];
+  // The length must be less than or equal to 256.
+  string description = 3;
 
   // Gateway labels as `key:value` pairs.
-  map<string, string> labels = 4 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
-
+  // Each map key must match the regular expression: `[a-z][-_./\\@0-9a-z]*`.
+  // Each map value must match the regular expression: `[-_./\\@0-9a-z]*`.
+  // The length of each map key must be between 1 and 63.
+  // The length of each map value must be less than or equal to 63.
+  // The number of elements must be less than or equal to 64.
+  map<string, string> labels = 4;
   // Gateway configuration specification
   oneof gateway {
     SharedEgressGatewaySpec shared_egress_gateway_spec = 5;
@@ -173,29 +200,35 @@ message CreateGatewayMetadata {
 
 message UpdateGatewayRequest {
   // ID of the gateway to update.
-  //
   // To get the gateway ID make a [GatewayService.List] request.
-  string gateway_id = 1 [(required) = true, (length) = "<=50"];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string gateway_id = 1;
 
   // Field mask that specifies which attributes of the Gateway should be updated.
   google.protobuf.FieldMask update_mask = 2;
 
   // New name for the gateway.
   // The name must be unique within the folder.
-  string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+  // The value must match the regular expression: `|[a-z]([-a-z0-9]{0,61}[a-z0-9])?`.
+  string name = 3;
 
   // New description of the gateway.
-  string description = 4 [(length) = "<=256"];
+  // The length must be less than or equal to 256.
+  string description = 4;
 
   // Gateway labels as `key:value` pairs.
-  //
   // Existing set of labels is completely replaced by the provided set, so if you just want
   // to add or remove a label:
   // 1. Get the current set of labels with a [GatewayService.Get] request.
   // 2. Add or remove a label in this set.
   // 3. Send the new set in this field.
-  map<string, string> labels = 5 [(size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
-
+  // Each map key must match the regular expression: `[a-z][-_./\\@0-9a-z]*`.
+  // Each map value must match the regular expression: `[-_./\\@0-9a-z]*`.
+  // The length of each map key must be between 1 and 63.
+  // The length of each map value must be less than or equal to 63.
+  // The number of elements must be less than or equal to 64.
+  map<string, string> labels = 5;
   // New Gateway configuration specification
   oneof gateway {
     SharedEgressGatewaySpec shared_egress_gateway_spec = 6;
@@ -209,9 +242,10 @@ message UpdateGatewayMetadata {
 
 message DeleteGatewayRequest {
   // ID of the gateway to delete.
-  //
   // To get a gateway ID make a [GatewayService.List] request.
-  string gateway_id = 1 [(required) = true, (length) = "<=50"];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string gateway_id = 1;
 }
 
 message DeleteGatewayMetadata {
@@ -220,8 +254,13 @@ message DeleteGatewayMetadata {
 }
 
 message MoveGatewayRequest {
-  string gateway_id = 1 [(required) = true, (length) = "<=50"];
-  string destination_folder_id = 2 [(required) = true, (length) = "<=50"];
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string gateway_id = 1;
+
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string destination_folder_id = 2;
 }
 
 message MoveGatewayMetadata {

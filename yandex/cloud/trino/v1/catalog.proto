@@ -131,7 +131,7 @@ message Metastore {
     oneof connection {
       option (exactly_one) = true;
 
-      // URI or cluster ID of the Hive Metastore.
+      // URI of the Hive Metastore.
       string uri = 1;
     }
   }
