@@ -27,6 +27,9 @@ message User {
 
   // Connection Manager connection configuration.
   ConnectionManager connection_manager = 6;
+
+  // User authentication method.
+  AuthMethod auth_method = 7;
 }
 
 message Permission {

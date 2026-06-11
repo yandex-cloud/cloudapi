@@ -72,7 +72,7 @@ service NetworkLoadBalancerService {
       response: "google.protobuf.Empty"
     };
     option (google.api.http) = {
-      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}/start"
+      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:start"
     };
   };
 
@@ -84,7 +84,7 @@ service NetworkLoadBalancerService {
       response: "google.protobuf.Empty"
     };
     option (google.api.http) = {
-      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}/stop"
+      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:stop"
     };
   };
 
@@ -96,7 +96,7 @@ service NetworkLoadBalancerService {
     };
     option (google.api.http) = {
       body: "*"
-      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}/attachTargetGroup"
+      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:attachTargetGroup"
     };
   };
 
@@ -108,14 +108,14 @@ service NetworkLoadBalancerService {
     };
     option (google.api.http) = {
       body: "*"
-      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}/detachTargetGroup"
+      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:detachTargetGroup"
     };
   };
 
   // Gets states of target resources in the attached target group.
   rpc GetTargetStates(GetTargetStatesRequest) returns (GetTargetStatesResponse) {
     option (google.api.http) = {
-      get: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}/getTargetStates"
+      get: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:getTargetStates"
     };
   };
 
@@ -127,7 +127,7 @@ service NetworkLoadBalancerService {
     };
     option (google.api.http) = {
       body: "*"
-      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}/addListener"
+      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:addListener"
     };
   };
 
@@ -139,7 +139,7 @@ service NetworkLoadBalancerService {
     };
     option (google.api.http) = {
       body: "*"
-      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}/removeListener"
+      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:removeListener"
     };
   };
 
@@ -158,7 +158,7 @@ service NetworkLoadBalancerService {
     };
     option (google.api.http) = {
       body: "*"
-      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}/disableZones"
+      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:disableZones"
     };
   };
 
@@ -170,7 +170,7 @@ service NetworkLoadBalancerService {
     };
     option (google.api.http) = {
       body: "*"
-      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}/enableZones"
+      post: "/load-balancer/v1/networkLoadBalancers/{network_load_balancer_id}:enableZones"
     };
   };
 }

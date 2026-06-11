@@ -64,7 +64,7 @@ service SubnetService {
     };
     option (google.api.http) = {
       body: "*"
-      post: "/vpc/v1/subnets/{subnet_id}/add-cidr-blocks"
+      post: "/vpc/v1/subnets/{subnet_id}:add-cidr-blocks"
     };
   };
 
@@ -77,7 +77,7 @@ service SubnetService {
     };
     option (google.api.http) = {
       body: "*"
-      post: "/vpc/v1/subnets/{subnet_id}/delete-cidr-blocks"
+      post: "/vpc/v1/subnets/{subnet_id}:remove-cidr-blocks"
     };
   };
 
@@ -118,7 +118,7 @@ service SubnetService {
     };
     option (google.api.http) = {
       body: "*"
-      post: "/vpc/v1/subnets/{subnet_id}/move"
+      post: "/vpc/v1/subnets/{subnet_id}:move"
     };
   };
 

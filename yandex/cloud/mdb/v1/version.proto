@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/v1;mdb";
+option java_package = "yandex.cloud.api.mdb.v1";
+
+// Common message for describing a Managed Database version.
+message Version {
+  enum Status {
+    // Version status is not specified.
+    STATUS_UNSPECIFIED = 0;
+
+    // Newly released version. New clusters can be created.
+    // Support may not yet be available in full scope.
+    NEW = 1;
+
+    // Newly released version. New clusters can be created.
+    ACTUAL = 2;
+
+    // Fully supported version.
+    SUPPORTED = 3;
+
+    // Version approaching end of support. New cluster creation is not allowed.
+    // Existing clusters continue to operate. Restore from backups is available.
+    DEPRECATED = 4;
+
+    // Deprecated version billed at an increased rate.
+    // New cluster creation and restore from backups are not allowed.
+    // Existing clusters continue to operate; automatic upgrade may be scheduled.
+    LEGACY = 5;
+
+    // End-of-life version. Clusters are forcibly upgraded to a supported version or shut down.
+    EOL = 6;
+  }
+
+  // Version ID
+  string id = 1;
+
+  // Version name
+  string name = 2;
+
+  // Version status
+  Status status = 3;
+
+  // List of version IDs that the current version can be updated to
+  repeated string updatable_to = 4;
+
+  // Optional. Date when the version enters an appropriate status (day precision)
+  google.protobuf.Timestamp deprecated_at = 5;
+
+  // Optional. Date when the version reaches an appropriate status (day precision)
+  google.protobuf.Timestamp eol_at = 6;
+}

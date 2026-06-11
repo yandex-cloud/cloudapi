@@ -70,7 +70,7 @@ service TargetGroupService {
     };
     option (google.api.http) = {
       body: "*"
-      post: "/load-balancer/v1/targetGroups/{target_group_id}/addTargets"
+      post: "/load-balancer/v1/targetGroups/{target_group_id}:addTargets"
     };
   };
 
@@ -82,7 +82,7 @@ service TargetGroupService {
     };
     option (google.api.http) = {
       body: "*"
-      post: "/load-balancer/v1/targetGroups/{target_group_id}/removeTargets"
+      post: "/load-balancer/v1/targetGroups/{target_group_id}:removeTargets"
     };
   };
 

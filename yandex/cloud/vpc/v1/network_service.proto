@@ -104,7 +104,7 @@ service NetworkService {
     };
     option (google.api.http) = {
       body: "*"
-      post: "/vpc/v1/networks/{network_id}/move"
+      post: "/vpc/v1/networks/{network_id}:move"
     };
   };
 

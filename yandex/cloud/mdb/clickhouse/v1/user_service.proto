@@ -188,6 +188,9 @@ message UpdateUserRequest {
 
   // Generate password using Connection Manager.
   google.protobuf.BoolValue generate_password = 8;
+
+  // User authentication method.
+  AuthMethod auth_method = 9;
 }
 
 message UpdateUserMetadata {

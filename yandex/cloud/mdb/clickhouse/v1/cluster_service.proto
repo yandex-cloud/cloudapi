@@ -1596,8 +1596,13 @@ message HostSpec {
 
 message ConfigSpec {
   message Clickhouse {
+    reserved 4;
+
     // Configuration for a ClickHouse server.
     config.ClickhouseConfig config = 1;
+
+    // Default user settings.
+    UserSettings default_user_settings = 5;
 
     // Resources allocated to ClickHouse hosts.
     Resources resources = 2;

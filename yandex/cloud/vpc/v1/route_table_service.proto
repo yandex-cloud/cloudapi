@@ -80,7 +80,7 @@ service RouteTableService {
     };
     option (google.api.http) = {
       body: "*"
-      post: "/vpc/v1/routeTables/{route_table_id}/move"
+      post: "/vpc/v1/routeTables/{route_table_id}:move"
     };
   };
 

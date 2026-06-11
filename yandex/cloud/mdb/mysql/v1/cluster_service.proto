@@ -17,6 +17,7 @@ import "yandex/cloud/mdb/mysql/v1/config/mysql8_4.proto";
 import "yandex/cloud/mdb/mysql/v1/database.proto";
 import "yandex/cloud/mdb/mysql/v1/maintenance.proto";
 import "yandex/cloud/mdb/mysql/v1/user.proto";
+import "yandex/cloud/mdb/v1/backup_retention_policy.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -369,6 +370,9 @@ message CreateClusterRequest {
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 16;
+
+  // Backup long-term retention policies setting.
+  repeated yandex.cloud.mdb.v1.BackupRetentionPolicySpec retention_policies = 17;
 }
 
 message CreateClusterMetadata {

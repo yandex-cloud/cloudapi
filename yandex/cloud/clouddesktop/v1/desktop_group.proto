@@ -68,20 +68,27 @@ message DesktopGroup {
   oneof update_policy {
     option (exactly_one) = true;
 
+    // Update group automatically.
     AutoUpdatePolicy auto_update_policy = 27;
+
+    // Update group manually.
     ManualUpdatePolicy manual_update_policy = 28;
   }
 }
 
 message DesktopGroupConfiguration {
   // Minimum number of ready desktops.
-  int64 min_ready_desktops = 1 [(value) = "1-512"];
+  int64 min_ready_desktops = 1 [(value) = "0-512"];
 
   // Maximum number of desktops.
   int64 max_desktops_amount = 2 [(value) = "0-512"];
   enum DesktopType {
     DESKTOP_TYPE_UNSPECIFIED = 0;
+
+    // Persistent desktop.
     PERSISTENT = 1;
+
+    // Non persistent desktop.
     NON_PERSISTENT = 2;
   }
 
