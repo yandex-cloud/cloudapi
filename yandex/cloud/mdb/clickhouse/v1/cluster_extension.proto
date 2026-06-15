@@ -25,5 +25,6 @@ message ClusterExtension {
 }
 
 message ClusterExtensions {
+  // List of cluster extensions.
   repeated ClusterExtension extensions = 1;
 }

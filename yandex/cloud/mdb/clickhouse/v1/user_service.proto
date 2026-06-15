@@ -67,6 +67,7 @@ service UserService {
   };
 
   // Grants a permission to the specified ClickHouse user.
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   rpc GrantPermission(GrantUserPermissionRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "GrantUserPermissionMetadata"
@@ -79,6 +80,7 @@ service UserService {
   };
 
   // Revokes a permission from the specified ClickHouse user.
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   rpc RevokePermission(RevokeUserPermissionRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "RevokeUserPermissionMetadata"

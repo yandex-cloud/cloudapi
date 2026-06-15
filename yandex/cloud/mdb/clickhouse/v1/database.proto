@@ -22,7 +22,11 @@ message Database {
 
 enum DatabaseEngine {
   DATABASE_ENGINE_UNSPECIFIED = 0;
+
+  // Atomic database engine.
   DATABASE_ENGINE_ATOMIC = 1;
+
+  // Replicated database engine.
   DATABASE_ENGINE_REPLICATED = 2;
 }
 

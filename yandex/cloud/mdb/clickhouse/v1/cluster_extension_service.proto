@@ -12,18 +12,21 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickh
 option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
 
 service ClusterExtensionService {
+  // Returns the specified cluster extension.
   rpc Get(GetClusterExtensionRequest) returns (ClusterExtension) {
     option (google.api.http) = {
       get: "/managed-clickhouse/v1/clusters/{cluster_id}/extensions/{extension_name}"
     };
   };
 
+  // Lists extensions installed in the specified cluster.
   rpc List(ListClusterExtensionsRequest) returns (ListClusterExtensionsResponse) {
     option (google.api.http) = {
       get: "/managed-clickhouse/v1/clusters/{cluster_id}/extensions"
     };
   };
 
+  // Installs a new extension in the specified cluster.
   rpc Create(CreateClusterExtensionRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "CreateClusterExtensionMetadata"
@@ -35,6 +38,7 @@ service ClusterExtensionService {
     };
   };
 
+  // Deletes the specified extension from the cluster.
   rpc Delete(DeleteClusterExtensionRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeleteClusterExtensionMetadata"
@@ -45,6 +49,7 @@ service ClusterExtensionService {
     };
   };
 
+  // Updates the specified cluster extension.
   rpc Update(UpdateClusterExtensionRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateClusterExtensionMetadata"
@@ -70,10 +75,13 @@ service ClusterExtensionService {
 }
 
 message GetClusterExtensionRequest {
+  // ID of the ClickHouse cluster.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
+
+  // Name of the extension.
   string extension_name = 2 [
     (length) = "<=63",
     (required) = true
@@ -81,37 +89,54 @@ message GetClusterExtensionRequest {
 }
 
 message ListClusterExtensionsRequest {
+  // ID of the ClickHouse cluster.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
+
+  // Maximum number of extensions to return per response.
   int64 page_size = 2 [(value) = "<=1000"];
+
+  // Token for fetching the next page of results.
   string page_token = 3 [(length) = "<=100"];
 }
 
 message ListClusterExtensionsResponse {
+  // Requested extensions.
   repeated ClusterExtension extensions = 1;
+
+  // Token to retrieve the next page of results.
   string next_page_token = 2;
 }
 
 message CreateClusterExtensionRequest {
+  // ID of the ClickHouse cluster.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
+
+  // Specification of the extension to create.
   ExtensionSpec extension_spec = 2 [(required) = true];
 }
 
 message CreateClusterExtensionMetadata {
+  // ID of the ClickHouse cluster.
   string cluster_id = 1;
+
+  // Name of the extension being created.
   string extension_name = 2;
 }
 
 message DeleteClusterExtensionRequest {
+  // ID of the ClickHouse cluster.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
+
+  // Name of the extension to delete.
   string extension_name = 2 [
     (length) = "<=63",
     (required) = true
@@ -119,42 +144,64 @@ message DeleteClusterExtensionRequest {
 }
 
 message DeleteClusterExtensionMetadata {
+  // ID of the ClickHouse cluster.
   string cluster_id = 1;
+
+  // Name of the extension being deleted.
   string extension_name = 2;
 }
 
 message UpdateClusterExtensionRequest {
+  // ID of the ClickHouse cluster.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
+
+  // New specification of the extension.
   ExtensionSpec extension_spec = 2 [(required) = true];
 }
 
 message UpdateClusterExtensionMetadata {
+  // ID of the ClickHouse cluster.
   string cluster_id = 1;
+
+  // Name of the extension being updated.
   string extension_name = 2;
 }
 
 message SetClusterExtensionsRequest {
+  // ID of the ClickHouse cluster.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
+
+  // Specifications of the cluster extensions to set.
   repeated ExtensionSpec extension_specs = 2;
 }
 
 message SetClusterExtensionsMetadata {
+  // ID of the ClickHouse cluster.
   string cluster_id = 1;
+
+  // Names of the added extensions.
   repeated string added_extension_names = 2;
+
+  // Names of the updated extensions.
   repeated string updated_extension_names = 3;
+
+  // Names of the deleted extensions.
   repeated string deleted_extension_names = 4;
 }
 
 message ExtensionSpec {
+  // Name of the extension.
   string name = 1 [
     (length) = "<=63",
     (required) = true
   ];
+
+  // Version of the extension.
   string version = 2;
 }

@@ -23,6 +23,10 @@ message FormatSchema {
 
 enum FormatSchemaType {
   FORMAT_SCHEMA_TYPE_UNSPECIFIED = 0;
+
+  // [Protobuf](https://protobuf.dev/) data format (including [ProtobufSingle](https://clickhouse.com/docs/en/interfaces/formats#protobufsingle)).
   FORMAT_SCHEMA_TYPE_PROTOBUF = 1;
+
+  // [Cap'n Proto](https://capnproto.org/) data format.
   FORMAT_SCHEMA_TYPE_CAPNPROTO = 2;
 }

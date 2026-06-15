@@ -29,12 +29,26 @@ message AnytimeMaintenanceWindow {
 message WeeklyMaintenanceWindow {
   enum WeekDay {
     WEEK_DAY_UNSPECIFIED = 0;
+
+    // Monday.
     MON = 1;
+
+    // Tuesday.
     TUE = 2;
+
+    // Wednesday.
     WED = 3;
+
+    // Thursday.
     THU = 4;
+
+    // Friday.
     FRI = 5;
+
+    // Saturday.
     SAT = 6;
+
+    // Sunday.
     SUN = 7;
   }
 

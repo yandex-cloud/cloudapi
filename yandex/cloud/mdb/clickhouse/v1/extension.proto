@@ -23,5 +23,6 @@ message ExtensionVersion {
   bool default = 2;
 
   // Is version deprecated.
+  // (-- api-linter: yc::1703::deprecated-annotation=disabled --)
   bool deprecated = 3;
 }

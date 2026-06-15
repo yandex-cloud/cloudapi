@@ -13,6 +13,7 @@ message Version {
   string name = 2;
 
   // Whether version is deprecated.
+  // (-- api-linter: yc::1703::deprecated-annotation=disabled --)
   bool deprecated = 3;
 
   // List of versions that can be updated from current.

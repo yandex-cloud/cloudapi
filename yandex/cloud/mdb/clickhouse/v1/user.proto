@@ -1480,6 +1480,7 @@ message UserSettings {
   google.protobuf.Int64Value query_cache_min_query_runs = 158;
 
   // Minimum duration in milliseconds a query needs to run for its result to be stored in the query cache.
+  // (-- api-linter: yc::1701::duration-required=disabled --)
   //
   // Default value: **0**.
   //
@@ -1712,6 +1713,7 @@ message UserSettings {
 // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/quotas/).
 message UserQuota {
   // Duration of interval for quota in milliseconds.
+  // (-- api-linter: yc::1701::duration-required=disabled --)
   google.protobuf.Int64Value interval_duration = 1;
 
   // The total number of queries. **0** means unlimited.

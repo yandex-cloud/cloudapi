@@ -144,6 +144,7 @@ service ClusterService {
   };
 
   // Reschedules planned maintenance operation.
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   rpc RescheduleMaintenance(RescheduleMaintenanceRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "RescheduleMaintenanceMetadata"
@@ -163,6 +164,7 @@ service ClusterService {
   };
 
   // Same as ListLogs but using server-side streaming. Also allows for `tail -f` semantics.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc StreamLogs(StreamClusterLogsRequest) returns (stream StreamLogRecord) {
     option (google.api.http) = {
       get: "/managed-clickhouse/v1/clusters/{cluster_id}:stream_logs"
@@ -203,6 +205,7 @@ service ClusterService {
   };
 
   // Updates the specified hosts.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc UpdateHosts(UpdateClusterHostsRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateClusterHostsMetadata"
@@ -215,6 +218,7 @@ service ClusterService {
   };
 
   // Deletes the specified hosts for a cluster.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc DeleteHosts(DeleteClusterHostsRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeleteClusterHostsMetadata"
@@ -226,6 +230,7 @@ service ClusterService {
     };
   };
 
+  // Restarts the specified hosts.
   rpc RestartHosts(RestartClusterHostsRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "RestartClusterHostsMetadata"
@@ -303,6 +308,7 @@ service ClusterService {
   };
 
   // Deletes the specified shards (one or more).
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc DeleteShards(DeleteClusterShardsRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeleteClusterShardsMetadata"
@@ -383,6 +389,7 @@ service ClusterService {
   };
 
   // Updates an external dictionary for the specified ClickHouse cluster.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc UpdateExternalDictionary(UpdateClusterExternalDictionaryRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateClusterExternalDictionaryMetadata"
@@ -395,6 +402,7 @@ service ClusterService {
   };
 
   // Deletes the specified external dictionary.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc DeleteExternalDictionary(DeleteClusterExternalDictionaryRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeleteClusterExternalDictionaryMetadata"
@@ -945,6 +953,8 @@ message StreamClusterLogsRequest {
 
   // Columns from logs table to get in the response.
   repeated string column_filter = 2;
+
+  // Type of the service to read logs from.
   ServiceType service_type = 3 [(required) = true];
 
   // Start timestamp for the logs request.
