@@ -279,6 +279,9 @@ message CreateUserRequest {
 
   // User's employee ID
   string employee_id = 16 [(length) = "<=256"];
+
+  // Timestamp when the user account expires.
+  google.protobuf.Timestamp expires_at = 17 [(value) = "19700101T000000.000000000-21051231T235959.999999999"];
 }
 
 // Metadata for the [UserService.Create] operation.
@@ -335,6 +338,9 @@ message UpdateUserRequest {
 
   // New employee ID for the user.
   string employee_id = 13 [(length) = "<=256"];
+
+  // Timestamp when the user account expires.
+  google.protobuf.Timestamp expires_at = 14 [(value) = "19700101T000000.000000000-21051231T235959.999999999"];
 }
 
 // Metadata for the [UserService.Update] operation.
@@ -371,6 +377,9 @@ message SuspendUserRequest {
     (length) = "<=256",
     (required) = false
   ];
+
+  // Timestamp when the user account expires.
+  google.protobuf.Timestamp expires_at = 3 [(value) = "19700101T000000.000000000-21051231T235959.999999999"];
 }
 
 // Metadata for the [UserService.Suspend] operation.
@@ -560,6 +569,19 @@ message PasswordHash {
 
     // Microsoft Active Directory MD4 hash.
     AD_MD4 = 1;
+
+    // 389 legacy format `{PBKDF2_SHA256}` (underscore).
+    // Supported by 389 DS, FreeIPA, ALD Pro.
+    LDAP_PBKDF2_SHA256 = 2;
+
+    // OpenLDAP-compatible format `{PBKDF2-SHA256}` (hyphen). Supported by 389 DS, FreeIPA, ALD Pro.
+    LDAP_PBKDF2_SHA256_OPENLDAP = 3;
+
+    // Supported by 389 DS, FreeIPA, ALD Pro.
+    LDAP_PBKDF2_SHA512 = 4;
+
+    // Supported by Apache Directory Server.
+    LDAP_PKCS5S2 = 5;
   }
 }
 

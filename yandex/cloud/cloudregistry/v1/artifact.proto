@@ -10,6 +10,8 @@ option java_package = "yandex.cloud.api.cloudregistry.v1";
 
 // A Artifact resource.
 message Artifact {
+  reserved 12 to 14;
+
   enum Kind {
     KIND_UNSPECIFIED = 0;
 
@@ -71,6 +73,9 @@ message Artifact {
 
   // Content of the artifact.
   Content content = 11;
+
+  // Output only. ID of the registry that contains this artifact.
+  string registry_id = 15;
 }
 
 // Content of the artifact, specific to its type.

@@ -45,9 +45,20 @@ service SubtitleService {
     };
   };
 
+  // Generates a URL for downloading the original subtitle file.
+  // This URL can be used to retrieve the subtitle content in its original format.
+  // The URL is pre-signed and has a limited validity period.
+  rpc GenerateDownloadURL(GenerateSubtitleDownloadURLRequest) returns (GenerateSubtitleDownloadURLResponse) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/video/v1/subtitles/{subtitle_id}:generateDownloadURL"
+    };
+  };
+
   // Generates a URL for uploading a subtitle file to an existing subtitle record.
   // This URL can be used to upload the actual subtitle file using an HTTP PUT request.
   // The URL is pre-signed and has a limited validity period.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc GenerateUploadURL(GenerateSubtitleUploadURLRequest) returns (GenerateSubtitleUploadURLResponse) {
     option (google.api.http) = {
       get: "/video/v1/subtitles/{subtitle_id}:generateUploadURL"
@@ -143,6 +154,21 @@ message SubtitleUploadParams {
 message CreateSubtitleMetadata {
   // ID of the subtitle being created.
   string subtitle_id = 1;
+}
+
+message GenerateSubtitleDownloadURLRequest {
+  // ID of the subtitle for which to generate a download URL.
+  string subtitle_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message GenerateSubtitleDownloadURLResponse {
+  // Pre-signed URL for downloading the subtitle file.
+  // This URL can be used with an HTTP GET request to download the subtitle file.
+  // The URL has a limited validity period and will expire after a certain time.
+  string download_url = 1;
 }
 
 message GenerateSubtitleUploadURLRequest {

@@ -1,0 +1,233 @@
+syntax = "proto3";
+
+package yandex.cloud.iam;
+
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/iam;iam";
+option java_package = "yandex.cloud.api.iam.v1";
+
+message Subject {
+  reserved 7, 13;
+
+  // Subject - Identifier for the End-User at the Issuer.
+  string sub = 1 [
+    (length) = "<=100",
+    (required) = true
+  ];
+
+  // Subject type.
+  SubjectType type = 2 [(required) = true];
+
+  // Creation time
+  google.protobuf.Timestamp created_at = 3;
+
+  // Status
+  SubjectStatus status = 4;
+
+  // End-User's full name in displayable form including all name parts, possibly including titles and suffixes, ordered according to the End-User's locale and preferences.
+  string name = 5;
+
+  // Last time the access token was created. Filled only for federated users (not for global users).
+  google.protobuf.Timestamp last_authenticated_at = 6;
+
+  // Groups to which the subject belongs
+  repeated Group groups = 8;
+  // Subject type-specific details.
+  oneof subject_details {
+    option (exactly_one) = true;
+
+    // Details of a user account subject. Set when the subject is a user account.
+    UserAccount user_account = 9;
+
+    // Details of a service account subject. Set when the subject is a service account.
+    ServiceAccount service_account = 10;
+
+    // Details of a group subject. Set when the subject is a group.
+    Group group = 11;
+
+    // Details of an invitee subject. Set when the subject is an invitee.
+    Invitee invitee = 12;
+  }
+
+  // Subject id in external container
+  string external_id = 14;
+}
+
+// Type of the subject.
+enum SubjectType {
+  // Unspecified subject type.
+  SUBJECT_TYPE_UNSPECIFIED = 0;
+
+  // User account subject.
+  USER_ACCOUNT = 1;
+
+  // Service account subject.
+  SERVICE_ACCOUNT = 2;
+
+  // Group subject.
+  GROUP = 3;
+
+  // Invitee subject.
+  INVITEE = 4;
+}
+
+// Status of the subject.
+enum SubjectStatus {
+  // Unspecified subject status.
+  SUBJECT_STATUS_UNSPECIFIED = 0;
+
+  // Subject is active.
+  ACTIVE = 1;
+
+  // Subject is suspended.
+  SUSPENDED = 2;
+}
+
+message Group {
+  // ID of the group.
+  string id = 1;
+
+  // Name of the group.
+  string name = 2;
+
+  // Type of the group.
+  GroupType type = 3;
+}
+
+// Type of the group.
+enum GroupType {
+  // Unspecified group type.
+  GROUP_TYPE_UNSPECIFIED = 0;
+
+  // Public group.
+  PUBLIC_ACCESS = 1;
+
+  // Regular group.
+  EXPLICIT = 2;
+
+  // System group.
+  META = 3;
+}
+
+message UserAccount {
+  reserved 5 to 7, 9 to 10, 12 to 13;
+
+  // Given name(s) or first name(s) of the End-User. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters.
+  string given_name = 1;
+
+  // Surname(s) or last name(s) of the End-User. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters.
+  string family_name = 2;
+
+  // Shorthand name by which the End-User wishes to be referred to at the RP, such as janedoe or j.doe.
+  // This value MAY be any valid JSON string including special characters such as @, /, or whitespace.
+  string preferred_username = 3;
+
+  // End-User's preferred e-mail address. Its value MUST conform to the RFC 5322 [RFC5322] addr-spec syntax.
+  string email = 4;
+
+  // End-User's preferred phone number.
+  string phone_number = 8;
+
+  // Subject container
+  SubjectContainer subject_container = 11;
+
+  // Last time when subject identification was proofed.
+  google.protobuf.Timestamp last_id_proof_at = 14;
+
+  // Reason of subject's suspension
+  string suspend_reason = 15;
+
+  // Information about job
+  JobInfo job_info = 16;
+
+  // The subject will be suspended at the specified time
+  google.protobuf.Timestamp expires_at = 17;
+
+  // Last time when the user account attributes were modified
+  google.protobuf.Timestamp modified_at = 18;
+}
+
+message SubjectContainer {
+  // ID of the subject container.
+  string id = 1;
+
+  // Name of the subject container.
+  string name = 2;
+
+  // Type of the subject container.
+  ContainerType container_type = 3;
+}
+
+// Type of the subject container.
+enum ContainerType {
+  // Unspecified container type.
+  CONTAINER_TYPE_UNSPECIFIED = 0;
+
+  // SAML federation container.
+  SAML = 1;
+
+  // Yandex Passport container.
+  PASSPORT = 3;
+
+  // User pool container.
+  USERPOOL = 4;
+}
+
+message ServiceAccount {
+  // Cloud the service account belongs to.
+  Cloud cloud = 1;
+
+  // Folder the service account belongs to.
+  Folder folder = 2;
+
+  // Service agent details. Set when the service account is a service agent.
+  ServiceAgent service_agent = 3;
+}
+
+message Cloud {
+  // ID of the cloud.
+  string id = 1;
+
+  // Name of the cloud.
+  string name = 2;
+}
+
+message Folder {
+  // ID of the folder.
+  string id = 1;
+
+  // Name of the folder.
+  string name = 2;
+}
+
+message ServiceAgent {
+  // ID of the service the service agent acts on behalf of.
+  string service_id = 1;
+
+  // ID of the microservice the service agent acts on behalf of.
+  string microservice_id = 2;
+}
+
+message Invitee {
+  // E-mail address of the invitee.
+  string email = 1;
+
+  // Preferred username of the invitee.
+  string preferred_username = 2;
+}
+
+message JobInfo {
+  // Name of the company the user works for.
+  string company_name = 1;
+
+  // Department the user belongs to.
+  string department = 2;
+
+  // Job title of the user.
+  string job_title = 3;
+
+  // Employee identifier of the user.
+  string employee_id = 4;
+}

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package yandex.cloud.cloudregistry.v1.domain;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cloudregistry/v1/domain;cloudregistry";
+option java_package = "yandex.cloud.api.cloudregistry.v1.domain";
+
+message DebianReindexPackagesMetadata {
+  // ID of the registry that debian packages index is beind updated.
+  string registry_id = 1;
+
+  // A distribution of packages index is being updated.
+  string distribution = 2;
+
+  // A component of packages index is being updated.
+  string component = 3;
+
+  // An architecture of packages index is beind updated.
+  string architecture = 4;
+}

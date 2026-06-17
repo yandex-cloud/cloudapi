@@ -1773,4 +1773,7 @@ message UserSpec {
 
   // Quotas assigned to the user.
   repeated UserQuota quotas = 5;
+
+  // User authentication method.
+  AuthMethod auth_method = 7;
 }

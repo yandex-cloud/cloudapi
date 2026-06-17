@@ -181,6 +181,9 @@ message CreateMcpGatewayRequest {
 
   // Flag indicating if the MCP Gateway is publicly accessible.
   bool public = 9;
+
+  // MCP transport of the MCP Gateway.
+  McpTransport transport = 10;
 }
 
 message CreateMcpGatewayMetadata {
@@ -232,6 +235,9 @@ message UpdateMcpGatewayRequest {
 
   // Updated flag indicating if the MCP Gateway is publicly accessible.
   bool public = 10;
+
+  // MCP transport of the MCP Gateway.
+  McpTransport transport = 11;
 }
 
 message UpdateMcpGatewayMetadata {

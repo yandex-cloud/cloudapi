@@ -89,4 +89,7 @@ message User {
 
   // User's employee ID
   string employee_id = 17;
+
+  // Timestamp when the user account expires.
+  google.protobuf.Timestamp expires_at = 18;
 }

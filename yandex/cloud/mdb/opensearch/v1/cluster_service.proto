@@ -912,10 +912,10 @@ message ConfigUpdateSpec {
   // Access policy for external services.
   Access access = 5;
 
-  // Snapshot management configuration
+  // Snapshot management configuration.
   SnapshotManagement snapshot_management = 6;
 
-  // Audit log settings
+  // Audit log settings.
   config.AuditLog audit_log = 7;
 }
 

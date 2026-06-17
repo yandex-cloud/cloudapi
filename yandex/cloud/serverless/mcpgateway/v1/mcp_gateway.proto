@@ -70,6 +70,9 @@ message McpGateway {
 
   // Publicity of the MCP Gateway. Public MCP Gateway can be accessed by anybody.
   bool public = 14;
+
+  // Transport of the MCP Gateway.
+  McpTransport transport = 15;
 }
 
 message McpGatewayPreview {
@@ -124,6 +127,16 @@ message LogOptions {
   // Minimum logs level.
   // See [LogLevel.Level] for details.
   logging.v1.LogLevel.Level min_level = 4;
+}
+
+enum McpTransport {
+  MCP_TRANSPORT_UNSPECIFIED = 0;
+
+  // SSE MCP Transport.
+  SSE = 1;
+
+  // Streamable HTTP MCP transport.
+  STREAMABLE = 2;
 }
 
 message McpTool {

@@ -175,7 +175,7 @@ message ListRegistriesRequest {
 
   // Page token. To get the next page of results, set [page_token] to the
   // [ListRegistriesResponse.next_page_token] returned by a previous list request.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3;
 }
 
 message ListRegistriesResponse {
@@ -362,7 +362,7 @@ message ListArtifactsRequest {
 
   // Page token. To get the next page of results, set [page_token] to the
   // [ListArtifactsResponse.next_page_token] returned by a previous list request.
-  string page_token = 4 [(length) = "<=100"];
+  string page_token = 4;
 }
 
 message ListArtifactsResponse {

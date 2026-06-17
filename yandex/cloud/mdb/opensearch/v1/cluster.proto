@@ -156,10 +156,10 @@ message ClusterConfig {
   // Access policy for external services.
   Access access = 4;
 
-  // Snapshot management configuration
+  // Snapshot management configuration.
   SnapshotManagement snapshot_management = 5;
 
-  // Full version
+  // Full version.
   string full_version = 6;
 
   // Audit log settings.

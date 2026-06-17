@@ -257,8 +257,14 @@ message WafProfileExclusionRule {
     }
 
     message BodyMatcher {
-      // List of request body values to match. Up to 20 entries.
-      repeated StringMatcher body_values = 1 [(size) = "<=20"];
+      // Deprecated. Previously matched body content. Use is_excluded instead.
+      repeated StringMatcher body_values = 1 [
+        (size) = "<=20",
+        deprecated = true
+      ];
+
+      // When true, request body is excluded from WAF inspection for this exclusion rule.
+      bool is_excluded = 2;
     }
 
     // Matcher for request query parameters.
@@ -270,7 +276,7 @@ message WafProfileExclusionRule {
     // Matcher for request cookies.
     CookieMatcher cookie_matcher = 3;
 
-    // Matcher for request body.
+    // Matcher for request body exclusion flag.
     BodyMatcher body_matcher = 4;
   }
 

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package yandex.cloud.cloudregistry.v1.domain;
+
+import "google/api/annotations.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cloudregistry/v1/domain;cloudregistry";
+option java_package = "yandex.cloud.api.cloudregistry.v1.domain";
+
+service DebianService {
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // Calculates Packages and Release metadata files for specified index artifact
+  rpc ReindexPackages(DebianReindexPackagesRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DebianReindexPackagesMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/cloud-registry/v1/domain/debian/indices/{artifact_id}:reindex"
+    };
+  };
+}
+
+message DebianReindexPackagesRequest {
+  // ID of Packages index being updated
+  string artifact_id = 1;
+}

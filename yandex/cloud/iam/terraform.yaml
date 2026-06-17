@@ -1,0 +1,47 @@
+resources_and_data_sources:
+  - name: yandex_iam_workload_federated_credential
+    rename: yandex_iam_workload_identity_federated_credential
+
+resources:
+  - name: yandex_iam_service_account
+  - name: yandex_iam_workload_oidc_federation
+    rename: yandex_iam_workload_identity_oidc_federation
+
+iam_members:
+  - name: yandex_iam_service_account
+
+iam_bindings:
+  - name: yandex_iam_service_account
+  - name: yandex_iam_workload_oidc_federation
+    rename: yandex_iam_workload_identity_oidc_federation
+
+model_config:
+  upgrade_state:
+    yandex_iam_service_account:
+      0:
+        prior_schema: YandexIAMServiceAccountResourceSchema
+        state_upgrader: moveStateFromV0
+
+  renames:
+    yandex.cloud.iam.v1.ServiceAccount:
+      fields:
+        last_authenticated_at: ""
+
+
+  options:
+    yandex.cloud.iam.v1.ServiceAccount.folder_id:
+      force_new: true
+    yandex.cloud.iam.v1.workload.FederatedCredential.external_subject_id:
+      force_new: true
+    yandex.cloud.iam.v1.workload.FederatedCredential.id:
+      force_new: true
+    yandex.cloud.iam.v1.workload.FederatedCredential.federation_id:
+      force_new: true
+    yandex.cloud.iam.v1.workload.FederatedCredential.service_account_id:
+      force_new: true
+    yandex.cloud.iam.v1.workload.oidc.Federation.folder_id:
+      force_new: true
+    yandex.cloud.iam.v1.workload.oidc.Federation.issuer:
+      force_new: true
+    yandex.cloud.iam.v1.workload.oidc.Federation.audiences:
+      set: true

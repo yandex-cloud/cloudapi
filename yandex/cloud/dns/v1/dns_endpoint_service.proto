@@ -101,6 +101,7 @@ service DnsInboundEndpointService {
       post: "/dns/v1/inboundEndpoints/{resource_id}:updateAccessBindings"
     };
   };
+
 }
 
 message GetDnsInboundEndpointRequest {

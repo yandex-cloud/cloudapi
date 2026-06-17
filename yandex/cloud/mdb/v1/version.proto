@@ -48,9 +48,10 @@ message Version {
   // List of version IDs that the current version can be updated to
   repeated string updatable_to = 4;
 
-  // Optional. Date when the version enters an appropriate status (day precision)
+  // Optional. Date when the version reaches DEPRECATED status (day precision)
+  // (-- api-linter: yc::1703::deprecated-annotation=disabled --)
   google.protobuf.Timestamp deprecated_at = 5;
 
-  // Optional. Date when the version reaches an appropriate status (day precision)
+  // Optional. Date when the version reaches EOL status (day precision)
   google.protobuf.Timestamp eol_at = 6;
 }
