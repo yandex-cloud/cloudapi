@@ -1424,6 +1424,10 @@ message CreateClusterShardGroupRequest {
   // List of shard names that should be put into the new group.
   // To get the list, make a [ClusterService.ListShardGroups] request.
   repeated string shard_names = 4;
+
+  // List of external shards that should be put into the new group.
+  // External shards reference replicas outside this cluster.
+  repeated ExternalShard external_shards = 5;
 }
 
 message CreateClusterShardGroupMetadata {
@@ -1457,6 +1461,10 @@ message UpdateClusterShardGroupRequest {
 
   // Updated list of shard names that belongs to the shard group.
   repeated string shard_names = 5;
+
+  // Updated list of external shards that belongs to the shard group.
+  // External shards reference replicas outside this cluster.
+  repeated ExternalShard external_shards = 6;
 }
 
 message UpdateClusterShardGroupMetadata {

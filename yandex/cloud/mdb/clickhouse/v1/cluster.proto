@@ -232,6 +232,9 @@ message ShardGroup {
 
   // List of shard names contained in the shard group.
   repeated string shard_names = 4;
+
+  // List of external shards contained in the shard group.
+  repeated ExternalShard external_shards = 5;
 }
 
 message ShardConfig {
@@ -253,6 +256,40 @@ message ShardConfig {
 
   // ClickHouse configuration for a shard.
   Clickhouse clickhouse = 1;
+}
+
+message ExternalShard {
+  message Replica {
+    // Name (FQDN) or IP address of the external replica host.
+    string host = 1;
+
+    // Port to connect to the external replica. If not specified, the default ClickHouse port is used.
+    google.protobuf.Int64Value port = 2;
+
+    // Whether to use a secure (SSL/TLS) connection when connecting to the external replica.
+    google.protobuf.BoolValue secure = 3;
+
+    // Name of the user to authenticate with on the external replica.
+    string user = 4;
+
+    // Password of the user to authenticate with on the external replica.
+    string password = 5;
+
+    // Priority of the external replica for load balancing.
+    // The replica with the lowest priority value is preferred when establishing a connection.
+    google.protobuf.Int64Value priority = 6;
+  }
+
+  // Name of the external shard.
+  string name = 1;
+
+  // Relative weight of the external shard considered when writing data to the cluster.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/en/operations/table_engines/distributed/).
+  google.protobuf.Int64Value weight = 2;
+
+  // List of replicas contained in the external shard.
+  repeated Replica replicas = 3;
 }
 
 message Host {

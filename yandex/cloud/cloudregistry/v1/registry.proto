@@ -45,6 +45,9 @@ message Registry {
 
     // Regisrty kind is binary.
     BINARY = 7;
+
+    // Registry kind is go.
+    GO = 8;
   }
 
   enum Type {
