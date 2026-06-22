@@ -12,16 +12,20 @@ option java_package = "yandex.cloud.api.operation";
 // A set of methods for managing operations for asynchronous API requests.
 service OperationService {
   // Returns the specified Operation resource.
-  rpc Get (GetOperationRequest) returns (Operation) {
-    option (google.api.http) = { get: "/operations/{operation_id}" };
-  }
+  rpc Get(GetOperationRequest) returns (Operation) {
+    option (google.api.http) = {
+      get: "/operations/{operation_id}"
+    };
+  };
 
   // Cancels the specified operation.
   //
   // Note that currently Object Storage API does not support cancelling operations.
-  rpc Cancel (CancelOperationRequest) returns (Operation) {
-    option (google.api.http) = { get: "/operations/{operation_id}:cancel" };
-  }
+  rpc Cancel(CancelOperationRequest) returns (Operation) {
+    option (google.api.http) = {
+      get: "/operations/{operation_id}:cancel"
+    };
+  };
 }
 
 message GetOperationRequest {

@@ -39,9 +39,7 @@ message UserRAM {
   ];
 
   // Ram size.
-  int64 size_bytes = 3 [
-    (google.api.field_behavior) = REQUIRED
-  ];
+  int64 size_bytes = 3 [(google.api.field_behavior) = REQUIRED];
 }
 
 message UserNIC {

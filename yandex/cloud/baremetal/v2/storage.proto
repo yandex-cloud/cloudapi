@@ -31,7 +31,7 @@ message StoragePartition {
   StoragePartitionType type = 1;
 
   // Size of the storage partition.
-  int64 size_bytes = 2 [(api.tools.unit) = "bytes"];
+  int64 size_bytes = 2;
 
   // Storage mount point.
   string mount_point = 3;

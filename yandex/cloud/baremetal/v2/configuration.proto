@@ -31,9 +31,7 @@ message DiskDriveConfiguration {
   int64 count = 2 [(google.api.field_behavior) = REQUIRED];
 
   // Size of a single disk drive.
-  int64 size_bytes = 3 [
-    (google.api.field_behavior) = REQUIRED
-  ];
+  int64 size_bytes = 3 [(google.api.field_behavior) = REQUIRED];
 }
 
 message GPUCard {
@@ -95,9 +93,7 @@ message Configuration {
   string name = 2 [(google.api.field_behavior) = REQUIRED];
 
   // Random-access memory (RAM) size.
-  int64 memory_bytes = 3 [
-    (google.api.field_behavior) = REQUIRED
-  ];
+  int64 memory_bytes = 3 [(google.api.field_behavior) = REQUIRED];
 
   // CPU configuration.
   CPU cpu = 4 [(google.api.field_behavior) = REQUIRED];

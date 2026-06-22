@@ -3,9 +3,8 @@ syntax = "proto3";
 package yandex.cloud.operation;
 
 import "google/protobuf/any.proto";
-import "google/rpc/status.proto";
 import "google/protobuf/timestamp.proto";
-
+import "google/rpc/status.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/operation;operation";
 option java_package = "yandex.cloud.api.operation";
@@ -35,7 +34,6 @@ message Operation {
   // It typically contains the ID of the target resource that the operation is performed on.
   // Any method that returns a long-running operation should document the metadata type, if any.
   google.protobuf.Any metadata = 7;
-
   // The operation result.
   // If `done == false` and there was no failure detected, neither `error` nor `response` is set.
   // If `done == false` and there was a failure detected, `error` is set.
