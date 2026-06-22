@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+// A Private cloud connection resource.
+message PrivateCloudConnection {
+  reserved 8;
+
+  // ID of the private cloud connection.
+  string private_cloud_connection_id = 1 [
+    (google.api.field_behavior) = IDENTIFIER,
+    (google.api.field_behavior) = OUTPUT_ONLY
+  ];
+
+  // ID of the cloud that the private cloud connection belongs to.
+  string cloud_id = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // ID of the folder that the private cloud connection belongs to.
+  string folder_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // ID of VRF that is connected to routing Instance.
+  string vrf_id = 4 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // ID of Cloud Router Routing Instance.
+  string routing_instance_id = 5 [(google.api.field_behavior) = REQUIRED];
+
+  // Private cloud connection state.
+  enum State {
+    // Unspecified private cloud connection state.
+    STATE_UNSPECIFIED = 0;
+
+    // Private cloud connection is waiting for network resources to be allocated.
+    CREATING = 1;
+
+    // Private cloud connection is ready to use.
+    READY = 2;
+
+    // Private cloud connection encountered a problem and cannot operate.
+    ERROR = 3;
+
+    // Private cloud connection is being deleted.
+    DELETING = 4;
+
+    // Private cloud connection is being updated.
+    UPDATING = 5;
+  }
+
+  // State of the private cloud connection.
+  State state = 6 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Name of the private cloud connection.
+  string name = 7 [(google.api.field_behavior) = REQUIRED];
+
+  // Creation timestamp.
+  google.protobuf.Timestamp create_time = 9 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Updafe timestamp.
+  google.protobuf.Timestamp update_time = 10 [(google.api.field_behavior) = OUTPUT_ONLY];
+}

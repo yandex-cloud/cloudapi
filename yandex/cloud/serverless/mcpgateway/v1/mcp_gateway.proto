@@ -140,6 +140,8 @@ enum McpTransport {
 }
 
 message McpTool {
+  reserved 5;
+
   // Name of the tool.
   string name = 1 [
     (length) = "<=128",
@@ -155,6 +157,9 @@ message McpTool {
 
   // Action to perform when this tool is invoked.
   McpToolAction action = 4 [(required) = true];
+
+  // JSON Schema describing tool output.
+  string output_json_schema = 6;
 }
 
 message McpToolAction {

@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/baremetal/v2/dhcp.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+// A PrivateSubnet resource.
+message PrivateSubnet {
+  // ID of the private subnet.
+  string private_subnet_id = 1 [
+    (google.api.field_behavior) = IDENTIFIER,
+    (google.api.field_behavior) = OUTPUT_ONLY
+  ];
+
+  // ID of the cloud that the private subnet belongs to.
+  string cloud_id = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // ID of the folder that the private subnet belongs to.
+  string folder_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // Name of the public subnet.
+  // The name is unique within the folder.
+  string name = 4 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "2-63",
+    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?"
+  ];
+
+  // Optional description of the private subnet.
+  string description = 5 [
+    (google.api.field_behavior) = OPTIONAL,
+    (length) = "<=1024"
+  ];
+
+  // Private subnet state.
+  enum State {
+    // Unspecified private subnet state.
+    STATE_UNSPECIFIED = 0;
+
+    // Private subnet is being created.
+    CREATING = 1;
+
+    // Private subnet is ready to use.
+    READY = 2;
+
+    // Private subnet is being updated.
+    UPDATING = 3;
+
+    // Private subnet is being deleted.
+    DELETING = 4;
+
+    // Private subnet encountered a problem and cannot operate.
+    ERROR = 5;
+  }
+
+  // State of the private subnet.
+  State state = 6 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // ID of the hardware pool that the private subnet belongs to.
+  string hardware_pool_id = 7 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "<=20"
+  ];
+  // VRF options for the private subnet.
+  message VrfOptions {
+    // ID of the VRF.
+    string vrf_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+    // CIDR block for the subnet.
+    string cidr = 2 [(google.api.field_behavior) = REQUIRED];
+
+    // DHCP options for the subnet.
+    DhcpOptions dhcp_options = 3 [(google.api.field_behavior) = OPTIONAL];
+
+    // Gateway IP address for the subnet.
+    string gateway_ip = 4 [(google.api.field_behavior) = REQUIRED];
+  }
+
+  // Optional VRF options for the private subnet. If missing, the private subnet will be unrouted,
+  // i.e. it will lack a DHCP server and routing capabilities between this subnet and other private
+  // subnets.
+  VrfOptions vrf_options = 8 [(google.api.field_behavior) = OPTIONAL];
+
+  // Creation timestamp.
+  google.protobuf.Timestamp create_time = 9 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Update timestamp.
+  google.protobuf.Timestamp update_time = 10 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Resource annotations as `key:value` pairs.
+  map<string, string> annotations = 11 [
+    (google.api.field_behavior) = OPTIONAL,
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+}

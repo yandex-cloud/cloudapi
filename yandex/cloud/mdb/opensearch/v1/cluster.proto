@@ -164,6 +164,9 @@ message ClusterConfig {
 
   // Audit log settings.
   config.AuditLog audit_log = 7;
+
+  // Cloud storage configuration.
+  CloudStorage cloud_storage = 8;
 }
 
 // The OpenSearch host group type configuration.
@@ -411,4 +414,10 @@ message DiskSizeAutoscaling {
 
   // Limit on how large the storage for database instances can automatically grow, in bytes.
   int64 disk_size_limit = 3;
+}
+
+// Cloud storage configuration.
+message CloudStorage {
+  // Whether to use Object Storage for storing OpenSearch data.
+  google.protobuf.BoolValue enabled = 1;
 }

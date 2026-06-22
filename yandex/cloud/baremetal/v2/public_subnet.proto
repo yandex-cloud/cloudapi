@@ -1,0 +1,131 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/baremetal/v2/dhcp.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+// A PublicSubnet resource.
+message PublicSubnet {
+  // ID of the public subnet.
+  string public_subnet_id = 1 [
+    (google.api.field_behavior) = IDENTIFIER,
+    (google.api.field_behavior) = OUTPUT_ONLY
+  ];
+
+  // ID of the cloud that the public subnet belongs to.
+  string cloud_id = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // ID of the folder that the public subnet belongs to.
+  string folder_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // Name of the public subnet.
+  // The name is unique within the folder.
+  string name = 4 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "2-63",
+    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?"
+  ];
+
+  // Optional description of the public subnet.
+  string description = 5 [
+    (google.api.field_behavior) = OPTIONAL,
+    (length) = "<=1024"
+  ];
+
+  // IDs of the hardware pool that the public subnet belongs to.
+  repeated string hardware_pool_ids = 6 [(google.api.field_behavior) = OPTIONAL];
+
+  // Type of the public subnet.
+  enum Type {
+    // Unspecified public subnet type.
+    TYPE_UNSPECIFIED = 0;
+
+    // Dedicated public subnet.
+    DEDICATED = 1;
+
+    // Ephemeral public subnet.
+    EPHEMERAL = 2;
+  }
+
+  // Type of the public subnet (dedicated or ephemeral).
+  //
+  // Cannot be set on creation. It's DEDICATED by default. EPHEMERAL networks are created only within the server.
+  // Only EPHEMERAL -> DEDICATED update is possible.
+  Type type = 7 [(google.api.field_behavior) = OPTIONAL];
+  message AutoAllocation {
+    // Prefix length of the public subnet CIDR block.
+    int64 prefix_length = 1 [
+      (google.api.field_behavior) = REQUIRED,
+      (value) = "1-31"
+    ];
+  }
+
+  message ManualAllocation {
+    // CIDR block of the public subnet. Must be within the public prefix pool CIDR block.
+    string cidr = 1 [(google.api.field_behavior) = REQUIRED];
+
+    // ID of the public prefix pool that the CIDR block belongs to.
+    //
+    // To get a list of available public prefix pools, use the [PublicPrefixPoolService.List] request.
+    string public_prefix_pool_id = 2 [(google.api.field_behavior) = REQUIRED];
+  }
+
+  // Method for allocating CIDR block to the public subnet.
+  oneof cidr_allocation_method {
+    option (exactly_one) = true;
+
+    // Automatic CIDR allocation from the system public prefix pool.
+    AutoAllocation auto_allocation = 8 [(google.api.field_behavior) = INPUT_ONLY];
+
+    // Manual CIDR allocation with explicit CIDR from user's own public prefix pool (BYOIP).
+    ManualAllocation manual_allocation = 9 [(google.api.field_behavior) = INPUT_ONLY];
+  }
+
+  // Prefix length of the public subnet CIDR block.
+  int64 prefix_length = 10 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // CIDR block for the public subnet.
+  string cidr = 11 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // DHCP options for the public subnet.
+  DhcpOptions dhcp_options = 12 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Gateway IP address for the public subnet.
+  string gateway_ip = 13 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // ID of the public prefix pool that the public subnet belongs to.
+  string public_prefix_pool_id = 14 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Creation timestamp.
+  google.protobuf.Timestamp create_time = 15 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Update timestamp.
+  google.protobuf.Timestamp update_time = 16 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Resource annotations as `key:value` pairs.
+  map<string, string> annotations = 17 [
+    (google.api.field_behavior) = OPTIONAL,
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+
+  // Timestamp when deletion of the public subnet is allowed.
+  google.protobuf.Timestamp deletion_unlock_time = 18 [(google.api.field_behavior) = OUTPUT_ONLY];
+}

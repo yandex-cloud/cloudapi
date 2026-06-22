@@ -1,0 +1,122 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2;
+
+import "google/api/field_behavior.proto";
+import "yandex/cloud/baremetal/v2/disk.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+// CPU configuration.
+message CPU {
+  // Name of the CPU.
+  string name = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Vendor of the CPU.
+  string vendor = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // Number of physical cores per CPU (socket).
+  int64 physical_cores = 3 [(google.api.field_behavior) = REQUIRED];
+
+  // Frequency of the CPU in megahertz (MHz).
+  int64 frequency_mhz = 4 [(google.api.field_behavior) = REQUIRED];
+}
+
+message DiskDriveConfiguration {
+  // Type of the disk drive.
+  DiskDriveType type = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Number of disk drives.
+  int64 count = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // Size of a single disk drive.
+  int64 size_bytes = 3 [
+    (google.api.field_behavior) = REQUIRED
+  ];
+}
+
+message GPUCard {
+  // Number of GPU.
+  int64 count = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Vendor of the GPU.
+  string vendor = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // Model of the GPU.
+  string model = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+// PSU type.
+enum PSUType {
+  // Unspecified PSU type.
+  PSU_TYPE_UNSPECIFIED = 0;
+
+  // single PSU.
+  PSU_TYPE_SINGLE = 1;
+
+  // dual PSU.
+  PSU_TYPE_DUAL = 2;
+
+  // quad PSU.
+  PSU_TYPE_QUAD = 3;
+
+  // OCP PSU.
+  PSU_TYPE_OCP = 4;
+
+  // Other PSU.
+  PSU_TYPE_OTHER = 5;
+}
+
+enum RAMType {
+  // Unspecified RAM type.
+  RAM_TYPE_UNSPECIFIED = 0;
+
+  // DDR3 RAM type.
+  DDR3 = 1;
+
+  // DDR4 RAM type.
+  DDR4 = 2;
+
+  // DDR5 RAM type.
+  DDR5 = 3;
+}
+
+message Configuration {
+  reserved 8 to 10;
+
+  // ID of the configuration.
+  string configuration_id = 1 [
+    (google.api.field_behavior) = IMMUTABLE,
+    (google.api.field_behavior) = OUTPUT_ONLY
+  ];
+
+  // Name of the configuration.
+  string name = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // Random-access memory (RAM) size.
+  int64 memory_bytes = 3 [
+    (google.api.field_behavior) = REQUIRED
+  ];
+
+  // CPU configuration.
+  CPU cpu = 4 [(google.api.field_behavior) = REQUIRED];
+
+  // Array of disk drive configurations.
+  repeated DiskDriveConfiguration disk_drives = 5 [(google.api.field_behavior) = REQUIRED];
+
+  // Number of cpu.
+  int64 cpu_num = 6 [(google.api.field_behavior) = REQUIRED];
+
+  // PSU type.
+  PSUType psu_type = 7 [(google.api.field_behavior) = REQUIRED];
+
+  // GPUs in server.
+  repeated GPUCard gpus = 11 [(google.api.field_behavior) = OPTIONAL];
+
+  // JBOG GPUs.
+  repeated GPUCard jbog_gpus = 12 [(google.api.field_behavior) = OPTIONAL];
+
+  // RAM type.
+  RAMType ram_type = 13 [(google.api.field_behavior) = REQUIRED];
+}

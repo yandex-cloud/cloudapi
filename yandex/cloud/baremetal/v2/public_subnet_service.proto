@@ -1,0 +1,214 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/baremetal/v2/public_subnet.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+// A set of methods for managing PublicSubnet resources.
+service PublicSubnetService {
+  // Returns the specific PublicSubnet resource.
+  //
+  // To get the list of available PublicSubnet resources, make a [List] request.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc GetPublicSubnet(GetPublicSubnetRequest) returns (PublicSubnet) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/publicSubnets/{public_subnet_id}"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,public_subnet_id";
+  };
+
+  // Retrieves the list of PublicSubnet resources in the specified folder.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc ListPublicSubnets(ListPublicSubnetsRequest) returns (ListPublicSubnetsResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/publicSubnets"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id";
+  };
+
+  // Creates a public subnet in the specified folder.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc CreatePublicSubnet(CreatePublicSubnetRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreatePublicSubnetMetadata"
+      response: "PublicSubnet"
+    };
+    option (google.api.http) = {
+      body: "public_subnet"
+      post: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/publicSubnets"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,public_subnet";
+  };
+
+  // Updates the specified public subnet.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc UpdatePublicSubnet(UpdatePublicSubnetRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdatePublicSubnetMetadata"
+      response: "PublicSubnet"
+    };
+    option (google.api.http) = {
+      body: "public_subnet"
+      patch: "/baremetal/v2/clouds/{public_subnet.cloud_id}/folders/{public_subnet.folder_id}/publicSubnets/{public_subnet.public_subnet_id}"
+    };
+    option (google.api.method_signature) = "public_subnet,update_mask";
+  };
+
+  // Deletes the specified public subnet.
+  //
+  // Deleting a public subnet removes its data permanently and is irreversible.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc DeletePublicSubnet(DeletePublicSubnetRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeletePublicSubnetMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      delete: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/publicSubnets/{public_subnet_id}"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,public_subnet_id";
+  };
+
+}
+
+message GetPublicSubnetRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the PublicSubnet resource to return.
+  //
+  // To get the public subnet ID use a [PublicSubnetService.List] request.
+  string public_subnet_id = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+message ListPublicSubnetsRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The maximum number of results per page to return. If the number of available
+  // results is greater than `page_size`,
+  // the service returns a [ListPublicSubnetsResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Default value is 20.
+  int64 page_size = 3 [
+    (google.api.field_behavior) = OPTIONAL,
+    (value) = "<=1000"
+  ];
+
+  // Page token. To get the next page of results, set `page_token` to the
+  // [ListPublicSubnetsResponse.next_page_token] returned by a previous list request.
+  string page_token = 4 [(google.api.field_behavior) = OPTIONAL];
+
+  // Sorting order for the listing. Follows the [AIP-132](https://google.aip.dev/132) `order_by` format:
+  // `"field [asc|desc]"`, e.g. `"createTime desc"`.
+  //
+  // Supported fields: `publicSubnetId`, `createTime`, `updateTime`.
+  // Default order: `publicSubnetId asc`.
+  string order_by = 5 [(google.api.field_behavior) = OPTIONAL];
+
+  // Filter expression following [AIP-160](https://google.aip.dev/160).
+  //
+  // Supported fields and operators:
+  // - `publicSubnetId`, `name` - `=`, `!=`, `:` (contains)
+  // - `state`, `type` - `=`, `!=`
+  // - `hardwarePoolIds` - `:` (contains)
+  //
+  // Example: `state = "READY" AND type = "STANDARD"`.
+  string filter = 6 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message ListPublicSubnetsResponse {
+  // List of PublicSubnet resources.
+  repeated PublicSubnet public_subnets = 1;
+
+  // Token for getting the next page of the list. If the number of results is greater than
+  // [ListPublicSubnetsRequest.page_size], use `next_page_token` as the value
+  // for the [ListPublicSubnetsRequest.page_token] parameter in the next list request.
+  //
+  // Each subsequent page will have its own `next_page_token` to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message CreatePublicSubnetRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // PublicSubnet resource to create.
+  PublicSubnet public_subnet = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+message CreatePublicSubnetMetadata {
+  // ID of the public subnet that is being created.
+  string public_subnet_id = 1;
+}
+
+message UpdatePublicSubnetRequest {
+  // The PublicSubnet object to be updated.
+  PublicSubnet public_subnet = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Field mask that specifies which fields of the PublicSubnet resource are going to be updated.
+  google.protobuf.FieldMask update_mask = 2 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message UpdatePublicSubnetMetadata {
+  // ID of the PublicSubnet resource that is being updated.
+  string public_subnet_id = 1;
+}
+
+message DeletePublicSubnetRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the public subnet to delete.
+  //
+  // To get the public subnet ID, use a [PublicSubnetService.List] request.
+  string public_subnet_id = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+message DeletePublicSubnetMetadata {
+  // ID of the PublicSubnet resource that is being deleted.
+  string public_subnet_id = 1;
+}

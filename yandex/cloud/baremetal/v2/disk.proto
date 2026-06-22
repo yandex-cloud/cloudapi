@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2;
+
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+// Disk drive type.
+enum DiskDriveType {
+  // Unspecified disk drive type.
+  DISK_DRIVE_TYPE_UNSPECIFIED = 0;
+
+  // Hard disk drive.
+  HDD = 1;
+
+  // Solid state drive.
+  SSD = 2;
+
+  // NVMe Solid state drive.
+  NVME = 3;
+}
+
+// Disk.
+message Disk {
+  // ID of the disk.
+  string id = 1;
+
+  // Type of the disk drive.
+  DiskDriveType type = 2;
+
+  // Size of the disk.
+  int64 size_bytes = 3 [(api.tools.unit) = "bytes"];
+}

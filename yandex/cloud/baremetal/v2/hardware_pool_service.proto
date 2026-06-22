@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "yandex/cloud/baremetal/v2/hardware_pool.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+// A set of methods to retrieve information about HardwarePool resources.
+service HardwarePoolService {
+  // Returns the specific HardwarePool resource.
+  //
+  // To get the list of available HardwarePool resource, make a [List] request.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc GetHardwarePool(GetHardwarePoolRequest) returns (HardwarePool) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/zones/{zone_id}/hardwarePools/{hardware_pool_id}"
+    };
+    option (google.api.method_signature) = "zone_id,hardware_pool_id";
+  };
+
+  // Retrieves the list of HardwarePool resources.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc ListHardwarePools(ListHardwarePoolsRequest) returns (ListHardwarePoolsResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/zones/{zone_id}/hardwarePools"
+    };
+    option (google.api.method_signature) = "zone_id";
+  };
+}
+
+message GetHardwarePoolRequest {
+  // ID of the zone where the hardware pool is located.
+  //
+  // To get the zone ID, use a [ZoneService.List] request.
+  string zone_id = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "<=20"
+  ];
+
+  // ID of the HardwarePool resource to return.
+  //
+  // To get the hardware pool ID, use a [HardwarePoolService.List] request.
+  string hardware_pool_id = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "<=20"
+  ];
+}
+
+message ListHardwarePoolsRequest {
+  // ID of the zone where the hardware pool is located.
+  //
+  // To get the zone ID, use a [ZoneService.List] request.
+  string zone_id = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "<=20"
+  ];
+
+  // The maximum number of results per page to return. If the number of available
+  // results is greater than `page_size`,
+  // the service returns a [ListHardwarePoolsResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Default value is 20.
+  int64 page_size = 2 [
+    (google.api.field_behavior) = OPTIONAL,
+    (value) = "<=1000"
+  ];
+
+  // Page token. To get the next page of results, set `page_token` to the
+  // [ListHardwarePoolsResponse.next_page_token] returned by a previous list request.
+  string page_token = 3 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message ListHardwarePoolsResponse {
+  // List of HardwarePool resources.
+  repeated HardwarePool hardware_pools = 1;
+
+  // Token for getting the next page of the list. If the number of results is greater than
+  // [ListHardwarePoolsRequest.page_size], use `next_page_token` as the value
+  // for the [ListHardwarePoolsRequest.page_token] parameter in the next list request.
+  //
+  // Each subsequent page will have its own `next_page_token` to continue paging through the results.
+  string next_page_token = 2;
+}

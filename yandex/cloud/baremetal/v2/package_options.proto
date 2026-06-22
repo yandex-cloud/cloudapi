@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+
+package yandex.cloud.baremetal.v2;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";

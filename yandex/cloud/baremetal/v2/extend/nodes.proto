@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2.extend;
+
+import "google/api/field_behavior.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2/extend;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2.extend";
+
+message NodeGroup {
+  // ID of the configuration.
+  string configuration_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Number of nodes in the group.
+  int64 count = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // Nodes in the group with detailed information. Set after group is filled.
+  repeated Node nodes = 3 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+message Node {
+  // ID of the server.
+  string server_id = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // ID of the configuration.
+  string configuration_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // IP address of the node in the management network.
+  string management_ip_address = 3 [(google.api.field_behavior) = OPTIONAL];
+}

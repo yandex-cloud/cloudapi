@@ -1,0 +1,361 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/baremetal/v2/disk.proto";
+import "yandex/cloud/baremetal/v2/storage.proto";
+import "yandex/cloud/baremetal/v2/user_configuration.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+// A Server resource.
+message Server {
+  reserved 16;
+
+  // ID of the server.
+  string server_id = 1 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (google.api.field_behavior) = IDENTIFIER
+  ];
+
+  // ID of the cloud that the server belongs to.
+  string cloud_id = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // ID of the folder that the server belongs to.
+  string folder_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // Name of the server.
+  // The display name is unique within the folder.
+  string name = 4 [(google.api.field_behavior) = REQUIRED];
+
+  // Description of the server.
+  string description = 5 [(google.api.field_behavior) = OPTIONAL];
+
+  // ID of the hardware pool that the server belongs to.
+  string hardware_pool_id = 6 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE,
+    (length) = "<=20"
+  ];
+
+  // Server state.
+  enum State {
+    // Unspecified server status.
+    STATE_UNSPECIFIED = 0;
+
+    // Server is waiting for to be allocated from the hardware pool.
+    PROVISIONING = 1;
+
+    // Server is being stopped.
+    STOPPING = 2;
+
+    // Server has been stopped.
+    STOPPED = 3;
+
+    // Server is being started.
+    STARTING = 4;
+
+    // Server is being restarted.
+    RESTARTING = 5;
+
+    // Server encountered a problem and cannot operate.
+    ERROR = 6;
+
+    // Server is being deleted.
+    DELETING = 7 [deprecated = true];
+
+    // Server operating system is being reinstalled.
+    REINSTALLING = 8;
+
+    // Server is being updated.
+    UPDATING = 9;
+
+    // Server has been quarantined
+    QUARANTINED = 10;
+
+    // Server is running normally
+    RUNNING = 11;
+  }
+
+  // State of the server.
+  State state = 7 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Operating system specific settings of the server. Optional, will be empty if the server is
+  // provisioned without an operating system.
+  OsSettings os_settings = 8 [(google.api.field_behavior) = OPTIONAL];
+
+  // Timestamp indicating the start date and time of the server's rental period. Optional, may be
+  // unset initially and should be set when the rental actually starts.
+  google.protobuf.Timestamp rental_period_start_time = 9 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // A period of time for which a Bare Metal Server is rented.
+  string rental_period_id = 10 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // A period of time for which a Bare Metal Server will be changed on after ending of current rental period.
+  string next_rental_period_id = 11 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "<=20"
+  ];
+
+  // Timestamp indicating the end date and time of the server's rental period. Optional, may be
+  // unset initially and should be set when the rental actually starts.
+  google.protobuf.Timestamp rental_period_end_time = 12 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Array of network interfaces that are attached to the instance.
+  repeated NetworkInterface network_interfaces = 13 [
+    (google.api.field_behavior) = REQUIRED,
+    (size) = "1-2"
+  ];
+
+  // State of the server rent prolongation.
+  enum ProlongationState {
+    // Unspecified prolongation status.
+    PROLONGATION_STATE_UNSPECIFIED = 0;
+
+    // The rent will automatically be renewed at the end of the current period.
+    AUTO_RENEW = 1;
+
+    // The rent will not be renewed at the end of the current period.
+    NON_RENEWAL = 2;
+  }
+
+  // Prolongation state of the server's rent.
+  ProlongationState prolongation_state = 14 [(google.api.field_behavior) = OPTIONAL];
+
+  // Array of disks that are attached to the server.
+  repeated Disk disks = 15 [(google.api.field_behavior) = OUTPUT_ONLY];
+  // Configuration of the server.
+  //
+  // One of elements is required for server creation
+  oneof configuration {
+    option (exactly_one) = true;
+
+    // Custom configuration.
+    UserConfiguration custom_configuration = 17 [(google.api.field_behavior) = IMMUTABLE];
+
+    // ID of the stock configuration.
+    string stock_configuration_id = 18 [(google.api.field_behavior) = IMMUTABLE];
+  }
+
+  // Creation timestamp.
+  google.protobuf.Timestamp create_time = 19 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Update timestamp.
+  google.protobuf.Timestamp update_time = 20 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> annotations = 21 [
+    (google.api.field_behavior) = OPTIONAL,
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+}
+
+message NetworkInterface {
+  reserved 3 to 4, 7 to 10;
+
+  // ID of the network interface.
+  //
+  // Should not be specified when creating a server.
+  string network_interface_id = 1 [(google.api.field_behavior) = OPTIONAL];
+
+  // MAC address that is assigned to the network interface.
+  string mac_address = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
+  // Type of the network interface.
+  //
+  // One of elements is required.
+  oneof interface {
+    option (exactly_one) = true;
+
+    // Private interface.
+    PrivateNetworkInterface private_interface = 5;
+
+    // Public interface.
+    PublicNetworkInterface public_interface = 6;
+  }
+
+  // ID of the configuration network interface that determines the network interface configuration.
+  // The configuration network interface defines available modes (public/private) and other properties
+  // for the network interface. This field is optional. If not specified, the configuration will be
+  // chosen automatically on the server side based on availability. It is recommended to specify this
+  // field for deterministic behavior. To get the configuration interface ID, use a
+  // [ConfigurationService.ListConfigurationNetworkInterface] request or examine the `network_interfaces`
+  // field in [ConfigurationService.GetConfiguration] response.
+  string configuration_network_interface_id = 11 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message PrivateNetworkInterface {
+  // ID of the private subnet which is used as native subnet for interface.
+  string native_subnet_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // IPv4 address that is assigned to the server for this network interface.
+  string ip_address = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Limit of MAC addresses in the native subnet.
+  int64 mac_limit = 3 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Array of VLAN subinterfaces. Additional tagged subnets for the interface.
+  repeated VLANSubinterface vlan_subinterfaces = 4 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message VLANSubinterface {
+  // ID of the private subnet which is used as tagged subnet for interface.
+  string tagged_subnet_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // IPv4 address that is assigned to the VLAN subinterface.
+  string ip_address = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Limit of MAC addresses in the tagged subnet.
+  int64 mac_limit = 3 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+enum InternetTrafficPlan {
+  // Unspecified network interface traffic plan.
+  INTERNET_TRAFFIC_PLAN_UNSPECIFIED = 0;
+
+  // 10 terabyte of data per day.
+  PLAN_10TB = 1;
+
+  // 100 terabyte of data per day.
+  PLAN_100TB = 2;
+}
+
+message PublicNetworkInterface {
+  reserved 5;
+
+  // IPv4 address that is assigned to the server for this network interface.
+  string ip_address = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // ID of the public subnet which is used as native subnet for interface.
+  string native_subnet_id = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Limit of MAC addresses in the native subnet.
+  int64 mac_limit = 3 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Internet traffic plan. Defines how much data can be transfered with server interface.
+  InternetTrafficPlan internet_traffic_plan = 4 [(google.api.field_behavior) = REQUIRED];
+  // Configuration for using existing native subnet.
+  message NativeSubnet {
+    // ID of the existing public subnet.
+    string subnet_id = 1 [(google.api.field_behavior) = REQUIRED];
+  }
+
+  // Configuration for creating new native subnet.
+  message NewNativeSubnet {
+    // Addressing type for public subnet.
+    enum AddressingType {
+      // Unspecified public subnet addressing type.
+      ADDRESSING_TYPE_UNSPECIFIED = 0;
+
+      // DHCP addressing.
+      DHCP = 1;
+
+      // Static addressing.
+      STATIC = 2;
+    }
+
+    // Addressing type (DHCP | Static).
+    AddressingType addressing_type = 1 [(google.api.field_behavior) = REQUIRED];
+  }
+
+  // Native subnet configuration.
+  //
+  // Input only field. One of elements is required.
+  oneof native_subnet_config {
+    option (exactly_one) = true;
+
+    // Use existing native subnet.
+    NativeSubnet native_subnet = 6 [(google.api.field_behavior) = INPUT_ONLY];
+
+    // Create new native subnet.
+    NewNativeSubnet new_native_subnet = 7 [(google.api.field_behavior) = INPUT_ONLY];
+  }
+}
+
+message OsSettings {
+  // ID of the image that the server was created from.
+  string image_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Public SSH key of the server.
+  string ssh_public_key = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
+  // Root user SSH key.
+  //
+  // Input only field. One of elements is required.
+  oneof ssh_key {
+    option (exactly_one) = true;
+
+    // Public SSH key for the server.
+    //
+    // Input only field.
+    string ssh_public_key_text = 3 [
+      (google.api.field_behavior) = INPUT_ONLY,
+      (length) = "<=20000"
+    ];
+
+    // ID of the user SSH key to use for the server.
+    //
+    // Input only field. To get the user SSH key ID, use a [yandex.cloud.organizationmanager.v1.UserSshKeyService.List] request.
+    string user_ssh_id = 4 [
+      (google.api.field_behavior) = INPUT_ONLY,
+      (length) = "<=50"
+    ];
+  }
+
+  // Password for the server.
+  //
+  // Input only field. One of elements is required.
+  oneof password {
+    option (exactly_one) = true;
+
+    // Raw password.
+    //
+    // Input only field.
+    string password_plain_text = 5 [
+      (google.api.field_behavior) = INPUT_ONLY,
+      (length) = ">=6"
+    ];
+
+    // Reference to the Lockbox secret used to obtain the password.
+    //
+    // Input only field.
+    LockboxSecret password_lockbox_secret = 6 [(google.api.field_behavior) = INPUT_ONLY];
+  }
+
+  // List of storages.
+  //
+  // If not specified, the default value based on the selected configuration will be used as the field value.
+  repeated Storage storages = 7 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message LockboxSecret {
+  // The unique identifier for the lockbox secret that contains the user password.
+  string secret_id = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (required) = true
+  ];
+
+  // The unique identifier for the lockbox version.
+  // If omitted, the current version of the secret will be used.
+  string version_id = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // The key used to access a specific secret entry.
+  string key = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (required) = true
+  ];
+}

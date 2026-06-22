@@ -1,0 +1,214 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/baremetal/v2/private_subnet.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+// A set of methods for managing PrivateSubnet resources.
+service PrivateSubnetService {
+  // Returns the specific PrivateSubnet resource.
+  //
+  // To get the list of available PrivateSubnet resources, make a [List] request.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc GetPrivateSubnet(GetPrivateSubnetRequest) returns (PrivateSubnet) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/privateSubnets/{private_subnet_id}"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,private_subnet_id";
+  };
+
+  // Retrieves the list of PrivateSubnet resources in the specified folder.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc ListPrivateSubnets(ListPrivateSubnetsRequest) returns (ListPrivateSubnetsResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/privateSubnets"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id";
+  };
+
+  // Creates a private subnet in the specified folder.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc CreatePrivateSubnet(CreatePrivateSubnetRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreatePrivateSubnetMetadata"
+      response: "PrivateSubnet"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/privateSubnets"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,private_subnet";
+  };
+
+  // Updates the specified private subnet.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc UpdatePrivateSubnet(UpdatePrivateSubnetRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdatePrivateSubnetMetadata"
+      response: "PrivateSubnet"
+    };
+    option (google.api.http) = {
+      body: "private_subnet"
+      patch: "/baremetal/v2/clouds/{private_subnet.cloud_id}/folders/{private_subnet.folder_id}/privateSubnets/{private_subnet.private_subnet_id}"
+    };
+    option (google.api.method_signature) = "private_subnet,update_mask";
+  };
+
+  // Deletes the specified private subnet.
+  //
+  // Deleting a private subnet removes its data permanently and is irreversible.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc DeletePrivateSubnet(DeletePrivateSubnetRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeletePrivateSubnetMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      delete: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/privateSubnets/{private_subnet_id}"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,private_subnet_id";
+  };
+
+}
+
+message GetPrivateSubnetRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the PrivateSubnet resource to return.
+  //
+  // To get the private subnet ID use a [PrivateSubnetService.List] request.
+  string private_subnet_id = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+message ListPrivateSubnetsRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The maximum number of results per page to return. If the number of available
+  // results is greater than `page_size`,
+  // the service returns a [ListPrivateSubnetsResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Default value is 20.
+  int64 page_size = 3 [
+    (google.api.field_behavior) = OPTIONAL,
+    (value) = "<=1000"
+  ];
+
+  // Page token. To get the next page of results, set `page_token` to the
+  // [ListPrivateSubnetsResponse.next_page_token] returned by a previous list request.
+  string page_token = 4 [(google.api.field_behavior) = OPTIONAL];
+
+  // Sorting order for the listing. Follows the [AIP-132](https://google.aip.dev/132) `order_by` format:
+  // `"field [asc|desc]"`, e.g. `"createTime desc"`.
+  //
+  // Supported fields: `privateSubnetId`, `createTime`, `updateTime`.
+  // Default order: `privateSubnetId asc`.
+  string order_by = 5 [(google.api.field_behavior) = OPTIONAL];
+
+  // Filter expression following [AIP-160](https://google.aip.dev/160).
+  //
+  // Supported fields and operators:
+  // - `privateSubnetId`, `name`, `hardwarePoolId` - `=`, `!=`, `:` (contains)
+  // - `state` - `=`, `!=`
+  // - `vrfOptions.vrfId` - `=`, `!=`, `:` (contains)
+  //
+  // Example: `state = "READY" AND vrfOptions.vrfId = "enp1234abcd"`.
+  string filter = 6 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message ListPrivateSubnetsResponse {
+  // List of PrivateSubnet resources.
+  repeated PrivateSubnet private_subnets = 1;
+
+  // Token for getting the next page of the list. If the number of results is greater than
+  // [ListPrivateSubnetsRequest.page_size], use `next_page_token` as the value
+  // for the [ListPrivateSubnetsRequest.page_token] parameter in the next list request.
+  //
+  // Each subsequent page will have its own `next_page_token` to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message CreatePrivateSubnetRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The private subnet to create.
+  PrivateSubnet private_subnet = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+message CreatePrivateSubnetMetadata {
+  // ID of the private subnet that is being created.
+  string private_subnet_id = 1;
+}
+
+message UpdatePrivateSubnetRequest {
+  // The PrivateSubnet object to be updated.
+  PrivateSubnet private_subnet = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Field mask that specifies which fields of the PrivateSubnet resource are going to be updated.
+  google.protobuf.FieldMask update_mask = 2 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message UpdatePrivateSubnetMetadata {
+  // ID of the PrivateSubnet resource that is being updated.
+  string private_subnet_id = 1;
+}
+
+message DeletePrivateSubnetRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the private subnet to delete.
+  //
+  // To get the private subnet ID, use a [PrivateSubnetService.List] request.
+  string private_subnet_id = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+message DeletePrivateSubnetMetadata {
+  // ID of the PrivateSubnet resource that is being deleted.
+  string private_subnet_id = 1;
+}

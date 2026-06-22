@@ -1,0 +1,559 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/baremetal/v2/operation.proto";
+import "yandex/cloud/baremetal/v2/server.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+// A set of methods for managing Server resources.
+service ServerService {
+  // Returns the specific Server resource.
+  //
+  // To get the list of available Server resources, make a [List] request.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc GetServer(GetServerRequest) returns (Server) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers/{server_id}"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,server_id";
+  };
+
+  // Retrieves the list of Server resources in the specified folder.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc ListServers(ListServersRequest) returns (ListServersResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id";
+  };
+
+  // Creates a server in the specified folder.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc CreateServer(CreateServerRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreateServerMetadata"
+      response: "Server"
+    };
+    option (google.api.http) = {
+      body: "server"
+      post: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,server";
+  };
+
+  // Creates multiple servers in the specified folder.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc BatchCreateServers(BatchCreateServersRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "BatchCreateServersMetadata"
+      response: "BatchCreateServersResponse"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers:batchCreate"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,servers,count";
+  };
+
+  // Updates the specified server.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc UpdateServer(UpdateServerRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdateServerMetadata"
+      response: "Server"
+    };
+    option (google.api.http) = {
+      body: "server"
+      patch: "/baremetal/v2/clouds/{server.cloud_id}/folders/{server.folder_id}/servers/{server.server_id}"
+    };
+    option (google.api.method_signature) = "server,update_mask";
+  };
+
+  // Deletes the specified server.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc DeleteServer(DeleteServerRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeleteServerByUserMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      delete: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers/{server_id}"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,server_id";
+  };
+
+  // Powers off the specified server.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // Required for backward compatibility with old clients. --)
+  rpc PowerOffServer(PowerOffServerRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "PowerOffServerMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers/{server_id}:powerOff"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,server_id";
+  };
+
+  // Powers on the specified server.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // Required for backward compatibility with old clients. --)
+  rpc PowerOnServer(PowerOnServerRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "PowerOnServerMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers/{server_id}:powerOn"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,server_id";
+  };
+
+  // Reboots the specified server.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // Required for backward compatibility with old clients. --)
+  rpc RebootServer(RebootServerRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "RebootServerMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers/{server_id}:reboot"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,server_id";
+  };
+
+  // Reinstalls the specified server.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // Required for backward compatibility with old clients. --)
+  rpc ReinstallServer(ReinstallServerRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "ReinstallServerMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers/{server_id}:reinstall"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,server_id";
+  };
+
+  // Enable prolongation after rental period end
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // Required for backward compatibility with old clients. --)
+  rpc RenewServerRental(RenewServerRentalRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "RenewServerRentalMetadata"
+      response: "Server"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers/{server_id}:renewRental"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,server_id";
+  };
+
+}
+
+message GetServerRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the Server resource to return.
+  //
+  // To get the server ID, use a [ServerService.List] request.
+  string server_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
+  ];
+}
+
+message ListServersRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The maximum number of results per page to return. If the number of available
+  // results is greater than `page_size`,
+  // the service returns a [ListServerResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Default value is 20.
+  int64 page_size = 3 [
+    (google.api.field_behavior) = OPTIONAL,
+    (value) = "<=1000"
+  ];
+
+  // Page token. To get the next page of results, set `page_token` to the
+  // [ListServerResponse.next_page_token] returned by a previous list request.
+  string page_token = 4 [(google.api.field_behavior) = OPTIONAL];
+
+  // Sorting order for the listing. Follows the [AIP-132](https://google.aip.dev/132) `order_by` format:
+  // `"field [asc|desc]"`, e.g. `"createTime desc"`.
+  //
+  // Supported fields: `serverId`, `createTime`, `updateTime`.
+  // Default order: `serverId asc`.
+  string order_by = 5 [(google.api.field_behavior) = OPTIONAL];
+
+  // Filter expression following [AIP-160](https://google.aip.dev/160).
+  //
+  // Supported fields and operators:
+  // - `serverId`, `name`, `hardwarePoolId` - `=`, `!=`, `:` (contains)
+  // - `state` - `=`, `!=`
+  // - `networkInterfaces.privateInterface.nativeSubnetId` - `:` (contains)
+  // - `networkInterfaces.publicInterface.nativeSubnetId` - `:` (contains)
+  //
+  // Example: `state = "RUNNING" AND name : "prod"`.
+  string filter = 6 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message ListServersResponse {
+  reserved 2 to 99;
+
+  // List of Server resources.
+  repeated Server servers = 1;
+
+  // Token for getting the next page of the list. If the number of results is greater than
+  // [ListServerRequest.page_size], use `next_page_token` as the value
+  // for the [ListServerRequest.page_token] parameter in the next list request.
+  //
+  // Each subsequent page will have its own `next_page_token` to continue paging through the results.
+  string next_page_token = 100;
+}
+
+message CreateServerRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The server to create.
+  Server server = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+message BatchCreateServersRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder shared by all servers being created.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  // If this is set, the folder_id field in the [BatchCreateServersRequest.requests] messages
+  // must either be empty or match this field.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // List of create server requests.
+  repeated CreateServerRequest requests = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (size) = "1-100"
+  ];
+}
+
+message UpdateServerRequest {
+  // The server object to be updated
+  Server server = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Field mask that specifies which fields of the Server resource are going to be updated.
+  google.protobuf.FieldMask update_mask = 2 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message DeleteServerRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the server to delete.
+  //
+  // To get the server ID, use a [ServerService.List] request.
+  string server_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
+  ];
+}
+
+message PowerOffServerRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the server to power off.
+  //
+  // To get the server ID, use a [ServerService.List] request.
+  string server_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
+  ];
+}
+
+message PowerOnServerRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the server to power on.
+  //
+  // To get the server ID, use a [ServerService.List] request.
+  string server_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
+  ];
+}
+
+enum RebootMode {
+  REBOOT_MODE_UNSPECIFIED = 0;
+
+  // Reboot server via network (PXE).
+  NETWORK = 1;
+
+  // Reboot server via CD-ROM.
+  CDROM = 2;
+
+  // Reboot server via BIOS.
+  BIOS = 3;
+}
+
+message RebootServerRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the server to reboot.
+  //
+  // To get the server ID, use a [ServerService.List] request.
+  string server_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
+  ];
+
+  // Boot mode to use after reboot.
+  RebootMode reboot_mode = 4 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message ReinstallServerRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the server to reinstall.
+  //
+  // To get the server ID, use a [ServerService.List] request.
+  string server_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
+  ];
+
+  // Operating system specific settings for provisioning the server.
+  OsSettings os_settings = 4 [(google.api.field_behavior) = REQUIRED];
+}
+
+message RenewServerRentalRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the server for which the prolongation is being set.
+  //
+  // To get the server ID, use a [ServerService.List] request.
+  string server_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
+  ];
+
+  // ID of the next rental period.
+  string next_rental_period_id = 4 [(google.api.field_behavior) = REQUIRED];
+}
+
+message CreateServerMetadata {
+  reserved 2;
+
+  // ID of the server that is being created.
+  string server_id = 1;
+
+  // Common operation metadata
+  OperationMetadata operation_metadata = 3;
+}
+
+message UpdateServerMetadata {
+  // ID of the Server resource that is being updated.
+  string server_id = 1;
+
+  // Common operation metadata
+  OperationMetadata operation_metadata = 2;
+}
+
+message DeleteServerMetadata {
+  // ID of the Server resource that is being deleted.
+  string server_id = 1;
+
+  // Common operation metadata
+  OperationMetadata operation_metadata = 2;
+}
+
+message DeleteServerByUserMetadata {
+  // ID of the Server resource that is being deleted.
+  string server_id = 1;
+
+  // Common operation metadata
+  OperationMetadata operation_metadata = 2;
+}
+
+message PowerOffServerMetadata {
+  // ID of the Server resource that is being powered off.
+  string server_id = 1;
+
+  // Common operation metadata
+  OperationMetadata operation_metadata = 2;
+}
+
+message PowerOnServerMetadata {
+  // ID of the Server resource that is being powered on.
+  string server_id = 1;
+
+  // Common operation metadata
+  OperationMetadata operation_metadata = 2;
+}
+
+message RebootServerMetadata {
+  // ID of the Server resource that is being rebooted.
+  string server_id = 1;
+
+  // Common operation metadata
+  OperationMetadata operation_metadata = 2;
+}
+
+message ReinstallServerMetadata {
+  // ID of the Server resource that is being reinstalled.
+  string server_id = 1;
+
+  // Common operation metadata
+  OperationMetadata operation_metadata = 2;
+}
+
+message BatchCreateServersResponse {
+  // List of Server resources that were created.
+  repeated Server servers = 1;
+}
+
+message BatchCreateServersMetadata {
+  // IDs of the servers that were created.
+  repeated string server_ids = 1;
+
+  // Common operation metadata
+  OperationMetadata operation_metadata = 2;
+}
+
+message QuarantineServerMetadata {
+  // ID of the server that is being quarantined.
+  string server_id = 1;
+
+  // Common operation metadata
+  OperationMetadata operation_metadata = 2;
+}
+
+message ToggleServerProlongationMetadata {
+  // ID of the server for which the prolongation is being set.
+  string server_id = 1;
+
+  // Common operation metadata
+  OperationMetadata operation_metadata = 2;
+}
+
+message RenewServerRentalMetadata {
+  // ID of the server for which the prolongation is being set.
+  string server_id = 1;
+
+  // Common operation metadata
+  OperationMetadata operation_metadata = 2;
+}

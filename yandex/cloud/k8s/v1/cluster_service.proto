@@ -365,6 +365,11 @@ message AutoUpgradeMasterMetadata {
   string cluster_id = 1;
 }
 
+message ScaleMasterMetadata {
+  // ID of the Kubernetes cluster that is being scales.
+  string cluster_id = 1;
+}
+
 message ListClusterOperationsRequest {
   // ID of the Kubernetes cluster to list operations for.
   string cluster_id = 1 [(required) = true];

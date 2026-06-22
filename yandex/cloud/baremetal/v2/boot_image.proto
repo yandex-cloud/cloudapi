@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+// An BootImage resource.
+message BootImage {
+  // ID of the image.
+  string boot_image_id = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // ID of the cloud that the image belongs to.
+  string cloud_id = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // ID of the folder that the image belongs to.
+  string folder_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // Name of the image.
+  // The name is unique within the folder.
+  string name = 4 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "2-63",
+    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?"
+  ];
+
+  // Description of the image.
+  string description = 5 [
+    (google.api.field_behavior) = OPTIONAL,
+    (length) = "<=1024"
+  ];
+
+  // URI of the source image to create the new image from.
+  // Currently only supports links to images that are stored in Object Storage.
+  // Currently only supports ISO formats.
+  string uri = 6 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = INPUT_ONLY,
+    (google.api.field_behavior) = IMMUTABLE,
+    (length) = "<=1024"
+  ];
+
+  // MD5 checksum of the image.
+  string checksum = 7 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Image status.
+  enum State {
+    // Unspecified image status.
+    STATE_UNSPECIFIED = 0;
+
+    // Image is being created.
+    CREATING = 1;
+
+    // Image is ready to use.
+    READY = 2;
+
+    // Image encountered an error.
+    ERROR = 3;
+
+    // Image is being deleted.
+    DELETING = 4;
+
+    // Image is being updated.
+    UPDATING = 5;
+  }
+
+  // State of the image.
+  State state = 8 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Creation timestamp.
+  google.protobuf.Timestamp create_time = 9 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Updafe timestamp.
+  google.protobuf.Timestamp update_time = 10 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Resource annotations as `key:value` pairs.
+  map<string, string> annotations = 11 [
+    (google.api.field_behavior) = OPTIONAL,
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+}

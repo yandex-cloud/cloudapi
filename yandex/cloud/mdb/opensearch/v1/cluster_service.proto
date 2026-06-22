@@ -791,6 +791,9 @@ message ConfigCreateSpec {
 
   // Audit log settings.
   config.AuditLog audit_log = 7;
+
+  // Cloud storage configuration.
+  CloudStorage cloud_storage = 8;
 }
 
 // Single keystore entry.
@@ -917,6 +920,9 @@ message ConfigUpdateSpec {
 
   // Audit log settings.
   config.AuditLog audit_log = 7;
+
+  // Cloud storage configuration.
+  CloudStorage cloud_storage = 8;
 }
 
 message OpenSearchClusterUpdateSpec {

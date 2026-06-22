@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+message PublicPrefixPool {
+  // ID of the public prefix pool.
+  string public_prefix_pool_id = 1 [
+    (google.api.field_behavior) = IDENTIFIER,
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (length) = "<=20",
+    (pattern) = "[a-z][a-z0-9.-]*"
+  ];
+
+  // ID of the cloud that the public prefix pool belongs to.
+  string cloud_id = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // ID of the folder that the public prefix pool belongs to.
+  string folder_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // Name of the public prefix pool.
+  string name = 4 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "2-63",
+    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?"
+  ];
+
+  // Description of the public prefix pool.
+  string description = 5 [
+    (google.api.field_behavior) = OPTIONAL,
+    (length) = "<=1024"
+  ];
+
+  // CIDR block of the public prefix pool.
+  string cidr = 6 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Minimal prefix that could be used for subnet creation
+  google.protobuf.Int64Value min_available_prefix = 7 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Creation timestamp.
+  google.protobuf.Timestamp create_time = 8 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Update timestamp.
+  google.protobuf.Timestamp update_time = 9 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Resource annotations as `key:value` pairs.
+  map<string, string> annotations = 10 [
+    (google.api.field_behavior) = OPTIONAL,
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+}

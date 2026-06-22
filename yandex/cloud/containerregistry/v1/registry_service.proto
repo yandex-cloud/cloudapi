@@ -127,6 +127,7 @@ service RegistryService {
       post: "/container-registry/v1/registries/{registry_id}:updateIpPermission"
     };
   };
+
 }
 
 message GetRegistryRequest {

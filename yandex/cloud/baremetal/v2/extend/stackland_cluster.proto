@@ -1,0 +1,135 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2.extend;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/baremetal/v2/extend/nodes.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2/extend;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2.extend";
+
+message StacklandCluster {
+  // ID of the cluster.
+  string stackland_cluster_id = 1 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (google.api.field_behavior) = IDENTIFIER
+  ];
+
+  // ID of the cloud that the cluster belongs to.
+  string cloud_id = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // ID of the folder that the cluster belongs to.
+  string folder_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // Name of the cluster.
+  // The display name is unique within the folder.
+  string name = 4 [(google.api.field_behavior) = REQUIRED];
+
+  // Description of the server.
+  string description = 5 [(google.api.field_behavior) = OPTIONAL];
+  enum State {
+    // Unspecified state.
+    STATE_UNSPECIFIED = 0;
+
+    // Cluster is being created.
+    CREATING = 1;
+
+    // Cluster is being updated.
+    UPDATING = 2;
+
+    // Cluster is running.
+    RUNNING = 3;
+
+    // Cluster is being deleted.
+    DELETING = 4;
+
+    // Cluster is in error state.
+    ERROR = 5;
+  }
+
+  // State of the cluster.
+  State state = 6 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Creation timestamp.
+  google.protobuf.Timestamp create_time = 7 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Update timestamp.
+  google.protobuf.Timestamp update_time = 8 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> annotations = 9 [
+    (google.api.field_behavior) = OPTIONAL,
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+
+  // ID of the hardware pool that the cluster belongs to.
+  string hardware_pool_id = 10 [(google.api.field_behavior) = REQUIRED];
+  enum StacklandPreset {
+    // Unspecified preset.
+    STACKLAND_PRESET_UNSPECIFIED = 0;
+
+    // Minimal preset.
+    MINIMAL = 1;
+
+    // Full preset.
+    FULL = 2;
+  }
+
+  // Preset of the cluster.
+  StacklandPreset preset = 11 [(google.api.field_behavior) = OPTIONAL];
+
+  // Which node types are to be used for cluster roles.
+  StacklandHostRoles host_roles = 12 [(google.api.field_behavior) = REQUIRED];
+
+  // Bastion node.
+  Node bastion = 13 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the subnet that the cluster belongs to.
+  string subnet_id = 14 [(google.api.field_behavior) = OPTIONAL];
+
+  // Optional CIDR to preselect in subnet.
+  string cidr = 15 [
+    (google.api.field_behavior) = OPTIONAL,
+    (google.api.field_behavior) = INPUT_ONLY
+  ];
+
+  // Version of Stackland to be used.
+  string version = 16 [(google.api.field_behavior) = REQUIRED];
+
+  // Licence to activate Stackland.
+  string licence = 17 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = INPUT_ONLY
+  ];
+
+  // ID of secret with cluster credentials in lockbox.
+  string credentials_lockbox_secret_id = 18 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // URL in S3 to the cluster configuration.
+  string configuration_url = 19 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+message StacklandHostRoles {
+  // Node types used as controlplane nodes.
+  repeated NodeGroup controlplane = 1 [(google.api.field_behavior) = OPTIONAL];
+
+  // Node types used as combined nodes.
+  repeated NodeGroup combined = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // Node types used as workder nodes.
+  repeated NodeGroup worker = 3 [(google.api.field_behavior) = OPTIONAL];
+}

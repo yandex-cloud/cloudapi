@@ -4,6 +4,7 @@ package yandex.cloud.mdb.mongodb.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/mdb/mongodb/v1/user.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -156,6 +157,8 @@ message CreateUserMetadata {
 }
 
 message UpdateUserRequest {
+  reserved 6;
+
   // ID of the MongoDB cluster the user belongs to.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
@@ -179,6 +182,9 @@ message UpdateUserRequest {
 
   // New set of permissions for the user.
   repeated Permission permissions = 5;
+
+  // Deletion Protection inhibits deletion of the user
+  google.protobuf.BoolValue deletion_protection = 7;
 }
 
 message UpdateUserMetadata {

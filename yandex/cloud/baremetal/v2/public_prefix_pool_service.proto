@@ -1,0 +1,140 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/baremetal/v2/public_prefix_pool.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+// A set of methods for managing PublicPrefixPool resources.
+service PublicPrefixPoolService {
+  // Returns the specified public prefix pool.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc GetPublicPrefixPool(GetPublicPrefixPoolRequest) returns (PublicPrefixPool) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/publicPrefixPools/{public_prefix_pool_id}"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,public_prefix_pool_id";
+  };
+
+  // Lists public prefix pools in the specified folder.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc ListPublicPrefixPools(ListPublicPrefixPoolsRequest) returns (ListPublicPrefixPoolsResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/publicPrefixPools"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id";
+  };
+
+  // Updates the specified public prefix pool.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc UpdatePublicPrefixPool(UpdatePublicPrefixPoolRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdatePublicPrefixPoolMetadata"
+      response: "PublicPrefixPool"
+    };
+    option (google.api.http) = {
+      body: "public_prefix_pool"
+      patch: "/baremetal/v2/clouds/{public_prefix_pool.cloud_id}/folders/{public_prefix_pool.folder_id}/publicPrefixPools/{public_prefix_pool.public_prefix_pool_id}"
+    };
+    option (google.api.method_signature) = "public_prefix_pool,update_mask";
+  };
+}
+
+message GetPublicPrefixPoolRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the Public prefix pool resource to return.
+  //
+  // To get the pool ID, use a [PublicPrefixPoolService.List] request.
+  string public_prefix_pool_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "<=20",
+    (pattern) = "[a-z][a-z0-9.-]*"
+  ];
+}
+
+message ListPublicPrefixPoolsRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The maximum number of results per page to return. If the number of available
+  // results is greater than `page_size`,
+  // the service returns a [ListPublicPrefixPoolsResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Default value is 20.
+  int64 page_size = 3 [
+    (google.api.field_behavior) = OPTIONAL,
+    (value) = "<=1000"
+  ];
+
+  // Page token. To get the next page of results, set `page_token` to the
+  // [ListPublicPrefixPoolsResponse.next_page_token] returned by a previous list request.
+  string page_token = 4 [(google.api.field_behavior) = OPTIONAL];
+
+  // Sorting order for the listing. Follows the [AIP-132](https://google.aip.dev/132) `order_by` format:
+  // `"field [asc|desc]"`, e.g. `"createTime desc"`.
+  //
+  // Supported fields: `publicPrefixPoolId`, `createTime`, `updateTime`.
+  // Default order: `publicPrefixPoolId asc`.
+  string order_by = 5 [(google.api.field_behavior) = OPTIONAL];
+
+  // Filter expression following [AIP-160](https://google.aip.dev/160).
+  //
+  // Supported fields and operators:
+  // - `publicPrefixPoolId`, `name` - `=`, `!=`, `:` (contains)
+  //
+  // Example: `name : "prod"`.
+  string filter = 6 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message ListPublicPrefixPoolsResponse {
+  // List of PublicPrefixPool resources.
+  repeated PublicPrefixPool public_prefix_pools = 1;
+
+  // Token for getting the next page of the list. If the number of results is greater than
+  // [ListPublicPrefixPoolsRequest.page_size], use `next_page_token` as the value
+  // for the [ListPublicPrefixPoolsRequest.page_token] parameter in the next list request.
+  //
+  // Each subsequent page will have its own `next_page_token` to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message UpdatePublicPrefixPoolRequest {
+  // The PublicPrefixPool object to be updated.
+  PublicPrefixPool public_prefix_pool = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Field mask that specifies which fields of the PublicPrefixPool resource are going to be updated.
+  google.protobuf.FieldMask update_mask = 2 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message UpdatePublicPrefixPoolMetadata {
+  // ID of the Public prefix pool resource that is being updated.
+  string public_prefix_pool_id = 1;
+}

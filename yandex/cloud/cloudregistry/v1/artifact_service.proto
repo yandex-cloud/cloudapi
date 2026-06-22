@@ -3,9 +3,11 @@ syntax = "proto3";
 package yandex.cloud.cloudregistry.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/cloudregistry/v1/artifact.proto";
+import "yandex/cloud/cloudregistry/v1/registry.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -26,6 +28,13 @@ service ArtifactService {
   rpc GetByPath(GetArtifactByPathRequest) returns (Artifact) {
     option (google.api.http) = {
       get: "/cloud-registry/v1/registries/{registry_id}/artifacts:getByPath"
+    };
+  };
+
+  // Returns a list of artifacts.
+  rpc List(ListArtifactsWithFiltersRequest) returns (ListArtifactsWithFiltersResponse) {
+    option (google.api.http) = {
+      get: "/cloud-registry/v1/artifacts"
     };
   };
 
@@ -139,4 +148,80 @@ message UpsertFolderMetadata {
 
   // Path of the folder that is being upserted.
   string path = 2;
+}
+
+message ListArtifactsWithFiltersRequest {
+  // ID of the folder to list artifacts in.
+  // [folder_id] is ignored if a [ListArtifactsWithFiltersRequest.registry_id] are specified in the request.
+  // To get the folder ID use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 1 [(length) = "<=50"];
+
+  // ID of the registry to list artifacts in.
+  // [registry_id] is ignored if a [ListArtifactsWithFiltersRequest.folder_id] is specified in the request.
+  string registry_id = 2 [(length) = "<=50"];
+
+  // Match by registry kind (for example DOCKER, MAVEN, NPM).
+  // Empty list means any kind.
+  repeated Registry.Kind registry_kind = 3;
+
+  // Match by registry type (for example LOCAL, REMOTE). Supported kinds: LOCAL, REMOTE
+  // Empty list means any type.
+  repeated Registry.Type registry_type = 4;
+
+  // Page size.
+  int64 page_size = 5 [(value) = "0-1000"];
+
+  // Page token from the previous response. Empty for the first page.
+  string page_token = 6;
+
+  // Filter by artifact name.
+  // The expression must specify:
+  // 1. The field name
+  // 2. An operator: =, !=.
+  // 3. The value in double quotes.
+  // Examples:
+  // name = "my-pkg"
+  // name != "v1-release"
+  // No regular expressions allowed.
+  string name_filter = 7 [(length) = "<=1000"];
+
+  // Filter by artifact path.
+  // The expression must specify:
+  // 1. The field path
+  // 2. An operator: =, !=.
+  // 3. The value in double quotes.
+  // Examples:
+  // path = "pool/main/all"
+  // path != "pool/main/all"
+  // No regular expressions allowed.
+  string path_filter = 8 [(length) = "<=1000"];
+
+  // Match by artifact status. Empty list means any status.
+  repeated Artifact.Status status = 9;
+
+  // Match by artifact kind. Empty list means any kind (both FOLDER and ARTIFACT).
+  // To return only artifacts, set this to ARTIFACT.
+  repeated Artifact.Kind kind = 10;
+
+  // Match by labels. All listed labels must match (AND).
+  // Each element is a "key=value" pair, e.g. "env=prod".
+  repeated string labels = 11;
+
+  // Return items created at this time or later.
+  google.protobuf.Timestamp created_after = 12;
+
+  // Return items created before this time.
+  google.protobuf.Timestamp created_before = 13;
+
+  // Sort order. Comma-separated "field [asc|desc]", e.g. "name desc".
+  // Valid fields: name, created_at, modified_at.
+  string order_by = 14 [(length) = "<=256"];
+}
+
+message ListArtifactsWithFiltersResponse {
+  // List of artifacts that match the request.
+  repeated Artifact artifacts = 1;
+
+  // Token to get the next page of results.
+  string next_page_token = 2;
 }

@@ -1,2 +1,89 @@
 iam_bindings:
   - name: yandex_mdb_greenplum_cluster
+
+# ********************************************
+# Terraform code gen configuration:
+# 1. uncomment
+# 2. cd ~/cloudia/cloud/cloud-go/api/tools/terraform-provider-generator
+# 3. make generate-public
+#
+# config format: https://wiki.yandex-team.ru/cloud/devel/yandex.cloud-instrumenty-publichnogo-api/zony-otvetsvennosti-komandy/terraform/private-terraform/generator-guide/dopolnitelnaja-konfiguracija/#rekomenduetsya-ispolzovat-stabilnye-funkcii
+# ********************************************
+#
+# resources_and_data_sources:
+#   - name: yandex_mdb_greenplum_cluster
+#     rename: yandex_mdb_greenplum_cluster_v2
+#
+# model_config:
+#   timeouts:
+#     ycp_compute_instance:
+#       create: 120m
+#       read: 120m
+#       update: 120m
+#       delete: 120m
+#   renames:
+#     yandex.cloud.mdb.greenplum.v1.Cluster:
+#       fields:
+#         health: "" # hide from tf
+#         status: "" # hide from tf
+#     yandex.cloud.mdb.greenplum.v1.CreateClusterRequest:
+#       fields:
+#         config_spec: cluster_config
+#     yandex.cloud.mdb.greenplum.v1.UpdateClusterRequest:
+#       fields:
+#         config_spec: cluster_config
+#     yandex.cloud.mdb.greenplum.v1.GreenplumConfigSet6:
+#       fields:
+#         default_config: "" # hide from tf
+#         effective_config: "" # hide from tf
+#     yandex.cloud.mdb.greenplum.v1.DBMSConfigSet:
+#       fields:
+#         default_config: "" # hide from tf
+#         effective_config: "" # hide from tf
+#     yandex.cloud.mdb.greenplum.v1.ConnectionPoolerConfigSet:
+#       fields:
+#         default_config: "" # hide from tf
+#         effective_config: "" # hide from tf
+#     yandex.cloud.mdb.greenplum.v1.PXFConfigSet:
+#       fields:
+#         default_config: "" # hide from tf
+#         effective_config: "" # hide from tf
+#   options:
+#     yandex.cloud.mdb.greenplum.v1.Cluster.id:
+#       constant: '""'
+#     yandex.cloud.mdb.greenplum.v1.Cluster.host_group_ids:
+#       set: true
+#     yandex.cloud.mdb.greenplum.v1.Cluster.master_host_group_ids:
+#       set: true
+#     yandex.cloud.mdb.greenplum.v1.Cluster.monitoring:
+#       set: true
+#     yandex.cloud.mdb.greenplum.v1.Cluster.security_group_ids:
+#       set: true
+#     yandex.cloud.mdb.greenplum.v1.Cluster.segment_host_group_ids:
+#       set: true
+#     yandex.cloud.mdb.greenplum.v1.QueryKiller.ignore_users:
+#       set: true
+#     yandex.cloud.mdb.greenplum.v1.TableSizes.starts:
+#       set: true
+    
+#     yandex.cloud.mdb.greenplum.v1.GetClusterRequest.cluster_id:
+#       resource_id: true
+#     yandex.cloud.mdb.greenplum.v1.UpdateClusterRequest.cluster_id:
+#       resource_id: true
+#     yandex.cloud.mdb.greenplum.v1.DeleteClusterRequest.cluster_id:
+#       resource_id: true
+#     yandex.cloud.mdb.greenplum.v1.UpdateClusterRequest.user_password:
+#       sensitive: true
+#     yandex.cloud.mdb.greenplum.v1.GreenplumConfigSet6.user_config:
+#       schema_transformations:
+#         flatten:
+#           prefix: ""
+#     yandex.cloud.mdb.greenplum.v1.ConnectionPoolerConfigSet.user_config:
+#       schema_transformations:
+#         flatten:
+#           prefix: ""
+#     yandex.cloud.mdb.greenplum.v1.PXFConfigSet.user_config:
+#       schema_transformations:
+#         flatten:
+#           prefix: ""
+  

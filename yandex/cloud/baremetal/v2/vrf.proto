@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package yandex.cloud.baremetal.v2;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
+option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+// A VRF (Virtual Routing and Forwarding) resource.
+message Vrf {
+  // ID of the VRF.
+  string vrf_id = 1 [
+    (google.api.field_behavior) = IDENTIFIER,
+    (google.api.field_behavior) = OUTPUT_ONLY
+  ];
+
+  // ID of the cloud that the private subnet belongs to.
+  string cloud_id = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // ID of the folder that the private subnet belongs to.
+  string folder_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+
+  // Name of the VRF. Unique within the folder.
+  string name = 4 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "2-63",
+    (pattern) = "[a-z]([-a-z0-9]*[a-z0-9])?"
+  ];
+
+  // Optional description of the VRF.
+  string description = 5 [
+    (google.api.field_behavior) = OPTIONAL,
+    (length) = "<=1024"
+  ];
+
+  // VRF lifecycle state.
+  enum State {
+    // Unspecified VRF status.
+    STATE_UNSPECIFIED = 0;
+
+    // VRF is ready to use.
+    ACTIVE = 1;
+
+    // VRF is being updated.
+    UPDATING = 2;
+  }
+
+  // State of the VRF.
+  State state = 6 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Static routes.
+  repeated StaticRoute static_routes = 7 [(google.api.field_behavior) = OPTIONAL];
+
+  // Creation timestamp.
+  google.protobuf.Timestamp create_time = 8 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Last update timestamp.
+  google.protobuf.Timestamp update_time = 9 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Resource annotations as `key:value` pairs.
+  map<string, string> annotations = 10 [
+    (google.api.field_behavior) = OPTIONAL,
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+}
+
+// A static route entry in a VRF.
+message StaticRoute {
+  // Destination network CIDR block.
+  string destination_cidr = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Next hop host IP address.
+  string next_hop_ip_address = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // Controls whether the static route is announced outside the BareMetal VRF.
+  enum RedistributionType {
+    // Unspecified redistribution type.
+    REDISTRIBUTION_TYPE_UNSPECIFIED = 0;
+
+    // Static route announcements outside BareMetal VRF disabled.
+    DISABLED = 1;
+
+    // Static route announcements outside BareMetal VRF enabled.
+    ENABLED = 2;
+  }
+
+  // Redistribution type.
+  RedistributionType redistribution_type = 3 [(google.api.field_behavior) = REQUIRED];
+}

@@ -154,6 +154,20 @@ service ServerService {
     };
   };
 
+  // Enable prolongation after rental period end
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // Required for backward compatibility with old clients. --)
+  rpc ProlongateEndedRent(ProlongateEndedRentRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "ProlongateEndedRentMetadata"
+      response: "Server"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v1alpha/servers/{server_id}:prolongateEndedRent"
+    };
+  };
+
 }
 
 message GetServerRequest {
@@ -641,6 +655,19 @@ message StopProlongationRequest {
 }
 
 message ServerSetProlongationMetadata {
+  // ID of the server for which the prolongation is being set.
+  string server_id = 1;
+}
+
+message ProlongateEndedRentRequest {
+  // ID of the server for which the prolongation is being set.
+  string server_id = 1;
+
+  // ID of the next rental period.
+  string next_rental_period_id = 2;
+}
+
+message ProlongateEndedRentMetadata {
   // ID of the server for which the prolongation is being set.
   string server_id = 1;
 }
