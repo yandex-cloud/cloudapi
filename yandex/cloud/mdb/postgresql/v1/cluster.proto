@@ -175,6 +175,7 @@ message ClusterConfig {
   reserved 14;
   reserved 20;
   reserved 26;
+  reserved 33;
   // Version of PostgreSQL server software.
   string version = 1;
 
@@ -252,6 +253,9 @@ message ClusterConfig {
 
   // Cluster-wide Connection Manager integration configuration
   yandex.cloud.mdb.v1.ClusterConnectionManager connection_manager = 32;
+
+  // Configuration of managed pg_repack.
+  ManagedRepack managed_repack = 34;
 }
 
 message ConnectionPoolerConfig {
@@ -487,6 +491,12 @@ message PerformanceDiagnostics {
   int64 sessions_sampling_interval = 2 [(value) = "1-86400"];
   // Interval (in seconds) for pg_stat_statements sampling
   int64 statements_sampling_interval = 3 [(value) = "1-86400"];
+}
+
+// Cluster-wide configuration of managed pg_repack.
+message ManagedRepack {
+  // Enables/disables managed pg_repack for the cluster.
+  google.protobuf.BoolValue enabled = 1;
 }
 
 message DiskSizeAutoscaling {

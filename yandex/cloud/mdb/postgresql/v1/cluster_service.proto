@@ -701,6 +701,9 @@ message ListClusterLogsRequest {
 
     // Logs of connection pooler activity.
     POOLER = 2;
+
+    // Logs of Managed Repack service activity.
+    REPACK = 3;
   }
 
   // Start timestamp for the logs request, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
@@ -765,6 +768,9 @@ message StreamClusterLogsRequest {
 
     // Logs of connection pooler activity.
     POOLER = 2;
+
+    // Logs of Managed Repack service activity.
+    REPACK = 3;
   }
 
   // Start timestamp for the logs request.
@@ -1009,6 +1015,7 @@ message ConfigSpec {
   reserved 20;
   reserved 26;
   reserved 31;
+  reserved 33;
   // Version of PostgreSQL used in the cluster.
   // Possible values: `11`, `12`, `13`, `13_1c`, `14`, `14_1c`, `15`, `15_1c`, `16`, `16_1c`, `17`, `17_1c`, `18`, `18_1c`
   string version = 1;
@@ -1084,6 +1091,9 @@ message ConfigSpec {
 
   // Cluster-wide Connection Manager integration configuration
   yandex.cloud.mdb.v1.ClusterConnectionManager connection_manager = 32;
+
+  // Configuration of managed pg_repack.
+  ManagedRepack managed_repack = 34;
 }
 
 message ConfigHostSpec {

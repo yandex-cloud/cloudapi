@@ -312,6 +312,10 @@ message CreateBucketRequest {
   // An option to disable static key auth for a bucket.
   // requires permission s3:UpdateBucketStaticKeyAuthSettings
   bool disabled_statickey_auth = 12;
+
+  // Configuration for bucket's lifecycle rules.
+  // requires permission s3:PutLifecycleConfiguration
+  repeated LifecycleRule lifecycle_rules = 13;
 }
 
 message UpdateBucketRequest {

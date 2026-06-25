@@ -84,6 +84,9 @@ message Bucket {
 
   // An option to disable static key auth for a bucket.
   bool disabled_statickey_auth = 19;
+
+  // Bucket logging setup.
+  BucketLoggingSetup logging = 20;
 }
 
 message Tag {
@@ -845,4 +848,12 @@ enum Versioning {
   // versioning was suspended are still versioned and keep their version IDs.
   // To resume versioning, change status to `VERSIONING_ENABLED` via a [BucketService.Update] request.
   VERSIONING_SUSPENDED = 3;
+}
+
+message BucketLoggingSetup {
+  // Target bucket for logs
+  string target_bucket = 1;
+
+  // Target prefix for log object keys
+  string target_prefix = 2;
 }

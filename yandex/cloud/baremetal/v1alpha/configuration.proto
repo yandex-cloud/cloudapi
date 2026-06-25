@@ -24,6 +24,9 @@ message CPU {
 
   // Frequency of the CPU in megahertz (MHz).
   int64 frequency_mhz = 5 [(value) = ">0"];
+
+  // Number of threads (logical cores) per CPU (socket).
+  int64 threads = 6;
 }
 
 message DiskDriveConfiguration {

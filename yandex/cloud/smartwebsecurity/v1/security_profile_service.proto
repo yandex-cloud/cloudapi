@@ -83,6 +83,8 @@ message ListSecurityProfilesResponse {
 }
 
 message CreateSecurityProfileRequest {
+  reserved 12 to 13;
+
   // ID of the folder to create a security profile in.
   string folder_id = 1 [(required) = true];
 
@@ -111,8 +113,17 @@ message CreateSecurityProfileRequest {
   // Advanced rate limiter profile ID to use with this security profile. Set empty to use default.
   string advanced_rate_limiter_profile_id = 8;
 
+  // Disables the use of HTTP request data for training and improving the service's ML models.
+  bool disallow_data_processing = 10;
+
   // Parameters for request body analyzer.
   SecurityProfile.AnalyzeRequestBody analyze_request_body = 9;
+
+  // Configures logging of requests processed by SWS to Audit Trails and Cloud Logging.
+  SecurityProfile.LogOptions log_options = 11;
+
+  // ID of the default custom page shown to the user when a request is denied.
+  string custom_page_id = 14;
 }
 
 message CreateSecurityProfileMetadata {
@@ -121,6 +132,8 @@ message CreateSecurityProfileMetadata {
 }
 
 message UpdateSecurityProfileRequest {
+  reserved 13 to 14;
+
   // ID of the security profile to update.
   string security_profile_id = 1 [(required) = true];
 
@@ -152,8 +165,17 @@ message UpdateSecurityProfileRequest {
   // Advanced rate limiter profile ID to use with this security profile. Set empty to use default.
   string advanced_rate_limiter_profile_id = 9;
 
+  // Disables the use of HTTP request data for training and improving the service's ML models.
+  bool disallow_data_processing = 11;
+
   // Parameters for request body analyzer.
   SecurityProfile.AnalyzeRequestBody analyze_request_body = 10;
+
+  // Configures logging of requests processed by SWS to Audit Trails and Cloud Logging.
+  SecurityProfile.LogOptions log_options = 12;
+
+  // ID of the default custom page shown to the user when a request is denied.
+  string custom_page_id = 15;
 }
 
 message UpdateSecurityProfileMetadata {

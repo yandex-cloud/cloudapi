@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.postgresql.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
+option java_package = "yandex.cloud.api.mdb.postgresql.v1";
+
+// Which objects to repack: indexes or tables
+enum RepackType {
+  // Repack type is not specified.
+  REPACK_TYPE_UNSPECIFIED = 0;
+
+  // Repack indexes.
+  REPACK_TYPE_INDEX = 1;
+
+  // Repack tables.
+  REPACK_TYPE_TABLE = 2;
+}
+
+// Single object to repack
+message RepackTarget {
+  // Schema of object to be repacked
+  // If not given, defaults to "public"
+  string schema = 1;
+  // Object to repack within the schema.
+  oneof target {
+    // Name of object to be repacked
+    string name = 2;
+
+    // All objects within given schema are to be repacked
+    bool all_in_schema = 3;
+  }
+}
+
+// Represents specification for launching new Repack process
+message RepackSpec {
+  reserved 4;
+
+  // Which objects to repack
+  RepackType type = 1;
+
+  // database name this repack process is working with
+  string dbname = 2;
+
+  // list of target objects this repack process is working with
+  repeated RepackTarget targets = 3;
+
+  // pg_repack option; timeout to cancel other backends on conflict
+  int64 wait_timeout = 5;
+
+  // pg_repack option; Use this many parallel jobs for each table
+  int64 jobs = 6;
+}
+
+// Represents currently running repack process
+message RunningRepack {
+  reserved 2, 5;
+
+  // Which cluster this repack runs in
+  string cluster_id = 1;
+
+  // When this repack process has been started
+  google.protobuf.Timestamp start_time = 3;
+
+  // Specification for this running repack
+  RepackSpec spec = 4;
+
+  // UUID of launch, identifier of specific instance of launched repack
+  string launch_id = 6;
+}
+
+// Represents already finished repack process
+message FinishedRepack {
+  reserved 2;
+
+  // Which cluster this repack was launched in
+  string cluster_id = 1;
+
+  // Exit code of this repack launch
+  int64 exit_code = 3;
+
+  // UUID of launch, identifier of specific instance of launched repack
+  string launch_id = 4;
+}

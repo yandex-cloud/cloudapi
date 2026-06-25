@@ -133,7 +133,32 @@ message Metastore {
 
       // URI of the Hive Metastore.
       string uri = 1;
+
+      // ID of the Managed Hive Metastore cluster.
+      string managed_cluster_id = 2;
     }
+  }
+
+  // Configuration of Iceberg REST Catalog compatible metastore type.
+  message RestMetastore {
+    message Authorization {
+      // None authorization.
+      message NoneAuth {
+      }
+
+      oneof type {
+        option (exactly_one) = true;
+
+        // Disabled authorization
+        NoneAuth none = 1;
+      }
+    }
+
+    // URI of the REST Catalog metastore.
+    string uri = 1;
+
+    // Authorization properties.
+    Authorization authorization = 2;
   }
 
   oneof type {
@@ -141,6 +166,9 @@ message Metastore {
 
     // Apache Hive Metastore.
     HiveMetastore hive = 1;
+
+    // Iceberg REST Catalog compatible Metastore.
+    RestMetastore rest = 2;
   }
 }
 

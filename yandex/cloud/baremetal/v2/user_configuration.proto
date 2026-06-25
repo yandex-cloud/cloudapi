@@ -27,6 +27,9 @@ message UserCPU {
 
   // Number of cpu.
   int64 count = 6 [(google.api.field_behavior) = REQUIRED];
+
+  // Number of threads (logical cores) per CPU (socket).
+  int64 threads = 7 [(google.api.field_behavior) = OUTPUT_ONLY];
 }
 
 message UserRAM {

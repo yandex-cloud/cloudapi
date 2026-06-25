@@ -618,6 +618,8 @@ message PostgresqlConfig14_1C {
   AutoExplainLogFormat auto_explain_log_format = 168; // Selects the `` EXPLAIN `` output format to be used. The allowed values are `` AUTO_EXPLAIN_LOG_FORMAT_TEXT ``, `` AUTO_EXPLAIN_LOG_FORMAT_XML ``, `` AUTO_EXPLAIN_LOG_FORMAT_JSON ``, and `` AUTO_EXPLAIN_LOG_FORMAT_YAML ``. The default is `` AUTO_EXPLAIN_LOG_FORMAT_TEXT ``.
 
   google.protobuf.Int64Value idle_session_timeout = 173 [(value) = "0-2147483647"]; // in milliseconds.
+
+  google.protobuf.Int64Value checkpoint_warning = 174 [(value) = "0-2147483647000"]; // in milliseconds. Write a message to the server log if checkpoints caused by the filling of WAL segment files happen closer together than this amount of time (which suggests that `` max_wal_size `` ought to be raised). 0 disables the warning.
 }
 
 message PostgresqlConfigSet14_1C {

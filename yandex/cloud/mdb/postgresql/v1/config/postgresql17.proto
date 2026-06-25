@@ -633,6 +633,8 @@ message PostgresqlConfig17 {
   google.protobuf.Int64Value max_replication_slots = 172 [(value) = "20-100"];
 
   google.protobuf.Int64Value idle_session_timeout = 173 [(value) = "0-2147483647"]; // in milliseconds.
+
+  google.protobuf.Int64Value checkpoint_warning = 174 [(value) = "0-2147483647000"]; // in milliseconds. Write a message to the server log if checkpoints caused by the filling of WAL segment files happen closer together than this amount of time (which suggests that `` max_wal_size `` ought to be raised). 0 disables the warning.
 }
 
 message PostgresqlConfigSet17 {

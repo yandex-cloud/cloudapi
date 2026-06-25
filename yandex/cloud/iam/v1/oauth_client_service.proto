@@ -29,6 +29,9 @@ service OAuthClientService {
     };
   };
 
+  // Retrieves the list of profiles that define sets of allowed settings for oauth clients.
+  rpc ListProfiles(ListProfilesRequest) returns (ListProfilesResponse);
+
   // Creates an oauth client in the specified folder.
   rpc Create(CreateOAuthClientRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -95,6 +98,16 @@ message ListOAuthClientsResponse {
   string next_page_token = 2;
 }
 
+// Request message for [OAuthClientService.ListProfiles].
+message ListProfilesRequest {
+}
+
+// Response message for [OAuthClientService.ListProfiles].
+message ListProfilesResponse {
+  // List of profiles that define sets of allowed settings for oauth clients.
+  repeated Profile profiles = 1;
+}
+
 message GetOAuthClientRequest {
   // ID of the OAuthClient resource to return.
   // To get the oauth client ID, use a [OAuthClientService.List] request.
@@ -154,6 +167,18 @@ message CreateOAuthClientRequest {
     (length) = "<=255",
     (required) = true
   ];
+
+  // List of authentication methods allowed for the oauth client.
+  repeated string authentication_methods = 7 [
+    (length) = "<=255",
+    (size) = "<=1000"
+  ];
+
+  // ID of the profile that defines the set of allowed settings for the oauth client.
+  string profile_id = 5 [(length) = "<=32"];
+
+  // Whether PKCE (Proof Key for Code Exchange) is required for the oauth client during the authorization code flow.
+  bool pkce_required = 6;
 }
 
 message UpdateOAuthClientRequest {
@@ -186,6 +211,15 @@ message UpdateOAuthClientRequest {
     (pattern) = "[!#-\\[\\]-~]+",
     (size) = "<=1000"
   ];
+
+  // List of authentication methods allowed for the oauth client.
+  repeated string authentication_methods = 7 [
+    (length) = "<=255",
+    (size) = "<=1000"
+  ];
+
+  // Whether PKCE (Proof Key for Code Exchange) is required for the oauth client during the authorization code flow.
+  bool pkce_required = 6;
 }
 
 message DeleteOAuthClientRequest {
