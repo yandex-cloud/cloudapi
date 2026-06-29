@@ -142,17 +142,9 @@ enum SyncStatus {
 
 // Request to synchronize licenses and submit usage data
 message SyncRequest {
-  // Organization ID
-  string organization_id = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
-
-  // Billing account ID
-  string billing_account_id = 2 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  reserved 1 to 2;
+  reserved "organization_id";
+  reserved "billing_account_id";
 
   // License server ID
   string license_server_id = 3 [

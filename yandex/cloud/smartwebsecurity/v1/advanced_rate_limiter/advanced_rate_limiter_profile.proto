@@ -11,8 +11,6 @@ option java_package = "yandex.cloud.api.smartwebsecurity.v1.advanced_rate_limite
 
 // A AdvancedRateLimiterProfile (ARL) resource.
 message AdvancedRateLimiterProfile {
-  reserved 8;
-
   // ID of the ARL profile.
   string id = 1;
 
@@ -45,6 +43,9 @@ message AdvancedRateLimiterProfile {
 
   // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
   google.protobuf.Timestamp created_at = 7;
+
+  // Update timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  google.protobuf.Timestamp updated_at = 8;
 
   // ID of the cloud that the ARL profile belongs to.
   string cloud_id = 9;

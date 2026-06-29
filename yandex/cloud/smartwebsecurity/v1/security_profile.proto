@@ -10,7 +10,7 @@ option java_package = "yandex.cloud.api.smartwebsecurity.v1";
 
 // A SecurityProfile resource.
 message SecurityProfile {
-  reserved 9, 17 to 18;
+  reserved 17 to 18;
 
   message AnalyzeRequestBody {
     // Action to perform if maximum size of body exceeded.
@@ -139,6 +139,9 @@ message SecurityProfile {
 
   // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
   google.protobuf.Timestamp created_at = 8;
+
+  // Update timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  google.protobuf.Timestamp updated_at = 9;
 
   // ID of the cloud that the security profile belongs to.
   string cloud_id = 10;

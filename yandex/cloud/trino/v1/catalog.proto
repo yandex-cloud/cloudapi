@@ -128,6 +128,27 @@ message CatalogUpdateSpec {
 message Metastore {
   // Configuration of Hive's metastore type.
   message HiveMetastore {
+    // Hive Metastore client protocol configuration.
+    message Protocol {
+      // Thrift client protocol configuration.
+      message Thrift {
+      }
+
+      // Iceberg REST client protocol configuration.
+      message IcebergRest {
+      }
+
+      oneof type {
+        option (exactly_one) = true;
+
+        // Thrift client protocol.
+        Thrift thrift = 1;
+
+        // Iceberg REST client protocol.
+        IcebergRest rest = 2;
+      }
+    }
+
     oneof connection {
       option (exactly_one) = true;
 
@@ -137,6 +158,9 @@ message Metastore {
       // ID of the Managed Hive Metastore cluster.
       string managed_cluster_id = 2;
     }
+
+    // Hive metastore client protocol. If null, thrift protocol will be used.
+    Protocol protocol = 3;
   }
 
   // Configuration of Iceberg REST Catalog compatible metastore type.

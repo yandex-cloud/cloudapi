@@ -10,8 +10,6 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/smartwebse
 option java_package = "yandex.cloud.api.smartwebsecurity.v1.waf";
 
 message WafProfile {
-  reserved 8;
-
   message CoreRuleSet {
     // Anomaly score.
     // Enter an integer within the range of 2 and 10000.
@@ -192,6 +190,9 @@ message WafProfile {
 
   // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
   google.protobuf.Timestamp created_at = 7;
+
+  // Update timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+  google.protobuf.Timestamp updated_at = 8;
 
   // Settings for each rule in rule set.
   repeated WafProfileRule rules = 9;

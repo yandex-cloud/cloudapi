@@ -173,6 +173,9 @@ message ClusterConfig {
 
   // Spark version. Format: "Major.Minor".
   string spark_version = 5;
+
+  // Job Environment ID.
+  string environment_id = 6 [(length) = "<=50"];
 }
 
 // Cluster Update Configuration.
@@ -191,6 +194,9 @@ message UpdateClusterConfigSpec {
 
   // Spark version. Format: "Major.Minor".
   string spark_version = 5;
+
+  // Job Environment ID.
+  string environment_id = 6 [(length) = "<=50"];
 }
 
 // Configuration for HistoryServer.

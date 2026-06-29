@@ -34,9 +34,18 @@ message PresetItem {
   // Selected infra event values
   repeated InfraPresetValue infra_values = 2;
 
+  // Is infra event values exist. Set the flag to true if you want to show that the value is []
+  bool infra_values_exist = 5;
+
   // Selected dashboard parameter values
   repeated ParameterPresetValue parameter_values = 3;
 
+  // Is parameter values exist. Set the flag to true if you want to show that the value is []
+  bool parameter_values_exist = 6;
+
   // Selected logs overlay values
   repeated LogsOverlayPresetValue logs_overlay_values = 4;
+
+  // Is logs overlay values exist. Set the flag to true if you want to show that the value is []
+  bool logs_overlay_values_exist = 7;
 }

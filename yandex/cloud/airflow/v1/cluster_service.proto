@@ -265,6 +265,9 @@ message UpdateClusterConfigSpec {
 
   // Configuration of dag-processor instances.
   DagProcessorConfig dag_processor = 11;
+
+  // Configuration for datacatalog integration.
+  DatacatalogConfig datacatalog = 12;
 }
 
 message UpdateNetworkConfigSpec {

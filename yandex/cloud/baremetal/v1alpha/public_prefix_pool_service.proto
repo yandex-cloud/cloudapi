@@ -45,6 +45,7 @@ service PublicPrefixPoolService {
       get: "/baremetal/v1alpha/publicPrefixPools/{public_prefix_pool_id}/operations"
     };
   };
+
 }
 
 message GetPublicPrefixPoolRequest {

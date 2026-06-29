@@ -149,6 +149,9 @@ message ClusterConfig {
 
   // Python version. Format: "Major.Minor"
   string python_version = 10;
+
+  // Configuration for datacatalog integration.
+  DatacatalogConfig datacatalog = 12;
 }
 
 message AirflowConfig {
@@ -240,7 +243,10 @@ message CodeSyncConfig {
   oneof source {
     option (exactly_one) = true;
 
+    // Configuration for s3 folder for dags
     S3Config s3 = 1;
+
+    // Configuration for git repository for dags
     GitSyncConfig git_sync = 2;
   }
 }
@@ -265,5 +271,10 @@ message LoggingConfig {
 
 message LockboxConfig {
   // The setting allows to enable Lockbox Secret Backend.
+  bool enabled = 1;
+}
+
+message DatacatalogConfig {
+  // The setting allows to enable sending data to Datacatalog Backend.
   bool enabled = 1;
 }

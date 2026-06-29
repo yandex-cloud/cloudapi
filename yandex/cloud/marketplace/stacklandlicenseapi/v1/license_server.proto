@@ -3,7 +3,6 @@ syntax = "proto3";
 package yandex.cloud.marketplace.stacklandlicenseapi.v1;
 
 import "google/protobuf/timestamp.proto";
-import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/marketplace/stacklandlicenseapi/v1;stacklandlicenseapi";
 option java_package = "yandex.cloud.api.marketplace.stacklandlicenseapi.v1";
@@ -16,17 +15,9 @@ message LicenseServerMetadata {
 
 // Request to register a license server
 message RegisterRequest {
-  // Organization ID
-  string organization_id = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
-
-  // Billing account ID
-  string billing_account_id = 2 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  reserved 1 to 2;
+  reserved "organization_id";
+  reserved "billing_account_id";
 
   // Optional metadata for the license server
   LicenseServerMetadata metadata = 3;

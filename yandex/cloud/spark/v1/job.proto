@@ -89,6 +89,12 @@ message Job {
 
   // Spark Connect Url.
   string connect_url = 14;
+
+  // Job Environment ID.
+  string environment_id = 21 [(length) = "<=50"];
+
+  // Environment build revision.
+  int64 environment_build_revision = 22;
 }
 
 // Spark Job.
