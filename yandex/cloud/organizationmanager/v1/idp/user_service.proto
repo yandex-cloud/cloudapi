@@ -555,7 +555,7 @@ message SetPasswordHashMetadata {
 message PasswordHash {
   // The password hash string.
   string password_hash = 1 [
-    (length) = "<=128",
+    (length) = "<=256",
     (required) = true
   ];
 

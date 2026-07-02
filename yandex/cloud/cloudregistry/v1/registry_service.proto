@@ -8,6 +8,7 @@ import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/cloudregistry/v1/artifact.proto";
 import "yandex/cloud/cloudregistry/v1/ip_permission.proto";
+import "yandex/cloud/cloudregistry/v1/pattern_filter.proto";
 import "yandex/cloud/cloudregistry/v1/registry.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -233,6 +234,9 @@ message CreateRegistryRequest {
     (pattern) = "[-_.~!*'();/?:@&=+$,%#0-9a-zA-Z]+",
     (size) = "<=64"
   ];
+
+  // Pattern filter for artifacts in the registry.
+  PatternFilter pattern_filter = 8;
 }
 
 message CreateRegistryMetadata {
@@ -280,6 +284,9 @@ message UpdateRegistryRequest {
     (pattern) = "[-_.~!*'();/?:@&=+$,%#0-9a-zA-Z]+",
     (size) = "<=64"
   ];
+
+  // Pattern filter for artifacts in the registry.
+  PatternFilter pattern_filter = 7;
 }
 
 message UpdateRegistryMetadata {

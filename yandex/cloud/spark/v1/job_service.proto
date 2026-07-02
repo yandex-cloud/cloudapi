@@ -100,13 +100,21 @@ message CreateJobRequest {
     (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"
   ];
   oneof job_spec {
+    // Spark job specification.
     SparkJob spark_job = 3;
+
+    // PySpark job specification.
     PysparkJob pyspark_job = 4;
+
+    // Spark Connect job specification.
     SparkConnectJob spark_connect_job = 5;
   }
 
   // Service account used to access Cloud resources.
   string service_account_id = 8 [(length) = "<=50"];
+
+  // Job Environment ID.
+  string environment_id = 9 [(length) = "<=50"];
 }
 
 message CreateJobMetadata {

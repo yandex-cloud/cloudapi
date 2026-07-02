@@ -11,6 +11,11 @@ option java_package = "yandex.cloud.api.mdb.postgresql.v1";
 
 // A set of methods for managing PostgreSQL Cluster backup retention policies.
 service BackupRetentionPolicyService {
+  // Get a retention policy by ID.
+  rpc Get (GetBackupRetentionPolicyRequest) returns (BackupRetentionPolicy) {
+    option (google.api.http) = { get: "/managed-postgresql/v1/clusters/{cluster_id}/retention_policies/{policy_id}" };
+  }
+  
   // List all retention policies.
   rpc List (ListBackupRetentionPoliciesRequest) returns (ListBackupRetentionPoliciesResponse) {
     option (google.api.http) = { get: "/managed-postgresql/v1/clusters/{cluster_id}/retention_policies" };
@@ -27,6 +32,15 @@ service BackupRetentionPolicyService {
       delete: "/managed-postgresql/v1/clusters/{cluster_id}/retention_policies/{policy_id}"
     };
   }
+}
+
+message GetBackupRetentionPolicyRequest {
+    // ID of the PostgreSQL cluster.
+    // To get the PostgreSQL cluster ID use a [ClusterService.List] request.
+    string cluster_id = 1 [(required) = true, (length) = "<=50"];
+
+    // Unique identifier for the [BackupRetentionPolicy].
+    string policy_id = 2 [(required) = true];
 }
 
 message ListBackupRetentionPoliciesRequest {
