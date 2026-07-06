@@ -1,0 +1,173 @@
+syntax = "proto3";
+
+package yandex.cloud.smartwebsecurity.v1.match_list;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/smartwebsecurity/v1/match_list/match_list.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/smartwebsecurity/v1/match_list;smartwebsecurity";
+option java_package = "yandex.cloud.api.smartwebsecurity.v1.match_list";
+
+// A set of methods for managing MatchList resources.
+service MatchListService {
+  // Returns the specified MatchList resource.
+  rpc Get(GetMatchListRequest) returns (MatchList) {
+    option (google.api.http) = {
+      get: "/smartwebsecurity/v1/matchLists/{list_id}"
+    };
+  };
+
+  // Retrieves the list of MatchList resources in the specified folder.
+  rpc List(ListMatchListsRequest) returns (ListMatchListsResponse) {
+    option (google.api.http) = {
+      get: "/smartwebsecurity/v1/matchLists"
+    };
+  };
+
+  // Creates a MatchList resource in the specified folder.
+  rpc Create(CreateMatchListRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreateMatchListMetadata"
+      response: "MatchList"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/smartwebsecurity/v1/matchLists"
+    };
+  };
+
+  // Updates the specified MatchList resource.
+  rpc Update(UpdateMatchListRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdateMatchListMetadata"
+      response: "MatchList"
+    };
+    option (google.api.http) = {
+      body: "*"
+      patch: "/smartwebsecurity/v1/matchLists/{list_id}"
+    };
+  };
+
+  // Deletes the specified MatchList resource.
+  rpc Delete(DeleteMatchListRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeleteMatchListMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
+
+}
+
+// Request message for MatchListService.Get.
+message GetMatchListRequest {
+  // ID of the match list resource to return.
+  string list_id = 1 [(required) = true];
+}
+
+// Request message for MatchListService.List.
+message ListMatchListsRequest {
+  // ID of the folder to list match lists in.
+  string folder_id = 1 [(required) = true];
+}
+
+// Response message for MatchListService.List.
+message ListMatchListsResponse {
+  // List of match list resources.
+  repeated MatchList lists = 1;
+}
+
+// Request message for MatchListService.Create.
+message CreateMatchListRequest {
+  // ID of the folder to create the match list in.
+  string folder_id = 1 [(required) = true];
+
+  // Labels as `` key:value `` pairs. Maximum of 64 per resource.
+  map<string, string> labels = 2 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+
+  // Name of the match list.
+  string name = 3 [
+    (length) = "1-50",
+    (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*",
+    (required) = true
+  ];
+
+  // Description of the match list.
+  string description = 4 [(length) = "<=512"];
+
+  // Match list type.
+  MatchList.ListType list_type = 5;
+
+  // Match list item type.
+  MatchList.ItemType item_type = 6;
+
+  // Match list items.
+  repeated MatchList.Item items = 7;
+}
+
+// Metadata of the operation returned by MatchListService.Create.
+message CreateMatchListMetadata {
+  // ID of the match list that is being created.
+  string match_list_id = 1;
+}
+
+// Request message for MatchListService.Update.
+message UpdateMatchListRequest {
+  // ID of the match list to update.
+  string list_id = 1 [(required) = true];
+
+  // Field mask that specifies which fields of the match list resource are going to be updated.
+  google.protobuf.FieldMask update_mask = 2;
+
+  // Labels as `` key:value `` pairs. Maximum of 64 per resource.
+  map<string, string> labels = 3 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+
+  // Name of the match list.
+  string name = 4 [
+    (length) = "1-50",
+    (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*"
+  ];
+
+  // Description of the match list.
+  string description = 5 [(length) = "<=512"];
+
+  // Match list items.
+  repeated MatchList.Item items = 6;
+}
+
+// Metadata of the operation returned by MatchListService.Update.
+message UpdateMatchListMetadata {
+  // ID of the match list that is being updated.
+  string match_list_id = 1;
+}
+
+// Request message for MatchListService.Delete.
+message DeleteMatchListRequest {
+  // ID of the match list to delete.
+  string list_id = 1 [(required) = true];
+}
+
+// Metadata of the operation returned by MatchListService.Delete.
+message DeleteMatchListMetadata {
+  // ID of the match list that is being deleted.
+  string match_list_id = 1;
+}

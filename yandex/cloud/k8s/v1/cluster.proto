@@ -79,7 +79,6 @@ message Cluster {
 
   // Allocation policy for IP addresses of services and pods inside the Kubernetes cluster in different availability zones.
   IPAllocationPolicy ip_allocation_policy = 11;
-
   oneof internet_gateway {
     // Gateway IPv4 address.
     string gateway_ipv4_address = 12 [(length) = "<=15"];
@@ -96,7 +95,6 @@ message Cluster {
   // You can't change the channel once the Kubernetes cluster is created, you can only recreate the Kubernetes cluster and specify a new release channel.
   // For more details see [documentation](/docs/managed-kubernetes/concepts/release-channels-and-updates).
   ReleaseChannel release_channel = 15;
-
   NetworkPolicy network_policy = 16;
 
   // KMS provider configuration.
@@ -104,13 +102,11 @@ message Cluster {
 
   // Log group where cluster stores cluster system logs, like audit, events, or controlplane logs.
   string log_group_id = 18;
-
   oneof network_implementation {
     Cilium cilium = 19;
   }
 
   ScheduledMaintenance scheduled_maintenance = 20;
-
   WorkloadIdentityFederation workload_identity_federation = 21;
 }
 
@@ -147,7 +143,7 @@ message Master {
   string version = 2;
 
   // Endpoints of the master. Endpoints constitute of scheme and port (i.e. `https://ip-address:port`)
-  //and can be used by the clients to communicate with the Kubernetes API of the Kubernetes cluster.
+  // and can be used by the clients to communicate with the Kubernetes API of the Kubernetes cluster.
   MasterEndpoints endpoints = 3;
 
   // Master authentication parameters are used to establish trust between the master and a client.
@@ -172,9 +168,67 @@ message Master {
   MasterScalePolicy scale_policy = 13;
 }
 
+message MasterResources {
+  // The number of cores available to each master instance.
+  int64 cores = 1;
+
+  // Baseline level of CPU performance with the ability to burst performance above that baseline level.
+  // This field sets baseline performance for each core.
+  int64 core_fraction = 2;
+
+  // The amount of memory available to each master instance, specified in bytes.
+  int64 memory = 3;
+}
+
+message MasterScalePolicy {
+  oneof scale_type {
+    option (exactly_one) = true;
+
+    FixedScale fixed_scale = 1;
+    AutoScale auto_scale = 2;
+  }
+
+  // Fixed master instance resources.
+  message FixedScale {
+    // ID of computing resources preset to be used by master.
+    string resource_preset_id = 1;
+  }
+
+  // Autoscaled master instance resources.
+  message AutoScale {
+    // ID of computing resources preset to be used as lower boundary for scaling.
+    string min_resource_preset_id = 1;
+  }
+}
+
 message MasterAuth {
   // PEM-encoded public certificate that is the root of trust for the Kubernetes cluster.
   string cluster_ca_certificate = 1;
+}
+
+message MasterLogging {
+  // Identifies whether Cloud Logging is enabled for master components.
+  bool enabled = 1;
+  // The destination of master components' logs.
+  oneof destination {
+    // ID of the log group where logs of master components should be stored.
+    string log_group_id = 2 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
+
+    // ID of the folder where logs should be stored (in default group).
+    string folder_id = 3 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
+  }
+
+  // Identifies whether Cloud Logging is enabled for audit logs.
+  bool audit_enabled = 4;
+
+  // Identifies whether Cloud Logging is enabled for cluster-autoscaler.
+  bool cluster_autoscaler_enabled = 5;
+
+  // Identifies whether Cloud Logging is enabled for kube-apiserver.
+  bool kube_apiserver_enabled = 6;
+
+  // Identifies whether Cloud Logging is enabled for events.
+  bool events_enabled = 7;
 }
 
 message ZonalMaster {
@@ -223,24 +277,23 @@ message MasterEndpoints {
 
 message IPAllocationPolicy {
   reserved 3 to 4;
+
   // CIDR block. IP range for allocating pod addresses.
-  //
   // It should not overlap with any subnet in the network the Kubernetes cluster located in. Static routes will be
   // set up for this CIDR blocks in node subnets.
   string cluster_ipv4_cidr_block = 1;
 
   // Size of the masks that are assigned for each node in the cluster.
-  //
   // If not specified, 24 is used.
   int64 node_ipv4_cidr_mask_size = 5 [(value) = "0,24,25,26,27,28"];
 
   // CIDR block. IP range Kubernetes service Kubernetes cluster IP addresses will be allocated from.
-  //
   // It should not overlap with any subnet in the network the Kubernetes cluster located in.
   string service_ipv4_cidr_block = 2;
 
   // IPv6 range for allocating pod IP addresses.
   string cluster_ipv6_cidr_block = 6;
+
   // IPv6 range for allocating Kubernetes service IP addresses
   string service_ipv6_cidr_block = 7;
 }
@@ -255,37 +308,12 @@ message MasterMaintenancePolicy {
   MaintenanceWindow maintenance_window = 2;
 }
 
-message MasterLogging {
-  // Identifies whether Cloud Logging is enabled for master components.
-  bool enabled = 1;
-
-  // The destination of master components' logs.
-  oneof destination {
-    // ID of the log group where logs of master components should be stored.
-    string log_group_id = 2 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
-
-    // ID of the folder where logs should be stored (in default group).
-    string folder_id = 3 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
-  }
-
-  // Identifies whether Cloud Logging is enabled for audit logs.
-  bool audit_enabled = 4;
-
-  // Identifies whether Cloud Logging is enabled for cluster-autoscaler.
-  bool cluster_autoscaler_enabled = 5;
-
-  // Identifies whether Cloud Logging is enabled for kube-apiserver.
-  bool kube_apiserver_enabled = 6;
-
-  // Identifies whether Cloud Logging is enabled for events.
-  bool events_enabled = 7;
-}
-
 message NetworkPolicy {
   enum Provider {
     PROVIDER_UNSPECIFIED = 0;
     CALICO = 1;
   }
+
   Provider provider = 1;
 }
 
@@ -304,44 +332,14 @@ message Cilium {
   RoutingMode routing_mode = 1;
 }
 
-message MasterResources {
-  // The number of cores available to each master instance.
-  int64 cores = 1;
-
-  // Baseline level of CPU performance with the ability to burst performance above that baseline level.
-  // This field sets baseline performance for each core.
-  int64 core_fraction = 2;
-
-  // The amount of memory available to each master instance, specified in bytes.
-  int64 memory = 3;
-}
-
-message MasterScalePolicy {
-  oneof scale_type {
-    option (exactly_one) = true;
-    FixedScale fixed_scale = 1;
-    AutoScale auto_scale = 2;
-  }
-
-  // Fixed master instance resources.
-  message FixedScale {
-    // ID of computing resources preset to be used by master.
-    string resource_preset_id = 1;
-  }
-
-  // Autoscaled master instance resources.
-  message AutoScale {
-    // ID of computing resources preset to be used as lower boundary for scaling.
-    string min_resource_preset_id = 1;
-  }
-}
-
 // WorkloadIdentityFederation contains configuration for workload identity federation.
 message WorkloadIdentityFederation {
   // Identifies whether Workload Identity Federation is enabled.
   bool enabled = 1;
+
   // Issuer URI for Kubernetes service account tokens.
   string issuer = 2;
+
   // JSON Web Key Set URI used to verify token signatures.
   string jwks_uri = 3;
 }

@@ -109,6 +109,13 @@ message UserSettings {
 
     // Cycle through replicas sequentially in a round-robin fashion.
     LOAD_BALANCING_ROUND_ROBIN = 5;
+
+    // Like **LOAD_BALANCING_NEAREST_HOSTNAME**, but the replica whose hostname shares the longest common prefix with the local hostname
+    // is preferred (the longer the common prefix, the higher the priority).
+    LOAD_BALANCING_HOSTNAME_LONGEST_COMMON_PREFIX = 6;
+
+    // Like **LOAD_BALANCING_HOSTNAME_LONGEST_COMMON_PREFIX**, but the longest common suffix is compared instead of the prefix.
+    LOAD_BALANCING_HOSTNAME_LONGEST_COMMON_SUFFIX = 7;
   }
 
   // Method used for reading data from the local filesystem.
@@ -529,7 +536,7 @@ message UserSettings {
 
   // Algorithm of replicas selection that is used for distributed query processing.
   //
-  // Default value: **LOAD_BALANCING_RANDOM**.
+  // Default value: **LOAD_BALANCING_HOSTNAME_LONGEST_COMMON_PREFIX** for versions 26.6 and higher, **LOAD_BALANCING_RANDOM** for versions 26.5 and lower.
   //
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#load_balancing).
   LoadBalancing load_balancing = 144;

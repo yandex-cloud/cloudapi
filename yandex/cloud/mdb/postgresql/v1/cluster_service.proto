@@ -41,9 +41,9 @@ import "yandex/cloud/mdb/postgresql/v1/config/postgresql17_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql18.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql18_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/database.proto";
-import "yandex/cloud/mdb/postgresql/v1/backup_retention_policy.proto";
 import "yandex/cloud/mdb/postgresql/v1/maintenance.proto";
 import "yandex/cloud/mdb/postgresql/v1/user.proto";
+import "yandex/cloud/mdb/v1/backup_retention_policy.proto";
 import "yandex/cloud/mdb/v1/connectionmanager.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -180,6 +180,7 @@ service ClusterService {
   }
 
   // Same as ListLogs but using server-side streaming. Also allows for 'tail -f' semantics.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc StreamLogs(StreamClusterLogsRequest) returns (stream StreamLogRecord) {
     option (google.api.http) = {get: "/managed-postgresql/v1/clusters/{cluster_id}:stream_logs"};
   }
@@ -212,6 +213,7 @@ service ClusterService {
   }
 
   // Deletes the specified hosts for a cluster.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc DeleteHosts(DeleteClusterHostsRequest) returns (operation.Operation) {
     option (google.api.http) = {
       post: "/managed-postgresql/v1/clusters/{cluster_id}/hosts:batchDelete"
@@ -224,6 +226,7 @@ service ClusterService {
   }
 
   // Updates the specified hosts.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc UpdateHosts(UpdateClusterHostsRequest) returns (operation.Operation) {
     option (google.api.http) = {
       post: "/managed-postgresql/v1/clusters/{cluster_id}/hosts:batchUpdate"
@@ -310,21 +313,6 @@ message ListClustersResponse {
   string next_page_token = 2;
 }
 
-// Message to describe a new retention policy for cluster backups.
-message BackupRetentionPolicySpec {
-  // Required. Policy name.
-  string policy_name = 1 [(required) = true];
-
-  // CronTab schedule.
-  CronTab cron = 2;
-
-  // Retention duration.
-  int64 retain_for_days = 3;
-
-  // Human-readable description.
-  string description = 4;
-}
-
 message CreateClusterRequest {
   // ID of the folder to create the PostgreSQL cluster in.
   string folder_id = 1 [
@@ -386,7 +374,7 @@ message CreateClusterRequest {
   MaintenanceWindow maintenance_window = 14;
 
   // Backup long-term retention policies setting.
-  repeated BackupRetentionPolicySpec retention_policies = 15;
+  repeated yandex.cloud.mdb.v1.BackupRetentionPolicySpec retention_policies = 15;
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 16;
@@ -748,6 +736,7 @@ message StreamLogRecord {
   string next_record_token = 2;
 }
 
+// Same as [ListLogs] but using server-side streaming. Also supports `tail -f` semantics.
 message StreamClusterLogsRequest {
   // Required. ID of the PostgreSQL cluster.
   string cluster_id = 1 [
@@ -758,6 +747,7 @@ message StreamClusterLogsRequest {
   // Columns from logs table to get in the response.
   repeated string column_filter = 2;
 
+  // Type of the service to request logs about.
   ServiceType service_type = 3;
 
   enum ServiceType {

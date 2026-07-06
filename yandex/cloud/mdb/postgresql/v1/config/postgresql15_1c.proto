@@ -18,6 +18,7 @@ message PostgresqlConfig15_1C {
   reserved 166;
   reserved 64;
   reserved 169 to 172;
+  reserved 176;
   enum AutoExplainLogFormat {
     AUTO_EXPLAIN_LOG_FORMAT_UNSPECIFIED = 0;
 
@@ -628,6 +629,10 @@ message PostgresqlConfig15_1C {
   google.protobuf.Int64Value checkpoint_warning = 174 [(value) = "0-2147483647000"]; // in milliseconds. Write a message to the server log if checkpoints caused by the filling of WAL segment files happen closer together than this amount of time (which suggests that `` max_wal_size `` ought to be raised). 0 disables the warning.
 
   google.protobuf.BoolValue pg_hint_plan_hints_anywhere = 175; // If it is true, pg_hint_plan reads hints ignoring SQL syntax. This allows placing hints anywhere in the query but may cause false reads. Default is false.
+
+  google.protobuf.Int64Value autovacuum_vacuum_threshold = 177 [(value) = "0-2147483647"]; // Specifies the minimum number of updated or deleted tuples needed to trigger a VACUUM in any one table. The default is 50 tuples.
+
+  google.protobuf.Int64Value autovacuum_analyze_threshold = 178 [(value) = "0-2147483647"]; // Specifies the minimum number of inserted, updated or deleted tuples needed to trigger an ANALYZE in any one table. The default is 50 tuples.
 }
 
 message PostgresqlConfigSet15_1C {

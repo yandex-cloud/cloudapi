@@ -2,10 +2,258 @@ syntax = "proto3";
 
 package yandex.cloud.baremetal.v2;
 
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/baremetal/v2/boot_image.proto";
 import "yandex/cloud/baremetal/v2/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
 option java_package = "yandex.cloud.api.api.baremetal.v2";
+
+// A set of methods for managing BootImage resources.
+service BootImageService {
+  // Returns the specific BootImage resource.
+  // To get the list of available Image resources, make a [List] request.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc GetBootImage(GetBootImageRequest) returns (BootImage) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/bootImages/{boot_image_id}"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,boot_image_id";
+  };
+
+  // Retrieves the list of BootImage resources in the specified folder.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc ListBootImages(ListBootImagesRequest) returns (ListBootImagesResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/bootImages"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id";
+  };
+
+  // Creates a boot image in the specified folder.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc CreateBootImage(CreateBootImageRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreateBootImageMetadata"
+      response: "BootImage"
+    };
+    option (google.api.http) = {
+      body: "boot_image"
+      post: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/bootImages"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,boot_image";
+  };
+
+  // Updates the specified boot image.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc UpdateBootImage(UpdateBootImageRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdateBootImageMetadata"
+      response: "BootImage"
+    };
+    option (google.api.http) = {
+      body: "boot_image"
+      patch: "/baremetal/v2/clouds/{boot_image.cloud_id}/folders/{boot_image.folder_id}/bootImages/{boot_image.boot_image_id}"
+    };
+    option (google.api.method_signature) = "boot_image,update_mask";
+  };
+
+  // Deletes the specified boot image.
+  // Deleting a boot image removes its data permanently and is irreversible.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc DeleteBootImage(DeleteBootImageRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeleteBootImageMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      delete: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/bootImages/{boot_image_id}"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,boot_image_id";
+  };
+
+  // Lists operations for the specified boot image.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc ListBootImageOperations(ListBootImageOperationsRequest) returns (ListBootImageOperationsResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/bootImages/{boot_image_id}:listOperations"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,boot_image_id";
+  };
+}
+
+message GetBootImageRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the BootImage resource to return.
+  // To get the boot image ID, use a [ImageService.List] request.
+  string boot_image_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
+  ];
+}
+
+message ListBootImagesRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The maximum number of results per page to return. If the number of available
+  // results is greater than `page_size`,
+  // the service returns a [ListBootImagesResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Default value is 20.
+  int64 page_size = 3 [
+    (google.api.field_behavior) = OPTIONAL,
+    (value) = "<=1000"
+  ];
+
+  // Page token. To get the next page of results, set `page_token` to the
+  // [ListBootImagesResponse.next_page_token] returned by a previous list request.
+  string page_token = 4 [(google.api.field_behavior) = OPTIONAL];
+
+  // Sorting order for the listing. Follows the [AIP-132](https://google.aip.dev/132) `order_by` format:
+  // `"field [asc|desc]"`, e.g. `"createTime desc"`.
+  //
+  // Supported fields: `bootImageId`, `createTime`, `updateTime`.
+  // Default order: `bootImageId asc`.
+  string order_by = 5 [(google.api.field_behavior) = OPTIONAL];
+
+  // Filter expression following [AIP-160](https://google.aip.dev/160).
+  //
+  // Supported fields and operators:
+  // - `bootImageId`, `name` - `=`, `!=`, `:` (contains)
+  // - `state` - `=`, `!=`
+  //
+  // Example: `state = "READY" AND name : "ubuntu"`.
+  string filter = 6 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message ListBootImagesResponse {
+  // List of BootImage resources.
+  repeated BootImage boot_images = 1;
+
+  // Token for getting the next page of the list. If the number of results is greater than
+  // [ListBootImagesRequest.page_size], use `next_page_token` as the value
+  // for the [ListBootImagesRequest.page_token] parameter in the next list request.
+  // Each subsequent page will have its own `next_page_token` to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message CreateBootImageRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // Boot image to create.
+  BootImage boot_image = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+message UpdateBootImageRequest {
+  // The boot image object to be updated.
+  BootImage boot_image = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Field mask that specifies which fields of the Image resource are going to be updated.
+  google.protobuf.FieldMask update_mask = 2 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message DeleteBootImageRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the boot image to delete.
+  // To get the boot image ID, use a [BootImageService.List] request.
+  string boot_image_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
+  ];
+}
+
+message ListBootImageOperationsRequest {
+  // ID of the parent cloud.
+  //
+  // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the boot image to list operations for.
+  // To get the boot image ID, use a [BootImageService.List] request.
+  string boot_image_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
+  ];
+
+  // The maximum number of results per page to return. If the number of available
+  // results is greater than `page_size`,
+  // the service returns a [ListBootImageOperationsResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Default value is 20.
+  int64 page_size = 4 [
+    (google.api.field_behavior) = OPTIONAL,
+    (value) = "<=1000"
+  ];
+
+  // Page token. To get the next page of results, set `page_token` to the
+  // [ListBootImageOperationsResponse.next_page_token] returned by a previous list request.
+  string page_token = 5 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message ListBootImageOperationsResponse {
+  // List of operations for the specified Image resource.
+  repeated operation.Operation operations = 1;
+
+  // Token for getting the next page of the list. If the number of results is greater than
+  // [ListImageOperationsRequest.page_size], use `next_page_token` as the value
+  // for the [ListImageOperationsRequest.page_token] parameter in the next list request.
+  // Each subsequent page will have its own `next_page_token` to continue paging through the results.
+  string next_page_token = 2;
+}
 
 message CreateBootImageMetadata {
   // ID of the BootImage that is being created.

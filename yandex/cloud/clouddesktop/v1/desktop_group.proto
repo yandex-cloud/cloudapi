@@ -97,6 +97,19 @@ message DesktopGroupConfiguration {
 
   // List of members of the desktop group.
   repeated access.Subject members = 4 [(size) = "0-10"];
+  message Lifetime {
+    // Time zone for lifetime control. For example "Europe/Moscow".
+    string time_zone = 1 [(length) = "<=100"];
+
+    // Cron expression for automatic start desktops in group. For example "0 0 * * *".
+    string cron_start = 2 [(length) = "<=100"];
+
+    // Cron expression for automatic stop desktops in group. For example "0 0 * * *".
+    string cron_stop = 3 [(length) = "<=100"];
+  }
+
+  // Lifetime of the desktop in group.
+  Lifetime lifetime = 5;
 }
 
 message ManualUpdatePolicy {

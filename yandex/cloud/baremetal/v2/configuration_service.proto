@@ -5,6 +5,7 @@ package yandex.cloud.baremetal.v2;
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/api/field_behavior.proto";
+import "yandex/cloud/baremetal/v2/configuration.proto";
 import "yandex/cloud/baremetal/v2/rental_period.proto";
 import "yandex/cloud/validation.proto";
 
@@ -21,6 +22,33 @@ service ConfigurationService {
       get: "/baremetal/v2/configurations/{configuration_id}/rentalPeriods"
     };
     option (google.api.method_signature) = "configuration_id";
+  };
+
+  // Returns the default storage for the specified configuration.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1705::http-method-mapping=disabled
+  // https://google.aip.dev/130 --)
+  rpc ResolveConfigurationDefaultStorage(ResolveConfigurationDefaultStorageRequest) returns (DefaultStorage) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/configurations/{configuration_id}:resolveDefaultStorage"
+    };
+    option (google.api.method_signature) = "configuration_id";
+  };
+
+  // Returns the default storages for the specified configurations.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1705::http-method-mapping=disabled
+  // https://google.aip.dev/130 --)
+  rpc ResolveConfigurationsDefaultStorages(ResolveConfigurationsDefaultStoragesRequest) returns (ResolveConfigurationsDefaultStoragesResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/configurations:resolveDefaultStorages"
+    };
   };
 }
 
@@ -58,4 +86,29 @@ message ListConfigurationRentalPeriodsResponse {
   //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
+}
+
+message ResolveConfigurationDefaultStorageRequest {
+  // ID of the configuration.
+  string configuration_id = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
+  ];
+}
+
+message ResolveConfigurationsDefaultStoragesRequest {
+  // List of configuration IDs.
+  repeated string configuration_ids = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*",
+    (size) = "1-100",
+    (unique) = true
+  ];
+}
+
+message ResolveConfigurationsDefaultStoragesResponse {
+  // List of default storages.
+  repeated DefaultStorage default_storages = 1;
 }

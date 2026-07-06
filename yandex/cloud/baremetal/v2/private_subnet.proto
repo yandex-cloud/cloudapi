@@ -12,6 +12,8 @@ option java_package = "yandex.cloud.api.api.baremetal.v2";
 
 // A PrivateSubnet resource.
 message PrivateSubnet {
+  reserved 12 to 13;
+
   // ID of the private subnet.
   string private_subnet_id = 1 [
     (google.api.field_behavior) = IDENTIFIER,
@@ -110,4 +112,7 @@ message PrivateSubnet {
     (pattern) = "[-_0-9a-z]*",
     (size) = "<=64"
   ];
+
+  // ID of the availability zone where the server resides.
+  string zone_id = 14 [(google.api.field_behavior) = OUTPUT_ONLY];
 }
