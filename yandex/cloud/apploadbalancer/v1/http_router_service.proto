@@ -4,11 +4,10 @@ package yandex.cloud.apploadbalancer.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-
 import "yandex/cloud/api/operation.proto";
-import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/apploadbalancer/v1/http_router.proto";
 import "yandex/cloud/apploadbalancer/v1/virtual_host.proto";
+import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/apploadbalancer/v1;apploadbalancer";
@@ -17,60 +16,72 @@ option java_package = "yandex.cloud.api.apploadbalancer.v1";
 // A set of methods for managing HTTP routers.
 service HttpRouterService {
   // Returns the specified HTTP router.
-  //
   // To get the list of all available HTTP routers, make a [List] request.
   rpc Get(GetHttpRouterRequest) returns (HttpRouter) {
-    option (google.api.http) = {get: "/apploadbalancer/v1/httpRouters/{http_router_id}"};
-  }
+    option (google.api.http) = {
+      get: "/apploadbalancer/v1/httpRouters/{http_router_id}"
+    };
+  };
 
   // Lists HTTP routers in the specified folder.
   rpc List(ListHttpRoutersRequest) returns (ListHttpRoutersResponse) {
-    option (google.api.http) = {get: "/apploadbalancer/v1/httpRouters"};
-  }
+    option (google.api.http) = {
+      get: "/apploadbalancer/v1/httpRouters"
+    };
+  };
 
   // Creates an HTTP router in the specified folder.
   rpc Create(CreateHttpRouterRequest) returns (operation.Operation) {
-    option (google.api.http) = {post: "/apploadbalancer/v1/httpRouters" body: "*"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateHttpRouterMetadata"
       response: "HttpRouter"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/apploadbalancer/v1/httpRouters"
+    };
+  };
 
   // Updates the specified HTTP router.
   rpc Update(UpdateHttpRouterRequest) returns (operation.Operation) {
-    option (google.api.http) = {patch: "/apploadbalancer/v1/httpRouters/{http_router_id}" body: "*"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateHttpRouterMetadata"
       response: "HttpRouter"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/apploadbalancer/v1/httpRouters/{http_router_id}"
+    };
+  };
 
   // Deletes the specified HTTP router.
   rpc Delete(DeleteHttpRouterRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/apploadbalancer/v1/httpRouters/{http_router_id}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteHttpRouterMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/apploadbalancer/v1/httpRouters/{http_router_id}"
+    };
+  };
 
   // Lists operations for the specified HTTP router.
-  rpc ListOperations (ListHttpRouterOperationsRequest) returns (ListHttpRouterOperationsResponse) {
-    option (google.api.http) = {get: "/apploadbalancer/v1/httpRouters/{http_router_id}/operations"};
-  }
+  rpc ListOperations(ListHttpRouterOperationsRequest) returns (ListHttpRouterOperationsResponse) {
+    option (google.api.http) = {
+      get: "/apploadbalancer/v1/httpRouters/{http_router_id}/operations"
+    };
+  };
+
 }
 
 message GetHttpRouterRequest {
   // ID of the HTTP router to return.
-  //
   // To get the HTTP router ID, make a [HttpRouterService.List] request.
   string http_router_id = 1 [(required) = true];
 }
 
 message ListHttpRoutersRequest {
   // ID of the folder to list HTTP routers in.
-  //
   // To get the folder ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [(required) = true];
 
@@ -85,7 +96,6 @@ message ListHttpRoutersRequest {
   string page_token = 3 [(length) = "<=100"];
 
   // A filter expression that filters HTTP routers listed in the response.
-  //
   // The expression must specify:
   // 1. The field name. Currently you can use filtering only on [HttpRouter.name] field.
   // 2. An `=` operator.
@@ -101,14 +111,12 @@ message ListHttpRoutersResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListHttpRoutersRequest.page_size], use `next_page_token` as the value
   // for the [ListHttpRoutersRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
 }
 
 message DeleteHttpRouterRequest {
   // ID of the HTTP router to delete.
-  //
   // To get the HTTP router ID, make a [HttpRouterService.List] request.
   string http_router_id = 1 [(required) = true];
 }
@@ -119,8 +127,9 @@ message DeleteHttpRouterMetadata {
 }
 
 message UpdateHttpRouterRequest {
+  reserved 7;
+
   // ID of the HTTP router to update.
-  //
   // To get the HTTP router ID, make a [HttpRouterService.List] request.
   string http_router_id = 1 [(required) = true];
 
@@ -129,31 +138,34 @@ message UpdateHttpRouterRequest {
 
   // New name for the HTTP router.
   // The name must be unique within the folder.
-  string name = 3 [(pattern) = "([a-z]([-a-z0-9]{0,61}[a-z0-9])?)?"];
+  string name = 3 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
   // New description of the HTTP router.
   string description = 4 [(length) = "<=256"];
 
   // HTTP router labels as `key:value` pairs.
   // For details about the concept, see [documentation](/docs/overview/concepts/services#labels).
-  //
   // Existing set of labels is completely replaced by the provided set, so if you just want
   // to add or remove a label:
   // 1. Get the current set of labels with a [HttpRouterService.Get] request.
   // 2. Add or remove a label in this set.
   // 3. Send the new set in this field.
-  map<string, string> labels = 5 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+  map<string, string> labels = 5 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 
   // New virtual hosts that combine routes inside the router.
   // For details about the concept, see [documentation](/docs/application-load-balancer/concepts/http-router#virtual-host).
-  //
   // Only one virtual host with no authority (default match) can be specified.
-  //
   // Existing list of virtual hosts is completely replaced by the specified list, so if you just want to add or remove
   // a virtual host, make a [VirtualHostService.Create] request or a [VirtualHostService.Delete] request.
   repeated VirtualHost virtual_hosts = 6;
-
-  reserved 7;
 
   // New route options for the HTTP router.
   RouteOptions route_options = 8;
@@ -165,29 +177,35 @@ message UpdateHttpRouterMetadata {
 }
 
 message CreateHttpRouterRequest {
+  reserved 6;
+
   // ID of the folder to create an HTTP router in.
-  //
   // To get the folder ID, make a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [(required) = true];
 
   // Name of the HTTP router.
   // The name must be unique within the folder.
-  string name = 2 [(pattern) = "([a-z]([-a-z0-9]{0,61}[a-z0-9])?)?"];
+  string name = 2 [(pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
   // Description of the HTTP router.
   string description = 3 [(length) = "<=256"];
 
   // HTTP router labels as `key:value` pairs.
   // For details about the concept, see [documentation](/docs/overview/concepts/services#labels).
-  map<string, string> labels = 4 [(yandex.cloud.size) = "<=64", (length) = "<=63", (pattern) = "[-_./\\@0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"];
+  map<string, string> labels = 4 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
 
   // Virtual hosts that combine routes inside the router.
   // For details about the concept, see [documentation](/docs/application-load-balancer/concepts/http-router#virtual-host).
-  //
   // Only one virtual host with no authority (default match) can be specified.
   repeated VirtualHost virtual_hosts = 5;
-
-  reserved 6;
 
   // Route options for the HTTP router.
   RouteOptions route_options = 7;
@@ -200,9 +218,11 @@ message CreateHttpRouterMetadata {
 
 message ListHttpRouterOperationsRequest {
   // ID of the HTTP router to get operations for.
-  //
   // To get the HTTP router ID, use a [HttpRouterService.List] request.
-  string http_router_id = 1 [(required) = true, (length) = "<=50"];
+  string http_router_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page that should be returned. If the number of available
   // results is larger than [page_size], the service returns a [ListHttpRouterOperationsResponse.next_page_token]
@@ -222,7 +242,6 @@ message ListHttpRouterOperationsResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListHttpRouterOperationsRequest.page_size], use `next_page_token` as the value
   // for the [ListHttpRouterOperationsRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
 }

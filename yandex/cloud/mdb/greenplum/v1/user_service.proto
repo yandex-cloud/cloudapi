@@ -4,101 +4,170 @@ package yandex.cloud.mdb.greenplum.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-
 import "yandex/cloud/api/operation.proto";
-import "yandex/cloud/validation.proto";
-import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/mdb/greenplum/v1/user.proto";
-
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/greenplum/v1;greenplum";
 option java_package = "yandex.cloud.api.mdb.greenplum.v1";
 
-
 service UserService {
-    // List all users
-    rpc List (ListUsersRequest) returns (ListUsersResponse) {
-        option (google.api.http) = { get: "/managed-greenplum/v1/clusters/{cluster_id}/users" };
-    }
+  // List all users
+  rpc List(ListUsersRequest) returns (ListUsersResponse) {
+    option (google.api.http) = {
+      get: "/managed-greenplum/v1/clusters/{cluster_id}/users"
+    };
+  };
 
-    // Creates user
-    rpc Create (CreateUserRequest) returns (operation.Operation) {
-        option (google.api.http) = { post: "/managed-greenplum/v1/clusters/{cluster_id}/users" body: "*" };
-        option (yandex.cloud.api.operation) = {
-            metadata: "CreateUserMetadata"
-            response: "User"
-        };
-    }
+  // Creates user
+  rpc Create(CreateUserRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreateUserMetadata"
+      response: "User"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-greenplum/v1/clusters/{cluster_id}/users"
+    };
+  };
 
-    // Update user
-    rpc Update (UpdateUserRequest) returns (operation.Operation) {
-        option (google.api.http) = { patch: "/managed-greenplum/v1/clusters/{cluster_id}/users/{user.name}" body: "*" };
-        option (yandex.cloud.api.operation) = {
-            metadata: "UpdateUserMetadata"
-            response: "User"
-        };
-    }
+  // Update user
+  rpc Update(UpdateUserRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdateUserMetadata"
+      response: "User"
+    };
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-greenplum/v1/clusters/{cluster_id}/users/{user.name}"
+    };
+  };
 
-    // Delete user
-    rpc Delete (DeleteUserRequest) returns (operation.Operation) {
-        option (google.api.http) = { delete: "/managed-greenplum/v1/clusters/{cluster_id}/users/{user_name}"};
-        option (yandex.cloud.api.operation) = {
-            metadata: "DeleteUserMetadata"
-            response: "google.protobuf.Empty"
-        };
-    }
+  // Delete user
+  rpc Delete(DeleteUserRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeleteUserMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      delete: "/managed-greenplum/v1/clusters/{cluster_id}/users/{user_name}"
+    };
+  };
 }
 
 message CreateUserMetadata {
-    string cluster_id      = 1 [(required) = true, (length) = "<=50"];
-    string user_name = 2 [(required) = true, (length) = "1-63", (pattern) = "^[a-zA-Z_][a-zA-Z0-9_]{0,62}$"];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the user. Must be unique within cluster.
+  string user_name = 2 [
+    (length) = "1-63",
+    (pattern) = "^[a-zA-Z_][a-zA-Z0-9_]{0,62}$",
+    (required) = true
+  ];
 }
 
 message UpdateUserMetadata {
-    string cluster_id      = 1 [(required) = true, (length) = "<=50"];
-    string user_name = 2 [(required) = true, (length) = "1-63", (pattern) = "^[a-zA-Z_][a-zA-Z0-9_]{0,62}$"];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the user to update.
+  string user_name = 2 [
+    (length) = "1-63",
+    (pattern) = "^[a-zA-Z_][a-zA-Z0-9_]{0,62}$",
+    (required) = true
+  ];
 }
 
 message DeleteUserMetadata {
-    string cluster_id      = 1 [(required) = true, (length) = "<=50"];
-    string user_name = 2 [(required) = true, (length) = "1-63", (pattern) = "^[a-zA-Z_][a-zA-Z0-9_]{0,62}$"];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the user to delete.
+  string user_name = 2 [
+    (length) = "1-63",
+    (pattern) = "^[a-zA-Z_][a-zA-Z0-9_]{0,62}$",
+    (required) = true
+  ];
 }
 
-
-// Users API
-
 message ListUsersRequest {
-    string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListUsersResponse {
-    repeated User users = 1;
+  // List of cluster users.
+  repeated User users = 1;
 }
 
 message GetUserAtRevisionRequest {
-    // ID of the Greenplum cluster.
-    string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
-    // Cluster revision
-    int64 revision = 2 [(value) = ">0"];
+  // Cluster revision
+  int64 revision = 2 [(value) = ">0"];
 
-    string user_name = 3 [(required) = true, (length) = "1-63", (pattern) = "^[a-zA-Z_][a-zA-Z0-9_]{0,62}$"];
+  // Name of the user to get.
+  string user_name = 3 [
+    (length) = "1-63",
+    (pattern) = "^[a-zA-Z_][a-zA-Z0-9_]{0,62}$",
+    (required) = true
+  ];
 }
 
 message CreateUserRequest {
-    string cluster_id = 1 [(required) = true, (length) = "<=50"];
-    User user = 2 [(required) = true];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Definition of the user to create.
+  User user = 2 [(required) = true];
 }
 
 message UpdateUserRequest {
-    string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
-    google.protobuf.FieldMask update_mask = 2;
+  // Field mask that specifies which fields of the user should be updated.
+  google.protobuf.FieldMask update_mask = 2;
 
-    User user = 3 [(required) = true];
+  // Definition of the user (updated fields only).
+  User user = 3 [(required) = true];
 }
 
 message DeleteUserRequest {
-    string cluster_id = 1 [(required) = true, (length) = "<=50"];
-    string user_name = 2 [(required) = true, (length) = "1-63", (pattern) = "^[a-zA-Z_][a-zA-Z0-9_]{0,62}$"];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the user to delete.
+  string user_name = 2 [
+    (length) = "1-63",
+    (pattern) = "^[a-zA-Z_][a-zA-Z0-9_]{0,62}$",
+    (required) = true
+  ];
 }

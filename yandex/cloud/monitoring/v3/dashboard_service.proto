@@ -190,7 +190,7 @@ message CreateDashboardMetadata {
 }
 
 message UpdateDashboardRequest {
-  reserved 9 to 25, 30 to 31;
+  reserved 9 to 25, 30;
 
   // Required. Dashboard ID.
   string dashboard_id = 1 [
@@ -240,6 +240,9 @@ message UpdateDashboardRequest {
 
   // Dashboard links
   repeated LinkItem links = 29;
+
+  // Comment, for update operation
+  string comment = 31;
 
   // Parameters / Infra events / Logs overlays presets list
   repeated PresetItem preset_items = 32;

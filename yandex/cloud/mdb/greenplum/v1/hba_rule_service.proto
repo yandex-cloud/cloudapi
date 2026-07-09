@@ -3,71 +3,85 @@ syntax = "proto3";
 package yandex.cloud.mdb.greenplum.v1;
 
 import "google/api/annotations.proto";
-
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/mdb/greenplum/v1/hba_rule.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
-
-import "yandex/cloud/mdb/greenplum/v1/hba_rule.proto";
-
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/greenplum/v1;greenplum";
 option java_package = "yandex.cloud.api.mdb.greenplum.v1";
 
 // A set of methods for managing Greenplum clusters.
 service HBARuleService {
-
   // Retrieves a list of HBA rules for Greenplum clusters.
-  rpc List (ListHBARulesRequest) returns (ListHBARulesResponse) {
-    option (google.api.http) = { get: "/managed-greenplum/v1/clusters/{cluster_id}/hbaRules" };
-  }
+  rpc List(ListHBARulesRequest) returns (ListHBARulesResponse) {
+    option (google.api.http) = {
+      get: "/managed-greenplum/v1/clusters/{cluster_id}/hbaRules"
+    };
+  };
 
   // Retrieves a list of HBA rules for Greenplum clusters for particular revision.
-  rpc ListAtRevision (ListHBARulesAtRevisionRequest) returns (ListHBARulesResponse) {
-    option (google.api.http) = { get: "/managed-greenplum/v1/clusters/{cluster_id}/hbaRules/atRevision" };
-  }
+  rpc ListAtRevision(ListHBARulesAtRevisionRequest) returns (ListHBARulesResponse) {
+    option (google.api.http) = {
+      get: "/managed-greenplum/v1/clusters/{cluster_id}/hbaRules/atRevision"
+    };
+  };
 
   // Create single HBA rule for the specified Greenplum cluster to the end of HBA rules list.
-  rpc Create (CreateHBARuleRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/managed-greenplum/v1/clusters/{cluster_id}/hbaRules" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Create(CreateHBARuleRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "HBARulesMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-greenplum/v1/clusters/{cluster_id}/hbaRules"
+    };
+  };
 
   // Update specified HBA rule for the specified Greenplum cluster without changind it order.
-  rpc Update (UpdateHBARuleRequest) returns (operation.Operation) {
-    option (google.api.http) = { patch: "/managed-greenplum/v1/clusters/{cluster_id}/hbaRules" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc Update(UpdateHBARuleRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "HBARulesMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-greenplum/v1/clusters/{cluster_id}/hbaRules"
+    };
+  };
 
   // Delete specified HBA rule for the specified Greenplum cluster.
-  rpc Delete (DeleteHBARuleRequest) returns (operation.Operation) {
-    option (google.api.http) = { delete: "/managed-greenplum/v1/clusters/{cluster_id}/hbaRule/{priority}" };
-    option (yandex.cloud.api.operation) = {
+  rpc Delete(DeleteHBARuleRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "HBARulesMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/managed-greenplum/v1/clusters/{cluster_id}/hbaRule/{priority}"
+    };
+  };
 
   // Modifies all HBA rules for the specified Greenplum cluster.
-  rpc BatchUpdate (BatchUpdateHBARulesRequest) returns (operation.Operation) {
-    option (google.api.http) = { post: "/managed-greenplum/v1/clusters/{cluster_id}/hbaRules:batchUpdate" body: "*" };
-    option (yandex.cloud.api.operation) = {
+  rpc BatchUpdate(BatchUpdateHBARulesRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "HBARulesMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-greenplum/v1/clusters/{cluster_id}/hbaRules:batchUpdate"
+    };
+  };
 }
 
 message CreateHBARuleRequest {
   // ID of the Greenplum cluster.
   // To get the Greenplum cluster ID use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // New hba rule for the cluster.
   HBARule hba_rule = 2 [(required) = true];
@@ -76,7 +90,10 @@ message CreateHBARuleRequest {
 message UpdateHBARuleRequest {
   // ID of the Greenplum cluster.
   // To get the Greenplum cluster ID use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Updated hba rule for the cluster.
   HBARule hba_rule = 2 [(required) = true];
@@ -85,7 +102,10 @@ message UpdateHBARuleRequest {
 message DeleteHBARuleRequest {
   // ID of the Greenplum cluster.
   // To get the Greenplum cluster ID use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Priority of the Greenplum cluster rule.
   int64 priority = 2 [(value) = "0-1000"];
@@ -94,13 +114,19 @@ message DeleteHBARuleRequest {
 message ListHBARulesRequest {
   // ID of the Greenplum cluster.
   // To get the Greenplum cluster ID use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListHBARulesAtRevisionRequest {
   // ID of the Greenplum cluster.
   // To get the Greenplum cluster ID use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // Cluster revision
   int64 revision = 2 [(value) = ">0"];
@@ -114,10 +140,13 @@ message ListHBARulesResponse {
 message BatchUpdateHBARulesRequest {
   // ID of the Greenplum cluster.
   // To get the Greenplum cluster ID use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
-  // List of new hba rules for the cluster.
-  repeated HBARule hba_rules = 2 [(size) = ">0"];
+  // List of new hba rules for the cluster. Or empty list to remove all rules.
+  repeated HBARule hba_rules = 2 [(size) = ">=0"];
 }
 
 message HBARulesMetadata {

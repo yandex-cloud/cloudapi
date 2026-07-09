@@ -27,4 +27,7 @@ message Node {
 
   // IP address of the node in the management network.
   string management_ip_address = 3 [(google.api.field_behavior) = OPTIONAL];
+
+  // Hostname of the node inside the cluster.
+  string hostname = 4 [(google.api.field_behavior) = OPTIONAL];
 }

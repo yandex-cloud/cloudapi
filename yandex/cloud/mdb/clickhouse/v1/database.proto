@@ -34,7 +34,7 @@ message DatabaseSpec {
   // Name of the ClickHouse database. 1-63 characters long.
   string name = 1 [
     (length) = "<=63",
-    (pattern) = "[a-zA-Z_][a-zA-Z0-9_-]*",
+    (pattern) = "[a-zA-Z0-9_][a-zA-Z0-9_-]*",
     (required) = true
   ];
 

@@ -1,3 +1,34 @@
 iam_bindings:
   - name: yandex_mdb_mongo_db_cluster
     rename: yandex_mdb_mongodb_cluster
+
+resources_and_data_sources:
+  - name: yandex_mdb_mongo_db_backup_retention_policy
+    rename: yandex_mdb_mongodb_backup_retention_policy
+
+model_config:
+  custom_importer:
+    yandex_mdb_mongo_db_backup_retention_policy: customBackupRetentionPolicyImporter
+  options:
+    yandex.cloud.mdb.mongodb.v1.CreateBackupRetentionPolicyRequest.cluster_id:
+      force_new: true
+    yandex.cloud.mdb.mongodb.v1.DeleteBackupRetentionPolicyRequest.cluster_id:
+      force_new: true
+    yandex.cloud.mdb.v1.BackupRetentionPolicy.cluster_id:
+      force_new: true
+    yandex.cloud.mdb.mongodb.v1.CreateBackupRetentionPolicyRequest.cron:
+      force_new: true
+    yandex.cloud.mdb.v1.BackupRetentionPolicy.cron:
+      force_new: true
+    yandex.cloud.mdb.mongodb.v1.CreateBackupRetentionPolicyRequest.description:
+      force_new: true
+    yandex.cloud.mdb.v1.BackupRetentionPolicy.description:
+      force_new: true
+    yandex.cloud.mdb.mongodb.v1.CreateBackupRetentionPolicyRequest.policy_name:
+      force_new: true
+    yandex.cloud.mdb.v1.BackupRetentionPolicy.policy_name:
+      force_new: true
+    yandex.cloud.mdb.mongodb.v1.CreateBackupRetentionPolicyRequest.retain_for_days:
+      force_new: true
+    yandex.cloud.mdb.v1.BackupRetentionPolicy.retain_for_days:
+      force_new: true

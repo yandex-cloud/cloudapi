@@ -114,6 +114,7 @@ service StreamLineService {
 
   // Regenerates and updates the stream key for a push-type stream line.
   // This is useful for security purposes when the existing key may be compromised.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc UpdateStreamKey(UpdateStreamKeyRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateStreamKeyMetadata"
@@ -206,7 +207,7 @@ message BatchGetStreamLinesResponse {
 }
 
 message CreateStreamLineRequest {
-  reserved 3 to 199, 201 to 999, 1001, 1004 to 1999;
+  reserved 3 to 17, 19 to 199, 201 to 999, 1001, 1004 to 1999;
 
   // ID of the channel.
   string channel_id = 1 [
@@ -219,6 +220,10 @@ message CreateStreamLineRequest {
     (length) = "<=300",
     (required) = true
   ];
+
+  // Specifies which input source (main or backup) should be used.
+  // Default is LINE_INPUT_SOURCE_MAIN if not specified.
+  LineInputSource input_source = 18;
   // Video signal settings.
   oneof input_params {
     option (exactly_one) = true;
@@ -268,7 +273,7 @@ message CreateStreamLineMetadata {
 }
 
 message UpdateStreamLineRequest {
-  reserved 4 to 199, 201 to 999, 1001;
+  reserved 4 to 17, 19 to 199, 201 to 999, 1001;
 
   // ID of the line.
   string stream_line_id = 1 [
@@ -284,6 +289,9 @@ message UpdateStreamLineRequest {
 
   // Line title.
   string title = 3 [(length) = "<=300"];
+
+  // Specifies which input source (main or backup) should be used.
+  LineInputSource input_source = 18;
   // Video signal settings.
   oneof input_params {
     // RTMP push input type.
@@ -392,6 +400,9 @@ message RTMPPullParams {
     (pattern) = "rtmp://.*",
     (required) = true
   ];
+
+  // The backup RTMP URL from which to pull the video stream.
+  string backup_url = 2 [(pattern) = "(|rtmp://.*)"];
 }
 
 // Parameters for creating an SRT pull input type stream line.
@@ -402,6 +413,9 @@ message SRTPullParams {
     (pattern) = "srt://.*",
     (required) = true
   ];
+
+  // The backup SRT URL from which to pull the video stream.
+  string backup_url = 2 [(pattern) = "(|srt://.*)"];
 }
 
 // Parameters for manual stream line.

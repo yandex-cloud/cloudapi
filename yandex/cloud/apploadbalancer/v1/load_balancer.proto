@@ -4,10 +4,10 @@ package yandex.cloud.apploadbalancer.v1;
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
-import "yandex/cloud/validation.proto";
 import "yandex/cloud/apploadbalancer/v1/logging.proto";
 import "yandex/cloud/apploadbalancer/v1/target_group.proto";
 import "yandex/cloud/apploadbalancer/v1/tls.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/apploadbalancer/v1;apploadbalancer";
 option java_package = "yandex.cloud.api.apploadbalancer.v1";
@@ -56,29 +56,25 @@ message LoadBalancer {
   // Status of the application load balancer.
   Status status = 6;
 
-  // ID of the region that the application load balancer is located at.
-  string region_id = 7;
-
-  // ID of the network that the application load balancer belongs to.
-  string network_id = 8;
-
   // Listeners that belong to the application load balancer.
-  //
   // For details about the concept, see [documentation](/docs/application-load-balancer/concepts/application-load-balancer#listener).
   repeated Listener listeners = 9;
 
   // Locality settings of the application load balancer.
-  //
   // For details about the concept, see [documentation](/docs/application-load-balancer/concepts/application-load-balancer#lb-location).
   AllocationPolicy allocation_policy = 10;
 
+  // ID of the network that the application load balancer belongs to.
+  string network_id = 8;
+
   // ID of the log group that stores access logs of the application load balancer.
-  //
   // The logs can be accessed using a Cloud Functions [trigger for Cloud Logs](/docs/functions/operations/trigger/cloud-logging-trigger-create).
   string log_group_id = 11;
 
+  // ID of the region that the application load balancer is located at.
+  string region_id = 7;
+
   // ID's of the security groups attributed to the application load balancer.
-  //
   // For details about the concept,
   // see [documentation](/docs/application-load-balancer/concepts/application-load-balancer#security-groups).
   repeated string security_group_ids = 12;
@@ -87,11 +83,9 @@ message LoadBalancer {
   google.protobuf.Timestamp created_at = 13;
 
   // Scaling settings of the application load balancer.
-  //
   // The scaling settings relate to a special internal instance group which facilitates the balancer's work.
   // Instances in this group are called _resource units_. The group is scaled automatically based on incoming load
   // and within limitations specified in these settings.
-  //
   // For details about the concept,
   // see [documentation](/docs/application-load-balancer/concepts/application-load-balancer#lcu-scaling).
   AutoScalePolicy auto_scale_policy = 14;
@@ -101,6 +95,40 @@ message LoadBalancer {
 
   // Specifies whether application load balancer is available to zonal shift.
   bool allow_zonal_shift = 16;
+}
+
+// An application load balancer location resource.
+// For details about the concept, see [documentation](/docs/application-load-balancer/concepts/application-load-balancer#lb-location).
+message Location {
+  // ID of the availability zone where the application load balancer resides.
+  // Each availability zone can only be specified once.
+  string zone_id = 1 [(required) = true];
+
+  // ID of the subnet that the application load balancer belongs to.
+  string subnet_id = 2;
+
+  // Disables the load balancer node in the specified availability zone.
+  // Backends in the availability zone are not directly affected by this setting.
+  // They still may receive traffic from the load balancer nodes in other availability zones,
+  // subject to [LoadBalancingConfig.locality_aware_routing_percent] and [LoadBalancingConfig.strict_locality] settings.
+  bool disable_traffic = 3;
+
+  // Show zonal shift status for the location.
+  // Deprecated: use [zonal_traffic_disabled] below to track traffic status.
+  bool zonal_shift_active = 4 [deprecated = true];
+
+  // Computed field: will be set to true if all traffic in zone is disabled
+  // either manually by user or automatically by Cloud infrastructure.
+  bool zonal_traffic_disabled = 5;
+}
+
+// A locality settings (allocation policy) resource.
+message AllocationPolicy {
+  // Availability zones and subnets that the application load balancer resides.
+  repeated Location locations = 1 [
+    (size) = ">=1",
+    (unique) = true
+  ];
 }
 
 // An endpoint address resource.
@@ -113,7 +141,6 @@ message Address {
     ExternalIpv4Address external_ipv4_address = 1;
 
     // Internal IPv4 endpoint address.
-    //
     // To enable the use of listeners with internal addresses, [contact support](/docs/support/overview#response-time).
     InternalIpv4Address internal_ipv4_address = 2;
 
@@ -143,42 +170,7 @@ message ExternalIpv6Address {
   string address = 1;
 }
 
-// An application load balancer location resource.
-//
-// For details about the concept, see [documentation](/docs/application-load-balancer/concepts/application-load-balancer#lb-location).
-message Location {
-  // ID of the availability zone where the application load balancer resides.
-  //
-  // Each availability zone can only be specified once.
-  string zone_id = 1 [(required) = true];
-
-  // ID of the subnet that the application load balancer belongs to.
-  string subnet_id = 2;
-
-  // Disables the load balancer node in the specified availability zone.
-  //
-  // Backends in the availability zone are not directly affected by this setting.
-  // They still may receive traffic from the load balancer nodes in other availability zones,
-  // subject to [LoadBalancingConfig.locality_aware_routing_percent] and [LoadBalancingConfig.strict_locality] settings.
-  bool disable_traffic = 3;
-
-  // Show zonal shift status for the location.
-  // Deprecated: use [zonal_traffic_disabled] below to track traffic status.
-  bool zonal_shift_active = 4 [deprecated = true];
-
-  // Computed field: will be set to true if all traffic in zone is disabled
-  // either manually by user or automatically by Cloud infrastructure.
-  bool zonal_traffic_disabled = 5;
-}
-
-// A locality settings (allocation policy) resource.
-message AllocationPolicy {
-  // Availability zones and subnets that the application load balancer resides.
-  repeated Location locations = 1 [(size) = ">=1", (unique) = true];
-}
-
 // A listener resource.
-//
 // For details about the concept, see [documentation](/docs/application-load-balancer/concepts/application-load-balancer#listener).
 message Listener {
   // Name of the listener. The name is unique within the application load balancer.
@@ -186,26 +178,23 @@ message Listener {
   string name = 1 [(required) = true];
 
   // Endpoints of the listener.
-  //
   // Endpoints are defined by their IP addresses and ports.
   repeated Endpoint endpoints = 2;
-
   // Listener type and settings.
   oneof listener {
     option (exactly_one) = true;
+
+    // Unencrypted stream (TCP) listener settings.
+    StreamListener stream = 5;
 
     // Unencrypted HTTP listener settings.
     HttpListener http = 3;
 
     // TLS-encrypted HTTP or TCP stream listener settings.
-    //
     // All handlers within a listener ([TlsListener.default_handler] and [TlsListener.sni_handlers]) must be of one
     // type, [HttpHandler] or [StreamHandler]. Mixing HTTP and TCP stream traffic in a TLS-encrypted listener is not
     // supported.
     TlsListener tls = 4;
-
-    // Unencrypted stream (TCP) listener settings.
-    StreamListener stream = 5;
   }
 }
 
@@ -215,20 +204,27 @@ message Endpoint {
   repeated Address addresses = 1 [(size) = ">0"];
 
   // Endpoint ports.
-  repeated int64 ports = 2 [(size) = ">0", (value) = "1-65535"];
+  repeated int64 ports = 2 [
+    (size) = ">0",
+    (value) = "1-65535"
+  ];
 }
 
 // An HTTP listener resource.
 message HttpListener {
   // Settings for handling HTTP requests.
-  //
   // Only one of `handler` and [redirects] can be specified.
   HttpHandler handler = 1;
 
   // Redirects settings.
-  //
   // Only one of `redirects` and [handler] can be specified.
   Redirects redirects = 2;
+}
+
+// A stream (TCP) listener resource.
+message StreamListener {
+  // Settings for handling stream (TCP) requests.
+  StreamHandler handler = 1 [(required) = true];
 }
 
 // TLS-encrypted (HTTP or TCP stream) listener resource.
@@ -242,57 +238,26 @@ message TlsListener {
   repeated SniMatch sni_handlers = 2;
 }
 
-// A stream (TCP) listener resource.
-message StreamListener {
-  // Settings for handling stream (TCP) requests.
-  StreamHandler handler = 1 [(required) = true];
-}
-
-// An HTTP/2 options resource.
-message Http2Options {
-  // Maximum number of concurrent HTTP/2 streams in a connection.
-  int64 max_concurrent_streams = 1;
-}
-
-// A stream (TCP) handler resource.
-message StreamHandler {
-  // ID of the backend group processing requests. For details about the concept, see
-  // [documentation](/docs/application-load-balancer/concepts/backend-group).
-  //
-  // The backend group type, specified via [BackendGroup.backend], must be `stream`.
-  //
-  // To get the list of all available backend groups, make a [BackendGroupService.List] request.
-  string backend_group_id = 1 [(required) = true];
-
-  // The idle timeout is duration during which no data is transmitted or received on either the upstream or downstream connection. 
-  // If not configured, the default idle timeout is 1 hour. Setting it to 0 disables the timeout.
-  google.protobuf.Duration idle_timeout = 2;
-}
-
 // An HTTP handler resource.
 message HttpHandler {
   // ID of the HTTP router processing requests. For details about the concept, see
   // [documentation](/docs/application-load-balancer/concepts/http-router).
-  //
   // To get the list of all available HTTP routers, make a [HttpRouterService.List] request.
   string http_router_id = 1;
 
+  // When unset, will preserve the incoming x-request-id header, otherwise would rewrite it with a new value.
+  bool rewrite_request_id = 4;
   // Protocol settings.
-  //
   // For HTTPS (HTTP over TLS) connections, settings are applied to the protocol
   // negotiated using TLS [ALPN](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) extension.
   oneof protocol_settings {
     // HTTP/2 settings.
-    //
     // If specified, incoming HTTP/2 requests are supported by the listener.
     Http2Options http2_options = 2;
 
     // Enables support for incoming HTTP/1.0 and HTTP/1.1 requests and disables it for HTTP/2 requests.
     bool allow_http10 = 3;
   }
-
-  // When unset, will preserve the incoming x-request-id header, otherwise would rewrite it with a new value.
-  bool rewrite_request_id = 4;
 
   // When enabled, preserves the original casing of HTTP/1.1 header names (e.g. "CONTENT-Type" -> "CONTENT-Type").
   // Has no effect on HTTP/2 connections where headers are always lowercase per RFC 7540.
@@ -302,10 +267,22 @@ message HttpHandler {
 // A listener redirects resource.
 message Redirects {
   // Redirects all unencrypted HTTP requests to the same URI with scheme changed to `https`.
-  //
   // The setting has the same effect as a single, catch-all [HttpRoute]
   // with [RedirectAction.replace_scheme] set to `https`.
   bool http_to_https = 1;
+}
+
+// A stream (TCP) handler resource.
+message StreamHandler {
+  // ID of the backend group processing requests. For details about the concept, see
+  // [documentation](/docs/application-load-balancer/concepts/backend-group).
+  // The backend group type, specified via [BackendGroup.backend], must be `stream`.
+  // To get the list of all available backend groups, make a [BackendGroupService.List] request.
+  string backend_group_id = 1 [(required) = true];
+
+  // The idle timeout is duration during which no data is transmitted or received on either the upstream or downstream connection.
+  // If not configured, the default idle timeout is 1 hour. Setting it to 0 disables the timeout.
+  google.protobuf.Duration idle_timeout = 2;
 }
 
 // A SNI handler resource.
@@ -314,7 +291,12 @@ message SniMatch {
   string name = 1 [(required) = true];
 
   // Server names that are matched by the SNI handler.
-  repeated string server_names = 2 [(size) = ">0"];
+  repeated string server_names = 2 [
+    (length) = "1-255",
+    (pattern) = "([*].)?[-.a-z0-9]+",
+    (size) = ">0",
+    (unique) = true
+  ];
 
   // Settings for handling requests with Server Name Indication (SNI) matching one of [server_names] values.
   TlsHandler handler = 3 [(required) = true];
@@ -322,20 +304,25 @@ message SniMatch {
 
 // A TLS-encrypted (HTTP or TCP stream) handler resource.
 message TlsHandler {
+  reserved 1;
+
   // Settings for handling requests.
-  oneof   handler {
+  oneof handler {
     option (exactly_one) = true;
-    // HTTP handler.
-    HttpHandler http_handler = 2;
 
     // Stream (TCP) handler.
     StreamHandler stream_handler = 4;
+
+    // HTTP handler.
+    HttpHandler http_handler = 2;
   }
 
   // ID's of the TLS server certificates from [Certificate Manager](/docs/certificate-manager/).
-  //
   // RSA and ECDSA certificates are supported, and only the first certificate of each type is used.
-  repeated string certificate_ids = 3 [(size) = ">0"];
+  repeated string certificate_ids = 3 [
+    (length) = ">1",
+    (size) = "<=1"
+  ];
 
   // Client certificates verification settings.
   ClientCertificatesVerification client_certificates_verification = 5;
@@ -363,6 +350,7 @@ message TargetState {
 
     // Target is being deleted and the application load balancer is no longer sending traffic to this target.
     DRAINING = 4;
+
     // Health check results are not yet available for the target, e.g. the load balancer has just started
     // sending health check requests to the target or the target has not responded in time.
     TIMEOUT = 5;
@@ -384,7 +372,6 @@ message TargetState {
 
     // Indicates whether the target has been marked `UNHEALTHY` due to failing active health checks,
     // which determine target statuses as configured in [HttpBackend.healthchecks] or [GrpcBackend.healthchecks].
-    //
     // Currently the only type of health checks is active, as described above.
     // Passive health checks, which determine the health of a target based on its responses to production requests
     // (HTTP 5xx status codes, connection errors etc.), are not implemented yet.
@@ -401,18 +388,20 @@ message TargetState {
 // A resource for scaling settings of an application load balancer.
 message AutoScalePolicy {
   // Lower limit for the number of resource units in each availability zone.
-  //
   // If not specified previously (using other instruments such as management console), the default value is 2.
   // To revert to it, specify it explicitly.
-  //
   // The minimum value is 2.
   int64 min_zone_size = 1 [(value) = "0-1000"];
 
   // Upper limit for the total number of resource units across all availability zones.
-  //
   // If a positive value is specified, it must be at least [min_zone_size] multiplied by the size of
   // [AllocationPolicy.locations].
-  //
   // If the value is 0, there is no upper limit.
   int64 max_size = 2 [(value) = "0-1000"];
+}
+
+// An HTTP/2 options resource.
+message Http2Options {
+  // Maximum number of concurrent HTTP/2 streams in a connection.
+  int64 max_concurrent_streams = 1;
 }

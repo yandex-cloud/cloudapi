@@ -41,7 +41,7 @@ service PrivateCloudConnectionService {
   // Creates a private cloud connection in the specified folder.
   // (-- api-linter: yc::1702::method-no-resource=disabled
   // https://google.aip.dev/130 --)
-  rpc Create(CreatePrivateCloudConnectionRequest) returns (operation.Operation) {
+  rpc CreatePrivateCloudConnection(CreatePrivateCloudConnectionRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "CreatePrivateCloudConnectionMetadata"
       response: "PrivateCloudConnection"
@@ -125,7 +125,7 @@ message ListPrivateCloudConnectionsRequest {
   // Default value is 20.
   int64 page_size = 3 [
     (google.api.field_behavior) = OPTIONAL,
-    (value) = "<=100"
+    (value) = "<=1000"
   ];
 
   // Page token. To get the next page of results, set `page_token` to the

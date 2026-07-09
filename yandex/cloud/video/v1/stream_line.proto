@@ -9,7 +9,7 @@ option java_package = "yandex.cloud.api.video.v1";
 
 // Entity representing the incoming video signal settings.
 message StreamLine {
-  reserved 4 to 99, 102 to 199, 201 to 999, 1001, 1004 to 1999;
+  reserved 4 to 17, 19 to 99, 102 to 199, 201 to 999, 1001, 1004 to 1999;
 
   // ID of the line.
   string id = 1;
@@ -19,6 +19,9 @@ message StreamLine {
 
   // Title of the stream line.
   string title = 3;
+
+  // Specifies which input source (main or backup) is selected for processing.
+  LineInputSource input_source = 18;
   // Specifies the input type and settings for the video signal source.
   oneof input_type {
     // Real-Time Messaging Protocol (RTMP) push input type.
@@ -56,6 +59,9 @@ message StreamLine {
 message PushStreamKey {
   // The unique stream key.
   string key = 1;
+
+  // The unique backup stream key.
+  string backup_key = 2;
 }
 
 // Settings for an RTMP (Real-Time Messaging Protocol) push input.
@@ -72,6 +78,9 @@ message RTMPPushInput {
 message RTMPPullInput {
   // RTMP url for receiving video signal.
   string url = 1;
+
+  // Backup RTMP url (optional).
+  string backup_url = 2;
 }
 
 // Settings for an SRT pull input.
@@ -80,6 +89,24 @@ message RTMPPullInput {
 message SRTPullInput {
   // SRT url for receiving video signal.
   string url = 1;
+
+  // Backup SRT url (optional).
+  string backup_url = 2;
+}
+
+// Specifies which input source will be used for stream processing.
+enum LineInputSource {
+  // Line input source unspecified.
+  LINE_INPUT_SOURCE_UNSPECIFIED = 0;
+
+  // Use any available input source (main or backup).
+  ANY = 1;
+
+  // Use main input source.
+  MAIN = 2;
+
+  // Use backup input source (works only if backup input source is provided).
+  BACKUP = 3;
 }
 
 // Represents a manual line type where the stream control is handled manually.

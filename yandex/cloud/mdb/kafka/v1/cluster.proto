@@ -316,6 +316,9 @@ message KafkaConfig2_8 {
 
   // Timeout for transactional ids to expire in ms. Default: 604800000 (7 days).
   google.protobuf.Int64Value transactional_id_expiration_ms = 21;
+
+  // Define whether the timestamp in the message is message create time or log append time.
+  MessageTimestampType log_message_timestamp_type = 22;
 }
 
 // Kafka version 3.x broker configuration.
@@ -394,6 +397,9 @@ message KafkaConfig3 {
 
   // Timeout for transactional ids to expire in ms. Default: 604800000 (7 days).
   google.protobuf.Int64Value transactional_id_expiration_ms = 21;
+
+  // Define whether the timestamp in the message is message create time or log append time.
+  MessageTimestampType log_message_timestamp_type = 22;
 }
 
 // Kafka version 4.x broker configuration.
@@ -469,6 +475,9 @@ message KafkaConfig4 {
 
   // Timeout for transactional ids to expire in ms. Default: 604800000 (7 days).
   google.protobuf.Int64Value transactional_id_expiration_ms = 21;
+
+  // Define whether the timestamp in the message is message create time or log append time.
+  MessageTimestampType log_message_timestamp_type = 22;
 }
 
 // Cluster host metadata.

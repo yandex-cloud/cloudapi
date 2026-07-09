@@ -9,11 +9,14 @@ option java_package = "yandex.cloud.api.mdb.greenplum.v1";
 // A preset of resources for hardware configuration of Greenplum® hosts.
 message ResourcePreset {
   reserved 6 to 7;
+
   enum Type {
+
     TYPE_UNSPECIFIED = 0;
 
     // Greenplum® master host.
     MASTER = 1;
+
     // Greenplum® segment host.
     SEGMENT = 2;
   }

@@ -16,93 +16,95 @@ option java_package = "yandex.cloud.api.apploadbalancer.v1";
 // A set of methods for managing virtual hosts of HTTP routers.
 service VirtualHostService {
   // Returns the specified virtual host.
-  //
   // To get the list of all virtual hosts of an HTTP router, make a [List] request.
   rpc Get(GetVirtualHostRequest) returns (VirtualHost) {
-    option (google.api.http) = {get: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}"};
-  }
+    option (google.api.http) = {
+      get: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}"
+    };
+  };
 
   // Lists virtual hosts of the specified HTTP router.
   rpc List(ListVirtualHostsRequest) returns (ListVirtualHostsResponse) {
-    option (google.api.http) = {get: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts"};
-  }
+    option (google.api.http) = {
+      get: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts"
+    };
+  };
 
   // Creates a virtual host in the specified HTTP router.
   rpc Create(CreateVirtualHostRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateVirtualHostMetadata"
       response: "VirtualHost"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts"
+    };
+  };
 
   // Updates the specified virtual host of the specified HTTP router.
   rpc Update(UpdateVirtualHostRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateVirtualHostMetadata"
       response: "VirtualHost"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}"
+    };
+  };
 
   // Deletes the specified virtual host.
   rpc Delete(DeleteVirtualHostRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteVirtualHostMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}"
+    };
+  };
 
   // Deletes the specified route from the specified virtual host.
   rpc RemoveRoute(RemoveRouteRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}:removeRoute"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "RemoveRouteMetadata"
       response: "VirtualHost"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}:removeRoute"
+    };
+  };
 
   // Updates the specified route of the specified virtual host.
   rpc UpdateRoute(UpdateRouteRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}:updateRoute"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateRouteMetadata"
       response: "VirtualHost"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/apploadbalancer/v1/httpRouters/{http_router_id}/virtualHosts/{virtual_host_name}:updateRoute"
+    };
+  };
 }
 
 message GetVirtualHostRequest {
   // ID of the HTTP router that the virtual host belongs to.
-  //
   // To get the HTTP router ID, make a [HttpRouterService.List] request.
   string http_router_id = 1 [(required) = true];
 
   // Name of the virtual host to return.
-  //
   // To get the virtual host name, make a [VirtualHostService.List] request.
   string virtual_host_name = 2 [
-    (required) = true,
-    (pattern) = "([a-z]([-a-z0-9]{0,61}[a-z0-9])?)?"
+    (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]",
+    (required) = true
   ];
 }
 
 message ListVirtualHostsRequest {
   // ID of the HTTP router to list virtual hosts in.
-  //
   // To get the HTTP router ID, make a [HttpRouterService.List] request.
   string http_router_id = 1 [(required) = true];
 
@@ -124,39 +126,38 @@ message ListVirtualHostsResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // the specified [ListVirtualHostsRequest.page_size], use `next_page_token` as the value
   // for the [ListVirtualHostsRequest.page_token] parameter in the next list request.
-  //
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
 }
 
 message CreateVirtualHostRequest {
   reserved 4;
+
   // ID of the HTTP router to create a virtual host in.
-  //
   // To get the HTTP router ID, make a [HttpRouterService.List] request.
   string http_router_id = 1 [(required) = true];
 
   // Name of the virtual host. The name must be unique within the HTTP router and cannot be changed after creation.
-  string name = 2 [(pattern) = "([a-z]([-a-z0-9]{0,61}[a-z0-9])?)?"];
+  string name = 2 [(pattern) = "[a-z][-a-z0-9]{1,61}[a-z0-9]"];
 
   // List of domains that are attributed to the virtual host.
-  //
   // The host is selected to process the request received by the load balancer
   // if the domain specified in the HTTP/1.1 `Host` header or the HTTP/2 `:authority` pseudo-header matches a domain
   // specified in the host.
-  //
   // A wildcard asterisk character (`*`) matches 0 or more characters.
-  //
   // If not specified, all domains are attributed to the host, which is the same as specifying a `*` value.
   // An HTTP router must not contain more than one virtual host to which all domains are attributed.
-  repeated string authority = 3;
+  repeated string authority = 3 [
+    (length) = "1-255",
+    (pattern) = "[*]?[-.a-z0-9]*[*]?",
+    (size) = "<=32",
+    (unique) = true
+  ];
 
   // Routes of the virtual host.
-  //
   // A route contains a set of conditions (predicates) that are used by the load balancer to select the route
   // for the request and an action on the request.
   // For details about the concept, see [documentation](/docs/application-load-balancer/concepts/http-router#routes).
-  //
   // The order of routes matters: the first route whose predicate matches the request is selected.
   // The most specific routes should be at the top of the list, so that they are not overridden.
   // For example, if the first HTTP route is configured, via [HttpRoute.match], to match paths prefixed with just `/`,
@@ -177,9 +178,18 @@ message CreateVirtualHostRequest {
   RateLimit rate_limit = 9;
 
   // VirtualHost's labels as `key:value` pairs.
-  map<string, string> labels = 10 [(yandex.cloud.size) = "<=16", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];  
+  map<string, string> labels = 10 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=16"
+  ];
+
   // Description of the virtual host.
-  string description = 11 [(length) = "<=256"];  
+  string description = 11 [(length) = "<=256"];
 }
 
 message CreateVirtualHostMetadata {
@@ -192,15 +202,13 @@ message CreateVirtualHostMetadata {
 
 message UpdateVirtualHostRequest {
   reserved 5;
+
   // ID of the HTTP router to update a virtual host in.
-  //
   // To get the HTTP router ID, make a [HttpRouterService.List] request.
   string http_router_id = 1 [(required) = true];
 
   // Name of the virtual host.
-  //
   // Used only to refer to the virtual host. The name of a host cannot be changed.
-  //
   // To get the virtual host name, make a [VirtualHostService.List] request.
   string virtual_host_name = 2 [(required) = true];
 
@@ -208,43 +216,39 @@ message UpdateVirtualHostRequest {
   google.protobuf.FieldMask update_mask = 3;
 
   // New list of domains to attribute to the virtual host.
-  //
   // The host is selected to process the request received by the load balancer
   // if the domain specified in the HTTP/1.1 `Host` header or the HTTP/2 `:authority` pseudo-header matches a domain
   // specified in the host.
-  //
   // A wildcard asterisk character (`*`) matches 0 or more characters.
-  //
   // Existing list of domains is completely replaced by the specified list.
-  //
   // If not specified, all domains are attributed to the host, which is the same as specifying a `*` value.
   // An HTTP router must not contain more than one virtual host to which all domains are attributed.
-  repeated string authority = 4;
+  repeated string authority = 4 [
+    (length) = "1-255",
+    (pattern) = "[*]?[-.a-z0-9]*[*]?",
+    (size) = "<=32",
+    (unique) = true
+  ];
 
   // New list of routes of the virtual host.
-  //
   // A route contains a set of conditions (predicates) that are used by the load balancer to select the route
   // for the request and an action on the request.
   // For details about the concept, see [documentation](/docs/application-load-balancer/concepts/http-router#routes).
-  //
   // The order of routes matters: the first route whose predicate matches the request is selected.
   // The most specific routes should be at the top of the list, so that they are not overridden.
   // For example, if the first HTTP route is configured, via [HttpRoute.match], to match paths prefixed with just `/`,
   // other routes are never matched.
-  //
   // Existing list of routes is completely replaced by the specified list, so if you just want to remove a route,
   // make a [VirtualHostService.RemoveRoute] request.
   repeated Route routes = 6;
 
   // New list of modifications that are made to the headers of incoming HTTP requests
   // before they are forwarded to backends.
-  //
   // Existing list of modifications is completely replaced by the specified list.
   repeated HeaderModification modify_request_headers = 7;
 
   // New list of modifications that are made to the headers of HTTP responses received from backends
   // before responses are forwarded to clients.
-  //
   // Existing list of modifications is completely replaced by the specified list.
   repeated HeaderModification modify_response_headers = 8;
 
@@ -255,7 +259,16 @@ message UpdateVirtualHostRequest {
   RateLimit rate_limit = 10;
 
   // VirtualHost's labels as `key:value` pairs.
-  map<string, string> labels = 11 [(yandex.cloud.size) = "<=16", (length) = "<=63", (pattern) = "[-_0-9a-z]*", (map_key).length = "1-63", (map_key).pattern = "[a-z][-_0-9a-z]*"];
+  map<string, string> labels = 11 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=16"
+  ];
+
   // Description of the virtual host.
   string description = 12 [(length) = "<=256"];
 }
@@ -270,16 +283,14 @@ message UpdateVirtualHostMetadata {
 
 message DeleteVirtualHostRequest {
   // ID of the HTTP router to delete a virtual host from.
-  //
   // To get the HTTP router ID, make a [HttpRouterService.List] request.
   string http_router_id = 1 [(required) = true];
 
   // Name of the virtual host to delete.
-  //
   // To get the virtual host name, make a [VirtualHostService.List] request.
   string virtual_host_name = 2 [
-    (required) = true,
-    (pattern) = "([a-z]([-a-z0-9]{0,61}[a-z0-9])?)?"
+    (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]",
+    (required) = true
   ];
 }
 
@@ -293,17 +304,14 @@ message DeleteVirtualHostMetadata {
 
 message RemoveRouteRequest {
   // ID of the HTTP router to delete a route from.
-  //
   // To get the HTTP router ID, make a [HttpRouterService.List] request.
   string http_router_id = 1 [(required) = true];
 
   // Name of the virtual host to delete a route from.
-  //
   // To get the virtual host name, make a [VirtualHostService.List] request.
   string virtual_host_name = 2 [(required) = true];
 
   // Name of the route to delete.
-  //
   // To get the route name, make a [VirtualHostService.Get] request.
   string route_name = 3 [(required) = true];
 }
@@ -321,23 +329,19 @@ message RemoveRouteMetadata {
 
 message UpdateRouteRequest {
   // ID of the HTTP router to update a route in.
-  //
   // To get the HTTP router ID, make a [HttpRouterService.List] request.
   string http_router_id = 1 [(required) = true];
 
   // Name of the virtual host to update a route in.
-  //
   // To get the virtual host name, make a [VirtualHostService.List] request.
   string virtual_host_name = 2 [(required) = true];
 
   // Name of the route to update.
-  //
   // To get the route name, make a [VirtualHostService.Get] request.
   string route_name = 3 [(required) = true];
 
   // Field mask that specifies which attributes of the route should be updated.
   google.protobuf.FieldMask update_mask = 4;
-
   // New settings of the route.
   oneof route {
     option (exactly_one) = true;
@@ -351,6 +355,7 @@ message UpdateRouteRequest {
 
   // New route options for the route.
   RouteOptions route_options = 7;
+
   // Whether set to 'true' disable security profile for the route.
   bool disable_security_profile = 8;
 

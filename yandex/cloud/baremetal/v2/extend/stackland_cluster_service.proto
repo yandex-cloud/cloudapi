@@ -81,6 +81,15 @@ service StacklandClusterService {
     option (google.api.method_signature) = "cloud_id,folder_id,stackland_cluster_id";
   };
 
+  // Returns a zip archive with the cluster config.yaml and secrets.yaml.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  rpc GetStacklandClusterConfigs(GetStacklandClusterConfigsRequest) returns (GetStacklandClusterConfigsResponse) {
+    option (google.api.http) = {
+      get: "/v2/clouds/{cloud_id}/folders/{folder_id}/extend/stacklandClusters/{stackland_cluster_id}:configs"
+    };
+    option (google.api.method_signature) = "cloud_id,folder_id,stackland_cluster_id";
+  };
 }
 
 message GetStacklandClusterRequest {
@@ -206,4 +215,23 @@ message DeleteStacklandClusterMetadata {
 
   // Common operation metadata
   OperationMetadata operation_metadata = 2;
+}
+
+message GetStacklandClusterConfigsRequest {
+  // ID of the parent cloud.
+  string cloud_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the parent folder.
+  string folder_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // ID of the cluster to retrieve configs.
+  string stackland_cluster_id = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+message GetStacklandClusterConfigsResponse {
+  // Name of the returned archive.
+  string filename = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Zip archive with config.yaml and secrets.yaml.
+  bytes content = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
 }

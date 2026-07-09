@@ -4,106 +4,177 @@ package yandex.cloud.mdb.greenplum.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
-
 import "yandex/cloud/api/operation.proto";
-import "yandex/cloud/validation.proto";
-import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/mdb/greenplum/v1/resource_groups.proto";
-
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/greenplum/v1;greenplum";
 option java_package = "yandex.cloud.api.mdb.greenplum.v1";
 
-
 service ResourceGroupService {
-    // List all resource group
-    rpc List (ListResourceGroupsRequest) returns (ListResourceGroupsResponse) {
-        option (google.api.http) = { get: "/managed-greenplum/v1/clusters/{cluster_id}/resource_groups" };
-    }
+  // List all resource group
+  rpc List(ListResourceGroupsRequest) returns (ListResourceGroupsResponse) {
+    option (google.api.http) = {
+      get: "/managed-greenplum/v1/clusters/{cluster_id}/resource_groups"
+    };
+  };
 
-    // Returns the specified resource group at revision.
-    rpc GetAtRevision (GetResourceGroupAtRevisionRequest) returns (ResourceGroup) {
-        option (google.api.http) = { get: "/managed-greenplum/v1/clusters/{cluster_id}/resource_groups/at_rev" };
-    }
+  // Returns the specified resource group at revision.
+  rpc GetAtRevision(GetResourceGroupAtRevisionRequest) returns (ResourceGroup) {
+    option (google.api.http) = {
+      get: "/managed-greenplum/v1/clusters/{cluster_id}/resource_groups/at_rev"
+    };
+  };
 
-    // Creates resource group
-    rpc Create (CreateResourceGroupRequest) returns (operation.Operation) {
-        option (google.api.http) = { post: "/managed-greenplum/v1/clusters/{cluster_id}/resource_groups" body: "*" };
-        option (yandex.cloud.api.operation) = {
-            metadata: "CreateResourceGroupMetadata"
-            response: "ResourceGroup"
-        };
-    }
+  // Creates resource group
+  rpc Create(CreateResourceGroupRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreateResourceGroupMetadata"
+      response: "ResourceGroup"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-greenplum/v1/clusters/{cluster_id}/resource_groups"
+    };
+  };
 
-    // Update resource group
-    rpc Update (UpdateResourceGroupRequest) returns (operation.Operation) {
-        option (google.api.http) = { patch: "/managed-greenplum/v1/clusters/{cluster_id}/resource_groups" body: "*" };
-        option (yandex.cloud.api.operation) = {
-            metadata: "UpdateResourceGroupMetadata"
-            response: "ResourceGroup"
-        };
-    }
+  // Update resource group
+  rpc Update(UpdateResourceGroupRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdateResourceGroupMetadata"
+      response: "ResourceGroup"
+    };
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-greenplum/v1/clusters/{cluster_id}/resource_groups"
+    };
+  };
 
-    // Delete resource group
-    rpc Delete (DeleteResourceGroupRequest) returns (operation.Operation) {
-        option (google.api.http) = { delete: "/managed-greenplum/v1/clusters/{cluster_id}/resource_groups/{resource_group_name}"};
-        option (yandex.cloud.api.operation) = {
-            metadata: "DeleteResourceGroupMetadata"
-            response: "google.protobuf.Empty"
-        };
-    }
+  // Delete resource group
+  rpc Delete(DeleteResourceGroupRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeleteResourceGroupMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      delete: "/managed-greenplum/v1/clusters/{cluster_id}/resource_groups/{resource_group_name}"
+    };
+  };
 }
 
 message CreateResourceGroupMetadata {
-    string cluster_id      = 1 [(required) = true, (length) = "<=50"];
-    string resource_group_name = 2 [(required) = true, (length) = "3-200", (pattern) = "^[^\\|/*?.,;\"'<>]+$"];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the resource group. Must be unique within cluster.
+  string resource_group_name = 2 [
+    (length) = "3-200",
+    (pattern) = "^[^\\|/*?.,;\"'<>]+$",
+    (required) = true
+  ];
 }
 
 message UpdateResourceGroupMetadata {
-    string cluster_id      = 1 [(required) = true, (length) = "<=50"];
-    string resource_group_name = 2 [(required) = true, (length) = "3-200", (pattern) = "^[^\\|/*?.,;\"'<>]+$"];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the resource group to update.
+  string resource_group_name = 2 [
+    (length) = "3-200",
+    (pattern) = "^[^\\|/*?.,;\"'<>]+$",
+    (required) = true
+  ];
 }
 
 message DeleteResourceGroupMetadata {
-    string cluster_id      = 1 [(required) = true, (length) = "<=50"];
-    string resource_group_name = 2 [(required) = true, (length) = "3-200", (pattern) = "^[^\\|/*?.,;\"'<>]+$"];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the resource group to delete.
+  string resource_group_name = 2 [
+    (length) = "3-200",
+    (pattern) = "^[^\\|/*?.,;\"'<>]+$",
+    (required) = true
+  ];
 }
 
-
-// ResourceGroups API
-
 message ListResourceGroupsRequest {
-    string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 }
 
 message ListResourceGroupsResponse {
-    repeated ResourceGroup resource_groups = 1;
+  // List of cluster resource groups.
+  repeated ResourceGroup resource_groups = 1;
 }
 
 message GetResourceGroupAtRevisionRequest {
-    // ID of the Greenplum cluster.
-    string cluster_id = 1 [(required) = true, (length) = "<=50"];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
-    // Cluster revision
-    int64 revision = 2 [(value) = ">0"];
+  // Cluster revision.
+  int64 revision = 2 [(value) = ">0"];
 
-    string resource_group_name = 3 [(required) = true, (length) = "3-200", (pattern) = "^[^\\|/*?.,;\"'<>]+$"];
+  // Name of the resource group to get.
+  string resource_group_name = 3 [
+    (length) = "3-200",
+    (pattern) = "^[^\\|/*?.,;\"'<>]+$",
+    (required) = true
+  ];
 }
 
 message CreateResourceGroupRequest {
-    string cluster_id      = 1 [(required) = true, (length) = "<=50"];
-    ResourceGroup resource_group = 2;
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Definition of the resource group.
+  ResourceGroup resource_group = 2;
 }
 
 message UpdateResourceGroupRequest {
-    string cluster_id      = 1 [(required) = true, (length) = "<=50"];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
-    google.protobuf.FieldMask update_mask = 2;
+  // Field mask that specifies which fields of the resource group should be updated.
+  google.protobuf.FieldMask update_mask = 2;
 
-    ResourceGroup resource_group = 3;
+  // Definition of the resource group (updated fields only).
+  ResourceGroup resource_group = 3;
 }
 
 message DeleteResourceGroupRequest {
-    string cluster_id      = 1 [(required) = true, (length) = "<=50"];
-    string resource_group_name = 2 [(required) = true, (length) = "3-200", (pattern) = "^[^\\|/*?.,;\"'<>]+$"];
+  // ID of the Greenplum® cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the resource group to delete.
+  string resource_group_name = 2 [
+    (length) = "3-200",
+    (pattern) = "^[^\\|/*?.,;\"'<>]+$",
+    (required) = true
+  ];
 }

@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+package yandex.cloud.cic.v1;
+
+import "google/api/annotations.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/cic/v1/trunk_connection_ticket.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cic/v1;cic";
+option java_package = "yandex.cloud.api.cic.v1";
+
+// A set of methods for managing TrunkConnectionTicket resources.
+service TrunkConnectionTicketService {
+  // Creates a TrunkConnectionTicket in the specified folder and opens a support ticket.
+  rpc Create(CreateTrunkConnectionTicketRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreateTrunkConnectionTicketMetadata"
+      response: "TrunkConnectionTicket"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/cic/v1/trunkConnectionTickets"
+    };
+  };
+
+  // Revokes a TrunkConnectionTicket and closes the underlying support ticket.
+  rpc Revoke(RevokeTrunkConnectionTicketRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "RevokeTrunkConnectionTicketMetadata"
+      response: "TrunkConnectionTicket"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/cic/v1/trunkConnectionTickets/{ticket_id}:revoke"
+    };
+  };
+
+  // Returns the specified TrunkConnectionTicket resource.
+  rpc Get(GetTrunkConnectionTicketRequest) returns (TrunkConnectionTicket) {
+    option (google.api.http) = {
+      get: "/cic/v1/trunkConnectionTickets/{ticket_id}"
+    };
+  };
+
+  // Lists TrunkConnectionTicket resources in the specified folder.
+  rpc List(ListTrunkConnectionTicketsRequest) returns (ListTrunkConnectionTicketsResponse) {
+    option (google.api.http) = {
+      get: "/cic/v1/trunkConnectionTickets"
+    };
+  };
+}
+
+message CreateTrunkConnectionTicketRequest {
+  // ID of the folder where the future TrunkConnection should be placed.
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Form fields submitted by the client.
+  TrunkConnectionTicketSpec spec = 2 [(required) = true];
+}
+
+message CreateTrunkConnectionTicketMetadata {
+  // ID of the created TrunkConnectionTicket.
+  string ticket_id = 1;
+
+  // ID of the support ticket opened for the request.
+  string support_ticket_id = 2;
+}
+
+message RevokeTrunkConnectionTicketRequest {
+  // ID of the TrunkConnectionTicket to revoke.
+  string ticket_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message RevokeTrunkConnectionTicketMetadata {
+  // ID of the revoked TrunkConnectionTicket.
+  string ticket_id = 1;
+}
+
+message GetTrunkConnectionTicketRequest {
+  // ID of the TrunkConnectionTicket to return.
+  string ticket_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message ListTrunkConnectionTicketsRequest {
+  // ID of the folder to list TrunkConnectionTicket resources in.
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // The maximum number of results per page to return.
+  int64 page_size = 2 [(value) = "<=1000"];
+
+  // Page token returned by a previous list request.
+  string page_token = 3 [(length) = "<=100"];
+
+  // Filter expression that filters resources listed in the response.
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListTrunkConnectionTicketsResponse {
+  // List of TrunkConnectionTicket resources.
+  repeated TrunkConnectionTicket trunk_connection_tickets = 1;
+
+  // Token to get the next page of results.
+  string next_page_token = 2;
+}

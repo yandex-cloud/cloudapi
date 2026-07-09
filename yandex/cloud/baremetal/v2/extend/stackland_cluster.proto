@@ -4,6 +4,7 @@ package yandex.cloud.baremetal.v2.extend;
 
 import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/baremetal/v2/extend/cluster.proto";
 import "yandex/cloud/baremetal/v2/extend/nodes.proto";
 import "yandex/cloud/validation.proto";
 
@@ -11,6 +12,8 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/
 option java_package = "yandex.cloud.api.api.baremetal.v2.extend";
 
 message StacklandCluster {
+  reserved 20;
+
   // ID of the cluster.
   string stackland_cluster_id = 1 [
     (google.api.field_behavior) = OUTPUT_ONLY,
@@ -96,10 +99,13 @@ message StacklandCluster {
   StacklandHostRoles host_roles = 12 [(google.api.field_behavior) = REQUIRED];
 
   // Bastion node.
-  Node bastion = 13 [(google.api.field_behavior) = REQUIRED];
+  Node bastion_node = 13 [(google.api.field_behavior) = REQUIRED];
 
   // ID of the subnet that the cluster belongs to.
-  string subnet_id = 14 [(google.api.field_behavior) = OPTIONAL];
+  string subnet_id = 14 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (google.api.field_behavior) = OPTIONAL
+  ];
 
   // Optional CIDR to preselect in subnet.
   string cidr = 15 [
@@ -110,8 +116,8 @@ message StacklandCluster {
   // Version of Stackland to be used.
   string version = 16 [(google.api.field_behavior) = REQUIRED];
 
-  // Licence to activate Stackland.
-  string licence = 17 [
+  // License to activate Stackland.
+  string license = 17 [
     (google.api.field_behavior) = REQUIRED,
     (google.api.field_behavior) = INPUT_ONLY
   ];
@@ -121,6 +127,23 @@ message StacklandCluster {
 
   // URL in S3 to the cluster configuration.
   string configuration_url = 19 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // IP of the cluster control plane. .
+  string virtual_ip = 21 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Base cluster DNS domain.
+  string cluster_domain = 22 [(google.api.field_behavior) = OPTIONAL];
+
+  // Cluster component URLs, available once the cluster is active.
+  StacklandSubdomains subdomains = 23 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Credentials for access to the bastion node.
+  //
+  // Input only field.
+  BastionSpec bastion_spec = 24 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.field_behavior) = INPUT_ONLY
+  ];
 }
 
 message StacklandHostRoles {
@@ -132,4 +155,21 @@ message StacklandHostRoles {
 
   // Node types used as workder nodes.
   repeated NodeGroup worker = 3 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message StacklandSubdomains {
+  // Cluster URL.
+  string console = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Cluster URL.
+  string dashboard = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Grafana URL.
+  string grafana = 3 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Prometheus URL.
+  string prometheus = 4 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Alertmanager URL.
+  string alertmanager = 5 [(google.api.field_behavior) = OUTPUT_ONLY];
 }

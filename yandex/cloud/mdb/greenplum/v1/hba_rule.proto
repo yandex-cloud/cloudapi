@@ -15,10 +15,10 @@ message HBARule {
     HOST = 1;
 
     // Matches connection attempts made using TCP/IP, but only when the connection is made with SSL encryption.
-    HOSTSSL = 2 [deprecated=true];
+    HOSTSSL = 2 [deprecated = true];
 
     // Matches connection attempts made over TCP/IP that do not use SSL.
-    HOSTNOSSL = 3 [deprecated=true];
+    HOSTNOSSL = 3 [deprecated = true];
   }
 
   enum AuthMethod {
@@ -37,9 +37,10 @@ message HBARule {
     IAM = 4;
   }
 
-  // Priority of the Greenplum cluster rule.
+  // Priority of the Greenplum® cluster rule.
   int64 priority = 1 [(value) = "0-1000"];
 
+  // Connection type of the Greenplum® cluster rule.
   ConnectionType connection_type = 2;
 
   // Specifies which database names this record matches.

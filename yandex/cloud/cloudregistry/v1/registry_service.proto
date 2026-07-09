@@ -177,6 +177,28 @@ message ListRegistriesRequest {
   // Page token. To get the next page of results, set [page_token] to the
   // [ListRegistriesResponse.next_page_token] returned by a previous list request.
   string page_token = 3;
+
+  // Filter by registry name.
+  // The expression must specify:
+  // 1. The field name
+  // 2. An operator: =, !=.
+  // 3. The value in double quotes.
+  // Examples:
+  // name = "my-registry"
+  // name != "my-registry"
+  // No regular expressions allowed.
+  string name_filter = 4 [(length) = "<=1000"];
+
+  // Match by registry kind (for example DOCKER, MAVEN, NPM).
+  // Empty list means any kind.
+  repeated Registry.Kind kind = 5;
+
+  // Match by registry type (for example LOCAL, REMOTE).
+  // Empty list means any type.
+  repeated Registry.Type type = 6;
+
+  // Match by registry status. Empty list means any status.
+  repeated Registry.Status status = 7;
 }
 
 message ListRegistriesResponse {

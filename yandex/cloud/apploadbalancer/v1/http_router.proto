@@ -29,12 +29,10 @@ message HttpRouter {
 
   // Virtual hosts that combine routes inside the router.
   // For details about the concept, see [documentation](/docs/application-load-balancer/concepts/http-router#virtual-host).
-  //
   // Only one virtual host with no authority (default match) can be specified.
   repeated VirtualHost virtual_hosts = 6;
 
   // Creation timestamp.
   google.protobuf.Timestamp created_at = 7;
-
   RouteOptions route_options = 8;
 }

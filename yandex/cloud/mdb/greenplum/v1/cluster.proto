@@ -16,6 +16,8 @@ option java_package = "yandex.cloud.api.mdb.greenplum.v1";
 // A Greenplum® cluster resource.
 message Cluster {
   reserved 25;
+
+  // Deployment environment.
   enum Environment {
     ENVIRONMENT_UNSPECIFIED = 0;
 
@@ -43,8 +45,6 @@ message Cluster {
     // Cluster is working below capacity ([Host.health] for at least one host in the cluster is UNBALANCED).
     UNBALANCED = 4;
   }
-
-  // Current state of the cluster.
 
   enum Status {
 
@@ -86,8 +86,8 @@ message Cluster {
   // Name of the Greenplum® cluster.
   // The name is unique within the folder.
   string name = 4 [
-    (required) = true,
-    (length) = "<=63"
+    (length) = "<=63",
+    (required) = true
   ];
 
   // Greenplum® cluster configuration.
@@ -150,7 +150,7 @@ message Cluster {
   // Greenplum® and Odyssey® configuration.
   ClusterConfigSet cluster_config = 24;
 
-  // Cloud storage settings
+  // Cloud storage settings.
   CloudStorage cloud_storage = 26;
 
   // Host groups hosting VMs of the master subcluster.
@@ -159,32 +159,11 @@ message Cluster {
   // Host groups hosting VMs of the segment subcluster.
   repeated string segment_host_group_ids = 28;
 
-  // Service account that will be used to access a Yandex Cloud resources
+  // Service account that will be used to access a Yandex Cloud resources.
   string service_account_id = 29;
 
-  // Cloud logging configuration
+  // Cloud logging configuration.
   LoggingConfig logging = 30;
-}
-
-message ClusterConfigSet {
-  reserved 1, 2, 4, 5, 7;
-  // Deprecated: use dbms_config_set instead
-  //
-  // Configuration set for the Greenplum Database.
-  oneof greenplum_config {
-    GreenplumConfigSet6 greenplum_config_set_6 = 9 [json_name = "greenplumConfigSet_6", deprecated=true];
-  }
-
-  // Configuration set for the Greenplum & Cloudberry.
-  DBMSConfigSet dbms_config_set = 10 [json_name="dbmsConfigSet"];
-
-  // Odyssey® pool settings.
-  ConnectionPoolerConfigSet pool = 3;
-
-  // Managed Greenplum® background tasks configuration.
-  BackgroundActivitiesConfig background_activities = 6;
-
-  PXFConfigSet pxf_config = 8;
 }
 
 // Monitoring system metadata.
@@ -198,8 +177,6 @@ message Monitoring {
   // Link to the monitoring system charts for the Greenplum® cluster.
   string link = 3;
 }
-
-// Greenplum® cluster configuration.
 
 message GreenplumConfig {
   reserved 7 to 8;
@@ -220,34 +197,44 @@ message GreenplumConfig {
   // To get a list of available zones, use the [yandex.cloud.compute.v1.ZoneService.List] request.
   string zone_id = 4 [(length) = "<=50"];
 
-  // ID of the subnet the cluster belongs to. This subnet should be a part of the cloud network the cluster belongs to (see [Cluster.network_id]).
+  // ID of the subnet the cluster belongs to.
+  // This subnet should be a part of the cloud network the cluster belongs to (see [Cluster.network_id]).
   string subnet_id = 5 [(length) = "<=50"];
 
   // Determines whether the cluster has a public IP address.
-  //
   // After the cluster has been created, this setting cannot be changed.
+  // Possible values:
+  // * false - don't assign a public IP to the master hosts.
+  // * true - the master hosts should have a public IP address.
   bool assign_public_ip = 6;
 
   // Full version
   string full_version = 10;
 }
 
-// Greenplum® cluster access options.
+message ClusterConfigSet {
+  reserved 1 to 2, 4 to 5, 7;
 
-message Access {
-  // Allows data export from the cluster to DataLens.
-  bool data_lens = 1;
+  // Deprecated: use dbms_config_set instead
+  // Configuration set for the Greenplum Database.
+  oneof greenplum_config {
+    GreenplumConfigSet6 greenplum_config_set_6 = 9 [
+      deprecated = true,
+      json_name = "greenplumConfigSet_6"
+    ];
+  }
 
-  // Allows SQL queries to the cluster databases from the management console.
-  bool web_sql = 2;
+  // Configuration set for the Greenplum & Cloudberry.
+  DBMSConfigSet dbms_config_set = 10 [json_name = "dbmsConfigSet"];
 
-  // Allows access for DataTransfer.
-  bool data_transfer = 3;
+  // Odyssey® pool settings.
+  ConnectionPoolerConfigSet pool = 3;
 
-  reserved 4;
+  // Managed Greenplum® background tasks configuration.
+  BackgroundActivitiesConfig background_activities = 6;
 
-  // Allow access for YandexQuery.
-  bool yandex_query = 5;
+  // PXF settings.
+  PXFConfigSet pxf_config = 8;
 }
 
 message GreenplumRestoreConfig {
@@ -258,7 +245,6 @@ message GreenplumRestoreConfig {
   Access access = 2;
 
   // ID of the availability zone where the host resides.
-  //
   // To get a list of available zones, use the [yandex.cloud.compute.v1.ZoneService.List] request.
   string zone_id = 3 [(length) = "<=50"];
 
@@ -267,15 +253,28 @@ message GreenplumRestoreConfig {
   string subnet_id = 4 [(length) = "<=50"];
 
   // Determines whether the host should get a public IP address on creation.
-  //
   // After a host has been created, this setting cannot be changed.
-  //
   // To remove an assigned public IP, or to assign a public IP to a host without one, recreate the host with [assign_public_ip] set as needed.
-  //
   // Possible values:
   // * `false` - do not assign a public IP to the master host.
   // * `true` - assign a public IP to the master host.
   bool assign_public_ip = 5;
+}
+
+message Access {
+  reserved 4;
+
+  // Allows data export from the cluster to DataLens.
+  bool data_lens = 1;
+
+  // Allows SQL queries to the cluster databases from the management console.
+  bool web_sql = 2;
+
+  // Allows access for DataTransfer.
+  bool data_transfer = 3;
+
+  // Allow access for YandexQuery.
+  bool yandex_query = 5;
 }
 
 message RestoreResources {
@@ -293,19 +292,24 @@ message CloudStorage {
 }
 
 message LoggingConfig {
-  bool enabled = 1;
+  reserved 4;
 
+  // Determines whether the Cloud Logging enabled.
+  bool enabled = 1;
   oneof destination {
+    // ID of the folder that the Cloud Logging belongs to.
     string folder_id = 2 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
+
+    // ID of the log group used for the Cloud Logging.
     string log_group_id = 3 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
   }
 
-  reserved 4;
-
-  // send Yandex Command Center logs
+  // Determines whether Yandex Command Center logs should be sent to Cloud Logging.
   bool command_center_enabled = 5;
-  // send Greenplum logs
+
+  // Determines whether Greenplum® logs should be sent to Cloud Logging.
   bool greenplum_enabled = 6;
-  // send Pooler logs
+
+  // Determines whether Pooler logs should be sent to Cloud Logging.
   bool pooler_enabled = 7;
 }
