@@ -888,6 +888,9 @@ message Host {
 
     // Replica tags used to control read preference and write concern.
     map<string, string> tags = 4;
+
+    // Host votes. Controls host participation in elections.
+    int64 votes = 5;
   }
 
   // Name of the MongoDB host. The host name is assigned by MDB at creation time, and cannot be changed.

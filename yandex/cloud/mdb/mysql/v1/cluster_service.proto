@@ -472,7 +472,7 @@ message RestoreClusterRequest {
 
   // ID of the backup to restore from.
   // To get this ID, make a [BackupService.List] request (lists all backups in a folder) or a [ClusterService.ListBackups] request (lists all backups for an existing cluster).
-  string backup_id = 1 [(required) = true];
+  string backup_id = 1 [(required) = false];
 
   // Timestamp of the moment to which the MySQL cluster should be restored.
   google.protobuf.Timestamp time = 2;

@@ -1028,6 +1028,9 @@ message UpdateHostSpec {
 
   // Host tag list that contains key-value pairs for the given replica set member. For more information about how to specify the tags and what values to choose, see the [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/replica-configuration/#mongodb-rsconf-rsconf.members-n-.tags).
   map<string, string> tags = 7;
+
+  // The replica set member votes determine whether a member participate in an election.
+  google.protobuf.Int64Value votes = 8;
 }
 
 message EnableClusterShardingRequest {
@@ -1272,6 +1275,9 @@ message HostSpec {
 
   // Host tags
   map<string, string> tags = 9;
+
+  // Votes of host for the election in replSet
+  google.protobuf.Int64Value votes = 10;
 }
 
 message MongodbSpec3_6 {

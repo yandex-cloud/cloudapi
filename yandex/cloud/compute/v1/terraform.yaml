@@ -1,3 +1,6 @@
+resources_and_data_sources:
+  - name: yandex_compute_reserved_instance_pool
+
 resources:
   - name: yandex_compute_disk_placement_group
   - name: yandex_compute_filesystem
@@ -41,6 +44,15 @@ model_config:
     yandex.cloud.compute.v1.CreateGpuClusterRequest:
       fields:
         zone_id: zone
+    yandex.cloud.compute.v1.ReservedInstancePool:
+      fields:
+        zone_id: zone
+    yandex.cloud.compute.v1.CreateReservedInstancePoolRequest:
+      fields:
+        zone_id: zone
+    yandex.cloud.compute.v1.UpdateReservedInstancePoolRequest:
+      fields:
+        allow_pending_slots: ""
 
   options:
     yandex.cloud.compute.v1.DiskPlacementGroup.spread_placement_strategy:
@@ -73,6 +85,22 @@ model_config:
       default: "INFINIBAND"
     yandex.cloud.compute.v1.GpuCluster.zone_id:
       force_new: true
+
+    yandex.cloud.compute.v1.ReservedInstancePool.zone_id:
+      force_new: true
+    yandex.cloud.compute.v1.ReservedInstancePool.folder_id:
+      force_new: true
+    yandex.cloud.compute.v1.ReservedInstancePool.platform_id:
+      force_new: true
+    yandex.cloud.compute.v1.ReservedInstancePool.resources_spec:
+      force_new: true
+    yandex.cloud.compute.v1.ReservedInstancePool.gpu_settings:
+      force_new: true
+    yandex.cloud.compute.v1.ReservedInstancePool.product_ids:
+      force_new: true
+    yandex.cloud.compute.v1.ReservedInstancePool.network_settings.type:
+      force_new: true
+      default: "STANDARD"
 
 
 iam_bindings:
