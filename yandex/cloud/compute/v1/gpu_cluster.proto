@@ -52,6 +52,9 @@ message GpuCluster {
 
   // Type of interconnect used for this GPU cluster.
   GpuInterconnectType interconnect_type = 9;
+
+  // Number of subnets in the GPU cluster.
+  int64 subnets = 10;
 }
 
 enum GpuInterconnectType {

@@ -125,6 +125,8 @@ service ClusterService {
   };
 
   // Same as [ListLogs] but using server-side streaming. Also allows for `tail -f` semantics.
+  //
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc StreamLogs(StreamClusterLogsRequest) returns (stream StreamLogRecord) {
     option (google.api.http) = {
       get: "/managed-kafka/v1/clusters/{cluster_id}:stream_logs"
@@ -397,6 +399,11 @@ message ListClusterLogsRequest {
   // 3. The value in double quotes (`"`). Must be 1-63 characters long and match the regular expression `[a-z0-9.-]{1,61}`.
   // Example of a filter: `message.hostname='node1.db.cloud.yandex.net'`
   string filter = 8 [(length) = "<=1000"];
+
+  // Order by specification as a JSON array of {field, order} objects.
+  // Supported fields: TIMESTAMP. Supported orders: ASC, DESC.
+  // Example: [{"field": "TIMESTAMP", "order": "DESC"}]
+  string order_by = 9;
 }
 
 // A single log record.

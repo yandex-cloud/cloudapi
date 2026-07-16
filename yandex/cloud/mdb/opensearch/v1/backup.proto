@@ -59,8 +59,6 @@ message SnapshotManagement {
 // Snapshot creation schedule
 message SnapshotSchedule {
   oneof schedule {
-    option (exactly_one) = true;
-
     // Hourly based snapshot schedule
     HourlySnapshotSchedule hourly_snapshot_schedule = 1;
 
@@ -91,13 +89,28 @@ message DailySnapshotSchedule {
 message WeeklySnapshotSchedule {
   // Day of the week
   enum WeekDay {
+    // Not specified.
     WEEK_DAY_UNSPECIFIED = 0;
+
+    // Monday.
     MON = 1;
+
+    // Tuesday.
     TUE = 2;
+
+    // Wednesday.
     WED = 3;
+
+    // Thursday.
     THU = 4;
+
+    // Friday.
     FRI = 5;
+
+    // Saturday.
     SAT = 6;
+
+    // Sunday.
     SUN = 7;
   }
 

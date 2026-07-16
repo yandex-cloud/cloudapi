@@ -1,6 +1,9 @@
 resources_and_data_sources:
   - name: yandex_smartcaptcha_captcha
 
+data_sources:
+  - name: yandex_smartcaptcha_captcha_keys
+
 model_config:
   use_list_for_struct:
     - yandex_smartcaptcha_captcha
@@ -23,3 +26,13 @@ model_config:
   options:
     yandex.cloud.smartcaptcha.v1.CreateCaptchaRequest.folder_id:
       force_new: true
+    yandex.cloud.smartcaptcha.v1.CaptchaKeys.server_key:
+      sensitive_readable: true
+
+  copy_from:
+    yandex_smartcaptcha_captcha:
+      resources:
+        - name: yandex_smartcaptcha_captcha_keys
+          crud:
+            read:
+              name: GetKeys

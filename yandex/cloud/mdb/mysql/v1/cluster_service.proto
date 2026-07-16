@@ -168,6 +168,8 @@ service ClusterService {
 
   // Retrieves a log stream for a cluster.
   // This method is similar to [ListLogs], but uses server-side streaming, which allows for the `tail -f` command semantics.
+  //
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc StreamLogs(StreamClusterLogsRequest) returns (stream StreamLogRecord) {
     option (google.api.http) = {
       get: "/managed-mysql/v1/clusters/{cluster_id}:stream_logs"
@@ -209,6 +211,7 @@ service ClusterService {
   };
 
   // Updates the specified hosts.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc UpdateHosts(UpdateClusterHostsRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateClusterHostsMetadata"
@@ -221,6 +224,7 @@ service ClusterService {
   };
 
   // Deletes the specified hosts for a cluster.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc DeleteHosts(DeleteClusterHostsRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeleteClusterHostsMetadata"
@@ -526,6 +530,11 @@ message RestoreClusterRequest {
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 17;
+
+  // ID of the source cluster to restore from.
+  // The latest backup suitable for [time] will be used for restore.
+  // [time] is required. Cannot be used together with [backup_id].
+  string source_cluster_id = 18 [(length) = "<=50"];
 }
 
 message RestoreClusterMetadata {
@@ -652,6 +661,19 @@ message ListClusterLogsRequest {
   // Option that controls the behavior of result pagination.
   // If it is set to `true`, then [ListClusterLogsResponse.next_page_token] will always be returned, even if the current page is empty.
   bool always_next_page_token = 8;
+
+  // A filter expression that filters resources listed in the response.
+  // The expression must specify:
+  // 1. The field name. Currently filtering can be applied to the [LogRecord.logs.message.hostname] field.
+  // 2. A conditional operator. Can be either `=` or `!=` for single values, `IN` or `NOT IN` for lists of values.
+  // 3. The value. Must be 1-63 characters long and match the regular expression `^[a-z0-9.-]{1,61}$`.
+  // Examples of a filter: `message.hostname='node1.db.cloud.yandex.net'`
+  string filter = 9 [(length) = "<=1000"];
+
+  // Order by specification as a JSON array of {field, order} objects.
+  // Supported fields: TIMESTAMP. Supported orders: ASC, DESC.
+  // Example: [{"field": "TIMESTAMP", "order": "DESC"}]
+  string order_by = 10;
 }
 
 message ListClusterLogsResponse {

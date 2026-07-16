@@ -71,7 +71,7 @@ message PrivateVisibility {
   // Network IDs.
   repeated string network_ids = 1 [
     (length) = "20",
-    (size) = "0-100",
+    (size) = "0-128",
     (unique) = true
   ];
 }

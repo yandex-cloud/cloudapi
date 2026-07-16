@@ -28,6 +28,13 @@ service CaptchaService {
     };
   };
 
+  // Returns the keys of specified Captcha resource.
+  rpc GetKeys(GetCaptchaRequest) returns (CaptchaKeys) {
+    option (google.api.http) = {
+      get: "/smartcaptcha/v1/captchas/{captcha_id}:getKeys"
+    };
+  };
+
   // Creates a captcha in the specified folder using the data specified in the request.
   rpc Create(CreateCaptchaRequest) returns (operation.Operation) {
     option (api.operation) = {

@@ -580,6 +580,11 @@ message ListClusterLogsRequest {
     // Dashboards logs.
     DASHBOARDS = 2;
   }
+
+  // Order by specification as a JSON array of {field, order} objects.
+  // Supported fields: TIMESTAMP. Supported orders: ASC, DESC.
+  // Example: [{"field": "TIMESTAMP", "order": "DESC"}]
+  string order_by = 10;
 }
 
 message LogRecord {

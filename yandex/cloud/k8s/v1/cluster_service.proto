@@ -2,10 +2,9 @@ syntax = "proto3";
 
 package yandex.cloud.k8s.v1;
 
-import "google/protobuf/timestamp.proto";
-
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/k8s/v1/cluster.proto";
@@ -21,129 +20,142 @@ option java_package = "yandex.cloud.api.k8s.v1";
 // A set of methods for managing Kubernetes cluster.
 service ClusterService {
   // Returns the specified Kubernetes cluster.
-  //
   // To get the list of available Kubernetes cluster, make a [List] request.
   rpc Get(GetClusterRequest) returns (Cluster) {
-    option (google.api.http) = {get: "/managed-kubernetes/v1/clusters/{cluster_id}"};
-  }
+    option (google.api.http) = {
+      get: "/managed-kubernetes/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Retrieves the list of Kubernetes cluster in the specified folder.
   rpc List(ListClustersRequest) returns (ListClustersResponse) {
-    option (google.api.http) = {get: "/managed-kubernetes/v1/clusters"};
-  }
+    option (google.api.http) = {
+      get: "/managed-kubernetes/v1/clusters"
+    };
+  };
 
   // Creates a Kubernetes cluster in the specified folder.
   rpc Create(CreateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-kubernetes/v1/clusters"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "CreateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-kubernetes/v1/clusters"
+    };
+  };
 
   // Updates the specified Kubernetes cluster.
   rpc Update(UpdateClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/managed-kubernetes/v1/clusters/{cluster_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "UpdateClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-kubernetes/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Deletes the specified Kubernetes cluster.
   rpc Delete(DeleteClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/managed-kubernetes/v1/clusters/{cluster_id}"};
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "DeleteClusterMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      delete: "/managed-kubernetes/v1/clusters/{cluster_id}"
+    };
+  };
 
   // Stops the specified Kubernetes cluster.
   rpc Stop(StopClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-kubernetes/v1/clusters/{cluster_id}:stop"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "StopClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-kubernetes/v1/clusters/{cluster_id}:stop"
+    };
+  };
 
   // Starts the specified Kubernetes cluster.
   rpc Start(StartClusterRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-kubernetes/v1/clusters/{cluster_id}:start"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "StartClusterMetadata"
       response: "Cluster"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-kubernetes/v1/clusters/{cluster_id}:start"
+    };
+  };
 
   // Reschedules mandatory maintenance for the specified cluster.
   rpc RescheduleMaintenance(RescheduleMaintenanceRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-kubernetes/v1/clusters/{cluster_id}:reschedule-maintenance"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+    option (api.operation) = {
       metadata: "RescheduleMaintenanceMetadata"
       response: "google.protobuf.Empty"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-kubernetes/v1/clusters/{cluster_id}:reschedule-maintenance"
+    };
+  };
 
   // Lists nodegroup for the specified Kubernetes cluster.
   rpc ListNodeGroups(ListClusterNodeGroupsRequest) returns (ListClusterNodeGroupsResponse) {
-    option (google.api.http) = {get: "/managed-kubernetes/v1/clusters/{cluster_id}/nodeGroups"};
-  }
-
-  // Lists operations for the specified Kubernetes cluster.
-  rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
-    option (google.api.http) = {get: "/managed-kubernetes/v1/clusters/{cluster_id}/operations"};
-  }
+    option (google.api.http) = {
+      get: "/managed-kubernetes/v1/clusters/{cluster_id}/nodeGroups"
+    };
+  };
 
   // Lists cluster's nodes.
   rpc ListNodes(ListClusterNodesRequest) returns (ListClusterNodesResponse) {
-    option (google.api.http) = {get: "/managed-kubernetes/v1/clusters/{cluster_id}/nodes"};
-  }
+    option (google.api.http) = {
+      get: "/managed-kubernetes/v1/clusters/{cluster_id}/nodes"
+    };
+  };
+
+  // Lists operations for the specified Kubernetes cluster.
+  rpc ListOperations(ListClusterOperationsRequest) returns (ListClusterOperationsResponse) {
+    option (google.api.http) = {
+      get: "/managed-kubernetes/v1/clusters/{cluster_id}/operations"
+    };
+  };
 
   // Lists cluster's access bindings
-  rpc ListAccessBindings (access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
-    option (google.api.http) = {get: "/managed-kubernetes/v1/clusters/{resource_id}:listAccessBindings"};
-  }
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/managed-kubernetes/v1/clusters/{resource_id}:listAccessBindings"
+    };
+  };
 
   // Sets cluster's access bindings
-  rpc SetAccessBindings (access.SetAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      post: "/managed-kubernetes/v1/clusters/{resource_id}:setAccessBindings"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
       response: "access.AccessBindingsOperationResult"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-kubernetes/v1/clusters/{resource_id}:setAccessBindings"
+    };
+  };
 
   // Updates cluster's access bindings
-  rpc UpdateAccessBindings (access.UpdateAccessBindingsRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/managed-kubernetes/v1/clusters/{resource_id}:updateAccessBindings"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
       response: "access.AccessBindingsOperationResult"
     };
-  }
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-kubernetes/v1/clusters/{resource_id}:updateAccessBindings"
+    };
+  };
 }
 
 message GetClusterRequest {
@@ -199,28 +211,6 @@ message DeleteClusterMetadata {
   string cluster_id = 1;
 }
 
-message StopClusterRequest {
-  // ID of the Kubernetes cluster to stop.
-  // To get Kubernetes cluster ID use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true];
-}
-
-message StopClusterMetadata {
-  // ID of the Kubernetes cluster that is being stopped.
-  string cluster_id = 1;
-}
-
-message StartClusterRequest {
-  // ID of the Kubernetes cluster to start.
-  // To get Kubernetes cluster ID use a [ClusterService.List] request.
-  string cluster_id = 1 [(required) = true];
-}
-
-message StartClusterMetadata {
-  // ID of the Kubernetes cluster that is being started.
-  string cluster_id = 1;
-}
-
 message UpdateClusterRequest {
   // ID of the Kubernetes cluster to update.
   // To get the Kubernetes cluster ID use a [ClusterService.List] request.
@@ -235,23 +225,23 @@ message UpdateClusterRequest {
   string description = 4 [(length) = "<=256"];
 
   // Resource labels as `key:value` pairs.
-  //
   // Existing set of `labels` is completely replaced by the provided set.
   map<string, string> labels = 5 [
-    (size) = "<=64",
     (length) = "<=63",
-    (pattern) = "[-_./\\@0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
   ];
 
+  // Specification of the master update.
+  MasterUpdateSpec master_spec = 7;
   oneof internet_gateway {
     // Gateway IPv4 address.
     string gateway_ipv4_address = 6 [(length) = "<=15"];
   }
-
-  // Specification of the master update.
-  MasterUpdateSpec master_spec = 7;
 
   // Service account to be used for provisioning Compute Cloud and VPC resources for Kubernetes cluster.
   // Selected service account should have `edit` role on the folder where the Kubernetes cluster will be
@@ -261,12 +251,31 @@ message UpdateClusterRequest {
   // Service account to be used by the worker nodes of the Kubernetes cluster to access Container Registry
   // or to push node logs and metrics.
   string node_service_account_id = 8;
-
   NetworkPolicy network_policy = 10;
-
   IPAllocationPolicy ip_allocation_policy = 11;
-
   WorkloadIdentityFederationSpec workload_identity_federation = 12;
+}
+
+message StopClusterMetadata {
+  // ID of the Kubernetes cluster that is being stopped.
+  string cluster_id = 1;
+}
+
+message StopClusterRequest {
+  // ID of the Kubernetes cluster to stop.
+  // To get Kubernetes cluster ID use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true];
+}
+
+message StartClusterMetadata {
+  // ID of the Kubernetes cluster that is being started.
+  string cluster_id = 1;
+}
+
+message StartClusterRequest {
+  // ID of the Kubernetes cluster to start.
+  // To get Kubernetes cluster ID use a [ClusterService.List] request.
+  string cluster_id = 1 [(required) = true];
 }
 
 message MasterUpdateSpec {
@@ -311,25 +320,27 @@ message CreateClusterRequest {
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 4 [
-    (size) = "<=64",
     (length) = "<=63",
-    (pattern) = "[-_./\\@0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
   ];
 
   // ID of the network.
-  string network_id = 5 [(required) = true];
+  // This field is required.
+  string network_id = 5;
 
   // Master specification of the Kubernetes cluster.
   MasterSpec master_spec = 6 [(required) = true];
 
   // IP allocation policy of the Kubernetes cluster.
   IPAllocationPolicy ip_allocation_policy = 7;
-
   oneof internet_gateway {
     // Gateway IPv4 address.
-    string gateway_ipv4_address = 8;
+    string gateway_ipv4_address = 8 [(length) = "<=15"];
   }
 
   // Service account to be used for provisioning Compute Cloud and VPC resources for Kubernetes cluster.
@@ -342,12 +353,10 @@ message CreateClusterRequest {
 
   // Release channel for the master.
   ReleaseChannel release_channel = 11;
-
   NetworkPolicy network_policy = 12;
 
   // KMS provider configuration.
   KMSProvider kms_provider = 13;
-
   oneof network_implementation {
     Cilium cilium = 14;
   }
@@ -466,6 +475,7 @@ message ListClusterNodesResponse {
 
 message MasterSpec {
   reserved 5;
+
   oneof master_type {
     // Specification of the zonal master.
     ZonalMasterSpec zonal_master_spec = 1;
@@ -499,14 +509,30 @@ message MasterSpec {
   // Maintenance policy of the master.
   MasterMaintenancePolicy maintenance_policy = 4;
 
+  // Scale policy of the master.
+  MasterScalePolicySpec scale_policy = 12;
+
   // Master security groups.
   repeated string security_group_ids = 6;
 
   // Cloud Logging for master components.
   MasterLogging master_logging = 7;
+}
 
-  // Scale policy of the master.
-  MasterScalePolicySpec scale_policy = 12;
+message MasterScalePolicySpec {
+  reserved 1;
+
+  oneof scale_type {
+    option (exactly_one) = true;
+
+    AutoScale auto_scale = 2;
+  }
+
+  // Scalable master instance resources.
+  message AutoScale {
+    // Preset of computing resources to be used as lower boundary for scaling.
+    string min_resource_preset_id = 1 [(required) = true];
+  }
 }
 
 message ZonalMasterSpec {
@@ -518,6 +544,18 @@ message ZonalMasterSpec {
 
   // Specification of parameters for external IPv4 networking.
   ExternalAddressSpec external_v4_address_spec = 3;
+}
+
+message InternalAddressSpec {
+  reserved 1;
+
+  // ID of the subnet. If no ID is specified, and there only one subnet in specified zone, an address in this subnet will be allocated.
+  string subnet_id = 2;
+}
+
+message ExternalAddressSpec {
+  // IP address.
+  string address = 1;
 }
 
 message RegionalMasterSpec {
@@ -532,16 +570,6 @@ message RegionalMasterSpec {
 
   // Specification of parameters for external IPv6 networking.
   ExternalAddressSpec external_v6_address_spec = 4;
-}
-
-message InternalAddressSpec {
-  // ID of the subnet. If no ID is specified, and there only one subnet in specified zone, an address in this subnet will be allocated.
-  string subnet_id = 2;
-}
-
-message ExternalAddressSpec {
-  // IP address.
-  string address = 1;
 }
 
 message MasterLocation {
@@ -565,27 +593,13 @@ message LocationSpec {
 message RescheduleMaintenanceRequest {
   // ID of the Kubernetes cluster to reschedule maintenance.
   string cluster_id = 1 [(required) = true];
+
   // Time until which the update should be postponed.
   google.protobuf.Timestamp delayed_until = 2 [(required) = true];
 }
 
 message RescheduleMaintenanceMetadata {
   string cluster_id = 1;
-}
-
-message MasterScalePolicySpec {
-  reserved 1; // Previously used by fixed scale policy, now deprecated.
-
-  oneof scale_type {
-    option (exactly_one) = true;
-    AutoScale auto_scale = 2;
-  }
-
-  // Scalable master instance resources.
-  message AutoScale {
-    // Preset of computing resources to be used as lower boundary for scaling.
-    string min_resource_preset_id = 1 [(required) = true];
-  }
 }
 
 message WorkloadIdentityFederationSpec {

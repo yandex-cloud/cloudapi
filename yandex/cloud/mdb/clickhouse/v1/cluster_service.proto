@@ -538,7 +538,7 @@ message CreateClusterRequest {
   repeated HostSpec host_specs = 9 [(size) = ">0"];
 
   // ID of the network to create the cluster in.
-  string network_id = 10 [(length) = "<=50"];
+  string network_id = 10 [(length) = "<=100"];
 
   // Name of the first shard in cluster. If not set, defaults to the value 'shard1'.
   string shard_name = 11 [
@@ -620,7 +620,7 @@ message UpdateClusterRequest {
   bool deletion_protection = 10;
 
   // ID of the network to move the cluster to.
-  string network_id = 11 [(length) = "<=50"];
+  string network_id = 11 [(length) = "<=100"];
 
   // Allows or denies re-creation of replicas during update of cluster configuration. The option must be enabled for
   // configuration changes including disk type change.
@@ -779,7 +779,7 @@ message RestoreClusterRequest {
   repeated HostSpec host_specs = 7;
 
   // ID of the network to create the ClickHouse cluster in.
-  string network_id = 8 [(length) = "<=50"];
+  string network_id = 8 [(length) = "<=100"];
 
   // ID of the folder to create the ClickHouse cluster in.
   string folder_id = 9 [(length) = "<=50"];

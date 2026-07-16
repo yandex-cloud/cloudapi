@@ -36,4 +36,13 @@ message AuditLog {
 
   // Enables snapshots and repositories requests logging.
   google.protobuf.BoolValue log_backup_operations = 8;
+
+  // Enables logging of successfully authenticated REST requests.
+  google.protobuf.BoolValue log_authenticated_requests = 9;
+
+  // Enables logging of index-level events, such as creating or deleting an index.
+  google.protobuf.BoolValue log_index_events = 10;
+
+  // Enables logging of REST requests containing bad or spoofed security headers.
+  google.protobuf.BoolValue log_bad_headers = 11;
 }

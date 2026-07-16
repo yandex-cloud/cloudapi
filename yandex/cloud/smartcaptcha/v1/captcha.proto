@@ -246,6 +246,15 @@ message CaptchaSecretKey {
   string server_key = 1;
 }
 
+// CaptchaKeys object. Contains captcha keys.
+message CaptchaKeys {
+  // Client key of the captcha, see [CAPTCHA keys](/docs/smartcaptcha/concepts/keys).
+  string client_key = 1;
+
+  // Server key of the captcha, see [CAPTCHA keys](/docs/smartcaptcha/concepts/keys).
+  string server_key = 2;
+}
+
 // Captcha's complexity.
 enum CaptchaComplexity {
   CAPTCHA_COMPLEXITY_UNSPECIFIED = 0;

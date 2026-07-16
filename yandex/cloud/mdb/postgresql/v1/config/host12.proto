@@ -181,7 +181,7 @@ message PostgresqlHostConfig12 {
 
   google.protobuf.Int64Value backend_flush_after = 6 [(value) = "0-2048"];
 
-  google.protobuf.Int64Value old_snapshot_threshold = 7 [(value) = "-1-86400"];
+  google.protobuf.Int64Value old_snapshot_threshold = 7 [(value) = "-1-86400000"]; // in milliseconds.
 
   google.protobuf.Int64Value max_standby_streaming_delay = 8; // in milliseconds.
 

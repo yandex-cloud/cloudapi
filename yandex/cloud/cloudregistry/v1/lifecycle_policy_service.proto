@@ -84,6 +84,7 @@ service LifecyclePolicyService {
       post: "/cloud-registry/v1/lifecyclePolicies/{policy_id}:dryRun"
     };
   };
+
 }
 
 message CreateLifecyclePolicyRequest {
