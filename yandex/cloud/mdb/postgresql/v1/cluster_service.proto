@@ -373,8 +373,8 @@ message CreateClusterRequest {
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 14;
 
-  // Backup long-term retention policies setting.
-  repeated yandex.cloud.mdb.v1.BackupRetentionPolicySpec retention_policies = 15;
+  // Deprecated. Use yandex.cloud.mdb.postgresql.v1.BackupRetentionPolicyService.Create to create retention policies instead.
+  repeated yandex.cloud.mdb.v1.BackupRetentionPolicySpec retention_policies = 15 [deprecated = true];
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 16;

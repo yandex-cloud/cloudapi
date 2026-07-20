@@ -39,6 +39,13 @@ service SynchronizationService {
     };
   };
 
+  // Returns the replication token for synchronization.
+  rpc GetReplicationToken(GetReplicationTokenRequest) returns (GetReplicationTokenResponse) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/idp/replication-token"
+    };
+  };
+
   // Creates synchronization settings for a subject container.
   rpc CreateSynchronizationSettings(CreateSynchronizationSettingsRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -288,4 +295,22 @@ message ResetReplicationTokenRequest {
 message ResetReplicationTokenMetadata {
   // ID of the subject container.
   string subject_container_id = 1;
+}
+
+// Request to get the replication token.
+message GetReplicationTokenRequest {
+  // ID of the subject container.
+  string subject_container_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Type of synchronization session.
+  SessionType session_type = 2 [(required) = true];
+}
+
+// Response message for [SynchronizationService.GetReplicationToken].
+message GetReplicationTokenResponse {
+  // Replication token value.
+  string replication_token = 1;
 }

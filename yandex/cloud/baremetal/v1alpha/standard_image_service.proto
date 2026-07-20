@@ -25,6 +25,7 @@ service StandardImageService {
       get: "/baremetal/v1alpha/standardImages"
     };
   };
+
 }
 
 message GetStandardImageRequest {

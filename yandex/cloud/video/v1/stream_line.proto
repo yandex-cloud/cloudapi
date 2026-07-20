@@ -20,7 +20,7 @@ message StreamLine {
   // Title of the stream line.
   string title = 3;
 
-  // Specifies which input source (main or backup) is selected for processing.
+  // Specifies which input source (main or backup) is currently active.
   LineInputSource input_source = 18;
   // Specifies the input type and settings for the video signal source.
   oneof input_type {
