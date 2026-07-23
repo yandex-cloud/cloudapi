@@ -125,6 +125,20 @@ service EpisodeService {
     };
   };
 
+  // Starts preparing the episode for download.
+  // This allows downloading the episode as a single file.
+  // The URL to the video file expires at the time specified in DownloadableEpisodePayload.expires_at.
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
+  rpc Download(DownloadEpisodeRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DownloadEpisodeMetadata"
+      response: "DownloadableEpisodePayload"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/video/v1/episodes/{episode_id}:download"
+    };
+  };
 }
 
 message GetEpisodeRequest {
@@ -465,4 +479,28 @@ message GetEpisodeManifestsResponse {
   // List of manifests available for the episode.
   // Different manifests may represent different streaming formats (e.g., HLS, DASH)
   repeated Manifest manifests = 1;
+}
+
+message DownloadEpisodeRequest {
+  // ID of the episode to download.
+  // The episode must be associated with a finished stream.
+  string episode_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+// Represents the metadata of a started download operation for an episode.
+message DownloadEpisodeMetadata {
+  // ID of the episode.
+  string episode_id = 1;
+}
+
+// Represents the payload of a finished download operation for an episode.
+message DownloadableEpisodePayload {
+  // Time-limited URL for downloading episode.
+  string download_url = 1;
+
+  // URL expiration time.
+  google.protobuf.Timestamp expires_at = 2;
 }

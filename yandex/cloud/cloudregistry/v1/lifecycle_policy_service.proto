@@ -85,6 +85,26 @@ service LifecyclePolicyService {
     };
   };
 
+  // Returns one dry run result by its ID.
+  rpc GetDryRunResult(GetDryRunLifecyclePolicyResultRequest) returns (DryRunLifecyclePolicyResponse) {
+    option (google.api.http) = {
+      get: "/cloud-registry/v1/lifecyclePolicyDryRunResults/{dry_run_id}"
+    };
+  };
+
+  // Returns the list of dry run results of one lifecycle policy.
+  rpc ListDryRunResults(ListDryRunLifecyclePolicyResultsRequest) returns (ListDryRunLifecyclePolicyResultsResponse) {
+    option (google.api.http) = {
+      get: "/cloud-registry/v1/lifecyclePolicyDryRunResults"
+    };
+  };
+
+  // Returns the list of artifacts that the dry run would delete.
+  rpc ListDryRunArtifacts(ListDryRunLifecyclePolicyArtifactsRequest) returns (ListDryRunLifecyclePolicyArtifactsResponse) {
+    option (google.api.http) = {
+      get: "/cloud-registry/v1/lifecyclePolicyDryRunResults/{dry_run_id}:artifacts"
+    };
+  };
 }
 
 message CreateLifecyclePolicyRequest {
@@ -223,4 +243,126 @@ message DryRunLifecyclePolicyResponse {
 
   // Count of artifacts to be soft deleted.
   int64 artifacts_to_soft_delete_count = 4;
+
+  // ID of this dry run. Use it to get this result again later.
+  string dry_run_id = 5;
+
+  // Copy of the policy rules at the time of the dry run.
+  repeated LifecycleRule policy_snapshot = 6;
+}
+
+message GetDryRunLifecyclePolicyResultRequest {
+  // ID of the dry run.
+  string dry_run_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message ListDryRunLifecyclePolicyResultsRequest {
+  // ID of the lifecycle policy.
+  string policy_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // The maximum number of results per page to return.
+  int64 page_size = 2 [(value) = "<=1000"];
+
+  // Page token. To get the next page of results, set page_token to the
+  // ListDryRunLifecyclePolicyResultsResponse.next_page_token returned by a previous list request.
+  string page_token = 3 [(length) = "<=1000"];
+
+  // Return dry run results run at this time or later.
+  google.protobuf.Timestamp run_after = 4;
+
+  // Return dry run results run before this time.
+  google.protobuf.Timestamp run_before = 5;
+
+  // Sort order. Comma-separated "field [asc|desc]", e.g. "run_at desc".
+  // Valid fields: run_at.
+  // Defaults to "run_at desc" when empty.
+  string order_by = 6 [(length) = "<=256"];
+}
+
+message ListDryRunLifecyclePolicyResultsResponse {
+  // List of dry run results.
+  repeated DryRunLifecyclePolicyResponse results = 1;
+
+  // This token allows you to get the next page of results for list requests.
+  string next_page_token = 2;
+}
+
+message ListDryRunLifecyclePolicyArtifactsRequest {
+  // ID of the dry run.
+  string dry_run_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // The maximum number of results per page to return.
+  int64 page_size = 2 [(value) = "<=1000"];
+
+  // Page token. To get the next page of results, set page_token to the
+  // ListDryRunLifecyclePolicyArtifactsResponse.next_page_token returned by a previous list request.
+  string page_token = 3 [(length) = "<=1000"];
+
+  // Filter by artifact path.
+  // The expression must specify:
+  // 1. The field path
+  // 2. An operator: =, !=.
+  // 3. The value in double quotes.
+  // Examples:
+  // path = "pool/main/all"
+  // path != "pool/main/all"
+  // No regular expressions allowed.
+  string path_filter = 4 [(length) = "<=1000"];
+
+  // Filter by artifact version.
+  // The expression must specify:
+  // 1. The field version
+  // 2. An operator: =, !=.
+  // 3. The value in double quotes.
+  // Examples:
+  // version = "latest"
+  // version != "latest"
+  // No regular expressions allowed.
+  string version_filter = 5 [(length) = "<=1000"];
+
+  // Sort order. Comma-separated "field [asc|desc]", e.g. "path desc".
+  // Valid fields: path.
+  // Defaults to "path asc" when empty.
+  string order_by = 6 [(length) = "<=256"];
+}
+
+message ListDryRunLifecyclePolicyArtifactsResponse {
+  // List of artifacts that the dry run would delete.
+  repeated AffectedArtifact artifacts = 1;
+
+  // This token allows you to get the next page of results for list requests.
+  string next_page_token = 2;
+}
+
+// One artifact that a dry run would delete.
+message AffectedArtifact {
+  // Full path of the artifact, for example /library/ubuntu/latest.
+  string path = 1;
+
+  // Version of the artifact. The backend does not store it.
+  // The backend takes the part of the path after the last "/", for example latest.
+  string version = 2;
+
+  // ID of the artifact.
+  string artifact_id = 3;
+
+  // Rule that would delete this artifact.
+  TriggeredRule affected_by = 4;
+  // Rule that matched the artifact during the dry run.
+  message TriggeredRule {
+    // Type of the rule that matched.
+    LifecycleRuleType rule_type = 1;
+
+    // Index of the rule in the policy rules snapshot (policy_snapshot) of this dry run.
+    int64 rule_index = 2;
+  }
 }

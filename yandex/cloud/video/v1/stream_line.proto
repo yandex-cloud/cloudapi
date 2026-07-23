@@ -70,6 +70,9 @@ message PushStreamKey {
 message RTMPPushInput {
   // RTMP server url.
   string url = 1;
+
+  // RTMP server URL for the signal identified by the backup stream key.
+  string backup_url = 2;
 }
 
 // Settings for an RTMP pull input.

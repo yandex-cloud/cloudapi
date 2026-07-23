@@ -161,6 +161,20 @@ enum DeleteLifecycleRuleKind {
   SOFT_DELETE = 2;
 }
 
+// What a lifecycle rule does with an artifact.
+enum LifecycleRuleType {
+  LIFECYCLE_RULE_TYPE_UNSPECIFIED = 0;
+
+  // Hard delete. The artifact is removed for good and can not be restored.
+  LIFECYCLE_RULE_TYPE_HARD_DELETE = 1;
+
+  // Soft delete. The artifact is marked for deletion but can be restored.
+  LIFECYCLE_RULE_TYPE_SOFT_DELETE = 2;
+
+  // Retain. The artifact is kept.
+  LIFECYCLE_RULE_TYPE_RETAIN = 3;
+}
+
 // State of the lifecycle policy.
 enum LifecyclePolicyState {
   LIFECYCLE_POLICY_STATE_UNSPECIFIED = 0;

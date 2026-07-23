@@ -448,6 +448,18 @@ message MongosConfig {
     string filter = 1;
   }
 
+  message OperationProfiling {
+    // The slow operation time threshold, in milliseconds. Operations that run
+    // for longer than this threshold are considered slow, and are written to the
+    // diagnostic (slow query) log. mongos has no profiler, so only the diagnostic
+    // log is affected.
+    google.protobuf.Int64Value slow_op_threshold = 1 [(value) = ">0"];
+
+    // The fraction of slow operations that should be logged.
+    // operationProfiling.slowOpSampleRate accepts values between 0 and 1, inclusive.
+    google.protobuf.DoubleValue slow_op_sample_rate = 2 [(value) = "0-1"];
+  }
+
   // Network settings for mongos.
   Network net = 3;
 
@@ -459,6 +471,9 @@ message MongosConfig {
 
   // `ChunkSize` parameter of mongos configuration.
   google.protobuf.Int64Value chunk_size = 6;
+
+  // `OperationProfiling` section of mongos configuration.
+  OperationProfiling operation_profiling = 7;
 }
 
 message MongodConfigSet {

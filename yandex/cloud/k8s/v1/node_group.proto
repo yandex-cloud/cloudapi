@@ -3,7 +3,6 @@ syntax = "proto3";
 package yandex.cloud.k8s.v1;
 
 import "google/protobuf/timestamp.proto";
-
 import "yandex/cloud/k8s/v1/maintenance.proto";
 import "yandex/cloud/k8s/v1/node.proto";
 import "yandex/cloud/k8s/v1/version.proto";
@@ -89,23 +88,23 @@ message NodeGroup {
   repeated string allowed_unsafe_sysctls = 15;
 
   // Taints that are applied to the nodes of the node group at creation time.
-  //
   // **The `nodeTaints` field is not supported for the [yandex.cloud.k8s.v1.NodeGroupService.Update] request.**
   repeated Taint node_taints = 16;
 
   // Labels that are assigned to the nodes of the node group at creation time.
   map<string, string> node_labels = 17;
 
-  // User-defined variables for templating.
-  repeated Variable variables = 20;
-
   // Workload Identity Federation parameters of the node group.
   NodeGroupWorkloadIdentityFederation workload_identity_federation = 19;
+
+  // User-defined variables for templating.
+  repeated Variable variables = 20;
 }
 
 message ScalePolicy {
   oneof scale_type {
     option (exactly_one) = true;
+
     // Fixed scale policy of the node group.
     FixedScale fixed_scale = 1;
 
@@ -121,8 +120,10 @@ message ScalePolicy {
   message AutoScale {
     // Minimum number of nodes in the node group.
     int64 min_size = 1 [(value) = ">=0"];
+
     // Maximum number of nodes in the node group.
     int64 max_size = 2 [(value) = ">=0"];
+
     // Initial number of nodes in the node group.
     int64 initial_size = 3 [(value) = ">=0"];
   }
@@ -168,18 +169,21 @@ message DeployPolicy {
   int64 max_expansion = 2 [(value) = "0-100"];
 }
 
-// Variable is a user-defined key-value pair used for templating.
-message Variable {
-  // Variable name.
-  // Must be unique within the node group.
-  string key = 1 [(length) = "1-128", (pattern) = "[a-zA-Z0-9._-]*"];
-
-  // Variable value.
-  string value = 2 [(length) = "<=262144"];
-}
-
 // NodeGroupWorkloadIdentityFederation contains configuration for Workload Identity Federation.
 message NodeGroupWorkloadIdentityFederation {
   // Identifies whether Workload Identity Federation is enabled.
   bool enabled = 1;
+}
+
+// Variable is a user-defined key-value pair used for templating.
+message Variable {
+  // Variable name.
+  // Must be unique within the node group.
+  string key = 1 [
+    (length) = "1-128",
+    (pattern) = "[a-zA-Z0-9._-]*"
+  ];
+
+  // Variable value.
+  string value = 2 [(length) = "<=262144"];
 }

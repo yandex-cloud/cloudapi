@@ -171,7 +171,7 @@ message ListAsymmetricSignatureKeysRequest {
 
   // Page token. To get the next page of results, set [page_token] to the
   // [ListAsymmetricSignatureKeysResponse.next_page_token] returned by a previous list request.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=256"];
 }
 
 message ListAsymmetricSignatureKeysResponse {
