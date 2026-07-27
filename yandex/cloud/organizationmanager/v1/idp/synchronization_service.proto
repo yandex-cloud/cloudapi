@@ -130,6 +130,9 @@ message CreateSynchronizationSettingsRequest {
 
   // Enables password writeback feature.
   bool enable_password_writeback = 10;
+
+  // Settings for generic LDAP source. Empty for Active Directory source.
+  CreateLdapSettingsRequest ldap_settings = 11;
 }
 
 // Metadata for the [SynchronizationService.CreateSynchronizationSettings] operation.
@@ -175,12 +178,108 @@ message UpdateSynchronizationSettingsRequest {
 
   // Enables password writeback feature.
   bool enable_password_writeback = 11;
+
+  // Settings for generic LDAP source. Empty for Active Directory source.
+  UpdateLdapSettingsRequest ldap_settings = 12;
 }
 
 // Metadata for the [SynchronizationService.UpdateSynchronizationSettings] operation.
 message UpdateSynchronizationSettingsMetadata {
   // ID of the subject container.
   string subject_container_id = 1;
+}
+
+// All fields must be provided to set up generic LDAP source.
+message CreateLdapSettingsRequest {
+  // Name of the LDAP attribute that holds the unique entry identifier.
+  string external_id_attribute = 1 [
+    (length) = "1-256",
+    (required) = true
+  ];
+
+  // Name of the LDAP attribute that holds the DN of the entry.
+  string dn_attribute = 2 [
+    (length) = "1-256",
+    (required) = true
+  ];
+
+  // ObjectClass of users.
+  string user_object_class = 3 [
+    (length) = "1-256",
+    (required) = true
+  ];
+
+  // ObjectClass of groups.
+  string group_object_class = 4 [
+    (length) = "1-256",
+    (required) = true
+  ];
+
+  // Name of the LDAP attribute that stores the account status.
+  string account_disabled_attribute = 5 [
+    (length) = "1-256",
+    (required) = true
+  ];
+
+  // Value of `account_disabled_attribute` meaning the account is disabled.
+  string account_disabled_value = 6 [
+    (length) = "1-256",
+    (required) = true
+  ];
+
+  // Value of `account_disabled_attribute` meaning the account is enabled.
+  string account_enabled_value = 7 [
+    (length) = "1-256",
+    (required) = true
+  ];
+
+  // Name of the LDAP attribute the agent writes the new password to during
+  // password writeback.
+  string password_attribute = 8 [
+    (length) = "1-256",
+    (required) = true
+  ];
+
+  // Delta synchronization mode.
+  LdapDeltaSyncMode delta_sync_mode = 9 [(required) = true];
+
+  // Enables the AD-extension matching rule
+  // 1.2.840.113556.1.4.1941 for the group-DN membership filter.
+  bool use_recursive_membership_filter = 10;
+}
+
+message UpdateLdapSettingsRequest {
+  // Name of the LDAP attribute that holds the unique entry identifier.
+  string external_id_attribute = 1 [(length) = "<=256"];
+
+  // Name of the LDAP attribute that holds the DN of the entry.
+  string dn_attribute = 2 [(length) = "<=256"];
+
+  // ObjectClass of users.
+  string user_object_class = 3 [(length) = "<=256"];
+
+  // ObjectClass of groups.
+  string group_object_class = 4 [(length) = "<=256"];
+
+  // Name of the LDAP attribute that stores the account status.
+  string account_disabled_attribute = 5 [(length) = "<=256"];
+
+  // Value of `account_disabled_attribute` meaning the account is disabled.
+  string account_disabled_value = 6 [(length) = "<=256"];
+
+  // Value of `account_disabled_attribute` meaning the account is enabled.
+  string account_enabled_value = 7 [(length) = "<=256"];
+
+  // Name of the LDAP attribute the agent writes the new password to during
+  // password writeback.
+  string password_attribute = 8 [(length) = "<=256"];
+
+  // Delta synchronization mode.
+  LdapDeltaSyncMode delta_sync_mode = 9;
+
+  // Enables the AD-extension matching rule
+  // 1.2.840.113556.1.4.1941 for the group-DN membership filter.
+  bool use_recursive_membership_filter = 10;
 }
 
 // Request to delete synchronization settings.
@@ -214,6 +313,9 @@ enum AttributesFlavor {
 
   // Active Directory attributes.
   ACTIVE_DIRECTORY = 1;
+
+  // Generic LDAP attributes.
+  GENERIC_LDAP = 2;
 }
 
 // Request to list supported attributes.

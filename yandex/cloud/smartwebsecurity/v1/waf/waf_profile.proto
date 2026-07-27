@@ -152,8 +152,6 @@ message WafProfile {
   }
 
   oneof rule_set {
-    option (exactly_one) = true;
-
     // The parameter is deprecated. Core rule set settings.
     CoreRuleSet core_rule_set = 11 [deprecated = true];
   }

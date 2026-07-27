@@ -105,6 +105,25 @@ message Resource {
 
   // Type of the service instance this resource is bound to (e.g. "cloud", "tracker", "datalens").
   string service_instance_type = 3;
+
+  // Additional resource metadata.
+  // Absent if the metadata could not be resolved for this resource.
+  ResourceMeta meta = 4;
+}
+
+// Additional metadata about a resource.
+message ResourceMeta {
+  // ID of the Yandex.Cloud service that owns the resource (e.g. "compute", "managed-mysql").
+  string service = 1;
+
+  // Type of the resource in terms of its owning service (e.g. "compute.disk", "mdb.cluster").
+  string resource_type = 2;
+
+  // ID of the cloud the resource belongs to.
+  string cloud_id = 3;
+
+  // ID of the folder the resource belongs to.
+  string folder_id = 4;
 }
 
 // Represents a key-value label pair attached to resources for custom metadata tagging.

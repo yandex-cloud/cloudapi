@@ -43,6 +43,55 @@ message SynchronizationSettings {
 
   // Enables password writeback feature.
   bool enable_password_writeback = 11;
+
+  // Settings for generic LDAP synchronization source.
+  //
+  // Empty for Active Directory source. Required and fully populated for
+  // generic LDAP source.
+  LdapSettings ldap_settings = 12;
+}
+
+// Settings for generic LDAP synchronization source.
+message LdapSettings {
+  // Name of the LDAP attribute that holds the unique entry identifier.
+  string external_id_attribute = 1;
+
+  // Name of the LDAP attribute that holds the DN of the entry.
+  string dn_attribute = 2;
+
+  // ObjectClass of users.
+  string user_object_class = 3;
+
+  // ObjectClass of groups.
+  string group_object_class = 4;
+
+  // Name of the LDAP attribute that stores the account status.
+  string account_disabled_attribute = 5;
+
+  // Value of `account_disabled_attribute` meaning the account is disabled.
+  string account_disabled_value = 6;
+
+  // Value of `account_disabled_attribute` meaning the account is enabled.
+  string account_enabled_value = 7;
+
+  // Name of the LDAP attribute the agent writes the new password to during
+  // password writeback.
+  string password_attribute = 8;
+
+  // Delta synchronization mode.
+  LdapDeltaSyncMode delta_sync_mode = 9;
+
+  // Enables the AD-extension matching rule
+  // 1.2.840.113556.1.4.1941 for the group-DN membership filter.
+  bool use_recursive_membership_filter = 10;
+}
+
+// Delta synchronization mode for generic LDAP source.
+enum LdapDeltaSyncMode {
+  LDAP_DELTA_SYNC_MODE_UNSPECIFIED = 0;
+
+  // Every run is a full sync; no replication token is used.
+  LDAP_DELTA_SYNC_MODE_FULL_SYNC = 1;
 }
 
 // Filter configuration for synchronization.
@@ -100,6 +149,9 @@ enum MappingType {
 
   // Empty mapping (no source attribute).
   EMPTY = 2;
+
+  // Direct mapping from an arbitrary `source` attribute
+  DIRECT_ARBITRARY_ATTRIBUTE = 3;
 }
 
 // Target attributes for user mapping.
@@ -175,4 +227,7 @@ enum SessionType {
 
   // Active Directory user control session.
   AD_USER_CONTROL = 3;
+
+  // Generic LDAP synchronization session.
+  LDAP_SYNC = 4;
 }

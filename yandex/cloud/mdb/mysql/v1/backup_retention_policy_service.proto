@@ -129,7 +129,7 @@ message CreateBackupRetentionPolicyRequest {
   yandex.cloud.mdb.v1.CronTab cron = 2;
 
   // Retention duration.
-  int64 retain_for_days = 3;
+  int64 retain_for_days = 3 [(value) = "7-1095"];
 
   // Policy description.
   string description = 4;

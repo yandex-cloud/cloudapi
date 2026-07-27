@@ -32,6 +32,20 @@ service ImageService {
       get: "/baremetal/v2/folders/{folder_id}/images"
     };
   };
+
+  // Resolves the latest published Image for each available family within the specified folder.
+  // Returns one Image per family - the most recently published one.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1705::http-method-mapping=disabled
+  // https://google.aip.dev/130 --)
+  rpc ResolveImages(ResolveImagesRequest) returns (ResolveImagesResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/folders/{folder_id}/images:resolveImages"
+    };
+  };
 }
 
 message GetImageRequest {
@@ -91,6 +105,45 @@ message ListImagesResponse {
   // Token for getting the next page of the list. If the number of results is greater than
   // [ListImagesRequest.page_size], use `next_page_token` as the value
   // for the [ListImagesRequest.page_token] parameter in the next list request.
+  // Each subsequent page will have its own `next_page_token` to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message ResolveImagesRequest {
+  // ID of the parent folder. "baremetal-standard-images" folder contains general images and used by default
+  //
+  // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
+  string folder_id = 1 [(google.api.field_behavior) = OPTIONAL];
+
+  // The maximum number of results per page to return. If the number of available
+  // results is greater than `page_size`,
+  // the service returns a [ResolveImagesResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent resolve requests.
+  // Default value is 20.
+  int64 page_size = 2 [
+    (google.api.field_behavior) = OPTIONAL,
+    (value) = "<=1000"
+  ];
+
+  // Page token. To get the next page of results, set `page_token` to the
+  // [ResolveImagesResponse.next_page_token] returned by a previous resolve request.
+  string page_token = 3 [(google.api.field_behavior) = OPTIONAL];
+
+  // Sorting order for the listing. Follows the [AIP-132](https://google.aip.dev/132) `order_by` format:
+  // `"field [asc|desc]"`, e.g. `"family desc"`.
+  //
+  // Supported fields: `family`, `imageId`, `createTime`.
+  // Default order: `family asc`.
+  string order_by = 4;
+}
+
+message ResolveImagesResponse {
+  // List of resolved Image resources - one per family, the most recently published.
+  repeated Image images = 1;
+
+  // Token for getting the next page of the list. If the number of results is greater than
+  // [ResolveImagesRequest.page_size], use `next_page_token` as the value
+  // for the [ResolveImagesRequest.page_token] parameter in the next resolve request.
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
 }

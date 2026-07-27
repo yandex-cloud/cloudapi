@@ -294,10 +294,18 @@ message Host {
   }
 
   enum ReplicaType {
-    REPLICA_TYPE_UNKNOWN = 0; // Replica type is unknown (we have no data) or it's master
-    ASYNC = 1;
-    SYNC = 2;
-    QUORUM = 3;
+    
+    // Replica type is unknown (we have no data) or it's master
+    REPLICA_TYPE_UNKNOWN  = 0;
+
+    // The replica uses asynchronous replication.
+    ASYNC                 = 1;
+    
+    // The replica is a synchronous standby in priority-based synchronous replication.
+    SYNC                  = 2;
+
+    // The replica participates in quorum-based synchronous replication.
+    QUORUM                = 3;
   }
 
   enum Health {
@@ -362,6 +370,8 @@ message Host {
   // Flag showing public IP assignment status to this host.
   bool assign_public_ip = 12;
 
+  // ReplicaType represents the current synchronization state of a PostgreSQL replica
+  // as reported by the primary host.
   ReplicaType replica_type = 13;
 }
 
@@ -491,6 +501,8 @@ message PerformanceDiagnostics {
   int64 sessions_sampling_interval = 2 [(value) = "1-86400"];
   // Interval (in seconds) for pg_stat_statements sampling
   int64 statements_sampling_interval = 3 [(value) = "1-86400"];
+  // Switches performance diagnostics from standard to advanced mode.
+  bool advanced_mode = 4;
 }
 
 // Cluster-wide configuration of managed pg_repack.
