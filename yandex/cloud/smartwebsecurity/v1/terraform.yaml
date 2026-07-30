@@ -12,15 +12,9 @@ data_sources:
     rename: yandex_sws_waf_rule_set_descriptor
 
 model_config:
-  use_list_for_struct:
-    - yandex_smartwebsecurity_advanced_rate_limiter_advanced_rate_limiter_profile
-    - yandex_smartwebsecurity_security_profile
-    - yandex_smartwebsecurity_waf_waf_profile
-    - yandex_smartwebsecurity_waf_rule_set_descriptor
-    - yandex_smartwebsecurity_match_list_match_list
   datasource_with_resolver:
-    - yandex_smartwebsecurity_advanced_rate_limiter_advanced_rate_limiter_profile
     - yandex_smartwebsecurity_security_profile
+    - yandex_smartwebsecurity_advanced_rate_limiter_advanced_rate_limiter_profile
     - yandex_smartwebsecurity_waf_waf_profile
     - yandex_smartwebsecurity_waf_rule_set_descriptor
     - yandex_smartwebsecurity_match_list_match_list
@@ -102,6 +96,8 @@ model_config:
   options:
     yandex.cloud.smartwebsecurity.v1.CreateSecurityProfileRequest.folder_id:
       force_new: true
+    yandex.cloud.smartwebsecurity.v1.SecurityProfile.created_at:
+      use_state_for_unknown: true
     yandex.cloud.smartwebsecurity.v1.advanced_rate_limiter.CreateAdvancedRateLimiterProfileRequest.folder_id:
       force_new: true
     yandex.cloud.smartwebsecurity.v1.waf.CreateWafProfileRequest.folder_id:

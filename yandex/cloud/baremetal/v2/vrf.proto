@@ -102,3 +102,11 @@ message StaticRoute {
   // Redistribution type.
   RedistributionType redistribution_type = 3 [(google.api.field_behavior) = REQUIRED];
 }
+
+message VrfPeeringParams {
+  // ID of the VRF peering created for.
+  string vrf_id = 1 [
+    (google.api.field_behavior) = IDENTIFIER,
+    (google.api.field_behavior) = OUTPUT_ONLY
+  ];
+}

@@ -17,59 +17,69 @@ option java_package = "yandex.cloud.api.k8s.v1";
 // A set of methods for managing node groups.
 service NodeGroupService {
   // Returns the specified node group.
-  //
   // To get the list of available node group, make a [List] request.
   rpc Get(GetNodeGroupRequest) returns (NodeGroup) {
-    option (google.api.http) = {get: "/managed-kubernetes/v1/nodeGroups/{node_group_id}"};
-  }
+    option (google.api.http) = {
+      get: "/managed-kubernetes/v1/nodeGroups/{node_group_id}"
+    };
+  };
 
   // Retrieves the list of node group in the specified Kubernetes cluster.
   rpc List(ListNodeGroupsRequest) returns (ListNodeGroupsResponse) {
-    option (google.api.http) = {get: "/managed-kubernetes/v1/nodeGroups"};
-  }
-
-  // Creates a node group in the specified Kubernetes cluster.
-  rpc Create(CreateNodeGroupRequest) returns (operation.Operation) {
     option (google.api.http) = {
-      post: "/managed-kubernetes/v1/nodeGroups"
-      body: "*"
+      get: "/managed-kubernetes/v1/nodeGroups"
     };
-    option (yandex.cloud.api.operation) = {
-      metadata: "CreateNodeGroupMetadata"
-      response: "NodeGroup"
-    };
-  }
-
-  // Updates the specified node group.
-  rpc Update(UpdateNodeGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = {
-      patch: "/managed-kubernetes/v1/nodeGroups/{node_group_id}"
-      body: "*"
-    };
-    option (yandex.cloud.api.operation) = {
-      metadata: "UpdateNodeGroupMetadata"
-      response: "NodeGroup"
-    };
-  }
-
-  // Deletes the specified node group.
-  rpc Delete(DeleteNodeGroupRequest) returns (operation.Operation) {
-    option (google.api.http) = {delete: "/managed-kubernetes/v1/nodeGroups/{node_group_id}"};
-    option (yandex.cloud.api.operation) = {
-      metadata: "DeleteNodeGroupMetadata"
-      response: "google.protobuf.Empty"
-    };
-  }
-
-  // Lists operations for the specified node group.
-  rpc ListOperations(ListNodeGroupOperationsRequest) returns (ListNodeGroupOperationsResponse) {
-    option (google.api.http) = {get: "/managed-kubernetes/v1/nodeGroups/{node_group_id}/operations"};
-  }
+  };
 
   // Retrieves the list of nodes in the specified Kubernetes cluster.
   rpc ListNodes(ListNodeGroupNodesRequest) returns (ListNodeGroupNodesResponse) {
-    option (google.api.http) = {get: "/managed-kubernetes/v1/nodes"};
-  }
+    option (google.api.http) = {
+      get: "/managed-kubernetes/v1/nodes"
+    };
+  };
+
+  // Creates a node group in the specified Kubernetes cluster.
+  rpc Create(CreateNodeGroupRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreateNodeGroupMetadata"
+      response: "NodeGroup"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-kubernetes/v1/nodeGroups"
+    };
+  };
+
+  // Updates the specified node group.
+  rpc Update(UpdateNodeGroupRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdateNodeGroupMetadata"
+      response: "NodeGroup"
+    };
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-kubernetes/v1/nodeGroups/{node_group_id}"
+    };
+  };
+
+  // Deletes the specified node group.
+  rpc Delete(DeleteNodeGroupRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeleteNodeGroupMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      delete: "/managed-kubernetes/v1/nodeGroups/{node_group_id}"
+    };
+  };
+
+  // Lists operations for the specified node group.
+  rpc ListOperations(ListNodeGroupOperationsRequest) returns (ListNodeGroupOperationsResponse) {
+    option (google.api.http) = {
+      get: "/managed-kubernetes/v1/nodeGroups/{node_group_id}/operations"
+    };
+  };
+
 }
 
 message GetNodeGroupRequest {
@@ -158,6 +168,7 @@ message DeleteNodeGroupMetadata {
 
 message UpdateNodeGroupRequest {
   reserved 7;
+
   // ID of the node group to update.
   // To get the node group ID use a [NodeGroupService.List] request.
   string node_group_id = 1 [(required) = true];
@@ -173,14 +184,15 @@ message UpdateNodeGroupRequest {
   string description = 4 [(length) = "<=256"];
 
   // Resource labels as `key:value` pairs.
-  //
   // Existing set of `labels` is completely replaced by the provided set.
   map<string, string> labels = 5 [
-    (size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
+    },
     (pattern) = "[-_./\\@0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // Node template for the node group.
@@ -215,11 +227,11 @@ message UpdateNodeGroupRequest {
   // Labels that are assigned to the nodes of the node group at creation time.
   map<string, string> node_labels = 14;
 
-  // Variables for templating.
-  repeated Variable variables = 17;
-
   // Workload Identity Federation parameters of the node group.
   NodeGroupWorkloadIdentityFederation workload_identity_federation = 16;
+
+  // Variables for templating.
+  repeated Variable variables = 17;
 }
 
 message UpdateNodeGroupMetadata {
@@ -241,11 +253,13 @@ message CreateNodeGroupRequest {
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 4 [
-    (size) = "<=64",
     (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
+    },
     (pattern) = "[-_./\\@0-9a-z]*",
-    (map_key).length = "1-63",
-    (map_key).pattern = "[a-z][-_./\\@0-9a-z]*"
+    (size) = "<=64"
   ];
 
   // Node template for creating the node group.
@@ -279,11 +293,11 @@ message CreateNodeGroupRequest {
   // Labels that are assigned to the nodes of the node group at creation time.
   map<string, string> node_labels = 12;
 
-  // Variables for templating.
-  repeated Variable variables = 15;
-
   // Workload Identity Federation parameters of the node group.
   NodeGroupWorkloadIdentityFederation workload_identity_federation = 14;
+
+  // Variables for templating.
+  repeated Variable variables = 15;
 }
 
 message CreateNodeGroupMetadata {

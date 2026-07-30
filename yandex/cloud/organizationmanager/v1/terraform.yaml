@@ -30,6 +30,9 @@ iam_bindings:
   - name: yandex_organization_manager_organization
     rename: yandex_organizationmanager_organization
 
+iam_policy_bindings:
+  - name: yandex_organization_manager_organization
+
 model_config:
   custom_crud:
     yandex_organization_manager_mfa_enforcement:

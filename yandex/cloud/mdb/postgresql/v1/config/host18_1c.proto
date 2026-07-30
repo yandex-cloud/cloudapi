@@ -17,10 +17,11 @@ message PostgresqlHostConfig18_1C {
   reserved 52 to 53;
   reserved 70 to 72;
   enum BackslashQuote {
+    // Not specified.
     BACKSLASH_QUOTE_UNSPECIFIED = 0;
 
-   // Quotation mark can be represented as \' (same as on).
-    BACKSLASH_QUOTE = 1;
+    // Legacy invalid value. Do not use.
+    BACKSLASH_QUOTE = 1 [deprecated = true];
 
     // Quotation mark can be represented as \'.
     BACKSLASH_QUOTE_ON = 2;
@@ -33,6 +34,7 @@ message PostgresqlHostConfig18_1C {
   }
 
   enum ByteaOutput {
+    // Not specified.
     BYTEA_OUTPUT_UNSPECIFIED = 0;
 
     // Each byte is represented by two hexadecimal characters, e.g., 'SELECT '\xDEADBEEF';'.
@@ -43,6 +45,7 @@ message PostgresqlHostConfig18_1C {
   }
 
   enum ConstraintExclusion {
+    // Not specified.
     CONSTRAINT_EXCLUSION_UNSPECIFIED = 0;
 
     // Enable planner's use of constraints for all tables.
@@ -56,32 +59,37 @@ message PostgresqlHostConfig18_1C {
   }
 
   enum DebugParallelQuery {
+    // Not specified.
     DEBUG_PARALLEL_QUERY_UNSPECIFIED = 0;
 
-    // Force parallel query for all queries for which it is thought to be safe
+    // Forces parallel mode for queries considered safe, even when no performance benefit is expected.
     DEBUG_PARALLEL_QUERY_ON = 1;
 
-    // Use parallel mode only when it is expected to improve performance
+    // Uses parallel mode only when the planner expects it to improve performance.
     DEBUG_PARALLEL_QUERY_OFF = 2;
 
-    // Like ON, but with additional changes for regression testing (suppresses context lines, hides Gather nodes in EXPLAIN)
+    // Behaves like ON, but hides added Gather nodes in EXPLAIN output and
+    // suppresses parallel-worker context lines to stabilize regression-test output.
     DEBUG_PARALLEL_QUERY_REGRESS = 3;
   }
 
   enum ForceParallelMode {
+    // Not specified.
     FORCE_PARALLEL_MODE_UNSPECIFIED = 0;
 
-    // Force parallel mode for all queries that can be executed safely in parallel.
+    // Forces parallel mode for queries considered safe, even when no performance benefit is expected.
     FORCE_PARALLEL_MODE_ON = 1;
 
-    // Enable parallel mode only if it is expected to increase performance.
+    // Uses parallel mode only when the planner expects it to improve performance.
     FORCE_PARALLEL_MODE_OFF = 2;
 
-    // Equivalent to on, but generates output identical to the off state.
+    // Behaves like ON, but hides added Gather nodes in EXPLAIN output and
+    // suppresses parallel-worker context lines to stabilize regression-test output.
     FORCE_PARALLEL_MODE_REGRESS = 3;
   }
 
   enum LogErrorVerbosity {
+    // Not specified.
     LOG_ERROR_VERBOSITY_UNSPECIFIED = 0;
 
     // DETAIL, HINT, QUERY, and CONTEXT fields are excluded from the error message.
@@ -136,6 +144,7 @@ message PostgresqlHostConfig18_1C {
   }
 
   enum LogStatement {
+    // Not specified.
     LOG_STATEMENT_UNSPECIFIED = 0;
 
     // The filter is disabled, no SQL statements are logged.
@@ -152,6 +161,7 @@ message PostgresqlHostConfig18_1C {
   }
 
   enum TransactionIsolation {
+    // Not specified.
     TRANSACTION_ISOLATION_UNSPECIFIED = 0;
 
     // This level behaves like `TRANSACTION_ISOLATION_READ_COMMITTED` in PostgreSQL.
@@ -170,22 +180,24 @@ message PostgresqlHostConfig18_1C {
   }
 
   enum XmlBinary {
+    // Not specified.
     XML_BINARY_UNSPECIFIED = 0;
 
-    // Base64 encoding.
+    // Encodes binary values using Base64.
     XML_BINARY_BASE64 = 1;
 
-    // Hexadecimal encoding.
+    // Encodes binary values using hexadecimal notation.
     XML_BINARY_HEX = 2;
   }
 
   enum XmlOption {
+    // Not specified.
     XML_OPTION_UNSPECIFIED = 0;
 
-    // XML document.
+    // Treats an XML value as a complete, well-formed document.
     XML_OPTION_DOCUMENT = 1;
 
-    // XML fragment.
+    // Treats an XML value as a content fragment, which may contain multiple top-level elements or character nodes.
     XML_OPTION_CONTENT = 2;
   }
 
@@ -205,8 +217,8 @@ message PostgresqlHostConfig18_1C {
   // Limits the total size of all temporary files used by each process. -1 means no limit. In bytes.
   google.protobuf.Int64Value temp_file_limit = 5;
 
-  // Number of pages after which previously performed writes are flushed to disk. In bytes.
-  google.protobuf.Int64Value backend_flush_after = 6 [(value) = "0-2048"];
+  // Specifies how much data a backend can write before forcing the operating system to issue the writes. In bytes.
+  google.protobuf.Int64Value backend_flush_after = 6 [(value) = "0-2097152"];
 
   // Sets the maximum delay before canceling queries when a hot standby server is processing streamed WAL data. In milliseconds.
   google.protobuf.Int64Value max_standby_streaming_delay = 8;
@@ -339,10 +351,10 @@ message PostgresqlHostConfig18_1C {
   google.protobuf.BoolValue exit_on_error = 49;
 
   // Sets the planner's estimate of the cost of a sequentially fetched disk page.
-  google.protobuf.DoubleValue seq_page_cost = 50;
+  google.protobuf.DoubleValue seq_page_cost = 50 [(value) = ">=0"];
 
   // Sets the planner's estimate of the cost of a nonsequentially fetched disk page.
-  google.protobuf.DoubleValue random_page_cost = 51;
+  google.protobuf.DoubleValue random_page_cost = 51 [(value) = ">=0"];
 
   // Enables the planner's use of bitmap-scan plans.
   google.protobuf.BoolValue enable_bitmapscan = 54;
@@ -377,7 +389,7 @@ message PostgresqlHostConfig18_1C {
   // Enables the planner's use of TID scan plans.
   google.protobuf.BoolValue enable_tidscan = 64;
 
-  // Sets the maximum number of parallel processes per executor node.
+  // Sets the maximum number of parallel workers that can be active at one time.
   google.protobuf.Int64Value max_parallel_workers = 65 [(value) = "0-1024"];
 
   // Sets the maximum number of parallel processes per executor node.
@@ -389,10 +401,8 @@ message PostgresqlHostConfig18_1C {
   // Number of simultaneous requests that can be handled efficiently by the disk subsystem.
   google.protobuf.Int64Value effective_io_concurrency = 68 [(value) = "0-1000"];
 
-  // Sets the planner's assumption about the total size of the data caches. That is, the total
-  // size of the caches (kernel cache and shared buffers) used for PostgreSQL data files.
-  // This is measured in disk pages, which are normally 8 kB each.
-  google.protobuf.Int64Value effective_cache_size = 69 [(value) = "0-549755813888"];
+  // Sets the planner's assumption about the effective size of the disk cache available to a single query. In bytes.
+  google.protobuf.Int64Value effective_cache_size = 69 [(value) = "1048576-549755813888"];
 
   // Sets the maximum allowed idle time between queries, when not in a transaction. In milliseconds.
   google.protobuf.Int64Value idle_session_timeout = 73 [(value) = "0-2147483647"];

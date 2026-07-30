@@ -96,6 +96,7 @@ service VrfService {
     };
     option (google.api.method_signature) = "cloud_id,folder_id,vrf_id";
   };
+
 }
 
 message GetVrfRequest {
@@ -281,4 +282,14 @@ message ListVrfOperationsResponse {
   // for the [ListVrfOperationsRequest.page_token] parameter in the next list request.
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 2;
+}
+
+message MaterializeVrfPeeringMetadata {
+  // ID of the VRF resource the peering is being created for.
+  string vrf_id = 1;
+}
+
+message DematerializeVrfPeeringMetadata {
+  // ID of the VRF resource the peering is being deleted for.
+  string vrf_id = 1;
 }

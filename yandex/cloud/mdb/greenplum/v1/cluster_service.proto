@@ -5,6 +5,7 @@ package yandex.cloud.mdb.greenplum.v1;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/mdb/greenplum/v1/backup.proto";
@@ -853,8 +854,6 @@ message BackupClusterMetadata {
 }
 
 message RestoreClusterRequest {
-  reserved 14;
-
   // ID of the backup to create a cluster from.
   // To get the backup ID, use a [ClusterService.ListBackups] request.
   string backup_id = 1 [(required) = true];
@@ -947,6 +946,9 @@ message RestoreClusterRequest {
 
   // Service account that will be used to access a Yandex Cloud resources
   string service_account_id = 24;
+
+  // ID of the key to encrypt cluster disks.
+  google.protobuf.StringValue disk_encryption_key_id = 14;
 }
 
 message RestoreClusterMetadata {

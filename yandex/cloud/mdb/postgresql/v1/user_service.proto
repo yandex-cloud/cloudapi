@@ -153,6 +153,7 @@ message UpdateUserRequest {
   // Minimum value: `10` (default: `50`), when used in session pooling.
   int64 conn_limit = 6 [(value) = ">=10"];
 
+  // PostgreSQL settings for this user.
   UserSettings settings = 7;
 
   // This flag defines whether the user can login to a PostgreSQL database.

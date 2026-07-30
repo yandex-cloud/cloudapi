@@ -11,7 +11,10 @@ option java_package = "yandex.cloud.api.compute.v1";
 // These features significantly determine how the instance is created, thus cannot be changed after the fact.
 message HardwareGeneration {
   oneof features {
+    // A first hardware generation, by default compatible with all legacy images.
     LegacyHardwareFeatures legacy_features = 1;
+
+    // A second hardware generation, which by default assumes PCI_TOPOLOGY_V2 and UEFI boot.
     Generation2HardwareFeatures generation2_features = 2;
   }
 }
@@ -19,16 +22,29 @@ message HardwareGeneration {
 // A first hardware generation, by default compatible with all legacy images.
 // Allows switching to PCI_TOPOLOGY_V2 and back.
 message LegacyHardwareFeatures {
+  // PCI topology of the instance.
   PCITopology pci_topology = 1;
 }
 
 // A second hardware generation, which by default assumes PCI_TOPOLOGY_V2
 // and UEFI boot (with UEFI related features).
 message Generation2HardwareFeatures {
+  // ID of the secure boot template containing the UEFI key databases used to verify boot components.
+  // If empty, secure boot is disabled.
+  string secure_boot_template_id = 1;
+
+  // Whether the virtual Trusted Platform Module (vTPM) is enabled for the instance.
+  bool vtpm_enabled = 2;
 }
 
+// PCI topology of the instance.
 enum PCITopology {
+  // Unspecified PCI topology.
   PCI_TOPOLOGY_UNSPECIFIED = 0;
+
+  // Legacy PCI topology.
   PCI_TOPOLOGY_V1 = 1;
+
+  // Modern PCI topology.
   PCI_TOPOLOGY_V2 = 2;
 }

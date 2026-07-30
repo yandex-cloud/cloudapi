@@ -21,26 +21,28 @@ message PostgresqlConfig16 {
   reserved 169 to 172;
   reserved 176;
   enum AutoExplainLogFormat {
+    // Not specified.
     AUTO_EXPLAIN_LOG_FORMAT_UNSPECIFIED = 0;
 
-    // 'text' value for the EXPLAIN output format in auto_explain extension
+    // Formats logged execution plans as plain text.
     AUTO_EXPLAIN_LOG_FORMAT_TEXT = 1;
 
-    // 'xml' value for the EXPLAIN output format in auto_explain extension
+    // Formats logged execution plans as XML.
     AUTO_EXPLAIN_LOG_FORMAT_XML = 2;
 
-    // 'json' value for the EXPLAIN output format in auto_explain extension
+    // Formats logged execution plans as JSON.
     AUTO_EXPLAIN_LOG_FORMAT_JSON = 3;
 
-    // 'yaml' value for the EXPLAIN output format in auto_explain extension
+    // Formats logged execution plans as YAML.
     AUTO_EXPLAIN_LOG_FORMAT_YAML = 4;
   }
 
   enum BackslashQuote {
+    // Not specified.
     BACKSLASH_QUOTE_UNSPECIFIED = 0;
 
-   // Quotation mark can be represented as \' (same as on).
-    BACKSLASH_QUOTE = 1;
+    // Legacy invalid value. Do not use.
+    BACKSLASH_QUOTE = 1 [deprecated = true];
 
     // Quotation mark can be represented as \'.
     BACKSLASH_QUOTE_ON = 2;
@@ -53,6 +55,7 @@ message PostgresqlConfig16 {
   }
 
   enum ByteaOutput {
+    // Not specified.
     BYTEA_OUTPUT_UNSPECIFIED = 0;
 
     // Each byte is represented by two hexadecimal characters, e.g., 'SELECT '\xDEADBEEF';'.
@@ -63,6 +66,7 @@ message PostgresqlConfig16 {
   }
 
   enum ConstraintExclusion {
+    // Not specified.
     CONSTRAINT_EXCLUSION_UNSPECIFIED = 0;
 
     // Enable planner's use of constraints for all tables.
@@ -76,19 +80,22 @@ message PostgresqlConfig16 {
   }
 
   enum DebugParallelQuery {
+    // Not specified.
     DEBUG_PARALLEL_QUERY_UNSPECIFIED = 0;
 
-    // Force parallel query for all queries for which it is thought to be safe
+    // Forces parallel mode for queries considered safe, even when no performance benefit is expected.
     DEBUG_PARALLEL_QUERY_ON = 1;
 
-    // Use parallel mode only when it is expected to improve performance
+    // Uses parallel mode only when the planner expects it to improve performance.
     DEBUG_PARALLEL_QUERY_OFF = 2;
 
-    // Like ON, but with additional changes for regression testing (suppresses context lines, hides Gather nodes in EXPLAIN)
+    // Behaves like ON, but hides added Gather nodes in EXPLAIN output and
+    // suppresses parallel-worker context lines to stabilize regression-test output.
     DEBUG_PARALLEL_QUERY_REGRESS = 3;
   }
 
   enum LogErrorVerbosity {
+    // Not specified.
     LOG_ERROR_VERBOSITY_UNSPECIFIED = 0;
 
     // DETAIL, HINT, QUERY, and CONTEXT fields are excluded from the error message.
@@ -143,6 +150,7 @@ message PostgresqlConfig16 {
   }
 
   enum LogStatement {
+    // Not specified.
     LOG_STATEMENT_UNSPECIFIED = 0;
 
     // The filter is disabled, no SQL statements are logged.
@@ -159,6 +167,7 @@ message PostgresqlConfig16 {
   }
 
   enum PasswordEncryption {
+    // Not specified.
     PASSWORD_ENCRYPTION_UNSPECIFIED = 0;
 
     // The method md5 uses a custom less secure challenge-response mechanism. It prevents password sniffing and avoids storing passwords on the server in plain text but provides no protection if an attacker manages to steal the password hash from the server. Also, the MD5 hash algorithm is nowadays no longer considered secure against determined attacks.
@@ -187,6 +196,7 @@ message PostgresqlConfig16 {
   }
 
   enum PlanCacheMode {
+    // Not specified.
     PLAN_CACHE_MODE_UNSPECIFIED = 0;
 
     // Automatic selection.
@@ -200,6 +210,7 @@ message PostgresqlConfig16 {
   }
 
   enum SharedPreloadLibraries {
+    // Not specified.
     SHARED_PRELOAD_LIBRARIES_UNSPECIFIED = 0;
 
     // Required for the [auto_explain](https://www.postgresql.org/docs/current/auto-explain.html) extension.
@@ -237,6 +248,7 @@ message PostgresqlConfig16 {
   }
 
   enum SynchronousCommit {
+    // Not specified.
     SYNCHRONOUS_COMMIT_UNSPECIFIED = 0;
 
     // Success is reported to the client if the data is in WAL (Write-Ahead Log), and WAL is written to the storage of both the master and its synchronous standby server. Default value.
@@ -260,6 +272,7 @@ message PostgresqlConfig16 {
   }
 
   enum TransactionIsolation {
+    // Not specified.
     TRANSACTION_ISOLATION_UNSPECIFIED = 0;
 
     // This level behaves like `TRANSACTION_ISOLATION_READ_COMMITTED` in PostgreSQL.
@@ -278,6 +291,7 @@ message PostgresqlConfig16 {
   }
 
   enum WalLevel {
+    // Not specified.
     WAL_LEVEL_UNSPECIFIED = 0;
 
     // Supports WAL archiving and physical replication.
@@ -288,22 +302,24 @@ message PostgresqlConfig16 {
   }
 
   enum XmlBinary {
+    // Not specified.
     XML_BINARY_UNSPECIFIED = 0;
 
-    // Base64 encoding.
+    // Encodes binary values using Base64.
     XML_BINARY_BASE64 = 1;
 
-    // Hexadecimal encoding.
+    // Encodes binary values using hexadecimal notation.
     XML_BINARY_HEX = 2;
   }
 
   enum XmlOption {
+    // Not specified.
     XML_OPTION_UNSPECIFIED = 0;
 
-    // XML document.
+    // Treats an XML value as a complete, well-formed document.
     XML_OPTION_DOCUMENT = 1;
 
-    // XML fragment.
+    // Treats an XML value as a content fragment, which may contain multiple top-level elements or character nodes.
     XML_OPTION_CONTENT = 2;
   }
 
@@ -357,10 +373,10 @@ message PostgresqlConfig16 {
   // Multiple of the average buffer usage to free per round.
   google.protobuf.DoubleValue bgwriter_lru_multiplier = 16;
 
-  // Number of pages after which previously performed writes are flushed to disk. In bytes.
+  // Specifies how much data the background writer can write before forcing the operating system to issue the writes. In bytes.
   google.protobuf.Int64Value bgwriter_flush_after = 17 [(value) = "0-2097152"];
 
-  // Number of pages after which previously performed writes are flushed to disk. In bytes.
+  // Specifies how much data a backend can write before forcing the operating system to issue the writes. In bytes.
   google.protobuf.Int64Value backend_flush_after = 18 [(value) = "0-2097152"];
 
   // Time before a snapshot is too old to read pages changed after the snapshot was taken.
@@ -379,7 +395,7 @@ message PostgresqlConfig16 {
   // Time spent flushing dirty buffers during checkpoint, as fraction of checkpoint interval.
   google.protobuf.DoubleValue checkpoint_completion_target = 23;
 
-  // Number of pages after which previously performed writes are flushed to disk. In bytes.
+  // Specifies how much data can be written during a checkpoint before forcing the operating system to issue the writes. In bytes.
   google.protobuf.Int64Value checkpoint_flush_after = 24 [(value) = "0-2097152"];
 
   // Sets the WAL size that triggers a checkpoint. In bytes.
@@ -523,10 +539,10 @@ message PostgresqlConfig16 {
   google.protobuf.BoolValue exit_on_error = 69;
 
   // Sets the planner's estimate of the cost of a sequentially fetched disk page.
-  google.protobuf.DoubleValue seq_page_cost = 70;
+  google.protobuf.DoubleValue seq_page_cost = 70 [(value) = ">=0"];
 
   // Sets the planner's estimate of the cost of a nonsequentially fetched disk page.
-  google.protobuf.DoubleValue random_page_cost = 71;
+  google.protobuf.DoubleValue random_page_cost = 71 [(value) = ">=0"];
 
   // Sets the maximum number of simultaneously running autovacuum worker processes.
   google.protobuf.Int64Value autovacuum_max_workers = 72 [(value) = "1-32"];
@@ -540,7 +556,7 @@ message PostgresqlConfig16 {
   // Time to sleep between autovacuum runs. In milliseconds.
   google.protobuf.Int64Value autovacuum_naptime = 75 [(value) = "1000-86400000"];
 
-  // Forces a switch to the next WAL file if a new file has not been started within N seconds. In milliseconds.
+  // Forces a switch to the next WAL file if no new file has been started within the specified interval. In milliseconds.
   google.protobuf.Int64Value archive_timeout = 76 [(value) = "10000-86400000"];
 
   // Sets the size reserved for pg_stat_activity.query, in bytes.
@@ -582,7 +598,7 @@ message PostgresqlConfig16 {
   // Maximum number of concurrent worker processes.
   google.protobuf.Int64Value max_worker_processes = 91 [(value) = "0-1024"];
 
-  // Sets the maximum number of parallel processes per executor node.
+  // Sets the maximum number of parallel workers that can be active at one time.
   google.protobuf.Int64Value max_parallel_workers = 92 [(value) = "0-1024"];
 
   // Sets the maximum number of parallel processes per executor node.
@@ -636,9 +652,7 @@ message PostgresqlConfig16 {
   // Number of simultaneous requests that can be handled efficiently by the disk subsystem.
   google.protobuf.Int64Value effective_io_concurrency = 109 [(value) = "0-1000"];
 
-  // Sets the planner's assumption about the total size of the data caches. That is, the total
-  // size of the caches (kernel cache and shared buffers) used for PostgreSQL data files.
-  // This is measured in disk pages, which are normally 8 kB each.
+  // Sets the planner's assumption about the effective size of the disk cache available to a single query. In bytes.
   google.protobuf.Int64Value effective_cache_size = 110 [(value) = "1048576-549755813888"];
 
   // Lists shared libraries to preload into server.
@@ -647,6 +661,7 @@ message PostgresqlConfig16 {
   // Sets the minimum statement execution time, that will cause the statement's plan to be logged.
   // Setting this to 0 logs all plans. -1 (the default) disables logging of plans. For example, if
   // you set it to 250ms then all statements that run 250ms or longer will be logged. In milliseconds.
+  // (-- api-linter: yc::1701::duration-required=disabled --)
   google.protobuf.Int64Value auto_explain_log_min_duration = 112 [(value) = "-1-2147483647"];
 
 
@@ -752,70 +767,119 @@ message PostgresqlConfig16 {
   // Enables the planner's use of memoization.
   google.protobuf.BoolValue enable_memoize = 140;
 
-  google.protobuf.BoolValue log_recovery_conflict_waits = 141; // in milliseconds.
+  // Logs standby recovery conflict waits.
+  google.protobuf.BoolValue log_recovery_conflict_waits = 141;
 
-  google.protobuf.Int64Value vacuum_failsafe_age = 142 [(value) = "-1-2147483647"]; // in milliseconds.
+  // Age at which VACUUM should trigger failsafe to avoid a wraparound outage.
+  google.protobuf.Int64Value vacuum_failsafe_age = 142 [(value) = "-1-2147483647"];
 
-  google.protobuf.Int64Value vacuum_multixact_failsafe_age = 143 [(value) = "-1-2147483647"]; // in milliseconds.
+  // Multixact age at which VACUUM should trigger failsafe to avoid a wraparound outage.
+  google.protobuf.Int64Value vacuum_multixact_failsafe_age = 143 [(value) = "-1-2147483647"];
 
+  // Controls whether pg_qualstats collects execution statistics for query predicates,
+  // including filters and join conditions.
   google.protobuf.BoolValue pg_qualstats_enabled = 144;
 
+  // Controls whether pg_qualstats keeps separate statistics for predicates containing different constant values
   google.protobuf.BoolValue pg_qualstats_track_constants = 145;
 
+  // Limits the number of predicate-statistics and query-text entries retained by pg_qualstats.
   google.protobuf.Int64Value pg_qualstats_max = 146;
 
+  // Controls whether pg_qualstats resolves object OIDs and stores their names  when collecting statistics.
+  // Enabling this increases memory usage and requires additional system-catalog lookups.
   google.protobuf.BoolValue pg_qualstats_resolve_oids = 147;
 
+  // Sets the fraction of queries sampled by pg_qualstats. A value of -1 selects an automatic rate
+  // of 1 / max_connections; 0 samples no queries, and 1 samples every query.
   google.protobuf.DoubleValue pg_qualstats_sample_rate = 148;
 
-  google.protobuf.Int64Value max_stack_depth = 150 [(value) = "65536-134217728"]; // in bytes.
+  // Sets the maximum stack depth, in bytes.
+  google.protobuf.Int64Value max_stack_depth = 150 [(value) = "65536-134217728"];
 
+  // Controls if the query planner will produce a plan which will provide GROUP BY keys sorted in the order of keys of a
+  // child node of the plan, such as an index scan. When disabled, the query planner will produce a plan with GROUP BY keys
+  // only sorted to match the ORDER BY clause, if any. When enabled, the planner will try to produce a more efficient plan.
+  // The default value is on.
   google.protobuf.BoolValue enable_group_by_reordering = 151;
 
-  google.protobuf.BoolValue geqo = 152; // enable Genetic Query Optimizer, by default is on
+  // Enables genetic query optimization. This algorithm attempts to do planning
+  // without exhaustive searching, by default is on.
+  google.protobuf.BoolValue geqo = 152;
 
-  google.protobuf.Int64Value geqo_threshold = 153 [(value) = "2-2147483647"]; // The number of tables to use geqo, default is 12
+  // Sets the threshold of FROM items beyond which GEQO is used, default is 12.
+  google.protobuf.Int64Value geqo_threshold = 153 [(value) = "2-2147483647"];
 
-  google.protobuf.Int64Value geqo_effort = 154 [(value) = "1-10"]; // tradeoff between planning time and query plan quality, default is 5
+  // GEQO: effort is used to set the default for other GEQO parameters.
+  // Tradeoff between planning time and query plan quality, default is 5.
+  google.protobuf.Int64Value geqo_effort = 154 [(value) = "1-10"];
 
-  google.protobuf.Int64Value geqo_pool_size = 155; // number of individuals in the genetic population, useful values are typically 100 to 1000; default - 0 - choose based on based on geqo_effort
+  // GEQO: number of individuals in the population.
+  // Useful values are typically 100 to 1000; default - 0 - choose based on based on geqo_effort.
+  google.protobuf.Int64Value geqo_pool_size = 155;
 
-  google.protobuf.Int64Value geqo_generations = 156; // the number of generations used by GEQO, useful values are in the same range as the pool size
+  // GEQO: number of iterations of the algorithm. Zero selects a suitable default value.
+  // Useful values are in the same range as the pool size.
+  google.protobuf.Int64Value geqo_generations = 156;
 
-  google.protobuf.DoubleValue geqo_selection_bias = 157 [(value) = "1.5-2.0"]; // selective pressure within the population
+  // GEQO: selective pressure within the population.
+  google.protobuf.DoubleValue geqo_selection_bias = 157 [(value) = "1.5-2.0"];
 
-  google.protobuf.DoubleValue geqo_seed = 158 [(value) = "0.0-1.0"]; // initial value of the random number generator used by GEQO
+  // GEQO: seed for random path selection.
+  google.protobuf.DoubleValue geqo_seed = 158 [(value) = "0.0-1.0"];
 
+  // Sets the trigram similarity threshold used by the `%` operator
+  // to determine whether two strings are similar.
   google.protobuf.DoubleValue pg_trgm_similarity_threshold = 159 [(value) = "0.0-1.0"];
 
+  // Sets the threshold used by the `<%` and `%>` operators when comparing
+  // a string with the most similar continuous part of another string.
   google.protobuf.DoubleValue pg_trgm_word_similarity_threshold = 160 [(value) = "0.0-1.0"];
 
+  // Sets the threshold used by the `<<%` and `%>>` operators when comparing
+  // a string with parts of another string aligned to word boundaries.
   google.protobuf.DoubleValue pg_trgm_strict_word_similarity_threshold = 161 [(value) = "0.0-1.0"];
 
-  google.protobuf.Int64Value max_standby_archive_delay = 162; // in milliseconds.
+  // Sets the maximum delay before canceling queries when a hot standby server is processing archived WAL data. In milliseconds.
+  google.protobuf.Int64Value max_standby_archive_delay = 162;
 
   // Terminate any session that exceeds the designated timeout, specified in milliseconds. If a timeout is
   // not specified, the default session timeout is set to 12 hours. To disable it, specify a value of 0.
   google.protobuf.Int64Value session_duration_timeout = 163 [(value) = "0-2147483647"];
 
+  // Logs each replication command.
   google.protobuf.BoolValue log_replication_commands = 164;
 
-  google.protobuf.Int64Value log_autovacuum_min_duration = 165 [(value) = "-1-2147483647"]; // in milliseconds. The default is 1000 (1 sec).
+  // Sets the minimum execution time above which autovacuum actions will be logged.
+  // Zero prints all actions. -1 turns autovacuum logging off. In milliseconds. The default is 1000 (1 sec).
+  // (-- api-linter: yc::1701::duration-required=disabled --)
+  google.protobuf.Int64Value log_autovacuum_min_duration = 165 [(value) = "-1-2147483647"];
 
-  PasswordEncryption password_encryption = 167; // A default value for `` user_password_encryption `` user-level setting, if it not specified for new users. Possible values are `` PASSWORD_ENCRYPTION_MD5 `` or `` PASSWORD_ENCRYPTION_SCRAM_SHA_256 ``. The default is `` PASSWORD_ENCRYPTION_MD5 ``.
+  // A default value for `` user_password_encryption `` user-level setting, if it not specified for new users. Possible values are
+  // `` PASSWORD_ENCRYPTION_MD5 `` or `` PASSWORD_ENCRYPTION_SCRAM_SHA_256 ``. The default is `` PASSWORD_ENCRYPTION_MD5 ``.
+  PasswordEncryption password_encryption = 167;
 
-  AutoExplainLogFormat auto_explain_log_format = 168; // Selects the `` EXPLAIN `` output format to be used. The allowed values are `` AUTO_EXPLAIN_LOG_FORMAT_TEXT ``, `` AUTO_EXPLAIN_LOG_FORMAT_XML ``, `` AUTO_EXPLAIN_LOG_FORMAT_JSON ``, and `` AUTO_EXPLAIN_LOG_FORMAT_YAML ``. The default is `` AUTO_EXPLAIN_LOG_FORMAT_TEXT ``.
+  // Selects the `` EXPLAIN `` output format to be used. The allowed values are `` AUTO_EXPLAIN_LOG_FORMAT_TEXT ``,
+  // `` AUTO_EXPLAIN_LOG_FORMAT_XML ``, `` AUTO_EXPLAIN_LOG_FORMAT_JSON ``, and `` AUTO_EXPLAIN_LOG_FORMAT_YAML ``.
+  // The default is `` AUTO_EXPLAIN_LOG_FORMAT_TEXT ``.
+  AutoExplainLogFormat auto_explain_log_format = 168;
 
   // Sets the maximum allowed idle time between queries, when not in a transaction. In milliseconds.
   google.protobuf.Int64Value idle_session_timeout = 173 [(value) = "0-2147483647"];
 
-  google.protobuf.Int64Value checkpoint_warning = 174 [(value) = "0-2147483647000"]; // in milliseconds. Write a message to the server log if checkpoints caused by the filling of WAL segment files happen closer together than this amount of time (which suggests that `` max_wal_size `` ought to be raised). 0 disables the warning.
+  // Sets the interval below which checkpoints triggered by filling WAL segment files cause a warning to be written to the server log.
+  // A value of 0 disables the warning. In milliseconds.
+  google.protobuf.Int64Value checkpoint_warning = 174 [(value) = "0-2147483647000"];
 
-  google.protobuf.BoolValue pg_hint_plan_hints_anywhere = 175; // If it is true, pg_hint_plan reads hints ignoring SQL syntax. This allows placing hints anywhere in the query but may cause false reads. Default is false.
+  // Allows pg_hint_plan to read hint comments from any position in the query text,
+  // without regard to SQL syntax. This may cause false hint matches.
+  google.protobuf.BoolValue pg_hint_plan_hints_anywhere = 175;
 
-  google.protobuf.Int64Value autovacuum_vacuum_threshold = 177 [(value) = "0-2147483647"]; // Specifies the minimum number of updated or deleted tuples needed to trigger a VACUUM in any one table. The default is 50 tuples.
+  // Minimum number of tuple updates or deletes prior to vacuum.
+  google.protobuf.Int64Value autovacuum_vacuum_threshold = 177 [(value) = "0-2147483647"];
 
-  google.protobuf.Int64Value autovacuum_analyze_threshold = 178 [(value) = "0-2147483647"]; // Specifies the minimum number of inserted, updated or deleted tuples needed to trigger an ANALYZE in any one table. The default is 50 tuples.
+  // Minimum number of tuple inserts, updates, or deletes prior to analyze.
+  google.protobuf.Int64Value autovacuum_analyze_threshold = 178 [(value) = "0-2147483647"];
 }
 
 message PostgresqlConfigSet16 {

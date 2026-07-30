@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.marketplace.stacklandlicenseapi.v1;
 
+import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/validation.proto";
 
@@ -92,10 +93,11 @@ message UsageEntry {
 // License limit for a specific metric type
 message LicenseLimit {
   // Metric type (e.g., "stackland.vcpu.cores")
-  string type = 1;
+  string type = 1 [(google.api.field_behavior) = REQUIRED];
 
   // Limit value
-  int64 limit = 2;
+  // Zero is a valid limit value.
+  int64 limit = 2 [(google.api.field_behavior) = OPTIONAL];
 }
 
 // License information returned by the sync API

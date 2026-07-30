@@ -22,6 +22,9 @@ message ConnectorSpec {
   // A set of properties passed to Managed Service for Apache Kafka® with the connector configuration.
   // Example: `sync.topics.config.enabled: true`.
   map<string, string> properties = 3;
+
+  // Placement of the connector workers.
+  ConnectorPlacement placement = 13;
   // Additional settings for the connector.
   oneof connector_config {
     // Configuration of the MirrorMaker connector.
@@ -33,6 +36,13 @@ message ConnectorSpec {
     // Configuration of Iceberg Sink connector.
     ConnectorConfigIcebergSinkSpec connector_config_iceberg_sink = 12;
   }
+}
+
+// Connector worker placement.
+// By default, workers run on Kafka broker hosts.
+message ConnectorPlacement {
+  // Run workers on dedicated nodes instead of broker hosts.
+  bool dedicated = 1;
 }
 
 message UpdateConnectorSpec {
@@ -375,6 +385,9 @@ message Connector {
 
   // ID of the Apache Kafka® cluster that the connector belongs to.
   string cluster_id = 6;
+
+  // Placement of the connector workers.
+  ConnectorPlacement placement = 13;
   // Additional settings for the connector.
   oneof connector_config {
     // Configuration of the MirrorMaker connector.

@@ -268,3 +268,13 @@ message ListVrfOperationsResponse {
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
   string next_page_token = 100;
 }
+
+message CreateVrfPeeringMetadata {
+  // ID of the VRF resource the peering is being created for.
+  string vrf_id = 1;
+}
+
+message DeleteVrfPeeringMetadata {
+  // ID of the VRF resource the peering is being deleted for.
+  string vrf_id = 1;
+}
