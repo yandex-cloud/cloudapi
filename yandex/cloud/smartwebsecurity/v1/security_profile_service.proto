@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.smartwebsecurity.v1;
 
 import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -114,7 +115,7 @@ message CreateSecurityProfileRequest {
   string advanced_rate_limiter_profile_id = 8;
 
   // Disables the use of HTTP request data for training and improving the service's ML models.
-  bool disallow_data_processing = 10;
+  bool disallow_data_processing = 10 [(google.api.field_behavior) = REQUIRED];
 
   // Parameters for request body analyzer.
   SecurityProfile.AnalyzeRequestBody analyze_request_body = 9;

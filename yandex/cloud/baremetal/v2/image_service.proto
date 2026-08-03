@@ -46,6 +46,7 @@ service ImageService {
       get: "/baremetal/v2/folders/{folder_id}/images:resolveImages"
     };
   };
+
 }
 
 message GetImageRequest {

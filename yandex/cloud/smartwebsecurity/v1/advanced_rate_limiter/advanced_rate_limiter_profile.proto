@@ -152,6 +152,9 @@ message AdvancedRateLimiterRule {
 
     // List of characteristics.
     repeated Characteristic characteristics = 5 [(size) = "<=3"];
+
+    // Duration of the temporary ban, in seconds.
+    int64 ban_period = 6 [(value) = "0-86400"];
   }
 
   // Type of action to perform if this rule matched.

@@ -67,11 +67,14 @@ message SecurityProfile {
     enum Output {
       OUTPUT_UNSPECIFIED = 0;
 
-      // Write logs to Cloud Logging.
-      CLOUD_LOGGING = 1;
+      // Deprecated. Write logs to Cloud Logging. Use MONIUM instead.
+      CLOUD_LOGGING = 1 [deprecated = true];
 
       // Write logs to Audit Trails.
       AUDIT_TRAILS = 2;
+
+      // Write logs to Monium.
+      MONIUM = 3;
     }
 
     // ID of the Cloud Logging log group to write SWS logs to.
@@ -89,7 +92,7 @@ message SecurityProfile {
     // Percentage of ALLOW verdicts to discard from logging (0-100).
     int64 discard_allow_percentage = 5 [(value) = "0-100"];
 
-    // List of log destinations: Cloud Logging and/or Audit Trails.
+    // List of log destinations: Cloud Logging, Audit Trails, and/or Monium.
     repeated Output outputs = 6;
   }
 
@@ -183,6 +186,9 @@ message SecurityRule {
 
       // Deny request.
       DENY = 2;
+
+      // Redirect request to CAPTCHA.
+      CAPTCHA = 3;
     }
 
     // Action to perform if this rule matched.
