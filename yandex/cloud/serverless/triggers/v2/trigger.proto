@@ -1,0 +1,533 @@
+syntax = "proto3";
+
+package yandex.cloud.serverless.triggers.v2;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/logging/v1/log_entry.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless/triggers/v2;triggers";
+option java_package = "yandex.cloud.api.serverless.triggers.v2";
+
+message Trigger {
+  reserved 7;
+
+  // ID of the trigger.
+  string id = 1;
+
+  // ID of the folder that the trigger belongs to.
+  string folder_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Timestamp when the trigger was created.
+  google.protobuf.Timestamp created_at = 3;
+
+  // Name of the trigger.
+  string name = 4 [(required) = true];
+
+  // Description of the trigger.
+  string description = 5;
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 6;
+
+  // Event source for this trigger.
+  Source source = 8 [(required) = true];
+
+  // List of actions to perform when the trigger fires.
+  repeated Action action = 9 [(size) = ">0"];
+
+  // Current status of the trigger.
+  Status status = 10;
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+
+    // The trigger is active.
+    ACTIVE = 1;
+
+    // The trigger is paused.
+    PAUSED = 2;
+
+    // The trigger is creating.
+    CREATING = 3;
+
+    // The trigger is deleting.
+    DELETING = 4;
+
+    // The trigger is updating.
+    UPDATING = 5;
+  }
+}
+
+// Source defines the event source for a trigger.
+// Exactly one source type must be specified.
+message Source {
+  reserved 6, 10;
+
+  oneof source {
+    option (exactly_one) = true;
+
+    // Timer source: fires on a cron schedule.
+    Timer timer = 1;
+
+    // YMQ source: fires on messages in a Yandex Message Queue.
+    YMQ ymq = 2;
+
+    // YDS source: fires on records in a Yandex Data Streams stream.
+    YDS yds = 3;
+
+    // Mail source: fires on incoming emails.
+    Mail mail = 4;
+
+    // Billing budget source: fires when a budget threshold is reached.
+    BillingBudget billing_budget = 5;
+
+    // Logging source: fires on matching log events.
+    Logging logging = 7;
+
+    // Object Storage source: fires on object events in a bucket.
+    ObjectStorage object_storage = 8;
+
+    // Container Registry source: fires on image and tag events.
+    ContainerRegistry container_registry = 9;
+
+    // IoT Core source: fires on matching IoT Core messages.
+    IoTMessage iot_message = 11;
+
+    // IoT Core Broker source: fires on matching IoT Core Broker messages.
+    IoTBrokerMessage iot_broker_message = 12;
+
+    // Telegram source: fires on Telegram bot updates.
+    TelegramMessage telegram_message = 13;
+  }
+}
+
+// Timer fires on a schedule defined by a cron expression.
+// One invocation is produced per schedule tick; batching does not apply.
+message Timer {
+  // Cron expression defining the trigger schedule.
+  // See http://man7.org/linux/man-pages/man5/crontab.5.html for the format; some limitations apply.
+  string cron_expression = 1 [
+    (length) = "<=100",
+    (required) = true
+  ];
+
+  // Payload passed to the invoked target on each firing.
+  string payload = 2 [(length) = "<=4096"];
+}
+
+// YMQ triggers on messages arriving in a Yandex Message Queue queue.
+// Do not set retry_policy on Actions used with this source.
+message YMQ {
+  // ARN of the queue.
+  string queue_arn = 1 [(required) = true];
+
+  // ID of the service account with read access to the queue.
+  string service_account_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Batch settings for reading messages from the queue.
+  BatchSettings batch_settings = 3;
+
+  // Queue visibility timeout override.
+  google.protobuf.Duration visibility_timeout = 4 [(value) = "<=12h"];
+}
+
+// YDS triggers on records arriving in a Yandex Data Streams data stream.
+message YDS {
+  reserved 1;
+
+  // YDS database path.
+  string database = 2 [(required) = true];
+
+  // Name of the data stream to read from.
+  string stream = 3 [(required) = true];
+
+  // Name of the data stream consumer.
+  string consumer = 4 [(required) = true];
+
+  // ID of the service account with read access to the data stream.
+  string service_account_id = 5 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Batch settings for reading records from the stream.
+  BatchSettings batch_settings = 6;
+}
+
+// BillingBudget triggers when a billing budget threshold is reached.
+message BillingBudget {
+  // ID of the billing account to monitor.
+  string billing_account_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // ID of the budget to monitor. If empty, the trigger fires for any budget in the account.
+  string budget_id = 2 [(length) = "<=50"];
+}
+
+// Mail triggers on incoming emails sent to the trigger's dedicated address.
+// Retry and dead-letter settings are configured on the Action.
+message Mail {
+  // Email address that receives messages for this trigger.
+  string email = 1;
+
+  // Object Storage bucket settings for storing email attachments.
+  ObjectStorageBucketSettings attachments_bucket = 2;
+
+  // Batch settings for accumulating incoming emails.
+  BatchSettings batch_settings = 3;
+}
+
+// ObjectStorage triggers on object events in a bucket.
+// Retry and dead-letter settings are configured on the Action.
+message ObjectStorage {
+  reserved 1;
+
+  // Event types to listen for. At least one value is required.
+  repeated ObjectStorageEventType event_type = 2 [(size) = ">0"];
+
+  // ID of the bucket to monitor.
+  string bucket_id = 3 [(required) = true];
+
+  // Filter events by object key prefix. Optional.
+  string prefix = 4;
+
+  // Filter events by object key suffix. Optional.
+  string suffix = 5;
+
+  // Batch settings for accumulating object events.
+  BatchSettings batch_settings = 6;
+}
+
+enum ObjectStorageEventType {
+  OBJECT_STORAGE_EVENT_TYPE_UNSPECIFIED = 0;
+
+  // An object was created.
+  OBJECT_STORAGE_EVENT_TYPE_CREATE_OBJECT = 1;
+
+  // An object was updated.
+  OBJECT_STORAGE_EVENT_TYPE_UPDATE_OBJECT = 2;
+
+  // An object was deleted.
+  OBJECT_STORAGE_EVENT_TYPE_DELETE_OBJECT = 3;
+}
+
+// ContainerRegistry triggers on image and tag events in a registry.
+message ContainerRegistry {
+  reserved 1;
+
+  // Event types to listen for. At least one value is required.
+  repeated ContainerRegistryEventType event_type = 2 [(size) = ">0"];
+
+  // ID of the registry to monitor.
+  string registry_id = 3 [(required) = true];
+
+  // Filter events by image name. Optional.
+  string image_name = 4;
+
+  // Filter events by image tag. Optional.
+  string tag = 5;
+
+  // Batch settings for accumulating registry events.
+  BatchSettings batch_settings = 6;
+}
+
+enum ContainerRegistryEventType {
+  CONTAINER_REGISTRY_EVENT_TYPE_UNSPECIFIED = 0;
+
+  // An image was created.
+  CONTAINER_REGISTRY_EVENT_TYPE_CREATE_IMAGE = 1;
+
+  // An image was deleted.
+  CONTAINER_REGISTRY_EVENT_TYPE_DELETE_IMAGE = 2;
+
+  // An image tag was created.
+  CONTAINER_REGISTRY_EVENT_TYPE_CREATE_IMAGE_TAG = 3;
+
+  // An image tag was deleted.
+  CONTAINER_REGISTRY_EVENT_TYPE_DELETE_IMAGE_TAG = 4;
+}
+
+// Logging triggers on log events matching the specified filters.
+message Logging {
+  // ID of the log group to read from.
+  string log_group_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Resource types to filter log events.
+  repeated string resource_type = 2 [
+    (pattern) = "[a-zA-Z][-a-zA-Z0-9_.]{1,62}",
+    (size) = "<=100"
+  ];
+
+  // Resource IDs to filter log events.
+  repeated string resource_id = 3 [
+    (pattern) = "[a-zA-Z][-a-zA-Z0-9_.]{1,62}",
+    (size) = "<=100"
+  ];
+
+  // Stream names to filter log events.
+  repeated string stream_name = 4 [
+    (pattern) = "|[a-z][-a-z0-9]{1,61}[a-z0-9]",
+    (size) = "<=100"
+  ];
+
+  // Logging levels to filter log events.
+  repeated logging.v1.LogLevel.Level levels = 5 [(size) = "<=10"];
+
+  // Batch settings for accumulating log events.
+  BatchSettings batch_settings = 6;
+}
+
+// Triggers on IoT Core events matching the specified filters.
+message IoTMessage {
+  // ID of the IoT Core registry.
+  string registry_id = 1 [(required) = true];
+
+  // ID of the IoT Core device in the registry.
+  string device_id = 2;
+
+  // MQTT topic whose messages activate the trigger.
+  string mqtt_topic = 3;
+
+  // Batch settings for processing events.
+  BatchSettings batch_settings = 4;
+}
+
+// Triggers on IoT Core Broker events matching the specified filters.
+message IoTBrokerMessage {
+  // ID of the IoT Core broker.
+  string broker_id = 1 [(required) = true];
+
+  // MQTT topic whose messages activate the trigger.
+  string mqtt_topic = 2; // MQTT wildcards with '#' and '+'
+
+  // Batch settings for processing events.
+  BatchSettings batch_settings = 3;
+}
+
+message TelegramMessage {
+  // input only, always empty in output.
+  // Required on Create; on Update, changing it re-registers the webhook.
+  string bot_token = 1;
+
+  // Types of Telegram updates to receive. Optional, default is ["message"].
+  repeated string allowed_updates = 2;
+
+  // input only. Overwrite a webhook the bot already has set to a different URL,
+  // instead of failing with "webhook already in use". If the webhook already
+  // points to this trigger, force does nothing - the existing webhook is kept.
+  bool force = 3;
+}
+
+// Action describes what to do when a trigger fires.
+// Exactly one action type must be specified.
+// Filter and Transformer are applied before invoking the target,
+// allowing each action to independently select and reshape events.
+message Action {
+  reserved 5 to 9;
+
+  oneof action {
+    option (exactly_one) = true;
+
+    // Invoke a Serverless Containers container.
+    InvokeContainer invoke_container = 1;
+
+    // Invoke a Cloud Functions function.
+    InvokeFunction invoke_function = 2;
+
+    // Broadcast a message to API Gateway WebSocket connections.
+    GatewayWebsocketBroadcast gateway_websocket_broadcast = 3;
+
+    // Start a Workflows workflow.
+    StartWorkflow start_workflow = 4;
+  }
+
+  // Optional filter applied to each event before invoking the target.
+  // If the filter condition evaluates to false, this action is skipped for that event.
+  Filter filter = 10;
+
+  // Optional transformer applied to the event payload before passing it to the target.
+  Transformer transformer = 11;
+
+  // Retry policy for failed invocations. Optional.
+  // Not applicable for YMQ triggers - use the queue's Redrive Policy instead.
+  RetryPolicy retry_policy = 12;
+
+  // Dead-letter destination for events that could not be processed after all retries. Optional.
+  DeadLetter dead_letter = 13;
+}
+
+// Filter defines a condition for skipping events before they reach the action target.
+message Filter {
+  oneof condition {
+    option (exactly_one) = true;
+
+    // jq expression evaluated against the event payload.
+    // The action is invoked only if the expression returns true.
+    string jq = 1 [(length) = "<=1024"];
+  }
+}
+
+// Transformer defines how to reshape the event payload before it is passed to the action target.
+message Transformer {
+  oneof transformer {
+    option (exactly_one) = true;
+
+    // jq expression applied to the event payload.
+    // The expression result is used as the new payload.
+    string jq = 1 [(length) = "<=65536"];
+  }
+}
+
+// InvokeFunction invokes a Cloud Functions function.
+// Supports optional retry with dead-letter on failure.
+message InvokeFunction {
+  // ID of the function to invoke.
+  string function_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Tag of the function version to invoke. If empty, the latest version is used.
+  string function_tag = 2;
+
+  // ID of the service account to use for invoking the function.
+  string service_account_id = 3;
+}
+
+// InvokeContainer invokes a Serverless Containers container.
+// Supports optional retry with dead-letter on failure.
+message InvokeContainer {
+  // ID of the container to invoke.
+  string container_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // HTTP path to invoke on the container.
+  string path = 2;
+
+  // ID of the service account to use for invoking the container.
+  string service_account_id = 3;
+}
+
+// StartWorkflow starts a Serverless Workflows workflow.
+// Supports optional retry with dead-letter on failure.
+message StartWorkflow {
+  reserved 2;
+
+  // ID of the workflow to start.
+  string workflow_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // ID of the service account to use for starting the workflow.
+  string service_account_id = 3;
+}
+
+// GatewayWebsocketBroadcast broadcasts a message to WebSocket connections via API Gateway.
+// Fire-and-forget: retry is not supported for broadcast actions.
+message GatewayWebsocketBroadcast {
+  // ID of the API Gateway.
+  string gateway_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // WebSocket connection path on the gateway to broadcast to.
+  string path = 2 [(required) = true];
+
+  // ID of the service account with permission to write to WebSocket connections.
+  string service_account_id = 3 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+// RetryPolicy defines retry behaviour and dead-letter destination for a failed action invocation.
+message RetryPolicy {
+  // Maximum number of retry attempts.
+  int64 retry_attempts = 1 [(value) = "1-5"];
+
+  // Time interval between retry attempts.
+  google.protobuf.Duration interval = 2 [
+    (required) = true,
+    (value) = "10s-1m"
+  ];
+}
+
+// DeadLetter specifies where to deliver events that could not be processed after all retries.
+message DeadLetter {
+  oneof dead_letter {
+    option (exactly_one) = true;
+
+    // Deliver the failed event as a message to a YMQ queue.
+    PutQueueMessage dead_letter_queue = 1;
+  }
+}
+
+// BatchSettings controls when accumulated events are flushed as a single batch to the target.
+// A batch is sent when either the size or the cutoff condition is met first.
+message BatchSettings {
+  // Maximum number of events in a batch.
+  // At least one of max_count, max_bytes must be greater than 0.
+  int64 max_count = 1 [(value) = "0-1000"];
+
+  // Maximum size of events in a batch.
+  int64 max_bytes = 2 [(value) = "0-65536"];
+
+  // Maximum time to wait before flushing an incomplete batch.
+  // Ensures events are never held indefinitely regardless of batch size.
+  google.protobuf.Duration cutoff = 3 [(required) = true];
+}
+
+// PutQueueMessage describes writing a message to a YMQ queue.
+// Used as a dead-letter delivery mechanism.
+message PutQueueMessage {
+  // ARN of the queue.
+  string queue_arn = 1 [(required) = true];
+
+  // ID of the service account with write access to the queue.
+  string service_account_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Constant message attributes attached to every message written to the queue.
+  map<string, string> message_attributes = 3 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+}
+
+// ObjectStorageBucketSettings specifies an Object Storage bucket and the credentials to access it.
+message ObjectStorageBucketSettings {
+  // ID of the Object Storage bucket.
+  string bucket_id = 1 [
+    (length) = "3-63",
+    (pattern) = "[-.0-9a-zA-Z]*"
+  ];
+
+  // ID of the service account with write access to the bucket.
+  string service_account_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}

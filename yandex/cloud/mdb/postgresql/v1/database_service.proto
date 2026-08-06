@@ -133,6 +133,9 @@ message UpdateDatabaseRequest {
   //
   // Default value: `unspecified` (inherits cluster's deletion_protection)
   google.protobuf.BoolValue deletion_protection = 6;
+
+  // Optional. Name of the user to be assigned as the new owner of the database.
+  string owner = 7 [(required) = false, (length) = "<=63", (pattern) = "[a-zA-Z0-9_-]*"];
 }
 
 message UpdateDatabaseMetadata {

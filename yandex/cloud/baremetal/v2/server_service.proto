@@ -98,6 +98,22 @@ service ServerService {
     option (google.api.method_signature) = "cloud_id,folder_id,server_id";
   };
 
+  // Skips the quarantine for the specified server.
+  // (-- api-linter: yc::1702::method-no-resource=disabled
+  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
+  rpc SkipQuarantineServer(SkipQuarantineServerRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "QuarantineServerMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v2/servers/{server_id}:skipQuarantine"
+    };
+    option (google.api.method_signature) = "server_id";
+  };
+
   // Powers off the specified server.
   // (-- api-linter: yc::1702::method-no-resource=disabled
   // https://google.aip.dev/130 --)
@@ -332,6 +348,17 @@ message DeleteServerRequest {
   //
   // To get the server ID, use a [ServerService.List] request.
   string server_id = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (length) = "20",
+    (pattern) = "[a-z][a-z0-9]*"
+  ];
+}
+
+message SkipQuarantineServerRequest {
+  // ID of the server for which the quarantine should be skipped.
+  //
+  // To get the server ID, use a [ServerService.List] request.
+  string server_id = 1 [
     (google.api.field_behavior) = REQUIRED,
     (length) = "20",
     (pattern) = "[a-z][a-z0-9]*"

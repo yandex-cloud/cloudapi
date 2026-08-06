@@ -1246,6 +1246,9 @@ message StepdownHostsRequest {
     (length) = "<=253",
     (size) = ">0"
   ];
+
+  // Optional. ID of the availability zone stepdown hosts from.
+  string zone_id = 3 [(length) = "<=50"];
 }
 
 message StepdownHostsMetadata {
@@ -1254,6 +1257,9 @@ message StepdownHostsMetadata {
 
   // Required. The name of hosts to resetup.
   repeated string host_names = 2;
+
+  // The ID of the availability zone stepdown hosts from.
+  string zone_id = 3;
 }
 
 message HostSpec {

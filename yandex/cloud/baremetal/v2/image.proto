@@ -17,11 +17,20 @@ message Image {
     // Unspecified image status.
     STATUS_UNSPECIFIED = 0;
 
+    // Image is being imported.
+    IMPORTING = 1;
+
+    // Image has been imported and is awaiting moderation.
+    IMPORTED = 2;
+
     // Image is published and available to users.
     PUBLISHED = 3;
 
     // Image is disabled for new installations but preserved for existing servers.
     DISABLED = 4;
+
+    // Image encountered an error during import.
+    ERROR = 5;
   }
 
   // ID of the image.

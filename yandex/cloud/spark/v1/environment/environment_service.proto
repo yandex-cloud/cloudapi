@@ -1,0 +1,251 @@
+syntax = "proto3";
+
+package yandex.cloud.spark.v1.environment;
+
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/spark/v1/environment/environment.proto";
+import "yandex/cloud/spark/v1/environment/spark_config.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/spark/v1/environment;spark_environment";
+option java_package = "yandex.cloud.api.spark.v1.environment";
+
+// A set of methods for managing Environments.
+service EnvironmentService {
+  // Returns the specified Environment.
+  rpc Get(GetEnvironmentRequest) returns (Environment);
+
+  // Returns the specified Base Environment.
+  rpc GetBase(GetBaseEnvironmentRequest) returns (BaseEnvironment);
+
+  // Retrieves a list of Environments.
+  rpc List(ListEnvironmentsRequest) returns (ListEnvironmentsResponse);
+
+  // Retrieves a list of Base Environments.
+  rpc ListBase(ListEnvironmentsRequest) returns (ListBaseEnvironmentsResponse);
+
+  // Creates a Environment.
+  rpc Create(CreateEnvironmentRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreateEnvironmentMetadata"
+      response: "Environment"
+    };
+  };
+
+  // Updates the specified Environment.
+  rpc Update(UpdateEnvironmentRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdateEnvironmentMetadata"
+      response: "Environment"
+    };
+  };
+
+  // Deletes the specified Environment.
+  rpc Delete(DeleteEnvironmentRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeleteEnvironmentMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
+
+  // Retrieves a list of Environment operations.
+  rpc ListOperations(ListEnvironmentOperationsRequest) returns (ListEnvironmentOperationsResponse);
+
+}
+
+message GetEnvironmentRequest {
+  // ID of the Environment to return.
+  string environment_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message GetBaseEnvironmentRequest {
+  // ID of the Base Environment to return.
+  string environment_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // ID of the folder where the base environment is used.
+  string folder_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message ListEnvironmentsRequest {
+  // ID of the folder to list Environments in.
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // The maximum number of results per page that should be returned. If the number of available
+  // results is larger than `page_size`, the service returns a `next_page_token` that can be used
+  // to get the next page of results in subsequent ListEnvironments requests.
+  // Acceptable values are 0 to 1000, inclusive. Default value: 100.
+  int64 page_size = 2 [(value) = "<=1000"];
+
+  // Page token. Set `page_token` to the `next_page_token` returned by a previous ListEnvironments
+  // request to get the next page of results.
+  string page_token = 3 [(length) = "<=200"];
+
+  // String that describes a display filter.
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListEnvironmentsResponse {
+  // Requested list of Environments.
+  repeated Environment environments = 1;
+
+  // This token allows you to get the next page of results for ListEnvironments requests,
+  // if the number of results is larger than `page_size` specified in the request.
+  // To get the next page, specify the value of `next_page_token` as a value for
+  // the `page_token` parameter in the next ListEnvironments request. Subsequent ListEnvironments
+  // requests will have their own `next_page_token` to continue paging through the results.
+  string next_page_token = 2 [(length) = "<=200"];
+}
+
+message ListBaseEnvironmentsResponse {
+  // Requested list of Environments.
+  repeated BaseEnvironment environments = 1;
+
+  // This token allows you to get the next page of results for ListEnvironments requests,
+  // if the number of results is larger than `page_size` specified in the request.
+  // To get the next page, specify the value of `next_page_token` as a value for
+  // the `page_token` parameter in the next ListEnvironments request. Subsequent ListEnvironments
+  // requests will have their own `next_page_token` to continue paging through the results.
+  string next_page_token = 2 [(length) = "<=200"];
+}
+
+message CreateEnvironmentRequest {
+  // Unique ID of the base Environment.
+  string base_id = 1 [(length) = "<=50"];
+
+  // ID of the folder to create Environment in.
+  string folder_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the Environment. The name must be unique within the folder.
+  string name = 3 [
+    (length) = "<=63",
+    (pattern) = "^[a-z][-a-z0-9]{1,61}[a-z0-9]$",
+    (required) = true
+  ];
+
+  // Description of the Environment. 0-256 characters long.
+  string description = 4 [(length) = "<=256"];
+
+  // Environment labels.
+  map<string, string> labels = 5 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+
+  // Configuration of the Environment.
+  EnvironmentConfig config = 6;
+}
+
+message CreateEnvironmentMetadata {
+  // ID of the Environment.
+  string environment_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message UpdateEnvironmentRequest {
+  // ID of the Environment.
+  string environment_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Environment field paths to update
+  google.protobuf.FieldMask update_mask = 2;
+
+  // Name of the Environment. The name is unique within the folder. 1-63 characters long.
+  string name = 3 [
+    (length) = "<=63",
+    (pattern) = "^[a-z][-a-z0-9]{1,61}[a-z0-9]$"
+  ];
+
+  // Description of the Environment. 0-256 characters long.
+  string description = 4 [(length) = "<=256"];
+
+  // Environment labels.
+  map<string, string> labels = 5 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+}
+
+message UpdateEnvironmentMetadata {
+  // ID of the Environment.
+  string environment_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message DeleteEnvironmentRequest {
+  // ID of the Environment that is being deleted.
+  string environment_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message DeleteEnvironmentMetadata {
+  // ID of the deleting Environment.
+  string environment_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message ListEnvironmentOperationsRequest {
+  // ID of the Environment.
+  string environment_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // The maximum number of results per page that should be returned. If the number of available
+  // results is larger than `page_size`, the service returns a `next_page_token` that can be used
+  // to get the next page of results in subsequent ListOperations requests.
+  // Acceptable values are 0 to 1000, inclusive. Default value: 100.
+  int64 page_size = 2 [(value) = "<=1000"];
+
+  // Page token. Set `page_token` to the `next_page_token` returned by a previous ListOperations
+  // request to get the next page of results.
+  string page_token = 3 [(length) = "<=200"];
+}
+
+message ListEnvironmentOperationsResponse {
+  // List of operations for the specified environment.
+  repeated operation.Operation operations = 1;
+
+  // This token allows you to get the next page of results for ListOperations requests,
+  // if the number of results is larger than `page_size` specified in the request.
+  // To get the next page, specify the value of `next_page_token` as a value for
+  // the `page_token` parameter in the next ListOperations request. Subsequent ListOperations
+  // requests will have their own `next_page_token` to continue paging through the results.
+  string next_page_token = 2 [(length) = "<=200"];
+}

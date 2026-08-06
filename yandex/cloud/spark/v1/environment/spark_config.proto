@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package yandex.cloud.spark.v1.environment;
+
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/spark/v1/environment;spark_environment";
+option java_package = "yandex.cloud.api.spark.v1.environment";
+
+// Spark Environment Configuration.
+message EnvironmentConfig {
+  // Environment pip packages.
+  repeated string pip_packages = 1 [
+    (length) = "<=256",
+    (size) = "<=100",
+    (unique) = true
+  ];
+
+  // Environment deb packages.
+  repeated string deb_packages = 2 [
+    (length) = "<=256",
+    (size) = "<=100",
+    (unique) = true
+  ];
+}
+
+// Spark Base Environment Configuration.
+message BaseEnvironmentConfig {
+  // Base Environment Spark version. Format: "Major.Minor".
+  string spark_version = 1 [(required) = true];
+}

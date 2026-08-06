@@ -765,10 +765,16 @@ message StartClusterFailoverRequest {
 
     // Switch master role away from hosts identified by the provided hostnames.
     SWITCH_FROM_HOSTNAMES = 2;
+
+    // Switch master role away from the specified availability zone.
+    SWITCH_FROM_ZONE = 3;
   }
 
   // The type of failover request.
   FailoverType failover_type = 3;
+
+  // ZoneID to switch hosts from.
+  string zone_id = 4;
 }
 
 message StartClusterFailoverMetadata {
@@ -777,6 +783,9 @@ message StartClusterFailoverMetadata {
 
   // List of hostnames which should not be masters. Can be empty for sentinel clusters or can contain multiple hosts for sharded clusters.
   repeated string host_names = 2;
+
+  // The ID of the availability zone failover hosts from.
+  string zone_id = 3;
 }
 
 message LogRecord {

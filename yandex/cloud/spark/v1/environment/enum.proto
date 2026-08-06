@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package yandex.cloud.spark.v1.environment;
+
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/spark/v1/environment;spark_environment";
+option java_package = "yandex.cloud.api.spark.v1.environment";
+
+// Environment Life Stage.
+enum EnvironmentLifeStage {
+
+  // Environment life stage is unknown.
+  ENVIRONMENT_LIFESTAGE_UNKNOWN = 0;
+
+  // Environment unstable.
+  ENVIRONMENT_LIFESTAGE_UNSTABLE = 1;
+
+  // Environment stable.
+  ENVIRONMENT_LIFESTAGE_STABLE = 2;
+
+  // Environment deprecated.
+  ENVIRONMENT_LIFESTAGE_DEPRECATED = 3;
+
+  // Environment deleted.
+  ENVIRONMENT_LIFESTAGE_DELETED = 4;
+}
+
+// Environment Build Status.
+enum BuildStatus {
+
+  // Build status is unknown.
+  BUILD_STATUS_UNKNOWN = 0;
+
+  // Build pending.
+  BUILD_STATUS_NEW = 1;
+
+  // Build creating.
+  BUILD_STATUS_BUILDING = 2;
+
+  // Build created successfully.
+  BUILD_STATUS_BUILT = 3;
+
+  // Build validating.
+  BUILD_STATUS_VALIDATING = 4;
+
+  // Build ready to use.
+  BUILD_STATUS_READY = 5;
+
+  // Build stable.
+  BUILD_STATUS_STABLE = 6;
+
+  // Build creation failed.
+  BUILD_STATUS_ERROR = 7;
+
+  // Build deleting.
+  BUILD_STATUS_DELETING = 8;
+
+  // Build deleted.
+  BUILD_STATUS_DELETED = 9;
+}

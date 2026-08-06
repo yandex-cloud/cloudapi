@@ -239,6 +239,9 @@ message ResourcePool {
 
   // Scale Policy.
   ScalePolicy scale_policy = 2 [(required) = true];
+
+  // Run pool nodes on preemptible (interruptible) VMs.
+  bool preemptible = 3;
 }
 
 // Scale Policy.

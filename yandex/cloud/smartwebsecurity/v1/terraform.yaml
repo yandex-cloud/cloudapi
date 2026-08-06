@@ -100,8 +100,12 @@ model_config:
       use_state_for_unknown: true
     yandex.cloud.smartwebsecurity.v1.advanced_rate_limiter.CreateAdvancedRateLimiterProfileRequest.folder_id:
       force_new: true
+    yandex.cloud.smartwebsecurity.v1.advanced_rate_limiter.AdvancedRateLimiterProfile.created_at:
+      use_state_for_unknown: true
     yandex.cloud.smartwebsecurity.v1.waf.CreateWafProfileRequest.folder_id:
       force_new: true
+    yandex.cloud.smartwebsecurity.v1.waf.WafProfile.created_at:
+      use_state_for_unknown: true
     yandex.cloud.smartwebsecurity.v1.waf.RuleSet.id:
       ordinary_field: true
     yandex.cloud.smartwebsecurity.v1.waf.WafProfile.WafProfileRuleSet.RuleGroup.id:
@@ -112,3 +116,5 @@ model_config:
       force_new: true
     yandex.cloud.smartwebsecurity.v1.match_list.MatchList.list_type:
       force_new: true
+    yandex.cloud.smartwebsecurity.v1.match_list.MatchList.created_at:
+      use_state_for_unknown: true
