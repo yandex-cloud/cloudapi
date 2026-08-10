@@ -75,6 +75,16 @@ service DashboardService {
     };
   };
 
+  // Converts a Grafana dashboard into a Monitoring dashboard draft.
+  //
+  // Nothing is persisted: the caller reviews the returned draft and the
+  // diagnostics, then calls [DashboardService.Create] to materialize it.
+  rpc ConvertFromGrafana(ConvertFromGrafanaRequest) returns (ConvertFromGrafanaResponse) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/monitoring/v3/dashboards:convertFromGrafana"
+    };
+  };
 }
 
 message GetDashboardRequest {
@@ -342,4 +352,203 @@ message ListDashboardLabelValuesResponse {
 
   // Is truncated
   bool truncated = 2;
+}
+
+// Strategy for translating PromQL (Prometheus data source) panel queries.
+// Queries against the Monitoring data source are unaffected by this mode.
+enum QueryTranslationMode {
+  QUERY_TRANSLATION_MODE_UNSPECIFIED = 0;
+
+  // Keep queries in PromQL for the native Prometheus data source, adapting
+  // only Grafana template syntax (`$var`, `$__rate_interval`).
+  QUERY_TRANSLATION_MODE_KEEP_PROMQL = 1;
+
+  // Translate PromQL to the Monitoring query language where possible; an
+  // untranslatable query is kept in PromQL and reported with a WARNING
+  // diagnostic.
+  QUERY_TRANSLATION_MODE_TRANSLATE_TO_SEL = 2;
+}
+
+// Strategy for widget types that have no direct Monitoring equivalent.
+enum UnsupportedWidgetMode {
+  UNSUPPORTED_WIDGET_MODE_UNSPECIFIED = 0;
+
+  // Map to the closest supported widget type and emit an INFO diagnostic;
+  // a type with no reasonable match becomes a text placeholder with
+  // a WARNING diagnostic.
+  UNSUPPORTED_WIDGET_MODE_CLOSEST_MATCH = 1;
+
+  // Drop the widget and emit an ERROR diagnostic.
+  UNSUPPORTED_WIDGET_MODE_SKIP = 2;
+}
+
+// Strategy for queries whose data source is not available in Monitoring
+// (InfluxDB, Graphite, SQL, CloudWatch, ...).
+enum UnavailableDataSourceMode {
+  UNAVAILABLE_DATA_SOURCE_MODE_UNSPECIFIED = 0;
+
+  // Keep such queries as is (only template variable syntax is adapted) and
+  // report each with a WARNING diagnostic; the widget renders no data until
+  // the query is rewritten.
+  UNAVAILABLE_DATA_SOURCE_MODE_KEEP_QUERIES = 1;
+
+  // Drop such queries; a widget left with no queries at all is dropped with
+  // an ERROR diagnostic.
+  UNAVAILABLE_DATA_SOURCE_MODE_DROP = 2;
+}
+
+// Tunable knobs for a dashboard conversion. Each dimension is independent;
+// new dimensions are added as new fields without breaking existing callers.
+// Widget layout is not configurable: positions are derived from the Grafana
+// `gridPos` coordinates, rescaled to the Monitoring grid and regrouped by rows.
+message ConversionOptions {
+  // How to translate panel queries.
+  // If unspecified, `QUERY_TRANSLATION_MODE_TRANSLATE_TO_SEL` is used.
+  QueryTranslationMode query_translation = 1;
+
+  // What to do with widget types Monitoring has no equivalent for.
+  // If unspecified, `UNSUPPORTED_WIDGET_MODE_CLOSEST_MATCH` is used.
+  UnsupportedWidgetMode unsupported_widget = 2;
+
+  // Target Prometheus workspace for converted Prometheus queries.
+  // When unset, the workspace in the draft is left empty and the caller must
+  // fill it in before [DashboardService.Create].
+  string prometheus_workspace_id = 3 [(length) = "<=50"];
+
+  // Explicit metric renames applied during query translation, keyed by the
+  // metric name exactly as written in the source PromQL. Applied before any
+  // automatic name resolution and wins over it. Typical flow: the first
+  // [DashboardService.ConvertFromGrafana] call reports `KIND_METRIC_NOT_FOUND`
+  // and `KIND_METRIC_AUTO_RESOLVED` diagnostics with suggestions, the caller
+  // reviews them and repeats the call with the chosen renames.
+  map<string, string> metric_renames = 4 [
+    (length) = "<=200",
+    (size) = "<=1000"
+  ];
+
+  // What to do with queries whose data source is not available in Monitoring.
+  // If unspecified, `UNAVAILABLE_DATA_SOURCE_MODE_KEEP_QUERIES` is used.
+  UnavailableDataSourceMode unavailable_data_source = 5;
+}
+
+message ConvertFromGrafanaRequest {
+  // Required. Project ID the resulting draft belongs to.
+  string project_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Required. Raw Grafana dashboard JSON (the dashboard "JSON model").
+  string grafana_json = 2 [(required) = true];
+
+  // Tunable conversion knobs. Omit for the defaults.
+  ConversionOptions options = 3;
+}
+
+message ConvertFromGrafanaResponse {
+  // Dashboard draft, ready to pass to [DashboardService.Create]. Nothing is
+  // persisted by the conversion, so server-assigned fields (id, created_at,
+  // modified_at, created_by, modified_by, etag) are empty.
+  Dashboard dashboard = 1;
+
+  // Per-element diagnostics: approximations, dropped panels, untranslated
+  // queries, unsupported widget types, etc.
+  repeated ConversionDiagnostic diagnostics = 2;
+}
+
+message ConversionDiagnostic {
+  // Severity of a single conversion diagnostic.
+  enum Severity {
+    SEVERITY_UNSPECIFIED = 0;
+
+    // Benign approximation worth noting, e.g. a widget type substitution.
+    SEVERITY_INFO = 1;
+
+    // Best-effort fallback, e.g. a query kept in PromQL.
+    SEVERITY_WARNING = 2;
+
+    // Element could not be converted and was dropped.
+    SEVERITY_ERROR = 3;
+  }
+
+  // Machine-readable category of a diagnostic. Lets the caller act on it
+  // (build a metric mapping editor, group by cause) without parsing the
+  // message text.
+  enum Kind {
+    KIND_UNSPECIFIED = 0;
+
+    // A query could not be translated (unsupported construct or data source);
+    // it is kept in the source language or dropped with its widget.
+    KIND_UNSUPPORTED_QUERY = 1;
+
+    // The element converted with a known approximation - in the emitted query
+    // or in the widget's visual features.
+    KIND_APPROXIMATION = 2;
+
+    // `subject` names a metric absent from the target container; `suggestions`
+    // carry the closest existing names, possibly none.
+    KIND_METRIC_NOT_FOUND = 3;
+
+    // `subject` names a label key absent from the target container.
+    KIND_LABEL_NOT_FOUND = 4;
+
+    // `subject` was automatically resolved to an existing metric name
+    // (case, separator and unit suffix reconciliation); `suggestions[0]` is
+    // the applied name. Override via [ConversionOptions.metric_renames].
+    KIND_METRIC_AUTO_RESOLVED = 5;
+
+    // `subject` is a Prometheus recording rule (colon-form name); it never
+    // exists in raw data - the rule must be recreated or its expression
+    // inlined, a rename cannot fix it.
+    KIND_RECORDING_RULE = 6;
+
+    // `subject` is a Prometheus scrape meta-metric (`up`, `scrape_*`); it has
+    // no equivalent in pushed data.
+    KIND_SCRAPE_META_METRIC = 7;
+
+    // `subject` contains an unexpanded template variable, so existence cannot
+    // be verified.
+    KIND_UNVERIFIED_NAME = 8;
+
+    // A [ConversionOptions.metric_renames] entry points to a metric absent
+    // from the container.
+    KIND_RENAME_TARGET_NOT_FOUND = 9;
+
+    // A [ConversionOptions.metric_renames] entry matched nothing in the
+    // dashboard.
+    KIND_RENAME_ENTRY_UNUSED = 10;
+
+    // A widget type has no direct Monitoring equivalent (substituted or
+    // dropped per [ConversionOptions.unsupported_widget]).
+    KIND_UNSUPPORTED_WIDGET = 11;
+  }
+
+  // Severity of this diagnostic.
+  Severity severity = 1;
+
+  // Location in the source Grafana JSON, e.g. `panels[4].targets[0]`.
+  string source_path = 2;
+
+  // Title of the related panel or widget, when available.
+  string widget_title = 3;
+
+  // Human-readable explanation.
+  string message = 4;
+
+  // Machine-readable category of this diagnostic.
+  Kind kind = 5;
+
+  // The metric or label name this diagnostic is about, when the kind implies
+  // one.
+  string subject = 6;
+
+  // Existing names from the target container offered as replacements for
+  // `subject`, best match first. Feed the chosen one back via
+  // [ConversionOptions.metric_renames].
+  repeated string suggestions = 7;
+
+  // Titles of all affected widgets when the diagnostic is aggregated
+  // dashboard-wide (e.g. one `KIND_METRIC_NOT_FOUND` per missing metric);
+  // `widget_title` and `source_path` may then be empty.
+  repeated string affected_widgets = 8;
 }

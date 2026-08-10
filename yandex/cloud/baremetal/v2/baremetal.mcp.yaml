@@ -1,0 +1,99 @@
+services:
+  - name: BootImageService
+    tools:
+      - method: GetBootImage
+      - method: ListBootImages
+      - method: CreateBootImage
+      - method: UpdateBootImage
+      - method: DeleteBootImage
+        disabled: true
+      - method: ListBootImageOperations
+
+  - name: ConfigurationService
+    tools:
+      - method: ListConfigurationRentalPeriods
+      - method: ResolveConfigurationDefaultStorage
+      - method: ResolveConfigurationsDefaultStorages
+
+  - name: HardwarePoolService
+    tools:
+      - method: GetHardwarePool
+      - method: ListHardwarePools
+
+  - name: ImageService
+    tools:
+      - method: GetImage
+      - method: ListImages
+      - method: ResolveImages
+
+  - name: PrivateCloudConnectionService
+    tools:
+      - method: GetPrivateCloudConnection
+      - method: ListPrivateCloudConnections
+      - method: CreatePrivateCloudConnection
+      - method: UpdatePrivateCloudConnection
+      - method: DeletePrivateCloudConnection
+        disabled: true
+
+  - name: PrivateSubnetService
+    tools:
+      - method: GetPrivateSubnet
+      - method: ListPrivateSubnets
+      - method: CreatePrivateSubnet
+      - method: UpdatePrivateSubnet
+      - method: DeletePrivateSubnet
+        disabled: true
+      - method: ListPrivateSubnetOperations
+
+  - name: PublicPrefixPoolService
+    tools:
+      - method: GetPublicPrefixPool
+      - method: ListPublicPrefixPools
+      - method: UpdatePublicPrefixPool
+
+  - name: PublicSubnetService
+    tools:
+      - method: GetPublicSubnet
+      - method: ListPublicSubnets
+      - method: CreatePublicSubnet
+      - method: UpdatePublicSubnet
+      - method: DeletePublicSubnet
+        disabled: true
+      - method: ListPublicSubnetOperations
+
+  - name: RentalPeriodService
+    tools:
+      - method: ListRentalPeriods
+
+  - name: ServerService
+    tools:
+      - method: GetServer
+      - method: ListServers
+      - method: CreateServer
+      - method: BatchCreateServers
+      - method: UpdateServer
+      - method: DeleteServer
+        disabled: true
+      - method: SkipQuarantineServer
+        disabled: true
+      - method: PowerOffServer
+      - method: PowerOnServer
+      - method: RebootServer
+      - method: ReinstallServer
+      - method: RenewServerRental
+      - method: ListServerOperations
+
+  - name: VrfService
+    tools:
+      - method: GetVrf
+      - method: ListVrfs
+      - method: CreateVrf
+      - method: UpdateVrf
+      - method: DeleteVrf
+        disabled: true
+      - method: ListVrfOperations
+
+  - name: ZoneService
+    tools:
+      - method: GetZone
+      - method: ListZones
