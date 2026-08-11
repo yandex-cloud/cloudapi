@@ -88,7 +88,7 @@ service BootImageService {
   // https://google.aip.dev/130 --)
   rpc ListBootImageOperations(ListBootImageOperationsRequest) returns (ListBootImageOperationsResponse) {
     option (google.api.http) = {
-      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/bootImages/{boot_image_id}:listOperations"
+      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/bootImages/{boot_image_id}/operations"
     };
     option (google.api.method_signature) = "cloud_id,folder_id,boot_image_id";
   };

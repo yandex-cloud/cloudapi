@@ -204,7 +204,7 @@ service ServerService {
   // https://google.aip.dev/130 --)
   rpc ListServerOperations(ListServerOperationsRequest) returns (ListServerOperationsResponse) {
     option (google.api.http) = {
-      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers/{server_id}:listOperations"
+      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers/{server_id}/operations"
     };
     option (google.api.method_signature) = "cloud_id,folder_id,server_id";
   };

@@ -89,7 +89,7 @@ service PrivateSubnetService {
   // https://google.aip.dev/130 --)
   rpc ListPrivateSubnetOperations(ListPrivateSubnetOperationsRequest) returns (ListPrivateSubnetOperationsResponse) {
     option (google.api.http) = {
-      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/privateSubnets/{private_subnet_id}:listOperations"
+      get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/privateSubnets/{private_subnet_id}/operations"
     };
     option (google.api.method_signature) = "cloud_id,folder_id,private_subnet_id";
   };

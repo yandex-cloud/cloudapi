@@ -1250,4 +1250,10 @@ message ConfigSpec {
 
   // Valkey modules settings
   ValkeyModules modules = 14;
+
+  // Enables tiered storage (disk + NVMe hot tier). Forces edition to 9.1-ts.
+  google.protobuf.BoolValue tiered_storage_enabled = 15;
+
+  // Shard autoscaling settings for the cluster.
+  ShardAutoscalingSettings shard_autoscaling_settings = 16;
 }

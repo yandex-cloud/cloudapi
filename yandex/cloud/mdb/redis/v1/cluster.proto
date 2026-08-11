@@ -212,6 +212,13 @@ message ClusterConfig {
 
   // Full version
   string full_version = 15;
+
+  // Enables tiered storage (disk + NVMe hot tier). Forces edition to 9.1-ts.
+  google.protobuf.BoolValue tiered_storage_enabled = 16;
+
+  // Shard autoscaling settings. When enabled, the cluster can automatically
+  // add or delete shards based on resource utilization metrics.
+  ShardAutoscalingSettings shard_autoscaling_settings = 17;
 }
 
 message Shard {
@@ -408,4 +415,32 @@ message ValkeyBloom {
 
   // Module version
   string version = 2;
+}
+
+message ShardAutoscalingThreshold {
+  // Threshold for downscaling
+  google.protobuf.Int64Value down_threshold = 1 [(value) = "0-100"];
+
+  // Threshold for upscaling
+  google.protobuf.Int64Value up_threshold = 2 [(value) = "0-100"];
+}
+
+message ShardAutoscalingSettings {
+  // Whether shard autoscaling is enabled for the cluster.
+  bool enabled = 1;
+
+  // Minimum number of shards the cluster can scale down to.
+  int64 min_shards = 2 [(value) = ">=1"];
+
+  // Maximum number of shards the cluster can scale up to.
+  int64 max_shards = 3 [(value) = ">=1"];
+
+  // CPU utilization threshold.
+  ShardAutoscalingThreshold cpu_threshold = 4;
+
+  // Memory utilization threshold.
+  ShardAutoscalingThreshold memory_threshold = 5;
+
+  // Network utilization threshold.
+  ShardAutoscalingThreshold network_threshold = 6;
 }

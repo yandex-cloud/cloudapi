@@ -132,6 +132,9 @@ message RedisConfig {
 
   // Enable/disable audit logs for Valkey
   google.protobuf.BoolValue audit_log = 25;
+
+  // Enables automatic slot rebalancing when shards are added or deleted.
+  google.protobuf.BoolValue rebalance_enabled = 26;
 }
 
 message RedisConfigSet {

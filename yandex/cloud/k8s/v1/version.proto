@@ -28,8 +28,10 @@ message VersionInfo {
 message UpdateVersionSpec {
   oneof specifier {
     option (exactly_one) = true;
+
     // Request update to a newer version of Kubernetes (1.x -> 1.y).
     string version = 1;
+
     // Request update to the latest revision for the current version.
     bool latest_revision = 2;
   }
