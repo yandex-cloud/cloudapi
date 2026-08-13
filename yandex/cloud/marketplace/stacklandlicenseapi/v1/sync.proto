@@ -150,7 +150,7 @@ message SyncRequest {
 
   // License server ID
   string license_server_id = 3 [
-    (length) = "<=100",
+    (length) = "<=50",
     (required) = true
   ];
 

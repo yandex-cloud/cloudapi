@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.marketplace.stacklandlicenseapi.v1;
 
+import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/marketplace/stacklandlicenseapi/v1;stacklandlicenseapi";
@@ -26,7 +27,7 @@ message RegisterRequest {
 // License server entity
 message LicenseServer {
   // Unique server ID
-  string server_id = 1;
+  string server_id = 1 [(google.api.field_behavior) = IDENTIFIER];
 
   // License server CA certificate
   string ls_ca_certificate = 2;
@@ -39,6 +40,24 @@ message LicenseServer {
 
   // PEM-encoded PKIX public key for verifying license signatures
   string ls_signing_public_key = 5;
+
+  // User-provided human-readable license server name
+  string display_name = 6;
+
+  // User-provided license server description
+  string description = 7;
+
+  // Organization that owns the license server
+  string organization_id = 8 [(google.api.field_behavior) = IMMUTABLE];
+
+  // Billing account associated with the license server
+  string billing_account_id = 9 [(google.api.field_behavior) = IMMUTABLE];
+
+  // Timestamp when the license server was created
+  google.protobuf.Timestamp created_at = 10 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Timestamp when the license server was last updated
+  google.protobuf.Timestamp updated_at = 11 [(google.api.field_behavior) = OUTPUT_ONLY];
 }
 
 // Metadata for register license server operation
