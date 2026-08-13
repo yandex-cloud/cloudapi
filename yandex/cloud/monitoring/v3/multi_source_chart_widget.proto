@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.monitoring.v3;
 
 import "google/protobuf/wrappers.proto";
+import "yandex/cloud/monitoring/v3/bar_chart_settings.proto";
 import "yandex/cloud/monitoring/v3/downsampling.proto";
 import "yandex/cloud/monitoring/v3/sort_order.proto";
 import "yandex/cloud/monitoring/v3/thresholds.proto";
@@ -354,6 +355,9 @@ message MultiSourceChartWidget {
 
     // Hide chart partial data.
     bool hide_partial_data = 12;
+
+    // Settings for the categorical bar chart.
+    BarChartSettings bar_chart_settings = 13;
   }
 
   // Series override settings.

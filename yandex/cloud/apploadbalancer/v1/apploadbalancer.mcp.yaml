@@ -1,0 +1,63 @@
+services:
+  - name: LoadBalancerService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+        disabled: true
+      - method: Start
+      - method: Stop
+      - method: AddListener
+      - method: RemoveListener
+      - method: UpdateListener
+      - method: AddSniMatch
+      - method: UpdateSniMatch
+      - method: RemoveSniMatch
+      - method: GetTargetStates
+      - method: ListOperations
+      - method: DisableZones
+      - method: EnableZones
+
+  - name: TargetGroupService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: AddTargets
+      - method: RemoveTargets
+      - method: ListOperations
+
+  - name: BackendGroupService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: AddBackend
+      - method: RemoveBackend
+      - method: UpdateBackend
+      - method: ListOperations
+
+  - name: HttpRouterService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: ListOperations
+
+  - name: VirtualHostService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: RemoveRoute
+      - method: UpdateRoute

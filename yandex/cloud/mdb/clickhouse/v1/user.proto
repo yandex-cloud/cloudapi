@@ -460,6 +460,16 @@ message UserSettings {
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#alter_sync).
   google.protobuf.Int64Value replication_alter_partitions_sync = 42;
 
+  // Wait mode for lightweight **DELETE** queries on replicated tables.
+  // * **0** - do not wait for replicas.
+  // * **1** - only wait for own execution.
+  // * **2** - wait for all replicas.
+  //
+  // Default value: **2**.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#lightweight_deletes_sync).
+  google.protobuf.Int64Value lightweight_deletes_sync = 181;
+
   // Max replica delay in milliseconds. If a replica lags more than the set value, this replica is not used and becomes a stale one.
   //
   // Default value: **300000** (5 minutes).

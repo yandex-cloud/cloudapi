@@ -1,0 +1,50 @@
+services:
+  - name: DnsZoneService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Move
+      - method: Delete
+        disabled: true
+      - method: GetRecordSet
+      - method: ListRecordSets
+      - method: UpdateRecordSets
+      - method: UpsertRecordSets
+        disabled: true
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
+      - method: UpdatePrivateNetworks
+
+  - name: DnsFirewallService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Move
+      - method: Delete
+        disabled: true
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
+
+  - name: DnsInboundEndpointService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+        disabled: true
+      - method: ListOperations
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings

@@ -132,6 +132,30 @@ message PrometheusQuerySource {
   string workspace_id = 3;
 }
 
+message InfraServiceNameValueSource {
+}
+
+message InfraEnvironmentValueSource {
+  // Service ID used to select environment values.
+  int64 service_id = 1;
+}
+
+message InfraCombinedEventTypesValueSource {
+}
+
+message InfraQuerySource {
+  oneof value_source {
+    // Service name value source.
+    InfraServiceNameValueSource service_name = 1;
+
+    // Environment value source.
+    InfraEnvironmentValueSource environment = 2;
+
+    // Combined event types value source.
+    InfraCombinedEventTypesValueSource types = 3;
+  }
+}
+
 // Query parameter.
 message QueryParameter {
   // Is parameter multiselectable.
@@ -152,6 +176,9 @@ message QueryParameter {
 
     // Prometheus source for QueryParameter.
     PrometheusQuerySource prometheus = 6;
+
+    // Infra source for QueryParameter.
+    InfraQuerySource infra = 7;
   }
 }
 

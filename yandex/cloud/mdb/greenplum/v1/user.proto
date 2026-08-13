@@ -8,6 +8,8 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/greenp
 option java_package = "yandex.cloud.api.mdb.greenplum.v1";
 
 message User {
+  reserved 4 to 8;
+
   // User name
   string name = 1 [
     (length) = "1-63",
@@ -20,4 +22,24 @@ message User {
 
   // Resource group for user's queries
   string resource_group = 3 [(pattern) = "^([^\\|/*?.,;\"'<>]+|)$"];
+
+  // DB and Pooler specific settings
+  UserSettingsConfig settings = 9;
+}
+
+message UserSettingsConfig {
+  enum PoolMode {
+    // PoolMode not explicitly set. Falls back to cluster-level pooling mode.
+    POOL_MODE_UNSPECIFIED = 0;
+
+    // Assign server connection to a client until it disconnects.
+    SESSION = 1;
+
+    // Assign server connection to a client for a transaction processing.
+    TRANSACTION = 2;
+  }
+
+  // Odyssey® route [server pool mode](https://github.com/yandex/odyssey/blob/master/docs/configuration/rules.md#pool).
+  // When POOL_MODE_UNSPECIFIED, uses the cluster-level pooling mode.
+  PoolMode pool_mode = 1;
 }

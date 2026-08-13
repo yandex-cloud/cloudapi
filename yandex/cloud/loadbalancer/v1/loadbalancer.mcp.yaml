@@ -1,0 +1,30 @@
+services:
+  - name: NetworkLoadBalancerService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+        disabled: true
+      - method: Start
+      - method: Stop
+      - method: AttachTargetGroup
+      - method: DetachTargetGroup
+      - method: GetTargetStates
+      - method: AddListener
+      - method: RemoveListener
+      - method: ListOperations
+      - method: DisableZones
+      - method: EnableZones
+
+  - name: TargetGroupService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Update
+      - method: Delete
+      - method: AddTargets
+      - method: RemoveTargets
+      - method: ListOperations

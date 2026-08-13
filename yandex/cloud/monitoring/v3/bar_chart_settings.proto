@@ -1,0 +1,147 @@
+syntax = "proto3";
+
+package yandex.cloud.monitoring.v3;
+
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/monitoring/v3;monitoring";
+option java_package = "yandex.cloud.api.monitoring.v3";
+
+// Settings shared by the categorical bar chart (VISUALIZATION_TYPE_BARS) and
+// the distribution chart (VISUALIZATION_TYPE_DISTRIBUTION). A bar value is
+// the aggregation below applied to every series over the window; the
+// widget-level VisualizationSettings.aggregation is not used by these two
+// visualization types.
+message BarChartSettings {
+  enum Orientation {
+    // Not specified (auto: chosen by the widget proportions).
+    ORIENTATION_UNSPECIFIED = 0;
+
+    // Vertical bars, categories on the X axis.
+    ORIENTATION_VERTICAL = 1;
+
+    // Horizontal bars, categories on the Y axis.
+    ORIENTATION_HORIZONTAL = 2;
+  }
+
+  enum Stacking {
+    // Not specified (off by default).
+    STACKING_UNSPECIFIED = 0;
+
+    // Bars of a group are placed side by side.
+    STACKING_OFF = 1;
+
+    // Bars of a group are stacked.
+    STACKING_NORMAL = 2;
+  }
+
+  enum ShowValues {
+    // Not specified (auto by default).
+    SHOW_VALUES_UNSPECIFIED = 0;
+
+    // Show values when there is enough space.
+    SHOW_VALUES_AUTO = 1;
+
+    // Always show values.
+    SHOW_VALUES_ALWAYS = 2;
+
+    // Never show values.
+    SHOW_VALUES_NEVER = 3;
+  }
+
+  enum Sort {
+    // Not specified: numeric bin order for DISTRIBUTION, source data order for BARS.
+    SORT_UNSPECIFIED = 0;
+
+    // Ascending by bar value.
+    SORT_VALUE_ASC = 1;
+
+    // Descending by bar value.
+    SORT_VALUE_DESC = 2;
+
+    // Ascending by category; numeric categories (histogram bins) compare as numbers, +Inf goes last.
+    SORT_CATEGORY_ASC = 3;
+
+    // Descending by category.
+    SORT_CATEGORY_DESC = 4;
+  }
+
+  enum Aggregation {
+    // Not specified: sum for DISTRIBUTION, matching the default aggregation
+    // of HIST, HIST_RATE and LOG_HISTOGRAM; avg for BARS.
+    AGGREGATION_UNSPECIFIED = 0;
+
+    // Average.
+    AGGREGATION_AVG = 1;
+
+    // Minimum.
+    AGGREGATION_MIN = 2;
+
+    // Maximum.
+    AGGREGATION_MAX = 3;
+
+    // Last non-NaN value.
+    AGGREGATION_LAST = 4;
+
+    // Sum.
+    AGGREGATION_SUM = 5;
+
+    // Count of non-NaN points.
+    AGGREGATION_COUNT = 6;
+  }
+
+  enum LabelSpacing {
+    // Not specified: automatic label spacing.
+    LABEL_SPACING_UNSPECIFIED = 0;
+
+    // No minimum spacing, show every label.
+    LABEL_SPACING_NONE = 1;
+
+    // At least 100px between labels.
+    LABEL_SPACING_SMALL = 2;
+
+    // At least 200px between labels.
+    LABEL_SPACING_MEDIUM = 3;
+
+    // At least 300px between labels.
+    LABEL_SPACING_LARGE = 4;
+  }
+
+  // The category (bar group): either a label name, e.g. "code", or a template
+  // over several labels, e.g. "{{method}} {{code}}". Series rendering the same
+  // value share a category. Empty for BARS: every series is its own category.
+  // Empty for DISTRIBUTION: the bin label is auto-detected - "bin" when present,
+  // otherwise the single varying label.
+  string category = 1;
+
+  // A bar inside the category group, in the same two forms as category:
+  // a label name, e.g. "method", or a template, e.g. "{{method}}". Empty:
+  // one bar per query. When several series fall into the same bar, the
+  // aggregation applies per series and the results are summed.
+  string bar = 2;
+
+  // Bars orientation.
+  Orientation orientation = 3;
+
+  // Stacking mode of bars inside a group.
+  Stacking stacking = 4;
+
+  // Show bar values on the chart.
+  ShowValues show_values = 5;
+
+  // Relative bar width, [0..1]; 0 - minimal width; unset - renderer default (0.97).
+  google.protobuf.DoubleValue bar_width = 6;
+
+  // Category tick label rotation in degrees, [-90..90]; unset - automatic
+  // label handling (fit, rotate, hide).
+  google.protobuf.Int64Value label_rotation = 7;
+
+  // Minimum spacing between category labels.
+  LabelSpacing label_spacing = 8;
+
+  // Display order of categories.
+  Sort sort = 9;
+
+  // How every series collapses to its bar value over the window.
+  Aggregation aggregation = 10;
+}

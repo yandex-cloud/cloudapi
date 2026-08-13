@@ -32,6 +32,7 @@ message ExtensionSpec {
   // Name of the extension.
   string name = 1 [
     (length) = "<=50",
+    (pattern) = "[a-zA-Z0-9_-]+",
     (required) = true
   ];
 
@@ -41,6 +42,8 @@ message ExtensionSpec {
     (length) = "<=50",
     (required) = true
   ];
+
+  // Flag indicating whether the extension is disabled.
   bool disabled = 3;
 
   // Extension type
