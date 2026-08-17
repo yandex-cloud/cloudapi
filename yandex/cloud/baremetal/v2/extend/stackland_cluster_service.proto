@@ -96,7 +96,7 @@ service StacklandClusterService {
   // https://google.aip.dev/130 --)
   rpc ListStacklandClusterOperations(ListStacklandClusterOperationsRequest) returns (ListStacklandClusterOperationsResponse) {
     option (google.api.http) = {
-      get: "/v2/clouds/{cloud_id}/folders/{folder_id}/extend/stacklandClusters/{stackland_cluster_id}:listOperations"
+      get: "/v2/clouds/{cloud_id}/folders/{folder_id}/extend/stacklandClusters/{stackland_cluster_id}/operations"
     };
     option (google.api.method_signature) = "cloud_id,folder_id,stackland_cluster_id";
   };

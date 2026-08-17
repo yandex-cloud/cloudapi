@@ -157,7 +157,8 @@ message ClusterConfig {
   Access access = 4;
 
   // Snapshot management configuration.
-  SnapshotManagement snapshot_management = 5;
+  // Deprecated: use [BackupRetentionPolicyService.List] instead.
+  SnapshotManagement snapshot_management = 5 [deprecated = true];
 
   // Full version.
   string full_version = 6;

@@ -25,9 +25,17 @@ message Rule {
     (length) = "<=100",
     (required) = true
   ];
+
+  // Resource options.
   ResourceOptions options = 4;
 
   // Rules are ordered by weight in ascending order (lower weights execute first)
   // Weight must be between 0 and 9999 inclusive
   int64 weight = 5;
+
+  // ID of origins group. Non zero value overrides parent origin group.
+  int64 origins_group_id = 6;
+
+  // Protocol used for communication with origin.
+  OriginProtocol origin_protocol = 7;
 }

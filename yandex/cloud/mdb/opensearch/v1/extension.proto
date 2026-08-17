@@ -39,7 +39,7 @@ message ExtensionSpec {
   // URI of the extension file
   // Currently only supports links that are stored in Yandex Object Storage.
   string uri = 2 [
-    (length) = "<=50",
+    (length) = "<=128",
     (required) = true
   ];
 

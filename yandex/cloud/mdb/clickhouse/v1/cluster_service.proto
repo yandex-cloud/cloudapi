@@ -86,6 +86,19 @@ service ClusterService {
     };
   };
 
+  // Change the coordinator service in the cluster from ZooKeeper to ClickHouse Keeper.
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
+  rpc MigrateToKeeper(MigrateClusterToKeeperRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "MigrateClusterToKeeperMetadata"
+      response: "Cluster"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-clickhouse/v1/clusters/{cluster_id}:migrateToKeeper"
+    };
+  };
+
   // Starts the specified ClickHouse cluster.
   rpc Start(StartClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -666,6 +679,30 @@ message AddClusterZookeeperRequest {
 
 message AddClusterZookeeperMetadata {
   // ID of the ClickHouse cluster.
+  string cluster_id = 1 [(required) = true];
+}
+
+message MigrateClusterToKeeperRequest {
+  // ID of the ClickHouse cluster to migrate.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Resources allocated to ClickHouse Keeper hosts.
+  Resources resources = 2;
+
+  // Configuration of ClickHouse Keeper hosts.
+  // If not specified, hosts will be placed in the same zones as ClickHouse hosts.
+  repeated HostSpec host_specs = 3;
+
+  // Allows cluster degradation to read-only during migration. The option must be enabled
+  // in order to perform migration from ZooKeeper to ClickHouse Keeper.
+  bool allow_degradation_to_read_only = 4;
+}
+
+message MigrateClusterToKeeperMetadata {
+  // ID of the ClickHouse cluster being migrated.
   string cluster_id = 1 [(required) = true];
 }
 

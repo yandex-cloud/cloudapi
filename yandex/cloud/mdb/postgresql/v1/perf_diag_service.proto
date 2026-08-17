@@ -56,6 +56,10 @@ message ListRawSessionStatesRequest {
 
   // Page token. To get the next page of results, set [page_token] to the [ListRawSessionStatesResponse.next_page_token] returned by the previous PostgreSQL session list request.
   string page_token = 5 [(length) = "<=100"];
+
+  // Filters session states by the specified fields, values, and comparison operators.
+  // Multiple filters are combined using the logical AND operator.
+  repeated ExtendedSessionFilter extended_filter = 6;
 }
 
 message ListRawSessionStatesResponse {
@@ -72,4 +76,136 @@ message ListRawStatementsResponse {
 
   // This token allows you to get the next page of results when requesting the PostgreSQL session list. If the number of the results is larger than [ListRawStatementsRequest.page_size], use the [next_page_token] as the value for the [ListRawStatementsRequest.page_token] parameter in the next request. Each subsequent request will have its own [next_page_token] to continue paging through the results.
   string next_page_token = 2;
+}
+
+enum SessionField {
+  // Unspecified session field.
+  SESSION_FIELD_UNSPECIFIED             =  0;
+
+  // Time when session statistics were collected.
+  SESSION_TIME                          =  1;
+
+  // Session host.
+  SESSION_HOST                          =  2;
+
+  // Server process identifier (PID).
+  SESSION_PID                           =  3;
+
+  // Database name.
+  SESSION_DATABASE                      =  4;
+
+  // Database user name.
+  SESSION_USER                          =  5;
+
+  // Client application name.
+  SESSION_APPLICATION_NAME              =  6;
+
+  // Time when the backend process started.
+  SESSION_BACKEND_START                 =  7;
+
+  // Time when the current transaction started.
+  SESSION_XACT_START                    =  8;
+
+  // Time when the current query started.
+  SESSION_QUERY_START                   =  9;
+
+  // Time when the session state last changed.
+  SESSION_STATE_CHANGE                  = 10;
+
+  // Type of event for which the backend is waiting.
+  SESSION_WAIT_EVENT_TYPE               = 11;
+
+  // Name of the event for which the backend is waiting.
+  SESSION_WAIT_EVENT                    = 12;
+
+  // Current backend state.
+  SESSION_STATE                         = 13;
+
+  // Text of the current or most recent query.
+  SESSION_QUERY                         = 14;
+
+  // Backend process type.
+  SESSION_BACKEND_TYPE                  = 15;
+
+  // Client IP address.
+  SESSION_CLIENT_ADDR                   = 16;
+
+  // Client host name.
+  SESSION_CLIENT_HOSTNAME               = 17;
+
+  // Client TCP port.
+  SESSION_CLIENT_PORT                   = 18;
+
+  // Top-level transaction identifier.
+  SESSION_BACKEND_XID                   = 19;
+
+  // Current xmin horizon.
+  SESSION_BACKEND_XMIN                  = 20;
+
+  // Query identifier.
+  SESSION_QUERY_ID                      = 21;
+
+  // Process identifiers that are blocking the session.
+  SESSION_BLOCKING_PIDS                 = 22;
+
+  // Role of the PostgreSQL host.
+  SESSION_ROLE                          = 23;
+
+  // Lock modes held by processes that are blocking the session.
+  SESSION_BLOCKED_BY_MODES              = 24;
+
+  // Type of lock for which the session is waiting.
+  SESSION_WAIT_LOCKTYPE                 = 25;
+
+  // Lock mode requested by the session.
+  SESSION_WAIT_MODE                     = 26;
+
+  // Relation associated with the lock for which the session is waiting.
+  SESSION_WAIT_RELATION                 = 27;
+
+  // Age of the current transaction.
+  SESSION_TRANSACTION_AGE               = 28;
+}
+
+message ExtendedSessionFilter {
+  // Session field to compare.
+  SessionField field_name                        =  1;
+
+  // Value to compare the session field with. For IN and NOT_IN, specify a comma-separated list.
+  string value                                   =  2;
+
+  // Comparison operator. If unspecified, equality is used.
+  Operator operator                              =  3;
+}
+
+enum Operator {
+  // Unspecified comparison operator. Equivalent to EQUAL.
+  OPERATOR_UNSPECIFIED                           = 0;
+
+  // The field value is equal to the filter value.
+  EQUAL                                          = 1;
+
+  // The field value is not equal to the filter value.
+  NOT_EQUAL                                      = 2;
+
+  // The field value is greater than the filter value.
+  GREATHER_THEN                                  = 3;
+
+  // The field value is greater than or equal to the filter value.
+  GREATHER_THEN_OR_EQUAL                         = 4;
+
+  // The field value is less than the filter value.
+  LESS_THEN                                      = 5;
+
+  // The field value is less than or equal to the filter value.
+  LESS_THEN_OR_EQUAL                             = 6;
+
+  // The field value is contained in the comma-separated list of filter values.
+  IN                                             = 7;
+
+  // The field value is not contained in the comma-separated list of filter values.
+  NOT_IN                                         = 8;
+
+  // The field value matches the SQL LIKE pattern specified by the filter value.
+  LIKE                                           = 9;
 }

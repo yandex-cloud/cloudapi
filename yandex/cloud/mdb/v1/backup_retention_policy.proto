@@ -10,9 +10,13 @@ option java_package = "yandex.cloud.api.mdb.v1";
 
 // Message to describe a crontab schedule.
 message CronTab {
-  reserved 1 to 2;
-  reserved "minute";
-  reserved "hour";
+  // Minute in cron format. Valid values: 0-59, *, ranges (0-30), steps (*/5), lists (0,15,30,45).
+  // Defaults to "". Support depends on the database engine.
+  string minute = 1;
+
+  // Hour in cron format. Valid values: 0-23, *, ranges (8-18), steps (*/2), lists (0,12).
+  // Defaults to "". Support depends on the database engine.
+  string hour = 2;
 
   // Day of month in cron format. Valid values: 1-31, *, ranges (1-15), steps (*/2, 1-15/3), lists (1,15,28).
   // Defaults to "*".

@@ -26,7 +26,8 @@ message User {
   repeated UserQuota quotas = 5;
 
   // Connection Manager connection configuration.
-  ConnectionManager connection_manager = 6;
+  // Deprecated in favor of user_connection_manager field.
+  ConnectionManager connection_manager = 6 [deprecated = true];
 
   // User authentication method.
   AuthMethod auth_method = 7;
@@ -1763,7 +1764,10 @@ message UserQuota {
 }
 
 // Connection Manager connection configuration.
+// Deprecated in favor of yandex.cloud.priv.mdb.v1.UserConnectionManager message.
 message ConnectionManager {
+  option deprecated = true;
+
   // ID of Connection Manager connection.
   string connection_id = 1;
 }
