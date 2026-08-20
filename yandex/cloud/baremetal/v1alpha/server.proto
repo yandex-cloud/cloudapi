@@ -54,6 +54,12 @@ message Server {
 
     // Server is running normaly
     RUNNING = 14;
+
+    // Server is being assembled.
+    ASSEMBLING = 15;
+
+    // Server is under maintenance.
+    MAINTENANCE = 16;
   }
 
   // Configuration of the server.

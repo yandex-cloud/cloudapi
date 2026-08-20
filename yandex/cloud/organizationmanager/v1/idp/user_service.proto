@@ -562,6 +562,13 @@ message PasswordHash {
   // Type of the password hash.
   PasswordHashType password_hash_type = 2 [(required) = true];
 
+  // Timestamp when the password was created.
+  // For synchronized passwords, use the time when the password was last set in the source directory.
+  // If omitted, the current time is used.
+  // Used by [CreateUserRequest] and [SetPasswordHashRequest].
+  // This value is ignored if [CreateUserRequest.password_change_required] or [SetPasswordHashRequest.need_change] is true.
+  google.protobuf.Timestamp created_at = 3 [(value) = "19700101T000000.000000000-21051231T235959.999999999"];
+
   // Types of password hashes.
   enum PasswordHashType {
     // The password hash type is not specified.

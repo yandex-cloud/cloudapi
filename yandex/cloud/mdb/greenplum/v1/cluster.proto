@@ -275,6 +275,9 @@ message Access {
 
   // Allow access for YandexQuery.
   bool yandex_query = 5;
+
+  // Allow safety access for trino
+  bool trino = 6;
 }
 
 message RestoreResources {

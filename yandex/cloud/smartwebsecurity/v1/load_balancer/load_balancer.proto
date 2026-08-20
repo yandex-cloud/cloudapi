@@ -1,0 +1,360 @@
+syntax = "proto3";
+
+package yandex.cloud.smartwebsecurity.v1.load_balancer;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/smartwebsecurity/v1/load_balancer;smartwebsecurity";
+option java_package = "yandex.cloud.api.smartwebsecurity.v1.load_balancer";
+
+// Groups of HTTP response status codes.
+enum HttpCodeInterval {
+  // HTTP code interval is not specified.
+  HTTP_CODE_INTERVAL_UNSPECIFIED = 0;
+
+  // Informational responses (100-199).
+  HTTP_1XX = 1;
+
+  // Successful responses (200-299).
+  HTTP_2XX = 2;
+
+  // Redirection messages (300-399).
+  HTTP_3XX = 3;
+
+  // Client error responses (400-499).
+  HTTP_4XX = 4;
+
+  // Server error responses (500-599).
+  HTTP_5XX = 5;
+
+  // All HTTP response status codes.
+  HTTP_ALL = 6;
+}
+
+// LogDiscardRule discards a fraction of logs with certain codes.
+// If neither codes or intervals are provided, rule applies to all logs.
+message LogDiscardRule {
+  // HTTP codes that should be discarded.
+  repeated int64 http_codes = 1 [
+    (size) = "<=500",
+    (value) = "100-599"
+  ];
+
+  // Groups of HTTP codes like 4xx that should be discarded.
+  repeated HttpCodeInterval http_code_intervals = 2 [(size) = "<=10"];
+
+  // Percent of logs to be discarded: 0 - keep all, 100 or unset - discard all.
+  google.protobuf.Int64Value discard_percent = 3 [(value) = "0-100"];
+}
+
+message LogOptions {
+  // ID of Cloud Logging log group.
+  // Keep empty to use default log group.
+  string log_group_id = 1 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
+
+  // Do not send logs to Cloud Logging log group.
+  bool disable = 2;
+
+  // Ordered list of rules, first matching rule applies.
+  repeated LogDiscardRule discard_rules = 3 [(size) = "<=30"];
+}
+
+message Target {
+  // IPv4 address.
+  string ip_address = 1 [(length) = "1-40"];
+
+  // Target description.
+  string description = 2 [(length) = "<=128"];
+
+  // Target port.
+  int64 port = 3 [(value) = "1-65535"];
+}
+
+message SessionAffinity {
+  reserved 1;
+
+  oneof session_affinity {
+    // Session affinity based on source IP address.
+    ConnectionSessionAffinity connection = 2;
+
+    // Session affinity based on an HTTP header.
+    HeaderSessionAffinity header = 3;
+
+    // Session affinity based on a cookie.
+    CookieSessionAffinity cookie = 4;
+  }
+
+  message HeaderSessionAffinity {
+    // Header name.
+    string header_name = 1 [(length) = "1-256"];
+  }
+
+  message CookieSessionAffinity {
+    // Cookie name.
+    string name = 1 [(length) = "1-256"];
+
+    // If not set, session cookie will be used (not persisted between browser restarts).
+    google.protobuf.Duration ttl = 2;
+
+    // Optional cookie path.
+    string path = 3 [(length) = "0-256"];
+  }
+
+  message ConnectionSessionAffinity {
+    // IP address.
+    bool source_ip = 1;
+  }
+}
+
+message RateLimit {
+  // Rate limit for all requests.
+  // Defaults:
+  // - with SolidWaf enabled: 20000 RPS
+  // - without SolidWaf enabled: unlimited
+  int64 all_requests_per_second = 1 [(value) = ">=0"];
+
+  // Rate limit for individual IP addresses.
+  // Defaults:
+  // - with SolidWaf enabled: 1000 RPS
+  // - without SolidWaf enabled: unlimited
+  int64 requests_per_ip_per_second = 2 [(value) = ">=0"];
+}
+
+message HttpBackend {
+  // List of targets.
+  repeated Target targets = 1 [(size) = "1-20"];
+
+  // Enables HTTP2 for upstream requests.
+  // If not set, HTTP 1.1 will be used by default.
+  bool use_http2 = 2;
+
+  // Enable TLS for upstream requests.
+  bool use_tls = 3;
+
+  // SNI string for TLS connections.
+  // Applicable only if use_tls enabled.
+  string sni = 4 [
+    (length) = "<=255",
+    (pattern) = "[-.a-z0-9]*"
+  ]; // RFC 6066 relaxed.
+
+  // Trusted certificate authority certificates bundle (PEM text).
+  // Applicable only if use_tls enabled.
+  string trusted_ca_bytes = 5;
+
+  // Backend timeout. If not set, default is 300 seconds.
+  google.protobuf.Duration timeout = 6;
+
+  // Specifies the idle timeout for the route. If not specified, there is no per-route idle timeout.
+  google.protobuf.Duration idle_timeout = 7;
+
+  // Session affinity.
+  SessionAffinity session_affinity = 8;
+}
+
+message HttpListener {
+  // Enable http (plaintext) listener.
+  bool enabled = 1;
+
+  // Automatically redirect from HTTP to HTTPS.
+  // If TlsListener's port is 443 or not set, redirect URL will be "https://<host><path>" and "https://<host>:<port><path>" in other case.
+  bool redirect_to_https = 2;
+
+  // Listener port. If value is not set, used 80 by default.
+  int64 port = 3 [(value) = "0-65535"];
+}
+
+message TlsListener {
+  // Enable TLS listener.
+  bool enabled = 1;
+
+  // Certificate ID in the Certificate Manager.
+  string certificate_id = 2;
+
+  // Listener port. If value is not set, used 443 by default.
+  int64 port = 3 [(value) = "0-65535"];
+
+  // Enables HTTP/1.0 and HTTP/1.1 support and disables HTTP/2.
+  bool enable_http1 = 4;
+}
+
+message SolidWafSettings {
+  reserved 1;
+
+  // ID of the Solid WAF profile.
+  string solid_waf_profile_id = 2;
+
+  // Session affinity to analyzers. If not set, ConnectionSessionAffinity will be used.
+  SessionAffinity session_affinity = 3;
+}
+
+// A domain served by a Smart Web Security load balancer.
+message Domain {
+  // Unique name of domain within the balancer.
+  // Will be used for monitoring naming and error messages.
+  string name = 1 [(pattern) = "[a-z][-a-z0-9]{1,56}[a-z0-9]"];
+
+  // Server name or wildcard to be matched against SNI in a TLS connection and authority(host) header.
+  // Wildcards are in the form of "*.s.o.m.e".
+  // Allowed: "example.com", "*.example.com".
+  // Not allowed: "*.*.example.com", "*-sub.example.com".
+  string server_name = 2 [
+    (length) = "1-255",
+    (pattern) = "([*][.])?([a-z0-9]([-a-z0-9]*[a-z0-9])?[.])+[-a-z0-9]{2,}",
+    (required) = true
+  ];
+
+  // Domain description.
+  string description = 3 [(length) = "<=512"];
+
+  // Security Profile ID of SmartWebSecurity service.
+  string security_profile_id = 4;
+
+  // Backend settings.
+  HttpBackend http_backend = 5;
+
+  // Optional TLS listener settings.
+  TlsListener tls_listener = 6;
+
+  // Optional plaintext listener settings.
+  HttpListener http_listener = 7;
+
+  // Optional Solid WAF settings.
+  SolidWafSettings solid_waf_settings = 8;
+
+  // Optional rate limit settings.
+  RateLimit rate_limit = 9;
+}
+
+// A Smart Web Security load balancer resource.
+message LoadBalancer {
+  reserved 19;
+
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+
+    // The load balancer is being created.
+    CREATING = 1;
+
+    // The load balancer is active.
+    ACTIVE = 2;
+
+    // The load balancer is being deleted.
+    DELETING = 3;
+
+    // The load balancer is being updated or started.
+    UPDATING = 4;
+
+    // The load balancer is being stopped.
+    STOPPING = 5;
+
+    // The load balancer is stopped and doesn't send traffic to the targets.
+    STOPPED = 6;
+  }
+
+  // ID of the load balancer.
+  string id = 1;
+
+  // ID of the folder that the load balancer belongs to.
+  string folder_id = 2;
+
+  // ID of the cloud that the load balancer belongs to.
+  string cloud_id = 3;
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 4 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+
+  // Name of the load balancer.
+  string name = 5 [
+    (length) = "1-50",
+    (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*",
+    (required) = true
+  ];
+
+  // Description of the load balancer.
+  string description = 6 [(length) = "<=512"];
+
+  // Domains served by the load balancer.
+  repeated Domain domains = 7 [(size) = "0-500"];
+
+  // Creation time.
+  google.protobuf.Timestamp created_at = 8;
+
+  // Last time when the load balancer was modified.
+  google.protobuf.Timestamp updated_at = 9;
+
+  // Service account for access to certificate, securityProfile and logGroup.
+  string service_account_id = 10 [(required) = true];
+
+  // Status of the load balancer.
+  Status status = 11;
+
+  // Cloud logging settings.
+  LogOptions log_options = 12;
+
+  // "ru-central1", "kz1", etc.
+  string region_id = 13 [(required) = true];
+
+  // Forbids Delete() calls.
+  // NOTE: Deletion in status CREATING still allow even if deletion_protection is set.
+  bool deletion_protection = 14;
+
+  // IP address of resulting balancer.
+  string ip_address = 15;
+
+  // Number of initially allocated resource units.
+  // Zero means the minimum configured for the service installation.
+  int64 resource_units = 16;
+
+  // L3-L4 DDoS protection provider. Currently supported: "" or "qrator".
+  string ddos_protection_provider = 17;
+
+  // Cloud logging log group ID.
+  // If empty string was passed to log options, this field will contain ID of default log group.
+  // If logs are disabled, this field will contain empty string.
+  string log_group_id = 18;
+
+  // Options that apply to all domains.
+  RouteOptions route_options = 20;
+}
+
+// This is similar to the proposal for Envoy API v3, see
+// https://github.com/envoyproxy/envoy/issues/8947#issuecomment-551973469
+message HeaderModification {
+  // Name of the header.
+  string name = 1 [(required) = true];
+  // Header values support the following formatters:
+  // https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#custom-request-response-headers
+  oneof operation {
+    // Append string to the header value.
+    string append = 2;
+
+    // New value for a header.
+    string replace = 3;
+
+    // Remove the header.
+    bool remove = 4;
+
+    // New name for a header.
+    string rename = 5;
+  }
+}
+
+message RouteOptions {
+  // Apply the following modifications to the request headers.
+  repeated HeaderModification modify_request_headers = 1;
+
+  // Apply the following modifications to the response headers.
+  repeated HeaderModification modify_response_headers = 2;
+}

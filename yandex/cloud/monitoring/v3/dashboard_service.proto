@@ -75,6 +75,8 @@ service DashboardService {
     };
   };
 
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // The method predates this rule; renaming a published rpc is a breaking change. --)
   // Converts a Grafana dashboard into a Monitoring dashboard draft.
   //
   // Nothing is persisted: the caller reviews the returned draft and the
@@ -429,6 +431,27 @@ message ConversionOptions {
   // What to do with queries whose data source is not available in Monitoring.
   // If unspecified, `UNAVAILABLE_DATA_SOURCE_MODE_KEEP_QUERIES` is used.
   UnavailableDataSourceMode unavailable_data_source = 5;
+
+  // Optional coordinates of the shard the translated queries should read,
+  // together with the project. They are also where the metric and label name
+  // catalog is read from to reconcile Prometheus-style names against the names
+  // actually stored (a Prometheus exporter and an OTLP push spell the same
+  // metric differently). Either one unset means no catalog: translation still
+  // happens, the selector keeps `*` in place of the missing coordinate, and
+  // every metric and label name is carried over from the source PromQL exactly
+  // as written.
+  string cluster = 6 [(length) = "<=101"];
+
+  // Service half of the shard coordinates; see cluster above.
+  string service = 7 [(length) = "<=101"];
+
+  // Optional label that holds the metric name in the target shard: "__name__" in a
+  // Prometheus workspace, "sensor" on a migrated intranet shard, "name" on a cloud
+  // one. Unset means the server takes it from the shard catalog, which is right
+  // whenever the catalog is readable; set it when the catalog is unavailable or when
+  // the shard carries several name-like labels and the wrong one would be picked:
+  // with the wrong label the conversion succeeds and every widget renders empty.
+  string metric_name_label = 8 [(length) = "<=101"];
 }
 
 message ConvertFromGrafanaRequest {

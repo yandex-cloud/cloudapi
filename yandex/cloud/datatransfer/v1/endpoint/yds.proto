@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.datatransfer.v1.endpoint;
 
+import "yandex/cloud/datatransfer/v1/endpoint/common.proto";
 import "yandex/cloud/datatransfer/v1/endpoint/parsers.proto";
 import "yandex/cloud/datatransfer/v1/endpoint/serializers.proto";
 
@@ -15,13 +16,13 @@ message YDSSource {
 
   // Database path in YDB for streams
   // Example: `/ru/transfer_manager/prod/data-transfer`
-  string database = 1;
+  string database = 1 [deprecated = true];
 
   // Stream to read
-  string stream = 2;
+  string stream = 2 [deprecated = true];
 
   // Service account ID which has read access to the stream.
-  string service_account_id = 8;
+  string service_account_id = 8 [deprecated = true];
 
   // List of supported compression codecs
   // Options: YDS_COMPRESSION_CODEC_RAW, YDS_COMPRESSION_CODEC_ZSTD,
@@ -37,11 +38,11 @@ message YDSSource {
   bool allow_ttl_rewind = 11;
 
   // YDS Endpoint for dedicated db
-  string endpoint = 20;
+  string endpoint = 20 [deprecated = true];
 
   // Identifier of the Yandex Cloud VPC subnetwork to user for accessing the
   // database. If omitted, the server has to be accessible via Internet
-  string subnet_id = 30;
+  string subnet_id = 30 [deprecated = true];
 
   // List of security groups that the transfer associated with this endpoint should
   // use
@@ -49,21 +50,27 @@ message YDSSource {
 
   // Custom consumer - for important streams
   string consumer = 35;
+
+  // Choose one of authentication methods, right now only service account is avaiable
+  YDSAuthenticationMethod authentication = 36;
+
+  // Connection settings for managed YDB or for on premise
+  YDSConnection ydb_connection = 37;
 }
 
 // Settings specific to the YDS target endpoint
 message YDSTarget {
-  reserved 6 to 7, 9 to 19, 21 to 29, 31 to 33;
+  reserved 6 to 7, 9 to 19, 21 to 29, 31 to 33, 35;
 
   // Database path in YDB for streams
   // Example: `/ru/transfer_manager/prod/data-transfer`
-  string database = 1;
+  string database = 1 [deprecated = true];
 
   // Stream to write to
-  string stream = 2;
+  string stream = 2 [deprecated = true];
 
   // Service account ID which has read access to the stream
-  string service_account_id = 3;
+  string service_account_id = 3 [deprecated = true];
 
   // Save transaction order
   // Not to split events queue into separate per-table queues.
@@ -80,15 +87,21 @@ message YDSTarget {
   Serializer serializer = 8;
 
   // YDS Endpoint for dedicated db
-  string endpoint = 20;
+  string endpoint = 20 [deprecated = true];
 
   // Identifier of the Yandex Cloud VPC subnetwork to user for accessing the
   // database. If omitted, the server has to be accessible via Internet
-  string subnet_id = 30;
+  string subnet_id = 30 [deprecated = true];
 
   // List of security groups that the transfer associated with this endpoint should
   // use
   repeated string security_groups = 34;
+
+  // Choose one of authentication methods, right now only service account is avaiable
+  YDSAuthenticationMethod authentication = 36;
+
+  // Connection settings for managed YDB or for on premise
+  YDSConnection ydb_connection = 37;
 }
 
 enum YdsCompressionCodec {
@@ -96,4 +109,45 @@ enum YdsCompressionCodec {
   YDS_COMPRESSION_CODEC_RAW = 1;
   YDS_COMPRESSION_CODEC_GZIP = 2;
   YDS_COMPRESSION_CODEC_ZSTD = 4;
+}
+
+message YDSAuthenticationMethod {
+  oneof authentication_method {
+    // Service account ID for interaction with database
+    string service_account_id = 1;
+  }
+}
+
+message OnPremiseYDS {
+  // Database path in YDB where tables are stored.
+  // Example: `/ru/transfer_manager/prod/data-transfer`
+  string database = 1;
+
+  // Stream to read
+  string stream = 2;
+
+  // Instance of YDB. example: ydb-ru-prestable.yandex.net:2135.
+  string instance = 3;
+
+  // TLS settings for server connection. Disabled by default.
+  TLSMode tls_mode = 4;
+
+  // Identifier of the Yandex Cloud VPC subnetwork to user for accessing the database.
+  // If omitted, the server has to be accessible via Internet
+  string subnet_id = 5;
+}
+
+message ManagedYDS {
+  // Managed Service for YDB database ID
+  string database_id = 1;
+
+  // Stream to read
+  string stream = 2;
+}
+
+message YDSConnection {
+  oneof connection {
+    ManagedYDS managed_yds = 1;
+    OnPremiseYDS on_premise = 2;
+  }
 }

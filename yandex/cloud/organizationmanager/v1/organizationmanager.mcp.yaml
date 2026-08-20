@@ -1,0 +1,49 @@
+services:
+  - name: UserSshKeyService
+    tools:
+      - method: Get
+        description: Retrieves an SSH public key and its metadata by user SSH key ID.
+        input:
+          - field: user_ssh_key_id
+            description: ID of the user SSH key to retrieve.
+      - method: List
+        description: Lists SSH public keys in an organization, optionally filtered by subject, with pagination.
+        input:
+          - field: organization_id
+            description: ID of the organization whose SSH keys are listed.
+          - field: subject_id
+            description: ID of the subject whose SSH keys are listed; omit to list keys for all subjects in the organization.
+          - field: page_size
+            description: Maximum number of SSH keys to return, from 0 to 1000.
+          - field: page_token
+            description: Token from a previous List response used to retrieve the next page.
+      - method: Create
+        description: Creates an SSH public key for a subject in an organization, with an optional name and expiration time.
+        input:
+          - field: organization_id
+            description: ID of the organization that will own the SSH key.
+          - field: subject_id
+            description: ID of the subject for whom the SSH key is registered.
+          - field: name
+            description: Optional human-readable name of the SSH key.
+          - field: data
+            description: SSH public key contents to register.
+          - field: expires_at
+            description: Optional expiration time for a temporary key; omit for a non-expiring key.
+      - method: Update
+        description: Updates a user SSH key's name or expiration time using an update mask.
+        input:
+          - field: user_ssh_key_id
+            description: ID of the user SSH key to update.
+          - field: name
+            description: New human-readable name, applied when update_mask includes name.
+          - field: update_mask
+            description: Fields to update; supported values are name and expires_at.
+          - field: expires_at
+            description: New expiration time, applied when update_mask includes expires_at.
+      - method: Delete
+        description: Deletes a user SSH key by its ID.
+        disabled: true
+        input:
+          - field: user_ssh_key_id
+            description: ID of the user SSH key to delete.

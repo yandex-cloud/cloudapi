@@ -9,7 +9,7 @@ option java_package = "yandex.cloud.api.video.v1";
 
 // Entity representing the incoming video signal settings.
 message StreamLine {
-  reserved 4 to 17, 19 to 99, 102 to 199, 201 to 999, 1001, 1004 to 1999;
+  reserved 4 to 17, 19 to 99, 102 to 199, 201 to 999, 1004 to 1999;
 
   // ID of the line.
   string id = 1;
@@ -26,6 +26,9 @@ message StreamLine {
   oneof input_type {
     // Real-Time Messaging Protocol (RTMP) push input type.
     RTMPPushInput rtmp_push = 1000;
+
+    // Secure Reliable Transport (SRT) push input type.
+    SRTPushInput srt_push = 1001;
 
     // Real-Time Messaging Protocol (RTMP) pull input type.
     RTMPPullInput rtmp_pull = 1002;
@@ -72,6 +75,17 @@ message RTMPPushInput {
   string url = 1;
 
   // RTMP server URL for the signal identified by the backup stream key.
+  string backup_url = 2;
+}
+
+// Settings for an SRT (Secure Reliable Transport) push input.
+// Used when the video stream is pushed to an SRT server.
+// @see https://en.wikipedia.org/wiki/Secure_Reliable_Transport
+message SRTPushInput {
+  // SRT server url.
+  string url = 1;
+
+  // SRT server URL for the signal identified by the backup stream key.
   string backup_url = 2;
 }
 

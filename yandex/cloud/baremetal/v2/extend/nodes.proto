@@ -7,15 +7,60 @@ import "google/api/field_behavior.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2/extend;baremetal";
 option java_package = "yandex.cloud.api.api.baremetal.v2.extend";
 
+// NodeGroup describes a group of nodes with a common role.
+//
+// A group can be filled in one of three ways:
+// 1. New servers only: `configuration_id` and `node_count` are set, `server_ids` is empty.
+// `node_count` new servers of the given configuration will be leased.
+// 2. Mixed group with a default configuration: `configuration_id` and `node_count` are set,
+// `server_ids` is non-empty and `node_count >= len(server_ids)`. Servers listed in
+// `server_ids` must already match `configuration_id` or be custom servers
+// (assembled manually, not via a standard configuration). If `node_count == len(server_ids)`,
+// no new servers are leased; otherwise `node_count - len(server_ids)` new servers of
+// `configuration_id` are leased in addition to the existing ones.
+// 3. Custom servers only: `configuration_id` is empty, `server_ids`
+// is non-empty and contains only custom servers, `node_count == len(server_ids)`.
+//
+// Servers listed in `server_ids` must satisfy (checked synchronously before the
+// create-cluster operation is created): the server's configuration matches
+// `configuration_id` or the server is custom; the server's hardware pool matches the
+// cluster's hardware pool; the server's status is not `QUARANTINED` or `DELETING`.
+// If a server's status is `UPDATING` or `PROVISIONING`, the request is still accepted
+// and the cluster-creation operation waits for the server's current operation to
+// complete before proceeding.
+//
+// A server listed in `server_ids` can belong to only one group within a single request.
 message NodeGroup {
-  // ID of the configuration.
-  string configuration_id = 1 [(google.api.field_behavior) = REQUIRED];
+  reserved 2;
 
-  // Number of nodes in the group.
-  int64 count = 2 [(google.api.field_behavior) = REQUIRED];
+  // ID of the configuration.
+  //
+  // Required when automatically leasing new servers for the group (scenarios 1 and 2).
+  // Left blank when the group consists solely of custom servers (scenario 3).
+  string configuration_id = 1 [(google.api.field_behavior) = OPTIONAL];
+
+  // Total number of nodes in the group, including both newly leased and
+  // already leased (existing) servers listed in `server_ids`.
+  //
+  // Must be greater than or equal to `len(server_ids)`. The number of new
+  // servers leased for the group is `node_count - len(server_ids)`.
+  //
+  // Required (non-zero) when automatically leasing new servers for the group;
+  int64 node_count = 5 [(google.api.field_behavior) = REQUIRED];
 
   // Nodes in the group with detailed information. Set after group is filled.
   repeated Node nodes = 3 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // IDs of already leased servers to include in the NodeGroup.
+  //
+  // WARNING: the OS on these servers will be reinstalled as part of cluster
+  // creation, just like for newly leased servers. All data on the servers
+  // will be lost.
+  repeated string server_ids = 4 [
+    (google.api.field_behavior) = INPUT_ONLY,
+    (google.api.field_behavior) = OPTIONAL,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
 }
 
 message Node {

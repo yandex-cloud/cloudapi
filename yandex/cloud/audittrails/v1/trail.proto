@@ -166,17 +166,65 @@ message Trail {
 
     // A list of resources which will be monitored by the trail
     repeated Resource resource_scopes = 4 [(size) = "1-1024"];
+
+    // List of rules defining which events will be included. Combined using logical OR.
+    repeated FieldFilterRule include_rules = 6 [(size) = "<=64"];
+
+    // List of rules defining which events will be excluded. Combined using logical OR.
+    repeated FieldFilterRule exclude_rules = 7 [(size) = "<=64"];
   }
 
   // Policy with explicitly specified event group
   message EventTypes {
+    // Array of event type names. Holds at most 1024 elements
     repeated string event_types = 1 [(size) = "1-1024"];
   }
 
   // Policy for gathering management events
   message ManagementEventsFiltering {
+    reserved 2;
+
     // A list of resources which will be monitored by the trail
     repeated Resource resource_scopes = 1 [(size) = "1-1024"];
+
+    // List of rules defining which events will be included. Combined using logical OR.
+    repeated FieldFilterRule include_rules = 3 [(size) = "<=64"];
+
+    // List of rules defining which events will be excluded. Combined using logical OR.
+    repeated FieldFilterRule exclude_rules = 4 [(size) = "<=64"];
+  }
+
+  message FieldFilterRule {
+    // Conditions within one rule are combined using logical AND.
+    repeated FieldCondition conditions = 1 [(size) = "1-64"];
+  }
+
+  message FieldCondition {
+    // Path to a scalar field.
+    //
+    // Examples:
+    // $.details.kind
+    // $.details.user.groups[0]
+    // $.details.items[2].metadata['name']
+    string field = 1 [(required) = true];
+
+    // Condition operator. Controls how values array is interpreted
+    Operator operator = 2 [(required) = true];
+
+    // Textual operands interpreted according to the selected field
+    // and operator.
+    repeated string values = 3 [(size) = "1-64"];
+    enum Operator {
+      // Default enum value for unspecified case. Do not use
+      OPERATOR_UNSPECIFIED = 0;
+
+      // The scalar field is equal to one of the supplied values.
+      IN = 1;
+
+      // The scalar field is an IP address belonging to one of the
+      // supplied IP networks.
+      IP_IN = 2;
+    }
   }
 
   // Combination of policies describing event filtering process of the trail
@@ -211,8 +259,14 @@ message Trail {
 
   enum Codec {
     CODEC_UNSPECIFIED = 0;
+
+    // Do not use compression. Insert raw data into the target topic
     RAW = 1;
+
+    // Use GZIP compression.
     GZIP = 2;
+
+    // Use ZSTD compression.
     ZSTD = 3;
   }
 

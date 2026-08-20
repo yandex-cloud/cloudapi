@@ -12,7 +12,7 @@ option java_multiple_files = true;
 option java_outer_classname = "VersionControlServiceProto";
 option java_package = "yandex.cloud.api.devtools.ycvc.v1";
 
-// Version Control Service for managing tool version blacklists.
+// Version Control Service manages tool version blacklists.
 // This service manages obsolete (deprecated/blocked) versions only.
 // API Behavior:
 // - Supported versions: Return successful InitResponse.
@@ -38,7 +38,7 @@ message InitRequest {
     (required) = true
   ];
 
-  // Version to check.
+  // Tool version to check.
   string version = 2 [
     (google.api.field_behavior) = REQUIRED,
     (required) = true

@@ -12,7 +12,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/
 option java_package = "yandex.cloud.api.api.baremetal.v2.extend";
 
 message StacklandCluster {
-  reserved 20;
+  reserved 20, 25;
 
   // ID of the cluster.
   string stackland_cluster_id = 1 [
@@ -143,6 +143,30 @@ message StacklandCluster {
   BastionSpec bastion_spec = 24 [
     (google.api.field_behavior) = REQUIRED,
     (google.api.field_behavior) = INPUT_ONLY
+  ];
+
+  // Cluster settings. Can be set only at cluster creation.
+  StacklandClusterSettings settings = 26 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Settings of the Stackland cluster.
+message StacklandClusterSettings {
+  enum PublicNetworkAccess {
+    // Unspecified. Defaults to DISABLED.
+    PUBLIC_NETWORK_ACCESS_UNSPECIFIED = 0;
+
+    // Cluster is accessible from the public network.
+    ENABLED = 1;
+
+    // Cluster is not accessible from the public network.
+    DISABLED = 2;
+  }
+
+  // Access of the cluster to the public network. Disabled by default.
+  // Can be set only at cluster creation.
+  PublicNetworkAccess public_network_access = 1 [
+    (google.api.field_behavior) = OPTIONAL,
+    (google.api.field_behavior) = IMMUTABLE
   ];
 }
 
