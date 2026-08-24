@@ -372,6 +372,9 @@ message SecureTransportSettings {
 
   // Validation context for backend TLS connections.
   ValidationContext validation_context = 3;
+
+  // Client certificate options for backend TLS connections.
+  ClientCertificateOptions client_certificate = 4;
 }
 
 // A resource for backend TLS settings.
@@ -386,6 +389,9 @@ message BackendTls {
 
   // Validation context for TLS connections.
   ValidationContext validation_context = 3;
+
+  // Client certificate options for backend TLS connections.
+  ClientCertificateOptions client_certificate = 4;
 }
 
 // A health check resource.

@@ -68,7 +68,7 @@ message Node {
   string server_id = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   // ID of the configuration.
-  string configuration_id = 2 [(google.api.field_behavior) = REQUIRED];
+  string configuration_id = 2 [(google.api.field_behavior) = OPTIONAL];
 
   // IP address of the node in the management network.
   string management_ip_address = 3 [(google.api.field_behavior) = OPTIONAL];

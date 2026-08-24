@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.cloudregistry.v1;
 
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/cloudregistry/v1/migration.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -17,6 +18,18 @@ service MigrationService {
       metadata: "StartCloudMigrationMetadata"
       response: "google.protobuf.Empty"
     };
+  };
+
+  // Starts migration for all registries in the specified folder.
+  rpc StartFolder(StartFolderMigrationRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "StartFolderMigrationMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
+
+  // Returns migration status dashboard for the specified cloud.
+  rpc GetCloudMigrationStatusDashboard(GetCloudMigrationStatusDashboardRequest) returns (CloudMigrationStatusDashboard) {
   };
 
 }
@@ -37,4 +50,76 @@ message StartCloudMigrationMetadata {
 
   // IDs of registries selected for migration.
   repeated string registry_ids = 2;
+}
+
+// Request for starting migration for all registries in the specified folder.
+message StartFolderMigrationRequest {
+  // ID of the folder.
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+// Metadata for folder migration operation.
+message StartFolderMigrationMetadata {
+  // ID of the folder.
+  string folder_id = 1;
+
+  // IDs of registries selected for migration.
+  repeated string registry_ids = 2;
+}
+
+// Request for getting migration status dashboard for the specified cloud.
+message GetCloudMigrationStatusDashboardRequest {
+  // ID of the cloud.
+  string cloud_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Maximum number of failed registry dashboards to return.
+  int64 failed_registries_limit = 2 [(value) = "0-100"];
+
+  // Maximum number of in-progress registry dashboards to return.
+  int64 in_progress_registries_limit = 3 [(value) = "0-100"];
+
+  // Maximum number of failed repositories to return for each registry dashboard.
+  int64 failed_repositories_limit = 4 [(value) = "0-100"];
+
+  // Maximum number of failed tags to return for each registry dashboard.
+  int64 failed_tags_limit = 5 [(value) = "0-100"];
+
+  // Maximum number of in-progress repositories to return for each registry dashboard.
+  int64 in_progress_repositories_limit = 6 [(value) = "0-100"];
+}
+
+// Migration status dashboard for the specified cloud.
+message CloudMigrationStatusDashboard {
+  // ID of the cloud.
+  string cloud_id = 1;
+
+  // Overall migration status of the cloud.
+  MigrationStatus status = 2;
+
+  // Migration progress counters grouped by resource type.
+  CloudMigrationProgressCounters progress = 3;
+
+  // Top registry dashboards that failed during migration.
+  repeated MigrationStatusDashboard top_failed_registries = 4;
+
+  // Top registry dashboards that are currently being migrated.
+  repeated MigrationStatusDashboard top_in_progress_registries = 5;
+}
+
+// Cloud migration progress counters.
+message CloudMigrationProgressCounters {
+  // Registry migration counters.
+  MigrationCounters registries = 1;
+
+  // Repository migration counters.
+  MigrationCounters repositories = 2;
+
+  // Tag migration counters.
+  MigrationCounters tags = 3;
 }

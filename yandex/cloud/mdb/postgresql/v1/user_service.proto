@@ -164,7 +164,7 @@ message UpdateUserRequest {
   // A set of roles and privileges that are granted to the user.
   //
   // For more information, see [the documentation](/docs/managed-postgresql/operations/grant).
-  repeated string grants = 9 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_]*"];
+  repeated string grants = 9 [(length) = "<=63", (pattern) = "[a-zA-Z0-9_@.-]*"];
 
   // Deletion Protection inhibits deletion of the user
   //

@@ -350,6 +350,27 @@ message UserSettings {
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#allow_introspection_functions).
   google.protobuf.BoolValue allow_introspection_functions = 96;
 
+  // When moving conditions from WHERE to PREWHERE, allow reordering them to optimize filtering
+  //
+  // Default value: **true**.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/reference/settings/session-settings/allow#allow_reorder_prewhere_conditions).
+  google.protobuf.BoolValue allow_reorder_prewhere_conditions = 182;
+
+  // Enables asynchronous read from socket while executing remote query.
+  //
+  // Default value: **true**.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/reference/settings/session-settings/async#async_socket_for_remote).
+  google.protobuf.BoolValue async_socket_for_remote = 183;
+
+  // Enables asynchronous connection creation and query sending while executing remote query.
+  //
+  // Default value: **true**.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/reference/settings/session-settings/async#async_query_sending_for_remote).
+  google.protobuf.BoolValue async_query_sending_for_remote = 184;
+
   // Connection timeout in milliseconds.
   //
   // Default value: **10000** (10 seconds).
@@ -863,6 +884,20 @@ message UserSettings {
   //
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#max_network_bytes).
   google.protobuf.Int64Value max_network_bytes = 176;
+
+  // The maximum speed of data exchange over the network in bytes per second for read.
+  //
+  // Default value: **0**.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#max_remote_read_network_bandwidth).
+  google.protobuf.Int64Value max_remote_read_network_bandwidth = 185;
+
+  // The maximum speed of data exchange over the network in bytes per second for write.
+  //
+  // Default value: **0**.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#max_remote_write_network_bandwidth).
+  google.protobuf.Int64Value max_remote_write_network_bandwidth = 186;
 
   // The maximum amount of data consumed by temporary files on disk in bytes for all concurrently running queries. **0** means unlimited.
   //
@@ -1659,6 +1694,13 @@ message UserSettings {
   //
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#insert_keeper_max_retries).
   google.protobuf.Int64Value insert_keeper_max_retries = 131;
+
+  // When executing DROP or DETACH TABLE in Atomic database, wait for table data to be finally dropped or detached.
+  //
+  // Default value: **true**.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/settings/settings#database_atomic_wait_for_drop_and_detach_synchronously).
+  google.protobuf.BoolValue database_atomic_wait_for_drop_and_detach_synchronously = 187;
 
   // Enable or disable independent processing of partitions for **SELECT** queries with **FINAL**.
   //

@@ -102,6 +102,9 @@ message Source {
 
     // Telegram source: fires on Telegram bot updates.
     TelegramMessage telegram_message = 13;
+
+    // Yandex Messenger source: fires on Yandex Messenger bot updates.
+    YandexMessenger yandex_messenger = 14;
   }
 }
 
@@ -328,6 +331,29 @@ message TelegramMessage {
   // instead of failing with "webhook already in use". If the webhook already
   // points to this trigger, force does nothing - the existing webhook is kept.
   bool force = 3;
+}
+
+message YandexMessenger {
+  reserved 2;
+
+  // OAuth token of the Yandex Messenger bot.
+  // input only, always empty in output.
+  // Required on Create; on Update, changing it re-registers the webhook.
+  string oauth_token = 1;
+
+  // input only. Overwrite a webhook the bot already has set to a different URL,
+  // instead of failing with "webhook already in use". If the webhook already
+  // points to this trigger, force does nothing - the existing webhook is kept.
+  bool force = 3;
+
+  // ID of the bot the token belongs to. output only.
+  string bot_id = 4;
+
+  // Login of the bot the token belongs to. output only.
+  string bot_login = 5;
+
+  // Display name of the bot the token belongs to. output only.
+  string bot_display_name = 6;
 }
 
 // Action describes what to do when a trigger fires.

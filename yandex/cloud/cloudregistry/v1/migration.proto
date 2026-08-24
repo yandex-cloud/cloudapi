@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package yandex.cloud.cloudregistry.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/cloudregistry/v1;cloudregistry";
+option java_package = "yandex.cloud.api.cloudregistry.v1";
+
+// Migration status dashboard for the specified registry.
+message MigrationStatusDashboard {
+  // ID of the registry.
+  string registry_id = 1;
+
+  // Overall migration status of the registry.
+  MigrationStatus status = 2;
+
+  // Migration progress counters grouped by resource type.
+  MigrationProgressCounters progress = 3;
+
+  // Top repositories that failed during migration.
+  repeated RepositoryMigrationStatus top_failed_repositories = 4;
+
+  // Top tags that failed during migration.
+  repeated TagMigrationStatus top_failed_tags = 5;
+
+  // Top repositories that are currently being migrated.
+  repeated RepositoryMigrationStatus top_in_progress_repositories = 6;
+}
+
+// Migration progress counters for repositories and tags.
+message MigrationProgressCounters {
+  // Repository migration counters.
+  MigrationCounters repositories = 1;
+
+  // Tag migration counters.
+  MigrationCounters tags = 2;
+}
+
+// Migration counters grouped by status.
+message MigrationCounters {
+  // Total number of migration records.
+  int64 total = 1;
+
+  // Number of completed migration records.
+  int64 completed = 2;
+
+  // Number of migration records currently in progress.
+  int64 in_progress = 3;
+
+  // Number of created migration records.
+  int64 created = 4;
+
+  // Number of scheduled migration records.
+  int64 scheduled = 5;
+
+  // Number of failed migration records.
+  int64 failed = 6;
+}
+
+// Repository migration status.
+message RepositoryMigrationStatus {
+  // Repository name.
+  string repository_name = 1;
+
+  // Migration status.
+  MigrationStatus status = 2;
+
+  // Error code if migration failed.
+  string error_code = 3;
+
+  // Error message if migration failed.
+  string error_message = 4;
+}
+
+// Tag migration status.
+message TagMigrationStatus {
+  // Repository name.
+  string repository_name = 1;
+
+  // Tag name.
+  string tag = 2;
+
+  // Migration status.
+  MigrationStatus status = 3;
+
+  // Error code if migration failed.
+  string error_code = 4;
+
+  // Error message if migration failed.
+  string error_message = 5;
+}
+
+// Migration status.
+enum MigrationStatus {
+  // Migration status is unspecified.
+  MIGRATION_STATUS_UNSPECIFIED = 0;
+
+  // Migration record was created.
+  CREATED = 1;
+
+  // Migration was scheduled.
+  SCHEDULED = 2;
+
+  // Migration is currently in progress.
+  IN_PROGRESS = 3;
+
+  // Migration completed successfully.
+  COMPLETED = 4;
+
+  // Migration failed.
+  FAILED = 5;
+}
