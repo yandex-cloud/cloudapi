@@ -19,8 +19,7 @@ service VrfService {
   // Returns the specific VRF resource.
   //
   // To get the list of available VRFs, make a [List] request.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc GetVrf(GetVrfRequest) returns (Vrf) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/vrfs/{vrf_id}"
@@ -29,8 +28,7 @@ service VrfService {
   };
 
   // Retrieves the list of VRF resources in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListVrfs(ListVrfsRequest) returns (ListVrfsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/vrfs"
@@ -39,8 +37,7 @@ service VrfService {
   };
 
   // Creates a VRF in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc CreateVrf(CreateVrfRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "CreateVrfMetadata"
@@ -54,8 +51,7 @@ service VrfService {
   };
 
   // Updates the specified VRF resource.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc UpdateVrf(UpdateVrfRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateVrfMetadata"
@@ -74,8 +70,7 @@ service VrfService {
   // The VRF must not have any associated PrivateSubnet resources.
   // Delete all private subnets before deleting the VRF, otherwise
   // the request will fail with INVALID_ARGUMENT error.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc DeleteVrf(DeleteVrfRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeleteVrfMetadata"
@@ -88,8 +83,7 @@ service VrfService {
   };
 
   // Lists operations for the specified vrf.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListVrfOperations(ListVrfOperationsRequest) returns (ListVrfOperationsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/vrf/{vrf_id}/operations"

@@ -20,8 +20,7 @@ service ServerService {
   // Returns the specific Server resource.
   //
   // To get the list of available Server resources, make a [List] request.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc GetServer(GetServerRequest) returns (Server) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers/{server_id}"
@@ -30,8 +29,7 @@ service ServerService {
   };
 
   // Retrieves the list of Server resources in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListServers(ListServersRequest) returns (ListServersResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers"
@@ -40,8 +38,7 @@ service ServerService {
   };
 
   // Creates a server in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc CreateServer(CreateServerRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "CreateServerMetadata"
@@ -55,8 +52,7 @@ service ServerService {
   };
 
   // Creates multiple servers in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc BatchCreateServers(BatchCreateServersRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "BatchCreateServersMetadata"
@@ -70,8 +66,7 @@ service ServerService {
   };
 
   // Updates the specified server.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc UpdateServer(UpdateServerRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateServerMetadata"
@@ -85,8 +80,7 @@ service ServerService {
   };
 
   // Deletes the specified server.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc DeleteServer(DeleteServerRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeleteServerByUserMetadata"
@@ -99,8 +93,7 @@ service ServerService {
   };
 
   // Skips the quarantine for the specified server.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   rpc SkipQuarantineServer(SkipQuarantineServerRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -115,10 +108,8 @@ service ServerService {
   };
 
   // Powers off the specified server.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
-  // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  // Required for backward compatibility with old clients. --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   rpc PowerOffServer(PowerOffServerRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "PowerOffServerMetadata"
@@ -132,10 +123,8 @@ service ServerService {
   };
 
   // Powers on the specified server.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
-  // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  // Required for backward compatibility with old clients. --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   rpc PowerOnServer(PowerOnServerRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "PowerOnServerMetadata"
@@ -149,10 +138,8 @@ service ServerService {
   };
 
   // Reboots the specified server.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
-  // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  // Required for backward compatibility with old clients. --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   rpc RebootServer(RebootServerRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "RebootServerMetadata"
@@ -166,10 +153,8 @@ service ServerService {
   };
 
   // Reinstalls the specified server.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
-  // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  // Required for backward compatibility with old clients. --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   rpc ReinstallServer(ReinstallServerRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "ReinstallServerMetadata"
@@ -183,10 +168,8 @@ service ServerService {
   };
 
   // Enable prolongation after rental period end
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
-  // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  // Required for backward compatibility with old clients. --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   rpc RenewServerRental(RenewServerRentalRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "RenewServerRentalMetadata"
@@ -200,8 +183,7 @@ service ServerService {
   };
 
   // Lists operations for the specified server.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListServerOperations(ListServerOperationsRequest) returns (ListServerOperationsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/servers/{server_id}/operations"

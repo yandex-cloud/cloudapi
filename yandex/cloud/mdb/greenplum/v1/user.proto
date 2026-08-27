@@ -33,7 +33,7 @@ message User {
 
 message UserSettingsConfig {
   enum PoolMode {
-    // PoolMode not explicitly set. Falls back to cluster-level pooling mode.
+    // PoolMode not explicitly set. Falls back to the cluster-level pool.mode setting.
     POOL_MODE_UNSPECIFIED = 0;
 
     // Assign server connection to a client until it disconnects.
@@ -44,6 +44,24 @@ message UserSettingsConfig {
   }
 
   // Odyssey® route [server pool mode](https://github.com/yandex/odyssey/blob/master/docs/configuration/rules.md#pool).
-  // When POOL_MODE_UNSPECIFIED, uses the cluster-level pooling mode.
+  // When POOL_MODE_UNSPECIFIED, uses the cluster-level pool.mode setting.
   PoolMode pool_mode = 1;
+
+  // Odyssey® server [pool size](https://github.com/yandex/odyssey/blob/master/docs/configuration/rules.md#pool_size).
+  // The number of servers in the server pool. Clients are placed in a wait queue when all servers are busy.
+  // Set to zero to disable the limit.
+  // If not set, uses the cluster-level pool.size setting.
+  google.protobuf.Int64Value pool_size = 2 [(value) = ">=0"];
+
+  // Odyssey® [client pool idle timeout](https://github.com/yandex/odyssey/blob/master/docs/configuration/rules.md#pool_client_idle_timeout), in seconds.
+  // Drop stale client connection after this much seconds of idleness, which is not in transaction.
+  // Set to zero to disable.
+  // If not set, uses the cluster-level pool.client_idle_timeout setting.
+  google.protobuf.Int64Value pool_client_idle_timeout = 3 [(value) = ">=0"];
+
+  // Odyssey® [client pool idle in transaction timeout](https://github.com/yandex/odyssey/blob/master/docs/configuration/rules.md#pool_idle_in_transaction_timeout), in seconds.
+  // Drop client connection in transaction after this much seconds of idleness.
+  // Set to zero to disable.
+  // If not set, uses the cluster-level pool.idle_in_transaction_timeout setting.
+  google.protobuf.Int64Value pool_idle_in_transaction_timeout = 4 [(value) = ">=0"];
 }

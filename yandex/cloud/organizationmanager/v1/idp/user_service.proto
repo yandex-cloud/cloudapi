@@ -216,7 +216,7 @@ message ListUsersResponse {
 
 // Request to create a new user.
 message CreateUserRequest {
-  reserved 3;
+  reserved 3, 18;
 
   // ID of the userpool to create the user in.
   string userpool_id = 1 [
@@ -282,6 +282,10 @@ message CreateUserRequest {
 
   // Timestamp when the user account expires.
   google.protobuf.Timestamp expires_at = 17 [(value) = "19700101T000000.000000000-21051231T235959.999999999"];
+
+  // Whether the user must change their password on first login.
+  // Applies only when [PasswordHash] credentials are provided.
+  bool password_change_required = 19;
 }
 
 // Metadata for the [UserService.Create] operation.

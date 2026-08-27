@@ -19,8 +19,7 @@ option java_package = "yandex.cloud.api.api.baremetal.v2";
 service PrivateCloudConnectionService {
   // Returns the specific Private cloud connection resource.
   // To get the list of available Private cloud connection resources, make a [List] request.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc GetPrivateCloudConnection(GetPrivateCloudConnectionRequest) returns (PrivateCloudConnection) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/privateCloudConnections/{private_cloud_connection_id}"
@@ -29,8 +28,7 @@ service PrivateCloudConnectionService {
   };
 
   // Retrieves the list of Private cloud connection resources in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListPrivateCloudConnections(ListPrivateCloudConnectionsRequest) returns (ListPrivateCloudConnectionsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/privateCloudConnections"
@@ -39,8 +37,7 @@ service PrivateCloudConnectionService {
   };
 
   // Creates a private cloud connection in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc CreatePrivateCloudConnection(CreatePrivateCloudConnectionRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "CreatePrivateCloudConnectionMetadata"
@@ -54,8 +51,7 @@ service PrivateCloudConnectionService {
   };
 
   // Updates the routing_instance_id in a private cloud connection.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc UpdatePrivateCloudConnection(UpdatePrivateCloudConnectionRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdatePrivateCloudConnectionMetadata"
@@ -69,8 +65,7 @@ service PrivateCloudConnectionService {
   };
 
   // Removes a private cloud connection and all allocated network resouces.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc DeletePrivateCloudConnection(DeletePrivateCloudConnectionRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeletePrivateCloudConnectionMetadata"

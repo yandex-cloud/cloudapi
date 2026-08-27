@@ -1813,7 +1813,7 @@ message ClickhouseConfig {
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/en/integrations/jdbc/jdbc-with-clickhouse).
   JdbcBridge jdbc_bridge = 70;
 
-  // Enables or disables MySQL interface on ClickHouse server
+  // Enables or disables MySQL interface on ClickHouse server.
   //
   // Default value: **false**.
   //

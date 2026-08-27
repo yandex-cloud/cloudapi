@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package yandex.cloud.monitoring.v3;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/monitoring/v3;monitoring";
+option java_package = "yandex.cloud.api.monitoring.v3";
+
+// Fill of the area under a series. Shared by the widget-level setting and by
+// the per-series override, so a single series can carry a fill different from
+// the widget's one. Defined for line series; for other visualization types the
+// behaviour is not defined yet.
+enum Fill {
+  // Not specified. On a widget it means no fill, because the user has not
+  // chosen one; on a series override it means no override, so the widget
+  // setting applies.
+  FILL_UNSPECIFIED = 0;
+
+  // No fill, chosen explicitly. Distinct from FILL_UNSPECIFIED, which only
+  // says that nothing was chosen.
+  FILL_OFF = 1;
+
+  // Translucent fill of the series color.
+  FILL_SOLID = 2;
+
+  // Vertical gradient from the series color to transparent.
+  FILL_GRADIENT = 3;
+
+  // Hatching in the series color.
+  FILL_HATCH = 4;
+}

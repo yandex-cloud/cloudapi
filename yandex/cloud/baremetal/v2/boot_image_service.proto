@@ -19,8 +19,7 @@ option java_package = "yandex.cloud.api.api.baremetal.v2";
 service BootImageService {
   // Returns the specific BootImage resource.
   // To get the list of available Image resources, make a [List] request.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc GetBootImage(GetBootImageRequest) returns (BootImage) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/bootImages/{boot_image_id}"
@@ -29,8 +28,7 @@ service BootImageService {
   };
 
   // Retrieves the list of BootImage resources in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListBootImages(ListBootImagesRequest) returns (ListBootImagesResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/bootImages"
@@ -39,8 +37,7 @@ service BootImageService {
   };
 
   // Creates a boot image in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc CreateBootImage(CreateBootImageRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "CreateBootImageMetadata"
@@ -54,8 +51,7 @@ service BootImageService {
   };
 
   // Updates the specified boot image.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc UpdateBootImage(UpdateBootImageRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateBootImageMetadata"
@@ -70,8 +66,7 @@ service BootImageService {
 
   // Deletes the specified boot image.
   // Deleting a boot image removes its data permanently and is irreversible.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc DeleteBootImage(DeleteBootImageRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeleteBootImageMetadata"
@@ -84,8 +79,7 @@ service BootImageService {
   };
 
   // Lists operations for the specified boot image.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListBootImageOperations(ListBootImageOperationsRequest) returns (ListBootImageOperationsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/bootImages/{boot_image_id}/operations"

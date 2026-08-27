@@ -26,8 +26,7 @@ service ConfigurationService {
     };
   };
 
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // ConfigurationNetworkInterface is not a resource. --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   // Retrieves the list of ConfigurationNetworkInterface resources.
   rpc ListConfigurationNetworkInterface(ListConfigurationNetworkInterfaceRequest) returns (ListConfigurationNetworkInterfaceResponse) {
     option (google.api.http) = {

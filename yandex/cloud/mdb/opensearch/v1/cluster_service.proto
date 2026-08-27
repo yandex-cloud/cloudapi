@@ -15,7 +15,6 @@ import "yandex/cloud/mdb/opensearch/v1/config/audit_log.proto";
 import "yandex/cloud/mdb/opensearch/v1/config/opensearch.proto";
 import "yandex/cloud/mdb/opensearch/v1/maintenance.proto";
 import "yandex/cloud/mdb/operationlog/v1/operation_log.proto";
-import "yandex/cloud/mdb/v1/backup_retention_policy.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -444,9 +443,6 @@ message CreateClusterRequest {
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 12;
-
-  // Backup long-term retention policies setting.
-  repeated yandex.cloud.mdb.v1.BackupRetentionPolicySpec retention_policies = 13;
 }
 
 message CreateClusterMetadata {
@@ -796,8 +792,7 @@ message ConfigCreateSpec {
   Access access = 5;
 
   // Snapshot management configuration.
-  // Deprecated: use [CreateClusterRequest.retention_policies] instead.
-  SnapshotManagement snapshot_management = 6 [deprecated = true];
+  SnapshotManagement snapshot_management = 6;
 
   // Audit log settings.
   config.AuditLog audit_log = 7;
@@ -926,8 +921,7 @@ message ConfigUpdateSpec {
   Access access = 5;
 
   // Snapshot management configuration.
-  // Deprecated: use [CreateClusterRequest.retention_policies] instead.
-  SnapshotManagement snapshot_management = 6 [deprecated = true];
+  SnapshotManagement snapshot_management = 6;
 
   // Audit log settings.
   config.AuditLog audit_log = 7;

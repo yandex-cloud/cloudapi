@@ -13,8 +13,7 @@ option java_package = "yandex.cloud.api.api.baremetal.v2";
 
 // A set of methods to retrieve information about availability zones.
 service ZoneService {
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   // Returns the specific Zone resource.
   //
   // To get the list of Zone resources, make a [List] request.
@@ -25,8 +24,7 @@ service ZoneService {
     option (google.api.method_signature) = "zone_id";
   };
 
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   // Retrieves the list of Zone resources.
   rpc ListZones(ListZonesRequest) returns (ListZonesResponse) {
     option (google.api.http) = {

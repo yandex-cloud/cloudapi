@@ -17,8 +17,7 @@ option java_package = "yandex.cloud.api.api.baremetal.v2";
 // A set of methods for managing PublicPrefixPool resources.
 service PublicPrefixPoolService {
   // Returns the specified public prefix pool.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc GetPublicPrefixPool(GetPublicPrefixPoolRequest) returns (PublicPrefixPool) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/publicPrefixPools/{public_prefix_pool_id}"
@@ -27,8 +26,7 @@ service PublicPrefixPoolService {
   };
 
   // Lists public prefix pools in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListPublicPrefixPools(ListPublicPrefixPoolsRequest) returns (ListPublicPrefixPoolsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/publicPrefixPools"
@@ -37,8 +35,7 @@ service PublicPrefixPoolService {
   };
 
   // Updates the specified public prefix pool.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc UpdatePublicPrefixPool(UpdatePublicPrefixPoolRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdatePublicPrefixPoolMetadata"

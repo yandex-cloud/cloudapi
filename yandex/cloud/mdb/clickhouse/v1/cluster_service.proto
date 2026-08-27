@@ -15,6 +15,7 @@ import "yandex/cloud/mdb/clickhouse/v1/config/clickhouse.proto";
 import "yandex/cloud/mdb/clickhouse/v1/database.proto";
 import "yandex/cloud/mdb/clickhouse/v1/maintenance.proto";
 import "yandex/cloud/mdb/clickhouse/v1/user.proto";
+import "yandex/cloud/mdb/v1/connectionmanager.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -1711,6 +1712,9 @@ message ConfigSpec {
 
   // Configuration performance diagnostics
   PerformanceDiagnostics performance_diagnostics = 12;
+
+  // Cluster-wide Connection Manager integration configuration
+  yandex.cloud.mdb.v1.ClusterConnectionManager connection_manager = 13;
 }
 
 message ShardConfigSpec {

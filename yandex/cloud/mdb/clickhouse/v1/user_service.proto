@@ -7,6 +7,7 @@ import "google/protobuf/field_mask.proto";
 import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/mdb/clickhouse/v1/user.proto";
+import "yandex/cloud/mdb/v1/connectionmanager.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -193,6 +194,9 @@ message UpdateUserRequest {
 
   // User authentication method.
   AuthMethod auth_method = 9;
+
+  // Connection Manager connection and settings associated with the user.
+  yandex.cloud.mdb.v1.UserConnectionManager user_connection_manager = 10;
 }
 
 message UpdateUserMetadata {

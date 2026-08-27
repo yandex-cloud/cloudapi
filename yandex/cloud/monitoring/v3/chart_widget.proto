@@ -5,6 +5,7 @@ package yandex.cloud.monitoring.v3;
 import "google/protobuf/wrappers.proto";
 import "yandex/cloud/monitoring/v3/bar_chart_settings.proto";
 import "yandex/cloud/monitoring/v3/downsampling.proto";
+import "yandex/cloud/monitoring/v3/fill.proto";
 import "yandex/cloud/monitoring/v3/sort_order.proto";
 import "yandex/cloud/monitoring/v3/thresholds.proto";
 import "yandex/cloud/monitoring/v3/unit_format.proto";
@@ -304,6 +305,10 @@ message ChartWidget {
 
     // Settings for the categorical bar chart.
     BarChartSettings bar_chart_settings = 13;
+
+    // Fill of the area under a series. Defined for line series; for other
+    // visualization types the behaviour is not defined yet.
+    Fill fill = 14;
   }
 
   // Series override settings.
@@ -423,6 +428,10 @@ message ChartWidget {
 
       // Line visibility in chart. Replaces line_hiding_in_chart.
       LineOverrideVisibilitySettings line_visibility_in_chart = 16;
+
+      // Fill for this series. FILL_UNSPECIFIED leaves the widget setting
+      // in force, any other value overrides it.
+      Fill fill = 17;
     }
 
     // Required. Series selection type.

@@ -213,7 +213,10 @@ message DeleteDnsInboundEndpointMetadata {
 
 message ListDnsInboundEndpointsRequest {
   // ID of the folder to list DNS inbound endpoints in.
-  string folder_id = 1 [(length) = "<=50"];
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
 
   // The maximum number of results per page to return.
   int64 page_size = 2 [(value) = "0-1000"];

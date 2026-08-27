@@ -19,8 +19,7 @@ service PublicSubnetService {
   // Returns the specific PublicSubnet resource.
   //
   // To get the list of available PublicSubnet resources, make a [List] request.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc GetPublicSubnet(GetPublicSubnetRequest) returns (PublicSubnet) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/publicSubnets/{public_subnet_id}"
@@ -29,8 +28,7 @@ service PublicSubnetService {
   };
 
   // Retrieves the list of PublicSubnet resources in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListPublicSubnets(ListPublicSubnetsRequest) returns (ListPublicSubnetsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/publicSubnets"
@@ -39,8 +37,7 @@ service PublicSubnetService {
   };
 
   // Creates a public subnet in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc CreatePublicSubnet(CreatePublicSubnetRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "CreatePublicSubnetMetadata"
@@ -54,8 +51,7 @@ service PublicSubnetService {
   };
 
   // Updates the specified public subnet.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc UpdatePublicSubnet(UpdatePublicSubnetRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdatePublicSubnetMetadata"
@@ -71,8 +67,7 @@ service PublicSubnetService {
   // Deletes the specified public subnet.
   //
   // Deleting a public subnet removes its data permanently and is irreversible.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc DeletePublicSubnet(DeletePublicSubnetRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeletePublicSubnetMetadata"
@@ -85,8 +80,7 @@ service PublicSubnetService {
   };
 
   // Lists operations for the specified public subnet.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListPublicSubnetOperations(ListPublicSubnetOperationsRequest) returns (ListPublicSubnetOperationsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/publicSubnets/{public_subnet_id}/operations"

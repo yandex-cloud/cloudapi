@@ -15,8 +15,7 @@ option java_package = "yandex.cloud.api.api.baremetal.v2";
 service ImageService {
   // Returns the specific Image resource.
   // To get the list of resources, make a [ListImages] request.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc GetImage(GetImageRequest) returns (Image) {
     option (google.api.http) = {
       get: "/baremetal/v2/folders/{folder_id}/images/{image_id}"
@@ -25,8 +24,7 @@ service ImageService {
   };
 
   // Retrieves the list of Image resources.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListImages(ListImagesRequest) returns (ListImagesResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/folders/{folder_id}/images"
@@ -35,12 +33,9 @@ service ImageService {
 
   // Resolves the latest published Image for each available family within the specified folder.
   // Returns one Image per family - the most recently published one.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
-  // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  // https://google.aip.dev/130 --)
-  // (-- api-linter: yc::1705::http-method-mapping=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc ResolveImages(ResolveImagesRequest) returns (ResolveImagesResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/folders/{folder_id}/images:resolveImages"

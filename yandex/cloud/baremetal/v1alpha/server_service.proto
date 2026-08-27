@@ -67,8 +67,7 @@ service ServerService {
     };
   };
 
-  // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  // Required for backward compatibility with old clients. --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   // Powers off the specified server.
   rpc PowerOff(PowerOffServerRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -81,8 +80,7 @@ service ServerService {
     };
   };
 
-  // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  // Required for backward compatibility with old clients. --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   // Powers on the specified server.
   rpc PowerOn(PowerOnServerRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -95,8 +93,7 @@ service ServerService {
     };
   };
 
-  // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  // Required for backward compatibility with old clients. --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   // Reboots the specified server.
   rpc Reboot(RebootServerRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -109,8 +106,7 @@ service ServerService {
     };
   };
 
-  // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  // Required for backward compatibility with old clients. --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   // Reinstalls the specified server.
   rpc Reinstall(ReinstallServerRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -155,8 +151,7 @@ service ServerService {
   };
 
   // Enable prolongation after rental period end
-  // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  // Required for backward compatibility with old clients. --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   rpc ProlongateEndedRent(ProlongateEndedRentRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "ProlongateEndedRentMetadata"
@@ -340,8 +335,7 @@ message UpdateServerRequest {
   ];
 }
 
-// (-- api-linter: yc::1704::file-separation=disabled
-// Required for backward compatibility with old clients. --)
+// (-- api-linter: yc::1704::file-separation=disabled --)
 message NetworkInterfaceSpec {
   reserved 2 to 6;
 

@@ -13,8 +13,7 @@ option java_package = "yandex.cloud.api.api.baremetal.v2";
 // A set of methods to retrieve information about RentalPeriod resources.
 service RentalPeriodService {
   // Retrieves the list of RentalPeriod resources.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListRentalPeriods(ListRentalPeriodsRequest) returns (ListRentalPeriodsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/rentalPeriods"

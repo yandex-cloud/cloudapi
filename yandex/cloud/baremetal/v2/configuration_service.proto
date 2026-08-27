@@ -15,8 +15,7 @@ option java_package = "yandex.cloud.api.api.baremetal.v2";
 // A set of methods to retrieve information about Configuration resources.
 service ConfigurationService {
   // Retrieves the list of RentalPeriods for the specified Configuration resource.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListConfigurationRentalPeriods(ListConfigurationRentalPeriodsRequest) returns (ListConfigurationRentalPeriodsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/configurations/{configuration_id}/rentalPeriods"
@@ -25,12 +24,9 @@ service ConfigurationService {
   };
 
   // Returns the default storage for the specified configuration.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
-  // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  // https://google.aip.dev/130 --)
-  // (-- api-linter: yc::1705::http-method-mapping=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc ResolveConfigurationDefaultStorage(ResolveConfigurationDefaultStorageRequest) returns (DefaultStorage) {
     option (google.api.http) = {
       get: "/baremetal/v2/configurations/{configuration_id}:resolveDefaultStorage"
@@ -39,12 +35,9 @@ service ConfigurationService {
   };
 
   // Returns the default storages for the specified configurations.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
-  // (-- api-linter: yc::1702::method-verb-prefix=disabled
-  // https://google.aip.dev/130 --)
-  // (-- api-linter: yc::1705::http-method-mapping=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc ResolveConfigurationsDefaultStorages(ResolveConfigurationsDefaultStoragesRequest) returns (ResolveConfigurationsDefaultStoragesResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/configurations:resolveDefaultStorages"

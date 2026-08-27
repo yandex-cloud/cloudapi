@@ -19,8 +19,7 @@ service PrivateSubnetService {
   // Returns the specific PrivateSubnet resource.
   //
   // To get the list of available PrivateSubnet resources, make a [List] request.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc GetPrivateSubnet(GetPrivateSubnetRequest) returns (PrivateSubnet) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/privateSubnets/{private_subnet_id}"
@@ -29,8 +28,7 @@ service PrivateSubnetService {
   };
 
   // Retrieves the list of PrivateSubnet resources in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListPrivateSubnets(ListPrivateSubnetsRequest) returns (ListPrivateSubnetsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/privateSubnets"
@@ -39,8 +37,7 @@ service PrivateSubnetService {
   };
 
   // Creates a private subnet in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc CreatePrivateSubnet(CreatePrivateSubnetRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "CreatePrivateSubnetMetadata"
@@ -54,8 +51,7 @@ service PrivateSubnetService {
   };
 
   // Updates the specified private subnet.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc UpdatePrivateSubnet(UpdatePrivateSubnetRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdatePrivateSubnetMetadata"
@@ -71,8 +67,7 @@ service PrivateSubnetService {
   // Deletes the specified private subnet.
   //
   // Deleting a private subnet removes its data permanently and is irreversible.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc DeletePrivateSubnet(DeletePrivateSubnetRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeletePrivateSubnetMetadata"
@@ -85,8 +80,7 @@ service PrivateSubnetService {
   };
 
   // Lists operations for the specified private subnet.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListPrivateSubnetOperations(ListPrivateSubnetOperationsRequest) returns (ListPrivateSubnetOperationsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/clouds/{cloud_id}/folders/{folder_id}/privateSubnets/{private_subnet_id}/operations"

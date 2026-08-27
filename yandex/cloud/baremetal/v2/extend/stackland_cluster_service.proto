@@ -18,8 +18,7 @@ option java_package = "yandex.cloud.api.api.baremetal.v2.extend";
 // A set of methods for managing StacklandCluster resources.
 service StacklandClusterService {
   // Gets Stackland cluster by it's id.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc GetStacklandCluster(GetStacklandClusterRequest) returns (StacklandCluster) {
     option (google.api.http) = {
       get: "/v2/clouds/{cloud_id}/folders/{folder_id}/extend/stacklandClusters/{stackland_cluster_id}"
@@ -28,8 +27,7 @@ service StacklandClusterService {
   };
 
   // List Stackland clusters in the specified folder.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListStacklandClusters(ListStacklandClustersRequest) returns (ListStacklandClustersResponse) {
     option (google.api.http) = {
       get: "/v2/clouds/{cloud_id}/folders/{folder_id}/extend/stacklandClusters"
@@ -38,8 +36,7 @@ service StacklandClusterService {
   };
 
   // Creates new Stackland cluster.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc CreateStacklandCluster(CreateStacklandClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "CreateStacklandClusterMetadata"
@@ -53,8 +50,7 @@ service StacklandClusterService {
   };
 
   // Updates the specified Stackland cluster.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc UpdateStacklandCluster(UpdateStacklandClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateStacklandClusterMetadata"
@@ -68,8 +64,7 @@ service StacklandClusterService {
   };
 
   // Deletes the specified Stackland cluster.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc DeleteStacklandCluster(DeleteStacklandClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeleteStacklandClusterMetadata"
@@ -82,8 +77,7 @@ service StacklandClusterService {
   };
 
   // Returns a zip archive with the cluster config.yaml and secrets.yaml.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc GetStacklandClusterConfigs(GetStacklandClusterConfigsRequest) returns (GetStacklandClusterConfigsResponse) {
     option (google.api.http) = {
       get: "/v2/clouds/{cloud_id}/folders/{folder_id}/extend/stacklandClusters/{stackland_cluster_id}:configs"
@@ -92,8 +86,7 @@ service StacklandClusterService {
   };
 
   // Lists operations for the specified Stackland cluster.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListStacklandClusterOperations(ListStacklandClusterOperationsRequest) returns (ListStacklandClusterOperationsResponse) {
     option (google.api.http) = {
       get: "/v2/clouds/{cloud_id}/folders/{folder_id}/extend/stacklandClusters/{stackland_cluster_id}/operations"

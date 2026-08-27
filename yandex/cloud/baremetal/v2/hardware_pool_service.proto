@@ -16,8 +16,7 @@ service HardwarePoolService {
   // Returns the specific HardwarePool resource.
   //
   // To get the list of available HardwarePool resource, make a [List] request.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc GetHardwarePool(GetHardwarePoolRequest) returns (HardwarePool) {
     option (google.api.http) = {
       get: "/baremetal/v2/zones/{zone_id}/hardwarePools/{hardware_pool_id}"
@@ -26,8 +25,7 @@ service HardwarePoolService {
   };
 
   // Retrieves the list of HardwarePool resources.
-  // (-- api-linter: yc::1702::method-no-resource=disabled
-  // https://google.aip.dev/130 --)
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
   rpc ListHardwarePools(ListHardwarePoolsRequest) returns (ListHardwarePoolsResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/zones/{zone_id}/hardwarePools"

@@ -43,10 +43,10 @@ message ImageSpec {
   enum ImageOrientation {
     IMAGE_ORIENTATION_UNSPECIFIED = 0;
 
-    // Horizontal orientation.
+    // Vertical orientation.
     IMAGE_ORIENTATION_VERTICAL = 1;
 
-    // Vertical orientation.
+    // Horizontal orientation.
     IMAGE_ORIENTATION_HORIZONTAL = 2;
 
     // Square aspect ratio.

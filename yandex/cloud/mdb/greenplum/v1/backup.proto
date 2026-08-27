@@ -9,6 +9,8 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/greenp
 option java_package = "yandex.cloud.api.mdb.greenplum.v1";
 
 message Backup {
+  reserved 10;
+
   enum BackupMethod {
     BACKUP_METHOD_UNSPECIFIED = 0;
 
@@ -55,4 +57,8 @@ message Backup {
 
   // Size of the journal associated with backup, in bytes.
   int64 journal_size = 9;
+
+  // Size of data added by this backup to storage shared between backups, in bytes.
+  // This value may change when backups are deleted and shared data is attributed to another backup.
+  int64 shared_size = 11;
 }
