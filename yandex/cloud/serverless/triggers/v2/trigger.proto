@@ -59,6 +59,9 @@ message Trigger {
 
     // The trigger is updating.
     UPDATING = 5;
+
+    // Trigger failed. The only allowed action is delete.
+    ERROR = 6;
   }
 }
 

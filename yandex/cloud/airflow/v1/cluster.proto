@@ -225,6 +225,15 @@ message S3Config {
   string bucket = 3;
 }
 
+message GitSyncUsernameAndPassword {
+  // Username for repository authentication. For access token in gitlab use `oauth2`, for github use user name & etc.
+  // See in git repository docs.
+  string username = 1 [(required) = true];
+
+  // Password or access token for repository authentication.
+  string password = 2 [(required) = true];
+}
+
 message GitSyncConfig {
   // Git repository URL.
   string repo = 1 [(required) = true];
@@ -234,9 +243,16 @@ message GitSyncConfig {
 
   // Subdirectory path within the repository containing DAG files.
   string sub_path = 3;
+  // Credentials for repository authentication.
+  oneof credentials {
+    option (exactly_one) = true;
 
-  // SSH private key for repository authentication.
-  string ssh_key = 4;
+    // SSH private key for repository authentication.
+    string ssh_key = 4;
+
+    // Username and password/access token for repository authentication.
+    GitSyncUsernameAndPassword username_and_password = 5;
+  }
 }
 
 message CodeSyncConfig {

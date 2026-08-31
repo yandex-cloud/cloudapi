@@ -189,6 +189,9 @@ message SolidWafSettings {
 
   // Session affinity to analyzers. If not set, ConnectionSessionAffinity will be used.
   SessionAffinity session_affinity = 3;
+
+  // ID of the Solid WAF web app.
+  string web_app_id = 4;
 }
 
 // A domain served by a Smart Web Security load balancer.
