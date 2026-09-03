@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package yandex.cloud.adviser.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/adviser/v1;adviser";
+option java_package = "yandex.cloud.api.adviser.v1";
+
+// Reason why the issue is dismissed.
+enum DismissIssueReason {
+  DISMISS_ISSUE_REASON_UNSPECIFIED = 0;
+
+  // The issue is not relevant for the resource.
+  DISMISS_ISSUE_REASON_INCORRECT = 1;
+
+  // The issue is relevant, but it is not going to be fixed.
+  DISMISS_ISSUE_REASON_WONT_FIX = 2;
+
+  // The issue is relevant and the risks it brings are accepted.
+  DISMISS_ISSUE_REASON_ACCEPTED = 3;
+
+  // Other reason, see the comment of the dismissal.
+  DISMISS_ISSUE_REASON_OTHER = 4;
+}
+
+// Information about a dismissal of an issue.
+message DismissalInfo {
+  // ID of the dismissal.
+  int64 id = 1;
+
+  // ID of the user or the service account that created the dismissal.
+  string subject_id = 2;
+
+  // Reason of the dismissal.
+  DismissIssueReason reason = 3;
+
+  // Comment of the dismissal.
+  string comment = 4;
+
+  // Time when the issue was dismissed.
+  google.protobuf.Timestamp dismissed_at = 5;
+
+  // Time when the dismissal expires. After this time the issue becomes visible again.
+  google.protobuf.Timestamp expires_at = 6;
+}

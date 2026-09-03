@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.spqr.v1;
+
+import "google/api/annotations.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/maintenance/v2/change_freeze.proto";
+import "yandex/cloud/operation/operation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/spqr/v1;spqr";
+option java_package = "yandex.cloud.api.mdb.spqr.v1";
+
+service ChangeFreezeService {
+  // Creates a change freeze for the specified resource.
+  rpc Create(maintenance.v2.CreateChangeFreezeRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreateChangeFreezeMetadata"
+      response: "yandex.cloud.maintenance.v2.ChangeFreeze"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-spqr/v1/changeFreezes"
+    };
+  };
+
+  // Retrieves the specific change freeze by ID.
+  rpc Get(maintenance.v2.GetChangeFreezeRequest) returns (maintenance.v2.ChangeFreeze) {
+    option (google.api.http) = {
+      get: "/managed-spqr/v1/changeFreezes/{change_freeze_id}"
+    };
+  };
+
+  // Lists change freezes by conditions, specified in request.
+  rpc List(maintenance.v2.ListChangeFreezesRequest) returns (maintenance.v2.ListChangeFreezesResponse) {
+    option (google.api.http) = {
+      get: "/managed-spqr/v1/changeFreezes"
+    };
+  };
+
+  // Terminates the specified change freeze.
+  rpc Terminate(maintenance.v2.TerminateChangeFreezeRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "TerminateChangeFreezeMetadata"
+      response: "yandex.cloud.maintenance.v2.TerminateChangeFreezeResponse"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-spqr/v1/changeFreezes/{change_freeze_id}:terminate"
+    };
+  };
+
+  // Retrieves change freeze limits for the specified resource.
+  rpc GetLimits(maintenance.v2.GetChangeFreezeLimitsRequest) returns (maintenance.v2.ChangeFreezeLimitsResponse) {
+    option (google.api.http) = {
+      get: "/managed-spqr/v1/changeFreezeLimits"
+    };
+  };
+}
+
+message CreateChangeFreezeMetadata {
+  // ID of the resource.
+  string resource_id = 1;
+}
+
+message TerminateChangeFreezeMetadata {
+  // ID of the change freeze.
+  string change_freeze_id = 1;
+}

@@ -11,7 +11,43 @@ services:
       - method: Get
       - method: List
       - method: Create
+        tags: ["sensitive"]
+        input:
+          - field: config_spec
+            inner:
+              - field: redis_config_5_0
+                disabled: true
+              - field: redis_config_6_0
+                disabled: true
+              - field: redis_config_6_2
+                disabled: true
+              - field: redis_config_7_0
+                disabled: true
+              - field: backup_window_start
+                inner:
+                  - field: seconds
+                    disabled: true
+                  - field: nanos
+                    disabled: true
       - method: Update
+        tags: ["sensitive"]
+        input:
+          - field: config_spec
+            inner:
+              - field: redis_config_5_0
+                disabled: true
+              - field: redis_config_6_0
+                disabled: true
+              - field: redis_config_6_2
+                disabled: true
+              - field: redis_config_7_0
+                disabled: true
+              - field: backup_window_start
+                inner:
+                  - field: seconds
+                    disabled: true
+                  - field: nanos
+                    disabled: true
       - method: Delete
         disabled: true
       - method: Start
@@ -19,6 +55,24 @@ services:
       - method: Move
       - method: Backup
       - method: Restore
+        tags: ["sensitive"]
+        input:
+          - field: config_spec
+            inner:
+              - field: redis_config_5_0
+                disabled: true
+              - field: redis_config_6_0
+                disabled: true
+              - field: redis_config_6_2
+                disabled: true
+              - field: redis_config_7_0
+                disabled: true
+              - field: backup_window_start
+                inner:
+                  - field: seconds
+                    disabled: true
+                  - field: nanos
+                    disabled: true
       - method: RescheduleMaintenance
       - method: StartFailover
       - method: ListLogs
@@ -52,6 +106,8 @@ services:
       - method: Get
       - method: List
       - method: Create
+        tags: ["sensitive"]
       - method: Update
+        tags: ["sensitive"]
       - method: Delete
         disabled: true

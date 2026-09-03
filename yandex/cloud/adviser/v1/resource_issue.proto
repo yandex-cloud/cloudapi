@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package yandex.cloud.adviser.v1;
+
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/adviser/v1/common.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/adviser/v1;adviser";
+option java_package = "yandex.cloud.api.adviser.v1";
+
+// An issue detected on a cloud resource by one of the Advisor checks.
+message ResourceIssue {
+  // ID of the issue.
+  string id = 1;
+
+  // Resource that the issue is detected for.
+  CloudResource resource = 2;
+
+  // Time when the issue was detected.
+  google.protobuf.Timestamp created_at = 3;
+
+  // Time when the issue was updated for the last time.
+  google.protobuf.Timestamp updated_at = 4;
+
+  // Time when the issue was resolved. Empty for the issues that are not resolved yet.
+  google.protobuf.Timestamp resolved_at = 5;
+
+  // State of the issue.
+  IssueState state = 6;
+
+  // Severity of the issue.
+  IssueSeverity severity = 7;
+
+  // Category of the issue.
+  IssueCategory category = 8;
+
+  // Visibility of the issue.
+  IssueVisibility visibility = 9;
+
+  // Name of the service that the check belongs to, e.g. `managed-postgresql`.
+  string service = 10;
+
+  // ID of the check that detected the issue, e.g. `postgresql_ha_zone`.
+  string slug = 11;
+
+  // Short description of the issue.
+  string short_descr = 12;
+
+  // Full description of the issue with the recommendations on how to fix it.
+  string full_descr = 13;
+
+  // Link to the documentation about the issue.
+  string doc_url = 14;
+
+  // ID of the active dismissal for this issue, if any.
+  // Present only for time-based dismissals.
+  // To get the details of the dismissal, use a [IssueService.GetDismissalInfo] request.
+  int64 dismissal_id = 15;
+
+  // Title of the issue.
+  string title = 16;
+}

@@ -216,6 +216,9 @@ message GroupClaimsSettings {
 
   // Name of the SAML attribute that contains group information.
   string group_attribute_name = 2 [(length) = "<=8000"];
+
+  // Source of the group value provided to the application.
+  GroupAttributeValue group_attribute_value = 3;
 }
 
 // Group distribution types for SAML applications.
@@ -231,4 +234,19 @@ enum GroupDistributionType {
 
   // All groups are provided to the application.
   ALL_GROUPS = 3;
+}
+
+// Source of the group value provided to the application.
+enum GroupAttributeValue {
+  // The group value source is not specified, treated as NAME.
+  GROUP_ATTRIBUTE_VALUE_UNSPECIFIED = 0;
+
+  // The group name is provided to the application.
+  NAME = 1;
+
+  // The group ID is provided to the application.
+  ID = 2;
+
+  // The group external ID is provided to the application.
+  EXTERNAL_ID = 3;
 }

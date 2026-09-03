@@ -10,8 +10,10 @@ option java_package = "yandex.cloud.api.api.baremetal.v2";
 // DHCP options for a subnet.
 message DhcpOptions {
   // Start IP address of the DHCP range (inclusive).
-  string start_ip = 1 [(google.api.field_behavior) = REQUIRED];
+  // The absence or null value indicates that calculation will be performed based on CIDR.
+  string start_ip = 1 [(google.api.field_behavior) = OPTIONAL];
 
   // End IP address of the DHCP range (inclusive).
-  string end_ip = 2 [(google.api.field_behavior) = REQUIRED];
+  // The absence or null value indicates that calculation will be performed based on CIDR.
+  string end_ip = 2 [(google.api.field_behavior) = OPTIONAL];
 }

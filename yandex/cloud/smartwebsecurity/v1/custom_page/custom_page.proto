@@ -1,0 +1,238 @@
+syntax = "proto3";
+
+package yandex.cloud.smartwebsecurity.v1.custom_page;
+
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/smartwebsecurity/v1/custom_page;smartwebsecurity";
+option java_package = "yandex.cloud.api.smartwebsecurity.v1.custom_page";
+
+// A custom page resource.
+message CustomPage {
+  // HTTP status code returned with the custom page.
+  enum StatusCode {
+    // The HTTP status code is not specified.
+    STATUS_CODE_UNSPECIFIED = 0;
+
+    // HTTP 200 OK.
+    OK = 200;
+
+    // HTTP 201 Created.
+    CREATED = 201;
+
+    // HTTP 202 Accepted.
+    ACCEPTED = 202;
+
+    // HTTP 203 Non-Authoritative Information.
+    NON_AUTHORITATIVE_INFORMATION = 203;
+
+    // HTTP 204 No Content.
+    NO_CONTENT = 204;
+
+    // HTTP 205 Reset Content.
+    RESET_CONTENT = 205;
+
+    // HTTP 206 Partial Content.
+    PARTIAL_CONTENT = 206;
+
+    // HTTP 207 Multi-Status.
+    MULTI_STATUS = 207;
+
+    // HTTP 208 Already Reported.
+    ALREADY_REPORTED = 208;
+
+    // HTTP 226 IM Used.
+    IM_USED = 226;
+
+    // HTTP 300 Multiple Choices.
+    MULTIPLE_CHOICES = 300;
+
+    // HTTP 301 Moved Permanently.
+    MOVED_PERMANENTLY = 301;
+
+    // HTTP 302 Found.
+    FOUND = 302;
+
+    // HTTP 303 See Other.
+    SEE_OTHER = 303;
+
+    // HTTP 304 Not Modified.
+    NOT_MODIFIED = 304;
+
+    // HTTP 305 Use Proxy.
+    USE_PROXY = 305;
+
+    // HTTP 307 Temporary Redirect.
+    TEMPORARY_REDIRECT = 307;
+
+    // HTTP 308 Permanent Redirect.
+    PERMANENT_REDIRECT = 308;
+
+    // HTTP 400 Bad Request.
+    BAD_REQUEST = 400;
+
+    // HTTP 401 Unauthorized.
+    UNAUTHORIZED = 401;
+
+    // HTTP 402 Payment Required.
+    PAYMENT_REQUIRED = 402;
+
+    // HTTP 403 Forbidden.
+    FORBIDDEN = 403;
+
+    // HTTP 404 Not Found.
+    NOT_FOUND = 404;
+
+    // HTTP 405 Method Not Allowed.
+    METHOD_NOT_ALLOWED = 405;
+
+    // HTTP 406 Not Acceptable.
+    NOT_ACCEPTABLE = 406;
+
+    // HTTP 407 Proxy Authentication Required.
+    PROXY_AUTHENTICATION_REQUIRED = 407;
+
+    // HTTP 408 Request Timeout.
+    REQUEST_TIMEOUT = 408;
+
+    // HTTP 409 Conflict.
+    CONFLICT = 409;
+
+    // HTTP 410 Gone.
+    GONE = 410;
+
+    // HTTP 411 Length Required.
+    LENGTH_REQUIRED = 411;
+
+    // HTTP 412 Precondition Failed.
+    PRECONDITION_FAILED = 412;
+
+    // HTTP 413 Content Too Large.
+    PAYLOAD_TOO_LARGE = 413;
+
+    // HTTP 414 URI Too Long.
+    URI_TOO_LONG = 414;
+
+    // HTTP 415 Unsupported Media Type.
+    UNSUPPORTED_MEDIA_TYPE = 415;
+
+    // HTTP 416 Range Not Satisfiable.
+    RANGE_NOT_SATISFIABLE = 416;
+
+    // HTTP 417 Expectation Failed.
+    EXPECTATION_FAILED = 417;
+
+    // HTTP 421 Misdirected Request.
+    MISDIRECTED_REQUEST = 421;
+
+    // HTTP 422 Unprocessable Content.
+    UNPROCESSABLE_ENTITY = 422;
+
+    // HTTP 423 Locked.
+    LOCKED = 423;
+
+    // HTTP 424 Failed Dependency.
+    FAILED_DEPENDENCY = 424;
+
+    // HTTP 426 Upgrade Required.
+    UPGRADE_REQUIRED = 426;
+
+    // HTTP 428 Precondition Required.
+    PRECONDITION_REQUIRED = 428;
+
+    // HTTP 429 Too Many Requests.
+    TOO_MANY_REQUESTS = 429;
+
+    // HTTP 431 Request Header Fields Too Large.
+    REQUEST_HEADER_FIELDS_TOO_LARGE = 431;
+
+    // HTTP 500 Internal Server Error.
+    INTERNAL_SERVER_ERROR = 500;
+
+    // HTTP 501 Not Implemented.
+    NOT_IMPLEMENTED = 501;
+
+    // HTTP 502 Bad Gateway.
+    BAD_GATEWAY = 502;
+
+    // HTTP 503 Service Unavailable.
+    SERVICE_UNAVAILABLE = 503;
+
+    // HTTP 504 Gateway Timeout.
+    GATEWAY_TIMEOUT = 504;
+
+    // HTTP 505 HTTP Version Not Supported.
+    HTTP_VERSION_NOT_SUPPORTED = 505;
+
+    // HTTP 506 Variant Also Negotiates.
+    VARIANT_ALSO_NEGOTIATES = 506;
+
+    // HTTP 507 Insufficient Storage.
+    INSUFFICIENT_STORAGE = 507;
+
+    // HTTP 508 Loop Detected.
+    LOOP_DETECTED = 508;
+
+    // HTTP 510 Not Extended.
+    NOT_EXTENDED = 510;
+
+    // HTTP 511 Network Authentication Required.
+    NETWORK_AUTHENTICATION_REQUIRED = 511;
+  }
+
+  // ID of the custom page.
+  string id = 1;
+
+  // ID of the folder that the custom page belongs to.
+  string folder_id = 2;
+
+  // ID of the cloud that the custom page belongs to.
+  string cloud_id = 3;
+
+  // Resource labels as `key:value` pairs.
+  map<string, string> labels = 4 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+
+  // Name of the custom page.
+  string name = 5 [
+    (length) = "1-50",
+    (pattern) = "[a-zA-Z0-9][a-zA-Z0-9-_.]*"
+  ];
+
+  // Description of the custom page.
+  string description = 6 [(length) = "<=512"];
+
+  // Time when the custom page was created.
+  google.protobuf.Timestamp created_at = 7;
+
+  // Time when the custom page was last updated.
+  google.protobuf.Timestamp updated_at = 8;
+
+  // Content of the custom page.
+  string content = 9;
+
+  // MIME type of the custom page content.
+  string content_type = 10;
+
+  // HTTP status code returned with the custom page.
+  StatusCode status_code = 11;
+
+  // HTTP response headers returned with the custom page.
+  map<string, string> headers = 12 [
+    (length) = "<=256",
+    (map_key) = {
+      length: "1-128"
+      pattern: "[!#$%&'*+.^_\\x60|~0-9A-Za-z-]*"
+    },
+    (pattern) = "[\\t\\x20-\\x7E]*",
+    (size) = "<=10"
+  ];
+}

@@ -118,10 +118,7 @@ message Server {
   google.protobuf.Timestamp rental_period_end_time = 12 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   // Array of network interfaces that are attached to the instance.
-  repeated NetworkInterface network_interfaces = 13 [
-    (google.api.field_behavior) = REQUIRED,
-    (size) = "1-2"
-  ];
+  repeated NetworkInterface network_interfaces = 13 [(google.api.field_behavior) = REQUIRED];
 
   // State of the server rent prolongation.
   enum ProlongationState {

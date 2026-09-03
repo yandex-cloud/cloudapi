@@ -149,7 +149,7 @@ message UpdateUserRequest {
   // Field mask that specifies which fields of the Redis User resource should be updated.
   google.protobuf.FieldMask update_mask = 3;
 
-  // New passwords the Redis user.
+  // New password of the Redis user, 8-128 characters long.
   repeated string passwords = 4 [(size) = "<=1"];
 
   // New set of permissions to grant to the user.

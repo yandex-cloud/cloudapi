@@ -10,6 +10,7 @@ import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/trino/v1/access_control.proto";
 import "yandex/cloud/trino/v1/catalog.proto";
 import "yandex/cloud/trino/v1/cluster.proto";
+import "yandex/cloud/trino/v1/event_listener.proto";
 import "yandex/cloud/trino/v1/maintenance.proto";
 import "yandex/cloud/trino/v1/resource_management.proto";
 import "yandex/cloud/validation.proto";
@@ -225,7 +226,7 @@ message CreateClusterRequest {
 }
 
 message TrinoConfigSpec {
-  reserved 5;
+  reserved 5, 10;
 
   // List of catalogs that enable integration with various data sources.
   // Each catalog defines a connection to an external data source that Trino can query.
@@ -252,6 +253,9 @@ message TrinoConfigSpec {
 
   // Configuration for TLS.
   TLSConfig tls = 9;
+
+  // Configuration for event listeners.
+  EventListenersConfigSpec event_listeners = 11;
 }
 
 message CreateClusterMetadata {
@@ -289,6 +293,8 @@ message UpdateWorkerConfig {
 }
 
 message UpdateTrinoConfigSpec {
+  reserved 8;
+
   // Configuration for the coordinator, specifying computational resources and other settings.
   UpdateCoordinatorConfig coordinator_config = 1;
 
@@ -310,6 +316,9 @@ message UpdateTrinoConfigSpec {
 
   // Configuration for TLS.
   TLSConfig tls = 7;
+
+  // Configuration for event listeners.
+  UpdateEventListenersSpec event_listeners = 9;
 }
 
 message UpdateNetworkConfigSpec {

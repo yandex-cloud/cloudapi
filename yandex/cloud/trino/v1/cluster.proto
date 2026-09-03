@@ -5,6 +5,7 @@ package yandex.cloud.trino.v1;
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/logging/v1/log_entry.proto";
 import "yandex/cloud/trino/v1/access_control.proto";
+import "yandex/cloud/trino/v1/event_listener.proto";
 import "yandex/cloud/trino/v1/maintenance.proto";
 import "yandex/cloud/trino/v1/resource_management.proto";
 import "yandex/cloud/validation.proto";
@@ -206,6 +207,8 @@ message NetworkConfig {
 }
 
 message TrinoConfig {
+  reserved 8;
+
   // Configuration for the coordinator, specifying computational resources and other settings.
   CoordinatorConfig coordinator_config = 1 [(required) = true];
 
@@ -226,6 +229,9 @@ message TrinoConfig {
 
   // Configuration for TLS.
   TLSConfig tls = 7;
+
+  // Configuration for event listeners.
+  EventListenersConfig event_listeners = 9;
 }
 
 message CoordinatorConfig {

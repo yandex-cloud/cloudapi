@@ -269,9 +269,7 @@ message CreateServerRequest {
 
   // Network configuration for the server. Specifies how the network interface is configured
   // to interact with other servers on the internal network and on the internet.
-  // Currently up to 2 network interfaces are supported: required private network interface and
-  // optional public network interface.
-  repeated NetworkInterfaceSpec network_interfaces = 15 [(size) = "<=2"];
+  repeated NetworkInterfaceSpec network_interfaces = 15;
 
   // Operating system specific settings for provisioning the server. Optional, if omitted, the
   // server will be created without an operating system.
@@ -319,9 +317,7 @@ message UpdateServerRequest {
 
   // Network configuration for the server. Specifies how the network interface is configured
   // to interact with other servers on the internal network and on the internet.
-  // Currently up to 2 network interfaces are supported: required private network interface and
-  // optional public network interface.
-  repeated NetworkInterfaceSpec network_interfaces = 5 [(size) = "1-2"];
+  repeated NetworkInterfaceSpec network_interfaces = 5;
 
   // Resource labels as `key:value` pairs.
   map<string, string> labels = 200 [
@@ -593,9 +589,7 @@ message BatchCreateServersRequest {
 
   // Network configuration for the server. Specifies how the network interface is configured
   // to interact with other servers on the internal network and on the internet.
-  // Currently up to 2 network interfaces are supported: required private network interface and
-  // optional public network interface.
-  repeated NetworkInterfaceSpec network_interfaces = 15 [(size) = "<=2"];
+  repeated NetworkInterfaceSpec network_interfaces = 15;
 
   // Operating system specific settings for provisioning the server. Optional, if omitted, the
   // server will be created without an operating system.

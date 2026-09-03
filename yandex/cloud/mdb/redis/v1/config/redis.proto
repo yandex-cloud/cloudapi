@@ -62,13 +62,13 @@ message RedisConfig {
 
   // Time that Redis keeps the connection open while the client is idle.
   // If no new command is sent during that time, the connection is closed.
-  google.protobuf.Int64Value timeout = 2 [(value) = ">=0"];
+  google.protobuf.Int64Value timeout = 2;
 
   // Authentication password.
-  string password = 3;
+  string password = 3 [(pattern) = "[a-zA-Z0-9@=+?*.,!&#$^<>_%-]{0,128}"];
 
   // Number of database buckets on a single redis-server process.
-  google.protobuf.Int64Value databases = 4 [(value) = "1-1024"];
+  google.protobuf.Int64Value databases = 4 [(value) = ">0"];
 
   // Threshold for logging slow requests to server in microseconds (log only slower than it).
   google.protobuf.Int64Value slowlog_log_slower_than = 5 [(value) = ">=10"];
@@ -77,7 +77,7 @@ message RedisConfig {
   google.protobuf.Int64Value slowlog_max_len = 6 [(value) = ">=0"];
 
   // String setting for pub\sub functionality.
-  string notify_keyspace_events = 7;
+  string notify_keyspace_events = 7 [(pattern) = "[KEg$lshzxeAtmdn]{0,15}"];
 
   // Redis connection output buffers limits for pubsub operations.
   ClientOutputBufferLimit client_output_buffer_limit_pubsub = 8;
@@ -85,25 +85,25 @@ message RedisConfig {
   // Redis connection output buffers limits for clients.
   ClientOutputBufferLimit client_output_buffer_limit_normal = 9;
 
-  // Redis maxmemory percent
+  // Share of the host RAM used as the Redis maxmemory limit, in percent.
   google.protobuf.Int64Value maxmemory_percent = 10 [(value) = "1-75"];
 
   // Maximum time in milliseconds for Lua scripts, 0 - disabled mechanism
   google.protobuf.Int64Value lua_time_limit = 11 [(value) = "0-5000"];
 
-  // Replication backlog size as a percentage of flavor maxmemory
+  // Replication backlog size as a percentage of the host RAM.
   google.protobuf.Int64Value repl_backlog_size_percent = 12 [(value) = "1-75"];
 
-  // Controls whether all hash slots must be covered by nodes
+  // Controls whether all hash slots must be covered by nodes.
   google.protobuf.BoolValue cluster_require_full_coverage = 13;
 
-  // Allows read operations when cluster is down
+  // Allows read operations when cluster is down.
   google.protobuf.BoolValue cluster_allow_reads_when_down = 14;
 
-  // Permits Pub/Sub shard operations when cluster is down
+  // Permits Pub/Sub shard operations when cluster is down.
   google.protobuf.BoolValue cluster_allow_pubsubshard_when_down = 15;
 
-  // The time, in minutes, that must elapse in order for the key counter to be divided by two (or decremented if it has a value less <= 10)
+  // The time, in minutes, that must elapse in order for the key counter to be divided by two (or decremented if it has a value less <= 10).
   google.protobuf.Int64Value lfu_decay_time = 16 [(value) = "0-100000"];
 
   // Determines how the frequency counter represents key hits.
@@ -118,13 +118,14 @@ message RedisConfig {
   // Use JIT for lua scripts and functions
   google.protobuf.BoolValue use_luajit = 20;
 
-  // Allow redis to use io-threads
+  // Allow redis to use io-threads. When enabled, the number of threads is
+  // derived from the host class; when disabled, a single thread is used.
   google.protobuf.BoolValue io_threads_allowed = 21;
 
-  // Controls max number of entries in zset before conversion from memory-efficient listpack to CPU-efficient hash table and skiplist
+  // Controls max number of entries in zset before conversion from memory-efficient listpack to CPU-efficient hash table and skiplist.
   google.protobuf.Int64Value zset_max_listpack_entries = 22 [(value) = "32-2048"];
 
-  // AOF maximum size as a percentage of disk available
+  // AOF maximum size as a percentage of the host disk size.
   google.protobuf.Int64Value aof_max_size_percent = 23 [(value) = "1-99"];
 
   // Enable active (online) memory defragmentation

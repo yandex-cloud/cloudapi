@@ -333,7 +333,7 @@ message EnableShardingClusterMetadata {
 }
 
 message EnableShardingClusterRequest {
-  // Required. ID of the Redis cluster to return.
+  // ID of the Redis cluster to return.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -412,7 +412,7 @@ message CreateClusterRequest {
       length: "<=63"
       pattern: "[a-z][-_./\\@0-9a-z]*"
     },
-    (pattern) = "[-_./\\@0-9a-z]*",
+    (pattern) = "[-_0-9a-z]*",
     (size) = "<=64"
   ];
 
@@ -426,7 +426,7 @@ message CreateClusterRequest {
   repeated HostSpec host_specs = 7 [(size) = ">0"];
 
   // ID of the network to create the cluster in.
-  string network_id = 10 [(length) = "<=150"];
+  string network_id = 10 [(length) = "<=50"];
 
   // Redis cluster mode on/off.
   bool sharded = 11;
@@ -488,7 +488,7 @@ message UpdateClusterRequest {
       length: "<=63"
       pattern: "[a-z][-_./\\@0-9a-z]*"
     },
-    (pattern) = "[-_./\\@0-9a-z]*",
+    (pattern) = "[-_0-9a-z]*",
     (size) = "<=64"
   ];
 
@@ -514,7 +514,7 @@ message UpdateClusterRequest {
   Cluster.PersistenceMode persistence_mode = 10;
 
   // ID of the network to move the cluster to.
-  string network_id = 11 [(length) = "<=150"];
+  string network_id = 11 [(length) = "<=50"];
 
   // Enable FQDN instead of ip
   bool announce_hostnames = 12;
@@ -650,7 +650,7 @@ message RestoreClusterRequest {
       length: "<=63"
       pattern: "[a-z][-_./\\@0-9a-z]*"
     },
-    (pattern) = "[-_./\\@0-9a-z]*",
+    (pattern) = "[-_0-9a-z]*",
     (size) = "<=64"
   ];
 
@@ -662,10 +662,11 @@ message RestoreClusterRequest {
 
   // Configurations for Redis hosts that should be created for
   // the cluster that is being created from the backup.
+  // If left empty, the hosts are taken from the source cluster of the backup.
   repeated HostSpec host_specs = 7;
 
   // ID of the network to create the Redis cluster in.
-  string network_id = 8 [(length) = "<=150"];
+  string network_id = 8 [(length) = "<=50"];
 
   // ID of the folder to create the Redis cluster in.
   string folder_id = 9 [(length) = "<=50"];
@@ -738,13 +739,10 @@ message RescheduleMaintenanceRequest {
 message RescheduleMaintenanceMetadata {
   reserved 2 to 3;
 
-  // Required. ID of the Redis cluster.
-  string cluster_id = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  // ID of the Redis cluster.
+  string cluster_id = 1;
 
-  // Required. The time until which this maintenance operation is to be delayed.
+  // The time until which this maintenance operation is to be delayed.
   google.protobuf.Timestamp delayed_until = 4;
 }
 
@@ -815,6 +813,9 @@ message ListClusterLogsRequest {
 
     // Logs of Redis activity.
     REDIS = 1;
+
+    // Valkey audit logs
+    VALKEY_AUDIT = 2;
   }
 
   // Start timestamp for the logs request, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
@@ -873,7 +874,7 @@ message StreamLogRecord {
 }
 
 message StreamClusterLogsRequest {
-  // Required. ID of the Redis cluster.
+  // ID of the Redis cluster.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -889,6 +890,9 @@ message StreamClusterLogsRequest {
 
     // Logs of Redis activity.
     REDIS = 1;
+
+    // Valkey audit logs
+    VALKEY_AUDIT = 2;
   }
 
   // Start timestamp for the logs request.
@@ -1012,10 +1016,7 @@ message AddClusterHostsRequest {
 
 message AddClusterHostsMetadata {
   // ID of the Redis cluster to which the hosts are being added.
-  string cluster_id = 1 [
-    (length) = "<=50",
-    (required) = true
-  ];
+  string cluster_id = 1;
 
   // Names of hosts that are being added to the cluster.
   repeated string host_names = 2;
@@ -1073,7 +1074,6 @@ message ListClusterShardsRequest {
   // results is larger than [page_size],
   // the service returns a [ListClusterShardsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  // Default value: 100.
   int64 page_size = 2 [(value) = "<=1000"];
 
   // Page token. To get the next page of results, set [page_token] to the
@@ -1184,12 +1184,12 @@ message UpdateHostSpec {
 message HostSpec {
   // ID of the availability zone where the host resides.
   // To get a list of available zones, use the [yandex.cloud.compute.v1.ZoneService.List] request.
-  string zone_id = 1 [(length) = "<=50"];
+  string zone_id = 1;
 
   // ID of the subnet that the host should belong to. This subnet should be a part
   // of the network that the cluster belongs to.
   // The ID of the network is set in the field [Cluster.network_id].
-  string subnet_id = 2 [(length) = "<=50"];
+  string subnet_id = 2;
 
   // ID of the Redis shard the host belongs to.
   // To get the shard ID use a [ClusterService.ListShards] request.
@@ -1218,16 +1218,28 @@ message ConfigSpec {
   // Configuration of a Redis cluster.
   oneof redis_spec {
     // Configuration of a Redis 5.0 server.
-    config.RedisConfig5_0 redis_config_5_0 = 2 [json_name = "redisConfig_5_0"];
+    config.RedisConfig5_0 redis_config_5_0 = 2 [
+      deprecated = true,
+      json_name = "redisConfig_5_0"
+    ];
 
     // Configuration of a Redis 6.0 server.
-    config.RedisConfig6_0 redis_config_6_0 = 6 [json_name = "redisConfig_6_0"];
+    config.RedisConfig6_0 redis_config_6_0 = 6 [
+      deprecated = true,
+      json_name = "redisConfig_6_0"
+    ];
 
     // Configuration of a Redis 6.2 server.
-    config.RedisConfig6_2 redis_config_6_2 = 7 [json_name = "redisConfig_6_2"];
+    config.RedisConfig6_2 redis_config_6_2 = 7 [
+      deprecated = true,
+      json_name = "redisConfig_6_2"
+    ];
 
     // Configuration of a Redis 7.0 server.
-    config.RedisConfig7_0 redis_config_7_0 = 8 [json_name = "redisConfig_7_0"];
+    config.RedisConfig7_0 redis_config_7_0 = 8 [
+      deprecated = true,
+      json_name = "redisConfig_7_0"
+    ];
   }
 
   // Resources allocated to Redis hosts.
@@ -1239,7 +1251,8 @@ message ConfigSpec {
   // Access policy to DB
   Access access = 5;
 
-  // Unified configuration of a Redis cluster
+  // Unified configuration of a Redis cluster. Use this field for all currently
+  // available versions.
   config.RedisConfig redis = 11 [json_name = "redis"];
 
   // Disk size autoscaling settings
@@ -1251,7 +1264,9 @@ message ConfigSpec {
   // Valkey modules settings
   ValkeyModules modules = 14;
 
-  // Enables tiered storage (disk + NVMe hot tier). Forces edition to 9.1-ts.
+  // Enables tiered storage (disk + NVMe hot tier). Requires the tiered storage
+  // edition: when the flag is set on creation, the cluster version is switched
+  // to that edition.
   google.protobuf.BoolValue tiered_storage_enabled = 15;
 
   // Shard autoscaling settings for the cluster.

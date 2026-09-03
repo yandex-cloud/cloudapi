@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+// (-- api-linter: yc::1704::version-format=disabled --)
 package yandex.cloud.access;
 
 import "yandex/cloud/validation.proto";
@@ -125,7 +126,7 @@ message ListAccessBindingsRequest {
   // Page token. Set [page_token]
   // to the [ListAccessBindingsResponse.next_page_token]
   // returned by a previous list request to get the next page of results.
-  string page_token = 3 [(length) = "<=100"];
+  string page_token = 3 [(length) = "<=2000"];
 }
 
 message ListAccessBindingsResponse {

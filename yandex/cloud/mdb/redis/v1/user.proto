@@ -57,6 +57,7 @@ message UserSpec {
 
   // Password of the Redis user.
   repeated string passwords = 2 [
+    (pattern) = "^[a-zA-Z0-9@=+?*.,!&#$^<>_-]*$",
     (size) = "<=1",
     (unique) = true
   ];

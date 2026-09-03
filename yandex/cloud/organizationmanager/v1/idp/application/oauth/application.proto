@@ -64,6 +64,9 @@ enum Status {
 message GroupClaimsSettings {
   // Represents current distribution type of the groups. I.e. which groups are visible for the application users.
   GroupDistributionType group_distribution_type = 1;
+
+  // Source of the group value provided to the application.
+  GroupClaimValue group_claim_value = 2;
 }
 
 // Represents distribution type of the groups
@@ -79,6 +82,21 @@ enum GroupDistributionType {
 
   // All groups are visible for the application users
   ALL_GROUPS = 3;
+}
+
+// Source of the group value provided to the application
+enum GroupClaimValue {
+  // The group value source is unspecified, treated as NAME
+  GROUP_CLAIM_VALUE_UNSPECIFIED = 0;
+
+  // The group name is provided to the application
+  NAME = 1;
+
+  // The group ID is provided to the application
+  ID = 2;
+
+  // The group external ID is provided to the application
+  EXTERNAL_ID = 3;
 }
 
 // Represents connection to the OAuth client with specified scopes

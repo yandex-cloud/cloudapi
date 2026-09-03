@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+package yandex.cloud.adviser.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
+import "yandex/cloud/adviser/v1/common.proto";
+import "yandex/cloud/adviser/v1/dismissal.proto";
+import "yandex/cloud/adviser/v1/resource_issue.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/adviser/v1;adviser";
+option java_package = "yandex.cloud.api.adviser.v1";
+
+// A set of methods for working with issues detected by Advisor on cloud resources.
+service IssueService {
+  // Retrieves the list of issues detected on the resources of the specified cloud,
+  // folder or resource.
+  rpc List(ListResourceIssuesRequest) returns (ListResourceIssuesResponse) {
+    option (google.api.http) = {
+      get: "/adviser/v1/resourceIssues"
+    };
+  };
+
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // Dismiss is the domain verb for muting an issue; there is no standard verb for it. --)
+  // Dismisses the specified issue for the specified period of time.
+  // While the dismissal is active, the issue is not shown by default,
+  // use [ListResourceIssuesRequest.visibility_filter] to get dismissed issues.
+  rpc Dismiss(DismissIssueRequest) returns (DismissIssueResponse) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/adviser/v1/resourceIssues/{id}:dismiss"
+    };
+  };
+
+  // Returns the specified dismissal.
+  //
+  // To get the dismissal ID, use a [IssueService.List] request
+  // and take the value of [ResourceIssue.dismissal_id].
+  rpc GetDismissalInfo(GetDismissalInfoRequest) returns (GetDismissalInfoResponse) {
+    option (google.api.http) = {
+      get: "/adviser/v1/dismissals/{dismissal_id}"
+    };
+  };
+}
+
+message ListResourceIssuesRequest {
+  // The maximum number of results per page to return. If the number of available results
+  // is larger than [page_size], the service returns a [ListResourceIssuesResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Acceptable values are 0 to 1000, inclusive. Default value: 100.
+  int64 page_size = 1 [(value) = "0-1000"];
+
+  // Page token. To get the next page of results, set [page_token] to the
+  // [ListResourceIssuesResponse.next_page_token] returned by the previous list request.
+  string page_token = 2 [(length) = "<=2000"];
+
+  // ID of the resource to list issues for. If not specified, issues are listed
+  // for all the resources of the specified folder or cloud.
+  string resource_id = 3 [(length) = "<=50"];
+
+  // ID of the folder to list issues for. If not specified, issues are listed
+  // for all the folders of the specified cloud.
+  string folder_id = 4 [(length) = "<=50"];
+
+  // ID of the cloud to list issues for.
+  string cloud_id = 5 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // States of the issues to return. By default, only issues in the
+  // `ISSUE_STATE_ACTIVE` state are returned.
+  repeated IssueState state_filter = 6;
+
+  // Severities of the issues to return. By default, issues of all severities are returned.
+  repeated IssueSeverity severity_filter = 7;
+
+  // Categories of the issues to return. By default, issues of all categories are returned.
+  repeated IssueCategory category_filter = 8;
+
+  // Language of the issue title and descriptions, e.g. `ru` or `en`.
+  string lang = 9 [(length) = "<=3"];
+
+  // Visibilities of the issues to return. By default, only issues in the
+  // `ISSUE_VISIBILITY_VISIBLE` visibility are returned.
+  repeated IssueVisibility visibility_filter = 10;
+}
+
+message ListResourceIssuesResponse {
+  // List of issues.
+  repeated ResourceIssue issues = 1;
+
+  // This token allows you to get the next page of results for list requests. If the number
+  // of results is larger than [ListResourceIssuesRequest.page_size], use the [next_page_token]
+  // as the value for the [ListResourceIssuesRequest.page_token] parameter in the next list request.
+  string next_page_token = 2;
+}
+
+message DismissIssueRequest {
+  // ID of the issue to dismiss.
+  //
+  // To get the issue ID, use a [IssueService.List] request.
+  string id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Reason of the dismissal.
+  DismissIssueReason reason = 2 [(required) = true];
+
+  // Period of time to dismiss the issue for. The maximum value is one year.
+  google.protobuf.Duration duration = 3 [
+    (required) = true,
+    (value) = "1h-8760h"
+  ]; // max 1 year
+
+  // Comment of the dismissal.
+  string comment = 4 [(length) = "<=10000"];
+}
+
+message DismissIssueResponse {
+}
+
+message GetDismissalInfoRequest {
+  // ID of the dismissal to return.
+  //
+  // To get the dismissal ID, use a [IssueService.List] request
+  // and take the value of [ResourceIssue.dismissal_id].
+  int64 dismissal_id = 1 [(value) = ">0"];
+}
+
+message GetDismissalInfoResponse {
+  // Requested dismissal.
+  DismissalInfo dismissal = 1;
+}
