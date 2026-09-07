@@ -93,6 +93,14 @@ service StacklandClusterService {
     };
     option (google.api.method_signature) = "cloud_id,folder_id,stackland_cluster_id";
   };
+
+  // Lists of available stackland versions.
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
+  rpc ListStacklandVersions(ListStacklandVersionsRequest) returns (ListStacklandVersionsResponse) {
+    option (google.api.http) = {
+      get: "/v2/extend/stacklandClusters/versions"
+    };
+  };
 }
 
 message ListStacklandClusterOperationsRequest {
@@ -273,4 +281,32 @@ message GetStacklandClusterConfigsResponse {
 
   // Zip archive with config.yaml and secrets.yaml.
   bytes content = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+message ListStacklandVersionsRequest {
+  // The maximum number of results per page to return. If the number of available
+  // results is greater than `page_size`,
+  // the service returns a [ListStacklandVersionsResponse.next_page_token]
+  // that can be used to get the next page of results in subsequent list requests.
+  // Default value is 20.
+  int64 page_size = 1 [
+    (google.api.field_behavior) = OPTIONAL,
+    (value) = "<=1000"
+  ];
+
+  // Page token. To get the next page of results, set `page_token` to the
+  // [ListStacklandVersionsResponse.next_page_token] returned by a previous list request.
+  string page_token = 2 [(google.api.field_behavior) = OPTIONAL];
+}
+
+message ListStacklandVersionsResponse {
+  // List of StacklandVersion resources.
+  repeated StacklandVersion stackland_versions = 1;
+
+  // Token for getting the next page of the list. If the number of results is greater than
+  // [ListStacklandVersionsRequest.page_size], use `next_page_token` as the value
+  // for the [ListStacklandVersionsRequest.page_token] parameter in the next list request.
+  //
+  // Each subsequent page will have its own `next_page_token` to continue paging through the results.
+  string next_page_token = 2;
 }

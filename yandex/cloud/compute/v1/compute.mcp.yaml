@@ -102,6 +102,9 @@ services:
       - method: List
       - method: Create
       - method: Update
+        input:
+        - field: metadata
+          disabled: true
       - method: Delete
       - method: UpdateMetadata
       - method: GetSerialPortOutput

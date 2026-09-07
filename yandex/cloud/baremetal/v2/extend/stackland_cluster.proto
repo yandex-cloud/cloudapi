@@ -116,7 +116,7 @@ message StacklandCluster {
   // Version of Stackland to be used.
   string version = 16 [(google.api.field_behavior) = REQUIRED];
 
-  // License to activate Stackland.
+  // License to activate Stackland. Supports raw json and encoded base64 formats.
   string license = 17 [
     (google.api.field_behavior) = REQUIRED,
     (google.api.field_behavior) = INPUT_ONLY
@@ -196,4 +196,9 @@ message StacklandSubdomains {
 
   // Alertmanager URL.
   string alertmanager = 5 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+message StacklandVersion {
+  // Stackland version.
+  string stackland_version_id = 1 [(google.api.field_behavior) = IDENTIFIER];
 }

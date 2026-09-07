@@ -11,6 +11,8 @@ option java_package = "yandex.cloud.api.mdb.mongodb.v1.config";
 // Configuration of a mongod daemon. Supported options are a limited subset of all
 // options described in [MongoDB documentation](https://docs.mongodb.com/v4.4/reference/configuration-options/).
 message MongodConfig4_4_enterprise {
+  option deprecated = true;
+
   message Storage {
     // Configuration of WiredTiger storage engine.
     message WiredTiger {
@@ -188,6 +190,8 @@ message MongodConfig4_4_enterprise {
 }
 
 message MongoCfgConfig4_4_enterprise {
+  option deprecated = true;
+
   message Storage {
     // Configuration of WiredTiger storage engine.
     message WiredTiger {
@@ -243,6 +247,8 @@ message MongoCfgConfig4_4_enterprise {
 }
 
 message MongosConfig4_4_enterprise {
+  option deprecated = true;
+
   message Network {
     message Compression {
       enum Compressor {
@@ -281,6 +287,8 @@ message MongosConfig4_4_enterprise {
 }
 
 message MongodConfigSet4_4_enterprise {
+  option deprecated = true;
+
   // Effective mongod settings for a MongoDB 4.4 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
   MongodConfig4_4_enterprise effective_config = 1;
@@ -293,6 +301,8 @@ message MongodConfigSet4_4_enterprise {
 }
 
 message MongoCfgConfigSet4_4_enterprise {
+  option deprecated = true;
+
   // Effective mongocfg settings for a MongoDB 4.4 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
   MongoCfgConfig4_4_enterprise effective_config = 1;
@@ -305,6 +315,8 @@ message MongoCfgConfigSet4_4_enterprise {
 }
 
 message MongosConfigSet4_4_enterprise {
+  option deprecated = true;
+
   // Effective mongos settings for a MongoDB 4.4 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
   MongosConfig4_4_enterprise effective_config = 1;

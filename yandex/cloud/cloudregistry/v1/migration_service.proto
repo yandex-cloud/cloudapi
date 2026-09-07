@@ -32,6 +32,29 @@ service MigrationService {
   rpc GetCloudMigrationStatusDashboard(GetCloudMigrationStatusDashboardRequest) returns (CloudMigrationStatusDashboard) {
   };
 
+  // Toggles whether redirects are allowed for the specified registry.
+  rpc ToggleRegistryRedirects(ToggleRegistryRedirectsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "ToggleRegistryRedirectsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
+
+  // Toggles whether redirects are allowed for all registries in the specified folder.
+  rpc ToggleFolderRedirects(ToggleFolderRedirectsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "ToggleFolderRedirectsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
+
+  // Toggles whether redirects are allowed for all registries in the specified cloud.
+  rpc ToggleCloudRedirects(ToggleCloudRedirectsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "ToggleCloudRedirectsMetadata"
+      response: "google.protobuf.Empty"
+    };
+  };
 }
 
 // Request for starting migration for all registries in the specified cloud.
@@ -41,6 +64,10 @@ message StartCloudMigrationRequest {
     (length) = "<=50",
     (required) = true
   ];
+
+  // Whether to disable redirects for registries.
+  // Default value: false.
+  bool disable_redirects = 2;
 }
 
 // Metadata for cloud migration operation.
@@ -59,6 +86,10 @@ message StartFolderMigrationRequest {
     (length) = "<=50",
     (required) = true
   ];
+
+  // Whether to disable redirects for registries.
+  // Default value: false.
+  bool disable_redirects = 2;
 }
 
 // Metadata for folder migration operation.
@@ -122,4 +153,73 @@ message CloudMigrationProgressCounters {
 
   // Tag migration counters.
   MigrationCounters tags = 3;
+}
+
+// Request for toggling whether redirects are allowed for the specified registry.
+message ToggleRegistryRedirectsRequest {
+  // ID of the registry.
+  string registry_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Whether redirects are allowed for the registry.
+  bool enabled = 2;
+}
+
+// Metadata for the operation of toggling registry redirects behavior.
+message ToggleRegistryRedirectsMetadata {
+  // ID of the registry.
+  string registry_id = 1;
+
+  // Whether redirects are allowed for the registry.
+  bool enabled = 2;
+}
+
+// Request for toggling whether redirects are allowed for all registries in the specified folder.
+message ToggleFolderRedirectsRequest {
+  // ID of the folder.
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Whether redirects are allowed for the registries.
+  bool enabled = 2;
+}
+
+// Metadata for the operation of toggling folder redirects behavior.
+message ToggleFolderRedirectsMetadata {
+  // ID of the folder.
+  string folder_id = 1;
+
+  // IDs of registries affected.
+  repeated string registry_ids = 2;
+
+  // Whether redirects are allowed for the registries.
+  bool enabled = 3;
+}
+
+// Request for toggling whether redirects are allowed for all registries in the specified cloud.
+message ToggleCloudRedirectsRequest {
+  // ID of the cloud.
+  string cloud_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Whether redirects are allowed for the registries.
+  bool enabled = 2;
+}
+
+// Metadata for the operation of toggling cloud redirects behavior.
+message ToggleCloudRedirectsMetadata {
+  // ID of the cloud.
+  string cloud_id = 1;
+
+  // IDs of registries affected.
+  repeated string registry_ids = 2;
+
+  // Whether redirects are allowed for the registries.
+  bool enabled = 3;
 }

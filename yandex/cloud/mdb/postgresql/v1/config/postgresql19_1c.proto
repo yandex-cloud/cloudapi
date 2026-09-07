@@ -1,0 +1,923 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.postgresql.v1.config;
+
+import "google/protobuf/wrappers.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1/config;postgresql";
+option java_package = "yandex.cloud.api.mdb.postgresql.v1.config";
+
+// Options and structure of `PostgresqlConfig` reflects PostgreSQL configuration file
+// parameters which detailed description is available in
+// [PostgreSQL documentation](https://www.postgresql.org/docs/19/runtime-config.html).
+message PostgresqlConfig19_1C {
+  reserved 19;
+  reserved 62;
+  reserved 64;
+  reserved 66;
+  reserved 78;
+  reserved 106;
+  reserved 125;
+  reserved 166;
+  reserved 176;
+  enum AutoExplainLogFormat {
+    // Not specified.
+    AUTO_EXPLAIN_LOG_FORMAT_UNSPECIFIED = 0;
+
+    // Formats logged execution plans as plain text.
+    AUTO_EXPLAIN_LOG_FORMAT_TEXT = 1;
+
+    // Formats logged execution plans as XML.
+    AUTO_EXPLAIN_LOG_FORMAT_XML = 2;
+
+    // Formats logged execution plans as JSON.
+    AUTO_EXPLAIN_LOG_FORMAT_JSON = 3;
+
+    // Formats logged execution plans as YAML.
+    AUTO_EXPLAIN_LOG_FORMAT_YAML = 4;
+  }
+
+  enum BackslashQuote {
+    // Not specified.
+    BACKSLASH_QUOTE_UNSPECIFIED = 0;
+
+    // Legacy invalid value. Do not use.
+    BACKSLASH_QUOTE = 1 [deprecated = true];
+
+    // Quotation mark can be represented as \'.
+    BACKSLASH_QUOTE_ON = 2;
+
+    // Quotation mark can only be represented using the standard SQL syntax ''.
+    BACKSLASH_QUOTE_OFF = 3;
+
+    // Representing a quotation mark as \' is only permitted for client encodings where \ is not used for multibyte characters.
+    BACKSLASH_QUOTE_SAFE_ENCODING = 4;
+  }
+
+  enum ByteaOutput {
+    // Not specified.
+    BYTEA_OUTPUT_UNSPECIFIED = 0;
+
+    // Each byte is represented by two hexadecimal characters, e.g., 'SELECT '\xDEADBEEF';'.
+    BYTEA_OUTPUT_HEX = 1;
+
+    // Standard PostgreSQL format with ASCII characters only.
+    BYTEA_OUTPUT_ESCAPED = 2;
+  }
+
+  enum ConstraintExclusion {
+    // Not specified.
+    CONSTRAINT_EXCLUSION_UNSPECIFIED = 0;
+
+    // Enable planner's use of constraints for all tables.
+    CONSTRAINT_EXCLUSION_ON = 1;
+
+    // Disable planner's use of constraints for all tables
+    CONSTRAINT_EXCLUSION_OFF = 2;
+
+    // Only use constraints for child tables and UNION ALL clauses.
+    CONSTRAINT_EXCLUSION_PARTITION = 3;
+  }
+
+  enum DebugParallelQuery {
+    // Not specified.
+    DEBUG_PARALLEL_QUERY_UNSPECIFIED = 0;
+
+    // Forces parallel mode for queries considered safe, even when no performance benefit is expected.
+    DEBUG_PARALLEL_QUERY_ON = 1;
+
+    // Uses parallel mode only when the planner expects it to improve performance.
+    DEBUG_PARALLEL_QUERY_OFF = 2;
+
+    // Behaves like ON, but hides added Gather nodes in EXPLAIN output and
+    // suppresses parallel-worker context lines to stabilize regression-test output.
+    DEBUG_PARALLEL_QUERY_REGRESS = 3;
+  }
+
+  enum LogErrorVerbosity {
+    // Not specified.
+    LOG_ERROR_VERBOSITY_UNSPECIFIED = 0;
+
+    // DETAIL, HINT, QUERY, and CONTEXT fields are excluded from the error message.
+    LOG_ERROR_VERBOSITY_TERSE = 1;
+
+    // Default.
+    LOG_ERROR_VERBOSITY_DEFAULT = 2;
+
+    // Error message includes the SQLSTATE error code, source filename, function name, and the line number where the error occurred.
+    LOG_ERROR_VERBOSITY_VERBOSE = 3;
+  }
+
+  enum LogLevel {
+    // Not specified.
+    LOG_LEVEL_UNSPECIFIED = 0;
+
+    // Provides the most detailed diagnostic information for developers.
+    LOG_LEVEL_DEBUG5 = 1;
+
+    // Provides more detailed diagnostic information than DEBUG3.
+    LOG_LEVEL_DEBUG4 = 2;
+
+    // Provides more detailed diagnostic information than DEBUG2.
+    LOG_LEVEL_DEBUG3 = 3;
+
+    // Provides more detailed diagnostic information than DEBUG1.
+    LOG_LEVEL_DEBUG2 = 4;
+
+    // Provides diagnostic information for developers.
+    LOG_LEVEL_DEBUG1 = 5;
+
+    // Reports information implicitly requested by the user.
+    LOG_LEVEL_INFO = 12;
+
+    // Reports information of interest to database administrators.
+    LOG_LEVEL_LOG = 6;
+
+    // Reports information that may be helpful to users.
+    LOG_LEVEL_NOTICE = 7;
+
+    // Reports a warning about a likely problem.
+    LOG_LEVEL_WARNING = 8;
+
+    // Reports an error that aborts the current command.
+    LOG_LEVEL_ERROR = 9;
+
+    // Reports an error that aborts the current session.
+    LOG_LEVEL_FATAL = 10;
+
+    // Reports an error that aborts all database sessions.
+    LOG_LEVEL_PANIC = 11;
+  }
+
+  enum LogStatement {
+    // Not specified.
+    LOG_STATEMENT_UNSPECIFIED = 0;
+
+    // The filter is disabled, no SQL statements are logged.
+    LOG_STATEMENT_NONE = 1;
+
+    // System logs DDL statements, e.g., CREATE, ALTER, DROP etc.
+    LOG_STATEMENT_DDL = 2;
+
+    // System logs ddl-statements along with data modification commands, e.g., INSERT, UPDATE, etc.
+    LOG_STATEMENT_MOD = 3;
+
+    // System logs all SQL statements.
+    LOG_STATEMENT_ALL = 4;
+  }
+
+  enum PasswordEncryption {
+    // Not specified.
+    PASSWORD_ENCRYPTION_UNSPECIFIED = 0;
+
+    // The method md5 uses a custom less secure challenge-response mechanism. It prevents password sniffing and avoids storing passwords on the server in plain text but provides no protection if an attacker manages to steal the password hash from the server. Also, the MD5 hash algorithm is nowadays no longer considered secure against determined attacks.
+    PASSWORD_ENCRYPTION_MD5 = 1;
+
+    // The method scram-sha-256 performs SCRAM-SHA-256 authentication, as described in RFC 7677. It is a challenge-response scheme that prevents password sniffing on untrusted connections and supports storing passwords on the server in a cryptographically hashed form that is thought to be secure.
+    // This is the most secure of the currently provided methods, but it is not supported by older client libraries.
+    PASSWORD_ENCRYPTION_SCRAM_SHA_256 = 2;
+  }
+
+  enum PgHintPlanDebugPrint {
+    // Not specified.
+    PG_HINT_PLAN_DEBUG_PRINT_UNSPECIFIED = 0;
+
+    // Disables diagnostic logging.
+    PG_HINT_PLAN_DEBUG_PRINT_OFF = 1;
+
+    // Logs hint-processing results grouped by used, unused, duplicate, and erroneous hints.
+    PG_HINT_PLAN_DEBUG_PRINT_ON = 2;
+
+    // Logs hint-processing results together with detailed planner diagnostics.
+    PG_HINT_PLAN_DEBUG_PRINT_DETAILED = 3;
+
+    // Logs the most detailed diagnostics, including query strings used to extract hints.
+    PG_HINT_PLAN_DEBUG_PRINT_VERBOSE = 4;
+  }
+
+  enum PlanCacheMode {
+    // Not specified.
+    PLAN_CACHE_MODE_UNSPECIFIED = 0;
+
+    // Automatic selection.
+    PLAN_CACHE_MODE_AUTO = 1;
+
+    // Forces the use of custom plans.
+    PLAN_CACHE_MODE_FORCE_CUSTOM_PLAN = 2;
+
+    // Forces the use of generic plans.
+    PLAN_CACHE_MODE_FORCE_GENERIC_PLAN = 3;
+  }
+
+  enum SharedPreloadLibraries {
+    // Not specified.
+    SHARED_PRELOAD_LIBRARIES_UNSPECIFIED = 0;
+
+    // Required for the [auto_explain](https://www.postgresql.org/docs/current/auto-explain.html) extension.
+    SHARED_PRELOAD_LIBRARIES_AUTO_EXPLAIN = 1;
+
+    // Required for the [pg_hint_plan](https://github.com/ossc-db/pg_hint_plan) extension.
+    SHARED_PRELOAD_LIBRARIES_PG_HINT_PLAN = 2;
+
+    // Required for [TimescaleDB](https://github.com/timescale/timescaledb) to function.
+    SHARED_PRELOAD_LIBRARIES_TIMESCALEDB = 3;
+
+    // Required for the [pg_qualstats](https://github.com/powa-team/pg_qualstats) extension.
+    SHARED_PRELOAD_LIBRARIES_PG_QUALSTATS = 4;
+
+    // Required for the [pg_cron](https://github.com/citusdata/pg_cron) extension.
+    SHARED_PRELOAD_LIBRARIES_PG_CRON = 5;
+
+    // Required for the [pglogical](https://github.com/2ndQuadrant/pglogical) extension.
+    SHARED_PRELOAD_LIBRARIES_PGLOGICAL = 6;
+
+    // Shared library of extension [pg_prewarm](https://www.postgresql.org/docs/current/pgprewarm.html#PGPREWARM), which ensures loading of extension on server start
+    SHARED_PRELOAD_LIBRARIES_PG_PREWARM = 7;
+
+    // Required for the [pgaudit](https://www.pgaudit.org/) extension.
+    SHARED_PRELOAD_LIBRARIES_PGAUDIT = 8;
+
+    // Required for the [postgresql_anonymizer](https://postgresql-anonymizer.readthedocs.io/en/stable/) extension.
+    SHARED_PRELOAD_LIBRARIES_ANON = 9;
+
+    // Required for the [age](https://age.apache.org/) extension.
+    SHARED_PRELOAD_LIBRARIES_AGE = 10;
+
+    // Required for the [spqrguard](https://github.com/pg-sharding/spqrguard) extension.
+    SHARED_PRELOAD_LIBRARIES_SPQRGUARD = 11;
+  }
+
+  enum SynchronousCommit {
+    // Not specified.
+    SYNCHRONOUS_COMMIT_UNSPECIFIED = 0;
+
+    // Success is reported to the client if the data is in WAL (Write-Ahead Log), and WAL is written to the storage of both the master and its synchronous standby server. Default value.
+    SYNCHRONOUS_COMMIT_ON = 1;
+
+    // Success is reported to the client even if the data is not in WAL.
+    // There is no synchronous write operation, data may be loss in case of storage subsystem failure.
+    SYNCHRONOUS_COMMIT_OFF = 2;
+
+    // Success is reported to the client if the data is in WAL, and WAL is written to the storage of the master server.
+    // The transaction may be lost due to storage subsystem failure on the master server.
+    SYNCHRONOUS_COMMIT_LOCAL = 3;
+
+    // Success is reported to the client if the data is in WAL, WAL is written to the storage of the master server, and the server's synchronous standby indicates that it has received WAL and written it out to its operating system.
+    // The transaction may be lost due to simultaneous storage subsystem failure on the master and operating system's failure on the synchronous standby.
+    SYNCHRONOUS_COMMIT_REMOTE_WRITE = 4;
+
+    // Success is reported to the client if the data is in WAL (Write-Ahead Log), WAL is written to the storage of the master server, and its synchronous standby indicates that it has received WAL and applied it.
+    // The transaction may be lost due to irrecoverably failure of both the master and its synchronous standby.
+    SYNCHRONOUS_COMMIT_REMOTE_APPLY = 5;
+  }
+
+  enum TransactionIsolation {
+    // Not specified.
+    TRANSACTION_ISOLATION_UNSPECIFIED = 0;
+
+    // This level behaves like `TRANSACTION_ISOLATION_READ_COMMITTED` in PostgreSQL.
+    TRANSACTION_ISOLATION_READ_UNCOMMITTED = 1;
+
+    // On this level query sees only data committed before the query began.
+    TRANSACTION_ISOLATION_READ_COMMITTED = 2;
+
+    // On this level all subsequent queries in a transaction will see the same rows, that were read by the first `SELECT` or `INSERT` query in this transaction, unchanged (these rows are locked during the first query).
+    TRANSACTION_ISOLATION_REPEATABLE_READ = 3;
+
+    // This level provides the strictest transaction isolation.
+    // All queries in the current transaction see only the rows that were fixed prior to execution of the first `SELECT` or `INSERT` query in this transaction.
+    // If read and write operations in a concurrent set of serializable transactions overlap and this may cause an inconsistency that is not possible during the serial transaction execution, then one of the transaction will be rolled back, triggering a serialization failure.
+    TRANSACTION_ISOLATION_SERIALIZABLE = 4;
+  }
+
+  enum WalLevel {
+    // Not specified.
+    WAL_LEVEL_UNSPECIFIED = 0;
+
+    // Supports WAL archiving and physical replication.
+    WAL_LEVEL_REPLICA = 1;
+
+    // Supports WAL archiving, physical replication, and logical decoding.
+    WAL_LEVEL_LOGICAL = 2;
+  }
+
+  enum XmlBinary {
+    // Not specified.
+    XML_BINARY_UNSPECIFIED = 0;
+
+    // Encodes binary values using Base64.
+    XML_BINARY_BASE64 = 1;
+
+    // Encodes binary values using hexadecimal notation.
+    XML_BINARY_HEX = 2;
+  }
+
+  enum XmlOption {
+    // Not specified.
+    XML_OPTION_UNSPECIFIED = 0;
+
+    // Treats an XML value as a complete, well-formed document.
+    XML_OPTION_DOCUMENT = 1;
+
+    // Treats an XML value as a content fragment, which may contain multiple top-level elements or character nodes.
+    XML_OPTION_CONTENT = 2;
+  }
+
+  // Sets the maximum number of concurrent connections.
+  google.protobuf.Int64Value max_connections = 1 [(value) = ">=16"];
+
+  // Sets the number of shared memory buffers used by the server. In bytes.
+  google.protobuf.Int64Value shared_buffers = 2;
+
+  // Sets the maximum number of temporary buffers used by each session. In bytes.
+  google.protobuf.Int64Value temp_buffers = 3;
+
+  // Sets the maximum number of simultaneously prepared transactions.
+  google.protobuf.Int64Value max_prepared_transactions = 4;
+
+  // Sets the maximum memory to be used for query workspaces. This much memory can be used by each
+  // internal sort operation and hash table before switching to temporary disk files. In bytes.
+  google.protobuf.Int64Value work_mem = 5;
+
+  // Sets the maximum memory to be used for maintenance operations.
+  // This includes operations such as VACUUM and CREATE INDEX. In bytes.
+  google.protobuf.Int64Value maintenance_work_mem = 6;
+
+  // Sets the maximum memory to be used by each autovacuum worker process. In bytes.
+  google.protobuf.Int64Value autovacuum_work_mem = 7;
+
+  // Limits the total size of all temporary files used by each process. -1 means no limit. In bytes.
+  google.protobuf.Int64Value temp_file_limit = 8;
+
+  // Vacuum cost delay. In milliseconds.
+  google.protobuf.Int64Value vacuum_cost_delay = 9;
+
+  // Vacuum cost for a page found in the buffer cache.
+  google.protobuf.Int64Value vacuum_cost_page_hit = 10;
+
+  // Vacuum cost for a page not found in the buffer cache.
+  google.protobuf.Int64Value vacuum_cost_page_miss = 11;
+
+  // Vacuum cost for a page dirtied by vacuum.
+  google.protobuf.Int64Value vacuum_cost_page_dirty = 12;
+
+  // Vacuum cost amount available before napping.
+  google.protobuf.Int64Value vacuum_cost_limit = 13;
+
+  // Background writer sleep time between rounds. In milliseconds.
+  google.protobuf.Int64Value bgwriter_delay = 14 [(value) = "10-10000"];
+
+  // Background writer maximum number of LRU pages to flush per round.
+  google.protobuf.Int64Value bgwriter_lru_maxpages = 15;
+
+  // Multiple of the average buffer usage to free per round.
+  google.protobuf.DoubleValue bgwriter_lru_multiplier = 16;
+
+  // Specifies how much data the background writer can write before forcing the operating system to issue the writes. In bytes.
+  google.protobuf.Int64Value bgwriter_flush_after = 17 [(value) = "0-2097152"];
+
+  // Specifies how much data a backend can write before forcing the operating system to issue the writes. In bytes.
+  google.protobuf.Int64Value backend_flush_after = 18 [(value) = "0-2097152"];
+
+  // Sets the level of information written to the WAL.
+  WalLevel wal_level = 20;
+
+  // Sets the current transaction's synchronization level.
+  SynchronousCommit synchronous_commit = 21;
+
+  // Sets the maximum time between automatic WAL checkpoints. In milliseconds.
+  google.protobuf.Int64Value checkpoint_timeout = 22 [(value) = "30000-86400000"];
+
+  // Time spent flushing dirty buffers during checkpoint, as fraction of checkpoint interval.
+  google.protobuf.DoubleValue checkpoint_completion_target = 23;
+
+  // Specifies how much data can be written during a checkpoint before forcing the operating system to issue the writes. In bytes.
+  google.protobuf.Int64Value checkpoint_flush_after = 24 [(value) = "0-2097152"];
+
+  // Sets the WAL size that triggers a checkpoint. In bytes.
+  google.protobuf.Int64Value max_wal_size = 25;
+
+  // Sets the minimum size to shrink the WAL to. In bytes.
+  google.protobuf.Int64Value min_wal_size = 26;
+
+  // Sets the maximum delay before canceling queries when a hot standby server is processing streamed WAL data. In milliseconds.
+  google.protobuf.Int64Value max_standby_streaming_delay = 27;
+
+  // Sets the default statistics target. This applies to table columns that have not had a
+  // column-specific target set via ALTER TABLE SET STATISTICS.
+  google.protobuf.Int64Value default_statistics_target = 28;
+
+  // Enables the planner to use constraints to optimize queries.
+  ConstraintExclusion constraint_exclusion = 29;
+
+  // Sets the planner's estimate of the fraction of a cursor's rows that will be retrieved.
+  google.protobuf.DoubleValue cursor_tuple_fraction = 30;
+
+  // Sets the FROM-list size beyond which subqueries are not collapsed.
+  google.protobuf.Int64Value from_collapse_limit = 31 [(value) = "1-2147483647"];
+
+  // Sets the FROM-list size beyond which JOIN constructs are not flattened.
+  google.protobuf.Int64Value join_collapse_limit = 32 [(value) = "1-2147483647"];
+
+  // Forces the planner's use parallel query nodes.
+  DebugParallelQuery debug_parallel_query = 33;
+
+  // Sets the message levels that are sent to the client.
+  LogLevel client_min_messages = 34;
+
+  // Sets the message levels that are logged.
+  LogLevel log_min_messages = 35;
+
+  // Causes all statements generating error at or above this level to be logged.
+  LogLevel log_min_error_statement = 36;
+
+  // Sets the minimum execution time above which all statements will be logged. In milliseconds.
+  google.protobuf.Int64Value log_min_duration_statement = 37;
+
+  // Logs each checkpoint.
+  google.protobuf.BoolValue log_checkpoints = 38;
+
+  // Logs each successful connection.
+  google.protobuf.BoolValue log_connections = 39;
+
+  // Logs end of a session, including duration.
+  google.protobuf.BoolValue log_disconnections = 40;
+
+  // Logs the duration of each completed SQL statement.
+  // (-- api-linter: yc::1701::duration-required=disabled --)
+  google.protobuf.BoolValue log_duration = 41;
+
+  // Sets the verbosity of logged messages.
+  LogErrorVerbosity log_error_verbosity = 42;
+
+  // Logs long lock waits.
+  google.protobuf.BoolValue log_lock_waits = 43;
+
+  // Sets the type of statements logged.
+  LogStatement log_statement = 44;
+
+  // Log the use of temporary files larger than this number of kilobytes.
+  google.protobuf.Int64Value log_temp_files = 45;
+
+  // Sets the schema search order for names that are not schema-qualified.
+  string search_path = 46;
+
+  // Enable row security.
+  google.protobuf.BoolValue row_security = 47;
+
+  // Sets the transaction isolation level of each new transaction.
+  TransactionIsolation default_transaction_isolation = 48;
+
+  // Sets the maximum allowed duration of any statement. In milliseconds.
+  google.protobuf.Int64Value statement_timeout = 49;
+
+  // Sets the maximum allowed duration of any wait for a lock. In milliseconds.
+  google.protobuf.Int64Value lock_timeout = 50 [(value) = "0-2147483647"];
+
+  // Sets the maximum allowed idle time between queries, when in a transaction. In milliseconds.
+  google.protobuf.Int64Value idle_in_transaction_session_timeout = 51 [(value) = "0-2147483647"];
+
+  // Sets the output format for bytea.
+  ByteaOutput bytea_output = 52;
+
+  // Sets how binary values are to be encoded in XML.
+  XmlBinary xmlbinary = 53;
+
+  // Sets whether XML data in implicit parsing and serialization operations is to be considered as documents or content fragments.
+  XmlOption xmloption = 54;
+
+  // Sets the maximum size of the pending list for GIN index. In bytes.
+  google.protobuf.Int64Value gin_pending_list_limit = 55;
+
+  // Sets the time to wait on a lock before checking for deadlock. In milliseconds.
+  google.protobuf.Int64Value deadlock_timeout = 56 [(value) = "1-2147483647"];
+
+  // Sets the maximum number of locks per transaction. The shared lock table is sized on the assumption that
+  // at most max_locks_per_transaction * max_connections distinct objects will need to be locked at any one time.
+  google.protobuf.Int64Value max_locks_per_transaction = 57;
+
+  // Sets the maximum number of predicate locks per transaction.The shared predicate lock table is sized on the assumption that
+  // at most max_pred_locks_per_transaction * max_connections distinct objects will need to be locked at any one time.
+  google.protobuf.Int64Value max_pred_locks_per_transaction = 58;
+
+  // Enable input of NULL elements in arrays. When turned on, unquoted NULL in an array input
+  // value means a null value; otherwise it is taken literally.
+  google.protobuf.BoolValue array_nulls = 59;
+
+  // Sets whether \"\\'\" is allowed in string literals.
+  BackslashQuote backslash_quote = 60;
+
+  // WITH OIDS is no longer supported; this can only be false.
+  google.protobuf.BoolValue default_with_oids = 61;
+
+  // Enables backward compatibility mode for privilege checks on large objects. Skips privilege checks
+  // when reading or modifying large objects, for compatibility with PostgreSQL releases prior to 9.0.
+  google.protobuf.BoolValue lo_compat_privileges = 63;
+
+  // When generating SQL fragments, quote all identifiers.
+  google.protobuf.BoolValue quote_all_identifiers = 65;
+
+  // Enable synchronized sequential scans.
+  google.protobuf.BoolValue synchronize_seqscans = 67;
+
+  // Treats \"expr=NULL\" as \"expr IS NULL\". When turned on, expressions of the form expr = NULL
+  // (or NULL = expr) are treated as expr IS NULL, that is, they return true if expr evaluates to the
+  // null value, and false otherwise. The correct behavior of expr = NULL is to always return null (unknown).
+  google.protobuf.BoolValue transform_null_equals = 68;
+
+  // Terminate session on any error.
+  google.protobuf.BoolValue exit_on_error = 69;
+
+  // Sets the planner's estimate of the cost of a sequentially fetched disk page.
+  google.protobuf.DoubleValue seq_page_cost = 70 [(value) = ">=0"];
+
+  // Sets the planner's estimate of the cost of a nonsequentially fetched disk page.
+  google.protobuf.DoubleValue random_page_cost = 71 [(value) = ">=0"];
+
+  // Sets the maximum number of simultaneously running autovacuum worker processes.
+  google.protobuf.Int64Value autovacuum_max_workers = 72 [(value) = "1-32"];
+
+  // Vacuum cost delay in milliseconds, for autovacuum.
+  google.protobuf.Int64Value autovacuum_vacuum_cost_delay = 73 [(value) = "-1-100"];
+
+  // Vacuum cost amount available before napping, for autovacuum.
+  google.protobuf.Int64Value autovacuum_vacuum_cost_limit = 74 [(value) = "-1-10000"];
+
+  // Time to sleep between autovacuum runs. In milliseconds.
+  google.protobuf.Int64Value autovacuum_naptime = 75 [(value) = "1000-86400000"];
+
+  // Forces a switch to the next WAL file if no new file has been started within the specified interval. In milliseconds.
+  google.protobuf.Int64Value archive_timeout = 76 [(value) = "10000-86400000"];
+
+  // Sets the size reserved for pg_stat_activity.query, in bytes.
+  google.protobuf.Int64Value track_activity_query_size = 77 [(value) = "100-102400"];
+
+  // Enables automatic table-statistics updates by online_analyze after data-modifying operations.
+  google.protobuf.BoolValue online_analyze_enable = 79;
+
+  // Enables the planner's use of bitmap-scan plans.
+  google.protobuf.BoolValue enable_bitmapscan = 80;
+
+  // Enables the planner's use of hashed aggregation plans.
+  google.protobuf.BoolValue enable_hashagg = 81;
+
+  // Enables the planner's use of hash join plans.
+  google.protobuf.BoolValue enable_hashjoin = 82;
+
+  // Enables the planner's use of index-scan plans.
+  google.protobuf.BoolValue enable_indexscan = 83;
+
+  // Enables the planner's use of index-only-scan plans.
+  google.protobuf.BoolValue enable_indexonlyscan = 84;
+
+  // Enables the planner's use of materialization.
+  google.protobuf.BoolValue enable_material = 85;
+
+  // Enables the planner's use of merge join plans.
+  google.protobuf.BoolValue enable_mergejoin = 86;
+
+  // Enables the planner's use of nested-loop join plans.
+  google.protobuf.BoolValue enable_nestloop = 87;
+
+  // Enables the planner's use of sequential-scan plans.
+  google.protobuf.BoolValue enable_seqscan = 88;
+
+  // Enables the planner's use of explicit sort steps.
+  google.protobuf.BoolValue enable_sort = 89;
+
+  // Enables the planner's use of TID scan plans.
+  google.protobuf.BoolValue enable_tidscan = 90;
+
+  // Maximum number of concurrent worker processes.
+  google.protobuf.Int64Value max_worker_processes = 91 [(value) = "0-1024"];
+
+  // Sets the maximum number of parallel workers that can be active at one time.
+  google.protobuf.Int64Value max_parallel_workers = 92 [(value) = "0-1024"];
+
+  // Sets the maximum number of parallel processes per executor node.
+  google.protobuf.Int64Value max_parallel_workers_per_gather = 93 [(value) = "0-1024"];
+
+  // Number of tuple updates or deletes prior to vacuum as a fraction of reltuples.
+  google.protobuf.DoubleValue autovacuum_vacuum_scale_factor = 94 [(value) = "0.0-1.0"];
+
+  // Number of tuple inserts, updates, or deletes prior to analyze as a fraction of reltuples.
+  google.protobuf.DoubleValue autovacuum_analyze_scale_factor = 95 [(value) = "0.0-1.0"];
+
+  // Sets the default read-only status of new transactions.
+  google.protobuf.BoolValue default_transaction_read_only = 96;
+
+  // Sets the time zone for displaying and interpreting time stamps.
+  string timezone = 97;
+
+  // Enables the planner's use of parallel append plans.
+  google.protobuf.BoolValue enable_parallel_append = 98;
+
+  // Enables the planner's use of parallel hash plans.
+  google.protobuf.BoolValue enable_parallel_hash = 99;
+
+  // Enables plan-time and execution-time partition pruning. Allows the query planner and executor to
+  // compare partition bounds to conditions in the query to determine which partitions must be scanned.
+  google.protobuf.BoolValue enable_partition_pruning = 100;
+
+  // Enables partitionwise aggregation and grouping.
+  google.protobuf.BoolValue enable_partitionwise_aggregate = 101;
+
+  // Enables partitionwise join.
+  google.protobuf.BoolValue enable_partitionwise_join = 102;
+
+  // Allow JIT compilation.
+  google.protobuf.BoolValue jit = 103;
+
+  // Sets the maximum number of parallel processes per maintenance operation.
+  google.protobuf.Int64Value max_parallel_maintenance_workers = 104 [(value) = ">=0"];
+
+  // Controls whether Gather and Gather Merge also run subplans.
+  google.protobuf.BoolValue parallel_leader_participation = 105;
+
+  // Sets the fraction of transactions from which to log all statements. Use a
+  // value between 0.0 (never log) and 1.0 (log all statements for all transactions).
+  google.protobuf.DoubleValue log_transaction_sample_rate = 107 [(value) = "0.0-1.0"];
+
+  // Controls the planner's selection of custom or generic plan. Prepared statements can have custom and generic plans,
+  // and the planner will attempt to choose which is better. This can be set to override the default behavior.
+  PlanCacheMode plan_cache_mode = 108;
+
+  // Number of simultaneous requests that can be handled efficiently by the disk subsystem.
+  google.protobuf.Int64Value effective_io_concurrency = 109 [(value) = "0-1000"];
+
+  // Sets the planner's assumption about the effective size of the disk cache available to a single query. In bytes.
+  google.protobuf.Int64Value effective_cache_size = 110 [(value) = "1048576-549755813888"];
+
+  // Lists shared libraries to preload into server.
+  repeated SharedPreloadLibraries shared_preload_libraries = 111;
+
+  // Sets the minimum statement execution time, that will cause the statement's plan to be logged.
+  // Setting this to 0 logs all plans. -1 (the default) disables logging of plans. For example, if
+  // you set it to 250ms then all statements that run 250ms or longer will be logged. In milliseconds.
+  // (-- api-linter: yc::1701::duration-required=disabled --)
+  google.protobuf.Int64Value auto_explain_log_min_duration = 112 [(value) = "-1-2147483647"];
+
+
+  // Causes EXPLAIN ANALYZE output, rather than just EXPLAIN output,to be printed
+  // when an executionplan is logged. This parameter is off by default. 
+  google.protobuf.BoolValue auto_explain_log_analyze = 113;
+
+  // Controls whether buffer usage statistics are printed when an execution plan is logged;
+  // it's equivalent to the BUFFERS option of EXPLAIN. This parameter has no effect unless
+  // auto_explain.log_analyze is enabled. This parameter is off by default. 
+  google.protobuf.BoolValue auto_explain_log_buffers = 114;
+
+  // Controls whether per-node timing information is printed when an execution plan is logged;
+  // it's equivalent to the TIMING option of EXPLAIN. The overhead of repeatedly reading the system
+  // clock can slow down queries significantly on some systems, so it may be useful to set this
+  // parameter to off when only actual row counts, and not exact times, are needed. This parameter
+  // has no effect unless auto_explain.log_analyze is enabled. This parameter is on by default.
+  google.protobuf.BoolValue auto_explain_log_timing = 115;
+
+  // Causes trigger execution statistics to be included when an execution plan is logged. This parameter
+  // has no effect unless auto_explain.log_analyze is enabled. This parameter is off by default. 
+  google.protobuf.BoolValue auto_explain_log_triggers = 116;
+
+  // Controls whether verbose details are printed when an execution plan is logged; it's
+  // equivalent to the VERBOSE option of EXPLAIN. This parameter is off by default.
+  google.protobuf.BoolValue auto_explain_log_verbose = 117;
+
+  // Causes nested statements (statements executed inside a function) to be considered for logging.
+  // When it is off, only top-level query plans are logged. This parameter is off by default.
+  google.protobuf.BoolValue auto_explain_log_nested_statements = 118;
+
+  // Causes auto_explain to only explain a fraction of the statements in each session. The default is 1,
+  // meaning explain all the queries. In case of nested statements, either all will be explained or none.
+  google.protobuf.DoubleValue auto_explain_sample_rate = 119 [(value) = "0.0-1.0"];
+
+  // Enables processing of query hints by pg_hint_plan.
+  google.protobuf.BoolValue pg_hint_plan_enable_hint = 120;
+
+  // Enables lookup of hints in the hint table.
+  google.protobuf.BoolValue pg_hint_plan_enable_hint_table = 121;
+
+  // Controls whether and how verbosely hint parsing results are logged.
+  PgHintPlanDebugPrint pg_hint_plan_debug_print = 122;
+
+  // Sets the log level for pg_hint_plan debug messages.
+  LogLevel pg_hint_plan_message_level = 123;
+
+  // Multiple of work_mem to use for hash tables.
+  google.protobuf.DoubleValue hash_mem_multiplier = 124 [(value) = "0.0-1000.0"];
+
+  // Sets the maximum memory to be used for logical decoding. This much memory can be
+  // used by each internal reorder buffer before spilling to disk. In bytes.
+  google.protobuf.Int64Value logical_decoding_work_mem = 126 [(value) = "65536-1099511627776"];
+
+
+  // A variant of effective_io_concurrency that is used for maintenance work.
+  google.protobuf.Int64Value maintenance_io_concurrency = 127 [(value) = "0-1000"];
+
+  // Sets the maximum WAL size that can be reserved by replication slots. Replication slots will be marked as failed,
+  // and segments released for deletion or recycling, if this much space is occupied by WAL on disk. In bytes. 
+  google.protobuf.Int64Value max_slot_wal_keep_size = 128 [(value) = "-1-2251799812636672"];
+
+
+  // Sets the size of WAL files held for standby servers. In bytes.
+  google.protobuf.Int64Value wal_keep_size = 129 [(value) = "-1-2251799812636672"];
+
+
+  // Enables the planner's use of incremental sort steps.
+  google.protobuf.BoolValue enable_incremental_sort = 130;
+
+  // Minimum number of tuple inserts prior to vacuum, or -1 to disable insert vacuums.
+  google.protobuf.Int64Value autovacuum_vacuum_insert_threshold = 131 [(value) = "-1-2147483647"];
+
+  // Number of tuple inserts prior to vacuum as a fraction of reltuples.
+  google.protobuf.DoubleValue autovacuum_vacuum_insert_scale_factor = 132 [(value) = "0.0-100.0"];
+
+  // Sets the minimum execution time above which a sample of statements will be logged. Sampling is determined
+  // by log_statement_sample_rate. Zero logs a sample of all queries. -1 turns this feature off. In milliseconds.
+  google.protobuf.Int64Value log_min_duration_sample = 133 [(value) = "-1-2147483647"];
+
+
+  // Fraction of statements exceeding log_min_duration_sample to be logged. Use a value between 0.0 (never log) and 1.0 (always log).
+  google.protobuf.DoubleValue log_statement_sample_rate = 134 [(value) = "0.0-1.0"];
+
+  // When logging statements, limit logged parameter values to first N bytes. -1 to print values in full.
+  google.protobuf.Int64Value log_parameter_max_length = 135 [(value) = "-1-2147483647"];
+
+
+  // When reporting an error, limit logged parameter values to first N bytes. -1 to print values in full.
+  google.protobuf.Int64Value log_parameter_max_length_on_error = 136 [(value) = "-1-2147483647"];
+
+
+  // Sets the time interval between checks for disconnection while running queries. In milliseconds.
+  google.protobuf.Int64Value client_connection_check_interval = 137 [(value) = "-1-2147483647"];
+
+
+  // Enables the planner's use of async append plans.
+  google.protobuf.BoolValue enable_async_append = 138;
+
+  // Enables the planner's use of gather merge plans.
+  google.protobuf.BoolValue enable_gathermerge = 139;
+
+  // Enables the planner's use of memoization.
+  google.protobuf.BoolValue enable_memoize = 140;
+
+  // Logs standby recovery conflict waits.
+  google.protobuf.BoolValue log_recovery_conflict_waits = 141;
+
+  // Age at which VACUUM should trigger failsafe to avoid a wraparound outage.
+  google.protobuf.Int64Value vacuum_failsafe_age = 142 [(value) = "-1-2147483647"];
+
+  // Multixact age at which VACUUM should trigger failsafe to avoid a wraparound outage.
+  google.protobuf.Int64Value vacuum_multixact_failsafe_age = 143 [(value) = "-1-2147483647"];
+
+  // Controls whether pg_qualstats collects execution statistics for query predicates,
+  // including filters and join conditions.
+  google.protobuf.BoolValue pg_qualstats_enabled = 144;
+
+  // Controls whether pg_qualstats keeps separate statistics for predicates containing different constant values
+  google.protobuf.BoolValue pg_qualstats_track_constants = 145;
+
+  // Limits the number of predicate-statistics and query-text entries retained by pg_qualstats.
+  google.protobuf.Int64Value pg_qualstats_max = 146;
+
+  // Controls whether pg_qualstats resolves object OIDs and stores their names  when collecting statistics.
+  // Enabling this increases memory usage and requires additional system-catalog lookups.
+  google.protobuf.BoolValue pg_qualstats_resolve_oids = 147;
+
+  // Sets the fraction of queries sampled by pg_qualstats. A value of -1 selects an automatic rate
+  // of 1 / max_connections; 0 samples no queries, and 1 samples every query.
+  google.protobuf.DoubleValue pg_qualstats_sample_rate = 148;
+
+  // Controls whether plantuner sets estimated page and row counts to zero for tables that have no storage blocks.
+  google.protobuf.BoolValue plantuner_fix_empty_table = 149;
+
+  // Sets the maximum stack depth, in bytes.
+  google.protobuf.Int64Value max_stack_depth = 150 [(value) = "65536-134217728"];
+
+  // Controls if the query planner will produce a plan which will provide GROUP BY keys sorted in the order of keys of a
+  // child node of the plan, such as an index scan. When disabled, the query planner will produce a plan with GROUP BY keys
+  // only sorted to match the ORDER BY clause, if any. When enabled, the planner will try to produce a more efficient plan.
+  // The default value is on.
+  google.protobuf.BoolValue enable_group_by_reordering = 151;
+
+  // Enables genetic query optimization. This algorithm attempts to do planning
+  // without exhaustive searching, by default is on.
+  google.protobuf.BoolValue geqo = 152;
+
+  // Sets the threshold of FROM items beyond which GEQO is used, default is 12.
+  google.protobuf.Int64Value geqo_threshold = 153;
+
+  // GEQO: effort is used to set the default for other GEQO parameters.
+  // Tradeoff between planning time and query plan quality, default is 5.
+  google.protobuf.Int64Value geqo_effort = 154 [(value) = "1-10"];
+
+  // GEQO: number of individuals in the population.
+  // Useful values are typically 100 to 1000; default - 0 - choose based on based on geqo_effort.
+  google.protobuf.Int64Value geqo_pool_size = 155;
+
+  // GEQO: number of iterations of the algorithm. Zero selects a suitable default value.
+  // Useful values are in the same range as the pool size.
+  google.protobuf.Int64Value geqo_generations = 156;
+
+  // GEQO: selective pressure within the population.
+  google.protobuf.DoubleValue geqo_selection_bias = 157 [(value) = "1.5-2.0"];
+
+  // GEQO: seed for random path selection.
+  google.protobuf.DoubleValue geqo_seed = 158 [(value) = "0.0-1.0"];
+
+  // Sets the trigram similarity threshold used by the `%` operator
+  // to determine whether two strings are similar.
+  google.protobuf.DoubleValue pg_trgm_similarity_threshold = 159 [(value) = "0.0-1.0"];
+
+  // Sets the threshold used by the `<%` and `%>` operators when comparing
+  // a string with the most similar continuous part of another string.
+  google.protobuf.DoubleValue pg_trgm_word_similarity_threshold = 160 [(value) = "0.0-1.0"];
+
+  // Sets the threshold used by the `<<%` and `%>>` operators when comparing
+  // a string with parts of another string aligned to word boundaries.
+  google.protobuf.DoubleValue pg_trgm_strict_word_similarity_threshold = 161 [(value) = "0.0-1.0"];
+
+  // Sets the maximum delay before canceling queries when a hot standby server is processing archived WAL data. In milliseconds.
+  google.protobuf.Int64Value max_standby_archive_delay = 162;
+
+  // Terminate any session that exceeds the designated timeout, specified in milliseconds. If a timeout is
+  // not specified, the default session timeout is set to 12 hours. To disable it, specify a value of 0.
+  google.protobuf.Int64Value session_duration_timeout = 163 [(value) = "0-2147483647"];
+
+  // Logs each replication command.
+  google.protobuf.BoolValue log_replication_commands = 164;
+
+  // Sets the minimum execution time above which autovacuum actions will be logged.
+  // Zero prints all actions. -1 turns autovacuum logging off. In milliseconds. The default is 1000 (1 sec).
+  // (-- api-linter: yc::1701::duration-required=disabled --)
+  google.protobuf.Int64Value log_autovacuum_min_duration = 165 [(value) = "-1-2147483647"];
+
+  // A default value for `` user_password_encryption `` user-level setting, if it not specified for new users. Possible values are
+  // `` PASSWORD_ENCRYPTION_MD5 `` or `` PASSWORD_ENCRYPTION_SCRAM_SHA_256 ``. The default is `` PASSWORD_ENCRYPTION_SCRAM_SHA_256 ``.
+  PasswordEncryption password_encryption = 167;
+
+  // Selects the `` EXPLAIN `` output format to be used. The allowed values are `` AUTO_EXPLAIN_LOG_FORMAT_TEXT ``,
+  // `` AUTO_EXPLAIN_LOG_FORMAT_XML ``, `` AUTO_EXPLAIN_LOG_FORMAT_JSON ``, and `` AUTO_EXPLAIN_LOG_FORMAT_YAML ``.
+  // The default is `` AUTO_EXPLAIN_LOG_FORMAT_TEXT ``.
+  AutoExplainLogFormat auto_explain_log_format = 168;
+
+  // Collects transaction commit time.
+  google.protobuf.BoolValue track_commit_timestamp = 169;
+
+  // Maximum number of logical replication worker processes.
+  google.protobuf.Int64Value max_logical_replication_workers = 170 [(value) = "4-100"];
+
+  // Sets the maximum number of simultaneously running WAL sender processes.
+  google.protobuf.Int64Value max_wal_senders = 171 [(value) = "20-100"];
+
+  // Sets the maximum number of simultaneously defined replication slots.
+  google.protobuf.Int64Value max_replication_slots = 172 [(value) = "20-100"];
+
+  // Sets the maximum allowed idle time between queries, when not in a transaction. In milliseconds.
+  google.protobuf.Int64Value idle_session_timeout = 173 [(value) = "0-2147483647"];
+
+  // Sets the interval below which checkpoints triggered by filling WAL segment files cause a warning to be written to the server log.
+  // A value of 0 disables the warning. In milliseconds.
+  google.protobuf.Int64Value checkpoint_warning = 174 [(value) = "0-2147483647000"];
+
+  // Enables vacuum to truncate empty pages at the end of the table.
+  google.protobuf.BoolValue vacuum_truncate = 175;
+
+  // Minimum number of tuple updates or deletes prior to vacuum.
+  google.protobuf.Int64Value autovacuum_vacuum_threshold = 177 [(value) = "0-2147483647"];
+
+  // Minimum number of tuple inserts, updates, or deletes prior to analyze.
+  google.protobuf.Int64Value autovacuum_analyze_threshold = 178 [(value) = "0-2147483647"];
+
+  // Sets the maximum number of active replication origins.
+  google.protobuf.Int64Value max_active_replication_origins = 179 [(value) = "20-100"];
+
+  // Sets the maximum number of parallel workers that can be used by a single autovacuum worker to process indexes.
+  // Setting this value to 0 disables parallel vacuum during autovacuum. The default is 0.
+  google.protobuf.Int64Value autovacuum_max_parallel_workers = 180 [(value) = "0-1024"];
+
+  // Sets the minimum execution time above which autoanalyze actions will be logged.
+  // Zero prints all actions. -1 turns autoanalyze logging off. In milliseconds. The default is 1000 (1 sec).
+  // (-- api-linter: yc::1701::duration-required=disabled --)
+  google.protobuf.Int64Value log_autoanalyze_min_duration = 181 [(value) = "-1-2147483647"];
+
+  // Sets the maximum number of replication slots for use of the REPACK command. The default is 5.
+  google.protobuf.Int64Value max_repack_replication_slots = 182 [(value) = "0-100"];
+
+  // Controls whether I/O usage statistics are printed when an execution plan is logged;
+  // it's equivalent to the IO option of EXPLAIN. This parameter has no effect unless
+  // auto_explain.log_analyze is enabled. This parameter is off by default.
+  google.protobuf.BoolValue auto_explain_log_io = 183;
+}
+
+message PostgresqlConfigSet19_1C {
+  // Effective settings for a PostgreSQL 19 1C cluster (a combination of settings defined
+  // in [user_config] and [default_config]).
+  PostgresqlConfig19_1C effective_config = 1;
+
+  // User-defined settings for a PostgreSQL 19 1C cluster.
+  PostgresqlConfig19_1C user_config = 2;
+
+  // Default configuration for a PostgreSQL 19 1C cluster.
+  PostgresqlConfig19_1C default_config = 3;
+}

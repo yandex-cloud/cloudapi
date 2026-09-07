@@ -11,6 +11,8 @@ option java_package = "yandex.cloud.api.mdb.mongodb.v1.config";
 // Configuration of a mongod daemon. Supported options are a limited subset of all
 // options described in [MongoDB documentation](https://docs.mongodb.com/v6.0/reference/configuration-options/).
 message MongodConfig6_0 {
+  option deprecated = true;
+
   message Storage {
     // Configuration of WiredTiger storage engine.
     message WiredTiger {
@@ -154,6 +156,8 @@ message MongodConfig6_0 {
 }
 
 message MongoCfgConfig6_0 {
+  option deprecated = true;
+
   message Storage {
     // Configuration of WiredTiger storage engine.
     message WiredTiger {
@@ -209,6 +213,8 @@ message MongoCfgConfig6_0 {
 }
 
 message MongosConfig6_0 {
+  option deprecated = true;
+
   reserved 1 to 2;
 
   message Network {
@@ -249,6 +255,8 @@ message MongosConfig6_0 {
 }
 
 message MongodConfigSet6_0 {
+  option deprecated = true;
+
   // Effective mongod settings for a MongoDB 6.0 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
   MongodConfig6_0 effective_config = 1;
@@ -261,6 +269,8 @@ message MongodConfigSet6_0 {
 }
 
 message MongoCfgConfigSet6_0 {
+  option deprecated = true;
+
   // Effective mongocfg settings for a MongoDB 6.0 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
   MongoCfgConfig6_0 effective_config = 1;
@@ -273,6 +283,8 @@ message MongoCfgConfigSet6_0 {
 }
 
 message MongosConfigSet6_0 {
+  option deprecated = true;
+
   // Effective mongos settings for a MongoDB 6.0 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
   MongosConfig6_0 effective_config = 1;

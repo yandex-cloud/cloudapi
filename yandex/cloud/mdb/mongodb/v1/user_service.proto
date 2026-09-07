@@ -102,7 +102,7 @@ message GetUserRequest {
   // To get the name of the user, use a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "^[a-zA-Z0-9_][a-zA-Z0-9_-]*$",
+    (pattern) = "^[a-zA-Z0-9_][a-zA-Z0-9_@.-]*$",
     (required) = true
   ];
 }
@@ -145,7 +145,7 @@ message CreateUserRequest {
   ];
 
   // Properties of the user to be created.
-  UserSpec user_spec = 2;
+  UserSpec user_spec = 2 [(required) = true];
 }
 
 message CreateUserMetadata {
@@ -207,7 +207,7 @@ message DeleteUserRequest {
   // To get the name of the user use a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "^[a-zA-Z0-9_][a-zA-Z0-9_-]*$",
+    (pattern) = "^[a-zA-Z0-9_][a-zA-Z0-9_@.-]*$",
     (required) = true
   ];
 }
@@ -232,7 +232,7 @@ message GrantUserPermissionRequest {
   // To get the name of the user, use a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "^[a-zA-Z0-9_][a-zA-Z0-9_-]*$",
+    (pattern) = "^[a-zA-Z0-9_][a-zA-Z0-9_@.-]*$",
     (required) = true
   ];
 
@@ -261,7 +261,7 @@ message RevokeUserPermissionRequest {
   // To get the name of the user, use a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
-    (pattern) = "^[a-zA-Z0-9_][a-zA-Z0-9_-]*$",
+    (pattern) = "^[a-zA-Z0-9_][a-zA-Z0-9_@.-]*$",
     (required) = true
   ];
 

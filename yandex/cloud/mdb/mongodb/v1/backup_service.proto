@@ -28,7 +28,7 @@ service BackupService {
     };
   };
 
-  // Returns the list of available backups for the specified MongoDB cluster.
+  // Deletes the specified MongoDB backup.
   rpc Delete(DeleteBackupRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeleteBackupMetadata"
@@ -57,7 +57,7 @@ message ListBackupsRequest {
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListBackupsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  int64 page_size = 2 [(value) = "<=1000"];
+  int64 page_size = 2 [(value) = "0-1000"];
 
   // Page token. To get the next page of results, set [page_token] to the
   // [ListBackupsResponse.next_page_token] returned by the previous list request.
@@ -76,11 +76,11 @@ message ListBackupsResponse {
 }
 
 message DeleteBackupRequest {
-  // Required. ID of the backup to delete.
+  // ID of the backup to delete.
   string backup_id = 1 [(required) = true];
 }
 
 message DeleteBackupMetadata {
-  // Required. ID of the deleting MongoDB backup.
+  // ID of the deleting MongoDB backup.
   string backup_id = 1;
 }

@@ -9,7 +9,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongod
 option java_package = "yandex.cloud.api.mdb.mongodb.v1.config";
 
 // Configuration of a mongod daemon. Supported options are a limited subset of all
-// options described in [MongoDB documentation](https://docs.mongodb.com/v7.0/reference/configuration-options/).
+// options described in [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/configuration-options/).
 message MongodConfig {
   message Storage {
     // Configuration of WiredTiger storage engine.
@@ -30,13 +30,13 @@ message MongodConfig {
           // No compression.
           NONE = 1;
 
-          // The [Snappy](https://docs.mongodb.com/v7.0/reference/glossary/#std-term-snappy) compression.
+          // The [Snappy](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-snappy) compression.
           SNAPPY = 2;
 
-          // The [zlib](https://docs.mongodb.com/v7.0/reference/glossary/#std-term-zlib) compression.
+          // The [zlib](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-zlib) compression.
           ZLIB = 3;
 
-          // The [zstd](https://docs.mongodb.com/v7.0/reference/glossary/#std-term-zstd) compression.
+          // The [zstd](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-zstd) compression.
           ZSTD = 4;
         }
 
@@ -70,7 +70,7 @@ message MongodConfig {
     // Configuration of the WiredTiger storage engine.
     WiredTiger wired_tiger = 1;
 
-    // Configuration of the MongoDB [journal](https://docs.mongodb.com/v7.0/reference/glossary/#std-term-journal).
+    // Configuration of the MongoDB [journal](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-journal).
     Journal journal = 2;
   }
 
@@ -108,13 +108,13 @@ message MongodConfig {
         // Unspecified compression type.
         COMPRESSOR_UNSPECIFIED = 0;
 
-        // The [Snappy](https://docs.mongodb.com/v4.2/reference/glossary/#term-snappy) compression.
+        // The [Snappy](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-snappy) compression.
         SNAPPY = 1;
 
-        // The [zlib](https://docs.mongodb.com/v4.2/reference/glossary/#term-zlib) compression.
+        // The [zlib](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-zlib) compression.
         ZLIB = 2;
 
-        // The [zstd](https://docs.mongodb.com/v4.2/reference/glossary/#term-zstd) compression.
+        // The [zstd](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-zstd) compression.
         ZSTD = 3;
 
         // No compression
@@ -162,19 +162,21 @@ message MongodConfig {
   }
 
   message AuditLog {
-    // Audit filter
+    // Audit filter, should be valid JSON object string
     string filter = 1;
 
-    // Allows runtime configuration of audit filter and auditAuthorizationSuccess
+    // Allows runtime configuration of audit filter and auditAuthorizationSuccess.
+    // Available for MongoDB Enterprise only.
     google.protobuf.BoolValue runtime_configuration = 2;
   }
 
   message SetParameter {
-    // Enables the auditing of authorization successes
+    // Enables the auditing of authorization successes.
+    // See the [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/parameters/#mongodb-parameter-param.auditAuthorizationSuccess).
     google.protobuf.BoolValue audit_authorization_success = 1;
 
     // Enables or disables the mechanism that controls the rate at which the primary applies its writes with the
-    // goal of keeping the secondary members [majority committed](https://www.mongodb.com/docs/v7.0/reference/command/replSetGetStatus/#replSetGetStatus.optimes.lastCommittedOpTime)
+    // goal of keeping the secondary members [majority committed](https://www.mongodb.com/docs/manual/reference/command/replSetGetStatus/#replSetGetStatus.optimes.lastCommittedOpTime)
     // lag under a configurable maximum value.
     google.protobuf.BoolValue enable_flow_control = 2;
 
@@ -297,7 +299,7 @@ message MongoCfgConfig {
 
     // The slow operation time threshold, in milliseconds. Operations that run
     // for longer than this threshold are considered slow, and are processed by the profiler
-    // running in the SLOW_OP mode. For details see [MongoDB documentation](https://www.mongodb.com/docs/v7.0/reference/configuration-options/#mongodb-setting-operationProfiling.slowOpThresholdMs).
+    // running in the SLOW_OP mode. For details see [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/configuration-options/#mongodb-setting-operationProfiling.slowOpThresholdMs).
     google.protobuf.Int64Value slow_op_threshold = 2 [(value) = ">0"];
   }
 
@@ -308,7 +310,7 @@ message MongoCfgConfig {
 
   message SetParameter {
     // Enables or disables the mechanism that controls the rate at which the primary applies its writes with the
-    // goal of keeping the secondary members [majority committed](https://www.mongodb.com/docs/v4.2/reference/command/replSetGetStatus/#replSetGetStatus.optimes.lastCommittedOpTime)
+    // goal of keeping the secondary members [majority committed](https://www.mongodb.com/docs/manual/reference/command/replSetGetStatus/#replSetGetStatus.optimes.lastCommittedOpTime)
     // lag under a configurable maximum value.
     google.protobuf.BoolValue enable_flow_control = 1;
 
@@ -367,13 +369,13 @@ message MongosConfig {
         // Unspecified compression type.
         COMPRESSOR_UNSPECIFIED = 0;
 
-        // The [Snappy](https://docs.mongodb.com/v4.2/reference/glossary/#term-snappy) compression.
+        // The [Snappy](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-snappy) compression.
         SNAPPY = 1;
 
-        // The [zlib](https://docs.mongodb.com/v4.2/reference/glossary/#term-zlib) compression.
+        // The [zlib](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-zlib) compression.
         ZLIB = 2;
 
-        // The [zstd](https://docs.mongodb.com/v4.2/reference/glossary/#term-zstd) compression.
+        // The [zstd](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-zstd) compression.
         ZSTD = 3;
 
         // No compression

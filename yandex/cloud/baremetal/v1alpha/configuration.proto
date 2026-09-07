@@ -40,8 +40,20 @@ message DiskDriveConfiguration {
   int64 disk_size_gib = 3;
 }
 
+// Type of servers represented by a configuration.
+enum ServerType {
+  // Unspecified server type.
+  SERVER_TYPE_UNSPECIFIED = 0;
+
+  // Standard bare metal server.
+  SERVER_TYPE_BAREMETAL = 1;
+
+  // Apple Mac Mini server.
+  SERVER_TYPE_MAC_MINI = 2;
+}
+
 message Configuration {
-  reserved 7, 9 to 24;
+  reserved 7, 9 to 24, 27;
 
   // ID of the configuration.
   string id = 1;
@@ -69,6 +81,9 @@ message Configuration {
 
   // Indicates whether the mounting option is available or not for this configuration.
   MountingAvailability mounting_availability = 26;
+
+  // Type of servers represented by the configuration.
+  ServerType server_type = 28;
 }
 
 message ConfigurationNetworkInterface {

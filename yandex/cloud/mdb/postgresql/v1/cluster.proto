@@ -19,6 +19,8 @@ import "yandex/cloud/mdb/postgresql/v1/config/host17.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host17_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host18.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host18_1c.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host19.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/host19_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql11.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql12.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql13.proto";
@@ -33,6 +35,8 @@ import "yandex/cloud/mdb/postgresql/v1/config/postgresql17.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql17_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql18.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql18_1c.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql19.proto";
+import "yandex/cloud/mdb/postgresql/v1/config/postgresql19_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/maintenance.proto";
 import "yandex/cloud/mdb/v1/connectionmanager.proto";
 import "yandex/cloud/validation.proto";
@@ -222,6 +226,12 @@ message ClusterConfig {
 
     // Configuration of a PostgreSQL 18 1C server.
     config.PostgresqlConfigSet18_1C postgresql_config_18_1c = 30 [json_name = "postgresqlConfig_18_1c"];
+
+    // Configuration of a PostgreSQL 19 server.
+    config.PostgresqlConfigSet19 postgresql_config_19 = 35 [json_name = "postgresqlConfig_19"];
+
+    // Configuration of a PostgreSQL 19 1C server.
+    config.PostgresqlConfigSet19_1C postgresql_config_19_1c = 36 [json_name = "postgresqlConfig_19_1c"];
   }
 
   // Configuration of the connection pooler.
@@ -422,6 +432,12 @@ message HostConfig {
 
     // Configuration for a host with PostgreSQL 18 1C server deployed.
     config.PostgresqlHostConfig18_1C postgresql_config_18_1c = 19 [json_name = "postgresqlHostConfig_18_1c"];
+
+    // Configuration for a host with PostgreSQL 19 server deployed.
+    config.PostgresqlHostConfig19 postgresql_config_19 = 20 [json_name = "postgresqlHostConfig_19"];
+
+    // Configuration for a host with PostgreSQL 19 1C server deployed.
+    config.PostgresqlHostConfig19_1C postgresql_config_19_1c = 21 [json_name = "postgresqlHostConfig_19_1c"];
   }
 }
 

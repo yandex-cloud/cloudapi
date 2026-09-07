@@ -72,8 +72,8 @@ message ChangeFreeze {
 message CreateChangeFreezeRequest {
   // ID of the resource to create a change freeze for.
   string resource_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 
   // The time when the change freeze should start.
@@ -89,8 +89,8 @@ message CreateChangeFreezeRequest {
 message GetChangeFreezeRequest {
   // ID of the change freeze to retrieve.
   string change_freeze_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -119,8 +119,8 @@ message ListChangeFreezesResponse {
 message TerminateChangeFreezeRequest {
   // ID of the change freeze to terminate.
   string change_freeze_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -138,8 +138,8 @@ message TerminateChangeFreezeResponse {
 message GetChangeFreezeLimitsRequest {
   // ID of the resource to get change freeze limits for.
   string resource_id = 1 [
-    (required) = true,
-    (length) = "<=50"
+    (length) = "<=50",
+    (required) = true
   ];
 }
 
@@ -169,4 +169,14 @@ message ChangeFreezeLimitsResponse {
 
   // Number of seconds remaining this year.
   int64 remaining_seconds_this_year = 4;
+}
+
+message CreateChangeFreezeMetadata {
+  // ID of the resource.
+  string resource_id = 1;
+}
+
+message TerminateChangeFreezeMetadata {
+  // ID of the change freeze.
+  string change_freeze_id = 1;
 }

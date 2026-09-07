@@ -48,6 +48,7 @@ message UserSpec {
   ];
 
   // Password of the MongoDB user.
+  // Must not be set for users with the [AuthType.AUTH_TYPE_IAM] authentication type.
   string password = 2 [(length) = "<=128"];
 
   // Set of permissions to grant to the user.

@@ -84,8 +84,20 @@ enum RAMType {
   DDR5 = 3;
 }
 
+// Type of servers represented by a configuration.
+enum ServerType {
+  // Unspecified server type.
+  SERVER_TYPE_UNSPECIFIED = 0;
+
+  // Standard bare metal server.
+  SERVER_TYPE_BAREMETAL = 1;
+
+  // Apple Mac Mini server.
+  SERVER_TYPE_MAC_MINI = 2;
+}
+
 message Configuration {
-  reserved 8 to 10;
+  reserved 8 to 10, 14 to 15;
 
   // ID of the configuration.
   string configuration_id = 1 [
@@ -119,6 +131,9 @@ message Configuration {
 
   // RAM type.
   RAMType ram_type = 13 [(google.api.field_behavior) = REQUIRED];
+
+  // Type of servers represented by the configuration.
+  ServerType server_type = 16 [(google.api.field_behavior) = OUTPUT_ONLY];
 }
 
 message DefaultStorage {

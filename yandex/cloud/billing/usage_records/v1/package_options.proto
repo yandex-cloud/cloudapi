@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+
+package yandex.cloud.billing.usage_records.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/billing/usage_records/v1;usageRecords";
+option java_package = "yandex.cloud.api.billing.usage_records.v1";

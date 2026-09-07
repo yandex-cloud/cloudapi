@@ -87,6 +87,9 @@ enum ResourceType {
 
   // Managed Service for SPQR cluster.
   RESOURCE_TYPE_MANAGED_SPQR = 8;
+
+  // Managed Service for Apache Kafka cluster.
+  RESOURCE_TYPE_MANAGED_KAFKA = 9;
 }
 
 // Cloud resource that the issue is detected for.

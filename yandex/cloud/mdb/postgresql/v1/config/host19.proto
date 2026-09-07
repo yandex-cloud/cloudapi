@@ -1,0 +1,405 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.postgresql.v1.config;
+
+import "google/protobuf/wrappers.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1/config;postgresql";
+option java_package = "yandex.cloud.api.mdb.postgresql.v1.config";
+
+// Options and structure of `PostgresqlConfig` reflects PostgreSQL configuration file
+// parameters which detailed description is available in
+// [PostgreSQL documentation](https://www.postgresql.org/docs/19/runtime-config.html).
+message PostgresqlHostConfig19 {
+  reserved 7;
+  reserved 42;
+  reserved 44;
+  reserved 46;
+  reserved 52 to 53;
+  reserved 70 to 72;
+  enum BackslashQuote {
+    // Not specified.
+    BACKSLASH_QUOTE_UNSPECIFIED = 0;
+
+    // Legacy invalid value. Do not use.
+    BACKSLASH_QUOTE = 1 [deprecated = true];
+
+    // Quotation mark can be represented as \'.
+    BACKSLASH_QUOTE_ON = 2;
+
+    // Quotation mark can only be represented using the standard SQL syntax ''.
+    BACKSLASH_QUOTE_OFF = 3;
+
+    // Representing a quotation mark as \' is only permitted for client encodings where \ is not used for multibyte characters.
+    BACKSLASH_QUOTE_SAFE_ENCODING = 4;
+  }
+
+  enum ByteaOutput {
+    // Not specified.
+    BYTEA_OUTPUT_UNSPECIFIED = 0;
+
+    // Each byte is represented by two hexadecimal characters, e.g., 'SELECT '\xDEADBEEF';'.
+    BYTEA_OUTPUT_HEX = 1;
+
+    // Standard PostgreSQL format with ASCII characters only.
+    BYTEA_OUTPUT_ESCAPED = 2;
+  }
+
+  enum ConstraintExclusion {
+    // Not specified.
+    CONSTRAINT_EXCLUSION_UNSPECIFIED = 0;
+
+    // Enable planner's use of constraints for all tables.
+    CONSTRAINT_EXCLUSION_ON = 1;
+
+    // Disable planner's use of constraints for all tables
+    CONSTRAINT_EXCLUSION_OFF = 2;
+
+    // Only use constraints for child tables and UNION ALL clauses.
+    CONSTRAINT_EXCLUSION_PARTITION = 3;
+  }
+
+  enum DebugParallelQuery {
+    // Not specified.
+    DEBUG_PARALLEL_QUERY_UNSPECIFIED = 0;
+
+    // Forces parallel mode for queries considered safe, even when no performance benefit is expected.
+    DEBUG_PARALLEL_QUERY_ON = 1;
+
+    // Uses parallel mode only when the planner expects it to improve performance.
+    DEBUG_PARALLEL_QUERY_OFF = 2;
+
+    // Behaves like ON, but hides added Gather nodes in EXPLAIN output and
+    // suppresses parallel-worker context lines to stabilize regression-test output.
+    DEBUG_PARALLEL_QUERY_REGRESS = 3;
+  }
+
+  enum ForceParallelMode {
+    // Not specified.
+    FORCE_PARALLEL_MODE_UNSPECIFIED = 0;
+
+    // Forces parallel mode for queries considered safe, even when no performance benefit is expected.
+    FORCE_PARALLEL_MODE_ON = 1;
+
+    // Uses parallel mode only when the planner expects it to improve performance.
+    FORCE_PARALLEL_MODE_OFF = 2;
+
+    // Behaves like ON, but hides added Gather nodes in EXPLAIN output and
+    // suppresses parallel-worker context lines to stabilize regression-test output.
+    FORCE_PARALLEL_MODE_REGRESS = 3;
+  }
+
+  enum LogErrorVerbosity {
+    // Not specified.
+    LOG_ERROR_VERBOSITY_UNSPECIFIED = 0;
+
+    // DETAIL, HINT, QUERY, and CONTEXT fields are excluded from the error message.
+    LOG_ERROR_VERBOSITY_TERSE = 1;
+
+    // Default.
+    LOG_ERROR_VERBOSITY_DEFAULT = 2;
+
+    // Error message includes the SQLSTATE error code, source filename, function name, and the line number where the error occurred.
+    LOG_ERROR_VERBOSITY_VERBOSE = 3;
+  }
+
+  enum LogLevel {
+    // Not specified.
+    LOG_LEVEL_UNSPECIFIED = 0;
+
+    // Provides the most detailed diagnostic information for developers.
+    LOG_LEVEL_DEBUG5 = 1;
+
+    // Provides more detailed diagnostic information than DEBUG3.
+    LOG_LEVEL_DEBUG4 = 2;
+
+    // Provides more detailed diagnostic information than DEBUG2.
+    LOG_LEVEL_DEBUG3 = 3;
+
+    // Provides more detailed diagnostic information than DEBUG1.
+    LOG_LEVEL_DEBUG2 = 4;
+
+    // Provides diagnostic information for developers.
+    LOG_LEVEL_DEBUG1 = 5;
+
+    // Reports information implicitly requested by the user.
+    LOG_LEVEL_INFO = 12;
+
+    // Reports information of interest to database administrators.
+    LOG_LEVEL_LOG = 6;
+
+    // Reports information that may be helpful to users.
+    LOG_LEVEL_NOTICE = 7;
+
+    // Reports a warning about a likely problem.
+    LOG_LEVEL_WARNING = 8;
+
+    // Reports an error that aborts the current command.
+    LOG_LEVEL_ERROR = 9;
+
+    // Reports an error that aborts the current session.
+    LOG_LEVEL_FATAL = 10;
+
+    // Reports an error that aborts all database sessions.
+    LOG_LEVEL_PANIC = 11;
+  }
+
+  enum LogStatement {
+    // Not specified.
+    LOG_STATEMENT_UNSPECIFIED = 0;
+
+    // The filter is disabled, no SQL statements are logged.
+    LOG_STATEMENT_NONE = 1;
+
+    // System logs DDL statements, e.g., CREATE, ALTER, DROP etc.
+    LOG_STATEMENT_DDL = 2;
+
+    // System logs ddl-statements along with data modification commands, e.g., INSERT, UPDATE, etc.
+    LOG_STATEMENT_MOD = 3;
+
+    // System logs all SQL statements.
+    LOG_STATEMENT_ALL = 4;
+  }
+
+  enum TransactionIsolation {
+    // Not specified.
+    TRANSACTION_ISOLATION_UNSPECIFIED = 0;
+
+    // This level behaves like `TRANSACTION_ISOLATION_READ_COMMITTED` in PostgreSQL.
+    TRANSACTION_ISOLATION_READ_UNCOMMITTED = 1;
+
+    // On this level query sees only data committed before the query began.
+    TRANSACTION_ISOLATION_READ_COMMITTED = 2;
+
+    // On this level all subsequent queries in a transaction will see the same rows, that were read by the first `SELECT` or `INSERT` query in this transaction, unchanged (these rows are locked during the first query).
+    TRANSACTION_ISOLATION_REPEATABLE_READ = 3;
+
+    // This level provides the strictest transaction isolation.
+    // All queries in the current transaction see only the rows that were fixed prior to execution of the first `SELECT` or `INSERT` query in this transaction.
+    // If read and write operations in a concurrent set of serializable transactions overlap and this may cause an inconsistency that is not possible during the serial transaction execution, then one of the transaction will be rolled back, triggering a serialization failure.
+    TRANSACTION_ISOLATION_SERIALIZABLE = 4;
+  }
+
+  enum XmlBinary {
+    // Not specified.
+    XML_BINARY_UNSPECIFIED = 0;
+
+    // Encodes binary values using Base64.
+    XML_BINARY_BASE64 = 1;
+
+    // Encodes binary values using hexadecimal notation.
+    XML_BINARY_HEX = 2;
+  }
+
+  enum XmlOption {
+    // Not specified.
+    XML_OPTION_UNSPECIFIED = 0;
+
+    // Treats an XML value as a complete, well-formed document.
+    XML_OPTION_DOCUMENT = 1;
+
+    // Treats an XML value as a content fragment, which may contain multiple top-level elements or character nodes.
+    XML_OPTION_CONTENT = 2;
+  }
+
+  // Sets the minimum delay for applying changes during recovery. In milliseconds.
+  google.protobuf.Int64Value recovery_min_apply_delay = 1;
+
+  // Sets the number of shared memory buffers used by the server. In bytes.
+  google.protobuf.Int64Value shared_buffers = 2;
+
+  // Sets the maximum number of temporary buffers used by each session. In bytes.
+  google.protobuf.Int64Value temp_buffers = 3;
+
+  // Sets the maximum memory to be used for query workspaces. This much memory can be used by each
+  // internal sort operation and hash table before switching to temporary disk files. In bytes.
+  google.protobuf.Int64Value work_mem = 4;
+
+  // Limits the total size of all temporary files used by each process. -1 means no limit. In bytes.
+  google.protobuf.Int64Value temp_file_limit = 5;
+
+  // Specifies how much data a backend can write before forcing the operating system to issue the writes. In bytes.
+  google.protobuf.Int64Value backend_flush_after = 6 [(value) = "0-2097152"];
+
+  // Sets the maximum delay before canceling queries when a hot standby server is processing streamed WAL data. In milliseconds.
+  google.protobuf.Int64Value max_standby_streaming_delay = 8;
+
+  // Enables the planner to use constraints to optimize queries.
+  ConstraintExclusion constraint_exclusion = 9;
+
+  // Sets the planner's estimate of the fraction of a cursor's rows that will be retrieved.
+  google.protobuf.DoubleValue cursor_tuple_fraction = 10;
+
+  // Sets the FROM-list size beyond which subqueries are not collapsed.
+  google.protobuf.Int64Value from_collapse_limit = 11 [(value) = "1-2147483647"];
+
+  // Sets the FROM-list size beyond which JOIN constructs are not flattened.
+  google.protobuf.Int64Value join_collapse_limit = 12 [(value) = "1-2147483647"];
+
+  // Forces the planner's use parallel query nodes.
+  DebugParallelQuery debug_parallel_query = 13;
+
+  // Sets the message levels that are sent to the client.
+  LogLevel client_min_messages = 14;
+
+  // Sets the message levels that are logged.
+  LogLevel log_min_messages = 15;
+
+  // Causes all statements generating error at or above this level to be logged.
+  LogLevel log_min_error_statement = 16;
+
+  // Sets the minimum execution time above which all statements will be logged. In milliseconds.
+  google.protobuf.Int64Value log_min_duration_statement = 17;
+
+  // Logs each checkpoint.
+  google.protobuf.BoolValue log_checkpoints = 18;
+
+  // Logs each successful connection.
+  google.protobuf.BoolValue log_connections = 19;
+
+  // Logs end of a session, including duration.
+  google.protobuf.BoolValue log_disconnections = 20;
+
+  // Logs the duration of each completed SQL statement.
+  // (-- api-linter: yc::1701::duration-required=disabled --)
+  google.protobuf.BoolValue log_duration = 21;
+
+  // Sets the verbosity of logged messages.
+  LogErrorVerbosity log_error_verbosity = 22;
+
+  // Logs long lock waits.
+  google.protobuf.BoolValue log_lock_waits = 23;
+
+  // Sets the type of statements logged.
+  LogStatement log_statement = 24;
+
+  // Log the use of temporary files larger than this number of kilobytes.
+  google.protobuf.Int64Value log_temp_files = 25;
+
+  // Sets the schema search order for names that are not schema-qualified.
+  string search_path = 26;
+
+  // Enable row security.
+  google.protobuf.BoolValue row_security = 27;
+
+  // Sets the transaction isolation level of each new transaction.
+  TransactionIsolation default_transaction_isolation = 28;
+
+  // Sets the maximum allowed duration of any statement. In milliseconds.
+  google.protobuf.Int64Value statement_timeout = 29;
+
+  // Sets the maximum allowed duration of any wait for a lock. In milliseconds.
+  google.protobuf.Int64Value lock_timeout = 30 [(value) = "0-2147483647"];
+
+  // Sets the maximum allowed idle time between queries, when in a transaction. In milliseconds.
+  google.protobuf.Int64Value idle_in_transaction_session_timeout = 31 [(value) = "0-2147483647"];
+
+  // Sets the output format for bytea.
+  ByteaOutput bytea_output = 32;
+
+  // Sets how binary values are to be encoded in XML.
+  XmlBinary xmlbinary = 33;
+
+  // Sets whether XML data in implicit parsing and serialization operations is to be considered as documents or content fragments.
+  XmlOption xmloption = 34;
+
+  // Sets the maximum size of the pending list for GIN index. In bytes.
+  google.protobuf.Int64Value gin_pending_list_limit = 35;
+
+  // Sets the time to wait on a lock before checking for deadlock. In milliseconds.
+  google.protobuf.Int64Value deadlock_timeout = 36 [(value) = "1-2147483647"];
+
+  // Sets the maximum number of locks per transaction. The shared lock table is sized on the assumption that
+  // at most max_locks_per_transaction * max_connections distinct objects will need to be locked at any one time.
+  google.protobuf.Int64Value max_locks_per_transaction = 37;
+
+  // Sets the maximum number of predicate locks per transaction.The shared predicate lock table is sized on the assumption that
+  // at most max_pred_locks_per_transaction * max_connections distinct objects will need to be locked at any one time.
+  google.protobuf.Int64Value max_pred_locks_per_transaction = 38;
+
+  // Enable input of NULL elements in arrays. When turned on, unquoted NULL in an array input
+  // value means a null value; otherwise it is taken literally.
+  google.protobuf.BoolValue array_nulls = 39;
+
+  // Sets whether \"\\'\" is allowed in string literals.
+  BackslashQuote backslash_quote = 40;
+
+  // WITH OIDS is no longer supported; this can only be false.
+  google.protobuf.BoolValue default_with_oids = 41;
+
+  // Enables backward compatibility mode for privilege checks on large objects. Skips privilege checks
+  // when reading or modifying large objects, for compatibility with PostgreSQL releases prior to 9.0.
+  google.protobuf.BoolValue lo_compat_privileges = 43;
+
+  // When generating SQL fragments, quote all identifiers.
+  google.protobuf.BoolValue quote_all_identifiers = 45;
+
+  // Enable synchronized sequential scans.
+  google.protobuf.BoolValue synchronize_seqscans = 47;
+
+  // Treats \"expr=NULL\" as \"expr IS NULL\". When turned on, expressions of the form expr = NULL
+  // (or NULL = expr) are treated as expr IS NULL, that is, they return true if expr evaluates to the
+  // null value, and false otherwise. The correct behavior of expr = NULL is to always return null (unknown).
+  google.protobuf.BoolValue transform_null_equals = 48;
+
+  // Terminate session on any error.
+  google.protobuf.BoolValue exit_on_error = 49;
+
+  // Sets the planner's estimate of the cost of a sequentially fetched disk page.
+  google.protobuf.DoubleValue seq_page_cost = 50 [(value) = ">=0"];
+
+  // Sets the planner's estimate of the cost of a nonsequentially fetched disk page.
+  google.protobuf.DoubleValue random_page_cost = 51 [(value) = ">=0"];
+
+  // Enables the planner's use of bitmap-scan plans.
+  google.protobuf.BoolValue enable_bitmapscan = 54;
+
+  // Enables the planner's use of hashed aggregation plans.
+  google.protobuf.BoolValue enable_hashagg = 55;
+
+  // Enables the planner's use of hash join plans.
+  google.protobuf.BoolValue enable_hashjoin = 56;
+
+  // Enables the planner's use of index-scan plans.
+  google.protobuf.BoolValue enable_indexscan = 57;
+
+  // Enables the planner's use of index-only-scan plans.
+  google.protobuf.BoolValue enable_indexonlyscan = 58;
+
+  // Enables the planner's use of materialization.
+  google.protobuf.BoolValue enable_material = 59;
+
+  // Enables the planner's use of merge join plans.
+  google.protobuf.BoolValue enable_mergejoin = 60;
+
+  // Enables the planner's use of nested-loop join plans.
+  google.protobuf.BoolValue enable_nestloop = 61;
+
+  // Enables the planner's use of sequential-scan plans.
+  google.protobuf.BoolValue enable_seqscan = 62;
+
+  // Enables the planner's use of explicit sort steps.
+  google.protobuf.BoolValue enable_sort = 63;
+
+  // Enables the planner's use of TID scan plans.
+  google.protobuf.BoolValue enable_tidscan = 64;
+
+  // Sets the maximum number of parallel workers that can be active at one time.
+  google.protobuf.Int64Value max_parallel_workers = 65 [(value) = "0-1024"];
+
+  // Sets the maximum number of parallel processes per executor node.
+  google.protobuf.Int64Value max_parallel_workers_per_gather = 66 [(value) = "0-1024"];
+
+  // Sets the time zone for displaying and interpreting time stamps.
+  string timezone = 67;
+
+  // Number of simultaneous requests that can be handled efficiently by the disk subsystem.
+  google.protobuf.Int64Value effective_io_concurrency = 68 [(value) = "0-1000"];
+
+  // Sets the planner's assumption about the effective size of the disk cache available to a single query. In bytes.
+  google.protobuf.Int64Value effective_cache_size = 69 [(value) = "1048576-549755813888"];
+
+  // Sets the maximum allowed idle time between queries, when not in a transaction. In milliseconds.
+  google.protobuf.Int64Value idle_session_timeout = 73 [(value) = "0-2147483647"];
+}

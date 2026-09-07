@@ -23,6 +23,7 @@ option java_package = "yandex.cloud.api.mdb.mongodb.v1";
 
 // A managed MongoDB cluster. For more information, see the [documentation](/docs/managed-mongodb/concepts).
 message Cluster {
+  // Deployment environment.
   enum Environment {
     ENVIRONMENT_UNSPECIFIED = 0;
 
@@ -149,46 +150,78 @@ message Monitoring {
 message ClusterConfig {
   reserved 16 to 18, 21;
 
-  // Version of MongoDB server software. Possible values: `3.6`, `4.0`, `4.2`, `4.4`, `4.4-enterprise`, `5.0`, `5.0-enterprise`, `6.0`, `6.0-enterprise`, `7.0`, `7.0-enterprise`.
+  // Version of MongoDB server software. Possible values: `7.0`, `8.0`.
   string version = 1;
 
   // MongoDB feature compatibility version. See usage details in [MongoDB documentation](https://docs.mongodb.com/manual/reference/command/setFeatureCompatibilityVersion/).
   // Possible values:
-  // * `3.6` - persist data compatibility for version 3.6. After setting this option the data will not be compatible with 3.4 or lower.
-  // * `4.0` - persist data compatibility for version 4.0. After setting this option the data will not be compatible with 3.6 or lower.
-  // * `4.2` - persist data compatibility for version 4.2. After setting this option the data will not be compatible with 4.0 or lower.
-  // * `4.4` - persist data compatibility for version 4.4. After setting this option the data will not be compatible with 4.2 or lower.
-  // * `5.0` - persist data compatibility for version 5.0. After setting this option the data will not be compatible with 5.0 or lower.
-  // * `6.0` - persist data compatibility for version 6.0. After setting this option the data will not be compatible with 6.0 or lower.
+  // * `7.0` - persist data compatibility for version 7.0. After setting this option the data will not be compatible with 6.0 or lower.
+  // * `8.0` - persist data compatibility for version 8.0. After setting this option the data will not be compatible with 7.0 or lower.
   string feature_compatibility_version = 5;
   // Configuration for MongoDB servers in the cluster.
   oneof mongodb {
     // Configuration and resource allocation for a MongoDB 3.6 cluster.
-    Mongodb3_6 mongodb_3_6 = 2 [json_name = "mongodb_3_6"];
+    // Deprecated. Use [mongodb_config] instead.
+    Mongodb3_6 mongodb_3_6 = 2 [
+      deprecated = true,
+      json_name = "mongodb_3_6"
+    ];
 
     // Configuration and resource allocation for a MongoDB 4.0 cluster.
-    Mongodb4_0 mongodb_4_0 = 4 [json_name = "mongodb_4_0"];
+    // Deprecated. Use [mongodb_config] instead.
+    Mongodb4_0 mongodb_4_0 = 4 [
+      deprecated = true,
+      json_name = "mongodb_4_0"
+    ];
 
     // Configuration and resource allocation for a MongoDB 4.2 cluster.
-    Mongodb4_2 mongodb_4_2 = 7 [json_name = "mongodb_4_2"];
+    // Deprecated. Use [mongodb_config] instead.
+    Mongodb4_2 mongodb_4_2 = 7 [
+      deprecated = true,
+      json_name = "mongodb_4_2"
+    ];
 
     // Configuration and resource allocation for a MongoDB 4.4 cluster.
-    Mongodb4_4 mongodb_4_4 = 8 [json_name = "mongodb_4_4"];
+    // Deprecated. Use [mongodb_config] instead.
+    Mongodb4_4 mongodb_4_4 = 8 [
+      deprecated = true,
+      json_name = "mongodb_4_4"
+    ];
 
     // Configuration and resource allocation for a MongoDB 5.0 cluster.
-    Mongodb5_0 mongodb_5_0 = 10 [json_name = "mongodb_5_0"];
+    // Deprecated. Use [mongodb_config] instead.
+    Mongodb5_0 mongodb_5_0 = 10 [
+      deprecated = true,
+      json_name = "mongodb_5_0"
+    ];
 
     // Configuration and resource allocation for a MongoDB 6.0 cluster.
-    Mongodb6_0 mongodb_6_0 = 14 [json_name = "mongodb_6_0"];
+    // Deprecated. Use [mongodb_config] instead.
+    Mongodb6_0 mongodb_6_0 = 14 [
+      deprecated = true,
+      json_name = "mongodb_6_0"
+    ];
 
     // Configuration and resource allocation for a MongoDB 4.4 Enterprise cluster.
-    Mongodb4_4_enterprise mongodb_4_4_enterprise = 11 [json_name = "mongodb_4_4_enterprise"];
+    // Deprecated. Use [mongodb_config] instead.
+    Mongodb4_4_enterprise mongodb_4_4_enterprise = 11 [
+      deprecated = true,
+      json_name = "mongodb_4_4_enterprise"
+    ];
 
     // Configuration and resource allocation for a MongoDB 5.0 Enterprise cluster.
-    Mongodb5_0_enterprise mongodb_5_0_enterprise = 12 [json_name = "mongodb_5_0_enterprise"];
+    // Deprecated. Use [mongodb_config] instead.
+    Mongodb5_0_enterprise mongodb_5_0_enterprise = 12 [
+      deprecated = true,
+      json_name = "mongodb_5_0_enterprise"
+    ];
 
     // Configuration and resource allocation for a MongoDB 6.0 Enterprise cluster.
-    Mongodb6_0_enterprise mongodb_6_0_enterprise = 15 [json_name = "mongodb_6_0_enterprise"];
+    // Deprecated. Use [mongodb_config] instead.
+    Mongodb6_0_enterprise mongodb_6_0_enterprise = 15 [
+      deprecated = true,
+      json_name = "mongodb_6_0_enterprise"
+    ];
   }
 
   // Time to start the daily backup, in the UTC timezone.
@@ -203,7 +236,7 @@ message ClusterConfig {
   // Access policy to DB
   Access access = 6;
 
-  // Configuration and resource allocation for a MongoDB Enterprise cluster.
+  // Configuration and resource allocation for a MongoDB cluster.
   Mongodb mongodb_config = 19;
 
   // Full version
@@ -214,6 +247,8 @@ message ClusterConfig {
 }
 
 message Mongodb3_6 {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for a mongod 3.6 hosts.
     config.MongodConfigSet3_6 config = 1;
@@ -275,6 +310,8 @@ message Mongodb3_6 {
 }
 
 message Mongodb4_0 {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 4.0 hosts.
     config.MongodConfigSet4_0 config = 1;
@@ -336,6 +373,8 @@ message Mongodb4_0 {
 }
 
 message Mongodb4_2 {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 4.2 hosts.
     config.MongodConfigSet4_2 config = 1;
@@ -397,6 +436,8 @@ message Mongodb4_2 {
 }
 
 message Mongodb4_4 {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 4.4 hosts.
     config.MongodConfigSet4_4 config = 1;
@@ -458,6 +499,8 @@ message Mongodb4_4 {
 }
 
 message Mongodb4_4_enterprise {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 4.4 hosts.
     config.MongodConfigSet4_4_enterprise config = 1;
@@ -519,6 +562,8 @@ message Mongodb4_4_enterprise {
 }
 
 message Mongodb5_0 {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 5.0 hosts.
     config.MongodConfigSet5_0 config = 1;
@@ -580,6 +625,8 @@ message Mongodb5_0 {
 }
 
 message Mongodb5_0_enterprise {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 5.0 hosts.
     config.MongodConfigSet5_0_enterprise config = 1;
@@ -641,6 +688,8 @@ message Mongodb5_0_enterprise {
 }
 
 message Mongodb6_0 {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 6.0 hosts.
     config.MongodConfigSet6_0 config = 1;
@@ -702,6 +751,8 @@ message Mongodb6_0 {
 }
 
 message Mongodb6_0_enterprise {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 6.0 hosts.
     config.MongodConfigSet6_0_enterprise config = 1;
@@ -1019,8 +1070,13 @@ message AutoCompactConfig {
   // Minimum percentage of bloat of collection to be compacted.
   google.protobuf.DoubleValue bloat_percent = 3;
   enum CompactionType {
+    // Compaction type is unspecified. Default value.
     COMPACTION_TYPE_UNSPECIFIED = 0;
+
+    // Run compaction on all hosts except primary.
     COMPACTION_TYPE_IGNORE_PRIMARY = 1;
+
+    // Switch primary to run compaction on all hosts.
     COMPACTION_TYPE_SWITCH_PRIMARY = 2;
   }
 
