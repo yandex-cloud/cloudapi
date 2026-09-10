@@ -14,7 +14,7 @@ service ChangeFreezeService {
   // Creates a change freeze for the specified resource.
   rpc Create(maintenance.v2.CreateChangeFreezeRequest) returns (operation.Operation) {
     option (api.operation) = {
-      metadata: "CreateChangeFreezeMetadata"
+      metadata: "yandex.cloud.maintenance.v2.CreateChangeFreezeMetadata"
       response: "yandex.cloud.maintenance.v2.ChangeFreeze"
     };
     option (google.api.http) = {
@@ -40,7 +40,7 @@ service ChangeFreezeService {
   // Terminates the specified change freeze.
   rpc Terminate(maintenance.v2.TerminateChangeFreezeRequest) returns (operation.Operation) {
     option (api.operation) = {
-      metadata: "TerminateChangeFreezeMetadata"
+      metadata: "yandex.cloud.maintenance.v2.TerminateChangeFreezeMetadata"
       response: "yandex.cloud.maintenance.v2.TerminateChangeFreezeResponse"
     };
     option (google.api.http) = {
@@ -55,14 +55,4 @@ service ChangeFreezeService {
       get: "/managed-mongodb/v1/changeFreezeLimits"
     };
   };
-}
-
-message CreateChangeFreezeMetadata {
-  // ID of the resource.
-  string resource_id = 1;
-}
-
-message TerminateChangeFreezeMetadata {
-  // ID of the change freeze.
-  string change_freeze_id = 1;
 }

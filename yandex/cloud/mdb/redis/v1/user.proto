@@ -40,8 +40,8 @@ message Permissions {
   // Commands user can execute.
   google.protobuf.StringValue commands = 4;
 
-  // SanitizePayload parameter.
-  google.protobuf.StringValue sanitize_payload = 5;
+  // Deprecated. This parameter is ignored.
+  google.protobuf.StringValue sanitize_payload = 5 [deprecated = true];
 
   // Databases parameter.
   google.protobuf.StringValue databases = 6;

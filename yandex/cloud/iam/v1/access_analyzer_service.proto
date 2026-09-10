@@ -17,6 +17,7 @@ service AccessAnalyzerService {
       get: "/iam/v1/listSubjectAccessBindings"
     };
   };
+
 }
 
 message ListSubjectAccessBindingsRequest {

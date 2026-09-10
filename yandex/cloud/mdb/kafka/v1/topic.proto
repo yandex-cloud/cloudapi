@@ -258,7 +258,7 @@ message TopicConfig4 {
   // This configuration controls the segment file size for the log. Retention and cleaning is always done a file
   // at a time so a larger segment size means fewer files but less granular control over retention.
   // This setting overrides the cluster-level [KafkaConfig4.log_segment_bytes] setting on the topic level.
-  google.protobuf.Int64Value segment_bytes = 12;
+  google.protobuf.Int64Value segment_bytes = 12 [(value) = ">=1048576"];
 
   // True if we should preallocate the file on disk when creating a new log segment.
   // This setting overrides the cluster-level [KafkaConfig4.log_preallocate] setting on the topic level.

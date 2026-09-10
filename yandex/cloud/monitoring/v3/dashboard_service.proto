@@ -75,6 +75,12 @@ service DashboardService {
     };
   };
 
+}
+
+// A set of methods for turning a dashboard of another monitoring system into a
+// Monitoring one. Separate from [DashboardService] because nothing here touches
+// stored dashboards: every method is stateless and persists nothing.
+service DashboardConversionService {
   // (-- api-linter: yc::1702::method-verb-prefix=disabled
   // The method predates this rule; renaming a published rpc is a breaking change. --)
   // Converts a Grafana dashboard into a Monitoring dashboard draft.

@@ -441,7 +441,7 @@ message KafkaConfig4 {
 
   // The maximum size of a single log file.
   // This is the global cluster-level setting that can be overridden on a topic level by using the [TopicConfig4.segment_bytes] setting.
-  google.protobuf.Int64Value log_segment_bytes = 9;
+  google.protobuf.Int64Value log_segment_bytes = 9 [(value) = ">=1048576"];
 
   // The SO_SNDBUF buffer of the socket server sockets. If the value is -1, the OS default will be used.
   google.protobuf.Int64Value socket_send_buffer_bytes = 11;

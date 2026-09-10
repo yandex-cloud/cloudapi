@@ -163,6 +163,9 @@ message AdvancedRateLimiterRule {
 
     // Deny request.
     DENY = 1;
+
+    // Show a CAPTCHA challenge.
+    CAPTCHA = 2;
   }
 
   oneof rule_specifier {
