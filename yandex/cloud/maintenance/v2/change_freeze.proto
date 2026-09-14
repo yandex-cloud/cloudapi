@@ -69,6 +69,47 @@ message ChangeFreeze {
   google.protobuf.Timestamp updated_at = 11;
 }
 
+// Error details for change freeze operation failures.
+message ChangeFreezeErrorCode {
+  enum Type {
+    // Not set.
+    TYPE_UNSPECIFIED = 0;
+
+    // The target resource was not found.
+    RESOURCE_NOT_FOUND = 1;
+
+    // The change freeze was not found.
+    CHANGE_FREEZE_NOT_FOUND = 2;
+
+    // The change freeze would exceed the yearly duration limit.
+    EXCEEDS_YEARLY_LIMIT = 3;
+
+    // The change freeze would exceed the maximum period duration.
+    EXCEEDS_MAX_DURATION = 4;
+
+    // The gap between change freezes is too short.
+    INSUFFICIENT_GAP = 5;
+
+    // The change freeze overlaps with an existing period.
+    OVERLAPPING_CHANGE_FREEZE = 6;
+
+    // The requested time range is invalid.
+    INVALID_TIME_RANGE = 7;
+
+    // The requested start time is in the past.
+    START_TIME_IN_PAST = 8;
+
+    // The requested start time is too far in the future.
+    START_TIME_TOO_FAR = 9;
+
+    // The change freeze is already completed or cancelled.
+    CANNOT_DELETE_PAST_PERIOD = 10;
+  }
+
+  // Machine-readable error code.
+  Type type = 1;
+}
+
 message CreateChangeFreezeRequest {
   // ID of the resource to create a change freeze for.
   string resource_id = 1 [

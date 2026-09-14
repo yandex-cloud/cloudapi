@@ -232,6 +232,16 @@ message MongodConfig {
     google.protobuf.DoubleValue min_retention_hours = 2;
   }
 
+  message ChangeStreamOptions {
+    message PreAndPostImages {
+      // The number of seconds after which pre- and post-images expire.
+      google.protobuf.Int64Value expire_after_seconds = 1 [(value) = ">=0"];
+    }
+
+    // Retention settings for pre- and post-images.
+    PreAndPostImages pre_and_post_images = 1;
+  }
+
   // `storage` section of mongod configuration.
   Storage storage = 1;
 
@@ -255,6 +265,9 @@ message MongodConfig {
 
   // Chained replication setting
   google.protobuf.BoolValue chaining_allowed = 8;
+
+  // Change stream settings.
+  ChangeStreamOptions change_stream_options = 9;
 }
 
 message MongoCfgConfig {

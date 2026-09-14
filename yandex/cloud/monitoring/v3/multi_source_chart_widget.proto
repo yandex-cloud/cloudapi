@@ -9,6 +9,7 @@ import "yandex/cloud/monitoring/v3/fill.proto";
 import "yandex/cloud/monitoring/v3/sort_order.proto";
 import "yandex/cloud/monitoring/v3/thresholds.proto";
 import "yandex/cloud/monitoring/v3/unit_format.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/monitoring/v3;monitoring";
 option java_package = "yandex.cloud.api.monitoring.v3";
@@ -363,6 +364,10 @@ message MultiSourceChartWidget {
     // Fill of the area under a series. Defined for line series; for other
     // visualization types the behaviour is not defined yet.
     Fill fill = 14;
+
+    // Fill opacity in percent, from 0 to 100. If unset, the renderer uses
+    // the default opacity for the selected fill. Zero means fully transparent.
+    google.protobuf.Int64Value fill_opacity = 15 [(value) = "0-100"];
   }
 
   // Series override settings.
@@ -486,6 +491,10 @@ message MultiSourceChartWidget {
       // Fill for this series. FILL_UNSPECIFIED leaves the widget setting
       // in force, any other value overrides it.
       Fill fill = 17;
+
+      // Fill opacity in percent, from 0 to 100. If unset, the widget setting
+      // remains in force. Zero means fully transparent.
+      google.protobuf.Int64Value fill_opacity = 18 [(value) = "0-100"];
     }
 
     // Required. Series selection type.

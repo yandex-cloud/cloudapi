@@ -382,6 +382,10 @@ message GreenplumConfig6 {
   // Identifies the maximum percentage of system memory resources to allocate to resource groups on each Greenplum Database segment node.
   // https://techdocs.broadcom.com/us/en/vmware-tanzu/data-solutions/tanzu-greenplum/6/greenplum-database/ref_guide-config_params-guc-list.html#gp_resource_group_memory_limit
   google.protobuf.DoubleValue gp_resource_group_memory_limit = 23 [(value) = "0.1-0.8"];
+
+  // Sets the number of bytes reserved to store the text of the currently executing command.
+  // https://techdocs.broadcom.com/us/en/vmware-tanzu/data-solutions/tanzu-greenplum/6/greenplum-database/ref_guide-config_params-guc-list.html#track_activity_query_size
+  google.protobuf.Int64Value track_activity_query_size = 34 [(value) = "100-102400"];
 }
 
 message DBMSConfig {
@@ -542,6 +546,10 @@ message DBMSConfig {
 
   // https://techdocs.broadcom.com/us/en/vmware-tanzu/data-solutions/tanzu-greenplum/6/greenplum-database/ref_guide-config_params-guc-list.html#gp_add_column_inherits_table_setting
   google.protobuf.BoolValue gp_add_column_inherits_table_setting = 33;
+
+  // Sets the number of bytes reserved to store the text of the currently executing command.
+  // https://techdocs.broadcom.com/us/en/vmware-tanzu/data-solutions/tanzu-greenplum/6/greenplum-database/ref_guide-config_params-guc-list.html#track_activity_query_size
+  google.protobuf.Int64Value track_activity_query_size = 34 [(value) = "100-102400"];
 }
 
 message GreenplumConfigSet6 {

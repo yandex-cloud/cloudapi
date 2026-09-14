@@ -276,11 +276,12 @@ message MasterEndpoints {
 }
 
 message IPAllocationPolicy {
-  reserved 3 to 4;
+  reserved 3 to 4, 9;
 
   // CIDR block. IP range for allocating pod addresses.
   // It should not overlap with any subnet in the network the Kubernetes cluster located in. Static routes will be
   // set up for this CIDR blocks in node subnets.
+  // Deprecated: use cluster_ipv4_cidr_blocks instead.
   string cluster_ipv4_cidr_block = 1;
 
   // Size of the masks that are assigned for each node in the cluster.
@@ -292,10 +293,19 @@ message IPAllocationPolicy {
   string service_ipv4_cidr_block = 2;
 
   // IPv6 range for allocating pod IP addresses.
+  // Deprecated: use cluster_ipv6_cidr_blocks instead.
   string cluster_ipv6_cidr_block = 6;
 
   // IPv6 range for allocating Kubernetes service IP addresses
   string service_ipv6_cidr_block = 7;
+
+  // IP ranges for allocating pod addresses (multiple CIDRs for dual-stack or extended address space).
+  // If set, takes precedence over cluster_ipv4_cidr_block.
+  repeated string cluster_ipv4_cidr_blocks = 8;
+
+  // IPv6 ranges for allocating pod addresses (multiple CIDRs).
+  // If set, takes precedence over cluster_ipv6_cidr_block.
+  repeated string cluster_ipv6_cidr_blocks = 10;
 }
 
 message MasterMaintenancePolicy {
