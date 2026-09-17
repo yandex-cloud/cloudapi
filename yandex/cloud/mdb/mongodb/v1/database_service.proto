@@ -13,24 +13,24 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1;mongodb";
 option java_package = "yandex.cloud.api.mdb.mongodb.v1";
 
-// A set of methods for managing MongoDB Database resources.
+// A set of methods for managing StoreDoc Database resources.
 service DatabaseService {
-  // Returns the specified MongoDB Database resource.
-  // To get the list of available MongoDB Database resources, make a [List] request.
+  // Returns the specified StoreDoc Database resource.
+  // To get the list of available StoreDoc Database resources, make a [List] request.
   rpc Get(GetDatabaseRequest) returns (Database) {
     option (google.api.http) = {
       get: "/managed-mongodb/v1/clusters/{cluster_id}/databases/{database_name}"
     };
   };
 
-  // Retrieves the list of MongoDB Database resources in the specified cluster.
+  // Retrieves the list of StoreDoc Database resources in the specified cluster.
   rpc List(ListDatabasesRequest) returns (ListDatabasesResponse) {
     option (google.api.http) = {
       get: "/managed-mongodb/v1/clusters/{cluster_id}/databases"
     };
   };
 
-  // Creates a new MongoDB database in the specified cluster.
+  // Creates a new StoreDoc database in the specified cluster.
   rpc Create(CreateDatabaseRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "CreateDatabaseMetadata"
@@ -42,7 +42,7 @@ service DatabaseService {
     };
   };
 
-  // Updates the specified MongoDB database.
+  // Updates the specified StoreDoc database.
   rpc Update(UpdateDatabaseRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateDatabaseMetadata"
@@ -54,7 +54,7 @@ service DatabaseService {
     };
   };
 
-  // Deletes the specified MongoDB database.
+  // Deletes the specified StoreDoc database.
   rpc Delete(DeleteDatabaseRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeleteDatabaseMetadata"
@@ -67,14 +67,14 @@ service DatabaseService {
 }
 
 message GetDatabaseRequest {
-  // ID of the MongoDB cluster that the database belongs to.
+  // ID of the StoreDoc cluster that the database belongs to.
   // To get the cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Name of the MongoDB database to return.
+  // Name of the StoreDoc database to return.
   // To get the name of the database use a [DatabaseService.List] request.
   string database_name = 2 [
     (length) = "<=63",
@@ -84,7 +84,7 @@ message GetDatabaseRequest {
 }
 
 message ListDatabasesRequest {
-  // ID of the MongoDB cluster to list databases in.
+  // ID of the StoreDoc cluster to list databases in.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -102,7 +102,7 @@ message ListDatabasesRequest {
 }
 
 message ListDatabasesResponse {
-  // List of MongoDB databases.
+  // List of StoreDoc databases.
   repeated Database databases = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results
@@ -113,7 +113,7 @@ message ListDatabasesResponse {
 }
 
 message CreateDatabaseRequest {
-  // ID of the MongoDB cluster to create a database in.
+  // ID of the StoreDoc cluster to create a database in.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -125,15 +125,15 @@ message CreateDatabaseRequest {
 }
 
 message CreateDatabaseMetadata {
-  // ID of the MongoDB cluster where a database is being created.
+  // ID of the StoreDoc cluster where a database is being created.
   string cluster_id = 1;
 
-  // Name of the MongoDB database that is being created.
+  // Name of the StoreDoc database that is being created.
   string database_name = 2;
 }
 
 message UpdateDatabaseRequest {
-  // ID of the MongoDB cluster to update a database in.
+  // ID of the StoreDoc cluster to update a database in.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -156,15 +156,15 @@ message UpdateDatabaseRequest {
 }
 
 message UpdateDatabaseMetadata {
-  // ID of the MongoDB cluster where a database is being updated.
+  // ID of the StoreDoc cluster where a database is being updated.
   string cluster_id = 1;
 
-  // Name of the MongoDB database that is being updated.
+  // Name of the StoreDoc database that is being updated.
   string database_name = 2;
 }
 
 message DeleteDatabaseRequest {
-  // ID of the MongoDB cluster to delete a database in.
+  // ID of the StoreDoc cluster to delete a database in.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -181,9 +181,9 @@ message DeleteDatabaseRequest {
 }
 
 message DeleteDatabaseMetadata {
-  // ID of the MongoDB cluster where a database is being deleted.
+  // ID of the StoreDoc cluster where a database is being deleted.
   string cluster_id = 1;
 
-  // Name of the MongoDB database that is being deleted.
+  // Name of the StoreDoc database that is being deleted.
   string database_name = 2;
 }

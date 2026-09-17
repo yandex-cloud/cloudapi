@@ -21,7 +21,7 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1;mongodb";
 option java_package = "yandex.cloud.api.mdb.mongodb.v1";
 
-// A managed MongoDB cluster. For more information, see the [documentation](/docs/managed-mongodb/concepts).
+// A managed StoreDoc cluster. For more information, see the [documentation](/docs/managed-mongodb/concepts).
 message Cluster {
   // Deployment environment.
   enum Environment {
@@ -78,33 +78,33 @@ message Cluster {
     STARTING = 7;
   }
 
-  // ID of the MongoDB cluster.
+  // ID of the StoreDoc cluster.
   // This ID is assigned by MDB at creation time.
   string id = 1;
 
-  // ID of the folder that the MongoDB cluster belongs to.
+  // ID of the folder that the StoreDoc cluster belongs to.
   string folder_id = 2;
 
   // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
   google.protobuf.Timestamp created_at = 3;
 
-  // Name of the MongoDB cluster.
+  // Name of the StoreDoc cluster.
   // The name is unique within the folder. 1-63 characters long.
   string name = 4;
 
-  // Description of the MongoDB cluster. 0-256 characters long.
+  // Description of the StoreDoc cluster. 0-256 characters long.
   string description = 5;
 
-  // Custom labels for the MongoDB cluster as `` key:value `` pairs. Maximum 64 per resource.
+  // Custom labels for the StoreDoc cluster as `` key:value `` pairs. Maximum 64 per resource.
   map<string, string> labels = 6;
 
-  // Deployment environment of the MongoDB cluster.
+  // Deployment environment of the StoreDoc cluster.
   Environment environment = 7;
 
-  // Description of monitoring systems relevant to the MongoDB cluster.
+  // Description of monitoring systems relevant to the StoreDoc cluster.
   repeated Monitoring monitoring = 8;
 
-  // Configuration of the MongoDB cluster.
+  // Configuration of the StoreDoc cluster.
   ClusterConfig config = 9;
 
   // ID of the network that the cluster belongs to.
@@ -125,7 +125,7 @@ message Cluster {
   // Planned maintenance operation to be started for the cluster within the nearest [maintenance_window].
   MaintenanceOperation planned_operation = 15;
 
-  // User security groups
+  // User security groups.
   repeated string security_group_ids = 16;
 
   // Deletion Protection inhibits deletion of the cluster
@@ -143,80 +143,80 @@ message Monitoring {
   // Description of the monitoring system.
   string description = 2;
 
-  // Link to the monitoring system charts for the MongoDB cluster.
+  // Link to the monitoring system charts for the StoreDoc cluster.
   string link = 3;
 }
 
 message ClusterConfig {
   reserved 16 to 18, 21;
 
-  // Version of MongoDB server software. Possible values: `7.0`, `8.0`.
+  // Version of StoreDoc server software. Possible values: `7.0`, `8.0`.
   string version = 1;
 
-  // MongoDB feature compatibility version. See usage details in [MongoDB documentation](https://docs.mongodb.com/manual/reference/command/setFeatureCompatibilityVersion/).
+  // StoreDoc feature compatibility version. See usage details in [MongoDB documentation](https://docs.mongodb.com/manual/reference/command/setFeatureCompatibilityVersion/).
   // Possible values:
   // * `7.0` - persist data compatibility for version 7.0. After setting this option the data will not be compatible with 6.0 or lower.
   // * `8.0` - persist data compatibility for version 8.0. After setting this option the data will not be compatible with 7.0 or lower.
   string feature_compatibility_version = 5;
-  // Configuration for MongoDB servers in the cluster.
+  // Configuration for StoreDoc servers in the cluster.
   oneof mongodb {
-    // Configuration and resource allocation for a MongoDB 3.6 cluster.
+    // Configuration and resource allocation for a StoreDoc 3.6 cluster.
     // Deprecated. Use [mongodb_config] instead.
     Mongodb3_6 mongodb_3_6 = 2 [
       deprecated = true,
       json_name = "mongodb_3_6"
     ];
 
-    // Configuration and resource allocation for a MongoDB 4.0 cluster.
+    // Configuration and resource allocation for a StoreDoc 4.0 cluster.
     // Deprecated. Use [mongodb_config] instead.
     Mongodb4_0 mongodb_4_0 = 4 [
       deprecated = true,
       json_name = "mongodb_4_0"
     ];
 
-    // Configuration and resource allocation for a MongoDB 4.2 cluster.
+    // Configuration and resource allocation for a StoreDoc 4.2 cluster.
     // Deprecated. Use [mongodb_config] instead.
     Mongodb4_2 mongodb_4_2 = 7 [
       deprecated = true,
       json_name = "mongodb_4_2"
     ];
 
-    // Configuration and resource allocation for a MongoDB 4.4 cluster.
+    // Configuration and resource allocation for a StoreDoc 4.4 cluster.
     // Deprecated. Use [mongodb_config] instead.
     Mongodb4_4 mongodb_4_4 = 8 [
       deprecated = true,
       json_name = "mongodb_4_4"
     ];
 
-    // Configuration and resource allocation for a MongoDB 5.0 cluster.
+    // Configuration and resource allocation for a StoreDoc 5.0 cluster.
     // Deprecated. Use [mongodb_config] instead.
     Mongodb5_0 mongodb_5_0 = 10 [
       deprecated = true,
       json_name = "mongodb_5_0"
     ];
 
-    // Configuration and resource allocation for a MongoDB 6.0 cluster.
+    // Configuration and resource allocation for a StoreDoc 6.0 cluster.
     // Deprecated. Use [mongodb_config] instead.
     Mongodb6_0 mongodb_6_0 = 14 [
       deprecated = true,
       json_name = "mongodb_6_0"
     ];
 
-    // Configuration and resource allocation for a MongoDB 4.4 Enterprise cluster.
+    // Configuration and resource allocation for a StoreDoc 4.4 Enterprise cluster.
     // Deprecated. Use [mongodb_config] instead.
     Mongodb4_4_enterprise mongodb_4_4_enterprise = 11 [
       deprecated = true,
       json_name = "mongodb_4_4_enterprise"
     ];
 
-    // Configuration and resource allocation for a MongoDB 5.0 Enterprise cluster.
+    // Configuration and resource allocation for a StoreDoc 5.0 Enterprise cluster.
     // Deprecated. Use [mongodb_config] instead.
     Mongodb5_0_enterprise mongodb_5_0_enterprise = 12 [
       deprecated = true,
       json_name = "mongodb_5_0_enterprise"
     ];
 
-    // Configuration and resource allocation for a MongoDB 6.0 Enterprise cluster.
+    // Configuration and resource allocation for a StoreDoc 6.0 Enterprise cluster.
     // Deprecated. Use [mongodb_config] instead.
     Mongodb6_0_enterprise mongodb_6_0_enterprise = 15 [
       deprecated = true,
@@ -236,7 +236,7 @@ message ClusterConfig {
   // Access policy to DB
   Access access = 6;
 
-  // Configuration and resource allocation for a MongoDB cluster.
+  // Configuration and resource allocation for a StoreDoc cluster.
   Mongodb mongodb_config = 19;
 
   // Full version
@@ -253,7 +253,7 @@ message Mongodb3_6 {
     // Configuration for a mongod 3.6 hosts.
     config.MongodConfigSet3_6 config = 1;
 
-    // Resources allocated to MongoDB hosts.
+    // Resources allocated to StoreDoc hosts.
     Resources resources = 2;
 
     // Disk size autoscaling settings
@@ -296,16 +296,16 @@ message Mongodb3_6 {
     DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
-  // Configuration and resource allocation for mongod in a MongoDB 3.6 cluster.
+  // Configuration and resource allocation for mongod in a StoreDoc 3.6 cluster.
   Mongod mongod = 1;
 
-  // Configuration and resource allocation for mongocfg in a MongoDB 3.6 cluster.
+  // Configuration and resource allocation for mongocfg in a StoreDoc 3.6 cluster.
   MongoCfg mongocfg = 2;
 
-  // Configuration and resource allocation for mongos in a MongoDB 3.6 cluster.
+  // Configuration and resource allocation for mongos in a StoreDoc 3.6 cluster.
   Mongos mongos = 3;
 
-  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB 3.6 cluster.
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a StoreDoc 3.6 cluster.
   MongoInfra mongoinfra = 4;
 }
 
@@ -359,16 +359,16 @@ message Mongodb4_0 {
     DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
-  // Configuration and resource allocation for mongod in a MongoDB 4.0 cluster.
+  // Configuration and resource allocation for mongod in a StoreDoc 4.0 cluster.
   Mongod mongod = 1;
 
-  // Configuration and resource allocation for mongocfg in a MongoDB 4.0 cluster.
+  // Configuration and resource allocation for mongocfg in a StoreDoc 4.0 cluster.
   MongoCfg mongocfg = 2;
 
-  // Configuration and resource allocation for mongos in a MongoDB 4.0 cluster.
+  // Configuration and resource allocation for mongos in a StoreDoc 4.0 cluster.
   Mongos mongos = 3;
 
-  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB 4.0 cluster.
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a StoreDoc 4.0 cluster.
   MongoInfra mongoinfra = 4;
 }
 
@@ -422,16 +422,16 @@ message Mongodb4_2 {
     DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
-  // Configuration and resource allocation for mongod in a MongoDB 4.2 cluster.
+  // Configuration and resource allocation for mongod in a StoreDoc 4.2 cluster.
   Mongod mongod = 1;
 
-  // Configuration and resource allocation for mongocfg in a MongoDB 4.2 cluster.
+  // Configuration and resource allocation for mongocfg in a StoreDoc 4.2 cluster.
   MongoCfg mongocfg = 2;
 
-  // Configuration and resource allocation for mongos in a MongoDB 4.2 cluster.
+  // Configuration and resource allocation for mongos in a StoreDoc 4.2 cluster.
   Mongos mongos = 3;
 
-  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB 4.2 cluster.
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a StoreDoc 4.2 cluster.
   MongoInfra mongoinfra = 4;
 }
 
@@ -485,16 +485,16 @@ message Mongodb4_4 {
     DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
-  // Configuration and resource allocation for mongod in a MongoDB 4.4 cluster.
+  // Configuration and resource allocation for mongod in a StoreDoc 4.4 cluster.
   Mongod mongod = 1;
 
-  // Configuration and resource allocation for mongocfg in a MongoDB 4.4 cluster.
+  // Configuration and resource allocation for mongocfg in a StoreDoc 4.4 cluster.
   MongoCfg mongocfg = 2;
 
-  // Configuration and resource allocation for mongos in a MongoDB 4.4 cluster.
+  // Configuration and resource allocation for mongos in a StoreDoc 4.4 cluster.
   Mongos mongos = 3;
 
-  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB 4.4 cluster.
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a StoreDoc 4.4 cluster.
   MongoInfra mongoinfra = 4;
 }
 
@@ -548,16 +548,16 @@ message Mongodb4_4_enterprise {
     DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
-  // Configuration and resource allocation for mongod in a MongoDB 4.4 cluster.
+  // Configuration and resource allocation for mongod in a StoreDoc 4.4 cluster.
   Mongod mongod = 1;
 
-  // Configuration and resource allocation for mongocfg in a MongoDB 4.4 cluster.
+  // Configuration and resource allocation for mongocfg in a StoreDoc 4.4 cluster.
   MongoCfg mongocfg = 2;
 
-  // Configuration and resource allocation for mongos in a MongoDB 4.4 cluster.
+  // Configuration and resource allocation for mongos in a StoreDoc 4.4 cluster.
   Mongos mongos = 3;
 
-  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB 4.4 cluster.
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a StoreDoc 4.4 cluster.
   MongoInfra mongoinfra = 4;
 }
 
@@ -611,16 +611,16 @@ message Mongodb5_0 {
     DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
-  // Configuration and resource allocation for mongod in a MongoDB 5.0 cluster.
+  // Configuration and resource allocation for mongod in a StoreDoc 5.0 cluster.
   Mongod mongod = 1;
 
-  // Configuration and resource allocation for mongocfg in a MongoDB 5.0 cluster.
+  // Configuration and resource allocation for mongocfg in a StoreDoc 5.0 cluster.
   MongoCfg mongocfg = 2;
 
-  // Configuration and resource allocation for mongos in a MongoDB 5.0 cluster.
+  // Configuration and resource allocation for mongos in a StoreDoc 5.0 cluster.
   Mongos mongos = 3;
 
-  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB 5.0 cluster.
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a StoreDoc 5.0 cluster.
   MongoInfra mongoinfra = 4;
 }
 
@@ -674,16 +674,16 @@ message Mongodb5_0_enterprise {
     DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
-  // Configuration and resource allocation for mongod in a MongoDB 5.0 cluster.
+  // Configuration and resource allocation for mongod in a StoreDoc 5.0 cluster.
   Mongod mongod = 1;
 
-  // Configuration and resource allocation for mongocfg in a MongoDB 5.0 cluster.
+  // Configuration and resource allocation for mongocfg in a StoreDoc 5.0 cluster.
   MongoCfg mongocfg = 2;
 
-  // Configuration and resource allocation for mongos in a MongoDB 5.0 cluster.
+  // Configuration and resource allocation for mongos in a StoreDoc 5.0 cluster.
   Mongos mongos = 3;
 
-  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB 5.0 cluster.
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a StoreDoc 5.0 cluster.
   MongoInfra mongoinfra = 4;
 }
 
@@ -737,16 +737,16 @@ message Mongodb6_0 {
     DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
-  // Configuration and resource allocation for mongod in a MongoDB 6.0 cluster.
+  // Configuration and resource allocation for mongod in a StoreDoc 6.0 cluster.
   Mongod mongod = 1;
 
-  // Configuration and resource allocation for mongocfg in a MongoDB 6.0 cluster.
+  // Configuration and resource allocation for mongocfg in a StoreDoc 6.0 cluster.
   MongoCfg mongocfg = 2;
 
-  // Configuration and resource allocation for mongos in a MongoDB 6.0 cluster.
+  // Configuration and resource allocation for mongos in a StoreDoc 6.0 cluster.
   Mongos mongos = 3;
 
-  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB 6.0 cluster.
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a StoreDoc 6.0 cluster.
   MongoInfra mongoinfra = 4;
 }
 
@@ -800,16 +800,16 @@ message Mongodb6_0_enterprise {
     DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
-  // Configuration and resource allocation for mongod in a MongoDB 6.0 cluster.
+  // Configuration and resource allocation for mongod in a StoreDoc 6.0 cluster.
   Mongod mongod = 1;
 
-  // Configuration and resource allocation for mongocfg in a MongoDB 6.0 cluster.
+  // Configuration and resource allocation for mongocfg in a StoreDoc 6.0 cluster.
   MongoCfg mongocfg = 2;
 
-  // Configuration and resource allocation for mongos in a MongoDB 6.0 cluster.
+  // Configuration and resource allocation for mongos in a StoreDoc 6.0 cluster.
   Mongos mongos = 3;
 
-  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB 6.0 cluster.
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a StoreDoc 6.0 cluster.
   MongoInfra mongoinfra = 4;
 }
 
@@ -861,16 +861,16 @@ message Mongodb {
     DiskSizeAutoscaling disk_size_autoscaling = 4;
   }
 
-  // Configuration and resource allocation for mongod in a MongoDB cluster.
+  // Configuration and resource allocation for mongod in a StoreDoc cluster.
   Mongod mongod = 1;
 
-  // Configuration and resource allocation for mongocfg in a MongoDB cluster.
+  // Configuration and resource allocation for mongocfg in a StoreDoc cluster.
   MongoCfg mongocfg = 2;
 
-  // Configuration and resource allocation for mongos in a MongoDB cluster.
+  // Configuration and resource allocation for mongos in a StoreDoc cluster.
   Mongos mongos = 3;
 
-  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a MongoDB cluster.
+  // Configuration and resource allocation for mongoinfra (mongos+mongocfg) in a StoreDoc cluster.
   MongoInfra mongoinfra = 4;
 }
 
@@ -905,10 +905,10 @@ message Host {
     // Role of the host in the cluster is unknown. Default value.
     ROLE_UNKNOWN = 0;
 
-    // Host is the primary MongoDB server in the cluster.
+    // Host is the primary StoreDoc server in the cluster.
     PRIMARY = 1;
 
-    // Host is a secondary MongoDB server in the cluster.
+    // Host is a secondary StoreDoc server in the cluster.
     SECONDARY = 2;
   }
 
@@ -944,18 +944,18 @@ message Host {
     int64 votes = 5;
   }
 
-  // Name of the MongoDB host. The host name is assigned by MDB at creation time, and cannot be changed.
+  // Name of the StoreDoc host. The host name is assigned by MDB at creation time, and cannot be changed.
   // 1-63 characters long.
   // The name is unique across all MDB hosts that exist on the platform, as it defines the FQDN of the host.
   string name = 1;
 
-  // ID of the MongoDB host. The ID is assigned by MDB at creation time.
+  // ID of the StoreDoc host. The ID is assigned by MDB at creation time.
   string cluster_id = 2;
 
-  // ID of the availability zone where the MongoDB host resides.
+  // ID of the availability zone where the StoreDoc host resides.
   string zone_id = 3;
 
-  // Resources allocated to the MongoDB host.
+  // Resources allocated to the StoreDoc host.
   Resources resources = 4;
 
   // Role of the host in the cluster. If the field has default value, it is not returned in the response.
@@ -994,7 +994,7 @@ message Service {
     // The host is running a mongos daemon.
     MONGOS = 2;
 
-    // The host is running a MongoDB config server.
+    // The host is running a StoreDoc config server.
     MONGOCFG = 3;
   }
 

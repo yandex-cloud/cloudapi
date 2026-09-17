@@ -32,17 +32,17 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1;mongodb";
 option java_package = "yandex.cloud.api.mdb.mongodb.v1";
 
-// A set of methods for managing MongoDB Cluster resources.
+// A set of methods for managing StoreDoc Cluster resources.
 service ClusterService {
-  // Returns the specified MongoDB Cluster resource.
-  // To get the list of available MongoDB Cluster resources, make a [List] request.
+  // Returns the specified StoreDoc Cluster resource.
+  // To get the list of available StoreDoc Cluster resources, make a [List] request.
   rpc Get(GetClusterRequest) returns (Cluster) {
     option (google.api.http) = {
       get: "/managed-mongodb/v1/clusters/{cluster_id}"
     };
   };
 
-  // Retrieves the list of MongoDB Cluster resources that belong
+  // Retrieves the list of StoreDoc Cluster resources that belong
   // to the specified folder.
   rpc List(ListClustersRequest) returns (ListClustersResponse) {
     option (google.api.http) = {
@@ -50,7 +50,7 @@ service ClusterService {
     };
   };
 
-  // Creates a MongoDB cluster in the specified folder.
+  // Creates a StoreDoc cluster in the specified folder.
   rpc Create(CreateClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "CreateClusterMetadata"
@@ -62,7 +62,7 @@ service ClusterService {
     };
   };
 
-  // Updates the specified MongoDB cluster.
+  // Updates the specified StoreDoc cluster.
   rpc Update(UpdateClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateClusterMetadata"
@@ -74,7 +74,7 @@ service ClusterService {
     };
   };
 
-  // Deletes the specified MongoDB cluster.
+  // Deletes the specified StoreDoc cluster.
   rpc Delete(DeleteClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeleteClusterMetadata"
@@ -85,7 +85,7 @@ service ClusterService {
     };
   };
 
-  // Start the specified MongoDB cluster.
+  // Start the specified StoreDoc cluster.
   rpc Start(StartClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "StartClusterMetadata"
@@ -96,7 +96,7 @@ service ClusterService {
     };
   };
 
-  // Stop the specified MongoDB cluster.
+  // Stop the specified StoreDoc cluster.
   rpc Stop(StopClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "StopClusterMetadata"
@@ -107,7 +107,7 @@ service ClusterService {
     };
   };
 
-  // Moves the specified MongoDB cluster to the specified folder.
+  // Moves the specified StoreDoc cluster to the specified folder.
   rpc Move(MoveClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "MoveClusterMetadata"
@@ -119,7 +119,7 @@ service ClusterService {
     };
   };
 
-  // Creates a backup for the specified MongoDB cluster.
+  // Creates a backup for the specified StoreDoc cluster.
   rpc Backup(BackupClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "BackupClusterMetadata"
@@ -130,7 +130,7 @@ service ClusterService {
     };
   };
 
-  // Creates a new MongoDB cluster using the specified backup.
+  // Creates a new StoreDoc cluster using the specified backup.
   rpc Restore(RestoreClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "RestoreClusterMetadata"
@@ -154,7 +154,7 @@ service ClusterService {
     };
   };
 
-  // Retrieves logs for the specified MongoDB cluster.
+  // Retrieves logs for the specified StoreDoc cluster.
   // See the [Logs](/yandex-mdb-guide/concepts/logs.html) section in the developers guide for detailed logs description.
   rpc ListLogs(ListClusterLogsRequest) returns (ListClusterLogsResponse) {
     option (google.api.http) = {
@@ -177,7 +177,7 @@ service ClusterService {
     };
   };
 
-  // Retrieves the list of available backups for the specified MongoDB cluster.
+  // Retrieves the list of available backups for the specified StoreDoc cluster.
   rpc ListBackups(ListClusterBackupsRequest) returns (ListClusterBackupsResponse) {
     option (google.api.http) = {
       get: "/managed-mongodb/v1/clusters/{cluster_id}/backups"
@@ -320,14 +320,14 @@ service ClusterService {
     };
   };
 
-  // Retrieves a list of access bindings for the specified MongoDB cluster.
+  // Retrieves a list of access bindings for the specified StoreDoc cluster.
   rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
     option (google.api.http) = {
       get: "/managed-mongodb/v1/clusters/{resource_id}:listAccessBindings"
     };
   };
 
-  // Sets access bindings for the specified MongoDB cluster.
+  // Sets access bindings for the specified StoreDoc cluster.
   rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
@@ -339,7 +339,7 @@ service ClusterService {
     };
   };
 
-  // Updates access bindings for the specified MongoDB cluster.
+  // Updates access bindings for the specified StoreDoc cluster.
   rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
@@ -354,7 +354,7 @@ service ClusterService {
 }
 
 message GetClusterRequest {
-  // ID of the MongoDB Cluster resource to return.
+  // ID of the StoreDoc Cluster resource to return.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -363,7 +363,7 @@ message GetClusterRequest {
 }
 
 message ListClustersRequest {
-  // ID of the folder to list MongoDB clusters in.
+  // ID of the folder to list StoreDoc clusters in.
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
     (length) = "<=50",
@@ -374,7 +374,7 @@ message ListClustersRequest {
   // results is larger than [page_size], the service returns a [ListClustersResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Acceptable values are 0 to 1000, inclusive. Default value: 100.
-  int64 page_size = 2 [(value) = "<=1000"];
+  int64 page_size = 2 [(value) = "0-1000"];
 
   // Page token. To get the next page of results, set [page_token]
   // to the [ListClustersResponse.next_page_token] returned by the previous list request.
@@ -389,7 +389,7 @@ message ListClustersRequest {
 }
 
 message ListClustersResponse {
-  // List of MongoDB Cluster resources.
+  // List of StoreDoc Cluster resources.
   repeated Cluster clusters = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results
@@ -400,23 +400,23 @@ message ListClustersResponse {
 }
 
 message CreateClusterRequest {
-  // ID of the folder to create MongoDB cluster in.
+  // ID of the folder to create StoreDoc cluster in.
   string folder_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Name of the MongoDB cluster. The name must be unique within the folder.
+  // Name of the StoreDoc cluster. The name must be unique within the folder.
   string name = 2 [
     (length) = "<=63",
     (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 
-  // Description of the MongoDB cluster.
+  // Description of the StoreDoc cluster.
   string description = 3 [(length) = "<=256"];
 
-  // Custom labels for the MongoDB cluster as `` key:value `` pairs. Maximum 64 per resource.
+  // Custom labels for the StoreDoc cluster as `` key:value `` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
   map<string, string> labels = 4 [
     (length) = "<=63",
@@ -428,19 +428,19 @@ message CreateClusterRequest {
     (size) = "<=64"
   ];
 
-  // Deployment environment of the MongoDB cluster.
+  // Deployment environment of the StoreDoc cluster.
   Cluster.Environment environment = 5 [(required) = true];
 
-  // Configuration and resources for hosts that should be created for the MongoDB cluster.
+  // Configuration and resources for hosts that should be created for the StoreDoc cluster.
   ConfigSpec config_spec = 6 [(required) = true];
 
-  // Descriptions of databases to be created in the MongoDB cluster.
+  // Descriptions of databases to be created in the StoreDoc cluster.
   repeated DatabaseSpec database_specs = 7;
 
-  // Descriptions of database users to be created in the MongoDB cluster.
+  // Descriptions of database users to be created in the StoreDoc cluster.
   repeated UserSpec user_specs = 8;
 
-  // Individual configurations for hosts that should be created for the MongoDB cluster.
+  // Individual configurations for hosts that should be created for the StoreDoc cluster.
   repeated HostSpec host_specs = 9 [(size) = ">0"];
 
   // ID of the network to create the cluster in.
@@ -456,14 +456,14 @@ message CreateClusterRequest {
   MaintenanceWindow maintenance_window = 13;
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 14;
+  google.protobuf.StringValue disk_encryption_key_id = 14 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
 
   // Backup long-term retention policies setting.
   repeated yandex.cloud.mdb.v1.BackupRetentionPolicySpec retention_policies = 15;
 }
 
 message CreateClusterMetadata {
-  // ID of the MongoDB cluster that is being created.
+  // ID of the StoreDoc cluster that is being created.
   string cluster_id = 1;
 
   // Log of actions during operation
@@ -471,20 +471,20 @@ message CreateClusterMetadata {
 }
 
 message UpdateClusterRequest {
-  // ID of the MongoDB Cluster resource to update.
-  // To get the MongoDB cluster ID use a [ClusterService.List] request.
+  // ID of the StoreDoc Cluster resource to update.
+  // To get the StoreDoc cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Field mask that specifies which fields of the MongoDB Cluster resource should be updated.
+  // Field mask that specifies which fields of the StoreDoc Cluster resource should be updated.
   google.protobuf.FieldMask update_mask = 2;
 
-  // New description of the MongoDB cluster.
+  // New description of the StoreDoc cluster.
   string description = 3 [(length) = "<=256"];
 
-  // Custom labels for the MongoDB cluster as `` key:value `` pairs. Maximum 64 per resource.
+  // Custom labels for the StoreDoc cluster as `` key:value `` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
   // The new set of labels will completely replace the old ones. To add a label, request the current
   // set with the [ClusterService.Get] method, then send an [ClusterService.Update] request with the new label added to the set.
@@ -521,7 +521,7 @@ message UpdateClusterRequest {
 }
 
 message UpdateClusterMetadata {
-  // ID of the MongoDB Cluster resource that is being updated.
+  // ID of the StoreDoc Cluster resource that is being updated.
   string cluster_id = 1;
 
   // Log of actions during operation
@@ -529,8 +529,8 @@ message UpdateClusterMetadata {
 }
 
 message DeleteClusterRequest {
-  // ID of the MongoDB cluster to delete.
-  // To get the MongoDB cluster ID, use a [ClusterService.List] request.
+  // ID of the StoreDoc cluster to delete.
+  // To get the StoreDoc cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -538,12 +538,12 @@ message DeleteClusterRequest {
 }
 
 message DeleteClusterMetadata {
-  // ID of the MongoDB cluster that is being deleted.
+  // ID of the StoreDoc cluster that is being deleted.
   string cluster_id = 1;
 }
 
 message StartClusterRequest {
-  // ID of the MongoDB cluster to start.
+  // ID of the StoreDoc cluster to start.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -551,12 +551,12 @@ message StartClusterRequest {
 }
 
 message StartClusterMetadata {
-  // ID of the MongoDB cluster.
+  // ID of the StoreDoc cluster.
   string cluster_id = 1;
 }
 
 message StopClusterRequest {
-  // ID of the MongoDB cluster to stop.
+  // ID of the StoreDoc cluster to stop.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -564,12 +564,12 @@ message StopClusterRequest {
 }
 
 message StopClusterMetadata {
-  // ID of the MongoDB cluster.
+  // ID of the StoreDoc cluster.
   string cluster_id = 1;
 }
 
 message MoveClusterRequest {
-  // ID of the MongoDB cluster to move.
+  // ID of the StoreDoc cluster to move.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -583,7 +583,7 @@ message MoveClusterRequest {
 }
 
 message MoveClusterMetadata {
-  // ID of the MongoDB cluster being moved.
+  // ID of the StoreDoc cluster being moved.
   string cluster_id = 1;
 
   // ID of the source folder.
@@ -594,8 +594,8 @@ message MoveClusterMetadata {
 }
 
 message BackupClusterRequest {
-  // ID of the MongoDB cluster to back up.
-  // To get the MongoDB cluster ID, use a [ClusterService.List] request.
+  // ID of the StoreDoc cluster to back up.
+  // To get the StoreDoc cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -603,7 +603,7 @@ message BackupClusterRequest {
 }
 
 message BackupClusterMetadata {
-  // ID of the MongoDB cluster that is being backed up.
+  // ID of the StoreDoc cluster that is being backed up.
   string cluster_id = 1;
 }
 
@@ -612,18 +612,18 @@ message RestoreClusterRequest {
   // To get the backup ID, use a [ClusterService.ListBackups] request.
   string backup_id = 1 [(required) = true];
 
-  // Name of the new MongoDB cluster. The name must be unique within the folder.
-  // The name can't be changed after the MongoDB cluster is created.
+  // Name of the new StoreDoc cluster. The name must be unique within the folder.
+  // The name can't be changed after the StoreDoc cluster is created.
   string name = 2 [
     (length) = "<=63",
     (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 
-  // Description of the new MongoDB cluster.
+  // Description of the new StoreDoc cluster.
   string description = 3 [(length) = "<=256"];
 
-  // Custom labels for the MongoDB cluster as `` key:value `` pairs. Maximum 64 per resource.
+  // Custom labels for the StoreDoc cluster as `` key:value `` pairs. Maximum 64 per resource.
   // For example, "project": "mvp" or "source": "dictionary".
   map<string, string> labels = 4 [
     (length) = "<=63",
@@ -635,27 +635,27 @@ message RestoreClusterRequest {
     (size) = "<=64"
   ];
 
-  // Deployment environment of the new MongoDB cluster.
+  // Deployment environment of the new StoreDoc cluster.
   Cluster.Environment environment = 5 [(required) = true];
 
-  // Configuration for the MongoDB cluster to be created.
+  // Configuration for the StoreDoc cluster to be created.
   ConfigSpec config_spec = 6 [(required) = true];
 
-  // Configurations for MongoDB hosts that should be created for
+  // Configurations for StoreDoc hosts that should be created for
   // the cluster that is being created from the backup.
   repeated HostSpec host_specs = 7 [(size) = ">0"];
 
-  // ID of the network to create the MongoDB cluster in.
+  // ID of the network to create the StoreDoc cluster in.
   string network_id = 8 [(length) = "<=150"];
 
-  // Required. ID of the folder to create the MongoDB cluster in.
+  // ID of the folder to create the StoreDoc cluster in.
   string folder_id = 9 [(length) = "<=50"];
   message RecoveryTargetSpec {
     // Timestamp of the recovery target
     int64 timestamp = 1 [(value) = ">0"];
   }
 
-  // Specification of the moment to which the MongoDB cluster should be restored.
+  // Specification of the moment to which the StoreDoc cluster should be restored.
   RecoveryTargetSpec recovery_target_spec = 10;
 
   // User security groups
@@ -668,12 +668,12 @@ message RestoreClusterRequest {
   MaintenanceWindow maintenance_window = 13;
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 14;
+  google.protobuf.StringValue disk_encryption_key_id = 14 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
   message PartialRestoreSpec {
-    // List of MongoDB namespaces restore to
+    // List of StoreDoc namespaces restore to
     repeated string whitelist = 1 [(size) = ">=0"];
 
-    // List of MongoDB namespaces not restore to
+    // List of StoreDoc namespaces not restore to
     repeated string blacklist = 2 [(size) = ">=0"];
   }
 
@@ -682,7 +682,7 @@ message RestoreClusterRequest {
 }
 
 message RestoreClusterMetadata {
-  // ID of the new MongoDB cluster that is being created from a backup.
+  // ID of the new StoreDoc cluster that is being created from a backup.
   string cluster_id = 1;
 
   // ID of the backup that is being used for creating a cluster.
@@ -690,7 +690,7 @@ message RestoreClusterMetadata {
 }
 
 message RescheduleMaintenanceRequest {
-  // ID of the MongoDB cluster to reschedule the maintenance operation for.
+  // ID of the StoreDoc cluster to reschedule the maintenance operation for.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -719,10 +719,10 @@ message RescheduleMaintenanceRequest {
 message RescheduleMaintenanceMetadata {
   reserved 2 to 3;
 
-  // Required. ID of the MongoDB cluster.
+  // ID of the StoreDoc cluster.
   string cluster_id = 1;
 
-  // Required. The time until which this maintenance operation is to be delayed.
+  // The time until which this maintenance operation is to be delayed.
   google.protobuf.Timestamp delayed_until = 4;
 }
 
@@ -735,8 +735,8 @@ message LogRecord {
 }
 
 message ListClusterLogsRequest {
-  // ID of the MongoDB cluster to request logs for.
-  // To get the MongoDB cluster ID use a [ClusterService.List] request.
+  // ID of the StoreDoc cluster to request logs for.
+  // To get the StoreDoc cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -749,6 +749,7 @@ message ListClusterLogsRequest {
   // Type of the service to request logs about.
   ServiceType service_type = 3;
   enum ServiceType {
+    // Service type is unspecified. Default value.
     SERVICE_TYPE_UNSPECIFIED = 0;
 
     // Logs of mongod activity.
@@ -760,7 +761,7 @@ message ListClusterLogsRequest {
     // Logs of mongocfg activity.
     MONGOCFG = 3;
 
-    // MongoDB Enterprise audit logs
+    // StoreDoc Enterprise audit logs
     AUDIT = 4;
   }
 
@@ -774,7 +775,7 @@ message ListClusterLogsRequest {
   // results is larger than [page_size], the service returns a [ListClusterLogsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Acceptable values are 0 to 1000, inclusive. Default value: 100.
-  int64 page_size = 6 [(value) = "<=1000"];
+  int64 page_size = 6 [(value) = "0-1000"];
 
   // Page token. To get the next page of results, set [page_token] to the
   // [ListClusterLogsResponse.next_page_token] returned by the previous list request.
@@ -821,7 +822,7 @@ message StreamLogRecord {
 }
 
 message StreamClusterLogsRequest {
-  // Required. ID of the MongoDB cluster.
+  // ID of the StoreDoc cluster.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -833,6 +834,7 @@ message StreamClusterLogsRequest {
   // Type of the service to request logs about.
   ServiceType service_type = 3;
   enum ServiceType {
+    // Service type is unspecified. Default value.
     SERVICE_TYPE_UNSPECIFIED = 0;
 
     // Logs of mongod activity.
@@ -844,7 +846,7 @@ message StreamClusterLogsRequest {
     // Logs of mongocfg activity.
     MONGOCFG = 3;
 
-    // MongoDB Enterprise audit logs
+    // StoreDoc Enterprise audit logs
     AUDIT = 4;
   }
 
@@ -870,7 +872,7 @@ message StreamClusterLogsRequest {
 }
 
 message ListClusterOperationsRequest {
-  // ID of the MongoDB Cluster resource to list operations for.
+  // ID of the StoreDoc Cluster resource to list operations for.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -880,7 +882,7 @@ message ListClusterOperationsRequest {
   // results is larger than [page_size], the service returns a [ListClusterOperationsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Acceptable values are 0 to 1000, inclusive. Default value: 100.
-  int64 page_size = 2 [(value) = "<=1000"];
+  int64 page_size = 2 [(value) = "0-1000"];
 
   // Page token. To get the next page of results, set [page_token] to the
   // [ListClusterOperationsResponse.next_page_token] returned by the previous list request.
@@ -888,7 +890,7 @@ message ListClusterOperationsRequest {
 }
 
 message ListClusterOperationsResponse {
-  // List of Operation resources for the specified MongoDB cluster.
+  // List of Operation resources for the specified StoreDoc cluster.
   repeated operation.Operation operations = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results
@@ -899,8 +901,8 @@ message ListClusterOperationsResponse {
 }
 
 message ListClusterBackupsRequest {
-  // ID of the MongoDB cluster.
-  // To get the MongoDB cluster ID, use a [ClusterService.List] request.
+  // ID of the StoreDoc cluster.
+  // To get the StoreDoc cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -910,7 +912,7 @@ message ListClusterBackupsRequest {
   // results is larger than [page_size], the service returns a [ListClusterBackupsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Acceptable values are 0 to 1000, inclusive. Default value: 100.
-  int64 page_size = 2 [(value) = "<=1000"];
+  int64 page_size = 2 [(value) = "0-1000"];
 
   // Page token.  To get the next page of results, set [page_token] to the
   // [ListClusterBackupsResponse.next_page_token] returned by the previous list request.
@@ -918,7 +920,7 @@ message ListClusterBackupsRequest {
 }
 
 message ListClusterBackupsResponse {
-  // List of MongoDB Backup resources.
+  // List of StoreDoc Backup resources.
   repeated Backup backups = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results
@@ -929,8 +931,8 @@ message ListClusterBackupsResponse {
 }
 
 message ListClusterHostsRequest {
-  // ID of the MongoDB cluster.
-  // To get the MongoDB cluster ID, use a [ClusterService.List] request.
+  // ID of the StoreDoc cluster.
+  // To get the StoreDoc cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -940,7 +942,7 @@ message ListClusterHostsRequest {
   // results is larger than [page_size], the service returns a [ListClusterHostsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
   // Acceptable values are 0 to 1000, inclusive. Default value: 100.
-  int64 page_size = 2 [(value) = "<=1000"];
+  int64 page_size = 2 [(value) = "0-1000"];
 
   // Page token. To get the next page of results, set [page_token] to the
   // [ListClusterHostsResponse.next_page_token] returned by the previous list request.
@@ -959,19 +961,19 @@ message ListClusterHostsResponse {
 }
 
 message AddClusterHostsRequest {
-  // ID of the MongoDB cluster to add hosts to.
-  // To get the MongoDB cluster ID use a [ClusterService.List] request.
+  // ID of the StoreDoc cluster to add hosts to.
+  // To get the StoreDoc cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Configurations for MongoDB hosts that should be added to the cluster.
+  // Configurations for StoreDoc hosts that should be added to the cluster.
   repeated HostSpec host_specs = 2 [(size) = ">0"];
 }
 
 message AddClusterHostsMetadata {
-  // ID of the MongoDB cluster to which the hosts are being added.
+  // ID of the StoreDoc cluster to which the hosts are being added.
   string cluster_id = 1;
 
   // Names of hosts that are being added to the cluster.
@@ -979,8 +981,8 @@ message AddClusterHostsMetadata {
 }
 
 message DeleteClusterHostsRequest {
-  // ID of the MongoDB cluster to remove hosts from.
-  // To get the MongoDB cluster ID, use a [ClusterService.List] request.
+  // ID of the StoreDoc cluster to remove hosts from.
+  // To get the StoreDoc cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -994,7 +996,7 @@ message DeleteClusterHostsRequest {
 }
 
 message DeleteClusterHostsMetadata {
-  // ID of the MongoDB cluster to remove hosts from.
+  // ID of the StoreDoc cluster to remove hosts from.
   string cluster_id = 1;
 
   // Names of hosts that are being deleted.
@@ -1002,19 +1004,19 @@ message DeleteClusterHostsMetadata {
 }
 
 message UpdateClusterHostsRequest {
-  // ID of the MongoDB cluster to update hosts from.
-  // To get the MongoDB cluster ID, use a [ClusterService.List] request.
+  // ID of the StoreDoc cluster to update hosts from.
+  // To get the StoreDoc cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // New configurations to apply to hosts of a Managed Service for MongoDB cluster.
+  // New configurations to apply to hosts of a Managed Service for StoreDoc cluster.
   repeated UpdateHostSpec update_host_specs = 2 [(size) = ">0"];
 }
 
 message UpdateClusterHostsMetadata {
-  // ID of the MongoDB cluster to update host from.
+  // ID of the StoreDoc cluster to update host from.
   string cluster_id = 1;
 
   // Name of host that are being updated.
@@ -1036,13 +1038,13 @@ message UpdateHostSpec {
   google.protobuf.Int64Value secondary_delay_secs = 3;
 
   // Priority of the host to be elected as the primary in the replica set.
-  // The minimum value is `0` if the Managed Service for MongoDB cluster contains three or more secondary hosts. Otherwise, the minimum value is `1`.
+  // The minimum value is `0` if the Managed Service for StoreDoc cluster contains three or more secondary hosts. Otherwise, the minimum value is `1`.
   google.protobuf.DoubleValue priority = 4;
 
   // Determines whether the host should get a public IP address after the update.
   bool assign_public_ip = 5;
 
-  // Field mask that specifies which fields of the MongoDB host should be updated.
+  // Field mask that specifies which fields of the StoreDoc host should be updated.
   google.protobuf.FieldMask update_mask = 6;
 
   // Host tag list that contains key-value pairs for the given replica set member. For more information about how to specify the tags and what values to choose, see the [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/replica-configuration/#mongodb-rsconf-rsconf.members-n-.tags).
@@ -1068,7 +1070,7 @@ message EnableClusterShardingRequest {
     Resources resources = 1 [(required) = true];
   }
 
-  // ID of the MongoDB cluster to enable sharding for.
+  // ID of the StoreDoc cluster to enable sharding for.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -1088,19 +1090,19 @@ message EnableClusterShardingRequest {
 }
 
 message EnableClusterShardingMetadata {
-  // ID of the MongoDB cluster that sharding is being enabled for.
+  // ID of the StoreDoc cluster that sharding is being enabled for.
   string cluster_id = 1;
 }
 
 message GetClusterShardRequest {
-  // ID of the MongoDB cluster that the shard belongs to.
+  // ID of the StoreDoc cluster that the shard belongs to.
   // To get the cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Name of the MongoDB shard to return.
+  // Name of the StoreDoc shard to return.
   // To get the name of the shard use a [ClusterService.ListShards] request.
   string shard_name = 2 [
     (length) = "<=63",
@@ -1110,7 +1112,7 @@ message GetClusterShardRequest {
 }
 
 message ListClusterShardsRequest {
-  // ID of the MongoDB cluster to list databases in.
+  // ID of the StoreDoc cluster to list databases in.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -1120,7 +1122,7 @@ message ListClusterShardsRequest {
   // The maximum number of results per page to return. If the number of available
   // results is larger than [page_size], the service returns a [ListClusterShardsResponse.next_page_token]
   // that can be used to get the next page of results in subsequent list requests.
-  int64 page_size = 2 [(value) = "<=1000"];
+  int64 page_size = 2 [(value) = "0-1000"];
 
   // Page token. To get the next page of results, set [page_token] to the
   // [ListClusterShardsResponse.next_page_token] returned by the previous list request.
@@ -1128,7 +1130,7 @@ message ListClusterShardsRequest {
 }
 
 message ListClusterShardsResponse {
-  // List of MongoDB shards.
+  // List of StoreDoc shards.
   repeated Shard shards = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results
@@ -1139,14 +1141,14 @@ message ListClusterShardsResponse {
 }
 
 message AddClusterShardRequest {
-  // ID of the MongoDB cluster to add a shard to.
+  // ID of the StoreDoc cluster to add a shard to.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Name of the MongoDB shard to create.
+  // Name of the StoreDoc shard to create.
   string shard_name = 2 [
     (length) = "<=63",
     (pattern) = "[a-zA-Z0-9_-]*",
@@ -1158,7 +1160,7 @@ message AddClusterShardRequest {
 }
 
 message AddClusterShardMetadata {
-  // ID of the MongoDB cluster that a shard is being added to.
+  // ID of the StoreDoc cluster that a shard is being added to.
   string cluster_id = 1;
 
   // Name of the shard being added.
@@ -1166,14 +1168,14 @@ message AddClusterShardMetadata {
 }
 
 message DeleteClusterShardRequest {
-  // ID of the MongoDB cluster to delete a shard in.
+  // ID of the StoreDoc cluster to delete a shard in.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Name of the MongoDB shard to delete.
+  // Name of the StoreDoc shard to delete.
   // To get the name of the shard use a [ClusterService.ListShards] request.
   string shard_name = 2 [
     (length) = "<=63",
@@ -1183,7 +1185,7 @@ message DeleteClusterShardRequest {
 }
 
 message DeleteClusterShardMetadata {
-  // ID of the MongoDB cluster that a shard is being deleted in.
+  // ID of the StoreDoc cluster that a shard is being deleted in.
   string cluster_id = 1;
 
   // Name of the shard being deleted.
@@ -1191,13 +1193,13 @@ message DeleteClusterShardMetadata {
 }
 
 message ResetupHostsRequest {
-  // Required. ID of the MongoDB cluster.
+  // ID of the StoreDoc cluster.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Required. Name of the hosts to resetup.
+  // Name of the hosts to resetup.
   repeated string host_names = 2 [
     (length) = "<=253",
     (size) = ">0"
@@ -1205,21 +1207,21 @@ message ResetupHostsRequest {
 }
 
 message ResetupHostsMetadata {
-  // Required. ID of the MongoDB cluster.
+  // ID of the StoreDoc cluster.
   string cluster_id = 1;
 
-  // Required. The name of hosts to resetup.
+  // The name of hosts to resetup.
   repeated string host_names = 2;
 }
 
 message RestartHostsRequest {
-  // Required. ID of the MongoDB cluster.
+  // ID of the StoreDoc cluster.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Required. Name of the hosts to restart.
+  // Name of the hosts to restart.
   repeated string host_names = 2 [
     (length) = "<=253",
     (size) = ">0"
@@ -1227,21 +1229,21 @@ message RestartHostsRequest {
 }
 
 message RestartHostsMetadata {
-  // Required. ID of the MongoDB cluster.
+  // ID of the StoreDoc cluster.
   string cluster_id = 1;
 
-  // Required. The name of hosts to restart.
+  // The name of hosts to restart.
   repeated string host_names = 2;
 }
 
 message StepdownHostsRequest {
-  // Required. ID of the MongoDB cluster.
+  // ID of the StoreDoc cluster.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Required. Name of the hosts to resetup.
+  // Name of the hosts to resetup.
   repeated string host_names = 2 [
     (length) = "<=253",
     (size) = ">0"
@@ -1252,10 +1254,10 @@ message StepdownHostsRequest {
 }
 
 message StepdownHostsMetadata {
-  // Required. ID of the MongoDB cluster.
+  // ID of the StoreDoc cluster.
   string cluster_id = 1;
 
-  // Required. The name of hosts to resetup.
+  // The name of hosts to resetup.
   repeated string host_names = 2;
 
   // The ID of the availability zone stepdown hosts from.
@@ -1306,6 +1308,8 @@ message HostSpec {
 }
 
 message MongodbSpec3_6 {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 3.6 hosts.
     config.MongodConfig3_6 config = 1;
@@ -1367,6 +1371,8 @@ message MongodbSpec3_6 {
 }
 
 message MongodbSpec4_0 {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 4.0 hosts.
     config.MongodConfig4_0 config = 1;
@@ -1428,6 +1434,8 @@ message MongodbSpec4_0 {
 }
 
 message MongodbSpec4_2 {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 4.2 hosts.
     config.MongodConfig4_2 config = 1;
@@ -1489,6 +1497,8 @@ message MongodbSpec4_2 {
 }
 
 message MongodbSpec4_4 {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 4.4 hosts.
     config.MongodConfig4_4 config = 1;
@@ -1550,6 +1560,8 @@ message MongodbSpec4_4 {
 }
 
 message MongodbSpec4_4_enterprise {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 4.4 hosts.
     config.MongodConfig4_4_enterprise config = 1;
@@ -1611,6 +1623,8 @@ message MongodbSpec4_4_enterprise {
 }
 
 message MongodbSpec5_0 {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 5.0 hosts.
     config.MongodConfig5_0 config = 1;
@@ -1672,6 +1686,8 @@ message MongodbSpec5_0 {
 }
 
 message MongodbSpec5_0_enterprise {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 5.0 hosts.
     config.MongodConfig5_0_enterprise config = 1;
@@ -1733,6 +1749,8 @@ message MongodbSpec5_0_enterprise {
 }
 
 message MongodbSpec6_0 {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 6.0 hosts.
     config.MongodConfig6_0 config = 1;
@@ -1794,6 +1812,8 @@ message MongodbSpec6_0 {
 }
 
 message MongodbSpec6_0_enterprise {
+  option deprecated = true;
+
   message Mongod {
     // Configuration for mongod 6.0 hosts.
     config.MongodConfig6_0_enterprise config = 1;
@@ -1918,45 +1938,78 @@ message MongodbSpec {
 message ConfigSpec {
   reserved 16 to 19, 21;
 
-  // Version of MongoDB used in the cluster. Possible values: `3.6`, `4.0`, `4.2`, `4.4`, `4.4-enterprise`, `5.0`, `5.0-enterprise`, `6.0`, `6.0-enterprise`.
+  // Version of StoreDoc used in the cluster. Possible values: `7.0`, `8.0`.
   string version = 1;
 
-  // MongoDB feature compatibility version. See usage details in [MongoDB documentation](https://docs.mongodb.com/manual/reference/command/setFeatureCompatibilityVersion/).
+  // StoreDoc feature compatibility version. See usage details in [MongoDB documentation](https://docs.mongodb.com/manual/reference/command/setFeatureCompatibilityVersion/).
   // Possible values:
-  // * `3.6` - persist data compatibility for version 3.6. After setting this option the data will not be compatible with 3.4 or older.
-  // * `4.0` - persist data compatibility for version 4.0. After setting this option the data will not be compatible with 3.6 or older.
-  // * `4.2` - persist data compatibility for version 4.2. After setting this option the data will not be compatible with 4.0 or older.
-  // * `4.4` - persist data compatibility for version 4.4. After setting this option the data will not be compatible with 4.2 or older.
-  // * `5.0` - persist data compatibility for version 5.0. After setting this option the data will not be compatible with 4.4 or older.
-  // * `6.0` - persist data compatibility for version 6.0. After setting this option the data will not be compatible with 5.0 or older.
+  // * `7.0` - persist data compatibility for version 7.0. After setting this option the data will not be compatible with 6.0 or lower.
+  // * `8.0` - persist data compatibility for version 8.0. After setting this option the data will not be compatible with 7.0 or lower.
   string feature_compatibility_version = 5;
+  // Configuration for StoreDoc servers in the cluster.
   oneof mongodb_spec {
-    // Configuration and resource allocation for a MongoDB 3.6 cluster.
-    MongodbSpec3_6 mongodb_spec_3_6 = 2 [json_name = "mongodbSpec_3_6"];
+    // Configuration and resource allocation for a StoreDoc 3.6 cluster.
+    // Deprecated. Use [mongodb] instead.
+    MongodbSpec3_6 mongodb_spec_3_6 = 2 [
+      deprecated = true,
+      json_name = "mongodbSpec_3_6"
+    ];
 
-    // Configuration and resource allocation for a MongoDB 4.0 cluster.
-    MongodbSpec4_0 mongodb_spec_4_0 = 4 [json_name = "mongodbSpec_4_0"];
+    // Configuration and resource allocation for a StoreDoc 4.0 cluster.
+    // Deprecated. Use [mongodb] instead.
+    MongodbSpec4_0 mongodb_spec_4_0 = 4 [
+      deprecated = true,
+      json_name = "mongodbSpec_4_0"
+    ];
 
-    // Configuration and resource allocation for a MongoDB 4.2 cluster.
-    MongodbSpec4_2 mongodb_spec_4_2 = 7 [json_name = "mongodbSpec_4_2"];
+    // Configuration and resource allocation for a StoreDoc 4.2 cluster.
+    // Deprecated. Use [mongodb] instead.
+    MongodbSpec4_2 mongodb_spec_4_2 = 7 [
+      deprecated = true,
+      json_name = "mongodbSpec_4_2"
+    ];
 
-    // Configuration and resource allocation for a MongoDB 4.4 cluster.
-    MongodbSpec4_4 mongodb_spec_4_4 = 8 [json_name = "mongodbSpec_4_4"];
+    // Configuration and resource allocation for a StoreDoc 4.4 cluster.
+    // Deprecated. Use [mongodb] instead.
+    MongodbSpec4_4 mongodb_spec_4_4 = 8 [
+      deprecated = true,
+      json_name = "mongodbSpec_4_4"
+    ];
 
-    // Configuration and resource allocation for a MongoDB 5.0 cluster.
-    MongodbSpec5_0 mongodb_spec_5_0 = 10 [json_name = "mongodbSpec_5_0"];
+    // Configuration and resource allocation for a StoreDoc 5.0 cluster.
+    // Deprecated. Use [mongodb] instead.
+    MongodbSpec5_0 mongodb_spec_5_0 = 10 [
+      deprecated = true,
+      json_name = "mongodbSpec_5_0"
+    ];
 
-    // Configuration and resource allocation for a MongoDB 6.0 cluster.
-    MongodbSpec6_0 mongodb_spec_6_0 = 14 [json_name = "mongodbSpec_6_0"];
+    // Configuration and resource allocation for a StoreDoc 6.0 cluster.
+    // Deprecated. Use [mongodb] instead.
+    MongodbSpec6_0 mongodb_spec_6_0 = 14 [
+      deprecated = true,
+      json_name = "mongodbSpec_6_0"
+    ];
 
-    // Configuration and resource allocation for a MongoDB 4.4 Enterprise cluster.
-    MongodbSpec4_4_enterprise mongodb_spec_4_4_enterprise = 11 [json_name = "mongodbSpec_4_4_enterprise"];
+    // Configuration and resource allocation for a StoreDoc 4.4 Enterprise cluster.
+    // Deprecated. Use [mongodb] instead.
+    MongodbSpec4_4_enterprise mongodb_spec_4_4_enterprise = 11 [
+      deprecated = true,
+      json_name = "mongodbSpec_4_4_enterprise"
+    ];
 
-    // Configuration and resource allocation for a MongoDB 5.0 Enterprise cluster.
-    MongodbSpec5_0_enterprise mongodb_spec_5_0_enterprise = 12 [json_name = "mongodbSpec_5_0_enterprise"];
+    // Configuration and resource allocation for a StoreDoc 5.0 Enterprise cluster.
+    // Deprecated. Use [mongodb] instead.
+    MongodbSpec5_0_enterprise mongodb_spec_5_0_enterprise = 12 [
+      deprecated = true,
+      json_name = "mongodbSpec_5_0_enterprise"
+    ];
 
-    // Configuration and resource allocation for a MongoDB 6.0 Enterprise cluster.
-    MongodbSpec6_0_enterprise mongodb_spec_6_0_enterprise = 15 [json_name = "mongodbSpec_6_0_enterprise"];
+    // Configuration and resource allocation for a StoreDoc 6.0 Enterprise cluster.
+    // Deprecated. Use [mongodb] instead.
+    MongodbSpec6_0_enterprise mongodb_spec_6_0_enterprise = 15 [
+      deprecated = true,
+      json_name = "mongodbSpec_6_0_enterprise"
+    ];
   }
 
   // Time to start the daily backup, in the UTC timezone.
@@ -1971,7 +2024,7 @@ message ConfigSpec {
   // Access policy to DB
   Access access = 6;
 
-  // Configuration and resource allocation for a MongoDB 7.0 Enterprise cluster.
+  // Configuration and resource allocation for a StoreDoc cluster.
   MongodbSpec mongodb = 20 [json_name = "mongodb"];
 
   // AutoCompact config

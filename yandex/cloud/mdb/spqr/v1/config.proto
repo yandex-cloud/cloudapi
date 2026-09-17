@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.mdb.spqr.v1;
 
+import "google/protobuf/duration.proto";
 import "google/protobuf/wrappers.proto";
 import "yandex/cloud/validation.proto";
 
@@ -45,6 +46,8 @@ message SPQRConfig {
 
   // SPQR default log level
   LogLevel log_level = 6;
+  google.protobuf.BoolValue use_spqrguard = 8;
+  google.protobuf.BoolValue forbid_direct_shard_queries = 9;
 }
 
 message RouterConfig {
@@ -112,10 +115,18 @@ message RouterSettings {
   google.protobuf.BoolValue enhanced_multishard_processing = 6;
   TargetSessionAttrs default_target_session_attrs = 7;
   CommitStrategy default_commit_strategy = 8;
+  google.protobuf.BoolValue allow_postprocessing = 9;
+  google.protobuf.BoolValue auto_route_ro_on_standby = 10;
 }
 
 // Configuration of a SPQR coordinator.
-message CoordinatorSettings { // TODO
+message CoordinatorSettings {
+  google.protobuf.Duration iteration_timeout = 1;
+  google.protobuf.Duration lock_iteration_timeout = 2;
+  google.protobuf.Duration router_keepalive_time = 3;
+  google.protobuf.Duration router_keepalive_timeout = 4;
+  google.protobuf.Int64Value etcd_max_send_bytes = 5;
+  google.protobuf.Int64Value etcd_max_txn_ops = 6;
 }
 
 // Configuration of a PostgreSQL.

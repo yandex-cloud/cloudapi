@@ -50,6 +50,9 @@ message ConnectionPoolerConfig {
   // Drop client connection in transaction after this much seconds of idleness.
   // Set to zero to disable.
   google.protobuf.Int64Value idle_in_transaction_timeout = 4;
+
+  // Enables cleanup of server connections when they are returned to the connection pool.
+  google.protobuf.BoolValue pool_discard = 5;
 }
 
 // Start time for background activity

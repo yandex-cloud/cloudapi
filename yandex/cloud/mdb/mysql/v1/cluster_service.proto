@@ -18,6 +18,7 @@ import "yandex/cloud/mdb/mysql/v1/database.proto";
 import "yandex/cloud/mdb/mysql/v1/maintenance.proto";
 import "yandex/cloud/mdb/mysql/v1/user.proto";
 import "yandex/cloud/mdb/v1/backup_retention_policy.proto";
+import "yandex/cloud/mdb/v1/connectionmanager.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -373,7 +374,7 @@ message CreateClusterRequest {
   MaintenanceWindow maintenance_window = 14;
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 16;
+  google.protobuf.StringValue disk_encryption_key_id = 16 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
 
   // Backup long-term retention policies setting.
   repeated yandex.cloud.mdb.v1.BackupRetentionPolicySpec retention_policies = 17;
@@ -529,7 +530,7 @@ message RestoreClusterRequest {
   MaintenanceWindow maintenance_window = 15;
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 17;
+  google.protobuf.StringValue disk_encryption_key_id = 17 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
 
   // ID of the source cluster to restore from.
   // The latest backup suitable for [time] will be used for restore.
@@ -999,6 +1000,8 @@ message HostSpec {
 }
 
 message ConfigSpec {
+  reserved 11 to 14;
+
   // Version of MySQL used in the cluster.
   // Possible values: `5.7`, `8.0`, `8.4`.
   string version = 1; // No formal validation, a list of supported versions should suffice.
@@ -1032,4 +1035,7 @@ message ConfigSpec {
 
   // Disk size autoscaling
   DiskSizeAutoscaling disk_size_autoscaling = 9;
+
+  // Cluster-wide Connection Manager integration configuration
+  yandex.cloud.mdb.v1.ClusterConnectionManager connection_manager = 15;
 }

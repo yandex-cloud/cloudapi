@@ -10,7 +10,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongod
 option java_package = "yandex.cloud.api.mdb.mongodb.v1";
 
 service VersionsService {
-  // Returns list of available MongoDB versions.
+  // Returns the list of available StoreDoc versions.
   rpc List(ListVersionsRequest) returns (ListVersionsResponse) {
     option (google.api.http) = {
       get: "/managed-mongodb/v1/versions"

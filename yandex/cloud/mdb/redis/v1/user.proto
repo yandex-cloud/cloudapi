@@ -8,23 +8,35 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/redis/v1;redis";
 option java_package = "yandex.cloud.api.mdb.redis.v1";
 
-// A Redis User resource. For more information, see the
+// A Valkey User resource. For more information, see the
 // [Developer's Guide](/docs/managed-redis/concepts).
 message User {
-  // Name of the Redis user.
+  // Name of the Valkey user.
   string name = 1;
 
-  // ID of the Redis cluster the user belongs to.
+  // ID of the Valkey cluster the user belongs to.
   string cluster_id = 2;
 
   // Set of permissions to grant to the user.
   Permissions permissions = 3;
 
-  // Is redis user enabled
+  // Is Valkey user enabled
   bool enabled = 4;
 
-  // Raw ACL string inside of Redis
+  // Raw ACL string inside of Valkey
   string acl_options = 5;
+
+  // Connection Manager connection configuration.
+  ConnectionManager connection_manager = 6;
+
+  // Authentication type for the user
+  AuthType auth_type = 7;
+}
+
+// Connection Manager connection configuration.
+message ConnectionManager {
+  // ID of Connection Manager connection.
+  string connection_id = 1;
 }
 
 message Permissions {
@@ -48,14 +60,14 @@ message Permissions {
 }
 
 message UserSpec {
-  // Name of the Redis user.
+  // Name of the Valkey user.
   string name = 1 [
     (length) = "<=32",
     (pattern) = "^[a-zA-Z0-9_][a-zA-Z0-9_@.-]*$",
     (required) = true
   ];
 
-  // Password of the Redis user.
+  // Password of the Valkey user.
   repeated string passwords = 2 [
     (pattern) = "^[a-zA-Z0-9@=+?*.,!&#$^<>_-]*$",
     (size) = "<=1",
@@ -65,6 +77,22 @@ message UserSpec {
   // Set of permissions to grant to the user.
   Permissions permissions = 3;
 
-  // Is Redis user enabled
+  // Is Valkey user enabled
   google.protobuf.BoolValue enabled = 4;
+
+  // Generate password using Connection Manager
+  google.protobuf.BoolValue generate_password = 5;
+
+  // Authentication type for the user
+  AuthType auth_type = 6;
+}
+
+enum AuthType {
+  AUTH_TYPE_UNSPECIFIED = 0;
+
+  // Password-based authentication
+  AUTH_TYPE_PASSWORD = 1;
+
+  // IAM-based authentication
+  AUTH_TYPE_IAM = 2;
 }

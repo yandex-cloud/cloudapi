@@ -10,12 +10,12 @@ message ResourcePreset {
   // ID of the ResourcePreset resource.
   string id = 1;
 
-  // IDs of availability zones where the resource preset is available.
+  // IDs of the availability zones where the resource preset is available.
   repeated string zone_ids = 2;
 
-  // Number of CPU cores for a MongoDB host created with the preset.
+  // Number of CPU cores for a StoreDoc host created with the preset.
   int64 cores = 3;
 
-  // RAM volume for a MongoDB host created with the preset, in bytes.
+  // RAM volume for a StoreDoc host created with the preset, in bytes.
   int64 memory = 4;
 }

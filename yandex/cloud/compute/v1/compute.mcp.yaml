@@ -1,3 +1,6 @@
+include_protos:
+  - yandex/cloud/priv/compute/v1/platform_service.proto
+
 services:
   - name: DiskPlacementGroupService
     tools:

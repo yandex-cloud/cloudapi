@@ -207,7 +207,7 @@ message NetworkConfig {
 }
 
 message TrinoConfig {
-  reserved 8;
+  reserved 8, 10;
 
   // Configuration for the coordinator, specifying computational resources and other settings.
   CoordinatorConfig coordinator_config = 1 [(required) = true];
@@ -232,6 +232,17 @@ message TrinoConfig {
 
   // Configuration for event listeners.
   EventListenersConfig event_listeners = 9;
+
+  // Additional properties.
+  map<string, string> additional_properties = 11 [
+    (length) = "<=128",
+    (map_key) = {
+      length: "1-128"
+      pattern: "[a-z][-_0-9a-z.]*"
+    },
+    (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
+    (size) = "<=256"
+  ];
 }
 
 message CoordinatorConfig {

@@ -10,8 +10,18 @@ option java_package = "yandex.cloud.api.mdb.spqr.v1";
 // A SPQR Backup resource. For more information, see the
 // [Developer's Guide](/docs/managed-spqr/concepts).
 message Backup {
-  enum BackupType {
-    BACKUP_TYPE_UNSPECIFIED = 0;
+  enum BackupMethod {
+    BACKUP_METHOD_UNSPECIFIED = 0;
+
+    // Base backup.
+    BASE = 1;
+
+    // Full backup.
+    FULL = 2;
+  }
+
+  enum BackupCreationType {
+    BACKUP_CREATION_TYPE_UNSPECIFIED = 0;
 
     // Backup created by automated daily schedule
     AUTOMATED = 1;
@@ -43,5 +53,8 @@ message Backup {
   int64 size = 7;
 
   // How this backup was created (manual/automatic/etc...)
-  BackupType type = 8;
+  BackupCreationType type = 8;
+
+  // Method of backup creation.
+  BackupMethod method = 9;
 }

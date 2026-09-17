@@ -226,7 +226,7 @@ message CreateClusterRequest {
 }
 
 message TrinoConfigSpec {
-  reserved 5, 10;
+  reserved 5, 10, 12;
 
   // List of catalogs that enable integration with various data sources.
   // Each catalog defines a connection to an external data source that Trino can query.
@@ -256,6 +256,17 @@ message TrinoConfigSpec {
 
   // Configuration for event listeners.
   EventListenersConfigSpec event_listeners = 11;
+
+  // Additional Trino configuration properties as key-value pairs.
+  map<string, string> additional_properties = 13 [
+    (length) = "<=128",
+    (map_key) = {
+      length: "1-128"
+      pattern: "[a-z][-_0-9a-z.]*"
+    },
+    (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
+    (size) = "<=256"
+  ];
 }
 
 message CreateClusterMetadata {
@@ -293,7 +304,7 @@ message UpdateWorkerConfig {
 }
 
 message UpdateTrinoConfigSpec {
-  reserved 8;
+  reserved 8, 10;
 
   // Configuration for the coordinator, specifying computational resources and other settings.
   UpdateCoordinatorConfig coordinator_config = 1;
@@ -319,6 +330,17 @@ message UpdateTrinoConfigSpec {
 
   // Configuration for event listeners.
   UpdateEventListenersSpec event_listeners = 9;
+
+  // Additional Trino configuration properties as key-value pairs.
+  map<string, string> additional_properties = 11 [
+    (length) = "<=128",
+    (map_key) = {
+      length: "1-128"
+      pattern: "[a-z][-_0-9a-z.]*"
+    },
+    (pattern) = "[-_0-9a-zA-Z.,:\\/_ *]*",
+    (size) = "<=256"
+  ];
 }
 
 message UpdateNetworkConfigSpec {

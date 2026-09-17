@@ -16,8 +16,8 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/redis/v1;redis";
 option java_package = "yandex.cloud.api.mdb.redis.v1";
 
-// Description of a Redis cluster. For more information, see
-// the Managed Service for Redis [documentation](/docs/managed-redis/concepts/).
+// Description of a Valkey cluster. For more information, see
+// the Managed Service for Valkey [documentation](/docs/managed-redis/concepts/).
 message Cluster {
   // Deployment environment.
   enum Environment {
@@ -49,7 +49,7 @@ message Cluster {
 
   enum Status {
 
-    // Cluster status is unknown
+    // Cluster status is unknown.
     STATUS_UNKNOWN = 0;
 
     // Cluster is being created
@@ -89,34 +89,34 @@ message Cluster {
     ON_REPLICAS = 2;
   }
 
-  // ID of the Redis cluster.
+  // ID of the Valkey cluster.
   // This ID is assigned by MDB at creation time.
   string id = 1;
 
-  // ID of the folder that the Redis cluster belongs to.
+  // ID of the folder that the Valkey cluster belongs to.
   string folder_id = 2;
 
   // Creation timestamp in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
   google.protobuf.Timestamp created_at = 3;
 
-  // Name of the Redis cluster.
+  // Name of the Valkey cluster.
   // The name is unique within the folder. 1-63 characters long.
   string name = 4;
 
-  // Description of the Redis cluster. 0-256 characters long.
+  // Description of the Valkey cluster. 0-256 characters long.
   string description = 5;
 
-  // Custom labels for the Redis cluster as `key:value` pairs.
+  // Custom labels for the Valkey cluster as `key:value` pairs.
   // Maximum 64 per cluster.
   map<string, string> labels = 6;
 
-  // Deployment environment of the Redis cluster.
+  // Deployment environment of the Valkey cluster.
   Environment environment = 7;
 
-  // Description of monitoring systems relevant to the Redis cluster.
+  // Description of monitoring systems relevant to the Valkey cluster.
   repeated Monitoring monitoring = 8;
 
-  // Configuration of the Redis cluster.
+  // Configuration of the Valkey cluster.
   ClusterConfig config = 9;
 
   // ID of the network that the cluster belongs to.
@@ -128,7 +128,7 @@ message Cluster {
   // Cluster status.
   Status status = 12;
 
-  // Redis cluster mode on/off.
+  // Valkey cluster mode on/off.
   bool sharded = 13;
 
   // Maintenance window for the cluster.
@@ -170,43 +170,43 @@ message Monitoring {
   // Description of the monitoring system.
   string description = 2;
 
-  // Link to the monitoring system charts for the Redis cluster.
+  // Link to the monitoring system charts for the Valkey cluster.
   string link = 3;
 }
 
 message ClusterConfig {
   reserved 11 to 12;
 
-  // Version of Redis server software.
+  // Version of Valkey server software.
   string version = 1;
-  // Configuration for Redis servers in the cluster.
+  // Configuration for Valkey servers in the cluster.
   oneof redis_config {
-    // Configuration of a Redis 5.0 server.
+    // Configuration of a Valkey 5.0 server.
     config.RedisConfigSet5_0 redis_config_5_0 = 2 [
       deprecated = true,
       json_name = "redisConfig_5_0"
     ];
 
-    // Configuration of a Redis 6.0 server.
+    // Configuration of a Valkey 6.0 server.
     config.RedisConfigSet6_0 redis_config_6_0 = 6 [
       deprecated = true,
       json_name = "redisConfig_6_0"
     ];
 
-    // Configuration of a Redis 6.2 server.
+    // Configuration of a Valkey 6.2 server.
     config.RedisConfigSet6_2 redis_config_6_2 = 7 [
       deprecated = true,
       json_name = "redisConfig_6_2"
     ];
 
-    // Configuration of a Redis 7.0 server.
+    // Configuration of a Valkey 7.0 server.
     config.RedisConfigSet7_0 redis_config_7_0 = 8 [
       deprecated = true,
       json_name = "redisConfig_7_0"
     ];
   }
 
-  // Resources allocated to Redis hosts.
+  // Resources allocated to Valkey hosts.
   Resources resources = 3;
 
   // Time to start the daily backup, in the UTC timezone.
@@ -215,7 +215,7 @@ message ClusterConfig {
   // Access policy to DB
   Access access = 5;
 
-  // Unified configuration of a Redis cluster. Use this field for all currently
+  // Unified configuration of a Valkey cluster. Use this field for all currently
   // available versions.
   config.RedisConfigSet redis = 9 [json_name = "redis"];
 
@@ -242,11 +242,11 @@ message ClusterConfig {
 }
 
 message Shard {
-  // Name of the Redis shard. The shard name is assigned by user at creation time, and cannot be changed.
+  // Name of the Valkey shard. The shard name is assigned by user at creation time, and cannot be changed.
   // 1-63 characters long.
   string name = 1;
 
-  // ID of the Redis cluster the shard belongs to. The ID is assigned by MDB at creation time.
+  // ID of the Valkey cluster the shard belongs to. The ID is assigned by MDB at creation time.
   string cluster_id = 2;
 }
 
@@ -256,10 +256,10 @@ message Host {
     // Role of the host in the cluster is unknown. Default value.
     ROLE_UNKNOWN = 0;
 
-    // Host is the master Redis server in the cluster.
+    // Host is the master Valkey server in the cluster.
     MASTER = 1;
 
-    // Host is a replica (standby) Redis server in the cluster.
+    // Host is a replica (standby) Valkey server in the cluster.
     REPLICA = 2;
   }
 
@@ -278,21 +278,21 @@ message Host {
     DEGRADED = 3;
   }
 
-  // Name of the Redis host. The host name is assigned by MDB at creation time, and cannot be changed.
+  // Name of the Valkey host. The host name is assigned by MDB at creation time, and cannot be changed.
   // 1-63 characters long.
   // The name is unique across all MDB hosts that exist on the platform, as it defines the FQDN of the host.
   string name = 1;
 
-  // ID of the Redis cluster. The ID is assigned by MDB at creation time.
+  // ID of the Valkey cluster. The ID is assigned by MDB at creation time.
   string cluster_id = 2;
 
-  // ID of the availability zone where the Redis host resides.
+  // ID of the availability zone where the Valkey host resides.
   string zone_id = 3;
 
   // ID of the subnet that the host belongs to.
   string subnet_id = 4;
 
-  // Resources allocated to the Redis host.
+  // Resources allocated to the Valkey host.
   Resources resources = 5;
 
   // Role of the host in the cluster. If the field has default value, it is not returned in the response.
@@ -307,8 +307,10 @@ message Host {
   // Name of the shard that the host belongs to.
   string shard_name = 9;
 
-  // A replica with a low priority number is considered better for promotion.
-  // A replica with priority of 0 will never be selected by Redis Sentinel for promotion.
+  // Priority of the host as a candidate for promotion to master: the higher the value,
+  // the more preferred the host is. A host with priority 0 is promoted only if there are
+  // no other suitable candidates. The priority is ignored if the host requires a full
+  // resynchronization: in that case the host with the smallest replication lag is promoted.
   // Works only for non-sharded clusters. Default value is 100.
   google.protobuf.Int64Value replica_priority = 10;
 
@@ -321,13 +323,13 @@ message Service {
     // Service type of the host is unspecified. Default value.
     TYPE_UNSPECIFIED = 0;
 
-    // The host is a Redis server.
+    // The host is a Valkey server.
     REDIS = 1;
 
     // The host provides a Sentinel-only service (a quorum node).
     ARBITER = 2;
 
-    // The host is a Redis Cluster node.
+    // The host is a Valkey Cluster node.
     REDIS_CLUSTER = 3;
   }
 

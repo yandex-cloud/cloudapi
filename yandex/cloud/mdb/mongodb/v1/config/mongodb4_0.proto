@@ -9,7 +9,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongod
 option java_package = "yandex.cloud.api.mdb.mongodb.v1.config";
 
 // Configuration of a mongod daemon. Supported options are a limited subset of all
-// options described in [MongoDB documentation](https://docs.mongodb.com/v4.0/reference/configuration-options/).
+// options described in the [MongoDB documentation](https://docs.mongodb.com/v4.0/reference/configuration-options/).
 message MongodConfig4_0 {
   option deprecated = true;
 
@@ -55,7 +55,7 @@ message MongodConfig4_0 {
     // Configuration of the WiredTiger storage engine.
     WiredTiger wired_tiger = 1;
 
-    // Configuration of the MongoDB [journal](https://docs.mongodb.com/v4.0/reference/glossary/#term-journal).
+    // Configuration of the StoreDoc [journal](https://docs.mongodb.com/v4.0/reference/glossary/#term-journal).
     Journal journal = 2;
   }
 
@@ -169,41 +169,41 @@ message MongosConfig4_0 {
 message MongodConfigSet4_0 {
   option deprecated = true;
 
-  // Effective mongod settings for a MongoDB 4.0 cluster (a combination of settings defined
+  // Effective mongod settings for a StoreDoc 4.0 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
   MongodConfig4_0 effective_config = 1;
 
-  // User-defined mongod settings for a MongoDB 4.0 cluster.
+  // User-defined mongod settings for a StoreDoc 4.0 cluster.
   MongodConfig4_0 user_config = 2;
 
-  // Default mongod configuration for a MongoDB 4.0 cluster.
+  // Default mongod configuration for a StoreDoc 4.0 cluster.
   MongodConfig4_0 default_config = 3;
 }
 
 message MongoCfgConfigSet4_0 {
   option deprecated = true;
 
-  // Effective mongocfg settings for a MongoDB 4.0 cluster (a combination of settings defined
+  // Effective mongocfg settings for a StoreDoc 4.0 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
   MongoCfgConfig4_0 effective_config = 1;
 
-  // User-defined mongocfg settings for a MongoDB 4.0 cluster.
+  // User-defined mongocfg settings for a StoreDoc 4.0 cluster.
   MongoCfgConfig4_0 user_config = 2;
 
-  // Default mongocfg configuration for a MongoDB 4.0 cluster.
+  // Default mongocfg configuration for a StoreDoc 4.0 cluster.
   MongoCfgConfig4_0 default_config = 3;
 }
 
 message MongosConfigSet4_0 {
   option deprecated = true;
 
-  // Effective mongos settings for a MongoDB 4.0 cluster (a combination of settings defined
+  // Effective mongos settings for a StoreDoc 4.0 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
   MongosConfig4_0 effective_config = 1;
 
-  // User-defined mongos settings for a MongoDB 4.0 cluster.
+  // User-defined mongos settings for a StoreDoc 4.0 cluster.
   MongosConfig4_0 user_config = 2;
 
-  // Default mongos configuration for a MongoDB 4.0 cluster.
+  // Default mongos configuration for a StoreDoc 4.0 cluster.
   MongosConfig4_0 default_config = 3;
 }

@@ -10,7 +10,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/redis/
 option java_package = "yandex.cloud.api.mdb.redis.v1";
 
 service VersionsService {
-  // Returns list of available Redis versions.
+  // Returns the list of available Valkey versions.
   rpc List(ListVersionsRequest) returns (ListVersionsResponse) {
     option (google.api.http) = {
       get: "/managed-redis/v1/versions"

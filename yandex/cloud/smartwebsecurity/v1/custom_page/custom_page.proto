@@ -220,7 +220,7 @@ message CustomPage {
   string content = 9;
 
   // MIME type of the custom page content.
-  string content_type = 10;
+  string content_type = 10 [(pattern) = "[\\t\\x20-\\x7E]*"];
 
   // HTTP status code returned with the custom page.
   StatusCode status_code = 11;

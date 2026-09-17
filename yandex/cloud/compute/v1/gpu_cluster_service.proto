@@ -186,6 +186,9 @@ message CreateGpuClusterRequest {
 
   // Type of interconnect to use for this GPU cluster.
   GpuInterconnectType interconnect_type = 6;
+
+  // Number of subnets to create for this GPU cluster.
+  int64 subnets = 7;
 }
 
 message CreateGpuClusterMetadata {

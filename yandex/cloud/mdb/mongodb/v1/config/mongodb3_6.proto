@@ -9,7 +9,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongod
 option java_package = "yandex.cloud.api.mdb.mongodb.v1.config";
 
 // Configuration of a mongod daemon. Supported options are a limited subset of all
-// options described in [MongoDB documentation](https://docs.mongodb.com/v3.6/reference/configuration-options/).
+// options described in the [MongoDB documentation](https://docs.mongodb.com/v3.6/reference/configuration-options/).
 message MongodConfig3_6 {
   option deprecated = true;
 
@@ -61,7 +61,7 @@ message MongodConfig3_6 {
     // Configuration of the WiredTiger storage engine.
     WiredTiger wired_tiger = 1;
 
-    // Configuration of the MongoDB [journal](https://docs.mongodb.com/v3.6/reference/glossary/#term-journal).
+    // Configuration of the StoreDoc [journal](https://docs.mongodb.com/v3.6/reference/glossary/#term-journal).
     Journal journal = 2;
   }
 
@@ -176,41 +176,41 @@ message MongosConfig3_6 {
 message MongodConfigSet3_6 {
   option deprecated = true;
 
-  // Effective mongod settings for a MongoDB 3.6 cluster (a combination of settings defined
+  // Effective mongod settings for a StoreDoc 3.6 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
   MongodConfig3_6 effective_config = 1;
 
-  // User-defined mongod settings for a MongoDB 3.6 cluster.
+  // User-defined mongod settings for a StoreDoc 3.6 cluster.
   MongodConfig3_6 user_config = 2;
 
-  // Default mongod configuration for a MongoDB 3.6 cluster.
+  // Default mongod configuration for a StoreDoc 3.6 cluster.
   MongodConfig3_6 default_config = 3;
 }
 
 message MongoCfgConfigSet3_6 {
   option deprecated = true;
 
-  // Effective mongocfg settings for a MongoDB 3.6 cluster (a combination of settings defined
+  // Effective mongocfg settings for a StoreDoc 3.6 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
   MongoCfgConfig3_6 effective_config = 1;
 
-  // User-defined mongocfg settings for a MongoDB 3.6 cluster.
+  // User-defined mongocfg settings for a StoreDoc 3.6 cluster.
   MongoCfgConfig3_6 user_config = 2;
 
-  // Default mongocfg configuration for a MongoDB 3.6 cluster.
+  // Default mongocfg configuration for a StoreDoc 3.6 cluster.
   MongoCfgConfig3_6 default_config = 3;
 }
 
 message MongosConfigSet3_6 {
   option deprecated = true;
 
-  // Effective settings for a MongoDB 3.6 cluster (a combination of settings defined
+  // Effective settings for a StoreDoc 3.6 cluster (a combination of settings defined
   // in [user_config] and [default_config]).
   MongosConfig3_6 effective_config = 1;
 
-  // User-defined settings for a MongoDB 3.6 cluster.
+  // User-defined settings for a StoreDoc 3.6 cluster.
   MongosConfig3_6 user_config = 2;
 
-  // Default configuration for a MongoDB 3.6 cluster.
+  // Default configuration for a StoreDoc 3.6 cluster.
   MongosConfig3_6 default_config = 3;
 }

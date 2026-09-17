@@ -307,6 +307,7 @@ service ClusterService {
       patch: "/managed-spqr/v1/clusters/{resource_id}:updateAccessBindings"
     };
   };
+
 }
 
 message GetClusterRequest {
@@ -922,6 +923,8 @@ message SpqrSpec {
 
   // Configuration for SPQR Balancer.
   BalancerSettings balancer = 8;
+  google.protobuf.BoolValue use_spqrguard = 9;
+  google.protobuf.BoolValue forbid_direct_shard_queries = 10;
 }
 
 message ConfigSpec {

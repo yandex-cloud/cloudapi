@@ -12,12 +12,12 @@ message ResourcePreset {
   // ID of the resource preset.
   string id = 1 [(required) = true];
 
-  // IDs of availability zones where the resource preset is available.
+  // IDs of the availability zones where the resource preset is available.
   repeated string zone_ids = 2;
 
-  // RAM volume for a Redis host created with the preset, in bytes.
+  // RAM volume for a Valkey host created with the preset, in bytes.
   int64 memory = 3;
 
-  // Number of CPU cores for a Redis host created with the preset.
+  // Number of CPU cores for a Valkey host created with the preset.
   int64 cores = 4;
 }

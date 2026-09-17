@@ -24,17 +24,17 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/redis/v1;redis";
 option java_package = "yandex.cloud.api.mdb.redis.v1";
 
-// A set of methods for managing Redis clusters.
+// A set of methods for managing Valkey clusters.
 service ClusterService {
-  // Returns the specified Redis cluster.
-  // To get the list of available Redis clusters, make a [List] request.
+  // Returns the specified Valkey cluster.
+  // To get the list of available Valkey clusters, make a [List] request.
   rpc Get(GetClusterRequest) returns (Cluster) {
     option (google.api.http) = {
       get: "/managed-redis/v1/clusters/{cluster_id}"
     };
   };
 
-  // Retrieves the list of Redis clusters that belong
+  // Retrieves the list of Valkey clusters that belong
   // to the specified folder.
   rpc List(ListClustersRequest) returns (ListClustersResponse) {
     option (google.api.http) = {
@@ -42,7 +42,7 @@ service ClusterService {
     };
   };
 
-  // Creates a Redis cluster in the specified folder.
+  // Creates a Valkey cluster in the specified folder.
   rpc Create(CreateClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "CreateClusterMetadata"
@@ -54,7 +54,7 @@ service ClusterService {
     };
   };
 
-  // Updates the specified Redis cluster.
+  // Updates the specified Valkey cluster.
   rpc Update(UpdateClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateClusterMetadata"
@@ -66,7 +66,7 @@ service ClusterService {
     };
   };
 
-  // Deletes the specified Redis cluster.
+  // Deletes the specified Valkey cluster.
   rpc Delete(DeleteClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeleteClusterMetadata"
@@ -77,7 +77,7 @@ service ClusterService {
     };
   };
 
-  // Start the specified Redis cluster.
+  // Start the specified Valkey cluster.
   rpc Start(StartClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "StartClusterMetadata"
@@ -88,7 +88,7 @@ service ClusterService {
     };
   };
 
-  // Stop the specified Redis cluster.
+  // Stop the specified Valkey cluster.
   rpc Stop(StopClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "StopClusterMetadata"
@@ -99,7 +99,7 @@ service ClusterService {
     };
   };
 
-  // Moves a Redis cluster to the specified folder.
+  // Moves a Valkey cluster to the specified folder.
   rpc Move(MoveClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "MoveClusterMetadata"
@@ -111,7 +111,7 @@ service ClusterService {
     };
   };
 
-  // Creates a backup for the specified Redis cluster.
+  // Creates a backup for the specified Valkey cluster.
   rpc Backup(BackupClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "BackupClusterMetadata"
@@ -122,7 +122,7 @@ service ClusterService {
     };
   };
 
-  // Creates a new Redis cluster using the specified backup.
+  // Creates a new Valkey cluster using the specified backup.
   rpc Restore(RestoreClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "RestoreClusterMetadata"
@@ -146,7 +146,7 @@ service ClusterService {
     };
   };
 
-  // Start a manual failover on the specified Redis cluster.
+  // Start a manual failover on the specified Valkey cluster.
   rpc StartFailover(StartClusterFailoverRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "StartClusterFailoverMetadata"
@@ -158,7 +158,7 @@ service ClusterService {
     };
   };
 
-  // Retrieves logs for the specified Redis cluster.
+  // Retrieves logs for the specified Valkey cluster.
   rpc ListLogs(ListClusterLogsRequest) returns (ListClusterLogsResponse) {
     option (google.api.http) = {
       get: "/managed-redis/v1/clusters/{cluster_id}:logs"
@@ -180,7 +180,7 @@ service ClusterService {
     };
   };
 
-  // Retrieves the list of available backups for the specified Redis cluster.
+  // Retrieves the list of available backups for the specified Valkey cluster.
   rpc ListBackups(ListClusterBackupsRequest) returns (ListClusterBackupsResponse) {
     option (google.api.http) = {
       get: "/managed-redis/v1/clusters/{cluster_id}/backups"
@@ -283,7 +283,7 @@ service ClusterService {
     };
   };
 
-  // Enable Sharding on non sharded cluster
+  // Enable Sharding on non sharded cluster.
   rpc EnableSharding(EnableShardingClusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "EnableShardingClusterMetadata"
@@ -294,14 +294,14 @@ service ClusterService {
     };
   };
 
-  // Retrieves a list of access bindings for the specified Redis cluster.
+  // Retrieves a list of access bindings for the specified Valkey cluster.
   rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
     option (google.api.http) = {
       get: "/managed-redis/v1/clusters/{resource_id}:listAccessBindings"
     };
   };
 
-  // Sets access bindings for the specified Redis cluster.
+  // Sets access bindings for the specified Valkey cluster.
   rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "access.SetAccessBindingsMetadata"
@@ -313,7 +313,7 @@ service ClusterService {
     };
   };
 
-  // Updates access bindings for the specified Redis cluster.
+  // Updates access bindings for the specified Valkey cluster.
   rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "access.UpdateAccessBindingsMetadata"
@@ -328,12 +328,12 @@ service ClusterService {
 }
 
 message EnableShardingClusterMetadata {
-  // ID of the Redis cluster that is being switched to sharded mode.
+  // ID of the Valkey cluster that is being switched to sharded mode.
   string cluster_id = 1;
 }
 
 message EnableShardingClusterRequest {
-  // ID of the Redis cluster to return.
+  // ID of the Valkey cluster to return.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -341,7 +341,7 @@ message EnableShardingClusterRequest {
 }
 
 message GetClusterRequest {
-  // ID of the Redis cluster to return.
+  // ID of the Valkey cluster to return.
   // To get the cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -350,7 +350,7 @@ message GetClusterRequest {
 }
 
 message ListClustersRequest {
-  // ID of the folder to list Redis clusters in.
+  // ID of the folder to list Valkey clusters in.
   // To get the folder ID, use a [yandex.cloud.resourcemanager.v1.FolderService.List] request.
   string folder_id = 1 [
     (length) = "<=50",
@@ -375,7 +375,7 @@ message ListClustersRequest {
 }
 
 message ListClustersResponse {
-  // List of Redis clusters.
+  // List of Valkey clusters.
   repeated Cluster clusters = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results
@@ -388,23 +388,23 @@ message ListClustersResponse {
 message CreateClusterRequest {
   reserved 8 to 9;
 
-  // ID of the folder to create the Redis cluster in.
+  // ID of the folder to create the Valkey cluster in.
   string folder_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Name of the Redis cluster. The name must be unique within the folder.
+  // Name of the Valkey cluster. The name must be unique within the folder.
   string name = 2 [
     (length) = "<=63",
     (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 
-  // Description of the Redis cluster.
+  // Description of the Valkey cluster.
   string description = 3 [(length) = "<=256"];
 
-  // Custom labels for the Redis cluster as `key:value` pairs. Maximum 64 per cluster.
+  // Custom labels for the Valkey cluster as `key:value` pairs. Maximum 64 per cluster.
   // For example, "project": "mvp" or "source": "dictionary".
   map<string, string> labels = 4 [
     (length) = "<=63",
@@ -416,19 +416,19 @@ message CreateClusterRequest {
     (size) = "<=64"
   ];
 
-  // Deployment environment of the Redis cluster.
+  // Deployment environment of the Valkey cluster.
   Cluster.Environment environment = 5 [(required) = true];
 
-  // Configuration and resources for hosts that should be created for the Redis cluster.
+  // Configuration and resources for hosts that should be created for the Valkey cluster.
   ConfigSpec config_spec = 6 [(required) = true];
 
-  // Individual configurations for hosts that should be created for the Redis cluster.
+  // Individual configurations for hosts that should be created for the Valkey cluster.
   repeated HostSpec host_specs = 7 [(size) = ">0"];
 
   // ID of the network to create the cluster in.
-  string network_id = 10 [(length) = "<=50"];
+  string network_id = 10 [(length) = "<=150"];
 
-  // Redis cluster mode on/off.
+  // Valkey cluster mode on/off.
   bool sharded = 11;
 
   // User security groups
@@ -449,36 +449,36 @@ message CreateClusterRequest {
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 17;
 
-  // Descriptions of users to be created in the Redis cluster.
+  // Descriptions of users to be created in the Valkey cluster.
   repeated UserSpec user_specs = 18 [(size) = ">=0"];
 
   // Allows to use ACL users to auth in sentinel
   bool auth_sentinel = 19;
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 20;
+  google.protobuf.StringValue disk_encryption_key_id = 20 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
 }
 
 message CreateClusterMetadata {
-  // ID of the Redis cluster that is being created.
+  // ID of the Valkey cluster that is being created.
   string cluster_id = 1;
 }
 
 message UpdateClusterRequest {
-  // ID of the Redis cluster to update.
-  // To get the Redis cluster ID, use a [ClusterService.List] request.
+  // ID of the Valkey cluster to update.
+  // To get the Valkey cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Field mask that specifies which fields of the Redis cluster should be updated.
+  // Field mask that specifies which fields of the Valkey cluster should be updated.
   google.protobuf.FieldMask update_mask = 2;
 
-  // New description of the Redis cluster.
+  // New description of the Valkey cluster.
   string description = 3 [(length) = "<=256"];
 
-  // Custom labels for the Redis cluster as `` key:value `` pairs. Maximum 64 per cluster.
+  // Custom labels for the Valkey cluster as `` key:value `` pairs. Maximum 64 per cluster.
   // For example, "project": "mvp" or "source": "dictionary".
   // The new set of labels will completely replace the old ones. To add a label, request the current
   // set with the [ClusterService.Get] method, then send an [ClusterService.Update] request with the new label added to the set.
@@ -514,7 +514,7 @@ message UpdateClusterRequest {
   Cluster.PersistenceMode persistence_mode = 10;
 
   // ID of the network to move the cluster to.
-  string network_id = 11 [(length) = "<=50"];
+  string network_id = 11 [(length) = "<=150"];
 
   // Enable FQDN instead of ip
   bool announce_hostnames = 12;
@@ -524,13 +524,13 @@ message UpdateClusterRequest {
 }
 
 message UpdateClusterMetadata {
-  // ID of the Redis cluster that is being updated.
+  // ID of the Valkey cluster that is being updated.
   string cluster_id = 1;
 }
 
 message DeleteClusterRequest {
-  // ID of the Redis cluster to delete.
-  // To get the Redis cluster ID, use a [ClusterService.List] request.
+  // ID of the Valkey cluster to delete.
+  // To get the Valkey cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -538,12 +538,12 @@ message DeleteClusterRequest {
 }
 
 message DeleteClusterMetadata {
-  // ID of the Redis cluster that is being deleted.
+  // ID of the Valkey cluster that is being deleted.
   string cluster_id = 1;
 }
 
 message StartClusterRequest {
-  // ID of the Redis cluster to start.
+  // ID of the Valkey cluster to start.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -551,12 +551,12 @@ message StartClusterRequest {
 }
 
 message StartClusterMetadata {
-  // ID of the Redis cluster.
+  // ID of the Valkey cluster.
   string cluster_id = 1;
 }
 
 message StopClusterRequest {
-  // ID of the Redis cluster to stop.
+  // ID of the Valkey cluster to stop.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -564,12 +564,12 @@ message StopClusterRequest {
 }
 
 message StopClusterMetadata {
-  // ID of the Redis cluster.
+  // ID of the Valkey cluster.
   string cluster_id = 1;
 }
 
 message MoveClusterRequest {
-  // ID of the Redis cluster to move.
+  // ID of the Valkey cluster to move.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -583,7 +583,7 @@ message MoveClusterRequest {
 }
 
 message MoveClusterMetadata {
-  // ID of the Redis cluster being moved.
+  // ID of the Valkey cluster being moved.
   string cluster_id = 1;
 
   // ID of the source folder.
@@ -594,8 +594,8 @@ message MoveClusterMetadata {
 }
 
 message UpdateClusterHostsRequest {
-  // ID of the Redis cluster to update hosts in.
-  // To get the Redis cluster ID, use a [ClusterService.List] request.
+  // ID of the Valkey cluster to update hosts in.
+  // To get the Valkey cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -606,7 +606,7 @@ message UpdateClusterHostsRequest {
 }
 
 message UpdateClusterHostsMetadata {
-  // ID of the Redis cluster to update hosts in.
+  // ID of the Valkey cluster to update hosts in.
   string cluster_id = 1;
 
   // Names of hosts that are being updated.
@@ -614,8 +614,8 @@ message UpdateClusterHostsMetadata {
 }
 
 message BackupClusterRequest {
-  // ID of the Redis cluster to back up.
-  // To get the Redis cluster ID, use a [ClusterService.List] request.
+  // ID of the Valkey cluster to back up.
+  // To get the Valkey cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -623,7 +623,7 @@ message BackupClusterRequest {
 }
 
 message BackupClusterMetadata {
-  // ID of the Redis cluster that is being backed up.
+  // ID of the Valkey cluster that is being backed up.
   string cluster_id = 1;
 }
 
@@ -632,17 +632,17 @@ message RestoreClusterRequest {
   // To get the backup ID, use a [ClusterService.ListBackups] request.
   string backup_id = 1 [(required) = true];
 
-  // Name of the new Redis cluster. The name must be unique within the folder.
+  // Name of the new Valkey cluster. The name must be unique within the folder.
   string name = 2 [
     (length) = "<=63",
     (pattern) = "[a-zA-Z0-9_-]*",
     (required) = true
   ];
 
-  // Description of the new Redis cluster.
+  // Description of the new Valkey cluster.
   string description = 3 [(length) = "<=256"];
 
-  // Custom labels for the Redis cluster as `` key:value `` pairs. Maximum 64 per cluster.
+  // Custom labels for the Valkey cluster as `` key:value `` pairs. Maximum 64 per cluster.
   // For example, "project": "mvp" or "source": "dictionary".
   map<string, string> labels = 4 [
     (length) = "<=63",
@@ -654,21 +654,21 @@ message RestoreClusterRequest {
     (size) = "<=64"
   ];
 
-  // Deployment environment of the new Redis cluster.
+  // Deployment environment of the new Valkey cluster.
   Cluster.Environment environment = 5 [(required) = true];
 
-  // Configuration for the Redis cluster to be created.
+  // Configuration for the Valkey cluster to be created.
   ConfigSpec config_spec = 6 [(required) = true];
 
-  // Configurations for Redis hosts that should be created for
+  // Configurations for Valkey hosts that should be created for
   // the cluster that is being created from the backup.
   // If left empty, the hosts are taken from the source cluster of the backup.
   repeated HostSpec host_specs = 7;
 
-  // ID of the network to create the Redis cluster in.
-  string network_id = 8 [(length) = "<=50"];
+  // ID of the network to create the Valkey cluster in.
+  string network_id = 8 [(length) = "<=150"];
 
-  // ID of the folder to create the Redis cluster in.
+  // ID of the folder to create the Valkey cluster in.
   string folder_id = 9 [(length) = "<=50"];
 
   // User security groups
@@ -692,18 +692,18 @@ message RestoreClusterRequest {
   // Allows to use ACL users to auth in sentinel
   bool auth_sentinel = 16;
 
-  // Redis cluster mode on/off.
+  // Valkey cluster mode on/off.
   bool sharded = 17;
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 18;
+  google.protobuf.StringValue disk_encryption_key_id = 18 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
 
-  // Descriptions of users to be created in the Redis cluster.
+  // Descriptions of users to be created in the Valkey cluster.
   repeated UserSpec user_specs = 19 [(size) = ">=0"];
 }
 
 message RestoreClusterMetadata {
-  // ID of the new Redis cluster that is being created from a backup.
+  // ID of the new Valkey cluster that is being created from a backup.
   string cluster_id = 1;
 
   // ID of the backup that is being used for creating a cluster.
@@ -711,7 +711,7 @@ message RestoreClusterMetadata {
 }
 
 message RescheduleMaintenanceRequest {
-  // ID of the Redis cluster to reschedule the maintenance operation for.
+  // ID of the Valkey cluster to reschedule the maintenance operation for.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -739,7 +739,7 @@ message RescheduleMaintenanceRequest {
 message RescheduleMaintenanceMetadata {
   reserved 2 to 3;
 
-  // ID of the Redis cluster.
+  // ID of the Valkey cluster.
   string cluster_id = 1;
 
   // The time until which this maintenance operation is to be delayed.
@@ -747,7 +747,7 @@ message RescheduleMaintenanceMetadata {
 }
 
 message StartClusterFailoverRequest {
-  // ID of the Redis cluster to start failover on.
+  // ID of the Valkey cluster to start failover on.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -776,7 +776,7 @@ message StartClusterFailoverRequest {
 }
 
 message StartClusterFailoverMetadata {
-  // ID of the Redis cluster on which failover will be initiated.
+  // ID of the Valkey cluster on which failover will be initiated.
   string cluster_id = 1;
 
   // List of hostnames which should not be masters. Can be empty for sentinel clusters or can contain multiple hosts for sharded clusters.
@@ -795,8 +795,8 @@ message LogRecord {
 }
 
 message ListClusterLogsRequest {
-  // ID of the Redis cluster to request logs for.
-  // To get the Redis cluster ID use a [ClusterService.List] request.
+  // ID of the Valkey cluster to request logs for.
+  // To get the Valkey cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -811,7 +811,7 @@ message ListClusterLogsRequest {
   enum ServiceType {
     SERVICE_TYPE_UNSPECIFIED = 0;
 
-    // Logs of Redis activity.
+    // Logs of Valkey activity.
     REDIS = 1;
 
     // Valkey audit logs
@@ -874,7 +874,7 @@ message StreamLogRecord {
 }
 
 message StreamClusterLogsRequest {
-  // ID of the Redis cluster.
+  // ID of the Valkey cluster.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -888,7 +888,7 @@ message StreamClusterLogsRequest {
   enum ServiceType {
     SERVICE_TYPE_UNSPECIFIED = 0;
 
-    // Logs of Redis activity.
+    // Logs of Valkey activity.
     REDIS = 1;
 
     // Valkey audit logs
@@ -917,7 +917,7 @@ message StreamClusterLogsRequest {
 }
 
 message ListClusterOperationsRequest {
-  // ID of the Redis cluster to list operations for.
+  // ID of the Valkey cluster to list operations for.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -934,7 +934,7 @@ message ListClusterOperationsRequest {
 }
 
 message ListClusterOperationsResponse {
-  // List of operations for the specified Redis cluster.
+  // List of operations for the specified Valkey cluster.
   repeated operation.Operation operations = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results
@@ -945,8 +945,8 @@ message ListClusterOperationsResponse {
 }
 
 message ListClusterBackupsRequest {
-  // ID of the Redis cluster.
-  // To get the Redis cluster ID use a [ClusterService.List] request.
+  // ID of the Valkey cluster.
+  // To get the Valkey cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -963,7 +963,7 @@ message ListClusterBackupsRequest {
 }
 
 message ListClusterBackupsResponse {
-  // List of Redis backups.
+  // List of Valkey backups.
   repeated Backup backups = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results
@@ -974,8 +974,8 @@ message ListClusterBackupsResponse {
 }
 
 message ListClusterHostsRequest {
-  // ID of the Redis cluster.
-  // To get the Redis cluster ID use a [ClusterService.List] request.
+  // ID of the Valkey cluster.
+  // To get the Valkey cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -1003,19 +1003,19 @@ message ListClusterHostsResponse {
 }
 
 message AddClusterHostsRequest {
-  // ID of the Redis cluster to add hosts to.
-  // To get the Redis cluster ID, use a [ClusterService.List] request.
+  // ID of the Valkey cluster to add hosts to.
+  // To get the Valkey cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Configurations for Redis hosts that should be added to the cluster.
+  // Configurations for Valkey hosts that should be added to the cluster.
   repeated HostSpec host_specs = 2 [(size) = ">0"];
 }
 
 message AddClusterHostsMetadata {
-  // ID of the Redis cluster to which the hosts are being added.
+  // ID of the Valkey cluster to which the hosts are being added.
   string cluster_id = 1;
 
   // Names of hosts that are being added to the cluster.
@@ -1023,8 +1023,8 @@ message AddClusterHostsMetadata {
 }
 
 message DeleteClusterHostsRequest {
-  // ID of the Redis cluster to remove hosts from.
-  // To get the Redis cluster ID, use a [ClusterService.List] request.
+  // ID of the Valkey cluster to remove hosts from.
+  // To get the Valkey cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
@@ -1038,7 +1038,7 @@ message DeleteClusterHostsRequest {
 }
 
 message DeleteClusterHostsMetadata {
-  // ID of the Redis cluster to remove hosts from.
+  // ID of the Valkey cluster to remove hosts from.
   string cluster_id = 1;
 
   // Names of hosts that are being deleted.
@@ -1046,14 +1046,14 @@ message DeleteClusterHostsMetadata {
 }
 
 message GetClusterShardRequest {
-  // ID of the Redis cluster the shard belongs to.
+  // ID of the Valkey cluster the shard belongs to.
   // To get the cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Name of Redis shard to return.
+  // Name of Valkey shard to return.
   // To get the shard name use a [ClusterService.ListShards] request.
   string shard_name = 2 [
     (length) = "<=63",
@@ -1063,7 +1063,7 @@ message GetClusterShardRequest {
 }
 
 message ListClusterShardsRequest {
-  // ID of the Redis cluster to list shards in.
+  // ID of the Valkey cluster to list shards in.
   // To get the cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -1082,7 +1082,7 @@ message ListClusterShardsRequest {
 }
 
 message ListClusterShardsResponse {
-  // List of Redis shards.
+  // List of Valkey shards.
   repeated Shard shards = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results
@@ -1097,7 +1097,7 @@ message ListClusterShardsResponse {
 message AddClusterShardRequest {
   reserved 3;
 
-  // ID of the Redis cluster to create a shard in.
+  // ID of the Valkey cluster to create a shard in.
   // To get the cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -1112,28 +1112,28 @@ message AddClusterShardRequest {
     (required) = true
   ];
 
-  // Configurations for Redis hosts that should be created with the shard.
+  // Configurations for Valkey hosts that should be created with the shard.
   // Must contain at least one element.
   repeated HostSpec host_specs = 4 [(size) = ">0"];
 }
 
 message AddClusterShardMetadata {
-  // ID of the Redis cluster that a shard is being added to.
+  // ID of the Valkey cluster that a shard is being added to.
   string cluster_id = 1;
 
-  // Name of the Redis shard that is being created.
+  // Name of the Valkey shard that is being created.
   string shard_name = 2;
 }
 
 message DeleteClusterShardRequest {
-  // ID of the Redis cluster the shard belongs to.
+  // ID of the Valkey cluster the shard belongs to.
   // To get the cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Name of the Redis shard to delete.
+  // Name of the Valkey shard to delete.
   // To get the shard name use a [ClusterService.ListShards] request.
   string shard_name = 2 [
     (length) = "<=63",
@@ -1143,15 +1143,15 @@ message DeleteClusterShardRequest {
 }
 
 message DeleteClusterShardMetadata {
-  // ID of the Redis cluster the shard belongs to.
+  // ID of the Valkey cluster the shard belongs to.
   string cluster_id = 1;
 
-  // Name of the Redis shard that is being deleted.
+  // Name of the Valkey shard that is being deleted.
   string shard_name = 2;
 }
 
 message RebalanceClusterRequest {
-  // ID of the Redis cluster to rebalance.
+  // ID of the Valkey cluster to rebalance.
   // To get the cluster ID use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -1160,24 +1160,26 @@ message RebalanceClusterRequest {
 }
 
 message RebalanceClusterMetadata {
-  // ID of the Redis cluster that is being rebalancing.
+  // ID of the Valkey cluster that is being rebalancing.
   string cluster_id = 1;
 }
 
 message UpdateHostSpec {
   // Name of the host to update.
-  // To get the Redis host name, use a [ClusterService.ListHosts] request.
+  // To get the Valkey host name, use a [ClusterService.ListHosts] request.
   string host_name = 1 [(required) = true];
 
-  // A replica with a low priority number is considered better for promotion.
-  // A replica with priority of 0 will never be selected by Redis Sentinel for promotion.
+  // Priority of the host as a candidate for promotion to master: the higher the value,
+  // the more preferred the host is. A host with priority 0 is promoted only if there are
+  // no other suitable candidates. The priority is ignored if the host requires a full
+  // resynchronization: in that case the host with the smallest replication lag is promoted.
   // Works only for non-sharded clusters. Default value is 100.
   google.protobuf.Int64Value replica_priority = 2;
 
   // Whether the host should get a public IP address on update.
   bool assign_public_ip = 3;
 
-  // Field mask that specifies which fields of the Redis host should be updated.
+  // Field mask that specifies which fields of the Valkey host should be updated.
   google.protobuf.FieldMask update_mask = 4;
 }
 
@@ -1191,15 +1193,17 @@ message HostSpec {
   // The ID of the network is set in the field [Cluster.network_id].
   string subnet_id = 2;
 
-  // ID of the Redis shard the host belongs to.
+  // ID of the Valkey shard the host belongs to.
   // To get the shard ID use a [ClusterService.ListShards] request.
   string shard_name = 3 [
     (length) = "<=63",
     (pattern) = "[a-zA-Z0-9_-]*"
   ];
 
-  // A replica with a low priority number is considered better for promotion.
-  // A replica with priority of 0 will never be selected by Redis Sentinel for promotion.
+  // Priority of the host as a candidate for promotion to master: the higher the value,
+  // the more preferred the host is. A host with priority 0 is promoted only if there are
+  // no other suitable candidates. The priority is ignored if the host requires a full
+  // resynchronization: in that case the host with the smallest replication lag is promoted.
   // Works only for non-sharded clusters. Default value is 100.
   google.protobuf.Int64Value replica_priority = 4;
 
@@ -1213,36 +1217,36 @@ message HostSpec {
 message ConfigSpec {
   reserved 9 to 10;
 
-  // Version of Redis used in the cluster.
+  // Version of Valkey used in the cluster.
   string version = 1;
-  // Configuration of a Redis cluster.
+  // Configuration of a Valkey cluster.
   oneof redis_spec {
-    // Configuration of a Redis 5.0 server.
+    // Configuration of a Valkey 5.0 server.
     config.RedisConfig5_0 redis_config_5_0 = 2 [
       deprecated = true,
       json_name = "redisConfig_5_0"
     ];
 
-    // Configuration of a Redis 6.0 server.
+    // Configuration of a Valkey 6.0 server.
     config.RedisConfig6_0 redis_config_6_0 = 6 [
       deprecated = true,
       json_name = "redisConfig_6_0"
     ];
 
-    // Configuration of a Redis 6.2 server.
+    // Configuration of a Valkey 6.2 server.
     config.RedisConfig6_2 redis_config_6_2 = 7 [
       deprecated = true,
       json_name = "redisConfig_6_2"
     ];
 
-    // Configuration of a Redis 7.0 server.
+    // Configuration of a Valkey 7.0 server.
     config.RedisConfig7_0 redis_config_7_0 = 8 [
       deprecated = true,
       json_name = "redisConfig_7_0"
     ];
   }
 
-  // Resources allocated to Redis hosts.
+  // Resources allocated to Valkey hosts.
   Resources resources = 3;
 
   // Time to start the daily backup, in the UTC timezone.
@@ -1251,7 +1255,7 @@ message ConfigSpec {
   // Access policy to DB
   Access access = 5;
 
-  // Unified configuration of a Redis cluster. Use this field for all currently
+  // Unified configuration of a Valkey cluster. Use this field for all currently
   // available versions.
   config.RedisConfig redis = 11 [json_name = "redis"];
 

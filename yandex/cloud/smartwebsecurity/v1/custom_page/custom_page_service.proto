@@ -125,7 +125,7 @@ message CreateCustomPageRequest {
   string content = 5;
 
   // MIME type of the custom page content.
-  string content_type = 6;
+  string content_type = 6 [(pattern) = "[\\t\\x20-\\x7E]*"];
 
   // HTTP status code returned with the custom page.
   CustomPage.StatusCode status_code = 7;
@@ -175,7 +175,7 @@ message UpdateCustomPageRequest {
   string content = 6;
 
   // MIME type of the custom page content.
-  string content_type = 7;
+  string content_type = 7 [(pattern) = "[\\t\\x20-\\x7E]*"];
 
   // HTTP status code returned with the custom page.
   CustomPage.StatusCode status_code = 8;

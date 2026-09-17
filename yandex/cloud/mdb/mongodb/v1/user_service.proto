@@ -13,24 +13,24 @@ import "yandex/cloud/validation.proto";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/mongodb/v1;mongodb";
 option java_package = "yandex.cloud.api.mdb.mongodb.v1";
 
-// A set of methods for managing MongoDB User resources.
+// A set of methods for managing StoreDoc User resources.
 service UserService {
-  // Returns the specified MongoDB User resource.
-  // To get the list of available MongoDB User resources, make a [List] request.
+  // Returns the specified StoreDoc User resource.
+  // To get the list of available StoreDoc User resources, make a [List] request.
   rpc Get(GetUserRequest) returns (User) {
     option (google.api.http) = {
       get: "/managed-mongodb/v1/clusters/{cluster_id}/users/{user_name}"
     };
   };
 
-  // Retrieves the list of MongoDB User resources in the specified cluster.
+  // Retrieves the list of StoreDoc User resources in the specified cluster.
   rpc List(ListUsersRequest) returns (ListUsersResponse) {
     option (google.api.http) = {
       get: "/managed-mongodb/v1/clusters/{cluster_id}/users"
     };
   };
 
-  // Creates a MongoDB user in the specified cluster.
+  // Creates a StoreDoc user in the specified cluster.
   rpc Create(CreateUserRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "CreateUserMetadata"
@@ -42,7 +42,7 @@ service UserService {
     };
   };
 
-  // Updates the specified MongoDB user.
+  // Updates the specified StoreDoc user.
   rpc Update(UpdateUserRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateUserMetadata"
@@ -54,7 +54,7 @@ service UserService {
     };
   };
 
-  // Deletes the specified MongoDB user.
+  // Deletes the specified StoreDoc user.
   rpc Delete(DeleteUserRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeleteUserMetadata"
@@ -65,7 +65,7 @@ service UserService {
     };
   };
 
-  // Grants permission to the specified MongoDB user.
+  // Grants permission to the specified StoreDoc user.
   rpc GrantPermission(GrantUserPermissionRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "GrantUserPermissionMetadata"
@@ -77,7 +77,7 @@ service UserService {
     };
   };
 
-  // Revokes permission from the specified MongoDB user.
+  // Revokes permission from the specified StoreDoc user.
   rpc RevokePermission(RevokeUserPermissionRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "RevokeUserPermissionMetadata"
@@ -91,14 +91,14 @@ service UserService {
 }
 
 message GetUserRequest {
-  // ID of the MongoDB cluster the user belongs to.
+  // ID of the StoreDoc cluster the user belongs to.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
 
-  // Name of the MongoDB User resource to return.
+  // Name of the StoreDoc User resource to return.
   // To get the name of the user, use a [UserService.List] request.
   string user_name = 2 [
     (length) = "<=63",
@@ -108,7 +108,7 @@ message GetUserRequest {
 }
 
 message ListUsersRequest {
-  // ID of the cluster to list MongoDB users in.
+  // ID of the cluster to list StoreDoc users in.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -126,7 +126,7 @@ message ListUsersRequest {
 }
 
 message ListUsersResponse {
-  // List of MongoDB User resources.
+  // List of StoreDoc User resources.
   repeated User users = 1;
 
   // This token allows you to get the next page of results for list requests. If the number of results
@@ -137,7 +137,7 @@ message ListUsersResponse {
 }
 
 message CreateUserRequest {
-  // ID of the MongoDB cluster to create a user in.
+  // ID of the StoreDoc cluster to create a user in.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -149,7 +149,7 @@ message CreateUserRequest {
 }
 
 message CreateUserMetadata {
-  // ID of the MongoDB cluster the user is being created in.
+  // ID of the StoreDoc cluster the user is being created in.
   string cluster_id = 1;
 
   // Name of the user that is being created.
@@ -157,9 +157,7 @@ message CreateUserMetadata {
 }
 
 message UpdateUserRequest {
-  reserved 6;
-
-  // ID of the MongoDB cluster the user belongs to.
+  // ID of the StoreDoc cluster the user belongs to.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -174,7 +172,7 @@ message UpdateUserRequest {
     (required) = true
   ];
 
-  // Field mask that specifies which fields of the MongoDB User resource should be updated.
+  // Field mask that specifies which fields of the StoreDoc User resource should be updated.
   google.protobuf.FieldMask update_mask = 3;
 
   // New password for the user.
@@ -183,12 +181,15 @@ message UpdateUserRequest {
   // New set of permissions for the user.
   repeated Permission permissions = 5;
 
+  // Generate password using Connection Manager
+  google.protobuf.BoolValue generate_password = 6;
+
   // Deletion Protection inhibits deletion of the user
   google.protobuf.BoolValue deletion_protection = 7;
 }
 
 message UpdateUserMetadata {
-  // ID of the MongoDB cluster the user belongs to.
+  // ID of the StoreDoc cluster the user belongs to.
   string cluster_id = 1;
 
   // Name of the user that is being updated.
@@ -196,7 +197,7 @@ message UpdateUserMetadata {
 }
 
 message DeleteUserRequest {
-  // ID of the MongoDB cluster the user belongs to.
+  // ID of the StoreDoc cluster the user belongs to.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -213,7 +214,7 @@ message DeleteUserRequest {
 }
 
 message DeleteUserMetadata {
-  // ID of the MongoDB cluster the user belongs to.
+  // ID of the StoreDoc cluster the user belongs to.
   string cluster_id = 1;
 
   // Name of the user that is being deleted.
@@ -221,7 +222,7 @@ message DeleteUserMetadata {
 }
 
 message GrantUserPermissionRequest {
-  // ID of the MongoDB cluster the user belongs to.
+  // ID of the StoreDoc cluster the user belongs to.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -241,7 +242,7 @@ message GrantUserPermissionRequest {
 }
 
 message GrantUserPermissionMetadata {
-  // ID of the MongoDB cluster the user belongs to.
+  // ID of the StoreDoc cluster the user belongs to.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1;
 
@@ -250,7 +251,7 @@ message GrantUserPermissionMetadata {
 }
 
 message RevokeUserPermissionRequest {
-  // ID of the MongoDB cluster the user belongs to.
+  // ID of the StoreDoc cluster the user belongs to.
   // To get the cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
     (length) = "<=50",
@@ -274,7 +275,7 @@ message RevokeUserPermissionRequest {
 }
 
 message RevokeUserPermissionMetadata {
-  // ID of the MongoDB cluster the user belongs to.
+  // ID of the StoreDoc cluster the user belongs to.
   string cluster_id = 1;
 
   // Name of the user whose permission is being revoked.

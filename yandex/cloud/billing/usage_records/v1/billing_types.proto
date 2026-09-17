@@ -30,7 +30,7 @@ message ServiceInstance {
   // Type of the service instance: tracker, datalens, cloud, etc.
   string type = 2;
 
-  // Human-readable display name of the serice instance.
+  // Human-readable display name of the service instance.
   string name = 3;
 
   // Optional billing account identifier associated with this service instance

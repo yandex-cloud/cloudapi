@@ -621,6 +621,11 @@ message ResolvedUser {
 
   // ID of the userpool the user belongs to.
   string userpool_id = 3;
+
+  // Timestamp when the user's current password was created.
+  // For synchronized passwords, this is the time when the password was last set in the source directory.
+  // Omitted if the timestamp is unknown.
+  google.protobuf.Timestamp password_created_at = 4;
 }
 
 // Response for the [UserService.ResolveExternalIds] operation.

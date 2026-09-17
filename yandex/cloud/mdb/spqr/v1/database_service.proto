@@ -136,7 +136,6 @@ message DeleteDatabaseRequest {
 }
 
 message DeleteDatabaseMetadata {
-  // ID of the SPQR cluster where the database is being deleted.
   string cluster_id = 1;
 
   // Name of the SPQR database that is being deleted.

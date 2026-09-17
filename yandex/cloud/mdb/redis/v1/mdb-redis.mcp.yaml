@@ -11,10 +11,14 @@ services:
       - method: Get
       - method: List
       - method: Create
-        tags: ["sensitive"]
+        wait: false
         input:
           - field: config_spec
             inner:
+              - field: redis
+                inner:
+                  - field: password
+                    disabled: true
               - field: redis_config_5_0
                 disabled: true
               - field: redis_config_6_0
@@ -30,7 +34,7 @@ services:
                   - field: nanos
                     disabled: true
       - method: Update
-        tags: ["sensitive"]
+        wait: false
         input:
           - field: config_spec
             inner:
@@ -51,11 +55,15 @@ services:
       - method: Delete
         disabled: true
       - method: Start
+        wait: false
       - method: Stop
+        wait: false
       - method: Move
+        wait: false
       - method: Backup
+        wait: false
       - method: Restore
-        tags: ["sensitive"]
+        wait: false
         input:
           - field: config_spec
             inner:
@@ -77,20 +85,26 @@ services:
       - method: StartFailover
       - method: ListLogs
       - method: StreamLogs
+        disabled: true
       - method: ListOperations
       - method: ListBackups
       - method: ListHosts
       - method: AddHosts
+        wait: false
       - method: DeleteHosts
         disabled: true
       - method: UpdateHosts
+        wait: false
       - method: GetShard
       - method: ListShards
       - method: AddShard
+        wait: false
       - method: DeleteShard
         disabled: true
       - method: Rebalance
+        wait: false
       - method: EnableSharding
+        wait: false
       - method: ListAccessBindings
       - method: SetAccessBindings
         disabled: true
@@ -106,8 +120,15 @@ services:
       - method: Get
       - method: List
       - method: Create
-        tags: ["sensitive"]
       - method: Update
-        tags: ["sensitive"]
       - method: Delete
         disabled: true
+
+  - name: VersionsService
+    tools:
+      - method: List
+        input:
+          - field: page_size
+            disabled: true
+          - field: page_token
+            disabled: true
