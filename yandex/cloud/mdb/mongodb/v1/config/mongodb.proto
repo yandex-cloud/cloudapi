@@ -475,6 +475,40 @@ message MongosConfig {
     google.protobuf.DoubleValue slow_op_sample_rate = 2 [(value) = "0-1"];
   }
 
+  message BalancerConfig {
+    message SecondaryThrottle {
+      message WriteConcern {
+        // Number of replica set members that must acknowledge each document migration.
+        // Set either nodes or majority.
+        google.protobuf.Int64Value nodes = 1 [(value) = "1-7"];
+
+        // Set to true to require majority acknowledgement instead of a numeric node count.
+        google.protobuf.BoolValue majority = 2;
+
+        // Require acknowledgement after writing to the on-disk journal.
+        google.protobuf.BoolValue journal = 3;
+
+        // Write concern timeout in milliseconds. Zero means no timeout.
+        google.protobuf.Int64Value timeout_ms = 4 [(value) = ">=0"];
+      }
+
+      // Whether to wait for replication during migration. Cannot be false with write_concern.
+      google.protobuf.BoolValue enabled = 1;
+
+      // Explicit write concern for migration; implies secondary throttling when enabled is omitted.
+      WriteConcern write_concern = 2;
+    }
+
+    // Replication acknowledgement policy during chunk migration.
+    SecondaryThrottle secondary_throttle = 1;
+
+    // Wait for orphan cleanup before starting the next migration. This can affect reads on secondaries.
+    google.protobuf.BoolValue wait_for_delete = 2;
+
+    // Attempt to migrate oversized chunks that are not marked as jumbo.
+    google.protobuf.BoolValue attempt_to_balance_jumbo_chunks = 3;
+  }
+
   // Network settings for mongos.
   Network net = 3;
 
@@ -489,6 +523,10 @@ message MongosConfig {
 
   // `OperationProfiling` section of mongos configuration.
   OperationProfiling operation_profiling = 7;
+
+  // Cluster-wide balancer settings applied through mongos.
+  // The service manages the balancing window; change enabled status through SetBalancerStatus.
+  BalancerConfig balancer_config = 8;
 }
 
 message MongodConfigSet {

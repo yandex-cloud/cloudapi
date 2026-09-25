@@ -939,6 +939,8 @@ message ConfigSpec {
 
   // Access policy to DB
   Access access = 4;
+
+  // Configuration setting which enables/disables SOX audit.
   google.protobuf.BoolValue sox_audit = 5;
 }
 

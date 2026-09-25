@@ -447,7 +447,7 @@ message CreateClusterRequest {
   bool announce_hostnames = 16;
 
   // Window of maintenance operations.
-  MaintenanceWindow maintenance_window = 17;
+  MaintenanceWindow maintenance_window = 17 [deprecated = true];
 
   // Descriptions of users to be created in the Valkey cluster.
   repeated UserSpec user_specs = 18 [(size) = ">=0"];
@@ -502,7 +502,7 @@ message UpdateClusterRequest {
   ];
 
   // New maintenance window settings for the cluster.
-  MaintenanceWindow maintenance_window = 7;
+  MaintenanceWindow maintenance_window = 7 [deprecated = true];
 
   // User security groups
   repeated string security_group_ids = 8;
@@ -687,7 +687,7 @@ message RestoreClusterRequest {
   bool announce_hostnames = 14;
 
   // Window of maintenance operations.
-  MaintenanceWindow maintenance_window = 15;
+  MaintenanceWindow maintenance_window = 15 [deprecated = true];
 
   // Allows to use ACL users to auth in sentinel
   bool auth_sentinel = 16;

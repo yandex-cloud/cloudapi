@@ -576,7 +576,7 @@ message CreateClusterRequest {
   repeated ShardSpec shard_specs = 16;
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 18;
+  google.protobuf.StringValue disk_encryption_key_id = 18 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
 }
 
 message CreateClusterMetadata {
@@ -838,7 +838,7 @@ message RestoreClusterRequest {
   repeated ShardSpec shard_specs = 15;
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 17;
+  google.protobuf.StringValue disk_encryption_key_id = 17 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
 
   // Specification of what databases and table to restore
   PartialRestoreSpec partial_restore = 19;

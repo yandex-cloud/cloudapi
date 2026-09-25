@@ -351,6 +351,17 @@ service ClusterService {
     };
   };
 
+  // Sets the balancer status for the specified sharded StoreDoc cluster.
+  rpc SetBalancerStatus(SetBalancerStatusRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "SetBalancerStatusMetadata"
+      response: "Cluster"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-mongodb/v1/clusters/{cluster_id}:setBalancerStatus"
+    };
+  };
 }
 
 message GetClusterRequest {
@@ -453,7 +464,7 @@ message CreateClusterRequest {
   bool deletion_protection = 12;
 
   // Maintenance window settings for the cluster.
-  MaintenanceWindow maintenance_window = 13;
+  MaintenanceWindow maintenance_window = 13 [deprecated = true];
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 14 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
@@ -508,7 +519,7 @@ message UpdateClusterRequest {
   ];
 
   // New maintenance window settings for the cluster.
-  MaintenanceWindow maintenance_window = 7;
+  MaintenanceWindow maintenance_window = 7 [deprecated = true];
 
   // User security groups
   repeated string security_group_ids = 8;
@@ -665,7 +676,7 @@ message RestoreClusterRequest {
   bool deletion_protection = 12;
 
   // Maintenance window settings for the cluster.
-  MaintenanceWindow maintenance_window = 13;
+  MaintenanceWindow maintenance_window = 13 [deprecated = true];
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 14 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
@@ -2029,4 +2040,18 @@ message ConfigSpec {
 
   // AutoCompact config
   AutoCompactConfig autocompact_config = 22;
+}
+
+message SetBalancerStatusRequest {
+  // ID of the sharded cluster.
+  string cluster_id = 1 [(required) = true];
+
+  // Whether to enable balancing.
+  google.protobuf.BoolValue enabled = 2 [(required) = true];
+}
+
+message SetBalancerStatusMetadata {
+  // ID of the StoreDoc cluster to set the balancer status for.
+  // To get the StoreDoc cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1;
 }

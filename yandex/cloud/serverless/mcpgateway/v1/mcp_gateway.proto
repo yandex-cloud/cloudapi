@@ -145,7 +145,7 @@ message McpTool {
   // Name of the tool.
   string name = 1 [
     (length) = "<=128",
-    (pattern) = "([a-zA-Z][-a-zA-Z0-9_]{0,63})?",
+    (pattern) = "([-.0-9A-Z_a-z]{1,128})?",
     (required) = true
   ];
 

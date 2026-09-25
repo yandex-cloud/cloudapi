@@ -1,0 +1,141 @@
+syntax = "proto3";
+
+package yandex.cloud.organizationmanager.v1.policy;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/organizationmanager/v1/policy;policy";
+option java_package = "yandex.cloud.api.organizationmanager.v1.policy";
+
+message AuthenticationPolicyRule {
+  // ID of the authentication policy rule.
+  string id = 1;
+
+  // Name of the authentication policy rule.
+  // The name is unique within the organization and contains 1-63 characters.
+  string name = 2;
+
+  // Description of an authentication policy rule. 0-256 characters long.
+  string description = 3;
+
+  // ID of the organization that the authentication policy rule belongs to.
+  string organization_id = 4;
+
+  // Effect to apply when the rule matches.
+  Effect effect = 5;
+
+  // Obligations to satisfy when the effect is ALLOW_WITH_OBLIGATIONS.
+  repeated Obligation obligations = 6;
+
+  // Creation timestamp.
+  google.protobuf.Timestamp created_at = 7;
+
+  // Modification timestamp.
+  google.protobuf.Timestamp updated_at = 8;
+
+  // List of IDs of subjects affected by the authentication policy rule.
+  // Empty list matches all subjects and is functionally equal to ["allUsers"].
+  repeated string subjects_include = 9;
+
+  // List of IDs of subjects not affected by the authentication policy rule.
+  // Empty list matches no subjects.
+  repeated string subjects_exclude = 10;
+
+  // Source IP ranges in CIDR notation that the authentication policy rule applies to.
+  // Empty list matches any source and is functionally equal to ["0.0.0.0/0", "::0/0"].
+  repeated string networks_include = 11;
+
+  // Source IP ranges in CIDR notation excluded from the authentication policy rule.
+  // Empty list matches no sources.
+  repeated string networks_exclude = 12;
+
+  // List of IDs of applications not affected by the authentication policy rule.
+  // Empty list matches no applications.
+  repeated string applications_exclude = 13;
+
+  // List of IDs of applications affected by the authentication policy rule.
+  // Empty list matches all applications.
+  repeated string applications_include = 14;
+
+  // Status of the authentication policy rule.
+  Status status = 15;
+
+  // Labels of the authentication policy rule.
+  map<string, string> labels = 16;
+}
+
+enum Effect {
+  // The effect is not specified.
+  EFFECT_UNSPECIFIED = 0;
+
+  // Allow authentication provided the obligations in [AuthenticationPolicyRule.obligations] are satisfied.
+  ALLOW_WITH_OBLIGATIONS = 1;
+
+  // Deny authentication.
+  DENY = 2;
+}
+
+enum Status {
+  // The status is not specified.
+  STATUS_UNSPECIFIED = 0;
+
+  // Authentication policy rule is being created.
+  CREATING = 1;
+
+  // Authentication policy rule is active.
+  ACTIVE = 2;
+
+  // Authentication policy rule is inactive and is not considered during authentication.
+  INACTIVE = 3;
+
+  // Authentication policy rule is being updated.
+  UPDATING = 4;
+
+  // Authentication policy rule is being deleted and might not be considered during authentication.
+  DELETING = 5;
+}
+
+message Obligation {
+  oneof obligation {
+    option (exactly_one) = true;
+
+    // Require step-up authentication.
+    StepUpRequired step_up_required = 1;
+
+    // Allow skipping the organization's current MFA requirements.
+    SkipMfa skip_mfa = 2;
+
+    // Require full authentication again.
+    ReauthenticationRequired reauthentication_required = 3;
+  }
+}
+
+message StepUpRequired {
+  // ACR ID required to satisfy this obligation.
+  string acr_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Maximum age of a factor verification that can satisfy this obligation.
+  google.protobuf.Duration ttl = 2 [
+    (required) = true,
+    (value) = "5m-8760h"
+  ];
+}
+
+message SkipMfa {
+  // If true, the organization's current MFA requirements must have been satisfied at least once
+  // during the current session.
+  bool require_once = 1;
+}
+
+message ReauthenticationRequired {
+  // Maximum age of an authentication that can satisfy this obligation.
+  google.protobuf.Duration ttl = 1 [
+    (required) = true,
+    (value) = "5m-8760h"
+  ];
+}

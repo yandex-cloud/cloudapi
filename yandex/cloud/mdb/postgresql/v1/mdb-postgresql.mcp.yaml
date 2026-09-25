@@ -19,6 +19,8 @@ services:
       - method: List
       - method: Create
         input:
+          - field: maintenance_window # Deprecated in favor of maintenance_windows (plural).
+            disabled: true
           - field: config_spec
             inner:
               - field: version
@@ -83,6 +85,8 @@ services:
                     disabled: true
       - method: Update
         input:
+          - field: maintenance_window # Deprecated in favor of maintenance_windows (plural).
+            disabled: true
           - field: config_spec
             inner:
               - field: version
@@ -122,6 +126,8 @@ services:
       - method: Backup
       - method: Restore
         input:
+          - field: maintenance_window # Deprecated in favor of maintenance_windows (plural).
+            disabled: true
           - field: config_spec
             inner:
               - field: version

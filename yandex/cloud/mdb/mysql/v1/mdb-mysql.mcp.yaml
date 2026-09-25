@@ -11,7 +11,13 @@ services:
       - method: Get
       - method: List
       - method: Create
+        input:
+          - field: maintenance_window # Deprecated in favor of maintenance_windows (plural).
+            disabled: true
       - method: Update
+        input:
+          - field: maintenance_window # Deprecated in favor of maintenance_windows (plural).
+            disabled: true
       - method: Delete
         disabled: true
       - method: Start
@@ -19,6 +25,9 @@ services:
       - method: Move
       - method: Backup
       - method: Restore
+        input:
+          - field: maintenance_window # Deprecated in favor of maintenance_windows (plural).
+            disabled: true
       - method: RescheduleMaintenance
       - method: StartFailover
       - method: ListLogs

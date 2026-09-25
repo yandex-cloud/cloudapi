@@ -32,6 +32,10 @@ service MigrationService {
   rpc GetCloudMigrationStatusDashboard(GetCloudMigrationStatusDashboardRequest) returns (CloudMigrationStatusDashboard) {
   };
 
+  // Returns migration status dashboard for the specified folder.
+  rpc GetFolderMigrationStatusDashboard(GetFolderMigrationStatusDashboardRequest) returns (FolderMigrationStatusDashboard) {
+  };
+
   // Toggles whether redirects are allowed for the specified registry.
   rpc ToggleRegistryRedirects(ToggleRegistryRedirectsRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -131,6 +135,48 @@ message CloudMigrationStatusDashboard {
   string cloud_id = 1;
 
   // Overall migration status of the cloud.
+  MigrationStatus status = 2;
+
+  // Migration progress counters grouped by resource type.
+  CloudMigrationProgressCounters progress = 3;
+
+  // Top registry dashboards that failed during migration.
+  repeated MigrationStatusDashboard top_failed_registries = 4;
+
+  // Top registry dashboards that are currently being migrated.
+  repeated MigrationStatusDashboard top_in_progress_registries = 5;
+}
+
+// Request for getting migration status dashboard for the specified folder.
+message GetFolderMigrationStatusDashboardRequest {
+  // ID of the folder.
+  string folder_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Maximum number of failed registry dashboards to return.
+  int64 failed_registries_limit = 2 [(value) = "0-100"];
+
+  // Maximum number of in-progress registry dashboards to return.
+  int64 in_progress_registries_limit = 3 [(value) = "0-100"];
+
+  // Maximum number of failed repositories to return for each registry dashboard.
+  int64 failed_repositories_limit = 4 [(value) = "0-100"];
+
+  // Maximum number of failed tags to return for each registry dashboard.
+  int64 failed_tags_limit = 5 [(value) = "0-100"];
+
+  // Maximum number of in-progress repositories to return for each registry dashboard.
+  int64 in_progress_repositories_limit = 6 [(value) = "0-100"];
+}
+
+// Migration status dashboard for the specified folder.
+message FolderMigrationStatusDashboard {
+  // ID of the folder.
+  string folder_id = 1;
+
+  // Overall migration status of the folder.
   MigrationStatus status = 2;
 
   // Migration progress counters grouped by resource type.

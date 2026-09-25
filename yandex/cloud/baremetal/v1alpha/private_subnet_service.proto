@@ -5,6 +5,7 @@ package yandex.cloud.baremetal.v1alpha;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/baremetal/v1alpha/dhcp.proto";
 import "yandex/cloud/baremetal/v1alpha/private_subnet.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -206,6 +207,9 @@ message DhcpOptionsSpec {
   // End IP address of the DHCP range (inclusive).
   // The absence or null value indicates that calculation will be performed based on CIDR.
   string end_ip = 2;
+
+  // DNS configuration handed out to servers via DHCP.
+  DnsOptions dns_options = 3;
 }
 
 message CreatePrivateSubnetMetadata {

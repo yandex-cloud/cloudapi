@@ -30,6 +30,7 @@ service ProviderService {
       get: "/backup/v1/providers"
     };
   };
+
 }
 
 message ActivateProviderRequest {

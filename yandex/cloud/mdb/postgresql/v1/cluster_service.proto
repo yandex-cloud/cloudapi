@@ -49,6 +49,7 @@ import "yandex/cloud/mdb/postgresql/v1/maintenance.proto";
 import "yandex/cloud/mdb/postgresql/v1/user.proto";
 import "yandex/cloud/mdb/v1/backup_retention_policy.proto";
 import "yandex/cloud/mdb/v1/connectionmanager.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -374,14 +375,20 @@ message CreateClusterRequest {
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 13;
   
-  // Window of maintenance operations.
-  MaintenanceWindow maintenance_window = 14;
+  // Deprecated. Use maintenance_windows instead.
+  MaintenanceWindow maintenance_window = 14 [deprecated = true];
 
   // Deprecated. Use yandex.cloud.mdb.postgresql.v1.BackupRetentionPolicyService.Create to create retention policies instead.
   repeated yandex.cloud.mdb.v1.BackupRetentionPolicySpec retention_policies = 15 [deprecated = true];
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 16;
+
+  // Maintenance windows.
+  // If both maintenance fields are set, maintenance_window must match
+  // the day and hour of the first weekly slot, or anytime for an anytime schedule.
+  // If neither field is set, maintenance can be scheduled anytime.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 17;
 }
 
 message CreateClusterMetadata {
@@ -429,8 +436,9 @@ message UpdateClusterRequest {
     (pattern) = "[a-zA-Z0-9_-]*"
   ];
 
-  // New maintenance window settings for the cluster.
-  MaintenanceWindow maintenance_window = 7;
+  // Deprecated. Use maintenance_windows instead.
+  // Writing this field alone replaces the complete schedule with the legacy window.
+  MaintenanceWindow maintenance_window = 7 [deprecated = true];
 
   // User security groups
   repeated string security_group_ids = 8;
@@ -443,6 +451,12 @@ message UpdateClusterRequest {
 
   // ID of the network to move the cluster to.
   string network_id = 11 [(length) = "<=50"];
+
+  // Maintenance windows.
+  // Replaces the complete schedule when selected in update_mask.
+  // If both maintenance fields are selected, maintenance_window must match
+  // the day and hour of the first weekly slot, or anytime for an anytime schedule.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 12;
 }
 
 message UpdateClusterMetadata {
@@ -595,11 +609,17 @@ message RestoreClusterRequest {
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 14;
 
-  // Window of maintenance operations.
-  MaintenanceWindow maintenance_window = 15;
+  // Deprecated. Use maintenance_windows instead.
+  MaintenanceWindow maintenance_window = 15 [deprecated = true];
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 16;
+
+  // Maintenance windows.
+  // If both maintenance fields are set, maintenance_window must match
+  // the day and hour of the first weekly slot, or anytime for an anytime schedule.
+  // If neither field is set, maintenance can be scheduled anytime.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 17;
 }
 
 message RestoreClusterMetadata {

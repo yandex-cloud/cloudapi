@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/api/field_behavior.proto";
 import "yandex/cloud/baremetal/v2/image.proto";
+import "yandex/cloud/baremetal/v2/user_configuration.proto";
 import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
@@ -28,6 +29,16 @@ service ImageService {
   rpc ListImages(ListImagesRequest) returns (ListImagesResponse) {
     option (google.api.http) = {
       get: "/baremetal/v2/folders/{folder_id}/images"
+    };
+  };
+
+  // Lists images available for installation on the selected configuration.
+  // (-- api-linter: yc::1702::method-no-resource=disabled --)
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
+  rpc ListCompatibleImages(ListCompatibleImagesRequest) returns (ListCompatibleImagesResponse) {
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v2/folders/{folder_id}/images:listCompatible"
     };
   };
 
@@ -141,5 +152,41 @@ message ResolveImagesResponse {
   // [ResolveImagesRequest.page_size], use `next_page_token` as the value
   // for the [ResolveImagesRequest.page_token] parameter in the next resolve request.
   // Each subsequent page will have its own `next_page_token` to continue paging through the results.
+  string next_page_token = 2;
+}
+
+message ListCompatibleImagesRequest {
+  // Folder of the server being configured. Used to check configuration access.
+  string folder_id = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (required) = true
+  ];
+  // Exactly one configuration must be provided.
+  oneof configuration {
+    // ID of an existing stock configuration.
+    string stock_configuration_id = 2;
+
+    // Complete custom configuration, in the same format as for server creation.
+    // The configuration does not need to be saved first.
+    UserConfiguration custom_configuration = 3;
+  }
+
+  // Folder containing images. Defaults to "baremetal-standard-images".
+  string image_folder_id = 4;
+
+  // Maximum number of compatible images to return. Defaults to 20; maximum 1000.
+  int64 page_size = 5 [(value) = "0-1000"];
+
+  // Token from the previous response. Keep the configuration and folders unchanged.
+  string page_token = 6;
+}
+
+message ListCompatibleImagesResponse {
+  // Available compatible images ordered by image ID ascending.
+  // Empty when installation is forbidden for the configuration or no image matches.
+  // Compatibility is checked again when the server is created or reinstalled.
+  repeated Image images = 1;
+
+  // Token for the next page; empty when there are no more compatible images.
   string next_page_token = 2;
 }

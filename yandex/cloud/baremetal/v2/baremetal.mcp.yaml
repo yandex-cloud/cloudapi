@@ -1,36 +1,60 @@
+include_protos:
+  - yandex/cloud/baremetal/v1alpha/configuration_service.proto
+
 services:
   - name: BootImageService
     tools:
       - method: GetBootImage
+        description: Gets a user-provided ISO boot image by ID, including its state and checksum.
       - method: ListBootImages
+        description: Lists user-provided ISO boot images in a folder with their import states.
       - method: CreateBootImage
+        description: Imports a user-provided ISO from Object Storage as a BareMetal boot image.
       - method: UpdateBootImage
+        description: Updates a boot image's name, description or annotations using a field mask.
       - method: DeleteBootImage
         disabled: true
       - method: ListBootImageOperations
 
-  - name: ConfigurationService
+  - name: yandex/cloud/baremetal/v1alpha/ConfigurationService
+    tools:
+      - method: Get
+        description: Retrieves a fixed BareMetal configuration by its known ID, returning the same hardware details as List without prices or stock availability.
+      - method: List
+        description: Lists fixed BareMetal configurations with CPU, RAM, disks and network interfaces, without prices or stock availability.
+
+  - name: yandex/cloud/baremetal/v2/ConfigurationService
     tools:
       - method: ListConfigurationRentalPeriods
+        description: Lists rental period IDs supported by a specific BareMetal configuration, without prices.
       - method: ResolveConfigurationDefaultStorage
+        description: Returns the default disk, RAID and partition layout for a configuration without modifying a server.
       - method: ResolveConfigurationsDefaultStorages
+        description: Returns default disk, RAID and partition layouts for multiple configuration IDs without modifying servers.
 
   - name: HardwarePoolService
     tools:
       - method: GetHardwarePool
+        description: Gets a BareMetal placement pool and its availability zone, without server stock counts.
       - method: ListHardwarePools
+        description: Lists BareMetal placement pools and their availability zones, without server stock counts.
 
   - name: ImageService
     tools:
       - method: GetImage
+        description: Gets a BareMetal OS installation image by ID, including its family and publication state.
       - method: ListImages
+        description: Lists BareMetal OS installation images in a folder with their families and publication states.
       - method: ResolveImages
 
   - name: PrivateCloudConnectionService
     tools:
       - method: GetPrivateCloudConnection
+        description: Gets a connection between a BareMetal VRF and a Cloud Router routing instance, including its state.
       - method: ListPrivateCloudConnections
+        description: Lists connections between BareMetal VRFs and Cloud Router routing instances in a folder.
       - method: CreatePrivateCloudConnection
+        description: Connects an existing BareMetal VRF to an existing Cloud Router routing instance.
       - method: UpdatePrivateCloudConnection
       - method: DeletePrivateCloudConnection
         disabled: true
@@ -40,7 +64,9 @@ services:
       - method: GetPrivateSubnet
       - method: ListPrivateSubnets
       - method: CreatePrivateSubnet
+        description: Creates a private subnet in a hardware pool, with routing and DHCP available only when VRF options are supplied.
       - method: UpdatePrivateSubnet
+        description: Updates private subnet metadata, VRF attachment, CIDR, gateway or DHCP settings using a field mask.
       - method: DeletePrivateSubnet
         disabled: true
       - method: ListPrivateSubnetOperations
@@ -48,15 +74,20 @@ services:
   - name: PublicPrefixPoolService
     tools:
       - method: GetPublicPrefixPool
+        description: Gets a public IP prefix pool, including its CIDR and minimum available subnet prefix length.
       - method: ListPublicPrefixPools
+        description: Lists public IP prefix pools in a folder for selecting address space when creating public subnets.
       - method: UpdatePublicPrefixPool
+        description: Updates a public prefix pool's name, description or annotations using a field mask.
 
   - name: PublicSubnetService
     tools:
       - method: GetPublicSubnet
       - method: ListPublicSubnets
       - method: CreatePublicSubnet
+        description: Creates a dedicated public subnet using automatic CIDR allocation or an explicit CIDR from a user-owned prefix pool.
       - method: UpdatePublicSubnet
+        description: Updates public subnet metadata or hardware pools, or converts an ephemeral subnet to dedicated, using a field mask.
       - method: DeletePublicSubnet
         disabled: true
       - method: ListPublicSubnetOperations
@@ -64,14 +95,20 @@ services:
   - name: RentalPeriodService
     tools:
       - method: ListRentalPeriods
+        description: Lists service-wide rental period IDs for BareMetal servers, which must be checked against the chosen configuration's supported periods.
 
   - name: ServerService
     tools:
       - method: GetServer
+        description: Gets an existing BareMetal server by ID with its state, configuration, networking and rental settings.
       - method: ListServers
+        description: Lists existing BareMetal servers in a folder with their state, configuration, networking and rental settings.
       - method: CreateServer
+        description: Rents and provisions a physical BareMetal server with the specified configuration, placement, network and optional OS settings.
       - method: BatchCreateServers
+        description: Rents and provisions up to 100 physical BareMetal servers from individual creation requests in the same folder.
       - method: UpdateServer
+        description: Updates server metadata, network interfaces, automatic renewal or the next rental period using a field mask.
       - method: DeleteServer
         disabled: true
       - method: SkipQuarantineServer
@@ -80,15 +117,21 @@ services:
       - method: PowerOnServer
       - method: RebootServer
       - method: ReinstallServer
+        description: Reinstalls the server OS with the specified image and storage layout, which can erase disk data.
       - method: RenewServerRental
+        description: Restores rental for a server quarantined solely because its rental expired and enables automatic renewal using the specified next rental period.
       - method: ListServerOperations
 
   - name: VrfService
     tools:
       - method: GetVrf
+        description: Gets an isolated routing domain (VRF) for BareMetal private subnets, including its state and static routes.
       - method: ListVrfs
+        description: Lists isolated routing domains (VRFs) for BareMetal private subnets in a folder.
       - method: CreateVrf
+        description: Creates an isolated routing domain (VRF) for BareMetal private subnets with optional static routes.
       - method: UpdateVrf
+        description: Updates VRF metadata and static routes, including route redistribution settings, using a field mask.
       - method: DeleteVrf
         disabled: true
       - method: ListVrfOperations

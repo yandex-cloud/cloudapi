@@ -88,7 +88,27 @@ message WordTiming {
   int64 length_ms = 3;
 }
 
+// With the `livetts` model, `audio_chunk` and `text_chunk` are never returned together in the same response message.
 message UtteranceSynthesisResponse {
+  // The general model emits AUDIO_TEXT_COMBINED or NO_SPEAKABLE_TEXT.
+  // The livetts model emits AUDIO_ONLY, TEXT_ONLY, or NO_SPEAKABLE_TEXT.
+  enum ChunkType {
+    // Chunk type is not specified.
+    CHUNK_TYPE_UNSPECIFIED = 0;
+
+    // Audio without text.
+    AUDIO_ONLY = 1;
+
+    // Text without audio.
+    TEXT_ONLY = 2;
+
+    // Audio with corresponding text.
+    AUDIO_TEXT_COMBINED = 3;
+
+    // Input contained no speakable text.
+    NO_SPEAKABLE_TEXT = 4;
+  }
+
   // Part of synthesized audio.
   AudioChunk audio_chunk = 1;
 
@@ -102,7 +122,11 @@ message UtteranceSynthesisResponse {
   int64 length_ms = 4;
 
   // Per-word timings for this audio chunk.
+  // The `livetts` model does not return word timings.
   repeated WordTiming word_timings = 5;
+
+  // See ChunkType.
+  ChunkType chunk_type = 6;
 }
 
 message AudioTemplate {
@@ -110,9 +134,11 @@ message AudioTemplate {
   AudioContent audio = 1;
 
   // Template and description of its variables.
+  // Not supported by the `livetts` model because audio templates are not supported.
   TextTemplate text_template = 2;
 
   // Describing variables in audio.
+  // Not supported by the `livetts` model because audio templates are not supported.
   repeated AudioVariable variables = 3;
 }
 
@@ -164,9 +190,11 @@ message Hints {
     string voice = 1;
 
     // Template for synthesizing.
+    // Not supported by the `livetts` model.
     AudioTemplate audio_template = 2;
 
     // Hint to change speed.
+    // Not yet supported by the `livetts` model.
     double speed = 3;
 
     // Hint to regulate normalization level.
@@ -178,9 +206,11 @@ message Hints {
     string role = 5;
 
     // Hint to increase (or decrease) speaker's pitch, measured in Hz. Valid values are in range [-1000;1000], default value is 0.
+    // Not supported by the `livetts` model.
     double pitch_shift = 6;
 
     // Hint to limit both minimum and maximum audio duration.
+    // Not supported by the `livetts` model.
     DurationHint duration = 7;
   }
 }
@@ -195,6 +225,7 @@ message UtteranceSynthesisRequest {
     string text = 2;
 
     // Text template instance, e.g. `{"Hello, {username}" with username="Alice"}`.
+    // Not supported by the `livetts` model.
     TextTemplate text_template = 3;
   }
 
@@ -215,6 +246,7 @@ message UtteranceSynthesisRequest {
 
   // Specifies type of loudness normalization.
   // Optional. Default: `LUFS`.
+  // The `MAX_PEAK` value is not supported by the `livetts` model.
   LoudnessNormalizationType loudness_normalization_type = 6;
 
   // Optional. Automatically split long text to several utterances and bill accordingly. Some degradation in service quality is possible.
@@ -244,6 +276,7 @@ message SynthesisOptions {
   string role = 3;
 
   // Speed multiplier (default: 1.0).
+  // Not yet supported by the `livetts` model.
   double speed = 4;
 
   // Volume adjustment:
@@ -252,12 +285,14 @@ message SynthesisOptions {
   double volume = 5;
 
   // Pitch adjustment, in Hz, range [-1000, 1000], default 0.
+  // Not supported by the `livetts` model.
   double pitch_shift = 6;
 
   // Specifies output audio format. Default: 22050Hz, linear 16-bit signed little-endian PCM, with WAV header.
   AudioFormatOptions output_audio_spec = 7;
 
   // Loudness normalization type for output (default: `LUFS`).
+  // The `MAX_PEAK` value is not supported by the `livetts` model.
   LoudnessNormalizationType loudness_normalization_type = 8;
 }
 
@@ -285,7 +320,27 @@ message StreamSynthesisRequest {
   }
 }
 
+// With the `livetts` model, `audio_chunk` and `text_chunk` are never returned together in the same response message.
 message StreamSynthesisResponse {
+  // The general model emits AUDIO_TEXT_COMBINED or NO_SPEAKABLE_TEXT.
+  // The livetts model emits AUDIO_ONLY, TEXT_ONLY, or NO_SPEAKABLE_TEXT.
+  enum ChunkType {
+    // Chunk type is not specified.
+    CHUNK_TYPE_UNSPECIFIED = 0;
+
+    // Audio without text.
+    AUDIO_ONLY = 1;
+
+    // Text without audio.
+    TEXT_ONLY = 2;
+
+    // Audio with corresponding text.
+    AUDIO_TEXT_COMBINED = 3;
+
+    // Input contained no speakable text.
+    NO_SPEAKABLE_TEXT = 4;
+  }
+
   // Part of synthesized audio.
   AudioChunk audio_chunk = 1;
 
@@ -299,5 +354,9 @@ message StreamSynthesisResponse {
   int64 length_ms = 4;
 
   // Per-word timings for this audio chunk (milliseconds from stream start).
+  // The `livetts` model does not return word timings.
   repeated WordTiming word_timings = 5;
+
+  // See ChunkType.
+  ChunkType chunk_type = 6;
 }

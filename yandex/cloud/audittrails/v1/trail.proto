@@ -14,7 +14,7 @@ message Trail {
   reserved 13;
 
   message Destination {
-    reserved 2, 5;
+    reserved 2, 5, 7;
 
     oneof destination {
       option (exactly_one) = true;
@@ -31,6 +31,9 @@ message Trail {
 
       // Configuration for event delivery to EventRouter
       EventRouter eventrouter = 6;
+
+      // Configuration for event delivery to Monium
+      Monium monium = 8;
     }
   }
 
@@ -64,6 +67,10 @@ message Trail {
   message EventRouter {
     // ID of the EventRouter Connector
     string eventrouter_connector_id = 1 [(length) = "<=64"];
+  }
+
+  // Monium destination has no user-configurable parameters.
+  message Monium {
   }
 
   message Filter {

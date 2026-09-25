@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.v1;
+
+import "google/protobuf/duration.proto";
+import "google/type/dayofweek.proto";
+import "google/type/timeofday.proto";
+
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/v1;mdb";
+option java_package = "yandex.cloud.api.mdb.v1";
+
+// Maintenance windows shared by all managed database services.
+message MaintenanceWindows {
+  oneof policy {
+    option (exactly_one) = true;
+
+    // Maintenance operations can be scheduled anytime.
+    AnytimeMaintenanceWindow anytime = 1;
+
+    // Maintenance operations can be scheduled during the specified weekly slots.
+    WeeklyMaintenanceSchedule weekly_maintenance_schedule = 2;
+  }
+}
+
+message AnytimeMaintenanceWindow {}
+
+message WeeklyMaintenanceSchedule {
+  // Weekly time slots during which maintenance operations can be scheduled.
+  // At least one slot is required.
+  repeated MaintenanceWindowSlot slots = 1 [(size) = ">0"];
+}
+
+message MaintenanceWindowSlot {
+  // Day of the week.
+  google.type.DayOfWeek day = 1;
+
+  // Start time in UTC.
+  google.type.TimeOfDay start_time = 2 [(required) = true];
+
+  // Slot duration.
+  google.protobuf.Duration duration = 3 [(required) = true];
+
+  // Allows maintenance operations that may cause temporary write unavailability.
+  bool allow_temporary_unavailability = 4;
+}

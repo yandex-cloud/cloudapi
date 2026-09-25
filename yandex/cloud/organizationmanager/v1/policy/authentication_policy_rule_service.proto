@@ -1,0 +1,329 @@
+syntax = "proto3";
+
+package yandex.cloud.organizationmanager.v1.policy;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/operation/operation.proto";
+import "yandex/cloud/organizationmanager/v1/policy/authentication_policy_rule.proto";
+import "yandex/cloud/validation.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/organizationmanager/v1/policy;policy";
+option java_package = "yandex.cloud.api.organizationmanager.v1.policy";
+
+service AuthenticationPolicyRuleService {
+  // Returns the specified authentication policy rule.
+  rpc Get(GetRuleRequest) returns (AuthenticationPolicyRule) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/policy/authenticationPolicyRules/{rule_id}"
+    };
+  };
+
+  // Lists authentication policy rules in the specified organization.
+  rpc List(ListRulesRequest) returns (ListRulesResponse) {
+    option (google.api.http) = {
+      get: "/organization-manager/v1/policy/authenticationPolicyRules"
+    };
+  };
+
+  // Creates an authentication policy rule in the specified organization.
+  rpc Create(CreateRuleRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "CreateRuleMetadata"
+      response: "AuthenticationPolicyRule"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/policy/authenticationPolicyRules"
+    };
+  };
+
+  // Updates the specified authentication policy rule.
+  rpc Update(UpdateRuleRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdateRuleMetadata"
+      response: "AuthenticationPolicyRule"
+    };
+    option (google.api.http) = {
+      body: "*"
+      patch: "/organization-manager/v1/policy/authenticationPolicyRules/{rule_id}"
+    };
+  };
+
+  // Deletes the specified authentication policy rule.
+  rpc Delete(DeleteRuleRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeleteRuleMetadata"
+      response: "DeleteRuleResponse"
+    };
+    option (google.api.http) = {
+      delete: "/organization-manager/v1/policy/authenticationPolicyRules/{rule_id}"
+    };
+  };
+
+  // Activates the specified authentication policy rule.
+  rpc Activate(ActivateRuleRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "ActivateRuleMetadata"
+      response: "AuthenticationPolicyRule"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/policy/authenticationPolicyRules/{rule_id}:activate"
+    };
+  };
+
+  // Deactivates the specified authentication policy rule.
+  rpc Deactivate(DeactivateRuleRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DeactivateRuleMetadata"
+      response: "AuthenticationPolicyRule"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/organization-manager/v1/policy/authenticationPolicyRules/{rule_id}:deactivate"
+    };
+  };
+}
+
+message GetRuleRequest {
+  // ID of the authentication policy rule to retrieve.
+  string rule_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message ListRulesRequest {
+  // ID of the organization to list authentication policy rules for.
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Maximum number of authentication policy rules to return.
+  int64 page_size = 2 [(value) = "0-1000"];
+
+  // Page token returned in [ListRulesResponse.next_page_token] by a previous request.
+  string page_token = 3 [(length) = "<=2000"];
+
+  // Filter expression applied to the returned rules.
+  // Only [AuthenticationPolicyRule.name] and [AuthenticationPolicyRule.id] support filtering.
+  string filter = 4 [(length) = "<=1000"];
+}
+
+message ListRulesResponse {
+  // Authentication policy rules matching the request.
+  repeated AuthenticationPolicyRule auth_policy_rules = 1;
+
+  // Token to retrieve the next page of results.
+  // Pass this value in `ListRulesRequest.page_token`.
+  string next_page_token = 2;
+}
+
+message CreateRuleRequest {
+  // ID of organization to create the authentication policy rule for.
+  string organization_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the authentication policy rule to create.
+  // The name must be unique within the organization and contain 1-63 characters.
+  string name = 2 [
+    (pattern) = "[a-z]([-a-z0-9]{0,61}[a-z0-9])?",
+    (required) = true
+  ];
+
+  // Description of the authentication policy rule to create. 0-256 characters long.
+  string description = 3 [(length) = "<=256"];
+
+  // Effect to apply when the rule matches.
+  Effect effect = 4;
+
+  // Obligations to satisfy when the effect is ALLOW_WITH_OBLIGATIONS.
+  repeated Obligation obligations = 5 [(size) = "<=5"];
+
+  // List of IDs of subjects to be affected by the authentication policy rule to create.
+  // Empty list will match all subjects and is functionally equal to ["allUsers"].
+  repeated string subjects_include = 6 [
+    (length) = "<=64",
+    (size) = "<=64"
+  ];
+
+  // List of IDs of subjects not to be affected by the authentication policy rule to create.
+  // Empty list will match no subjects.
+  repeated string subjects_exclude = 7 [
+    (length) = "<=64",
+    (size) = "<=64"
+  ];
+
+  // Source IP ranges in CIDR notation that the authentication policy rule applies to.
+  // Empty list will match any source and is functionally equal to ["0.0.0.0/0", "::0/0"].
+  repeated string networks_include = 8 [
+    (length) = "<=64",
+    (size) = "<=64"
+  ];
+
+  // Source IP ranges in CIDR notation excluded from the authentication policy rule.
+  // Empty list will match no sources.
+  repeated string networks_exclude = 9 [
+    (length) = "<=64",
+    (size) = "<=64"
+  ];
+
+  // List of IDs of applications not to be affected by the authentication policy rule to create.
+  // Empty list will match no applications.
+  repeated string applications_exclude = 10 [
+    (length) = "<=64",
+    (size) = "<=64"
+  ];
+
+  // List of IDs of applications to be affected by the authentication policy rule to create.
+  // Empty list will match all applications.
+  repeated string applications_include = 11 [
+    (length) = "<=64",
+    (size) = "<=64"
+  ];
+
+  // Labels of the authentication policy rule.
+  map<string, string> labels = 12 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+}
+
+message CreateRuleMetadata {
+  // ID of the authentication policy rule created by the operation.
+  string rule_id = 1;
+}
+
+message UpdateRuleRequest {
+  // ID of authentication policy rule to update.
+  string rule_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Authentication policy rule fields to update.
+  google.protobuf.FieldMask update_mask = 2;
+
+  // Updated name of the authentication policy rule.
+  // Name must be unique within organization.
+  string name = 3 [(pattern) = "|[a-z]([-a-z0-9]{0,61}[a-z0-9])?"];
+
+  // Updated description of the authentication policy rule.
+  string description = 4 [(length) = "<=256"];
+
+  // Effect to apply when the rule matches.
+  Effect effect = 5;
+
+  // Obligations to satisfy when the effect is ALLOW_WITH_OBLIGATIONS.
+  repeated Obligation obligations = 6 [(size) = "<=5"];
+
+  // List of IDs of subjects to be affected by the authentication policy rule.
+  // Empty list will match all subjects and is functionally equal to ["allUsers"].
+  repeated string subjects_include = 7 [
+    (length) = "<=64",
+    (size) = "<=64"
+  ];
+
+  // List of IDs of subjects not to be affected by the authentication policy rule.
+  // Empty list will match no subjects.
+  repeated string subjects_exclude = 8 [
+    (length) = "<=64",
+    (size) = "<=64"
+  ];
+
+  // Source IP ranges in CIDR notation that the authentication policy rule applies to.
+  // Empty list will match any source and is functionally equal to ["0.0.0.0/0", "::0/0"].
+  repeated string networks_include = 9 [
+    (length) = "<=64",
+    (size) = "<=64"
+  ];
+
+  // Source IP ranges in CIDR notation excluded from the authentication policy rule.
+  // Empty list will match no sources.
+  repeated string networks_exclude = 10 [
+    (length) = "<=64",
+    (size) = "<=64"
+  ];
+
+  // List of IDs of applications not to be affected by the authentication policy rule.
+  // Empty list will match no applications.
+  repeated string applications_exclude = 11 [
+    (length) = "<=64",
+    (size) = "<=64"
+  ];
+
+  // List of IDs of applications to be affected by the authentication policy rule.
+  // Empty list will match all applications.
+  repeated string applications_include = 12 [
+    (length) = "<=64",
+    (size) = "<=64"
+  ];
+
+  // Labels of the authentication policy rule.
+  map<string, string> labels = 13 [
+    (length) = "<=63",
+    (map_key) = {
+      length: "1-63"
+      pattern: "[a-z][-_0-9a-z]*"
+    },
+    (pattern) = "[-_0-9a-z]*",
+    (size) = "<=64"
+  ];
+}
+
+message UpdateRuleMetadata {
+  // ID of the authentication policy rule updated by the operation.
+  string rule_id = 1;
+}
+
+message DeleteRuleRequest {
+  // ID of authentication policy rule to delete.
+  string rule_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message DeleteRuleMetadata {
+  // ID of the authentication policy rule deleted by the operation.
+  string rule_id = 1;
+}
+
+message DeleteRuleResponse {
+}
+
+message ActivateRuleRequest {
+  // ID of authentication policy rule to activate.
+  string rule_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message ActivateRuleMetadata {
+  // ID of the authentication policy rule activated by the operation.
+  string rule_id = 1;
+}
+
+message DeactivateRuleRequest {
+  // ID of authentication policy rule to deactivate.
+  string rule_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message DeactivateRuleMetadata {
+  // ID of the authentication policy rule deactivated by the operation.
+  string rule_id = 1;
+}

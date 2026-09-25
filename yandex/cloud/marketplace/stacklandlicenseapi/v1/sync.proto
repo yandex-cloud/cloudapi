@@ -33,6 +33,21 @@ enum ProductType {
   PRODUCT_TYPE_S3 = 6;
 }
 
+// License validity type.
+enum LicenseType {
+  // The type is omitted. It is treated as term for backward compatibility.
+  LICENSE_TYPE_UNSPECIFIED = 0;
+
+  // License with a fixed validity period.
+  LICENSE_TYPE_TERM = 1;
+
+  // License without a contractual expiration date.
+  LICENSE_TYPE_PERPETUAL = 2;
+
+  // Trial license with a fixed validity period.
+  LICENSE_TYPE_TRIAL = 3;
+}
+
 // Usage data entry for a single installation
 message UsageEntry {
   // Installation ID
@@ -117,7 +132,7 @@ message License {
   // Timestamp when the license was issued
   google.protobuf.Timestamp issued_at = 5;
 
-  // Timestamp when the license expires
+  // Timestamp when the license expires. Absent for perpetual licenses.
   google.protobuf.Timestamp valid_until = 6;
 
   // List of limits for this license
@@ -125,6 +140,9 @@ message License {
 
   // Digital signature for this license
   string signature = 8;
+
+  // License validity type
+  LicenseType license_type = 9;
 }
 
 // Sync status enum
@@ -148,10 +166,11 @@ message SyncRequest {
   reserved "organization_id";
   reserved "billing_account_id";
 
-  // License server ID
+  // Deprecated. The server is selected from the authenticated service
+  // account binding; this value is ignored when present.
   string license_server_id = 3 [
     (length) = "<=50",
-    (required) = true
+    deprecated = true
   ];
 
   // Usage data for audit

@@ -281,7 +281,7 @@ message CreateClusterRequest {
   MaintenanceWindow maintenance_window = 15;
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 16;
+  google.protobuf.StringValue disk_encryption_key_id = 16 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
 }
 
 message CreateClusterMetadata {

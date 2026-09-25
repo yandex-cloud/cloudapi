@@ -164,6 +164,9 @@ message Cluster {
 
   // Cloud logging configuration.
   LoggingConfig logging = 30;
+
+  // Indicates whether the cluster topology is highly available as defined by the Yandex Cloud SLA for managed databases.
+  bool is_ha = 31;
 }
 
 // Monitoring system metadata.

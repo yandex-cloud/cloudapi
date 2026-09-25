@@ -113,7 +113,7 @@ message Cluster {
   Status status = 12;
 
   // Maintenance window settings for the cluster.
-  MaintenanceWindow maintenance_window = 13;
+  MaintenanceWindow maintenance_window = 13 [deprecated = true];
 
   // Planned maintenance operation to be started for the cluster within the nearest [maintenance_window].
   MaintenanceOperation planned_operation = 14;
@@ -129,6 +129,9 @@ message Cluster {
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 19;
+
+  // Indicates whether the cluster topology is highly available as defined by the Yandex Cloud SLA for managed databases.
+  bool is_ha = 20;
 }
 
 // Cluster-related monitoring system data.

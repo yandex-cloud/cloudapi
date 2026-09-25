@@ -21,7 +21,7 @@ message Cluster {
     // are applied during regular maintenance.
     PRODUCTION = 1;
 
-    // Environment with more aggressive update policy: new versions
+    // Environment with a more aggressive update policy: new versions
     // are rolled out irrespective of backward compatibility.
     PRESTABLE = 2;
   }
@@ -120,6 +120,9 @@ message Cluster {
 
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 17;
+
+  // Indicates whether the cluster topology is highly available as defined by the Yandex Cloud SLA for managed databases.
+  bool is_ha = 18;
 }
 
 // Monitoring system.
@@ -146,6 +149,8 @@ message ClusterConfig {
 
   // Access policy to DB
   Access access = 4;
+
+  // Configuration setting which enables/disables SOX audit.
   google.protobuf.BoolValue sox_audit = 5;
 }
 

@@ -373,7 +373,7 @@ message CreateClusterRequest {
   LoggingConfig logging = 25;
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 26;
+  google.protobuf.StringValue disk_encryption_key_id = 26 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
 }
 
 message CreateClusterMetadata {
@@ -951,7 +951,7 @@ message RestoreClusterRequest {
   string service_account_id = 24;
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 14;
+  google.protobuf.StringValue disk_encryption_key_id = 14 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
 }
 
 message RestoreClusterMetadata {

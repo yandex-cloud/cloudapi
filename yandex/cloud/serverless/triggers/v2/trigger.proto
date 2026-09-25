@@ -108,6 +108,9 @@ message Source {
 
     // Yandex Messenger source: fires on Yandex Messenger bot updates.
     YandexMessenger yandex_messenger = 14;
+
+    // MAX source: fires on MAX bot updates.
+    MaxMessage max_message = 15;
   }
 }
 
@@ -333,6 +336,19 @@ message TelegramMessage {
   // input only. Overwrite a webhook the bot already has set to a different URL,
   // instead of failing with "webhook already in use". If the webhook already
   // points to this trigger, force does nothing - the existing webhook is kept.
+  bool force = 3;
+}
+
+message MaxMessage {
+  // Input only, always empty in output.
+  // Required on Create; on Update, changing it re-registers the subscription.
+  string bot_token = 1;
+
+  // Types of MAX updates to receive. Optional, default is ["message_created"].
+  repeated string update_types = 2;
+
+  // Input only. Delete all existing webhook subscriptions before registering this trigger.
+  // Without force, registration fails if any subscription uses a different URL.
   bool force = 3;
 }
 

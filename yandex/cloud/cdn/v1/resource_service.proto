@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.cdn.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
@@ -234,6 +235,13 @@ message UpdateResourceRequest {
 
   // TLS configuration for the resource.
   TLS tls = 10;
+
+  // Fields to update. Supported paths select individual options using proto field
+  // names, e.g. options.cors or options.edge_cache_settings.
+  // Each selected option is updated as a whole; an omitted selected option is reset.
+  // Without paths targeting options, options retain their legacy PATCH behavior.
+  // Other resource fields retain their PATCH behavior regardless of the mask.
+  google.protobuf.FieldMask update_mask = 11;
 }
 
 message UpdateResourceMetadata {

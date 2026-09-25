@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package yandex.cloud.baremetal.v1alpha;
 
+import "yandex/cloud/validation.proto";
+
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v1alpha;baremetal";
 option java_package = "yandex.cloud.api.baremetal.v1alpha";
 
@@ -14,4 +16,39 @@ message DhcpOptions {
 
   // End IP address of the DHCP range (inclusive).
   string end_ip = 3;
+
+  // DNS configuration handed out to servers via DHCP.
+  DnsOptions dns_options = 4;
+}
+
+// DNS configuration distributed through DHCP.
+message DnsOptions {
+  // DNS servers handed out to servers via DHCP option 6.
+  // The order is preserved.
+  repeated DnsServer servers = 1 [(size) = "<=3"];
+
+  // DNS Domain name handed out to servers via DHCP options 15 and 119.
+  string domain_name = 2 [
+    (length) = "<=253",
+    (pattern) = "([a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?([.][a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*)|"
+  ];
+}
+
+// Represents a DNS server specified either by an IP address or by a Cloud DNS inbound endpoint.
+message DnsServer {
+  oneof server {
+    option (exactly_one) = true;
+
+    // Manual DNS server IP address.
+    string ip_address = 1 [
+      (length) = "<=15",
+      (pattern) = "(?:0|[1-9][0-9]?|1[0-9]{2}|2[0-4][0-9]|25[0-5])(?:[.](?:0|[1-9][0-9]?|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}"
+    ];
+
+    // ID of the Cloud DNS inbound endpoint.
+    string dns_inbound_endpoint_id = 2 [
+      (length) = "20",
+      (pattern) = "[a-z][a-z0-9]*"
+    ];
+  }
 }

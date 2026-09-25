@@ -122,6 +122,9 @@ message Cluster {
 
   // Scheduled maintenance operation.
   MaintenanceOperation planned_operation = 17;
+
+  // Indicates whether the cluster topology is highly available as defined by the Yandex Cloud SLA for managed databases.
+  bool is_ha = 20;
   message KafkaUI {
     // URL for connection to kafka ui
     string url = 1;

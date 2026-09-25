@@ -8,6 +8,26 @@ option csharp_namespace = "Yandex.Cloud.Datatransfer.V1.EndPoint";
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/datatransfer/v1/endpoint;endpoint";
 option java_package = "yandex.cloud.api.datatransfer.v1.endpoint";
 
+enum SchemaRegistryTableNamePolicyDerivedJSONType {
+  SCHEMA_REGISTRY_TABLE_NAME_POLICY_DERIVED_JSON_TYPE_UNSPECIFIED = 0;
+
+  // Schema title is "<schema>.<table>", as Debezium produces it
+  SCHEMA_REGISTRY_TABLE_NAME_POLICY_DERIVED_JSON_TYPE_DEBEZIUM_LIKE = 1;
+
+  // Schema title is used as the table name as is
+  SCHEMA_REGISTRY_TABLE_NAME_POLICY_DERIVED_JSON_TYPE_TITLE = 2;
+}
+
+enum SchemaRegistryTableNamePolicyDerivedProtobufType {
+  SCHEMA_REGISTRY_TABLE_NAME_POLICY_DERIVED_PROTOBUF_TYPE_UNSPECIFIED = 0;
+
+  // Full message name is "<server>.<schema>.<table>.<message>", as Debezium produces it
+  SCHEMA_REGISTRY_TABLE_NAME_POLICY_DERIVED_PROTOBUF_TYPE_DEBEZIUM_LIKE = 1;
+
+  // Short message name is used as the table name
+  SCHEMA_REGISTRY_TABLE_NAME_POLICY_DERIVED_PROTOBUF_TYPE_MESSAGE_NAME = 2;
+}
+
 message Parser {
   reserved 3, 5;
 
@@ -23,6 +43,9 @@ message Parser {
 
     // Parse data in tskv format
     GenericParserCommon tskv_parser = 6;
+
+    // Parse messages in Confluent wire format using schemas from a schema registry
+    ConfluentSchemaRegistryParser confluent_schema_registry_parser = 7;
   }
 }
 
@@ -46,4 +69,77 @@ message AuditTrailsV1Parser {
 }
 
 message CloudLoggingParser {
+}
+
+message ConfluentSchemaRegistryConnection {
+  // Schema Registry api url
+  string schema_registry_url = 1;
+
+  // CA certificate of the Schema Registry server.
+  // TLS is turned on by the https scheme in schema_registry_url, not by this field.
+  // Without a certificate here the server certificate is not verified
+  TLSMode tls_mode = 2;
+
+  // Schema Registry authentication config. Empty credentials mean no authentication
+  ConfluentSchemaRegistryAuth auth = 3;
+}
+
+// Table name is derived from the message schema
+message SchemaRegistryTableNamePolicyDerived {
+  // Naming for messages with JSON Schema
+  SchemaRegistryTableNamePolicyDerivedJSONType json = 1;
+
+  // Naming for messages with Protobuf schema
+  SchemaRegistryTableNamePolicyDerivedProtobufType protobuf = 2;
+}
+
+// All messages are written to the single table
+message SchemaRegistryTableNamePolicyManual {
+  // Name of the table to write all messages to
+  string table_name = 1;
+}
+
+message SchemaRegistryTableNamePolicy {
+  oneof schema_registry_table_name_policy {
+    // Derive the table name from the message schema
+    SchemaRegistryTableNamePolicyDerived derived = 1;
+
+    // Write all messages to the single table
+    SchemaRegistryTableNamePolicyManual manual = 2;
+  }
+}
+
+message ConfluentSchemaRegistryParser {
+  reserved 2 to 4;
+
+  oneof connection {
+    // Connection to a Confluent-compatible schema registry
+    ConfluentSchemaRegistryConnection confluent_schema_registry_connection = 1;
+  }
+
+  // Produce update events instead of inserts
+  bool is_generate_updates = 5;
+
+  // Target table naming. If not set, table name is derived from the schema in
+  // Debezium-like manner
+  SchemaRegistryTableNamePolicy table_name_policy = 6;
+}
+
+message ConfluentSchemaRegistryAuth {
+  oneof confluent_schema_registry_auth {
+    // Connect to the schema registry without authentication
+    NoAuth no_auth = 1;
+
+    // Authenticate with a user name and a password
+    BasicAuthSR basic = 2;
+  }
+}
+
+message BasicAuthSR {
+  // User
+  string user = 1;
+
+  // Password for user. Write-only: it is never returned, and an empty value on
+  // update keeps the stored one
+  Secret password = 2;
 }

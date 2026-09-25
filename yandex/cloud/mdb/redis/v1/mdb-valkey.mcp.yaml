@@ -1,0 +1,145 @@
+services:
+  - name: BackupService
+    tools:
+      - method: Get
+      - method: List
+      - method: Delete
+        disabled: true
+
+  - name: ClusterService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+        wait: false
+        input:
+          - field: maintenance_window # Deprecated in favor of maintenance_windows (plural).
+            disabled: true
+          - field: config_spec
+            inner:
+              - field: redis
+                inner:
+                  - field: password
+                    disabled: true
+              - field: redis_config_5_0
+                disabled: true
+              - field: redis_config_6_0
+                disabled: true
+              - field: redis_config_6_2
+                disabled: true
+              - field: redis_config_7_0
+                disabled: true
+              - field: backup_window_start
+                inner:
+                  - field: seconds
+                    disabled: true
+                  - field: nanos
+                    disabled: true
+      - method: Update
+        wait: false
+        input:
+          - field: maintenance_window # Deprecated in favor of maintenance_windows (plural).
+            disabled: true
+          - field: config_spec
+            inner:
+              - field: redis_config_5_0
+                disabled: true
+              - field: redis_config_6_0
+                disabled: true
+              - field: redis_config_6_2
+                disabled: true
+              - field: redis_config_7_0
+                disabled: true
+              - field: backup_window_start
+                inner:
+                  - field: seconds
+                    disabled: true
+                  - field: nanos
+                    disabled: true
+          - field: deletion_protection
+            disabled: true
+      - method: Delete
+        disabled: true
+      - method: Start
+        wait: false
+      - method: Stop
+        wait: false
+      - method: Move
+        wait: false
+      - method: Backup
+        wait: false
+      - method: Restore
+        wait: false
+        input:
+          - field: maintenance_window # Deprecated in favor of maintenance_windows (plural).
+            disabled: true
+          - field: config_spec
+            inner:
+              - field: redis_config_5_0
+                disabled: true
+              - field: redis_config_6_0
+                disabled: true
+              - field: redis_config_6_2
+                disabled: true
+              - field: redis_config_7_0
+                disabled: true
+              - field: backup_window_start
+                inner:
+                  - field: seconds
+                    disabled: true
+                  - field: nanos
+                    disabled: true
+      - method: RescheduleMaintenance
+      - method: StartFailover
+      - method: ListLogs
+      - method: StreamLogs
+        disabled: true
+      - method: ListOperations
+      - method: ListBackups
+      - method: ListHosts
+      - method: AddHosts
+        wait: false
+      - method: DeleteHosts
+        disabled: true
+      - method: UpdateHosts
+        wait: false
+      - method: GetShard
+      - method: ListShards
+      - method: AddShard
+        wait: false
+      - method: DeleteShard
+        disabled: true
+      - method: Rebalance
+        wait: false
+      - method: EnableSharding
+        wait: false
+      - method: ListAccessBindings
+      - method: SetAccessBindings
+        disabled: true
+      - method: UpdateAccessBindings
+
+  - name: ResourcePresetService
+    tools:
+      - method: Get
+      - method: List
+
+  - name: UserService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+        wait: false
+      - method: Update
+        wait: false
+      - method: Delete
+        wait: false
+        disabled: true
+
+  - name: VersionsService
+    tools:
+      - method: List
+        input:
+          - field: page_size
+            disabled: true
+          - field: page_token
+            disabled: true

@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.video.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
@@ -108,6 +109,15 @@ service StreamService {
     };
   };
 
+  // Update translation options for the onair stream.
+  // Only works with streams created on stream lines with enabled neurotranslation.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
+  rpc UpdateTranslationOptions(UpdateTranslationOptionsRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      body: "*"
+      patch: "/video/v1/streams/{stream_id}:updateTranslationOptions"
+    };
+  };
 }
 
 message GetStreamRequest {
@@ -402,4 +412,32 @@ message PerformStreamActionMetadata {
   // This identifier can be used to track the action operation
   // and to verify that the action is being applied to the correct stream.
   string stream_id = 1;
+}
+
+message UpdateTranslationOptionsRequest {
+  reserved 2 to 999;
+
+  // ID of the stream for which to set an option.
+  string stream_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+  // Specifies which option to set for the stream.
+  oneof option {
+    option (exactly_one) = true;
+
+    // Enable neurotranslations for the stream.
+    EnableTranslationOption enable_translation = 1000;
+
+    // Disable neurotranslations for the stream.
+    DisableTranslationOption disable_translation = 1001;
+  }
+}
+
+// Parameters for the enable translation option.
+message EnableTranslationOption {
+}
+
+// Parameters for the disable translation option.
+message DisableTranslationOption {
 }

@@ -32,7 +32,8 @@ message LicenseServer {
   // License server CA certificate
   string ls_ca_certificate = 2;
 
-  // Private key for the license server
+  // Private key for the license server. Populated only in Create and Register
+  // operation responses; GetLicenseServer and ListLicenseServers omit it.
   string ls_private_key = 3;
 
   // Timestamp when the credentials expire
