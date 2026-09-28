@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.audittrails.v1;
 
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/validation.proto";
 
@@ -44,6 +45,11 @@ message Trail {
     // Prefix for exported objects. Optional
     // If specified, uploaded objects will have prefix <object_prefix>/<trail_id>/
     string object_prefix = 2;
+
+    // Target interval between the starts of exports to Object Storage.
+    // Must be between 1 minute and 1 hour, inclusive.
+    // If omitted, the default interval is 5 minutes.
+    google.protobuf.Duration aggregation_period = 3 [(value) = "1m-1h"];
   }
 
   message CloudLogging {

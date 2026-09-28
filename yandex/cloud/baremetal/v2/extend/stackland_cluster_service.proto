@@ -101,6 +101,7 @@ service StacklandClusterService {
       get: "/v2/extend/stacklandClusters/versions"
     };
   };
+
 }
 
 message ListStacklandClusterOperationsRequest {
