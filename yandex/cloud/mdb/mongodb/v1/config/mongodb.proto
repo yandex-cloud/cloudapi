@@ -222,6 +222,9 @@ message MongodConfig {
     // stored on the database to the diagnostic log.
     // https://mongo-db.ru/reference/configuration-options/index.html#mongodb-setting-security.redactClientLogData
     google.protobuf.BoolValue redact_client_log_data = 13;
+
+    // Controls whether aggregation stages that exceed 100 MB can write temporary files to disk by default.
+    google.protobuf.BoolValue allow_disk_use_by_default = 14;
   }
 
   message Oplog {
@@ -410,6 +413,11 @@ message MongosConfig {
     Compression compression = 2;
   }
 
+  message Replication {
+    // The latency window in milliseconds within which mongos selects replica set members for secondary reads.
+    google.protobuf.Int64Value local_ping_threshold_ms = 1 [(value) = ">0"];
+  }
+
   message SetParameter {
     // Enables the auditing of authorization successes
     // https://www.mongodb.com/docs/manual/reference/parameters/#mongodb-parameter-param.auditAuthorizationSuccess
@@ -527,6 +535,9 @@ message MongosConfig {
   // Cluster-wide balancer settings applied through mongos.
   // The service manages the balancing window; change enabled status through SetBalancerStatus.
   BalancerConfig balancer_config = 8;
+
+  // Replication settings.
+  Replication replication = 9;
 }
 
 message MongodConfigSet {

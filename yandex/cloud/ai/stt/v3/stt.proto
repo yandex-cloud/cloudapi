@@ -226,7 +226,7 @@ message SummarizationProperty {
 
 // Represents transcription summarization options.
 message SummarizationOptions {
-  // The [ID of the model](/docs/foundation-models/concepts/yandexgpt/models) to be used for completion generation.
+  // The [ID of the model](/docs/speechkit/stt/llm-results) to be used for completion generation.
   string model_uri = 1;
 
   // A list of suimmarizations to perform with transcription.
@@ -681,7 +681,7 @@ message ConversationAnalysis {
   double total_speech_ratio = 10;
 }
 
-// An object representing the number of content [tokens](/docs/foundation-models/concepts/yandexgpt/tokens) used by the completion model.
+// An object representing the number of content tokens used by the completion model.
 message ContentUsage {
   // The number of tokens in the textual part of the model input.
   int64 input_text_tokens = 1;

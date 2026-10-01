@@ -64,7 +64,7 @@ message Message {
   }
 }
 
-// An object representing the number of content [tokens](/docs/foundation-models/concepts/yandexgpt/tokens) used by the completion model.
+// An object representing the number of content [tokens](/docs/ai-studio/concepts/generation/tokens) used by the completion model.
 message ContentUsage {
   // Provides additional information about how the completion tokens were utilized.
   message CompletionTokensDetails {

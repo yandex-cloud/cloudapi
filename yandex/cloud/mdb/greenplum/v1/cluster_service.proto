@@ -14,6 +14,7 @@ import "yandex/cloud/mdb/greenplum/v1/config.proto";
 import "yandex/cloud/mdb/greenplum/v1/host.proto";
 import "yandex/cloud/mdb/greenplum/v1/maintenance.proto";
 import "yandex/cloud/mdb/greenplum/v1/pxf.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -352,13 +353,16 @@ message CreateClusterRequest {
   repeated string host_group_ids = 17;
 
   // A Greenplum® cluster maintenance window. Should be defined by either one of the two options.
-  MaintenanceWindow maintenance_window = 19;
+  MaintenanceWindow maintenance_window = 19 [deprecated = true];
 
   // Configuration of Greenplum® and Odyssey®.
   ConfigSpec config_spec = 20;
 
   // Cloud storage settings
   CloudStorage cloud_storage = 21;
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 27;
 
   // Host groups hosting VMs of the master subcluster.
   repeated string master_host_group_ids = 22;
@@ -433,7 +437,7 @@ message UpdateClusterRequest {
   string network_id = 14 [(length) = "<=50"];
 
   // The Greenplum® cluster maintenance window. Should be defined by either one of the two options.
-  MaintenanceWindow maintenance_window = 15;
+  MaintenanceWindow maintenance_window = 15 [deprecated = true];
 
   // User security groups.
   repeated string security_group_ids = 17;
@@ -446,6 +450,9 @@ message UpdateClusterRequest {
 
   // Cloud storage settings
   CloudStorage cloud_storage = 20;
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 23;
 
   // ID of the service account used for access YC resources.
   string service_account_id = 21;
@@ -920,13 +927,16 @@ message RestoreClusterRequest {
   repeated string host_group_ids = 13;
 
   // A Greenplum® cluster maintenance window. Should be defined by either one of the two options.
-  MaintenanceWindow maintenance_window = 15;
+  MaintenanceWindow maintenance_window = 15 [deprecated = true];
 
   // Number of segment hosts
   int64 segment_host_count = 17;
 
   // Number of segments on each host
   int64 segment_in_host = 18;
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 25;
 
   // List of databases and tables to restore
   repeated string restore_only = 19 [

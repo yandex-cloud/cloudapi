@@ -16,6 +16,7 @@ import "yandex/cloud/mdb/clickhouse/v1/database.proto";
 import "yandex/cloud/mdb/clickhouse/v1/maintenance.proto";
 import "yandex/cloud/mdb/clickhouse/v1/user.proto";
 import "yandex/cloud/mdb/v1/connectionmanager.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -577,6 +578,9 @@ message CreateClusterRequest {
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 18 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 19;
 }
 
 message CreateClusterMetadata {
@@ -585,6 +589,8 @@ message CreateClusterMetadata {
 }
 
 message UpdateClusterRequest {
+  reserved 13;
+
   // ID of the ClickHouse Cluster resource to update.
   // To get the ClickHouse cluster ID, use a [ClusterService.List] request.
   string cluster_id = 1 [
@@ -640,6 +646,9 @@ message UpdateClusterRequest {
   // configuration changes including disk type change.
   // NOTE: Only data of replicated tables will be preserved during host re-creation. Data of non-replicated tables will be lost.
   google.protobuf.BoolValue allow_host_recreation = 12;
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 14;
 }
 
 message UpdateClusterMetadata {
@@ -842,6 +851,9 @@ message RestoreClusterRequest {
 
   // Specification of what databases and table to restore
   PartialRestoreSpec partial_restore = 19;
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 20;
 }
 
 message PartialRestoreSpec {

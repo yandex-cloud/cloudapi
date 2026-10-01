@@ -3,13 +3,14 @@ syntax = "proto3";
 package yandex.cloud.video.v1;
 
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/video/v1;video";
 option java_package = "yandex.cloud.api.video.v1";
 
 // Entity representing the incoming video signal settings.
 message StreamLine {
-  reserved 4 to 17, 19 to 99, 102 to 199, 201 to 999, 1004 to 1999;
+  reserved 4 to 16, 19 to 99, 102 to 199, 201 to 999, 1004 to 1999;
 
   // ID of the line.
   string id = 1;
@@ -45,6 +46,9 @@ message StreamLine {
     // Automatic stream control.
     AutoLine auto_line = 2001;
   }
+
+  // Processing settings.
+  StreamLineProcessingSettings processing_settings = 17;
 
   // Timestamp when the stream line was initially created in the system.
   google.protobuf.Timestamp created_at = 100;
@@ -147,5 +151,72 @@ message AutoLine {
 
     // The automatic line is active and operational.
     ACTIVE = 2;
+  }
+}
+
+message StreamLineProcessingSettings {
+  // Settings for stream line summarization.
+  Summarization summarization = 1;
+
+  // Settings for stream line translation.
+  Translation translation = 2;
+  message Summarization {
+    // Enable line summarization.
+    bool enable = 1;
+
+    // Input tracks.
+    repeated InputTrack tracks = 2;
+  }
+
+  message Translation {
+    // Enable line translation.
+    bool enable = 1;
+
+    // Input tracks.
+    repeated TranslationTrack tracks = 2;
+  }
+
+  message TranslationTrack {
+    reserved 2;
+
+    // Input track settings.
+    InputTrack input_track = 1 [(required) = true];
+
+    // Settings for target subtitle tracks.
+    repeated SubtitleTrack subtitles = 3;
+
+    // Settings for target audio tracks.
+    repeated AudioTrack audios = 4;
+  }
+
+  message InputTrack {
+    // Input audio track index (one-based).
+    int64 track_index = 1 [(value) = ">=1"];
+
+    // Source track language represented as a three-letter code according to ISO 639-2/T.
+    string src_lang = 2 [
+      (length) = "3",
+      (pattern) = "ara|deu|eng|spa|fra|ita|jpn|kor|rus|tur|zho"
+    ];
+  }
+
+  message AudioTrack {
+    // Target language represented as a three-letter code according to ISO 639-2/T.
+    string dst_lang = 1 [
+      (length) = "3",
+      (pattern) = "eng|kaz|rus",
+      (required) = true
+    ];
+  }
+
+  message SubtitleTrack {
+    reserved 1;
+
+    // Language of subtitles represented as a three-letter code according to ISO 639-2/T.
+    string dst_lang = 2 [
+      (length) = "3",
+      (pattern) = "eng|kaz|rus",
+      (required) = true
+    ];
   }
 }

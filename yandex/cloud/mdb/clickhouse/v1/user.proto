@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.mdb.clickhouse.v1;
 
 import "google/protobuf/wrappers.proto";
+import "yandex/cloud/mdb/clickhouse/v1/deletion_protection.proto";
 import "yandex/cloud/mdb/v1/connectionmanager.proto";
 import "yandex/cloud/validation.proto";
 
@@ -35,6 +36,9 @@ message User {
 
   // Connection Manager connection and settings associated with the user.
   yandex.cloud.mdb.v1.UserConnectionManager user_connection_manager = 8;
+
+  // Deletion protection mode. Default value is `DELETION_PROTECTION_MODE_INHERITED` (inherits the cluster's deletion protection setting).
+  DeletionProtectionMode deletion_protection_mode = 9;
 }
 
 message Permission {
@@ -1882,4 +1886,7 @@ message UserSpec {
 
   // Connection Manager connection and settings associated with the user.
   yandex.cloud.mdb.v1.UserConnectionManager user_connection_manager = 8;
+
+  // Deletion protection mode. Default value is `DELETION_PROTECTION_MODE_INHERITED` (inherits the cluster's deletion protection setting).
+  DeletionProtectionMode deletion_protection_mode = 9;
 }

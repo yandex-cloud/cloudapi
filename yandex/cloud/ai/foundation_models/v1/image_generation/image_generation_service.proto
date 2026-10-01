@@ -25,9 +25,9 @@ service ImageGenerationAsyncService {
 }
 
 // Request for the service to generate an image.
-// For examples of usage, see [step-by-step guide](/docs/foundation-models/operations/yandexart/request).
+// For examples of usage, see [step-by-step guide](/docs/ai-studio/operations/generation/yandexart-request-ui).
 message ImageGenerationRequest {
-  // The [model URI](/docs/foundation-models/concepts/yandexart/models) to be used for image generation.
+  // The [model URI](/docs/ai-studio/concepts/generation/models) to be used for image generation.
   string model_uri = 1;
 
   // A list of messages representing the context for the image generation model.

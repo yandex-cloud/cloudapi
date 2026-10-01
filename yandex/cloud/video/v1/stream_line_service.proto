@@ -207,7 +207,7 @@ message BatchGetStreamLinesResponse {
 }
 
 message CreateStreamLineRequest {
-  reserved 3 to 17, 19 to 199, 201 to 999, 1001, 1004 to 1999;
+  reserved 3 to 16, 19 to 199, 201 to 999, 1001, 1004 to 1999;
 
   // ID of the channel.
   string channel_id = 1 [
@@ -253,6 +253,9 @@ message CreateStreamLineRequest {
     AutoLineParams auto_line = 2001;
   }
 
+  // Processing settings.
+  StreamLineProcessingSettings processing_settings = 17;
+
   // Custom user-defined labels as key:value pairs.
   // Maximum 64 labels per stream line.
   // Keys must be lowercase alphanumeric strings with optional hyphens/underscores.
@@ -274,7 +277,7 @@ message CreateStreamLineMetadata {
 }
 
 message UpdateStreamLineRequest {
-  reserved 4 to 17, 19 to 199, 201 to 999, 1001;
+  reserved 4 to 16, 19 to 199, 201 to 999, 1001;
 
   // ID of the line.
   string stream_line_id = 1 [
@@ -304,6 +307,9 @@ message UpdateStreamLineRequest {
     // SRT pull input type.
     SRTPullParams srt_pull = 1003;
   }
+
+  // Processing settings.
+  StreamLineProcessingSettings processing_settings = 17;
 
   // New custom labels for the stream line as `key:value` pairs.
   // Maximum 64 labels per stream line.

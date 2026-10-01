@@ -48,10 +48,31 @@ message UserRAM {
 message UserNIC {
 }
 
+message SelectedNetworkInterfacesOption {
+}
+
+message NetworkInterfacesOptionSpec {
+  enum InterfaceMode {
+    // Unspecified network interface mode.
+    INTERFACE_MODE_UNSPECIFIED = 0;
+
+    // Connect the network interface to a private network.
+    PRIVATE = 1;
+
+    // Connect the network interface to a public network.
+    PUBLIC = 2;
+  }
+
+  message MCLagOptions {
+  }
+}
+
 message UserPool {
 }
 
 message UserConfiguration {
+  reserved 6 to 9;
+
   // ID of the configuration.
   string configuration_id = 1 [
     (google.api.field_behavior) = IDENTIFIER,
@@ -69,4 +90,7 @@ message UserConfiguration {
 
   // Random-access memory (RAM).
   UserRAM ram = 5 [(google.api.field_behavior) = REQUIRED];
+
+  // Network interfaces of the custom configuration.
+  repeated ConfigurationNetworkInterface network_interfaces = 10 [(google.api.field_behavior) = OUTPUT_ONLY];
 }

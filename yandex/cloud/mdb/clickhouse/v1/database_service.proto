@@ -3,8 +3,10 @@ syntax = "proto3";
 package yandex.cloud.mdb.clickhouse.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/mdb/clickhouse/v1/database.proto";
+import "yandex/cloud/mdb/clickhouse/v1/deletion_protection.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -38,6 +40,18 @@ service DatabaseService {
     option (google.api.http) = {
       body: "*"
       post: "/managed-clickhouse/v1/clusters/{cluster_id}/databases"
+    };
+  };
+
+  // Updates the specified ClickHouse database.
+  rpc Update(UpdateDatabaseRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdateDatabaseMetadata"
+      response: "Database"
+    };
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-clickhouse/v1/clusters/{cluster_id}/databases/{database_name}"
     };
   };
 
@@ -115,6 +129,39 @@ message CreateDatabaseMetadata {
   string cluster_id = 1 [(required) = true];
 
   // Name of the ClickHouse database that is being created.
+  string database_name = 2 [
+    (length) = "<=63",
+    (required) = true
+  ];
+}
+
+message UpdateDatabaseRequest {
+  // ID of the ClickHouse cluster to update a database in.
+  // To get the cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Name of the database to update.
+  // To get the name of the database, use a [DatabaseService.List] request.
+  string database_name = 2 [
+    (length) = "<=63",
+    (required) = true
+  ];
+
+  // Field mask that specifies which fields of the Database resource should be updated.
+  google.protobuf.FieldMask update_mask = 3;
+
+  // Deletion protection mode for the database.
+  DeletionProtectionMode deletion_protection_mode = 4;
+}
+
+message UpdateDatabaseMetadata {
+  // ID of the ClickHouse cluster where a database is being updated.
+  string cluster_id = 1 [(required) = true];
+
+  // Name of the ClickHouse database that is being updated.
   string database_name = 2 [
     (length) = "<=63",
     (required) = true

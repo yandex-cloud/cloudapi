@@ -19,6 +19,7 @@ import "yandex/cloud/mdb/mysql/v1/maintenance.proto";
 import "yandex/cloud/mdb/mysql/v1/user.proto";
 import "yandex/cloud/mdb/v1/backup_retention_policy.proto";
 import "yandex/cloud/mdb/v1/connectionmanager.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -378,6 +379,9 @@ message CreateClusterRequest {
 
   // Backup long-term retention policies setting.
   repeated yandex.cloud.mdb.v1.BackupRetentionPolicySpec retention_policies = 17;
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 18;
 }
 
 message CreateClusterMetadata {
@@ -386,7 +390,7 @@ message CreateClusterMetadata {
 }
 
 message UpdateClusterRequest {
-  reserved 10;
+  reserved 10, 12;
 
   // ID of the cluster to update.
   // To get this ID, make a [ClusterService.List] request.
@@ -434,6 +438,9 @@ message UpdateClusterRequest {
 
   // ID of the network to move the cluster to.
   string network_id = 11 [(length) = "<=50"];
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 13;
 }
 
 message UpdateClusterMetadata {
@@ -536,6 +543,9 @@ message RestoreClusterRequest {
   // The latest backup suitable for [time] will be used for restore.
   // [time] is required. Cannot be used together with [backup_id].
   string source_cluster_id = 18 [(length) = "<=50"];
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 19;
 }
 
 message RestoreClusterMetadata {

@@ -10,7 +10,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/ai/transla
 option java_package = "yandex.cloud.api.ai.translate.v2";
 
 // A set of methods for the Translate service.
-// Make sure you send your [authentication](/docs/translate/api-ref/authentication) credentials in the `Authorization` header of each request.
+// Make sure you send your [authentication](/docs/ai-studio/api-ref/authentication) credentials in the `Authorization` header of each request.
 service TranslationService {
   // Translates the text to the specified language.
   rpc Translate(TranslateRequest) returns (TranslateResponse) {
@@ -68,8 +68,8 @@ message TranslateRequest {
   repeated string texts = 4 [(size) = ">0"];
 
   // ID of the folder to which you have access.
-  // Required for authorization with a [user account](/docs/iam/concepts/users/accounts).
-  // Do not specify this field if you make the request on behalf of a [service account](/docs/iam/concepts/users/accounts#sa).
+  // Required for authorization with a [user account](https://yandex.cloud/docs/iam/concepts/users/accounts).
+  // Do not specify this field if you make the request on behalf of a [service account](https://yandex.cloud/docs/iam/concepts/users/accounts#sa).
   string folder_id = 5 [(length) = "<=50"];
 
   // Model ID if you use custom model.
@@ -143,8 +143,8 @@ message DetectLanguageResponse {
 
 message ListLanguagesRequest {
   // ID of the folder to which you have access.
-  // Required for authorization with a [user account](/docs/iam/concepts/users/accounts).
-  // Do not specify this field if you make the request on behalf of a [service account](/docs/iam/concepts/users/accounts#sa).
+  // Required for authorization with a [user account](https://yandex.cloud/docs/iam/concepts/users/accounts).
+  // Do not specify this field if you make the request on behalf of a [service account](https://yandex.cloud/docs/iam/concepts/users/accounts#sa).
   string folder_id = 1 [(length) = "<=50"];
 }
 

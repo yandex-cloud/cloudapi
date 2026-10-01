@@ -26,6 +26,7 @@ import "yandex/cloud/mdb/mongodb/v1/maintenance.proto";
 import "yandex/cloud/mdb/mongodb/v1/user.proto";
 import "yandex/cloud/mdb/operationlog/v1/operation_log.proto";
 import "yandex/cloud/mdb/v1/backup_retention_policy.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -471,6 +472,9 @@ message CreateClusterRequest {
 
   // Backup long-term retention policies setting.
   repeated yandex.cloud.mdb.v1.BackupRetentionPolicySpec retention_policies = 15;
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 16;
 }
 
 message CreateClusterMetadata {
@@ -529,6 +533,9 @@ message UpdateClusterRequest {
 
   // ID of the network to move the cluster to.
   string network_id = 10 [(length) = "<=150"];
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 11;
 }
 
 message UpdateClusterMetadata {
@@ -690,6 +697,9 @@ message RestoreClusterRequest {
 
   // Specification of the list of cluster namespaces, which should be restored.
   PartialRestoreSpec partial_restore_spec = 15;
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 16;
 }
 
 message RestoreClusterMetadata {

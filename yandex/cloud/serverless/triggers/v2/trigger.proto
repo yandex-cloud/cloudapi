@@ -111,6 +111,9 @@ message Source {
 
     // MAX source: fires on MAX bot updates.
     MaxMessage max_message = 15;
+
+    // Yandex Forms source: fires when a response is submitted to a form.
+    YandexForms yandex_forms = 16;
   }
 }
 
@@ -373,6 +376,31 @@ message YandexMessenger {
 
   // Display name of the bot the token belongs to. output only.
   string bot_display_name = 6;
+}
+
+// Triggers on responses submitted to a Yandex Form.
+// When the trigger is created, an HTTP integration is added to the form automatically.
+message YandexForms {
+  // ID of the Yandex Form to receive submitted responses from.
+  string survey_id = 1 [
+    (pattern) = "[a-fA-F0-9]{24}",
+    (required) = true
+  ];
+
+  // OAuth token of a user with permission to modify the form's integration settings.
+  // Input only, always empty in output.
+  // Required on Create; on Update, changing it replaces the token used to manage the HTTP integration.
+  string oauth_token = 2;
+  // Organization that owns the form. Exactly one organization ID must be specified.
+  oneof organization {
+    option (exactly_one) = true;
+
+    // ID of the Yandex 360 for Business organization.
+    string organization_id = 3;
+
+    // ID of the Yandex Identity Hub organization.
+    string cloud_organization_id = 4;
+  }
 }
 
 // Action describes what to do when a trigger fires.

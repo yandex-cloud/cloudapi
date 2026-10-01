@@ -14,7 +14,7 @@ option java_package = "yandex.cloud.api.ai.foundation_models.v1";
 
 // Service for text generation.
 service TextGenerationService {
-  // A method for generating text completions in [synchronous mode](/docs/foundation-models/concepts/#working-mode).
+  // A method for generating text completions in [synchronous mode](/docs/ai-studio/concepts/generation/index#working-mode).
   rpc Completion(CompletionRequest) returns (stream CompletionResponse) {
     option (google.api.http) = {
       body: "*"
@@ -26,7 +26,7 @@ service TextGenerationService {
 
 // Service for asynchronous text generation.
 service TextGenerationAsyncService {
-  // A method for generating text completions in [asynchronous mode](/docs/foundation-models/concepts/#working-mode).
+  // A method for generating text completions in [asynchronous mode](/docs/ai-studio/concepts/generation/index#working-mode).
   rpc Completion(CompletionRequest) returns (operation.Operation) {
     option (api.operation) = {
       response: "CompletionResponse"
@@ -40,7 +40,7 @@ service TextGenerationAsyncService {
 
 // Service for text generation.
 service TextGenerationBatchService {
-  // A method for generating text completions in [synchronous mode](/docs/foundation-models/concepts/#working-mode).
+  // A method for generating text completions in [synchronous mode](/docs/ai-studio/concepts/generation/index#working-mode).
   // Note: Not implemented yet
   rpc Completion(BatchCompletionRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -75,7 +75,7 @@ service TokenizerService {
 
 // Request for the service to generate text completion.
 message CompletionRequest {
-  // The [ID of the model](/docs/foundation-models/concepts/yandexgpt/models) to be used for completion generation.
+  // The [ID of the model](/docs/ai-studio/concepts/generation/models) to be used for completion generation.
   string model_uri = 1;
 
   // Configuration options for completion generation.
@@ -119,7 +119,7 @@ message CompletionResponse {
 
 // Request for the service to generate batch text completion.
 message BatchCompletionRequest {
-  // The [ID of the model](/docs/foundation-models/concepts/yandexgpt/models) to be used for batch completion generation.
+  // The [ID of the model](/docs/ai-studio/concepts/generation/models) to be used for batch completion generation.
   string model_uri = 1;
 
   // Configuration options for completion generation.

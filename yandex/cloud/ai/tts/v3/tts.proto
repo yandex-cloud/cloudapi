@@ -217,7 +217,7 @@ message Hints {
 
 message UtteranceSynthesisRequest {
   // The name of the model.
-  // This parameter is only required for specific functionalities, such as [SpeechKit Brand Voice Lite](/docs/speechkit/tts/brand-voice/) or SpeechKit Brand Voice Call Center. If you are not sure whether your use case needs this parameter, do not include it.
+  // This parameter is only required for specific functionalities, such as [SpeechKit Brand Voice Lite](/docs/speechkit/tts/brand-voice/bv-lite) or SpeechKit Brand Voice Call Center. If you are not sure whether your use case needs this parameter, do not include it.
   string model = 1;
   // Text to synthesis, one of text synthesis markups.
   oneof Utterance {

@@ -144,3 +144,45 @@ message DefaultStorage {
   // List of default storages.
   repeated Storage storages = 2 [(google.api.field_behavior) = REQUIRED];
 }
+
+message ConfigurationNetworkInterface {
+  // Id of the network interface
+  // Not used while creating interfaces
+  string id = 1;
+
+  // Name of the network interface
+  string name = 2;
+
+  // Id of the configuration
+  string configuration_id = 3;
+
+  // Link speed in gigabits per second
+  int64 link_speed_gbps = 4;
+
+  // Available modes for the network interface
+  repeated InterfaceMode available_modes = 5;
+
+  // MC-LAG configuration options for aggregated interfaces
+  MCLagAggregationOptions mc_lag_options = 6;
+
+  // Primary mode of the network interface.
+  InterfaceMode main_mode = 7;
+
+  // Mode of the network interface.
+  enum InterfaceMode {
+    // Unspecified interface mode.
+    INTERFACE_MODE_UNSPECIFIED = 0;
+
+    // Private network interface mode.
+    PRIVATE = 1;
+
+    // Public network interface mode.
+    PUBLIC = 2;
+  }
+
+  // MC-LAG aggregation options for the network interface.
+  message MCLagAggregationOptions {
+    // Number of interfaces in the MC-LAG aggregation.
+    int64 interface_count = 1;
+  }
+}

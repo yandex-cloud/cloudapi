@@ -18,6 +18,7 @@ import "yandex/cloud/mdb/redis/v1/config/redis6_2.proto";
 import "yandex/cloud/mdb/redis/v1/config/redis7_0.proto";
 import "yandex/cloud/mdb/redis/v1/maintenance.proto";
 import "yandex/cloud/mdb/redis/v1/user.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -386,7 +387,7 @@ message ListClustersResponse {
 }
 
 message CreateClusterRequest {
-  reserved 8 to 9;
+  reserved 8 to 9, 21;
 
   // ID of the folder to create the Valkey cluster in.
   string folder_id = 1 [
@@ -457,6 +458,9 @@ message CreateClusterRequest {
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 20 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 22;
 }
 
 message CreateClusterMetadata {
@@ -521,6 +525,9 @@ message UpdateClusterRequest {
 
   // Allows to use ACL users to auth in sentinel
   bool auth_sentinel = 13;
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 14;
 }
 
 message UpdateClusterMetadata {
@@ -700,6 +707,9 @@ message RestoreClusterRequest {
 
   // Descriptions of users to be created in the Valkey cluster.
   repeated UserSpec user_specs = 19 [(size) = ">=0"];
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 20;
 }
 
 message RestoreClusterMetadata {

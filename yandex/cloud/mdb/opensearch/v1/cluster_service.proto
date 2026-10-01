@@ -341,6 +341,55 @@ service ClusterService {
     };
   };
 
+  // Disables high-availability protection for the cluster on behalf of its owner.
+  rpc DisableProtection(DisableProtectionRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "DisableProtectionMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-opensearch/v1/clusters/{cluster_id}:disable_protection"
+    };
+  };
+
+  // Restores high-availability protection for the cluster if it passes an availability impact analysis.
+  rpc EnableProtection(EnableProtectionRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "EnableProtectionMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-opensearch/v1/clusters/{cluster_id}:enable_protection"
+    };
+  };
+}
+
+message DisableProtectionRequest {
+  // Required. ID of the OpenSearch cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message DisableProtectionMetadata {
+  // ID of the OpenSearch cluster.
+  string cluster_id = 1;
+}
+
+message EnableProtectionRequest {
+  // Required. ID of the OpenSearch cluster.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+}
+
+message EnableProtectionMetadata {
+  // ID of the OpenSearch cluster.
+  string cluster_id = 1;
 }
 
 message GetClusterRequest {
@@ -442,7 +491,7 @@ message CreateClusterRequest {
   MaintenanceWindow maintenance_window = 11;
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 12;
+  google.protobuf.StringValue disk_encryption_key_id = 12 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
 }
 
 message CreateClusterMetadata {
@@ -1044,7 +1093,7 @@ message RestoreClusterRequest {
   MaintenanceWindow maintenance_window = 12;
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 13;
+  google.protobuf.StringValue disk_encryption_key_id = 13 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
 }
 
 message RestoreClusterMetadata {

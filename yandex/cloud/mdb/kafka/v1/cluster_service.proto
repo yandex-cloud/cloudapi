@@ -12,6 +12,7 @@ import "yandex/cloud/mdb/kafka/v1/cluster.proto";
 import "yandex/cloud/mdb/kafka/v1/maintenance.proto";
 import "yandex/cloud/mdb/kafka/v1/topic.proto";
 import "yandex/cloud/mdb/kafka/v1/user.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -278,10 +279,13 @@ message CreateClusterRequest {
   bool deletion_protection = 14;
 
   // Window of maintenance operations.
-  MaintenanceWindow maintenance_window = 15;
+  MaintenanceWindow maintenance_window = 15 [deprecated = true];
 
   // ID of the key to encrypt cluster disks.
   google.protobuf.StringValue disk_encryption_key_id = 16 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 17;
 }
 
 message CreateClusterMetadata {
@@ -334,13 +338,16 @@ message UpdateClusterRequest {
   bool deletion_protection = 8;
 
   // New maintenance window settings for the cluster.
-  MaintenanceWindow maintenance_window = 9;
+  MaintenanceWindow maintenance_window = 9 [deprecated = true];
 
   // ID of the network to move the cluster to.
   string network_id = 10 [(length) = "<=50"];
 
   // IDs of subnets where the hosts are located or a new host is being created
   repeated string subnet_ids = 11;
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 12;
 }
 
 message UpdateClusterMetadata {

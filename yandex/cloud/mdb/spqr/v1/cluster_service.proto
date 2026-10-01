@@ -17,6 +17,7 @@ import "yandex/cloud/mdb/spqr/v1/host.proto";
 import "yandex/cloud/mdb/spqr/v1/maintenance.proto";
 import "yandex/cloud/mdb/spqr/v1/shard.proto";
 import "yandex/cloud/mdb/spqr/v1/user.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -413,10 +414,13 @@ message CreateClusterRequest {
   bool deletion_protection = 12;
 
   // New maintenance window settings for the cluster.
-  MaintenanceWindow maintenance_window = 13;
+  MaintenanceWindow maintenance_window = 13 [deprecated = true];
 
   // Descriptions of shards to be created in the SPQR cluster.
   repeated ShardSpec shard_specs = 14;
+
+  // Maintenance windows for the cluster.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 15;
 }
 
 message CreateClusterMetadata {
@@ -462,7 +466,7 @@ message UpdateClusterRequest {
   ConfigSpec config_spec = 6;
 
   // New maintenance window settings for the cluster.
-  MaintenanceWindow maintenance_window = 7;
+  MaintenanceWindow maintenance_window = 7 [deprecated = true];
 
   // User security groups
   repeated string security_group_ids = 8;
@@ -472,6 +476,9 @@ message UpdateClusterRequest {
 
   // ID of the network to move the cluster to.
   string network_id = 10 [(length) = "<=150"];
+
+  // New maintenance windows for the cluster.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 11;
 }
 
 message UpdateClusterMetadata {
@@ -622,6 +629,9 @@ message RestoreClusterRequest {
   // * false (default) - the restore point refers to the first backup moment before [time].
   // * true - the restore point refers to the first backup point after [time].
   bool time_inclusive = 14;
+
+  // Maintenance windows for the cluster.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 15;
 }
 
 message RestoreClusterMetadata {

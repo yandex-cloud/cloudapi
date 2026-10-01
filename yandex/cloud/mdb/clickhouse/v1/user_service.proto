@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/mdb/clickhouse/v1/deletion_protection.proto";
 import "yandex/cloud/mdb/clickhouse/v1/user.proto";
 import "yandex/cloud/mdb/v1/connectionmanager.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -197,6 +198,9 @@ message UpdateUserRequest {
 
   // Connection Manager connection and settings associated with the user.
   yandex.cloud.mdb.v1.UserConnectionManager user_connection_manager = 10;
+
+  // Deletion protection mode.
+  DeletionProtectionMode deletion_protection_mode = 11;
 }
 
 message UpdateUserMetadata {

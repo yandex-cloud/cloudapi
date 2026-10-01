@@ -7,6 +7,7 @@ import "google/protobuf/wrappers.proto";
 import "google/type/timeofday.proto";
 import "yandex/cloud/mdb/spqr/v1/config.proto";
 import "yandex/cloud/mdb/spqr/v1/maintenance.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/spqr/v1;spqr";
 option java_package = "yandex.cloud.api.mdb.spqr.v1";
@@ -107,7 +108,7 @@ message Cluster {
   Status status = 12;
 
   // Maintenance window for the cluster.
-  MaintenanceWindow maintenance_window = 13;
+  MaintenanceWindow maintenance_window = 13 [deprecated = true];
 
   // Planned maintenance operation to be started for the cluster within the nearest [maintenance_window].
   MaintenanceOperation planned_operation = 14;
@@ -120,6 +121,9 @@ message Cluster {
 
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 17;
+
+  // Maintenance windows for the cluster.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 19;
 
   // Indicates whether the cluster topology is highly available as defined by the Yandex Cloud SLA for managed databases.
   bool is_ha = 18;
