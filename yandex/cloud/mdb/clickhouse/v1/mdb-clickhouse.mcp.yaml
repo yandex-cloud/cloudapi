@@ -21,7 +21,13 @@ services:
       - method: Get
       - method: List
       - method: Create
+        input:
+          - field: maintenance_window # Replaced by maintenance_windows (plural).
+            disabled: true
       - method: Update
+        input:
+          - field: maintenance_window # Replaced by maintenance_windows (plural).
+            disabled: true
       - method: Delete
         disabled: true
       - method: Start
@@ -30,6 +36,9 @@ services:
       - method: AddZookeeper
       - method: Backup
       - method: Restore
+        input:
+          - field: maintenance_window # Replaced by maintenance_windows (plural).
+            disabled: true
       - method: RescheduleMaintenance
       - method: ListLogs
       - method: StreamLogs

@@ -364,6 +364,7 @@ service ClusterService {
       post: "/managed-opensearch/v1/clusters/{cluster_id}:enable_protection"
     };
   };
+
 }
 
 message DisableProtectionRequest {

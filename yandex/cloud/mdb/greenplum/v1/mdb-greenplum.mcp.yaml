@@ -11,7 +11,13 @@ services:
       - method: Get
       - method: List
       - method: Create
+        input:
+          - field: maintenance_window # Replaced by maintenance_windows (plural).
+            disabled: true
       - method: Update
+        input:
+          - field: maintenance_window # Replaced by maintenance_windows (plural).
+            disabled: true
       - method: Expand
       - method: Delete
         disabled: true
@@ -27,6 +33,9 @@ services:
       - method: ListBackups
       - method: Backup
       - method: Restore
+        input:
+          - field: maintenance_window # Replaced by maintenance_windows (plural).
+            disabled: true
       - method: ListAccessBindings
       - method: SetAccessBindings
         disabled: true

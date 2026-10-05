@@ -117,7 +117,7 @@ message Cluster {
   string service_account_id = 13;
 
   // Maintenance window for the cluster.
-  MaintenanceWindow maintenance_window = 14;
+  MaintenanceWindow maintenance_window = 14 [deprecated = true];
 
   // Planned maintenance operation to be started for the cluster within the nearest [maintenance_window].
   MaintenanceOperation planned_operation = 15;

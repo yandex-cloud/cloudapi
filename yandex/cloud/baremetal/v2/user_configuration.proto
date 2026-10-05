@@ -51,6 +51,9 @@ message UserNIC {
 message SelectedNetworkInterfacesOption {
 }
 
+message NetworkInterfacesOption {
+}
+
 message NetworkInterfacesOptionSpec {
   enum InterfaceMode {
     // Unspecified network interface mode.

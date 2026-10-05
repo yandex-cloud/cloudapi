@@ -37,6 +37,8 @@ message MigrationProgressCounters {
 
 // Migration counters grouped by status.
 message MigrationCounters {
+  reserved 7;
+
   // Total number of migration records.
   int64 total = 1;
 
@@ -54,6 +56,9 @@ message MigrationCounters {
 
   // Number of failed migration records.
   int64 failed = 6;
+
+  // Number of migration records whose source resource was not found.
+  int64 not_found = 8;
 }
 
 // Repository migration status.

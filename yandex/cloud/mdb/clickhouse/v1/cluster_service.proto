@@ -571,7 +571,7 @@ message CreateClusterRequest {
   bool deletion_protection = 14;
 
   // Window of maintenance operations.
-  MaintenanceWindow maintenance_window = 15;
+  MaintenanceWindow maintenance_window = 15 [deprecated = true];
 
   // Configuration(s) of the shard(s) to be created.
   repeated ShardSpec shard_specs = 16;
@@ -631,7 +631,7 @@ message UpdateClusterRequest {
   string service_account_id = 7;
 
   // New maintenance window settings for the cluster.
-  MaintenanceWindow maintenance_window = 8;
+  MaintenanceWindow maintenance_window = 8 [deprecated = true];
 
   // User security groups
   repeated string security_group_ids = 9;
@@ -838,7 +838,7 @@ message RestoreClusterRequest {
   repeated string security_group_ids = 11;
 
   // Window of maintenance operations.
-  MaintenanceWindow maintenance_window = 18;
+  MaintenanceWindow maintenance_window = 18 [deprecated = true];
 
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 14;
