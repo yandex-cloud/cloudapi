@@ -464,6 +464,7 @@ message CreateClusterRequest {
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 12;
 
+  // Deprecated. Use maintenance_windows instead.
   // Maintenance window settings for the cluster.
   MaintenanceWindow maintenance_window = 13 [deprecated = true];
 
@@ -522,6 +523,7 @@ message UpdateClusterRequest {
     (pattern) = "[a-zA-Z0-9_-]*"
   ];
 
+  // Deprecated. Use maintenance_windows instead.
   // New maintenance window settings for the cluster.
   MaintenanceWindow maintenance_window = 7 [deprecated = true];
 
@@ -682,6 +684,7 @@ message RestoreClusterRequest {
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 12;
 
+  // Deprecated. Use maintenance_windows instead.
   // Maintenance window settings for the cluster.
   MaintenanceWindow maintenance_window = 13 [deprecated = true];
 

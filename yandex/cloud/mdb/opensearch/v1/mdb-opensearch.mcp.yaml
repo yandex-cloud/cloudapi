@@ -9,13 +9,22 @@ services:
       - method: Get
       - method: List
       - method: Create
+        input:
+          - field: maintenance_window # Replaced by maintenance_windows (plural).
+            disabled: true
       - method: Update
+        input:
+          - field: maintenance_window # Replaced by maintenance_windows (plural).
+            disabled: true
       - method: Delete
         disabled: true
       - method: Backup
       - method: DeleteBackup
         disabled: true
       - method: Restore
+        input:
+          - field: maintenance_window # Replaced by maintenance_windows (plural).
+            disabled: true
       - method: RescheduleMaintenance
       - method: ListBackups
       - method: Move

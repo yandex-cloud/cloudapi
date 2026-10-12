@@ -413,6 +413,7 @@ message CreateClusterRequest {
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 12;
 
+  // Deprecated. Use maintenance_windows instead.
   // New maintenance window settings for the cluster.
   MaintenanceWindow maintenance_window = 13 [deprecated = true];
 
@@ -465,6 +466,7 @@ message UpdateClusterRequest {
   // New configuration and resources for hosts in the cluster.
   ConfigSpec config_spec = 6;
 
+  // Deprecated. Use maintenance_windows instead.
   // New maintenance window settings for the cluster.
   MaintenanceWindow maintenance_window = 7 [deprecated = true];
 

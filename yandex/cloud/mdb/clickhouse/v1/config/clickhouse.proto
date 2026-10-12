@@ -405,6 +405,8 @@ message ClickhouseConfig {
 
   // External dictionary configuration.
   message ExternalDictionary {
+    reserved 11;
+
     // Configuration of external dictionary structure.
     message Structure {
       // Numeric key.
@@ -824,6 +826,99 @@ message ClickhouseConfig {
       SslMode ssl_mode = 8;
     }
 
+    message PostgresqlSourceV2 {
+      message Replica {
+        // PostgreSQL host of the replica.
+        string host = 1 [
+          (length) = "<=253",
+          (required) = true
+        ];
+
+        // The priority of the replica. Lower values have higher priority.
+        int64 priority = 2;
+
+        // Port to use when connecting to the replica. Inherits the source port when omitted.
+        int64 port = 3;
+
+        // PostgreSQL user for the replica. Inherits the source user when omitted.
+        string user = 4;
+
+        // PostgreSQL password for the replica. Inherits the source password when omitted.
+        string password = 5;
+      }
+
+      // Mode of SSL TCP/IP connection to a PostgreSQL host.
+      // For details, see [PostgreSQL documentation](https://www.postgresql.org/docs/current/libpq-ssl.html).
+      enum SslMode {
+        // Not specified.
+        SSL_MODE_UNSPECIFIED = 0;
+
+        // Only try a non-SSL connection.
+        DISABLE = 1;
+
+        // First try a non-SSL connection; if that fails, try an SSL connection.
+        ALLOW = 2;
+
+        // First try an SSL connection; if that fails, try a non-SSL connection.
+        PREFER = 3;
+
+        // Only try an SSL connection, and verify that the server certificate is issued by a trusted certificate authority (CA).
+        VERIFY_CA = 4;
+
+        // Only try an SSL connection, verify that the server certificate is issued by a trusted CA and that the requested server host name matches that in the certificate.
+        VERIFY_FULL = 5;
+
+        // Only try an SSL connection without verifying the server certificate.
+        REQUIRE = 6;
+      }
+
+      // Database name.
+      string db = 1 [(required) = true];
+
+      // Table name. Either table or query must be specified.
+      string table = 2;
+
+      // PostgreSQL replicas used as dictionary sources.
+      repeated Replica replicas = 3;
+
+      // Port to use when connecting to the PostgreSQL hosts.
+      int64 port = 4;
+
+      // Default PostgreSQL user for replicas.
+      string user = 5;
+
+      // Password of the PostgreSQL database user.
+      string password = 6;
+
+      // Query for checking the dictionary status, to pull only updated data.
+      string invalidate_query = 7;
+
+      // Mode of SSL TCP/IP connection to the PostgreSQL host.
+      SslMode ssl_mode = 8;
+
+      // Selection criteria for data in the specified table.
+      string where = 9;
+
+      // Custom query. Either table or query must be specified.
+      string query = 10;
+
+      // Reconnect to unavailable replicas in the background.
+      google.protobuf.BoolValue background_reconnect = 11;
+    }
+
+    // YTsaurus dictionary source using the native ClickHouse integration.
+    // For details, see [ClickHouse documentation](https://clickhouse.com/docs/reference/statements/create/dictionary/sources/ytsaurus).
+    message YtSourceV2 {
+      // URLs of the YTsaurus HTTP proxies.
+      repeated string http_proxy_urls = 1 [(size) = ">0"];
+
+      // Cypress path to the YTsaurus table used as the dictionary source.
+      string cypress_path = 2 [(required) = true];
+
+      // OAuth token for accessing YTsaurus.
+      string oauth_token = 3;
+    }
+
     // Name of the external dictionary.
     string name = 1 [(required) = true];
 
@@ -860,7 +955,14 @@ message ClickhouseConfig {
       MongodbSource mongodb_source = 9;
 
       // PostgreSQL source for the dictionary.
-      PostgresqlSource postgresql_source = 10;
+      // Deprecated in favor of postgresql_source_v2.
+      PostgresqlSource postgresql_source = 10 [deprecated = true];
+
+      // PostgreSQL source for the dictionary using the native ClickHouse integration.
+      PostgresqlSourceV2 postgresql_source_v2 = 12;
+
+      // YTsaurus source for the dictionary using the native ClickHouse integration.
+      YtSourceV2 yt_source_v2 = 13;
     }
   }
 
@@ -1610,6 +1712,21 @@ message ClickhouseConfig {
   //
   // Default value: **2592000000** (30 days).
   google.protobuf.Int64Value query_metric_log_retention_time = 85;
+
+  // The maximum time that automatically detached data parts with a non-empty reason will be retained before removal.
+  // The retention period starts when a data part is moved to the detached directory. If set to **0**,
+  // automatic removal of these data parts is disabled.
+  //
+  // Default value: **2592000000** (30 days).
+  google.protobuf.Int64Value automatically_detached_data_parts_retention_time = 94;
+
+  // The maximum time that manually detached data parts with an empty reason will be retained before removal.
+  // These data parts are detached using **ALTER TABLE DETACH PARTITION|PART**.
+  // The retention period starts when a data part is moved to the detached directory. If set to **0**,
+  // automatic removal of these data parts is disabled.
+  //
+  // Default value: **0**.
+  google.protobuf.Int64Value manually_detached_data_parts_retention_time = 95;
 
   // Access control settings.
   AccessControlImprovements access_control_improvements = 74;

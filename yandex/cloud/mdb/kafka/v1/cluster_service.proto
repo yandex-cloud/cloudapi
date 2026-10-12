@@ -278,6 +278,7 @@ message CreateClusterRequest {
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 14;
 
+  // Deprecated. Use maintenance_windows instead.
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 15 [deprecated = true];
 
@@ -337,6 +338,7 @@ message UpdateClusterRequest {
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 8;
 
+  // Deprecated. Use maintenance_windows instead.
   // New maintenance window settings for the cluster.
   MaintenanceWindow maintenance_window = 9 [deprecated = true];
 

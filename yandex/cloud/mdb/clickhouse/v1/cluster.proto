@@ -116,6 +116,7 @@ message Cluster {
   // ID of the service account used for access to Object Storage.
   string service_account_id = 13;
 
+  // Deprecated. Use maintenance_windows instead.
   // Maintenance window for the cluster.
   MaintenanceWindow maintenance_window = 14 [deprecated = true];
 

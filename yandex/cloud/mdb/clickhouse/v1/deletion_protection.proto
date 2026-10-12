@@ -6,7 +6,7 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/clickh
 option java_package = "yandex.cloud.api.mdb.clickhouse.v1";
 
 enum DeletionProtectionMode {
-  // Deletion protection mode is not specified. Treated as `DELETION_PROTECTION_MODE_INHERITED`.
+  // Deletion protection mode is not specified. Treated as `DELETION_PROTECTION_MODE_DISABLED`.
   DELETION_PROTECTION_MODE_UNSPECIFIED = 0;
 
   // Deletion protection is disabled.

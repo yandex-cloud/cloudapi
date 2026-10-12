@@ -21,7 +21,7 @@ message Database {
   DatabaseEngine engine = 3;
 
   // Deletion protection mode.
-  // Default value: `DELETION_PROTECTION_MODE_INHERITED` (inherits the cluster's deletion protection setting).
+  // Default value: `DELETION_PROTECTION_MODE_DISABLED`.
   DeletionProtectionMode deletion_protection_mode = 4;
 }
 
@@ -47,6 +47,6 @@ message DatabaseSpec {
   DatabaseEngine engine = 2;
 
   // Deletion protection mode.
-  // Default value: `DELETION_PROTECTION_MODE_INHERITED` (inherits the cluster's deletion protection setting).
+  // Default value: `DELETION_PROTECTION_MODE_DISABLED`.
   DeletionProtectionMode deletion_protection_mode = 3;
 }

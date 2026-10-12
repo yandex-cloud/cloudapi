@@ -37,7 +37,7 @@ message User {
   // Connection Manager connection and settings associated with the user.
   yandex.cloud.mdb.v1.UserConnectionManager user_connection_manager = 8;
 
-  // Deletion protection mode. Default value is `DELETION_PROTECTION_MODE_INHERITED` (inherits the cluster's deletion protection setting).
+  // Deletion protection mode. Default value is `DELETION_PROTECTION_MODE_DISABLED`.
   DeletionProtectionMode deletion_protection_mode = 9;
 }
 
@@ -1887,6 +1887,6 @@ message UserSpec {
   // Connection Manager connection and settings associated with the user.
   yandex.cloud.mdb.v1.UserConnectionManager user_connection_manager = 8;
 
-  // Deletion protection mode. Default value is `DELETION_PROTECTION_MODE_INHERITED` (inherits the cluster's deletion protection setting).
+  // Deletion protection mode. Default value is `DELETION_PROTECTION_MODE_DISABLED`.
   DeletionProtectionMode deletion_protection_mode = 9;
 }

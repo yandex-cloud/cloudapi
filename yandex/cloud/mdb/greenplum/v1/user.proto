@@ -64,4 +64,8 @@ message UserSettingsConfig {
   // Set to zero to disable.
   // If not set, uses the cluster-level pool.idle_in_transaction_timeout setting.
   google.protobuf.Int64Value pool_idle_in_transaction_timeout = 4 [(value) = ">=0"];
+
+  // Enables cleanup of server connections when they are returned to the connection pool.
+  // If not set, uses the cluster-level pool.pool_discard setting.
+  google.protobuf.BoolValue pool_discard = 5;
 }

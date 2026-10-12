@@ -371,6 +371,7 @@ message CreateClusterRequest {
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 13;
 
+  // Deprecated. Use maintenance_windows instead.
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 14 [deprecated = true];
 
@@ -427,6 +428,7 @@ message UpdateClusterRequest {
     (pattern) = "[a-zA-Z0-9_-]*"
   ];
 
+  // Deprecated. Use maintenance_windows instead.
   // Configuration of a maintenance window in an MySQL cluster.
   MaintenanceWindow maintenance_window = 7 [deprecated = true];
 
@@ -533,6 +535,7 @@ message RestoreClusterRequest {
   // Host groups hosting VMs of the cluster.
   repeated string host_group_ids = 14;
 
+  // Deprecated. Use maintenance_windows instead.
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 15 [deprecated = true];
 

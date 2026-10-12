@@ -132,6 +132,7 @@ message Cluster {
   // Valkey cluster mode on/off.
   bool sharded = 13;
 
+  // Deprecated. Use maintenance_windows instead.
   // Maintenance window for the cluster.
   MaintenanceWindow maintenance_window = 14 [deprecated = true];
 

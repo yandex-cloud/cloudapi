@@ -352,6 +352,7 @@ message CreateClusterRequest {
   // Host groups to place VMs of the cluster in.
   repeated string host_group_ids = 17;
 
+  // Deprecated. Use maintenance_windows instead.
   // A Greenplum® cluster maintenance window. Should be defined by either one of the two options.
   MaintenanceWindow maintenance_window = 19 [deprecated = true];
 
@@ -436,6 +437,7 @@ message UpdateClusterRequest {
   // ID of the network to move the cluster to.
   string network_id = 14 [(length) = "<=50"];
 
+  // Deprecated. Use maintenance_windows instead.
   // The Greenplum® cluster maintenance window. Should be defined by either one of the two options.
   MaintenanceWindow maintenance_window = 15 [deprecated = true];
 
@@ -926,6 +928,7 @@ message RestoreClusterRequest {
   // Host groups to place VMs of cluster on.
   repeated string host_group_ids = 13;
 
+  // Deprecated. Use maintenance_windows instead.
   // A Greenplum® cluster maintenance window. Should be defined by either one of the two options.
   MaintenanceWindow maintenance_window = 15 [deprecated = true];
 

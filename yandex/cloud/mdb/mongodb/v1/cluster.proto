@@ -120,6 +120,7 @@ message Cluster {
   // Indicates current sharding status of the cluster.
   bool sharded = 13;
 
+  // Deprecated. Use maintenance_windows instead.
   // Maintenance window for the cluster.
   MaintenanceWindow maintenance_window = 14 [deprecated = true];
 

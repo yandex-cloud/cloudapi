@@ -31,6 +31,9 @@ enum ProductType {
 
   // S3 product.
   PRODUCT_TYPE_S3 = 6;
+
+  // YDB.
+  PRODUCT_TYPE_YDB = 7;
 }
 
 // License validity type.

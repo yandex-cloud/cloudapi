@@ -130,6 +130,7 @@ message Cluster {
   // Current state of the cluster.
   Status status = 17;
 
+  // Deprecated. Use maintenance_windows instead.
   // A Greenplum® cluster maintenance window. Should be defined by either one of the two options.
   MaintenanceWindow maintenance_window = 18 [deprecated = true];
 

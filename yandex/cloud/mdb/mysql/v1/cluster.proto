@@ -113,6 +113,7 @@ message Cluster {
   // Current state of the cluster.
   Status status = 12;
 
+  // Deprecated. Use maintenance_windows instead.
   // Maintenance window settings for the cluster.
   MaintenanceWindow maintenance_window = 13 [deprecated = true];
 

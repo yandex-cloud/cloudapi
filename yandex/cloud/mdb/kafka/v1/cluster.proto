@@ -118,6 +118,7 @@ message Cluster {
   // Deletion Protection inhibits deletion of the cluster
   bool deletion_protection = 15;
 
+  // Deprecated. Use maintenance_windows instead.
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 16 [deprecated = true];
 
