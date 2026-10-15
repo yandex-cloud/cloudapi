@@ -408,7 +408,7 @@ message YandexForms {
 // Filter and Transformer are applied before invoking the target,
 // allowing each action to independently select and reshape events.
 message Action {
-  reserved 5 to 9;
+  reserved 6 to 9;
 
   oneof action {
     option (exactly_one) = true;
@@ -424,6 +424,9 @@ message Action {
 
     // Start a Workflows workflow.
     StartWorkflow start_workflow = 4;
+
+    // Call an Agent Runtime agent.
+    AgentRuntimeCall agent_runtime_call = 5;
   }
 
   // Optional filter applied to each event before invoking the target.
@@ -527,6 +530,37 @@ message GatewayWebsocketBroadcast {
     (length) = "<=50",
     (required) = true
   ];
+}
+
+message AgentRuntimeCall {
+  reserved 5 to 9;
+
+  // ID of the Agent Runtime channel to call.
+  string channel_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // ID of the agent version to call.
+  string agent_version_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // ID of the cloud that the agent belongs to.
+  string cloud_id = 3 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // ID of the folder that the agent belongs to.
+  string folder_id = 4 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Additional attributes passed to the agent call.
+  map<string, string> attributes = 10;
 }
 
 // RetryPolicy defines retry behaviour and dead-letter destination for a failed action invocation.

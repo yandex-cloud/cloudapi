@@ -41,6 +41,8 @@ service MfaEnforcementService {
   };
 
   // activates the specified MFA enforcement
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   rpc Activate(ActivateMfaEnforcementRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "ActivateMfaEnforcementMetadata"
@@ -52,6 +54,8 @@ service MfaEnforcementService {
   };
 
   // deactivates the specified MFA enforcement
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   rpc Deactivate(DeactivateMfaEnforcementRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "DeactivateMfaEnforcementMetadata"
@@ -88,6 +92,7 @@ service MfaEnforcementService {
   };
 
   // updates specified MFA enforcement's audience
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc UpdateAudience(UpdateAudienceRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateAudienceMetadata"
@@ -107,6 +112,7 @@ service MfaEnforcementService {
   };
 
   // updates specified MFA enforcement's excluded audience
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
   rpc UpdateExcludedAudience(UpdateExcludedAudienceRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UpdateExcludedAudienceMetadata"
@@ -127,6 +133,8 @@ service MfaEnforcementService {
 }
 
 message CreateMfaEnforcementRequest {
+  reserved 9 to 11;
+
   // organization id of the MFA enforcement
   string organization_id = 1 [
     (length) = "<=50",
@@ -167,6 +175,14 @@ message CreateMfaEnforcementRequest {
 
   // the MFA enforcement description
   string description = 8 [(length) = "<=256"];
+
+  // sspr_policies for the MFA enforcement. Accepted values: 'mfa', 'two-any',
+  // specification https://yandex.cloud/en/docs/organization/concepts/sspr
+  repeated string sspr_policies = 12 [
+    (length) = "<=50",
+    (size) = "0-10",
+    (unique) = true
+  ];
   enum Status {
     // status upspecified
     STATUS_UNSPECIFIED = 0;
@@ -190,6 +206,8 @@ message CreateMfaEnforcementMetadata {
 }
 
 message UpdateMfaEnforcementRequest {
+  reserved 10 to 11;
+
   // id of the MFA enforcement
   string mfa_enforcement_id = 1 [
     (length) = "<=50",
@@ -221,6 +239,14 @@ message UpdateMfaEnforcementRequest {
 
   // the MFA enforcement description
   string description = 9 [(length) = "<=256"];
+
+  // sspr_policies for the MFA enforcement. Accepted values: 'mfa', 'two-any',
+  // specification https://yandex.cloud/en/docs/organization/concepts/sspr
+  repeated string sspr_policies = 12 [
+    (length) = "<=50",
+    (size) = "0-10",
+    (unique) = true
+  ];
   enum Status {
     // status upspecified
     STATUS_UNSPECIFIED = 0;

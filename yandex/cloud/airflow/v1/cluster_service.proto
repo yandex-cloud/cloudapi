@@ -8,6 +8,7 @@ import "yandex/cloud/access/access.proto";
 import "yandex/cloud/airflow/v1/cluster.proto";
 import "yandex/cloud/airflow/v1/maintenance.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
 
@@ -218,8 +219,12 @@ message CreateClusterRequest {
   // Cloud Logging configuration.
   LoggingConfig logging = 11;
 
+  // Deprecated. Use maintenance_windows instead.
   // Window of maintenance operations.
-  MaintenanceWindow maintenance_window = 13;
+  MaintenanceWindow maintenance_window = 13 [deprecated = true];
+
+  // Maintenance windows for the cluster.
+  mdb.v1.MaintenanceWindows maintenance_windows = 14;
 
   // Password of user `admin`.
   string admin_password = 12 [
@@ -273,6 +278,9 @@ message UpdateClusterConfigSpec {
 message UpdateNetworkConfigSpec {
   // User security groups.
   repeated string security_group_ids = 1;
+
+  // User subnets in the current cluster network.
+  repeated string subnet_ids = 2;
 }
 
 message UpdateClusterRequest {
@@ -323,8 +331,12 @@ message UpdateClusterRequest {
   // Cloud Logging configuration.
   LoggingConfig logging = 11;
 
+  // Deprecated. Use maintenance_windows instead.
   // Window of maintenance operations.
-  MaintenanceWindow maintenance_window = 12;
+  MaintenanceWindow maintenance_window = 12 [deprecated = true];
+
+  // Maintenance windows for the cluster.
+  mdb.v1.MaintenanceWindows maintenance_windows = 13;
 }
 
 message UpdateClusterMetadata {

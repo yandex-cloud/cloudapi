@@ -10,6 +10,8 @@ option java_package = "yandex.cloud.api.organizationmanager.v1";
 
 // MFA enforcement resource
 message MfaEnforcement {
+  reserved 11;
+
   // id of the MFA enforcement
   string id = 1;
 
@@ -43,11 +45,21 @@ message MfaEnforcement {
 
   // creation timestamp
   google.protobuf.Timestamp created_at = 10;
+
+  // sspr_policies for the MFA enforcement. Accepted values: 'mfa', 'two-any',
+  // specification https://yandex.cloud/en/docs/organization/concepts/sspr
+  repeated string sspr_policies = 12;
 }
 
 enum MfaEnforcementStatus {
   MFA_ENFORCEMENT_STATUS_UNSPECIFIED = 0;
+
+  // MFA is activated.
   MFA_ENFORCEMENT_STATUS_ACTIVE = 1;
+
+  // MFA is inactive.
   MFA_ENFORCEMENT_STATUS_INACTIVE = 2;
+
+  // MFA is deleting.
   MFA_ENFORCEMENT_STATUS_DELETING = 3;
 }
