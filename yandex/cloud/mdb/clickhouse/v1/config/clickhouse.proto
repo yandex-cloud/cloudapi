@@ -1382,6 +1382,13 @@ message ClickhouseConfig {
   // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/server-configuration-parameters/settings#background_common_pool_size).
   google.protobuf.Int64Value background_common_pool_size = 47;
 
+  // The maximum number of threads that will be used for executing **BACKUP** and **RESTORE** requests.
+  //
+  // Default value: **64**.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/reference/settings/server-settings/settings/max-backups#max_backups_io_thread_pool_size).
+  google.protobuf.Int64Value max_backups_io_thread_pool_size = 96;
+
   // Lazy loading of dictionaries. If enabled, then each dictionary is loaded on the first use. Otherwise, the server loads all dictionaries at startup.
   //
   // Default value: **true** for versions 25.1 and higher, **false** for versions 24.12 and lower.

@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.marketplace.stacklandlicenseapi.v1;
 
 import "google/api/field_behavior.proto";
+import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/validation.proto";
 
@@ -146,6 +147,9 @@ message License {
 
   // License validity type
   LicenseType license_type = 9;
+
+  // License metadata. Included in the signature when non-empty.
+  google.protobuf.Struct metadata = 10;
 }
 
 // Sync status enum

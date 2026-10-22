@@ -1,3 +1,6 @@
+include_protos:
+  - yandex/cloud/serverless/apigateway/websocket/v1/connection_service.proto
+
 services:
   - name: ApiGatewayService
     tools:
@@ -14,3 +17,9 @@ services:
       - method: SetAccessBindings
         disabled: true
       - method: UpdateAccessBindings
+
+  - name: ConnectionService
+    tools:
+      - method: Get
+      - method: Send
+      - method: Disconnect

@@ -466,12 +466,14 @@ message ShardAutoscalingSettings {
   bool enabled = 1;
 
   // Minimum number of shards the cluster can scale down to.
-  int64 min_shards = 2 [(value) = ">=1"];
+  // Zero means unspecified; the API requires a positive value when autoscaling is enabled.
+  int64 min_shards = 2 [(value) = ">=0"];
 
   // Maximum number of shards the cluster can scale up to.
   // Must be greater than or equal to [min_shards] and must not exceed
   // the maximum number of shards allowed for the cluster.
-  int64 max_shards = 3 [(value) = ">=1"];
+  // Zero means unspecified; the API requires a positive value when autoscaling is enabled.
+  int64 max_shards = 3 [(value) = ">=0"];
 
   // CPU utilization threshold.
   ShardAutoscalingThreshold cpu_threshold = 4;

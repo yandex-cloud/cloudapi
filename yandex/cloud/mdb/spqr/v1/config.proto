@@ -117,6 +117,8 @@ message RouterSettings {
   CommitStrategy default_commit_strategy = 8;
   google.protobuf.BoolValue allow_postprocessing = 9;
   google.protobuf.BoolValue auto_route_ro_on_standby = 10;
+  google.protobuf.BoolValue allow_two_phase_commit = 11;
+  google.protobuf.BoolValue allow_autoprotect_two_phase = 12;
 }
 
 // Configuration of a SPQR coordinator.

@@ -1,3 +1,6 @@
+include_protos:
+  - yandex/cloud/k8s/marketplace/v1/helm_release_service.proto
+
 services:
   - name: ClusterService
     tools:
@@ -35,3 +38,11 @@ services:
   - name: VersionService
     tools:
       - method: List
+
+  - name: HelmReleaseService
+    tools:
+      - method: List
+      - method: Get
+      - method: Install
+      - method: Update
+      - method: Uninstall
