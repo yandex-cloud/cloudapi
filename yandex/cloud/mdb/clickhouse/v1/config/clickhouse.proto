@@ -1720,6 +1720,27 @@ message ClickhouseConfig {
   // Default value: **2592000000** (30 days).
   google.protobuf.Int64Value query_metric_log_retention_time = 85;
 
+  // Enables or disables s3queue_log system table.
+  //
+  // Default value: **false**.
+  //
+  // Change of the setting is applied with restart.
+  //
+  // For details, see [ClickHouse documentation](https://clickhouse.com/docs/operations/system-tables/s3queue_log).
+  google.protobuf.BoolValue s3queue_log_enabled = 97;
+
+  // The maximum size that s3queue_log can grow to before old data will be removed. If set to **0**,
+  // automatic removal of s3queue_log data based on size is disabled.
+  //
+  // Default value: **536870912** (512 MiB).
+  google.protobuf.Int64Value s3queue_log_retention_size = 98;
+
+  // The maximum time that s3queue_log records will be retained before removal. If set to **0**,
+  // automatic removal of s3queue_log data based on time is disabled.
+  //
+  // Default value: **2592000000** (30 days).
+  google.protobuf.Int64Value s3queue_log_retention_time = 99;
+
   // The maximum time that automatically detached data parts with a non-empty reason will be retained before removal.
   // The retention period starts when a data part is moved to the detached directory. If set to **0**,
   // automatic removal of these data parts is disabled.

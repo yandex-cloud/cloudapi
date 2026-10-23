@@ -136,6 +136,24 @@ message RedisConfig {
 
   // Enables automatic slot rebalancing when shards are added or deleted.
   google.protobuf.BoolValue rebalance_enabled = 26;
+
+  // Controls max number of entries in hash before conversion from memory-efficient listpack to CPU-efficient hash table.
+  google.protobuf.Int64Value hash_max_listpack_entries = 27 [(value) = "0-2048"];
+
+  // Controls max value size in hash before conversion from memory-efficient listpack to CPU-efficient hash table.
+  google.protobuf.Int64Value hash_max_listpack_value = 28 [(value) = "0-2048"];
+
+  // Controls max size of a listpack in list before creating a new listpack node.
+  google.protobuf.Int64Value list_max_listpack_size = 29 [(value) = "-5-2048"];
+
+  // Controls max number of entries in set before conversion from memory-efficient listpack to CPU-efficient hash table.
+  google.protobuf.Int64Value set_max_listpack_entries = 30 [(value) = "0-2048"];
+
+  // Controls max value size in set before conversion from memory-efficient listpack to CPU-efficient hash table.
+  google.protobuf.Int64Value set_max_listpack_value = 31 [(value) = "0-2048"];
+
+  // Controls max value size in zset before conversion from memory-efficient listpack to CPU-efficient hash table and skiplist.
+  google.protobuf.Int64Value zset_max_listpack_value = 32 [(value) = "0-2048"];
 }
 
 message RedisConfigSet {
