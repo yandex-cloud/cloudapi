@@ -120,7 +120,6 @@ message Cluster {
   // Indicates current sharding status of the cluster.
   bool sharded = 13;
 
-  // Deprecated. Use maintenance_windows instead.
   // Maintenance window for the cluster.
   MaintenanceWindow maintenance_window = 14 [deprecated = true];
 
@@ -257,6 +256,9 @@ message ClusterConfig {
   // Output only; change through SetBalancerStatus. Maintenance may temporarily
   // pause balancing.
   bool balancer_enabled = 23;
+
+  // Monium logs shipping settings
+  MoniumLogs monium_logs = 24;
 }
 
 message Mongodb3_6 {
@@ -1098,4 +1100,15 @@ message AutoCompactConfig {
 
   // Type of compaction. Either switch primary to run compaction on all hosts or ignore primary host.
   CompactionType compaction_type = 4;
+}
+
+message MoniumLogs {
+  // Whether cluster logs are shipped to Monium. If not set, the installation default is used.
+  google.protobuf.BoolValue enabled = 1;
+
+  // Monium project to ship cluster logs to. If empty, the default project is used.
+  string project = 2 [
+    (length) = "<=64",
+    (pattern) = "[a-zA-Z0-9_.-]*"
+  ];
 }

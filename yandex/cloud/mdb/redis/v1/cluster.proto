@@ -132,7 +132,6 @@ message Cluster {
   // Valkey cluster mode on/off.
   bool sharded = 13;
 
-  // Deprecated. Use maintenance_windows instead.
   // Maintenance window for the cluster.
   MaintenanceWindow maintenance_window = 14 [deprecated = true];
 
@@ -244,6 +243,9 @@ message ClusterConfig {
   // Shard autoscaling settings. When enabled, the cluster can automatically
   // add or delete shards based on resource utilization metrics.
   ShardAutoscalingSettings shard_autoscaling_settings = 17;
+
+  // Monium logs shipping settings
+  MoniumLogs monium_logs = 18;
 }
 
 message Shard {
@@ -466,14 +468,12 @@ message ShardAutoscalingSettings {
   bool enabled = 1;
 
   // Minimum number of shards the cluster can scale down to.
-  // Zero means unspecified; the API requires a positive value when autoscaling is enabled.
-  int64 min_shards = 2 [(value) = ">=0"];
+  int64 min_shards = 2 [(value) = ">=1"];
 
   // Maximum number of shards the cluster can scale up to.
   // Must be greater than or equal to [min_shards] and must not exceed
   // the maximum number of shards allowed for the cluster.
-  // Zero means unspecified; the API requires a positive value when autoscaling is enabled.
-  int64 max_shards = 3 [(value) = ">=0"];
+  int64 max_shards = 3 [(value) = ">=1"];
 
   // CPU utilization threshold.
   ShardAutoscalingThreshold cpu_threshold = 4;
@@ -483,4 +483,15 @@ message ShardAutoscalingSettings {
 
   // Network utilization threshold.
   ShardAutoscalingThreshold network_threshold = 6;
+}
+
+message MoniumLogs {
+  // Whether cluster logs are shipped to Monium. If not set, the installation default is used.
+  google.protobuf.BoolValue enabled = 1;
+
+  // Monium project to ship cluster logs to. If empty, the default project is used.
+  string project = 2 [
+    (length) = "<=64",
+    (pattern) = "[a-zA-Z0-9_.-]*"
+  ];
 }

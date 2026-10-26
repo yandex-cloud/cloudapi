@@ -447,7 +447,6 @@ message CreateClusterRequest {
   // Enable FQDN instead of ip
   bool announce_hostnames = 16;
 
-  // Deprecated. Use maintenance_windows instead.
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 17 [deprecated = true];
 
@@ -506,7 +505,6 @@ message UpdateClusterRequest {
     (pattern) = "[a-zA-Z0-9_-]*"
   ];
 
-  // Deprecated. Use maintenance_windows instead.
   // New maintenance window settings for the cluster.
   MaintenanceWindow maintenance_window = 7 [deprecated = true];
 
@@ -695,7 +693,6 @@ message RestoreClusterRequest {
   // Enable FQDN instead of ip
   bool announce_hostnames = 14;
 
-  // Deprecated. Use maintenance_windows instead.
   // Window of maintenance operations.
   MaintenanceWindow maintenance_window = 15 [deprecated = true];
 
@@ -1288,4 +1285,7 @@ message ConfigSpec {
 
   // Shard autoscaling settings for the cluster.
   ShardAutoscalingSettings shard_autoscaling_settings = 16;
+
+  // Monium logs shipping settings
+  MoniumLogs monium_logs = 17;
 }
