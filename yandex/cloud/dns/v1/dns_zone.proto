@@ -58,7 +58,7 @@ message RecordSet {
   // Data of the record set.
   repeated string data = 4 [
     (length) = "1-1024",
-    (size) = "1-100",
+    (size) = "1-1024",
     (unique) = true
   ];
 
