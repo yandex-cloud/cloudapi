@@ -168,6 +168,32 @@ message StacklandClusterSettings {
     (google.api.field_behavior) = OPTIONAL,
     (google.api.field_behavior) = IMMUTABLE
   ];
+
+  // Explicit component settings. Omitted components use their individual defaults.
+  // Each component may appear at most once. Can be set only at cluster creation.
+  repeated StacklandComponentSettings components = 2 [
+    (google.api.field_behavior) = OPTIONAL,
+    (google.api.field_behavior) = IMMUTABLE
+  ];
+}
+
+message StacklandComponentSettings {
+  enum Component {
+    // Not a configurable component.
+    COMPONENT_UNSPECIFIED = 0;
+
+    // Storage. Enabled by default when omitted from the component settings.
+    STORAGE = 1;
+  }
+
+  // Component to configure. Must be specified and unique within the settings.
+  Component component = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (required) = true
+  ];
+
+  // Explicit component state. If omitted in a supplied entry, defaults to false.
+  bool enabled = 2;
 }
 
 message StacklandHostRoles {

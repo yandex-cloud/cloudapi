@@ -484,7 +484,7 @@ message VideoTranslationSettings {
     // Target language represented as a three-letter code according to ISO 639-2/T.
     string dst_lang = 1 [
       (length) = "3",
-      (pattern) = "ara|deu|eng|fra|ita|jpn|kaz|kor|rus|spa|tur|ukr|zho",
+      (pattern) = "ara|deu|eng|fra|ita|jpn|kaz|kor|rus|spa|tur|ukr|vie|zho",
       (required) = true
     ];
 

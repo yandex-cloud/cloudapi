@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/compute/v1/export.proto";
 import "yandex/cloud/compute/v1/hardware_generation.proto";
 import "yandex/cloud/compute/v1/image.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -72,6 +73,14 @@ service ImageService {
     };
     option (google.api.http) = {
       delete: "/compute/v1/images/{image_id}"
+    };
+  };
+
+  // Exports the specified image to an S3-compatible storage.
+  rpc Export(ExportImageRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "ExportImageMetadata"
+      response: "ExportResponse"
     };
   };
 
@@ -312,6 +321,25 @@ message DeleteImageRequest {
 
 message DeleteImageMetadata {
   // ID of the image that is being deleted.
+  string image_id = 1;
+}
+
+message ExportImageRequest {
+  // ID of the image to export.
+  // To get the image ID, use a [ImageService.List] request.
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string image_id = 1;
+
+  // Destination of the export.
+  ExportDestination destination = 2;
+
+  // Credentials used to access the destination storage.
+  ExportS3Credentials credentials = 3;
+}
+
+message ExportImageMetadata {
+  // ID of the image that is being exported.
   string image_id = 1;
 }
 

@@ -4,3 +4,35 @@ package yandex.cloud.compute.v1;
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/compute/v1;compute";
 option java_package = "yandex.cloud.api.compute.v1";
+
+// Destination of an export to an S3-compatible storage.
+message ExportDestination {
+  // HTTP(S) endpoint of an S3-compatible storage.
+  string endpoint = 1;
+
+  // Signing region; empty when the storage does not use one.
+  string region = 2;
+
+  // The bucket must exist.
+  string bucket = 3;
+
+  // Optional prefix of the exported objects.
+  string prefix = 4;
+}
+
+// Credentials used to access the destination storage.
+message ExportS3Credentials {
+  // S3 Access Key ID
+  string access_key_id = 1;
+
+  // S3 Secret Access Key
+  string secret_access_key = 2;
+}
+
+message ExportResponse {
+  // The bucket where image is exported to
+  string bucket = 1;
+
+  // File with resulting manifest in S3
+  string manifest_key = 2;
+}

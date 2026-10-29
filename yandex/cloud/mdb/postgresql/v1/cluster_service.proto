@@ -382,7 +382,7 @@ message CreateClusterRequest {
   repeated yandex.cloud.mdb.v1.BackupRetentionPolicySpec retention_policies = 15 [deprecated = true];
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 16;
+  google.protobuf.StringValue disk_encryption_key_id = 16 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
 
   // Maintenance windows.
   // If both maintenance fields are set, maintenance_window must match
@@ -613,7 +613,7 @@ message RestoreClusterRequest {
   MaintenanceWindow maintenance_window = 15 [deprecated = true];
 
   // ID of the key to encrypt cluster disks.
-  google.protobuf.StringValue disk_encryption_key_id = 16;
+  google.protobuf.StringValue disk_encryption_key_id = 16 [(pattern) = "[a-zA-Z0-9_.-]{0,50}"];
 
   // Maintenance windows.
   // If both maintenance fields are set, maintenance_window must match
@@ -1039,6 +1039,7 @@ message HostSpec {
 message ConfigSpec {
   reserved 2;
   reserved 3;
+  reserved 6;
   reserved 10;
   reserved 13;
   reserved 14;
@@ -1106,9 +1107,6 @@ message ConfigSpec {
 
   // Resources allocated to PostgreSQL hosts.
   Resources resources = 5;
-
-  // Configuration setting which enables/disables autofailover in cluster.
-  google.protobuf.BoolValue autofailover = 6 [deprecated=true];
 
   // Time to start the daily backup, in the UTC timezone.
   google.type.TimeOfDay backup_window_start = 8;

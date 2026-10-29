@@ -158,7 +158,7 @@ message Master {
   // Master security groups.
   repeated string security_group_ids = 8;
 
-  // Cloud Logging for master components.
+  // Export configuration of master logs.
   MasterLogging master_logging = 9;
 
   // Computing resources of each master instance such as the amount of memory and number of cores.
@@ -207,27 +207,35 @@ message MasterAuth {
 }
 
 message MasterLogging {
-  // Identifies whether Cloud Logging is enabled for master components.
+  // Specifies whether master logs should be exported.
   bool enabled = 1;
   // The destination of master components' logs.
   oneof destination {
     // ID of the log group where logs of master components should be stored.
-    string log_group_id = 2 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
+    // Deprecated: Cloud Logging is no longer supported; this field has no effect.
+    string log_group_id = 2 [
+      (pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?",
+      deprecated = true
+    ];
 
-    // ID of the folder where logs should be stored (in default group).
+    // ID of the folder where logs should be stored.
     string folder_id = 3 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
   }
 
-  // Identifies whether Cloud Logging is enabled for audit logs.
+  // Specifies whether audit logs should be exported
+  // when master log delivery is enabled.
   bool audit_enabled = 4;
 
-  // Identifies whether Cloud Logging is enabled for cluster-autoscaler.
+  // Specifies whether cluster-autoscaler logs should be exported
+  // when master log delivery is enabled.
   bool cluster_autoscaler_enabled = 5;
 
-  // Identifies whether Cloud Logging is enabled for kube-apiserver.
+  // Specifies whether kube-apiserver logs should be exported
+  // when master log delivery is enabled.
   bool kube_apiserver_enabled = 6;
 
-  // Identifies whether Cloud Logging is enabled for events.
+  // Specifies whether Kubernetes events should be exported
+  // when master log delivery is enabled.
   bool events_enabled = 7;
 }
 

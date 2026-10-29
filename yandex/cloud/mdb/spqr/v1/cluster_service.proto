@@ -267,6 +267,18 @@ service ClusterService {
     };
   };
 
+  // Updates the specified shard.
+  rpc UpdateShard(UpdateClusterShardRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdateClusterShardMetadata"
+      response: "Shard"
+    };
+    option (google.api.http) = {
+      body: "*"
+      patch: "/managed-spqr/v1/clusters/{cluster_id}/shards"
+    };
+  };
+
   // Deletes the specified shard.
   rpc DeleteShard(DeleteClusterShardRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -1148,6 +1160,26 @@ message AddClusterShardMetadata {
   string cluster_id = 1;
 
   // Name of the shard being added.
+  string shard_name = 2;
+}
+
+message UpdateClusterShardRequest {
+  // ID of the SPQR cluster to update a shard in.
+  // To get the cluster ID, use a [ClusterService.List] request.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Properties of the shard to be updated.
+  ShardSpec shard_spec = 2 [(required) = true];
+}
+
+message UpdateClusterShardMetadata {
+  // ID of the SPQR cluster that a shard is being updated in.
+  string cluster_id = 1;
+
+  // Name of the shard being updated.
   string shard_name = 2;
 }
 

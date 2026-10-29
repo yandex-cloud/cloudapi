@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/compute/v1/export.proto";
 import "yandex/cloud/compute/v1/hardware_generation.proto";
 import "yandex/cloud/compute/v1/snapshot.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -64,6 +65,14 @@ service SnapshotService {
     };
     option (google.api.http) = {
       delete: "/compute/v1/snapshots/{snapshot_id}"
+    };
+  };
+
+  // Exports the specified snapshot to an S3-compatible storage.
+  rpc Export(ExportSnapshotRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "ExportSnapshotMetadata"
+      response: "ExportResponse"
     };
   };
 
@@ -250,6 +259,25 @@ message DeleteSnapshotRequest {
 
 message DeleteSnapshotMetadata {
   // ID of the snapshot that is being deleted.
+  string snapshot_id = 1;
+}
+
+message ExportSnapshotRequest {
+  // ID of the snapshot to export.
+  // To get the snapshot ID, use a [SnapshotService.List] request.
+  // The length must be less than or equal to 50.
+  // This field is required.
+  string snapshot_id = 1;
+
+  // Destination of the export.
+  ExportDestination destination = 2;
+
+  // Credentials used to access the destination storage.
+  ExportS3Credentials credentials = 3;
+}
+
+message ExportSnapshotMetadata {
+  // ID of the snapshot that is being exported.
   string snapshot_id = 1;
 }
 

@@ -288,7 +288,7 @@ message MasterUpdateSpec {
   // Master security groups.
   repeated string security_group_ids = 3;
 
-  // Cloud Logging for master components.
+  // Export configuration of master logs.
   MasterLogging master_logging = 4;
 
   // Update master instance locations.
@@ -515,7 +515,7 @@ message MasterSpec {
   // Master security groups.
   repeated string security_group_ids = 6;
 
-  // Cloud Logging for master components.
+  // Export configuration of master logs.
   MasterLogging master_logging = 7;
 }
 
