@@ -531,9 +531,9 @@ message CreateClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "<=63"
-      pattern: "[a-z][0-9a-z_-]*"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
     },
-    (pattern) = "[0-9a-z_-]*",
+    (pattern) = "[-_./\\@0-9a-z]*",
     (size) = "<=64"
   ];
 
@@ -613,9 +613,9 @@ message UpdateClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "<=63"
-      pattern: "[a-z][0-9a-z_-]*"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
     },
-    (pattern) = "[0-9a-z_-]*",
+    (pattern) = "[-_./\\@0-9a-z]*",
     (size) = "<=64"
   ];
 
@@ -811,9 +811,9 @@ message RestoreClusterRequest {
     (length) = "<=63",
     (map_key) = {
       length: "<=63"
-      pattern: "[a-z][0-9a-z_-]*"
+      pattern: "[a-z][-_./\\@0-9a-z]*"
     },
-    (pattern) = "[0-9a-z_-]*",
+    (pattern) = "[-_./\\@0-9a-z]*",
     (size) = "<=64"
   ];
 
@@ -857,6 +857,12 @@ message RestoreClusterRequest {
 
   // Maintenance windows.
   yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 20;
+
+  // Restore the cluster without hybrid storage.
+  // Data parts stored in hybrid storage (Object Storage) are ignored during restore,
+  // only data stored on local disks is restored.
+  // Can be used only with backups of clusters with enabled hybrid storage.
+  bool ignore_cloud_storage_data = 21;
 }
 
 message PartialRestoreSpec {
@@ -1643,7 +1649,7 @@ message HostSpec {
   string zone_id = 1 [(length) = "<=50"];
 
   // Type of the host to be deployed.
-  Host.Type type = 2 [(required) = true];
+  Host.Type type = 2;
 
   // ID of the subnet that the host should belong to. This subnet should be a part
   // of the network that the cluster belongs to.

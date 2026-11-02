@@ -170,6 +170,7 @@ message StreamLineProcessingSettings {
 
   message Translation {
     // Enable line translation.
+    // Neurotranslations and neurosubtitles cannot be enabled in low latency mode.
     bool enable = 1;
 
     // Input tracks.

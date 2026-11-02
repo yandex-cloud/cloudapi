@@ -9,8 +9,6 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/quotamanag
 option java_package = "yandex.cloud.api.quotamanager.v1";
 
 message QuotaRequest {
-  reserved 6;
-
   message QuotaLimit {
     enum Status {
       STATUS_UNSPECIFIED = 0;
@@ -48,6 +46,8 @@ message QuotaRequest {
 
     // Status of current quota limit.
     Status status = 5;
+
+    // Human-readable reason for rejecting the requested quota limit.
     string message = 6;
 
     // ID of the subject who modified quota limit.
@@ -75,6 +75,8 @@ message QuotaRequest {
 
   // ID of the quota request.
   string id = 1;
+
+  // The resource associated with the quota request.
   Resource resource = 2;
 
   // Creation timestamp.
@@ -85,6 +87,9 @@ message QuotaRequest {
 
   // Quota limits
   repeated QuotaLimit quota_limits = 5;
+
+  // ID of the issue.
+  string issue_id = 6;
 
   // ID of the subject who created quota request.
   string created_by = 7;

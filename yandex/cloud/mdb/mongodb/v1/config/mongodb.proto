@@ -100,6 +100,9 @@ message MongodConfig {
     // The fraction of slow operations that should be profiled or logged.
     // operationProfiling.slowOpSampleRate accepts values between 0 and 1, inclusive.
     google.protobuf.DoubleValue slow_op_sample_rate = 3 [(value) = "0-1"];
+
+    // Filter for operations to profile or log, specified as a JSON object string.
+    string filter = 4;
   }
 
   message Network {
@@ -296,6 +299,8 @@ message MongoCfgConfig {
   }
 
   message OperationProfiling {
+    reserved 3;
+
     enum Mode {
       // Mode unspecified.
       MODE_UNSPECIFIED = 0;
@@ -317,6 +322,9 @@ message MongoCfgConfig {
     // for longer than this threshold are considered slow, and are processed by the profiler
     // running in the SLOW_OP mode. For details see [MongoDB documentation](https://www.mongodb.com/docs/manual/reference/configuration-options/#mongodb-setting-operationProfiling.slowOpThresholdMs).
     google.protobuf.Int64Value slow_op_threshold = 2 [(value) = ">0"];
+
+    // Filter for operations to profile or log, specified as a JSON object string.
+    string filter = 4;
   }
 
   message Network {
@@ -481,6 +489,9 @@ message MongosConfig {
     // The fraction of slow operations that should be logged.
     // operationProfiling.slowOpSampleRate accepts values between 0 and 1, inclusive.
     google.protobuf.DoubleValue slow_op_sample_rate = 2 [(value) = "0-1"];
+
+    // Filter for operations to log, specified as a JSON object string.
+    string filter = 3;
   }
 
   message BalancerConfig {

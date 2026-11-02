@@ -38,6 +38,9 @@ service MetadataService {
   // - Returns UNAUTHENTICATED if the user is not authenticated or the billing account does not exist
   // - Returns PERMISSION_DENIED if the user lacks required permissions
   // - Returns INTERNAL for internal server errors
+  // This method supports additional filtering by cloud_ids, label_keys, service_ids, and sku_ids.
+  // These filters work as supplementary conditions to the primary billing_account_id and date range filters.
+  // When provided, they further narrow down the results by applying additional OR conditions for each filter type.
   // Required permissions:
   // - `billing.accounts.getReport` on the specified billing account
   rpc GetUsage(GetUsageRequest) returns (GetUsageResponse);
@@ -45,7 +48,7 @@ service MetadataService {
   // GetServiceInstance returns service instance usage metadata for a specific billing account and date range.
   // This method provides a view of all available service instance entities
   // that can be used for usage reporting within the specified date range
-  // for the billing account and all its sub-accounts including:
+  // for the billing account and all its sub-accounts.
   // Implementation details:
   // - All data is filtered to only include items that had usage during the specified date range
   // Error handling:
@@ -54,10 +57,10 @@ service MetadataService {
   // - Returns PERMISSION_DENIED if the user lacks required permissions
   // - Returns INTERNAL for internal server errors
   // This method supports additional filtering by service_instance_ids.
-  // These filters work as supplementary conditions to the primary billing_account_id and date range filters.
-  // When provided, they further narrow down the results by applying additional OR conditions for each filter type.
+  // This filter works as a supplementary condition to the primary billing_account_id and date range filters.
+  // When provided, it further narrows down the results by applying an additional OR condition.
   // Required permissions:
-  // - `billing.accounts.getReport` or `billingInternal.accounts.getReport` on the specified billing account
+  // - `billing.accounts.getReport` on the specified billing account
   rpc GetServiceInstance(GetServiceInstanceRequest) returns (GetServiceInstanceResponse);
 
   // GetLabel returns available label keys and values for a specific billing account
@@ -65,6 +68,7 @@ service MetadataService {
   // This method retrieves all available label values for a specified label key
   // within the given date range. It supports filtering by label value substring
   // and provides pagination for handling large result sets.
+  // This method can additionally filter label values by provided clouds and folders.
   // The method can be used in several ways:
   // - With label_key only: Returns all values for that key with pagination
   // - With label_key and label_value: Returns array of matching labelValues with pagination
@@ -96,7 +100,7 @@ service MetadataService {
   // - The method result does not contain empty cloud id information
   // - Filtering is done using case-insensitive substring matching
   // - Only clouds with at least one folder are included in the response
-  // - Folder pagination is based on folder IDs, ordered alphabetically
+  // - Folder pagination is based on cloud and folder names, ordered alphabetically (ties are broken by IDs)
   // - NextPageToken is only returned when there are more results available
   // - Base64-encoded page tokens are used for pagination state
   // Error handling:
@@ -127,7 +131,7 @@ service MetadataService {
   // - Returns PERMISSION_DENIED if the user lacks required permissions
   // - Returns INTERNAL for internal server errors
   // Required permissions:
-  // - `billing.accounts.getReport` or `billingInternal.accounts.getReport` on the specified billing account
+  // - `billing.accounts.getReport` on the specified billing account
   rpc GetResources(GetResourcesRequest) returns (GetResourcesResponse);
 
 }
@@ -186,6 +190,7 @@ message GetUsageResponse {
   // Contains cloud entities that the user has access to within the specified date range.
   // Note: Empty cloud_id values are considered as "consumption outside the cloud"
   // and represented with an empty string id and name "Usage is out of scope of the Cloud"
+  // The list is sorted by cloud name in ascending order.
   repeated Cloud clouds = 1;
 
   // List of available label keys for the current user/context (billing_account_id with sub-accounts)
@@ -193,24 +198,29 @@ message GetUsageResponse {
   // within the specified date range.
   // These keys can be used for filtering and grouping in reports or
   // passed to the GetLabel method to retrieve possible values.
+  // The list is sorted in ascending order.
   repeated string label_keys = 2;
 
   // List of available services for the current user/context (billing_account_id with sub-accounts)
   // Contains service entities with their IDs, names and descriptions that
   // have usage records within the specified billing account and date range.
   // Services represent the top-level grouping of cloud offerings.
+  // The list is sorted by service name in ascending order.
   repeated Service services = 3;
 
   // List of available SKUs for the current user/context (billing_account_id with sub-accounts)
   // Contains SKU entities with their IDs, names, translations and pricing units
   // that have usage records within the specified billing account and date range.
   // SKUs represent specific service offerings
+  // The list is sorted by SKU name in ascending order.
   repeated SKU skus = 4;
 
   // List of available BillingAccounts for the current user/context (billing_account_id with sub-accounts)
   // Contains billing account entities that the user has access to and
   // that have usage records within the specified date range.
   // Includes both the main account and any sub-accounts.
+  // Sub-accounts are sorted by name in ascending order.
+  // The master account is placed last in the list.
   repeated BillingAccount billing_accounts = 5;
 }
 
@@ -245,6 +255,7 @@ message GetServiceInstanceRequest {
 message GetServiceInstanceResponse {
   // List of available service instances for the current user/context (billing_account_id with sub-accounts)
   // Contains service instance entities that the user has access to within the specified date range.
+  // The list is sorted by service instance name in ascending order.
   repeated ServiceInstance service_instances = 1;
 }
 
@@ -271,7 +282,6 @@ message GetLabelRequest {
   // Additional filter that works alongside the billing_account_id and date range.
   // When specified, includes labels where cloud_id matches any of the provided values.
   // Acts as an OR condition (cloud_id IN cloud_ids).
-  // If specified, will be used for addditional authorization check to provided clouds.
   // If empty, this filter is not applied.
   repeated string cloud_ids = 9;
 
@@ -279,7 +289,6 @@ message GetLabelRequest {
   // Additional filter that works alongside the billing_account_id and date range.
   // When specified, includes labels where folder_id matches any of the provided values.
   // Acts as an OR condition (folder_id IN folder_ids).
-  // If specified, will be used for addditional authorization check to provided folders.
   // If empty, this filter is not applied.
   repeated string folder_ids = 10;
 
@@ -393,7 +402,7 @@ message GetCloudResponse {
     // List of folders belonging to this cloud
     // Contains folder entities that belong to this cloud
     // and match any folder ID filtering criteria from the request.
-    // The list is sorted by folder ID in ascending order.
+    // The list is sorted by folder name in ascending order.
     // Only folders that had usage during the specified date range are included.
     repeated Folder folders = 2;
   }
@@ -401,6 +410,7 @@ message GetCloudResponse {
   // List of clouds matching the request criteria
   // Contains CloudInfo objects for each cloud that matches the specified
   // filtering criteria
+  // The list is sorted by cloud name in ascending order.
   // Note: only clouds with at least one folder are included in the response.
   repeated CloudInfo items = 1;
 
@@ -485,6 +495,7 @@ message GetResourcesResponse {
   // List of service instances matching the request criteria
   // Contains ServiceInstanceInfo objects for each service instance that matches the specified
   // filtering criteria
+  // The list is sorted by service instance name in ascending order.
   // Note: only service instances with at least one resource are included in the response.
   repeated ServiceInstanceInfo items = 1;
 

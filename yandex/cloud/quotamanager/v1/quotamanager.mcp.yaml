@@ -1,0 +1,14 @@
+services:
+  - name: QuotaLimitService
+    tools:
+      - method: Get
+      - method: List
+      - method: ListServices
+
+  - name: QuotaRequestService
+    tools:
+      - method: Get
+      - method: List
+      - method: Create
+      - method: Cancel
+      - method: ListOperations
