@@ -12,11 +12,14 @@ message StoragePartition {
   // Partition type.
   StoragePartitionType type = 1;
 
-  // Size of the storage partition in gibibytes (2^30 bytes).
-  int64 size_gib = 2;
+  // Deprecated. Size of the storage partition in gibibytes (2^30 bytes). Use size_bytes instead.
+  int64 size_gib = 2 [deprecated = true];
 
   // Storage mount point.
   string mount_point = 3;
+
+  // Size in bytes.
+  int64 size_bytes = 4;
 }
 
 // Storage, a OS-level storage entity used for creating partitions. For example, this could

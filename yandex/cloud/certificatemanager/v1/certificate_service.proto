@@ -240,6 +240,8 @@ message CreateCertificateRequest {
 }
 
 message RequestNewCertificateRequest {
+  reserved 8 to 9;
+
   // ID of the folder to create a certificate in.
   string folder_id = 1 [
     (length) = "<=50",
@@ -265,6 +267,9 @@ message RequestNewCertificateRequest {
 
   // Type of the domain validation challenge.
   ChallengeType challenge_type = 6;
+
+  // ACME Certificate Provider
+  CertificateProvider provider = 10;
 
   // Description of the certificate.
   string description = 3 [(length) = "<=1024"];

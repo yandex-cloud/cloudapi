@@ -74,6 +74,9 @@ message Certificate {
   // Status of the certificate.
   Status status = 9;
 
+  // ACME Certificate Provider
+  CertificateProvider provider = 20;
+
   // Domains validation challenges of the certificate. Used only for managed certificates.
   repeated Challenge challenges = 17;
 
@@ -179,6 +182,16 @@ enum CertificateType {
 
   // The certificate is created by service.
   MANAGED = 2;
+}
+
+enum CertificateProvider {
+  CERTIFICATE_PROVIDER_UNSPECIFIED = 0;
+
+  // Let's Encrypt ACME Provider
+  LETS_ENCRYPT = 1;
+
+  // ACME Provider of National Certification Authority of Ministry of Digital Development, Communications and Mass Media of the Russian Federation
+  RUSSIAN_TRUSTED_CA = 5;
 }
 
 // Supported domain validation types.

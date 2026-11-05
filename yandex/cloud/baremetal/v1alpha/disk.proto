@@ -13,8 +13,11 @@ message Disk {
   // Type of the disk drive.
   DiskDriveType type = 2;
 
-  // Size of the disk in gibibytes (2^30 bytes).
-  int64 size_gib = 3;
+  // Deprecated. Size of the disk in gibibytes (2^30 bytes). Use size_bytes instead.
+  int64 size_gib = 3 [deprecated = true];
+
+  // Size in bytes.
+  int64 size_bytes = 4;
 }
 
 // Disk drive type.

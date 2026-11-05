@@ -474,6 +474,9 @@ message CloudStorage {
 
   // Disables or enables merging date parts storing in Object Storage.
   google.protobuf.BoolValue prefer_not_to_merge = 5;
+
+  // Maximum size of the Object Storage bucket used for hybrid storage.
+  google.protobuf.Int64Value bucket_max_size = 6;
 }
 
 message DiskSizeAutoscaling {

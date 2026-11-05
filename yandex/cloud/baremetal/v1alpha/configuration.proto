@@ -30,14 +30,19 @@ message CPU {
 }
 
 message DiskDriveConfiguration {
+  reserved 4;
+
   // Type of the disk drive.
   DiskDriveType type = 1;
 
   // Number of disk drives.
   int64 disk_count = 2;
 
-  // Size of a single disk drive in gibibytes (2^30 bytes).
-  int64 disk_size_gib = 3;
+  // Deprecated. Size of a single disk drive in gibibytes (2^30 bytes). Use disk_size_bytes instead.
+  int64 disk_size_gib = 3 [deprecated = true];
+
+  // Size of a single disk drive in bytes.
+  int64 disk_size_bytes = 5;
 }
 
 // Type of servers represented by a configuration.
