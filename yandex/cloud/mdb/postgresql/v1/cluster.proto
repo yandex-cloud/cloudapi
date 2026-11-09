@@ -389,6 +389,11 @@ message Host {
   // ReplicaType represents the current synchronization state of a PostgreSQL replica
   // as reported by the primary host.
   ReplicaType replica_type = 13;
+
+  // Priority of the host as a backup source. A higher value corresponds to higher priority.
+  //
+  // Backup is made from the host with the highest priority.
+  google.protobuf.Int64Value backup_priority = 14;
 }
 
 message HostConfig {

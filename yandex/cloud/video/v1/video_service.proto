@@ -71,6 +71,21 @@ service VideoService {
     };
   };
 
+  // Renews video source data for further upload.
+  // This method is not applicable to videos in WAIT_UPLOADING and PROCESSING statuses.
+  // Returns an operation which restores the previously uploaded video source upon cancellation.
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
+  rpc RenewSource(RenewVideoSourceRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "RenewVideoSourceMetadata"
+      response: "Video"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/video/v1/videos/{video_id}:renewSource"
+    };
+  };
+
   // Initiates or updates video transcoding with specified parameters.
   // Can be used to start transcoding for videos with auto_transcode=DISABLE,
   // or to re-process a completed video with new transcoding settings.
@@ -418,6 +433,33 @@ message UpdateVideoRequest {
 }
 
 message UpdateVideoMetadata {
+  // ID of the video.
+  string video_id = 1;
+}
+
+message RenewVideoSourceRequest {
+  reserved 3 to 999;
+
+  // ID of the video.
+  string video_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+  // Specifies the video upload source method (exactly one must be chosen).
+  oneof source {
+    option (exactly_one) = true;
+
+    // Upload video using the TUS (Tus Resumable Upload Protocol) protocol.
+    // This is a push-based upload method where the client pushes data to the server.
+    VideoTUSDParams tusd = 1000;
+  }
+
+  // New auto-transcoding setting for the video.
+  // Controls whether transcoding starts automatically after upload.
+  AutoTranscode auto_transcode = 2;
+}
+
+message RenewVideoSourceMetadata {
   // ID of the video.
   string video_id = 1;
 }

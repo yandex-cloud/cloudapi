@@ -999,6 +999,11 @@ message UpdateHostSpec {
 
   // Whether the host should get a public IP address on creation.
   bool assign_public_ip = 6;
+
+  // Priority of the host as a backup source. A higher value corresponds to higher priority.
+  //
+  // Backup is made from the host with the highest priority.
+  google.protobuf.Int64Value backup_priority = 7 [(value) = "0-100"];
 }
 
 message HostSpec {
@@ -1034,6 +1039,11 @@ message HostSpec {
 
   // Configuration of a PostgreSQL server for the host.
   ConfigHostSpec config_spec = 6;
+
+  // Priority of the host as a backup source. A higher value corresponds to higher priority.
+  //
+  // Backup is made from the host with the highest priority.
+  google.protobuf.Int64Value backup_priority = 7 [(value) = "0-100"];
 }
 
 message ConfigSpec {
