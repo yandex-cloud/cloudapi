@@ -3,7 +3,9 @@ syntax = "proto3";
 package yandex.cloud.gitlab.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/gitlab/v1/instance.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -38,6 +40,21 @@ service InstanceService {
     option (google.api.http) = {
       body: "*"
       post: "/gitlab/v1/instances"
+    };
+  };
+
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled
+  // Prepare preserves the existing operation name and only provisions upload access, without creating a backup. --)
+  // Prepares temporary S3 credentials for uploading a GitLab backup and its secrets file.
+  // Upload the files directly to the returned S3 endpoint and object keys before access expires.
+  rpc PrepareBackupUpload(PrepareBackupUploadRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "PrepareBackupUploadMetadata"
+      response: "PrepareBackupUploadResponse"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/gitlab/v1/instances/{instance_id}:prepareBackupUpload"
     };
   };
 
@@ -83,6 +100,13 @@ service InstanceService {
     };
     option (google.api.http) = {
       post: "/gitlab/v1/instances/{instance_id}:stop"
+    };
+  };
+
+  // Returns temporary download URLs for a completed backup and its GitLab secrets file.
+  rpc GetBackupDownloadUrls(GetBackupDownloadUrlsRequest) returns (GetBackupDownloadUrlsResponse) {
+    option (google.api.http) = {
+      get: "/gitlab/v1/instances/{instance_id}/backups/{backup_id}:getDownloadUrls"
     };
   };
 
@@ -210,6 +234,81 @@ message CreateInstanceMetadata {
   string instance_id = 1;
 }
 
+// Request message for InstanceService.PrepareBackupUpload.
+message PrepareBackupUploadRequest {
+  // ID of the GitLab instance to upload a backup to.
+  string instance_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // GitLab version used to create the backup.
+  string backup_gitlab_version = 2 [
+    (length) = "<=30",
+    (required) = true
+  ];
+}
+
+// Metadata message for InstanceService.PrepareBackupUpload.
+message PrepareBackupUploadMetadata {
+  // ID of the GitLab instance to upload a backup to.
+  string instance_id = 1;
+}
+
+// Response message for InstanceService.PrepareBackupUpload, returned in Operation.response.
+message PrepareBackupUploadResponse {
+  // S3 endpoint to use for uploading both files.
+  string s3_endpoint = 1;
+
+  // Destination bucket.
+  string bucket = 2;
+
+  // Object key for the GitLab backup archive.
+  string backup_object_key = 3;
+
+  // Object key for the gitlab-secrets.json file.
+  string secrets_object_key = 4;
+
+  // Access key ID for S3 authentication.
+  string access_key_id = 5;
+
+  // Secret access key for S3 authentication.
+  string secret_access_key = 6;
+
+  // Session token for S3 authentication. Omitted when static credentials are returned.
+  string session_token = 7;
+
+  // Time when upload access expires.
+  google.protobuf.Timestamp access_expires_at = 8;
+}
+
+// Request message for InstanceService.GetBackupDownloadUrls.
+message GetBackupDownloadUrlsRequest {
+  // ID of the GitLab instance that owns the backup.
+  string instance_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // ID of the completed backup to download.
+  string backup_id = 2 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Lifetime of the download URLs, from 1 hour to 7 days. Defaults to 1 hour.
+  google.protobuf.Duration ttl = 3 [(value) = "1h-168h"];
+}
+
+// Response message for InstanceService.GetBackupDownloadUrls.
+message GetBackupDownloadUrlsResponse {
+  // Signed URL for downloading the GitLab backup archive.
+  string backup_presigned_url = 1;
+
+  // Signed URL for downloading the gitlab-secrets.json file.
+  string secrets_presigned_url = 2;
+}
+
 // Request message for InstanceService.Update.
 message UpdateInstanceRequest {
   reserved 5, 8 to 9, 14 to 20, 22 to 23;
@@ -300,6 +399,7 @@ message StartInstanceMetadata {
 
 // Request message for InstanceService.Stop.
 message StopInstanceRequest {
+  // ID of the GitLab instance to stop.
   string instance_id = 1;
 }
 

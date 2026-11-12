@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/trino/v1/access_control.proto";
 import "yandex/cloud/trino/v1/catalog.proto";
@@ -175,6 +176,8 @@ message ListClustersResponse {
 }
 
 message CreateClusterRequest {
+  reserved 11;
+
   // ID of the folder to create Trino cluster in.
   string folder_id = 1 [
     (length) = "<=50",
@@ -221,8 +224,12 @@ message CreateClusterRequest {
   // Cloud logging configuration.
   LoggingConfig logging = 9;
 
+  // Deprecated. Use maintenance_windows instead.
   // Window of maintenance operations.
-  MaintenanceWindow maintenance_window = 10;
+  MaintenanceWindow maintenance_window = 10 [deprecated = true];
+
+  // Maintenance windows.
+  mdb.v1.MaintenanceWindows maintenance_windows = 12;
 }
 
 message TrinoConfigSpec {
@@ -397,8 +404,12 @@ message UpdateClusterRequest {
   // Cloud logging configuration.
   LoggingConfig logging = 10;
 
+  // Deprecated. Use maintenance_windows instead.
   // Window of maintenance operations.
-  MaintenanceWindow maintenance_window = 11;
+  MaintenanceWindow maintenance_window = 11 [deprecated = true];
+
+  // Maintenance windows.
+  mdb.v1.MaintenanceWindows maintenance_windows = 12;
 }
 
 message UpdateClusterMetadata {

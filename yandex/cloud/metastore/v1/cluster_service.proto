@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 import "yandex/cloud/metastore/v1/cluster.proto";
 import "yandex/cloud/metastore/v1/maintenance.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -246,8 +247,12 @@ message CreateClusterRequest {
   // Network-related configuration options.
   NetworkConfig network = 16;
 
+  // Deprecated. Use maintenance_windows instead.
   // Maintenance window.
-  MaintenanceWindow maintenance_window = 17;
+  MaintenanceWindow maintenance_window = 17 [deprecated = true];
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 18;
 }
 
 message CreateClusterMetadata {
@@ -300,11 +305,15 @@ message UpdateClusterRequest {
   // Metastore Cluster configuration.
   UpdateClusterConfigSpec config_spec = 11;
 
+  // Deprecated. Use maintenance_windows instead.
   // Maintenance window.
-  MaintenanceWindow maintenance_window = 12;
+  MaintenanceWindow maintenance_window = 12 [deprecated = true];
 
   // Metastore server version.
   string version = 13;
+
+  // Maintenance windows.
+  yandex.cloud.mdb.v1.MaintenanceWindows maintenance_windows = 14;
 }
 
 message UpdateClusterMetadata {

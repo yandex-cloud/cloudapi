@@ -97,3 +97,12 @@ message PrivateEndpoint {
     string name = 1;
   }
 }
+
+// A Yandex Cloud service accessible through private endpoints.
+message YandexCloudService {
+  // Yandex Cloud service name.
+  string service_name = 1;
+
+  // Description of the Yandex Cloud service.
+  string description = 2;
+}

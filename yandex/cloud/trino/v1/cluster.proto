@@ -4,6 +4,7 @@ package yandex.cloud.trino.v1;
 
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/logging/v1/log_entry.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 import "yandex/cloud/trino/v1/access_control.proto";
 import "yandex/cloud/trino/v1/event_listener.proto";
 import "yandex/cloud/trino/v1/maintenance.proto";
@@ -15,6 +16,8 @@ option java_package = "yandex.cloud.api.trino.v1";
 
 // Trino cluster.
 message Cluster {
+  reserved 18 to 19;
+
   enum Status {
 
     // Cluster state is unknown.
@@ -89,11 +92,15 @@ message Cluster {
   // Address of Trino Coordinator.
   string coordinator_url = 15;
 
+  // Deprecated. Use maintenance_windows instead.
   // Window of maintenance operations.
-  MaintenanceWindow maintenance_window = 16;
+  MaintenanceWindow maintenance_window = 16 [deprecated = true];
 
   // Maintenance operation planned at nearest maintenance_window.
   MaintenanceOperation planned_operation = 17;
+
+  // Maintenance windows.
+  mdb.v1.MaintenanceWindows maintenance_windows = 20;
 }
 
 message DetailedHealthCheck {

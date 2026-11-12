@@ -31,9 +31,12 @@ service ChangeFreezeService {
   };
 
   // Lists change freezes by conditions, specified in request.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled
+  // aip.dev/not-precedent: The existing repeated resource_path requires a JSON request body. --)
   rpc List(maintenance.v2.ListChangeFreezesRequest) returns (maintenance.v2.ListChangeFreezesResponse) {
     option (google.api.http) = {
-      get: "/managed-mysql/v1/changeFreezes"
+      body: "*"
+      post: "/managed-mysql/v1/changeFreezes:list"
     };
   };
 

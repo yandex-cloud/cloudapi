@@ -4,6 +4,7 @@ package yandex.cloud.metastore.v1;
 
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/logging/v1/log_entry.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 import "yandex/cloud/metastore/v1/maintenance.proto";
 import "yandex/cloud/validation.proto";
 
@@ -76,7 +77,7 @@ message HealthDetail {
 
 // Metastore Cluster.
 message Cluster {
-  reserved 10 to 15;
+  reserved 10 to 15, 27 to 28;
 
   enum Health {
 
@@ -173,14 +174,18 @@ message Cluster {
   // Network-related configuration options.
   NetworkConfig network = 23;
 
+  // Deprecated. Use maintenance_windows instead.
   // Maintenance window.
-  MaintenanceWindow maintenance_window = 24;
+  MaintenanceWindow maintenance_window = 24 [deprecated = true];
 
   // Maintenance operation scheduled for the nearest maintenance window.
   MaintenanceOperation planned_operation = 25;
 
   // Output only. Whether the cluster is configured for high availability (multiple zones).
   bool is_ha = 26;
+
+  // Maintenance windows.
+  mdb.v1.MaintenanceWindows maintenance_windows = 29;
 }
 
 message Monitoring {

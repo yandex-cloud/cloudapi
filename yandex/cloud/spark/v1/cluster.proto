@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.spark.v1;
 
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/mdb/v1/maintenance.proto";
 import "yandex/cloud/spark/v1/maintenance.proto";
 import "yandex/cloud/validation.proto";
 
@@ -75,6 +76,8 @@ message HealthDetail {
 
 // Spark cluster.
 message Cluster {
+  reserved 17 to 18;
+
   // Cluster Status Enumeration.
   enum Status {
 
@@ -150,11 +153,15 @@ message Cluster {
   // UI URLs.
   repeated UILink links = 14;
 
+  // Deprecated. Use maintenance_windows instead.
   // Window of maintenance operations.
-  MaintenanceWindow maintenance_window = 15;
+  MaintenanceWindow maintenance_window = 15 [deprecated = true];
 
   // Maintenance operation planned at nearest maintenance_window.
   MaintenanceOperation planned_operation = 16;
+
+  // Maintenance windows.
+  mdb.v1.MaintenanceWindows maintenance_windows = 19;
 }
 
 // Configuration of the Spark cluster.
