@@ -35,6 +35,9 @@ message ConnectorSpec {
 
     // Configuration of Iceberg Sink connector.
     ConnectorConfigIcebergSinkSpec connector_config_iceberg_sink = 12;
+
+    // MirrorCheckpoint connector configuration.
+    ConnectorConfigMirrorCheckpointSpec connector_config_mirror_checkpoint = 14;
   }
 }
 
@@ -46,7 +49,7 @@ message ConnectorPlacement {
 }
 
 message UpdateConnectorSpec {
-  reserved 3 to 9;
+  reserved 3 to 9, 13;
 
   // Maximum number of connector tasks to update.
   google.protobuf.Int64Value tasks_max = 1;
@@ -64,7 +67,38 @@ message UpdateConnectorSpec {
 
     // Update specification for Iceberg Sink Connector.
     UpdateConnectorConfigIcebergSinkSpec connector_config_iceberg_sink = 12;
+
+    // Updated configuration of the MirrorCheckpoint connector.
+    UpdateConnectorConfigMirrorCheckpointSpec connector_config_mirror_checkpoint = 14;
   }
+}
+
+message ConnectorConfigMirrorCheckpointSpec {
+  // Existing MirrorMaker connector in this cluster whose settings are copied at creation.
+  string source_connector_name = 1;
+
+  // Literal consumer group names to synchronize.
+  repeated string groups = 2;
+
+  // Replication policy; unspecified uses the source settings captured at creation.
+  ConnectorConfigMirrorCheckpoint.ReplicationPolicy replication_policy = 3;
+
+  // Offset-mapping location; unspecified uses the source settings captured at creation.
+  ConnectorConfigMirrorCheckpoint.OffsetSyncsTopicLocation offset_syncs_topic_location = 4;
+}
+
+message UpdateConnectorConfigMirrorCheckpointSpec {
+  reserved 1;
+  reserved "source_connector_name";
+
+  // Replaces the list of literal consumer group names to synchronize.
+  repeated string groups = 2;
+
+  // Replication policy; unspecified restores the source setting captured at creation.
+  ConnectorConfigMirrorCheckpoint.ReplicationPolicy replication_policy = 3;
+
+  // Offset-mapping location; unspecified restores the source setting captured at creation.
+  ConnectorConfigMirrorCheckpoint.OffsetSyncsTopicLocation offset_syncs_topic_location = 4;
 }
 
 message ConnectorConfigMirrorMakerSpec {
@@ -398,7 +432,46 @@ message Connector {
 
     // Configuration of Iceberg Sink connector.
     ConnectorConfigIcebergSink connector_config_iceberg_sink = 12;
+
+    // MirrorCheckpoint connector configuration.
+    ConnectorConfigMirrorCheckpoint connector_config_mirror_checkpoint = 14;
   }
+}
+
+message ConnectorConfigMirrorCheckpoint {
+  enum ReplicationPolicy {
+    // Use source settings captured at creation.
+    REPLICATION_POLICY_UNSPECIFIED = 0;
+
+    // Prefix replicated topic names with the source cluster alias.
+    DEFAULT = 1;
+
+    // Preserve original topic names.
+    IDENTITY = 2;
+  }
+
+  enum OffsetSyncsTopicLocation {
+    // Use source settings captured at creation.
+    OFFSET_SYNCS_TOPIC_LOCATION_UNSPECIFIED = 0;
+
+    // Read offset mappings from the source cluster.
+    SOURCE = 1;
+
+    // Read offset mappings from the target cluster.
+    TARGET = 2;
+  }
+
+  // MirrorMaker connector whose settings were copied at creation.
+  string source_connector_name = 1;
+
+  // Literal consumer group names whose offsets are synchronized.
+  repeated string groups = 2;
+
+  // Replication policy; unspecified uses the captured source settings.
+  ReplicationPolicy replication_policy = 3;
+
+  // Offset-mapping location; unspecified uses the captured source settings.
+  OffsetSyncsTopicLocation offset_syncs_topic_location = 4;
 }
 
 message ConnectorConfigMirrorMaker {

@@ -10,7 +10,7 @@ option java_package = "yandex.cloud.api.video.v1";
 
 // Entity representing the incoming video signal settings.
 message StreamLine {
-  reserved 4 to 16, 19 to 99, 102 to 199, 201 to 999, 1004 to 1999;
+  reserved 4 to 12, 14 to 16, 19 to 99, 102 to 199, 201 to 999, 1004 to 1999;
 
   // ID of the line.
   string id = 1;
@@ -46,6 +46,9 @@ message StreamLine {
     // Automatic stream control.
     AutoLine auto_line = 2001;
   }
+
+  // Audio tracks settings.
+  StreamLineAudioSettings audio_settings = 13;
 
   // Processing settings.
   StreamLineProcessingSettings processing_settings = 17;
@@ -151,6 +154,28 @@ message AutoLine {
 
     // The automatic line is active and operational.
     ACTIVE = 2;
+  }
+}
+
+// Overrides labels and language codes for selected input audio tracks.
+// Use labels to customize audio track names displayed in the player.
+message StreamLineAudioSettings {
+  // List of audio tracks.
+  repeated AudioTrack audio_tracks = 1;
+  message AudioTrack {
+    // Audio track index (one-based).
+    int64 track_index = 1;
+
+    // Audio track label (e.g. "English").
+    string label = 2 [(length) = "<=50"];
+
+    // Audio track language in ISO 639-2/T format (e.g. "eng").
+    // @see https://www.loc.gov/standards/iso639-2/php/code_list.php
+    string lang = 3 [
+      (length) = "3",
+      (pattern) = "aar|abk|afr|aka|amh|ara|arg|asm|ava|ave|aym|aze|bak|bam|bel|ben|bis|bod|bos|bre|bul|cat|ces|cha|che|chu|chv|cor|cos|cre|cym|dan|deu|div|dzo|ell|eng|epo|est|eus|ewe|fao|fas|fij|fin|fra|fry|ful|gla|gle|glg|glv|grn|guj|hat|hau|heb|her|hin|hmo|hrv|hun|hye|ibo|ido|iii|iku|ile|ina|ind|ipk|isl|ita|jav|jpn|kal|kan|kas|kat|kau|kaz|khm|kik|kin|kir|kom|kon|kor|kua|kur|lao|lat|lav|lim|lin|lit|ltz|lub|lug|mah|mal|mar|mkd|mlg|mlt|mon|mri|msa|mya|nau|nav|nbl|nde|ndo|nep|nld|nno|nob|nor|nya|oci|oji|ori|orm|oss|pan|pli|pol|por|pus|que|roh|ron|run|rus|sag|san|sin|slk|slv|sme|smo|sna|snd|som|sot|spa|sqi|srd|srp|ssw|sun|swa|swe|tah|tam|tat|tel|tgk|tgl|tha|tir|ton|tsn|tso|tuk|tur|twi|uig|ukr|und|urd|uzb|ven|vie|vol|wln|wol|xho|yid|yor|zha|zho|zul|zxx",
+      (required) = true
+    ];
   }
 }
 

@@ -373,6 +373,19 @@ service ClusterService {
     };
   };
 
+  // Updates the specified shard groups.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
+  rpc UpdateShardGroups(UpdateClusterShardGroupsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "UpdateClusterShardGroupsMetadata"
+      response: "google.protobuf.Empty"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/managed-clickhouse/v1/clusters/{cluster_id}/shardGroups:batchUpdate"
+    };
+  };
+
   // Deletes the specified shard group.
   rpc DeleteShardGroup(DeleteClusterShardGroupRequest) returns (operation.Operation) {
     option (api.operation) = {
@@ -1532,6 +1545,82 @@ message UpdateClusterShardGroupMetadata {
 
   // Name of the shard group that is being updated.
   string shard_group_name = 2;
+}
+
+message UpdateClusterShardGroupsRequest {
+  // ID of the ClickHouse cluster that contains the shard groups to update.
+  string cluster_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Updates of the shard groups.
+  repeated UpdateShardGroupSpec shard_group_specs = 2 [(size) = ">0"];
+}
+
+message UpdateShardGroupSpec {
+  message ExternalShard {
+    message Replica {
+      // Name (FQDN) or IP address of the external replica host. Identifies the replica within the external shard.
+      string host = 1 [(required) = true];
+
+      // Field mask that specifies which attributes of the existing replica should be updated.
+      google.protobuf.FieldMask update_mask = 2;
+
+      // Port to connect to the external replica. If not specified, the default ClickHouse port is used.
+      google.protobuf.Int64Value port = 3;
+
+      // Whether to use a secure (SSL/TLS) connection when connecting to the external replica.
+      google.protobuf.BoolValue secure = 4;
+
+      // Name of the user to authenticate with on the external replica.
+      string user = 5;
+
+      // Password of the user to authenticate with on the external replica.
+      string password = 6;
+
+      // Priority of the external replica for load balancing.
+      google.protobuf.Int64Value priority = 7;
+    }
+
+    // Name of the external shard. Identifies the external shard within the shard group.
+    string name = 1 [(required) = true];
+
+    // Field mask that specifies which attributes of the existing external shard should be updated.
+    google.protobuf.FieldMask update_mask = 2;
+
+    // Relative weight of the external shard considered when writing data to the cluster.
+    google.protobuf.Int64Value weight = 3;
+
+    // Replicas of the external shard.
+    repeated Replica replica_specs = 4;
+  }
+
+  // Name of the shard group that should be updated.
+  string shard_group_name = 1 [
+    (length) = "<=63",
+    (required) = true
+  ];
+
+  // Field mask that specifies which attributes of the shard group should be updated.
+  google.protobuf.FieldMask update_mask = 2;
+
+  // Updated list of shard names that belongs to the shard group.
+  repeated string shard_names = 3;
+
+  // External shards of the shard group.
+  repeated ExternalShard external_shard_specs = 4;
+
+  // Updated description of the shard group.
+  string description = 5;
+}
+
+message UpdateClusterShardGroupsMetadata {
+  // ID of the cluster that contains the shard groups being updated.
+  string cluster_id = 1;
+
+  // Names of the shard groups that are being updated.
+  repeated string shard_group_names = 2;
 }
 
 message DeleteClusterShardGroupRequest {

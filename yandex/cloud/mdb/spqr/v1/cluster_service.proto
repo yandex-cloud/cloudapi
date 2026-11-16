@@ -890,7 +890,7 @@ message ListClusterBackupsResponse {
 }
 
 message SpqrSpec {
-  reserved 4;
+  reserved 4, 6;
 
   message Router {
     // Configuration for router hosts.
@@ -940,9 +940,6 @@ message SpqrSpec {
 
   // Configuration and resource allocation for SPQR Infra (router+coordinator) hosts.
   Infra infra = 5;
-
-  // Password of the SPQR console.
-  string console_password = 6;
   LogLevel log_level = 7;
 
   // Configuration for SPQR Balancer.

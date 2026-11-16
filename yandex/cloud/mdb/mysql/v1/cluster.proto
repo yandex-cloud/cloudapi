@@ -8,6 +8,7 @@ import "google/type/timeofday.proto";
 import "yandex/cloud/mdb/mysql/v1/config/mysql5_7.proto";
 import "yandex/cloud/mdb/mysql/v1/config/mysql8_0.proto";
 import "yandex/cloud/mdb/mysql/v1/config/mysql8_4.proto";
+import "yandex/cloud/mdb/mysql/v1/config/mysql9_7.proto";
 import "yandex/cloud/mdb/mysql/v1/maintenance.proto";
 import "yandex/cloud/mdb/v1/connectionmanager.proto";
 import "yandex/cloud/mdb/v1/maintenance.proto";
@@ -152,7 +153,7 @@ message Monitoring {
 }
 
 message ClusterConfig {
-  reserved 12 to 15;
+  reserved 12 to 15, 17;
 
   // Version of MySQL used in the cluster.
   string version = 1;
@@ -166,6 +167,9 @@ message ClusterConfig {
 
     // Configuration of a MySQL 8.4 server.
     config.MysqlConfigSet8_4 mysql_config_8_4 = 10 [json_name = "mysqlConfig_8_4"];
+
+    // Configuration of a MySQL 9.7 server.
+    config.MysqlConfigSet9_7 mysql_config_9_7 = 18 [json_name = "mysqlConfig_9_7"];
   }
 
   // Resource preset for the cluster hosts.
