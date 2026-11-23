@@ -35,6 +35,9 @@ enum ProductType {
 
   // YDB.
   PRODUCT_TYPE_YDB = 7;
+
+  // SourceCraft product.
+  PRODUCT_TYPE_SOURCECRAFT = 8;
 }
 
 // License validity type.

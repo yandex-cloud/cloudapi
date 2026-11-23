@@ -357,6 +357,9 @@ message MetadataOptions {
 
   // Enabled access to AWS flavored metadata (IMDSv1)
   MetadataOption aws_v1_http_endpoint = 2;
+
+  // Enabled access to AWS flavored metadata with a session token (IMDSv2)
+  MetadataOption aws_v2_http_endpoint = 3;
 }
 
 enum MetadataOption {

@@ -154,6 +154,7 @@ message GetCloudRequest {
   // To get the cloud ID, use a [CloudService.List] request.
   string cloud_id = 1 [
     (length) = "<=50",
+    (pattern) = "[a-z][-_0-9a-zA-Z.]*",
     (required) = true
   ];
 }
@@ -235,6 +236,7 @@ message UpdateCloudRequest {
   // To get the cloud ID, use a [CloudService.List] request.
   string cloud_id = 1 [
     (length) = "<=50",
+    (pattern) = "[a-z][-_0-9a-zA-Z.]*",
     (required) = true
   ];
 
@@ -269,6 +271,7 @@ message DeleteCloudRequest {
   // To get the cloud ID, use a [CloudService.List] request.
   string cloud_id = 1 [
     (length) = "<=50",
+    (pattern) = "[a-z][-_0-9a-zA-Z.]*",
     (required) = true
   ];
 
@@ -288,8 +291,10 @@ message DeleteCloudMetadata {
   // The timestamp after which the process of deleting the cloud should begin.
   google.protobuf.Timestamp delete_after = 2;
 
-  // Information about operation cancellation
+  // ID of the subject that initiated cancellation of the operation.
   string cancelled_by = 3;
+
+  // Timestamp when cancellation of the operation was initiated.
   google.protobuf.Timestamp cancelled_at = 4;
 }
 
@@ -297,6 +302,7 @@ message ListCloudOperationsRequest {
   // ID of the Cloud resource to list operations for.
   string cloud_id = 1 [
     (length) = "<=50",
+    (pattern) = "[a-z][-_0-9a-zA-Z.]*",
     (required) = true
   ];
 

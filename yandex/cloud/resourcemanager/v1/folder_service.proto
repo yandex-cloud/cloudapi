@@ -154,6 +154,7 @@ message GetFolderRequest {
   // To get the folder ID, use a [FolderService.List] request.
   string folder_id = 1 [
     (length) = "<=50",
+    (pattern) = "[a-z][-_0-9a-zA-Z.]*",
     (required) = true
   ];
 }
@@ -163,6 +164,7 @@ message ListFoldersRequest {
   // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
   string cloud_id = 1 [
     (length) = "<=50",
+    (pattern) = "[a-z][-_0-9a-zA-Z.]*",
     (required) = true
   ];
 
@@ -204,6 +206,7 @@ message CreateFolderRequest {
   // To get the cloud ID, use a [yandex.cloud.resourcemanager.v1.CloudService.List] request.
   string cloud_id = 1 [
     (length) = "<=50",
+    (pattern) = "[a-z][-_0-9a-zA-Z.]*",
     (required) = true
   ];
 
@@ -239,6 +242,7 @@ message UpdateFolderRequest {
   // To get the folder ID, use a [FolderService.List] request.
   string folder_id = 1 [
     (length) = "<=50",
+    (pattern) = "[a-z][-_0-9a-zA-Z.]*",
     (required) = true
   ];
 
@@ -274,6 +278,7 @@ message DeleteFolderRequest {
   // To get the folder ID, use a [FolderService.List] request.
   string folder_id = 1 [
     (length) = "<=50",
+    (pattern) = "[a-z][-_0-9a-zA-Z.]*",
     (required) = true
   ];
 
@@ -302,6 +307,7 @@ message ListFolderOperationsRequest {
   // ID of the Folder resource to list operations for.
   string folder_id = 1 [
     (length) = "<=50",
+    (pattern) = "[a-z][-_0-9a-zA-Z.]*",
     (required) = true
   ];
 

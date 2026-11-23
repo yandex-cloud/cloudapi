@@ -1,0 +1,126 @@
+syntax = "proto3";
+
+package yandex.cloud.monitoring.v3;
+
+import "yandex/cloud/monitoring/v3/sort_order.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/monitoring/v3;monitoring";
+option java_package = "yandex.cloud.api.monitoring.v3";
+
+// Settings of the table visualization (VISUALIZATION_TYPE_TABLE). A row is a
+// series; a value column is the aggregation below applied to the series over
+// the window. Every setting here applies to the whole table; the per-column
+// title is an override matched by ColumnMatcher.
+message TableSettings {
+  enum Aggregation {
+    // Not specified.
+    AGGREGATION_UNSPECIFIED = 0;
+
+    // Average.
+    AGGREGATION_AVG = 1;
+
+    // Minimum.
+    AGGREGATION_MIN = 2;
+
+    // Maximum.
+    AGGREGATION_MAX = 3;
+
+    // Last non-NaN value.
+    AGGREGATION_LAST = 4;
+
+    // Sum.
+    AGGREGATION_SUM = 5;
+
+    // Count of non-NaN points.
+    AGGREGATION_COUNT = 6;
+  }
+
+  enum CellDisplayMode {
+    // Not specified (plain value by default).
+    CELL_DISPLAY_MODE_UNSPECIFIED = 0;
+
+    // Plain value.
+    CELL_DISPLAY_MODE_VALUE = 1;
+
+    // Value on a background colored by the color scheme thresholds.
+    CELL_DISPLAY_MODE_COLORED_BACKGROUND = 2;
+
+    // Value text colored by the color scheme thresholds.
+    CELL_DISPLAY_MODE_COLORED_TEXT = 3;
+  }
+
+  // A table column: a label column by label name, or a value column by the
+  // query it comes from and the aggregation that produced it.
+  message ColumnRef {
+    oneof kind {
+      // Label name, e.g. "pod".
+      string label = 1;
+
+      // Value column.
+      ValueColumn value = 2;
+    }
+  }
+
+  message ValueColumn {
+    // Query name, as in QueryMatcher.names. Empty when the column does
+    // not belong to one query: a single-query table or an empty group_by.
+    string query = 1;
+
+    // The aggregation that produced the column; AGGREGATION_UNSPECIFIED
+    // reads as AGGREGATION_LAST, as in value_columns.
+    Aggregation aggregation = 2;
+  }
+
+  message Sort {
+    // Column.
+    ColumnRef column = 1;
+
+    // Sort direction.
+    SortOrder direction = 2;
+  }
+
+  // Aggregations producing the value columns of every row, a column per
+  // distinct entry. Empty: a single AGGREGATION_LAST column; an
+  // AGGREGATION_UNSPECIFIED entry reads as AGGREGATION_LAST.
+  repeated Aggregation value_columns = 1;
+
+  // Visible columns in display order. Empty: every column produced by the
+  // adapter, label columns first.
+  repeated ColumnRef columns = 2;
+
+  // Sorts applied when the table opens, in priority order.
+  repeated Sort sorts = 3;
+
+  // Hide the header row.
+  bool hide_header = 4;
+
+  // Keep the header row visible when the table scrolls.
+  bool freeze_header = 5;
+
+  // Show the footer with aggregates over the rows.
+  bool show_footer = 6;
+
+  // Aggregates shown in the footer, applied to every value column. Empty
+  // with show_footer set: AGGREGATION_SUM.
+  repeated Aggregation footer_aggregations = 7;
+
+  // Keep the footer visible when the table scrolls.
+  bool freeze_footer = 8;
+
+  // How value cells are rendered.
+  CellDisplayMode cell_display_mode = 9;
+
+  // Labels that group series into rows, e.g. ["namespace", "pod"]. Series
+  // with the same values of every listed label form one row, and every
+  // listed label is a label column of the row. Rows of several queries are
+  // matched by the label values, and every query contributes its value
+  // columns. A value column first collapses every member series over the
+  // window with its aggregation, then combines the members with
+  // cross_series_aggregation. Empty: no grouping, a row per series of
+  // every query, and the queries share the value columns.
+  repeated string group_by = 10;
+
+  // How member series of a group combine into the cell value.
+  // Unspecified: sum, matching BarChartSettings.
+  Aggregation cross_series_aggregation = 11;
+}

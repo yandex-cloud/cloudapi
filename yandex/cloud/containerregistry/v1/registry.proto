@@ -20,6 +20,13 @@ message Registry {
 
     // Registry is being deleted.
     DELETING = 3;
+
+    // Registry configuration is being migrated to Cloud Registry.
+    MIGRATING = 4;
+
+    // Registry is ready to serve traffic through Cloud Registry.
+    // Image migration may still be in progress.
+    MIGRATED = 5;
   }
 
   // Output only. ID of the registry.

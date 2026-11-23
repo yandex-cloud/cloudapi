@@ -7,6 +7,7 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/gitlab/v1/backup.proto";
 import "yandex/cloud/gitlab/v1/instance.proto";
 import "yandex/cloud/operation/operation.proto";
 import "yandex/cloud/validation.proto";
@@ -103,6 +104,13 @@ service InstanceService {
     };
   };
 
+  // Retrieves the list of backups for the specified GitLab instance.
+  rpc ListBackups(ListInstanceBackupsRequest) returns (ListInstanceBackupsResponse) {
+    option (google.api.http) = {
+      get: "/gitlab/v1/instances/{instance_id}/backups"
+    };
+  };
+
   // Returns temporary download URLs for a completed backup and its GitLab secrets file.
   rpc GetBackupDownloadUrls(GetBackupDownloadUrlsRequest) returns (GetBackupDownloadUrlsResponse) {
     option (google.api.http) = {
@@ -148,6 +156,30 @@ message ListInstancesResponse {
   // is larger than [ListInstancesRequest.page_size], use the [next_page_token] as the value
   // for the [ListInstancesRequest.page_token] parameter in the next list request. Each subsequent
   // list request will have its own [next_page_token] to continue paging through the results.
+  string next_page_token = 2;
+}
+
+// Request message for InstanceService.ListBackups.
+message ListInstanceBackupsRequest {
+  // ID of the GitLab instance to list backups for.
+  string instance_id = 1 [
+    (length) = "<=50",
+    (required) = true
+  ];
+
+  // Maximum number of results per page. If unspecified, the service uses its default page size.
+  int64 page_size = 2 [(value) = "0-1000"];
+
+  // Page token returned by a previous ListBackups request for the same instance.
+  string page_token = 3 [(length) = "<=100"];
+}
+
+// Response message for InstanceService.ListBackups.
+message ListInstanceBackupsResponse {
+  // Backups of the specified GitLab instance.
+  repeated Backup backups = 1;
+
+  // Token to retrieve the next page. Empty when there are no more results.
   string next_page_token = 2;
 }
 

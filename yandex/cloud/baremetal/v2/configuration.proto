@@ -82,6 +82,9 @@ enum RAMType {
 
   // DDR5 RAM type.
   DDR5 = 3;
+
+  // LPDDR5X RAM type.
+  LPDDR5X = 4;
 }
 
 // Type of servers represented by a configuration.

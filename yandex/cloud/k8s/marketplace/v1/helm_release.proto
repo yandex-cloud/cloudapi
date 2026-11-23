@@ -68,4 +68,7 @@ message HelmRelease {
 
   // Creation timestamp.
   google.protobuf.Timestamp created_at = 8;
+
+  // Workload identity federation ID recorded for the installation. Empty if no ID is recorded.
+  string federation_id = 11;
 }

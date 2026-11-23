@@ -113,6 +113,95 @@ message SynchronizationFilter {
     (length) = "1-253",
     (size) = "<=10"
   ];
+
+  // Group attribute filter, combined with the existing group and organizational
+  // unit filters using AND. If omitted, groups are not restricted by their
+  // attributes. Adding, changing or removing this filter requires FULL_SYNC.
+  AttributeFilter group_attributes_filter = 4;
+
+  // User attribute filter, combined with the existing group and organizational
+  // unit filters using AND. If omitted, users are not restricted by their
+  // attributes. Adding, changing or removing this filter requires FULL_SYNC.
+  AttributeFilter user_attributes_filter = 5;
+}
+
+// Attribute rules for one object type. Nested expressions are not supported.
+message AttributeFilter {
+  // Logical operator used to combine all rules.
+  CombineWith combine_with = 1 [(required) = true];
+
+  // Rules to evaluate. A configured filter must contain between 1 and 50 rules.
+  repeated AttributeFilterRule rules = 2 [(size) = "1-50"];
+  enum CombineWith {
+    // The combination operator is not specified.
+    COMBINE_WITH_UNSPECIFIED = 0;
+
+    // All rules must match.
+    AND = 1;
+
+    // At least one rule must match.
+    OR = 2;
+  }
+}
+
+// A comparison against a source attribute.
+//
+// AD/DRSR comparisons are case-insensitive and do not trim whitespace.
+// Null attributes do not match positive or negative string operators.
+// For multivalued LDAP attributes, positive operators require at least one
+// matching value; negative operators require a present attribute with no
+// matching values.
+message AttributeFilterRule {
+  // Exact name of a supported AD/DRSR agent model field, or a native LDAP
+  // attribute name. No aliases or name conversions are applied.
+  string field = 1 [
+    (length) = "1-256",
+    (required) = true
+  ];
+
+  // Comparison operator.
+  Operator operator = 2 [(required) = true];
+
+  // Comparison value. An empty or omitted value means no comparison value.
+  // Must be nonempty for string operators and empty for IS_NULL and IS_NOT_NULL.
+  // Characters such as '*', '(' and ')' are literals, not LDAP filter or regular
+  // expression syntax.
+  string value = 3 [(length) = "<=512"];
+  enum Operator {
+    // The comparison operator is not specified.
+    OPERATOR_UNSPECIFIED = 0;
+
+    // The attribute equals the value.
+    EQUALS = 1;
+
+    // The attribute does not equal the value.
+    NOT_EQUALS = 2;
+
+    // The attribute starts with the value.
+    STARTS_WITH = 3;
+
+    // The attribute does not start with the value.
+    NOT_STARTS_WITH = 4;
+
+    // The attribute ends with the value.
+    ENDS_WITH = 5;
+
+    // The attribute does not end with the value.
+    NOT_ENDS_WITH = 6;
+
+    // The attribute contains the value.
+    CONTAINS = 7;
+
+    // The attribute does not contain the value.
+    NOT_CONTAINS = 8;
+
+    // The AD/DRSR model field is empty, or the LDAP attribute is absent.
+    IS_NULL = 9;
+
+    // The AD/DRSR model field is nonempty, or the LDAP attribute is present,
+    // including an attribute with an empty value.
+    IS_NOT_NULL = 10;
+  }
 }
 
 // User attribute mapping configuration.

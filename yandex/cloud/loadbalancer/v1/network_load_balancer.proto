@@ -98,7 +98,7 @@ message NetworkLoadBalancer {
   Type type = 10;
 
   // Type of the session affinity. Only 5-tuple affinity is available now.
-  SessionAffinity session_affinity = 11;
+  SessionAffinity session_affinity = 11 [deprecated = true];
 
   // List of listeners for the network load balancer.
   repeated Listener listeners = 12;
@@ -134,7 +134,11 @@ message Listener {
   // Network protocol to use.
   enum Protocol {
     PROTOCOL_UNSPECIFIED = 0;
+
+    // Transmission Control Protocol.
     TCP = 1;
+
+    // User Datagram Protocol.
     UDP = 2;
   }
 

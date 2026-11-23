@@ -9,25 +9,30 @@ option java_package = "yandex.cloud.api.marketplace.licensemanager.v1";
 message ExternalInstance {
   reserved 2 to 20;
 
-  // Optional external subscription name.
+  // Optional but recommended name for the external subscription.
   string name = 1;
 
   // Mapping of vendor defined properties in key, value format.
   map<string, string> properties = 21;
   oneof vendor {
+    // Linked external subscription.
     ExternalSubscription subscription = 22;
+
+    // Linked external license.
     ExternalLicense license = 23;
   }
 }
 
+// ExternalSubscription contains details of a subscription managed by an
+// external provider and linked to a License Manager subscription instance.
 message ExternalSubscription {
   // External subscription id.
   string subscription_id = 1;
 
-  // Optional: paired license id for external subscription.
+  // Optional: paired license for external subscription.
   string license_id = 2;
 
-  // Optional: default activation key for external subscription.
+  // Optional: activation key for external subscription.
   string activation_key = 3;
 }
 

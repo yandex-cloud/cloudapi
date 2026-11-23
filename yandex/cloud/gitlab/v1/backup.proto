@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package yandex.cloud.gitlab.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/gitlab/v1;gitlab";
+option java_outer_classname = "GB";
+option java_package = "yandex.cloud.api.gitlab.v1";
+
+// A backup of a GitLab instance.
+message Backup {
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+
+    // Backup creation completed successfully.
+    COMPLETED = 1;
+
+    // Backup creation failed.
+    FAILED = 2;
+
+    // Backup creation is in progress.
+    CREATING = 3;
+  }
+
+  enum CreationType {
+    CREATION_TYPE_UNSPECIFIED = 0;
+
+    // Backup created on a schedule.
+    AUTOMATED = 1;
+
+    // Backup created or uploaded manually.
+    MANUAL = 2;
+  }
+
+  // ID of the backup.
+  string id = 1;
+
+  // ID of the folder that owns the backup.
+  string folder_id = 2;
+
+  // ID of the GitLab instance that owns the backup.
+  string instance_id = 3;
+
+  // Time when backup creation completed.
+  google.protobuf.Timestamp created_at = 4;
+
+  // Size of the backup in bytes.
+  int64 size = 5;
+
+  // Time when backup creation started.
+  google.protobuf.Timestamp started_at = 6;
+
+  // Current status of the backup.
+  Status status = 7;
+
+  // How the backup was created.
+  CreationType creation_type = 8;
+
+  // GitLab version of the source instance when the backup was created.
+  string gitlab_version = 9;
+}

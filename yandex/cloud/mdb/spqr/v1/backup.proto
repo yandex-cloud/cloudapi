@@ -49,7 +49,7 @@ message Backup {
   // Shard names used as a source for backup.
   repeated string source_shard_names = 6;
 
-  // Size of backup in bytes
+  // Size of the backup in bytes
   int64 size = 7;
 
   // How this backup was created (manual/automatic/etc...)

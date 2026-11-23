@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.k8s.marketplace.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/k8s/marketplace/v1/helm_release.proto";
 import "yandex/cloud/operation/operation.proto";
@@ -28,6 +29,7 @@ service HelmReleaseService {
   };
 
   // Installs Helm release into specified Kubernetes Cluster.
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   rpc Install(InstallHelmReleaseRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "InstallHelmReleaseMetadata"
@@ -52,6 +54,7 @@ service HelmReleaseService {
   };
 
   // Uninstalls Helm release.
+  // (-- api-linter: yc::1702::method-verb-prefix=disabled --)
   rpc Uninstall(UninstallHelmReleaseRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "UninstallHelmReleaseMetadata"
@@ -98,6 +101,9 @@ message InstallHelmReleaseRequest {
 
   // User-defined values for the Helm chart during installation.
   repeated ValueWithKey user_values = 3;
+
+  // Federation ID stored as installation metadata. Omit or pass an empty string to store no ID.
+  google.protobuf.StringValue federation_id = 4;
 }
 
 message InstallHelmReleaseMetadata {
@@ -120,6 +126,9 @@ message UpdateHelmReleaseRequest {
 
   // Custom user values to apply during the update.
   repeated ValueWithKey user_values = 3;
+
+  // Federation ID stored as installation metadata. Omit to preserve the current ID or pass an empty string to clear it.
+  google.protobuf.StringValue federation_id = 4;
 }
 
 message UpdateHelmReleaseMetadata {

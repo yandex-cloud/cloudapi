@@ -68,6 +68,9 @@ message ReservedInstancePool {
   // License IDs are used to calculate additional charges for the use of the virtual machine.
   repeated string product_ids = 12;
 
+  // Placement policy configuration.
+  PlacementPolicy placement_policy = 19;
+
   // Network Settings.
   NetworkSettings network_settings = 13;
 

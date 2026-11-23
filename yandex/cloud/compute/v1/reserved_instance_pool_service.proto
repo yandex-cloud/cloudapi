@@ -4,6 +4,7 @@ package yandex.cloud.compute.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/compute/v1/instance.proto";
 import "yandex/cloud/compute/v1/instance_service.proto";
@@ -80,6 +81,36 @@ service ReservedInstancePoolService {
     };
   };
 
+  // Lists access bindings for the reserved instance pool.
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/compute/v1/reservedInstancePools/{resource_id}:listAccessBindings"
+    };
+  };
+
+  // Sets access bindings for the reserved instance pool.
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/compute/v1/reservedInstancePools/{resource_id}:setAccessBindings"
+    };
+  };
+
+  // Updates access bindings for the reserved instance pool.
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/compute/v1/reservedInstancePools/{resource_id}:updateAccessBindings"
+    };
+  };
 }
 
 message GetReservedInstancePoolRequest {
@@ -184,6 +215,11 @@ message CreateReservedInstancePoolRequest {
 
   // Spec is used to determine which License IDs should be allowed for instances created in the pool.
   BootDiskSpec boot_disk_spec = 9;
+
+  // Placement policy configuration.
+  // Placement policies have limitations when used with pools.
+  // For details, see [Reserved Instance Pools](/docs/compute/concepts/reserved-pools).
+  PlacementPolicy placement_policy = 13;
 
   // Network settings.
   NetworkSettings network_settings = 10;

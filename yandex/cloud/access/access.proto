@@ -53,6 +53,14 @@ message AccessBinding {
   // Identity for which access binding is being created.
   // It can represent an account with a unique ID or several accounts with a system identifier.
   Subject subject = 2 [(required) = true];
+
+  // CEL expression that must evaluate to true for the binding to apply.
+  // An empty expression does not restrict the binding.
+  // Only supported for services:
+  // * [yandex.cloud.resourcemanager.v1.CloudService]
+  // * [yandex.cloud.resourcemanager.v1.FolderService]
+  // * [yandex.cloud.organizationmanager.v1.OrganizationService]
+  string cel_expression = 3 [(length) = "<=1024"];
 }
 
 message AccessPolicy {

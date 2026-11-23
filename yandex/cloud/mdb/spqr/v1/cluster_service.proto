@@ -77,6 +77,7 @@ service ClusterService {
     };
   };
 
+  // Adds a subcluster to the specified SPQR cluster.
   rpc AddSubcluster(AddSubclusterRequest) returns (operation.Operation) {
     option (api.operation) = {
       metadata: "AddClusterHostsMetadata"
@@ -791,10 +792,16 @@ message StreamClusterLogsRequest {
   enum ServiceType {
     SERVICE_TYPE_UNSPECIFIED = 0;
 
-    // Logs of SPQR activity.
+    // Activity logs of PostgreSQL shards.
     POSTGRESQL = 1;
+
+    // Activity logs of routers.
     ROUTER = 2;
+
+    // Activity logs of coordinators.
     COORDINATOR = 3;
+
+    // Activity logs of INFRA hosts.
     INFRA = 4;
   }
 
@@ -940,10 +947,16 @@ message SpqrSpec {
 
   // Configuration and resource allocation for SPQR Infra (router+coordinator) hosts.
   Infra infra = 5;
+
+  // Sets the message levels that are logged.
   LogLevel log_level = 7;
 
   // Configuration for SPQR Balancer.
   BalancerSettings balancer = 8;
+
+  // Tells SPQR to use spqrguard extension. Extension must be enabled on shards.
+  //
+  // For details, see [documentation](https://github.com/pg-sharding/spqr/blob/master/docs/deployment/spqrguard.mdx)
   google.protobuf.BoolValue use_spqrguard = 9;
   google.protobuf.BoolValue forbid_direct_shard_queries = 10;
 }

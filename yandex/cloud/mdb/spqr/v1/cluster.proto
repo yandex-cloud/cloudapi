@@ -170,6 +170,5 @@ message Access {
   bool data_transfer = 3;
 
   // Allow access for Serverless.
-  // NOTE: Do not propagate to public API until Serverless integration is required.
   bool serverless = 4;
 }

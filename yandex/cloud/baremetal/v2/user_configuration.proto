@@ -4,6 +4,7 @@ package yandex.cloud.baremetal.v2;
 
 import "google/api/field_behavior.proto";
 import "yandex/cloud/baremetal/v2/configuration.proto";
+import "yandex/cloud/validation.proto";
 
 option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/baremetal/v2;baremetal";
 option java_package = "yandex.cloud.api.api.baremetal.v2";
@@ -73,6 +74,8 @@ message NetworkInterfacesOptionSpec {
 message UserPool {
 }
 
+// Device orders are identified by device_id and server_type. Physical characteristics
+// may be absent; separate component selections must not accompany device_id.
 message UserConfiguration {
   reserved 6 to 9, 11;
 
@@ -85,20 +88,29 @@ message UserConfiguration {
   // Name of the configuration.
   string name = 2 [(google.api.field_behavior) = REQUIRED];
 
-  // CPU configuration.
-  UserCPU cpu = 3 [(google.api.field_behavior) = REQUIRED];
+  // CPU configuration. Required for orders without device_id.
+  UserCPU cpu = 3 [(google.api.field_behavior) = OPTIONAL];
 
-  // Array of disk drive configurations.
-  repeated DiskDriveConfiguration disk_drives = 4 [(google.api.field_behavior) = REQUIRED];
+  // Disk selections. Required for orders without device_id.
+  repeated DiskDriveConfiguration disk_drives = 4 [(google.api.field_behavior) = OPTIONAL];
 
-  // Random-access memory (RAM).
-  UserRAM ram = 5 [(google.api.field_behavior) = REQUIRED];
+  // RAM selection. Required for orders without device_id.
+  UserRAM ram = 5 [(google.api.field_behavior) = OPTIONAL];
 
   // Network interfaces of the custom configuration.
   repeated ConfigurationNetworkInterface network_interfaces = 10 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   // Availability of boot image mounting for this configuration.
   MountingAvailability mounting_availability = 12 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Selects one device instead of CPU, RAM, disks, NIC, PSU and GPU components.
+  string device_id = 13 [
+    (google.api.field_behavior) = OPTIONAL,
+    (length) = "<=50"
+  ];
+
+  // Type of server determined by the selected configuration. Ignored on input.
+  ServerType server_type = 14 [(google.api.field_behavior) = OUTPUT_ONLY];
 }
 
 enum MountingAvailability {

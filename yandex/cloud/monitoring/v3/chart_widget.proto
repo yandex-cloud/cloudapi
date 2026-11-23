@@ -7,6 +7,7 @@ import "yandex/cloud/monitoring/v3/bar_chart_settings.proto";
 import "yandex/cloud/monitoring/v3/downsampling.proto";
 import "yandex/cloud/monitoring/v3/fill.proto";
 import "yandex/cloud/monitoring/v3/sort_order.proto";
+import "yandex/cloud/monitoring/v3/table_settings.proto";
 import "yandex/cloud/monitoring/v3/thresholds.proto";
 import "yandex/cloud/monitoring/v3/unit_format.proto";
 import "yandex/cloud/validation.proto";
@@ -72,6 +73,9 @@ message ChartWidget {
 
       // Heatmap aggregation chart.
       VISUALIZATION_TYPE_HEATMAP = 8;
+
+      // Table.
+      VISUALIZATION_TYPE_TABLE = 10;
     }
 
     enum Interpolate {
@@ -314,6 +318,9 @@ message ChartWidget {
     // Fill opacity in percent, from 0 to 100. If unset, the renderer uses
     // the default opacity for the selected fill. Zero means fully transparent.
     google.protobuf.Int64Value fill_opacity = 15 [(value) = "0-100"];
+
+    // Table visualization settings.
+    TableSettings table_settings = 16;
   }
 
   // Series override settings.
@@ -441,6 +448,11 @@ message ChartWidget {
       // Fill opacity in percent, from 0 to 100. If unset, the widget setting
       // remains in force. Zero means fully transparent.
       google.protobuf.Int64Value fill_opacity = 18 [(value) = "0-100"];
+
+      // Unit of the series values; for a table column matched by
+      // ColumnMatcher, the unit of the column values.
+      // UNIT_FORMAT_UNSPECIFIED leaves the widget setting in force.
+      UnitFormat unit_format = 19;
     }
 
     // Required. Series selection type.
@@ -475,6 +487,9 @@ message ChartWidget {
 
       // Matcher by metric values.
       ValueMatcher values = 4;
+
+      // Matcher by table columns.
+      ColumnMatcher column = 5;
     }
   }
 
@@ -507,6 +522,14 @@ message ChartWidget {
   message ValueMatcher {
     // Value type.
     ValuesType value_type = 1;
+  }
+
+  // Table columns, see TableSettings.columns. Of the override settings
+  // only name and unit_format apply: the column title and the unit of
+  // its values.
+  message ColumnMatcher {
+    // Columns.
+    repeated TableSettings.ColumnRef columns = 1;
   }
 
   // Name hiding settings.
