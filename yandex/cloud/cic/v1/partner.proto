@@ -23,6 +23,9 @@ message Partner {
 
   // Status of the partner.
   Status status = 11;
+
+  // Maximum bandwidth of a trunk connection through this partner.
+  Bandwidth max_trunk_bandwidth = 12;
   enum Status {
     // Status is unspecified.
     STATUS_UNSPECIFIED = 0;
@@ -32,5 +35,19 @@ message Partner {
 
     // Partner is down and not operational.
     DOWN = 2;
+  }
+
+  enum Bandwidth {
+    // Bandwidth is not specified.
+    BANDWIDTH_UNSPECIFIED = 0;
+
+    // Maximum trunk bandwidth is 1 Gbps (1000 Mbps).
+    BANDWIDTH_1G = 1;
+
+    // Maximum trunk bandwidth is 10 Gbps (10000 Mbps).
+    BANDWIDTH_10G = 2;
+
+    // The partner has no maximum trunk bandwidth.
+    BANDWIDTH_UNLIMITED = 99;
   }
 }
