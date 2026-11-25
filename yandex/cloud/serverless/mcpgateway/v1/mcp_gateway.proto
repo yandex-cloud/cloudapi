@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package yandex.cloud.serverless.mcpgateway.v1;
 
+import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "yandex/cloud/logging/v1/log_entry.proto";
 import "yandex/cloud/validation.proto";
@@ -10,6 +11,8 @@ option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/serverless
 option java_package = "yandex.cloud.api.serverless.mcpgateway.v1";
 
 message McpGateway {
+  reserved 17 to 20;
+
   enum Status {
     STATUS_UNSPECIFIED = 0;
 
@@ -73,6 +76,12 @@ message McpGateway {
 
   // Transport of the MCP Gateway.
   McpTransport transport = 15;
+
+  // Resources exposed by the MCP Gateway.
+  repeated McpResource resources = 21;
+
+  // Instructions describing how to use the MCP Gateway.
+  string instructions = 16 [(length) = "<=65536"];
 }
 
 message McpGatewayPreview {
@@ -160,6 +169,47 @@ message McpTool {
 
   // JSON Schema describing tool output.
   string output_json_schema = 6;
+
+  // MCP tool _meta object. For Apps, ui.resourceUri references a UI resource.
+  google.protobuf.Struct meta = 7;
+}
+
+message McpResource {
+  // Resource URI exposed to MCP clients. UI resources use the ui:// scheme.
+  string uri = 1 [(required) = true];
+
+  // Name of the resource.
+  string name = 2 [
+    (length) = "<=128",
+    (pattern) = "([-.0-9A-Z_a-z]{1,128})?",
+    (required) = true
+  ];
+
+  // Human-readable display name of the resource.
+  string title = 3 [(length) = "<=512"];
+
+  // Description of the resource.
+  string description = 4 [(length) = "<=65536"];
+
+  // MIME type of the resource. HTML Apps use text/html;profile=mcp-app.
+  string mime_type = 5;
+
+  // Action to perform when this resource is read.
+  McpResourceAction action = 6 [(required) = true];
+
+  // MCP resource declaration _meta object.
+  // Resource contents returned by resources/read can have their own _meta,
+  // including Apps UI and CSP settings.
+  google.protobuf.Struct meta = 7;
+}
+
+message McpResourceAction {
+  oneof action {
+    option (exactly_one) = true;
+
+    // Read a resource from an MCP server. The resource_read action must be set.
+    McpCall mcp_call = 1;
+  }
 }
 
 message McpToolAction {
@@ -296,11 +346,16 @@ enum HttpMethod {
 }
 
 message McpCall {
+  reserved 9 to 10;
+
   // MCP endpoint base URL. (required)
   string url = 1 [(required) = true];
   oneof action {
     // Tool call action to invoke a specific tool on the MCP endpoint.
     ToolCall tool_call = 2;
+
+    // Read a resource from the MCP endpoint.
+    ResourceRead resource_read = 11;
   }
 
   // Transport to use for MCP communication.
@@ -355,6 +410,11 @@ message McpCall {
 
     // JSON-encoded parameters to pass to the tool.
     string parameters_json = 2;
+  }
+
+  message ResourceRead {
+    // URI of the resource on the MCP endpoint.
+    string uri = 1 [(required) = true];
   }
 }
 

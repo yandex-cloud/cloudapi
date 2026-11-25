@@ -129,7 +129,7 @@ message ListDashboardsResponse {
 }
 
 message CreateDashboardRequest {
-  reserved 1, 3 to 18, 25, 30 to 33;
+  reserved 1, 3 to 18, 25, 30 to 33, 35;
 
   // Container id
   oneof container {
@@ -182,6 +182,11 @@ message CreateDashboardRequest {
 
   // Parameters / Infra events / Logs overlays presets list
   repeated PresetItem preset_items = 34;
+
+  // Title of the preset from preset_items applied when the dashboard is opened. Empty means no default preset.
+  // Must match the title of a preset in preset_items: a request that renames or removes that preset updates this field too.
+  // If several presets share the title, the first one applies.
+  string default_preset_title = 36;
 }
 
 message CreateDashboardMetadata {
@@ -246,6 +251,11 @@ message UpdateDashboardRequest {
 
   // Parameters / Infra events / Logs overlays presets list
   repeated PresetItem preset_items = 32;
+
+  // Title of the preset from preset_items applied when the dashboard is opened. Empty means no default preset.
+  // Must match the title of a preset in preset_items: a request that renames or removes that preset updates this field too.
+  // If several presets share the title, the first one applies.
+  string default_preset_title = 33;
 }
 
 message UpdateDashboardMetadata {

@@ -11,6 +11,7 @@ import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/mdb/operationlog/v1/operation_log.proto";
 import "yandex/cloud/mdb/postgresql/v1/backup.proto";
+import "yandex/cloud/mdb/postgresql/v1/client_tls_mode.proto";
 import "yandex/cloud/mdb/postgresql/v1/cluster.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host11.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/host12.proto";
@@ -1138,6 +1139,9 @@ message ConfigSpec {
 
   // Configuration of managed pg_repack.
   ManagedRepack managed_repack = 34;
+
+  // TLS mode for client connections to Odyssey.
+  ClientTLSMode client_tls_mode = 37;
 }
 
 message ConfigHostSpec {

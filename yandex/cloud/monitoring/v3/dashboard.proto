@@ -14,7 +14,7 @@ option java_package = "yandex.cloud.api.monitoring.v3";
 
 // Dashboard resource.
 message Dashboard {
-  reserved 2, 4 to 19, 31, 36;
+  reserved 2, 4 to 19, 31, 36, 38;
 
   // Dashboard ID.
   string id = 1;
@@ -74,4 +74,9 @@ message Dashboard {
 
   // Parameters / Infra events / Logs overlays presets list
   repeated PresetItem preset_items = 37;
+
+  // Title of the preset from preset_items applied when the dashboard is opened. Empty means no default preset.
+  // Must match the title of a preset in preset_items: a request that renames or removes that preset updates this field too.
+  // If several presets share the title, the first one applies.
+  string default_preset_title = 39;
 }

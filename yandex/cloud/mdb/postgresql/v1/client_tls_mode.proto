@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package yandex.cloud.mdb.postgresql.v1;
+
+option go_package = "github.com/yandex-cloud/go-genproto/yandex/cloud/mdb/postgresql/v1;postgresql";
+option java_package = "yandex.cloud.api.mdb.postgresql.v1";
+
+// ClientTLSMode defines how TLS is used for client connections to Odyssey.
+enum ClientTLSMode {
+  // The mode is not set explicitly. The cluster uses the CLIENT_TLS_MODE_ALLOW rules.
+  CLIENT_TLS_MODE_UNSPECIFIED = 0;
+
+  // Default TLS rules: connections to hosts with public access require TLS,
+  // other client connections are accepted with or without TLS.
+  CLIENT_TLS_MODE_ALLOW = 1;
+
+  // Require TLS for client connections.
+  CLIENT_TLS_MODE_REQUIRE = 2;
+}

@@ -448,4 +448,7 @@ message UpdateClusterConfigSpec {
 message UpdateNetworkConfigSpec {
   // User security groups.
   repeated string security_group_ids = 1;
+
+  // IDs of VPC subnets to attach the cluster to.
+  repeated string subnet_ids = 2;
 }

@@ -37,6 +37,7 @@ import "yandex/cloud/mdb/postgresql/v1/config/postgresql18.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql18_1c.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql19.proto";
 import "yandex/cloud/mdb/postgresql/v1/config/postgresql19_1c.proto";
+import "yandex/cloud/mdb/postgresql/v1/client_tls_mode.proto";
 import "yandex/cloud/mdb/postgresql/v1/maintenance.proto";
 import "yandex/cloud/mdb/v1/connectionmanager.proto";
 import "yandex/cloud/mdb/v1/maintenance.proto";
@@ -189,6 +190,7 @@ message ClusterConfig {
   reserved 20;
   reserved 26;
   reserved 33;
+  reserved 37;
   // Version of PostgreSQL server software.
   string version = 1;
 
@@ -272,6 +274,9 @@ message ClusterConfig {
 
   // Configuration of managed pg_repack.
   ManagedRepack managed_repack = 34;
+
+  // TLS mode for client connections to Odyssey.
+  ClientTLSMode client_tls_mode = 38;
 }
 
 message ConnectionPoolerConfig {

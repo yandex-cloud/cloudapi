@@ -143,6 +143,8 @@ message ListMcpGatewayResponse {
 }
 
 message CreateMcpGatewayRequest {
+  reserved 12 to 14;
+
   // ID of the folder to create the MCP Gateway in.
   string folder_id = 1 [(required) = true];
 
@@ -184,6 +186,12 @@ message CreateMcpGatewayRequest {
 
   // MCP transport of the MCP Gateway.
   McpTransport transport = 10;
+
+  // List of MCP resources.
+  repeated McpResource resources = 15;
+
+  // Instructions describing how to use the MCP Gateway.
+  string instructions = 11 [(length) = "<=65536"];
 }
 
 message CreateMcpGatewayMetadata {
@@ -195,6 +203,8 @@ message CreateMcpGatewayMetadata {
 }
 
 message UpdateMcpGatewayRequest {
+  reserved 13 to 15;
+
   // ID of the MCP Gateway to update.
   string mcp_gateway_id = 1 [(required) = true];
 
@@ -238,6 +248,12 @@ message UpdateMcpGatewayRequest {
 
   // MCP transport of the MCP Gateway.
   McpTransport transport = 11;
+
+  // Updated list of MCP resources. Use the resources update mask to replace or clear it.
+  repeated McpResource resources = 16;
+
+  // Updated instructions describing how to use the MCP Gateway.
+  string instructions = 12 [(length) = "<=65536"];
 }
 
 message UpdateMcpGatewayMetadata {

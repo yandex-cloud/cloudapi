@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/api/field_behavior.proto";
 import "google/protobuf/field_mask.proto";
+import "yandex/cloud/access/access.proto";
 import "yandex/cloud/api/operation.proto";
 import "yandex/cloud/baremetal/v2/operation.proto";
 import "yandex/cloud/baremetal/v2/server.proto";
@@ -191,6 +192,37 @@ service ServerService {
     option (google.api.method_signature) = "cloud_id,folder_id,server_id";
   };
 
+  // Lists access bindings for the specified server.
+  rpc ListAccessBindings(access.ListAccessBindingsRequest) returns (access.ListAccessBindingsResponse) {
+    option (google.api.http) = {
+      get: "/baremetal/v2/servers/{resource_id}:listAccessBindings"
+    };
+  };
+
+  // Sets access bindings for the specified server.
+  rpc SetAccessBindings(access.SetAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.SetAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v2/servers/{resource_id}:setAccessBindings"
+    };
+  };
+
+  // Updates access bindings for the specified server.
+  // (-- api-linter: yc::1705::http-method-mapping=disabled --)
+  rpc UpdateAccessBindings(access.UpdateAccessBindingsRequest) returns (operation.Operation) {
+    option (api.operation) = {
+      metadata: "access.UpdateAccessBindingsMetadata"
+      response: "access.AccessBindingsOperationResult"
+    };
+    option (google.api.http) = {
+      body: "*"
+      post: "/baremetal/v2/servers/{resource_id}:updateAccessBindings"
+    };
+  };
 }
 
 message GetServerRequest {

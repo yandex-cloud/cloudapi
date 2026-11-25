@@ -111,6 +111,7 @@ service ReservedInstancePoolService {
       post: "/compute/v1/reservedInstancePools/{resource_id}:updateAccessBindings"
     };
   };
+
 }
 
 message GetReservedInstancePoolRequest {

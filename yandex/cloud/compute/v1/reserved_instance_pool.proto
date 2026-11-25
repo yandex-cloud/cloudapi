@@ -33,6 +33,22 @@ message ReservedInstancePool {
     int64 total = 1;
   }
 
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+
+    // Pool is being created.
+    CREATING = 1;
+
+    // Pool is being updated.
+    UPDATING = 2;
+
+    // Pool is ready to use.
+    READY = 3;
+
+    // Pool is being deleted.
+    DELETING = 4;
+  }
+
   // ID of the pool.
   string id = 1;
 
@@ -90,6 +106,9 @@ message ReservedInstancePool {
 
   // Stats for instances of the pool
   InstanceStats instance_stats = 18;
+
+  // Status of the pool.
+  Status status = 20;
 }
 
 message ProductIDs {

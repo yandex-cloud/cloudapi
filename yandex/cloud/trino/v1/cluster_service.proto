@@ -221,7 +221,7 @@ message CreateClusterRequest {
     (required) = true
   ];
 
-  // Cloud logging configuration.
+  // Logging configuration.
   LoggingConfig logging = 9;
 
   // Deprecated. Use maintenance_windows instead.
@@ -356,6 +356,9 @@ message UpdateNetworkConfigSpec {
 
   // Private access configuration for secure connectivity to the cluster.
   PrivateAccessConfig private_access = 2;
+
+  // IDs of VPC network subnets where instances of the cluster will be attached.
+  repeated string subnet_ids = 3 [(size) = "<=1"];
 }
 
 message UpdateClusterRequest {
@@ -401,7 +404,7 @@ message UpdateClusterRequest {
   // Service account used to access Cloud resources.
   string service_account_id = 9 [(length) = "<=50"];
 
-  // Cloud logging configuration.
+  // Logging configuration.
   LoggingConfig logging = 10;
 
   // Deprecated. Use maintenance_windows instead.
