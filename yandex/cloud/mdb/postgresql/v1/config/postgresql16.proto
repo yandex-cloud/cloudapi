@@ -20,6 +20,7 @@ message PostgresqlConfig16 {
   reserved 64;
   reserved 169 to 172;
   reserved 176;
+  reserved 179 to 184;
   enum AutoExplainLogFormat {
     // Not specified.
     AUTO_EXPLAIN_LOG_FORMAT_UNSPECIFIED = 0;

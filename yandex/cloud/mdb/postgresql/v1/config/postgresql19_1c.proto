@@ -908,6 +908,10 @@ message PostgresqlConfig19_1C {
   // it's equivalent to the IO option of EXPLAIN. This parameter has no effect unless
   // auto_explain.log_analyze is enabled. This parameter is off by default.
   google.protobuf.BoolValue auto_explain_log_io = 183;
+
+  // Enables a physical standby to synchronize logical failover slots from the primary server
+  // so that logical subscribers can resume replication from the new primary server after failover.
+  google.protobuf.BoolValue sync_replication_slots = 184;
 }
 
 message PostgresqlConfigSet19_1C {

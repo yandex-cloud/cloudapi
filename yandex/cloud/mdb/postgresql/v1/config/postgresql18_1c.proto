@@ -19,6 +19,7 @@ message PostgresqlConfig18_1C {
   reserved 125;
   reserved 166;
   reserved 176;
+  reserved 180 to 183;
   enum AutoExplainLogFormat {
     // Not specified.
     AUTO_EXPLAIN_LOG_FORMAT_UNSPECIFIED = 0;
@@ -895,6 +896,10 @@ message PostgresqlConfig18_1C {
 
   // Sets the maximum number of active replication origins.
   google.protobuf.Int64Value max_active_replication_origins = 179 [(value) = "20-100"];
+
+  // Enables a physical standby to synchronize logical failover slots from the primary server
+  // so that logical subscribers can resume replication from the new primary server after failover.
+  google.protobuf.BoolValue sync_replication_slots = 184;
 }
 
 message PostgresqlConfigSet18_1C {

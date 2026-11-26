@@ -19,6 +19,7 @@ message PostgresqlConfig17_1C {
   reserved 125;
   reserved 166;
   reserved 175 to 176;
+  reserved 179 to 183;
   enum AutoExplainLogFormat {
     // Not specified.
     AUTO_EXPLAIN_LOG_FORMAT_UNSPECIFIED = 0;
@@ -889,6 +890,10 @@ message PostgresqlConfig17_1C {
 
   // Minimum number of tuple inserts, updates, or deletes prior to analyze.
   google.protobuf.Int64Value autovacuum_analyze_threshold = 178 [(value) = "0-2147483647"];
+
+  // Enables a physical standby to synchronize logical failover slots from the primary server
+  // so that logical subscribers can resume replication from the new primary server after failover.
+  google.protobuf.BoolValue sync_replication_slots = 184;
 }
 
 message PostgresqlConfigSet17_1C {
