@@ -3,6 +3,7 @@ syntax = "proto3";
 package yandex.cloud.monitoring.v3;
 
 import "google/protobuf/timestamp.proto";
+import "yandex/cloud/monitoring/v3/annotations_settings.proto";
 import "yandex/cloud/monitoring/v3/link_item.proto";
 import "yandex/cloud/monitoring/v3/parametrization.proto";
 import "yandex/cloud/monitoring/v3/preset_item.proto";
@@ -79,4 +80,8 @@ message Dashboard {
   // Must match the title of a preset in preset_items: a request that renames or removes that preset updates this field too.
   // If several presets share the title, the first one applies.
   string default_preset_title = 39;
+
+  // Configures the initial visibility of annotations on charts.
+  // If omitted, the client default applies.
+  AnnotationsSettings annotations_settings = 40;
 }

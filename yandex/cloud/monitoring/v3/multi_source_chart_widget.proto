@@ -507,6 +507,21 @@ message MultiSourceChartWidget {
       // ColumnMatcher, the unit of the column values.
       // UNIT_FORMAT_UNSPECIFIED leaves the widget setting in force.
       UnitFormat unit_format = 19;
+
+      // Color scheme of the series. For a table column matched by
+      // ColumnMatcher, the color scheme of the column cells. If unset, the
+      // widget setting remains in force.
+      VisualizationSettings.ColorSchemeSettings color_scheme_settings = 20;
+
+      // Thresholds for the color scheme of the series. For a table column
+      // matched by ColumnMatcher, the thresholds of the column cells. If
+      // unset, the widget thresholds remain in force.
+      Thresholds thresholds = 21;
+
+      // For a table column matched by ColumnMatcher, how the column cells
+      // show their values. CELL_DISPLAY_MODE_UNSPECIFIED leaves the widget
+      // setting in force.
+      TableSettings.CellDisplayMode cell_display_mode = 22;
     }
 
     // Required. Series selection type.
@@ -579,8 +594,9 @@ message MultiSourceChartWidget {
   }
 
   // Table columns, see TableSettings.columns. Of the override settings
-  // only name and unit_format apply: the column title and the unit of
-  // its values.
+  // only name, unit_format, color_scheme_settings, thresholds and
+  // cell_display_mode apply: the column title, the unit of its values and
+  // the coloring of its cells.
   message ColumnMatcher {
     // Columns.
     repeated TableSettings.ColumnRef columns = 1;

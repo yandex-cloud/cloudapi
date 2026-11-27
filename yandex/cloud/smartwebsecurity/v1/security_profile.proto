@@ -285,8 +285,6 @@ message SecurityRule {
 // Condition object. AND semantics implied.
 // See [documentation](/docs/smartwebsecurity/concepts/conditions) for matchers description.
 message Condition {
-  reserved 6;
-
   // StringMatcher object.
   message StringMatcher {
     oneof match {
@@ -560,6 +558,14 @@ message Condition {
     ];
   }
 
+  // Matcher for the HTTP request body.
+  message BodyMatcher {
+    reserved 1;
+
+    // HTTP request body matcher.
+    StringMatcher body_matcher = 2;
+  }
+
   // CookieMatcher object.
   message CookieMatcher {
     // Name of the cookie parametr.
@@ -586,6 +592,9 @@ message Condition {
 
   // Match IP.
   IpMatcher source_ip = 5;
+
+  // Match HTTP request body.
+  BodyMatcher body = 6;
 
   // Match cookies.
   repeated CookieMatcher cookies = 7 [(size) = "<=20"];

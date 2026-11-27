@@ -163,7 +163,7 @@ message ListJobLogRequest {
 
   // Page token. Set `page_token` to the `next_page_token` returned by a previous ListLog
   // request to get the next page of results.
-  string page_token = 4 [(length) = "<=200"];
+  string page_token = 4 [(length) = "<=98304"];
 }
 
 message ListJobLogResponse {
@@ -175,5 +175,5 @@ message ListJobLogResponse {
   // To get the next page, specify the value of `next_page_token` as a value for
   // the `page_token` parameter in the next ListLog request. Subsequent ListLog
   // requests will have their own `next_page_token` to continue paging through the results.
-  string next_page_token = 2 [(length) = "<=200"];
+  string next_page_token = 2 [(length) = "<=98304"];
 }

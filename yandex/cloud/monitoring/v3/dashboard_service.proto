@@ -5,6 +5,7 @@ package yandex.cloud.monitoring.v3;
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "yandex/cloud/api/operation.proto";
+import "yandex/cloud/monitoring/v3/annotations_settings.proto";
 import "yandex/cloud/monitoring/v3/dashboard.proto";
 import "yandex/cloud/monitoring/v3/link_item.proto";
 import "yandex/cloud/monitoring/v3/parametrization.proto";
@@ -187,6 +188,10 @@ message CreateDashboardRequest {
   // Must match the title of a preset in preset_items: a request that renames or removes that preset updates this field too.
   // If several presets share the title, the first one applies.
   string default_preset_title = 36;
+
+  // Configures the initial visibility of annotations on charts.
+  // If omitted, the client default applies.
+  AnnotationsSettings annotations_settings = 37;
 }
 
 message CreateDashboardMetadata {
@@ -256,6 +261,10 @@ message UpdateDashboardRequest {
   // Must match the title of a preset in preset_items: a request that renames or removes that preset updates this field too.
   // If several presets share the title, the first one applies.
   string default_preset_title = 33;
+
+  // Configures the initial visibility of annotations on charts.
+  // If omitted, the client default applies.
+  AnnotationsSettings annotations_settings = 34;
 }
 
 message UpdateDashboardMetadata {

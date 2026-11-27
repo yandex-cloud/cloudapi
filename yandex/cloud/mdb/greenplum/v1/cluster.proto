@@ -312,7 +312,10 @@ message LoggingConfig {
     string folder_id = 2 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
 
     // ID of the log group used for the Cloud Logging.
-    string log_group_id = 3 [(pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?"];
+    string log_group_id = 3 [
+      (pattern) = "([a-zA-Z][-a-zA-Z0-9_.]{0,63})?",
+      deprecated = true
+    ];
   }
 
   // Determines whether Yandex Command Center logs should be sent to Cloud Logging.

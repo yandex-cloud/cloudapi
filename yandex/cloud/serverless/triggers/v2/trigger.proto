@@ -533,34 +533,11 @@ message GatewayWebsocketBroadcast {
 }
 
 message AgentRuntimeCall {
-  reserved 5 to 9;
-
   // ID of the Agent Runtime channel to call.
   string channel_id = 1 [
     (length) = "<=50",
     (required) = true
   ];
-
-  // ID of the agent version to call.
-  string agent_version_id = 2 [
-    (length) = "<=50",
-    (required) = true
-  ];
-
-  // ID of the cloud that the agent belongs to.
-  string cloud_id = 3 [
-    (length) = "<=50",
-    (required) = true
-  ];
-
-  // ID of the folder that the agent belongs to.
-  string folder_id = 4 [
-    (length) = "<=50",
-    (required) = true
-  ];
-
-  // Additional attributes passed to the agent call.
-  map<string, string> attributes = 10;
 }
 
 // RetryPolicy defines retry behaviour and dead-letter destination for a failed action invocation.
